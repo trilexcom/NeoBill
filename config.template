@@ -1,0 +1,51 @@
+<?php
+/**
+ * config.php
+ *
+ * This file contains a set of basic configuration variables that are needed to
+ * run SolidState.  More (most) configuration options are stored in the datbase,
+ * and can be set through the "Administration > Settings" page.
+ *
+ * Smarty configuration:
+ *
+ *   $smarty_path    - Location of Smarty on your system 
+ *                     (i.e.: /usr/local/lib/php/Smarty/Smarty.class.php)
+ *
+ *   $base_path      - The file system path where SolidState is installed
+ *                     (must end with a '/', i.e.: /home/path/to/solidstate/)
+ *
+ * Database configuration:
+ *
+ *   $db['host']     - This is the host that your MySQL database server runs on
+ *   $db['user']     - Database user with access to the SolidState database
+ *   $db['pass']     - Password for the database user
+ *   $db['database'] - The name of the database that SolidState will be using.
+ *
+ * Order/Signup Interface configuration:
+ *
+ *   $order_conf['url'] - The URL where you are installing SolidState.  If you are
+ *                        installing a remote Order/Signup interface, then this is the
+ *                        URL where your Manager interface is installed.
+ *   $order_conf['remote_username'] - This is the user that the Order interface will
+ *                                    use to authenticate to the remote server.  It
+ *                                    can be configured in the manager under
+ *                                    Administration > Settings > Order Interface
+ *   $order_conf['remote_password'] - Remote password
+ */
+
+$smarty_path       = "/usr/share/pear/Smarty/Smarty.class.php";
+
+$db['host']        = "localhost";
+$db['user']        = "apache";
+$db['pass']        = "password";
+$db['database']    = "solidstate";
+
+$order_conf['url']             = "http://www.example.com/solidstate-0.4";
+$order_conf['remote_password'] = "orders";
+
+// ==> This attempts to set $base_path for you.  Change it only if you need to. <==
+//
+$this_pathinfo  = pathinfo( __FILE__ );
+$base_path      = $this_pathinfo['dirname'] . "/";
+
+?>

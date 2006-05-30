@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.logicboxes.foundation.sfnb.order.DomOrderExt" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.logicboxes.foundation.sfnb.order.DomOrderExt" xmlns:intf="com.logicboxes.foundation.sfnb.order.DomOrderExt" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <wsdl:types>
+  <schema targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="Map">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item">
+      <complexType>
+       <all>
+        <element name="key" type="xsd:anyType"/>
+        <element name="value" type="xsd:anyType"/>
+       </all>
+      </complexType>
+     </element>
+    </sequence>
+   </complexType>
+   <element name="Map" nillable="true" type="apachesoap:Map"/>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="cancelTransferRequestRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="entityId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="cancelTransferRequestResponse">
+
+      <wsdl:part name="cancelTransferRequestReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="DomOrderExt">
+
+      <wsdl:operation name="cancelTransferRequest" parameterOrder="userName password role langpref parentid entityId">
+
+         <wsdl:input message="impl:cancelTransferRequestRequest" name="cancelTransferRequestRequest"/>
+
+         <wsdl:output message="impl:cancelTransferRequestResponse" name="cancelTransferRequestResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="DomOrderExtServiceSoapBinding" type="impl:DomOrderExt">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="cancelTransferRequest">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="cancelTransferRequestRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.DomOrderExt" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="cancelTransferRequestResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.DomOrderExt" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="DomOrderExtService">
+
+      <wsdl:port binding="impl:DomOrderExtServiceSoapBinding" name="DomOrderExtService">
+
+         <wsdlsoap:address location="http://prog.internal.directi.com:9090/anacreon/servlet/rpcrouter"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,37 @@
+<translations>
+
+  <!-- ======= -->
+  <!-- English -->
+  <!-- ======= -->
+  <translation language="english">
+
+    <phrase id="1_YEAR">1 Year</phrase>
+    <phrase id="2_YEARS">2 Years</phrase>
+    <phrase id="3_YEARS">3 Years</phrase>
+    <phrase id="4_YEARS">4 Years</phrase>
+    <phrase id="5_YEARS">5 Years</phrase>
+    <phrase id="6_YEARS">6 Years</phrase>
+    <phrase id="7_YEARS">7 Years</phrase>
+    <phrase id="8_YEARS">8 Years</phrase>
+    <phrase id="9_YEARS">9 Years</phrase>
+    <phrase id="10_YEARS">10 Years</phrase>
+    <phrase id="API_DEBUG_MODE">API Debug Mode</phrase>
+    <phrase id="RC_CONFIGURATION_SAVED">Reseller Club configuration saved.</phrase>
+    <phrase id="CREATE_RESELLER_CLUB_ACCOUNT">Or create a new Reseller Club customer account</phrase>
+    <phrase id="LANGUAGE_PREFERENCE">Language Preference</phrase>
+    <phrase id="PARENT_ID">Parent ID</phrase>
+    <phrase id="RC_CUSTOMER">Reseller Club Customer</phrase>
+    <phrase id="RC_PASSWORD">Reseller Club Password</phrase>
+    <phrase id="RC_USERNAME">Reseller Club Username</phrase>
+    <phrase id="REGISTER">Register</phrase>
+    <phrase id="REGISTRATION_TERM">Registration Term</phrase>
+    <phrase id="RESELLER_CLUB_CUSTOMER">Reseller Club Customer</phrase>
+    <phrase id="RESELLER_CLUB_MODULE">Reseller Club Module</phrase>
+    <phrase id="RESELLER_ID">Reseller ID</phrase>
+    <phrase id="ROLE">Role</phrase>
+    <phrase id="SERVICE_URL">Service URL</phrase>
+    <phrase id="SPECIFY_RESELLER_CLUB_ACCOUNT">Specify a Reseller Club account to execute this registration under</phrase>
+
+  </translation>
+
+</translations>

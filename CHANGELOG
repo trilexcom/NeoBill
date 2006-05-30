@@ -1,0 +1,176 @@
+5/29/2006 - jdiamond
+====================
+
+ * Implemented a new Modules framework.
+
+ * Developed a new Reseller Club / Directi Module to fit the new Modules framework
+
+ *** PLEASE NOTE: this commit contains a new database scheme ***
+
+5/16/2006 - jdiamond
+====================
+
+ * (issue #49) Portuguese translation for the Manager interface (provided by Ivo Monteiro aka SniperPT)
+
+5/14/2006 - jdiamond
+====================
+
+ * On 5/12/2006, SourceForge.net upgraded their CVS infrastructure.  This commit brings my latest codebase into the repository
+   and updates my working copy to reflect the changes made during the upgrade.
+
+5/7/2006 - jdiamond
+====================
+
+ * Removed config.inc.php from the source tree and added config.template.
+
+4/24/2006 - jdiamond
+====================
+
+ * (issue #44) Italian translation for the Manager interface (provided by brizzz)
+
+4/14/2006 - jdiamond
+====================
+
+ * (issue #32) The Registered Domains table and the Expired Domains table can now be sorted by expire date and account name.
+
+   *** PLEASE NOTE: this commit contains a new database scheme ***
+
+4/13/2006 - jdiamond
+====================
+
+ * (issue #31) Added tax support.
+
+   *** PLEASE NOTE: this commit contains a new database scheme ***
+
+4/10/2006 - jdiamond
+====================
+
+ * (issue #30) Added an Edit Payment page
+
+4/9/2006 - jdiamond
+====================
+
+ * (issue #37) Began I18n work:
+   - All static text, error messages, and other messages have been moved to a XML language file called 'translations'
+   - Added a 'locale' tab to the Settings page where the provider can select SolidState's language and set the currency symbol
+
+   *** PLEASE NOTE: this commit contains a new database scheme ***
+
+4/5/2006 - jdiamond
+====================
+
+ * Branched off 0.3 and started development on 0.4
+
+ * Moved the manager/solidworks directory into the top-level directory
+
+ * Moved the manager/DBO directory into the top-level directory
+
+ * Moved the manager/utils directory into the top-level directory
+
+4/4/2006 - jdiamond
+====================
+
+ * (issue #38) Added an exit() call to the end of the Page::goto() and Page::goback() fucntions.  This ommision was causing the script to
+   continue exuting, despite the client being redirected to another page.
+
+4/3/2006 - jdiamond
+====================
+
+ * Fixed some foreach() warnings
+
+3/31/2006 - jdiamond
+====================
+
+ * Removed New User from the Administration menu
+
+3/30/2006 - jdiamond
+====================
+
+ * (issue #34) Added a "disabled" attribute to the application.conf <page> tag.
+
+ * (issue #35) All purchases now must be cleared before a service or product is deleted.
+
+ * (issue #36) Removed explicit width attributes from all <table>'s.
+
+3/29/2006 - jdiamond
+====================
+
+ * (issue #23) Fixed a non-object error that occured when trying to generate invoices.
+
+ * (issue #27) The Edit Domain Service page now explicitly redirects to the View Domain Service page when the changes are saved (this fixes
+    a Domain Service Not Found error).
+
+ * (issue #28) Fixed a problem similar to issue #27 for the Edit Account page.
+
+ * (issue #29) After receiving a payment, the user is now taken to the View Invoice page (was the View Account / billing page)
+
+3/27/2006 - jdiamond
+====================
+
+ * (issue #18) Moved all non-framework related configuration settings out of application.conf and into the
+   the database.  Created an interface under the Administration (was Configuration) menu for accessing these
+   settings.  Moved the database configuration settings and the Smarty path setting into a separate config file:
+   manager/config.inc.php.
+
+   *** PLEASE NOTE: this change includes a new database scheme ***
+
+3/25/2006 - jdiamond
+====================
+
+ * (issue #3) Added an integrated logging facility.
+
+   *** PLEASE NOTE: this change includes a new database scheme ***
+
+3/22/2006 - jdiamond
+====================
+
+ * (issue #20) Added a .htaccess file to the top-level directory that restricts access to application.conf
+
+3/21/2006 - jdiamond
+====================
+
+ * (issue #16) Moved the Assign Hosting Service/Domain/Product buttons into an "Action" box 
+
+ * (issue #2) Added a Server and IP Management feature 
+
+   *** PLEASE NOTE: this change includes a new database scheme ***
+
+3/19/2006 - jdiamond
+====================
+
+ * Fixed a database integrity problem caused by deleting an Account.
+
+ * Fixed the navigation bar for PHP 5 users (only "Home" would show up).
+
+ * Changed price fields in the HostingService and DomainService tables to
+   DECIMAL 10,2.  This helps solve a rounding problem.
+
+   *** PLEASE NOTE: this change includes a new database scheme ***
+
+3/17/2006 - jdiamond
+====================
+
+ * Cleaned up some PHP warnings.
+
+3/16/2006 - jdiamond
+====================
+
+ * Removed some function calls made with parameters passed as references.  This should
+   allow SolidState to run with allow_call_time_pass_reference set to Off.
+
+3/15/2006 - jdiamond
+====================
+
+ * Branched off 0.2 and started development on 0.3.
+
+3/15/2006 - jdiamond
+====================
+
+ * Removed a hard-coded path to Smarty.class.php and made it a config setting.
+ 
+ * Fixed a compatibility issue with PHP 5's get_class function.
+
+3/13/2006 - jdiamond
+====================
+
+ * Initial public release.

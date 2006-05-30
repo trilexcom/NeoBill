@@ -1,0 +1,58 @@
+NOTE: For the most up-to-date installation documentation please visit the
+      Solid-State Homepage: http://www.solid-state.org
+
+* SolidState requires the Smarty PHP template library be installed on your system.
+  You can find instructions for installing Smarty over at:
+
+    http://smarty.php.net/manual/en/installation.php
+
+  Note the directory that you install Smarty to.  You will need to make sure that 
+  this directory is accessible to PHP (i.e. if you're using safe_mode).
+
+* Copy the SolidState source tree to your web root directory
+
+* Make sure that the user your web server runs as (i.e. apache) has
+  read & write permissions on the following directories:
+
+    manager/smarty/cache
+    manager/smarty/templates_c
+
+* Create a new MySQL database:
+
+    $ mysqladmin -u root -p create solidstate
+
+* Grant privileges for the solidstate database:
+
+    $ mysql -u root -p
+
+    mysql> GRANT ALL PRIVILEGES ON solidstate.* TO apache@localhost IDENTIFIED BY 'password';
+
+    Where: 'apache@localhost' is the username of your web server's MySQL account
+           'password' is the user's password
+
+* Don't forget to activate your new privleges:
+
+    mysql> FLUSH PRIVILEGES;           
+
+* Import the Solid-State DB scheme:
+
+    $ mysql -u apache -p solidstate < manager/db/solid-state.mysql.sql
+
+* Create your config.inc.php by copying the example template, config.template:
+
+    $ cp config.template config.inc.php
+
+* Edit config.inc.php:
+
+  - Make sure that the smarty_path variable is properly set to the location of 
+    Smarty.class.php on your system.
+
+  - Configure your database
+
+* Open a web browser and visit: http://<your-host>/path/to/solidstate/manager
+
+* Login as admin, password: temp
+
+* Goto "Administration / My Info" and change your password
+
+* Goto "Administration / Settings" and edit your configuration settings.

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.logicboxes.foundation.sfnb.order.Order" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="com.logicboxes.foundation.sfnb.order.Order" xmlns:intf="com.logicboxes.foundation.sfnb.order.Order" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+ <wsdl:types/>
+
+   <wsdl:message name="sendRfaResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="sendRfaRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="orderId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="Order">
+
+      <wsdl:operation name="sendRfa" parameterOrder="userName password role langpref parentid orderId">
+
+         <wsdl:input message="impl:sendRfaRequest" name="sendRfaRequest"/>
+
+         <wsdl:output message="impl:sendRfaResponse" name="sendRfaResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="OrderServiceSoapBinding" type="impl:Order">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="sendRfa">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="sendRfaRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.Order" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="sendRfaResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.Order" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="OrderService">
+
+      <wsdl:port binding="impl:OrderServiceSoapBinding" name="OrderService">
+
+         <wsdlsoap:address location="http://prog.internal.directi.com:9090/anacreon/servlet/rpcrouter"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
