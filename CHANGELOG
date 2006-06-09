@@ -1,3 +1,14 @@
+6/8/2006 - jdiamond
+====================
+
+ * Support for Payment Processor modules
+
+ * A Paypal Web Payments Standard module
+
+ * Complete checkout process for the Order interface
+
+ *** PLEASE NOTE: this commit contains a new database scheme ***
+
 5/29/2006 - jdiamond
 ====================
 
