@@ -116,12 +116,6 @@ class RegisterDomainPage extends Page
       load_DomainServiceDBO( $this->session['register_domain']['servicetld'] );
     $module = $this->conf['modules'][$serviceDBO->getModuleName()];
 
-    if( !isset( $module ) || !$module->isEnabled() )
-      {
-	fatal_error( "RegisterDomainPage::registerDomain()",
-		     "Missing or disabled module: " . $serviceDBO->getModuleName() );
-      }
-
     $fqdn = sprintf( "%s.%s",
 		     $this->session['register_domain']['domainname'],
 		     $this->session['register_domain']['servicetld'] );

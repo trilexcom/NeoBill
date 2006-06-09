@@ -141,7 +141,7 @@ class DBConnection
       }
 
     // Begin building SQL
-    $sql = "INSERT INTO " . $table_name . " (";
+    $sql = "INSERT INTO `" . $table_name . "` (";
 
     // Build column list
     foreach( $cols as $column_name )

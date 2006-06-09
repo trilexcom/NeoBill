@@ -61,8 +61,15 @@ class ReviewPage extends Page
    */
   function checkout()
   {
-    dump_session();
-    exit();
+    // If the order does not have an ID already, save it to the database
+    if( $this->session['order']->getID() == null && 
+	!add_OrderDBO( $this->session['order'] ) )
+      {
+	fatal_error( "ReviewPage::checkout()", "Failed to add Order to database!" );
+      }
+
+    $paymentModule = $this->conf['modules'][$this->session['review']['module']];
+    $this->goto( $paymentModule->getOrderCheckoutPage() );
   }
 
   /**
@@ -70,19 +77,11 @@ class ReviewPage extends Page
    */
   function init()
   {
-    // Have the remote server calculate taxes on the order
-    if( !is_a( $new_order = calculateTaxOnOrderClient( "orders",
-						       $this->conf['remote_password'],
-						       $_SESSION['order'] ),
-	       "OrderDBO" ) )
-      {
-	fatal_error( "ReviewPage::Init()", 
-		     "Remote server did not return an OrderDBO" );
-      }
-    $_SESSION['order'] = $new_order;
-
     // Give access to the template
     $this->session['order'] =& $_SESSION['order'];
+
+    // Calculate tax on the order
+    $this->session['order']->calculateTaxes();
   }
 
   /**
@@ -93,6 +92,26 @@ class ReviewPage extends Page
     // Start a new order
     unset( $_SESSION['order'] );
     $this->goto( "cart" );
+  }
+
+  /**
+   * Populate the Payment Method drop-down
+   */
+  function populateMethodField()
+  {
+    // Place all payment processors and payment gateways in the drop-down
+    $values = array();
+    foreach( $this->conf['modules'] as $moduleDBO )
+      {
+	if( (is_a( $moduleDBO, "PaymentProcessorModule" ) ||
+	     is_a( $moduleDBO, "PaymentGatewayModule" )) &&
+	    $moduleDBO->isEnabled() )
+	  {
+	    $values[$moduleDBO->getName()] = $moduleDBO->getShortDescription();
+	  }
+      }
+
+    return $values;
   }
 
   /**

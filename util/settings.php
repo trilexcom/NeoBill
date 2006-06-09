@@ -112,31 +112,4 @@ function update_setting( $key, $value )
       fatal_error( "update_setting", "Failed to update setting: " . mysql_error() );
     }
 }
-
-/**
- * Load Order Settings (RPC Server)
- *
- * @param string $params[0] Remote Username
- * @param string $params[1] Remote Password
- *
- * @return array Config settings related to the Order interface
- */
-function load_OrderSettings_RPCServer( $params )
-{
-  global $conf;
-
-  // Return only the settings that relate to the Order interface
-  $settings = array( "company" => $conf['company'],
-		     "dns" => $conf['dns'],
-		     "locale" => $conf['locale'] );
-
-  // Verify access
-  if( !verify_remote_order( $params[0], $params[1] ) )
-    {
-      return "Access Denied";
-    }
-
-  return $settings;
-}
-
 ?>

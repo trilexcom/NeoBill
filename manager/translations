@@ -137,6 +137,7 @@
     <phrase id="EMAIL_INVOICE">E-Mail Invoice to Customer</phrase>
     <phrase id="ENABLED">Enabled</phrase>
     <phrase id="END_ADDRESS">End Address</phrase>
+    <phrase id="ENDING_ADDRESS">End Address</phrase>
     <phrase id="ENTER_PAYMENT">Enter Payment</phrase>
     <phrase id="EXPIRATION_DATE">Expiration Date</phrase>
     <phrase id="EXPIRED_DOMAINS">Expired Domains</phrase>

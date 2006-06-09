@@ -16,28 +16,6 @@ require_once "../config.inc.php";
 // Load SolidWorks
 require_once $base_path . "solidworks/solidworks.php";
 
-// Some last minute configuration
-$order_conf['xmlrpc'] = $order_conf['url'] . "/xmlrpc/server.php";
-
-// Load settings from the remote server
-$client = new IXR_Client( $order_conf['xmlrpc'] );
-if( !$client->query( "config.load_OrderSettings", 
-		     "orders", 
-		     md5( $order_conf['remote_password'] ) ) )
-{
-  fatal_error( "load_OrderSettings", 
-	       "XMLRPC error: " . $client->getErrorMessage() );
-}
-
-if( $client->getResponse() == "Access Denied" )
-{
-  fatal_error( "load_OrderSettings",
-	       "Access was denied by the SolidState Server" );
-  session_destory();
-}
-
-$conf = array_merge( $conf, $client->getResponse(), $order_conf );
-
 // Hand off to SolidWorks
 solidworks( $conf, $smarty );
 ?>

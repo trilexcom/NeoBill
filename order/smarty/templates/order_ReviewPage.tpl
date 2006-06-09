@@ -125,7 +125,8 @@
   {/dbo_table}
 </div>
 
-<div class="cart_total">
+{form name="review"}
+  <div class="cart_total">
       <table>
         <tr>
           <th>{echo phrase="RECURRING_TOTAL"}:</th>
@@ -147,12 +148,15 @@
           <th>{echo phrase="TOTAL"}:</th>
           <td>{dbo_echo|currency dbo="order" field="total"}</td>
         </tr>
+        <tr>
+          <th>{form_description field="module"}&nbsp;&nbsp;</th>
+          <td>{form_element field="module"}</td>
+        </tr>
       </table>
-</div>
+  </div>
 
-<p/>
+  <p/>
 
-{form name="review"}
   <div class="buttoncontainer">
     <table>
       <tr>

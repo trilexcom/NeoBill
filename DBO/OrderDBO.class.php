@@ -102,6 +102,16 @@ class OrderDBO extends DBO
   var $password;
 
   /**
+   * @var string Order status (Incomplete, Pending, or Fulfilled)
+   */
+  var $status = "Incomplete";
+
+  /**
+   * @var integer Account ID
+   */
+  var $accountid;
+
+  /**
    * @var integer The next order item ID
    */
   var $orderitemid = 0;
@@ -134,6 +144,43 @@ class OrderDBO extends DBO
    * return integer Order ID
    */
   function getID() { return $this->id; }
+
+  /**
+   * Set Account ID
+   *
+   * @param integer $accountid Account ID
+   */
+  function setAccountID( $accountid ) { $this->accountid = $accountid; }
+
+  /**
+   * Get Account ID
+   *
+   * @return integer Account ID
+   */
+  function getAccountID() { return $this->accountid; }
+
+  /**
+   * Set Order Status
+   *
+   * @param string Account status (Incomplete, Pending, or Fulfilled)
+   */
+  function setStatus( $status )
+  {
+    if( !( $status == "Incomplete" || $status == "Pending" || $status == "Fulfilled" ) )
+      {
+	fatal_error( "OrderDBO::setStatus()",
+		     "Bad value for Order status: " . $status );
+      }
+
+    $this->status = $status;
+  }
+
+  /**
+   * Get Order Status
+   *
+   * @return string Order status
+   */
+  function getStatus() { return $this->status; }
 
   /**
    * Set Business Name
@@ -523,7 +570,8 @@ class OrderDBO extends DBO
     $total = 0.00;
     foreach( $this->orderitems as $orderitemdbo )
       {
-	$total += $orderitemdbo->getTaxAmount();
+	$total += $orderitemdbo->getTaxAmount( $this->getCountry(), 
+					       $this->getState() );
       }
     return $total;
   }
@@ -543,6 +591,53 @@ class OrderDBO extends DBO
   function isEmpty()
   {
     return $this->orderitems == null;
+  }
+
+  /**
+   * Calculate Taxes for all OrderItems
+   */
+  function calculateTaxes()
+  {
+    global $DB;
+
+    if( !isset( $this->orderitems ) )
+      {
+	// No items to tax
+	return;
+      }
+
+    // Load the tax rules that apply to the country and state provided
+    if( null == 
+	($taxRuleDBOArray = 
+	 load_array_TaxRuleDBO( sprintf( "country=%s AND (allstates=%s OR state=%s)",
+					 $DB->quote_smart( $this->getCountry() ),
+					 $DB->quote_smart( "YES" ),
+					 $DB->quote_smart( $this->getState() ) ) ) ) )
+      {
+	// No taxes apply
+	return;
+      }
+    
+    foreach( $this->orderitems as $orderItemDBO )
+      {
+	if( !$orderItemDBO->isTaxable() )
+	  {
+	    // This item is not taxable
+	    continue;
+	  }
+
+	$taxAmount = 0.00;
+	foreach( $taxRuleDBOArray as $taxRuleDBO )
+	  {
+	    $rate = $taxRuleDBO->getRate() / 100.00;
+	    $taxAmount += 
+	      ($orderItemDBO->getPrice() * $rate) + 
+	      ($orderItemDBO->getSetupFee() * $rate);
+	  }
+
+	// Assign the order item it's tax amount
+	$orderItemDBO->setTaxAmount( $taxAmount );
+      }
   }
 }
 
@@ -569,11 +664,17 @@ function add_OrderDBO( &$dbo )
 				       "postalcode" => $dbo->getPostalCode(),
 				       "phone" => $dbo->getPhone(),
 				       "mobilephone" => $dbo->getMobilePhone(),
-				       "fax" => $dbo->getFax() ) );
+				       "fax" => $dbo->getFax(),
+				       "username" => $dbo->getUsername(),
+				       "password" => $dbo->getPassword(),
+				       "accountid" => $dbo->getAccountID(),
+				       "status" => $dbo->getStatus() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
+      echo $sql;
+      echo mysql_error();
       return false;
     }
 
@@ -592,8 +693,38 @@ function add_OrderDBO( &$dbo )
       fatal_error( "add_OrderDBO()", "Previous INSERT did not generate an ID" );
     }
 
+  // Save all OrderItemDBO's
+  foreach( $dbo->orderitems as $orderItemDBO )
+    {
+      $orderItemDBO->setOrderID( $id );
+      if( is_a( $orderItemDBO, "OrderHostingDBO" ) )
+	{
+	  if( !add_OrderHostingDBO( $orderItemDBO ) )
+	    {
+	      fatal_error( "add_OrderDBO()", "Could not save Hosting Item to database!" );
+	    }
+	}
+      elseif( is_a( $orderItemDBO, "OrderDomainDBO" ) )
+	{
+	  if( !add_OrderDomainDBO( $orderItemDBO ) )
+	    {
+	      fatal_error( "add_OrderDBO()", "Could not save Hosting Item to database!" );
+	    }
+	}
+    }
+
+  // Save existing domains
+  foreach( $dbo->existingdomains as $orderItemDBO )
+    {
+      if( !add_OrderDomainItemDBO( $orderItemDBO ) )
+	{
+	  fatal_error( "add_OrderDBO()", "Could not save Hosting Item to database!" );
+	}
+    }
+
   // Store ID in DBO
   $dbo->setID( $id );
+
   return true;
 }
 
@@ -621,7 +752,11 @@ function update_OrderDBO( &$dbo )
 				       "postalcode" => $dbo->getPostalCode(),
 				       "phone" => $dbo->getPhone(),
 				       "mobilephone" => $dbo->getMobilePhone(),
-				       "fax" => $dbo->getFax() ) );
+				       "fax" => $dbo->getFax(),
+				       "username" => $dbo->getUsername(),
+				       "password" => $dbo->getPassword(),
+				       "accountid" => $dbo->getAccountID(),
+				       "status" => $dbo->getStatus() ) );
 				
   // Run query
   return mysql_query( $sql, $DB->handle() );

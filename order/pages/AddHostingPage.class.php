@@ -14,8 +14,7 @@
 require_once $base_path . "solidworks/Page.class.php";
 
 require_once $base_path . "DBO/OrderDBO.class.php";
-
-require_once $base_path . "xmlrpc/client.php";
+require_once $base_path . "DBO/HostingServiceDBO.class.php";
 
 /**
  * AddHostingPage
@@ -98,7 +97,8 @@ class AddHostingPage extends Page
   function populateServiceIDField()
   {
     $data = array();
-    $services = getHostingServicesClient( "orders", $this->conf['remote_password'] );
+    $services = load_array_HostingServiceDBO();
+
     if( isset( $services ) )
       {
 	foreach( $services as $service_dbo )
@@ -121,15 +121,12 @@ class AddHostingPage extends Page
     $serviceid = $this->session['hostingservice']['serviceid'];
     if( !isset( $serviceid ) )
       {
-	$services = getHostingServicesClient( "orders", 
-					      $this->conf['remote_password'] );
+	$services = load_array_HostingServiceDBO();
 	$service_dbo = array_shift( $services );
       }
     else
       {
-	$service_dbo = getHostingServiceClient( "orders",
-						$this->conf['remote_password'],
-						$serviceid );
+	$service_dbo = load_HostingServiceDBO( $serviceid );
       }
 
     $cs = $this->conf['locale']['currency_symbol'];
@@ -144,9 +141,8 @@ class AddHostingPage extends Page
    */
   function process()
   {
-    $servicedbo = getHostingServiceClient( "orders", 
-					   $this->conf['remote_password'],
-					   $this->session['hostingservice']['serviceid'] );
+    $servicedbo =
+      load_HostingServiceDBO( $this->session['hostingservice']['serviceid'] );
 
     // Create a Hosting Order Item
     $dbo = new OrderHostingDBO();

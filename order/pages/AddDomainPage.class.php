@@ -15,8 +15,6 @@ require_once $base_path . "solidworks/Page.class.php";
 
 require_once $base_path . "DBO/DomainServiceDBO.class.php";
 
-require_once $base_path . "xmlrpc/IXR.php";
-
 /**
  * AddDomainPage
  *
@@ -138,7 +136,7 @@ class AddDomainPage extends Page
   function populateTLDs()
   {
     // Get all public DomainServiceDBO's
-    $domainservices = getDomainServicesClient( "orders", $this->conf['remote_password'] );
+    $domainservices = load_array_DomainServiceDBO();
 
     // Populate the drop-downs
     $tlds = array();
@@ -171,9 +169,9 @@ class AddDomainPage extends Page
    */
   function process_registration()
   {
-    $servicedbo = getDomainServiceClient( "orders", 
-					  $this->conf['remote_password'], 
-					  $this->session['domainoption']['registerdomaintld'] );
+    $servicedbo = 
+      load_DomainServiceDBO( $this->session['domainoption']['registerdomaintld'] );
+
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
     $dbo->setType( "New" );
@@ -192,9 +190,8 @@ class AddDomainPage extends Page
    */
   function process_transfer()
   {
-    $servicedbo = getDomainServiceClient( "orders", 
-					  $this->conf['remote_password'], 
-					  $this->session['domainoption']['registerdomaintld'] );
+    $servicedbo = 
+      load_DomainServiceDBO( $this->session['domainoption']['transferdomaintld'] );
     
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
@@ -217,9 +214,7 @@ class AddDomainPage extends Page
   function registration_periods( $tld )
   {
     // Generate the list of periods and their pricing
-    $ds_dbo = getDomainServiceClient( "orders", 
-				      $this->conf['remote_password'], 
-				      $tld );
+    $ds_dbo = load_DomainServiceDBO( $tld );
 
     unset( $this->session['periods'] );
     $cs = $this->conf['locale']['currency_symbol'];
@@ -245,10 +240,11 @@ class AddDomainPage extends Page
     $fqdn = $domain_name . "." . $tld;
 
     // Access the Registrar module
-    $registrar =& module_Registrar();
+    $serviceDBO = load_DomainServiceDBO( $tld );
+    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
 
     // Check WHOIS
-    if( $registrar->check_whois( $fqdn ) )
+    if( $module->checkAvailability( $fqdn ) )
       {
 	// Domain must be registered
 	$this->setError( array( "type" => "ERROR_DOMAIN_TRANSFER_NO_DOMAIN",
@@ -275,10 +271,11 @@ class AddDomainPage extends Page
     $fqdn = $domain_name . "." . $tld;
 
     // Access the Registrar module
-    $registrar =& module_Registrar();
+    $serviceDBO = load_DomainServiceDBO( $tld );
+    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
 
     // Check WHOIS
-    if( !$registrar->check_whois( $fqdn ) )
+    if( !$module->checkAvailability( $fqdn ) )
       {
 	// Domain is NOT available
 	$this->setError( array( "type" => "ERROR_DOMAIN_NOT_AVAILABLE" ) );

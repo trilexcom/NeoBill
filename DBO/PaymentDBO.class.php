@@ -36,6 +36,11 @@ class PaymentDBO extends DBO
   var $invoiceid;
 
   /**
+   * @var integer Order ID
+   */
+  var $orderid;
+
+  /**
    * @var string Date of payment (MySQL DATETIME)
    */
   var $date;
@@ -59,6 +64,16 @@ class PaymentDBO extends DBO
    * @var double Payment amount
    */
   var $amount;
+
+  /**
+   * @var string Module that processed this payment
+   */
+  var $module;
+
+  /**
+   * @var string Status of payment
+   */
+  var $status;
 
   /**
    * Set Payment ID
@@ -87,6 +102,20 @@ class PaymentDBO extends DBO
    * @return intger Invoice ID
    */
   function getInvoiceID() { return $this->invoiceid; }
+
+  /**
+   * Set Order ID
+   *
+   * @param integer $id Order ID
+   */
+  function setOrderID( $id ) { $this->orderid = $id; }
+
+  /**
+   * Get Order ID
+   *
+   * @return intger Order ID
+   */
+  function getOrderID() { return $this->orderid; }
 
   /**
    * Set Payment Date
@@ -153,10 +182,7 @@ class PaymentDBO extends DBO
   {
     if( !( $type == "Cash" ||
 	   $type == "Check" ||
-	   $type == "Credit Card" ||
-	   $type == "Paypal" ||
-	   $type == "Account Credit" ||
-	   $type == "Other" ) )
+	   $type == "Module" ) )
       {
 	fatal_error( "PaymentDBO::setType()", "Invalid Payment type: " . $type );
       }
@@ -169,6 +195,45 @@ class PaymentDBO extends DBO
    * @return string Payment type
    */
   function getType() { return $this->type; }
+
+  /**
+   * Set Module
+   *
+   * @param string $module Name of module that processed this payment
+   */
+  function setModule( $module ) { $this->module = $module; }
+
+  /**
+   * Get Module
+   *
+   * @return string The module that processed this payment
+   */
+  function getModule() { return $this->module; }
+
+  /**
+   * Set Payment Status
+   *
+   * @param string $status Payment status
+   */
+  function setStatus( $status )
+  {
+    if( !( $status == "Completed" || 
+	   $status == "Pending" || 
+	   $status == "Refunded" ||
+	   $status == "Reversed" ) )
+      {
+	fatal_error( "PaymentDBO::setStatus()", "Invalid status: " . $status );
+      }
+
+    $this->status = $status;
+  }
+
+  /**
+   * Get Payment Status
+   *
+   * @return string Payment status
+   */
+  function getStatus() { return $this->status; }
 
   /**
    * Get Account Name
@@ -194,11 +259,14 @@ class PaymentDBO extends DBO
   {
     $this->setID( $data['id'] );
     $this->setInvoiceID( $data['invoiceid'] );
+    $this->setOrderID( $data['orderid'] );
     $this->setDate( $data['date'] );
     $this->setAmount( $data['amount'] );
     $this->setTransaction1( $data['transaction1'] );
     $this->setTransaction2( $data['transaction2'] );
     $this->setType( $data['type'] );
+    $this->setStatus( $data['status'] );
+    $this->setModule( $data['module'] );
   }
 
   /**
@@ -209,11 +277,20 @@ class PaymentDBO extends DBO
    */
   function touchInvoice()
   {
+    if( !( $this->invoiceid > 0 ) )
+      {
+	// No invoice to touch!
+	return;
+      }
+
+    // Load invoice DBO
     if( ($invoicedbo = load_InvoiceDBO( $this->invoiceid )) == null )
       {
 	fatal_error( "PaymentDBO::touchInvoice()",
 		     "PaymentDBO::touchInvoice(), error: could not load InvoiceDBO" );
       }
+
+    // Update the Invoice record
     update_InvoiceDBO( $invoicedbo );
   }
 }
@@ -231,11 +308,14 @@ function add_PaymentDBO( &$dbo )
   // Build SQL
   $sql = $DB->build_insert_sql( "payment",
 				array( "invoiceid" => intval( $dbo->getInvoiceID() ),
+				       "orderid" => intval( $dbo->getOrderID() ),
 				       "date" => $dbo->getDate(),
 				       "amount" => $dbo->getAmount(),
 				       "transaction1" => $dbo->getTransaction1(),
 				       "transaction2" => $dbo->getTransaction2(),
-				       "type" => $dbo->getType() ) );
+				       "type" => $dbo->getType(), 
+				       "module" => $dbo->getModule(),
+				       "status" => $dbo->getStatus() ) );
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
@@ -278,11 +358,14 @@ function update_PaymentDBO( &$dbo )
   $sql = $DB->build_update_sql( "payment",
 				"id = " . intval( $dbo->getID() ),
 				array( "invoiceid" => intval( $dbo->getInvoiceID() ),
+				       "orderid" => intval( $dbo->getOrderID() ),
 				       "date" => $dbo->getDate(),
 				       "amount" => $dbo->getAmount(),
 				       "transaction1" => $dbo->getTransaction1(),
 				       "transaction2" => $dbo->getTransaction2(),
-				       "type" => $dbo->getType() ) );
+				       "type" => $dbo->getType(),
+				       "module" => $dbo->getModule(),
+				       "status" => $dbo->getStatus() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

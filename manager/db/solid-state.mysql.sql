@@ -26,7 +26,7 @@ CREATE TABLE `account` (
   `mobilephone` varchar(255) default NULL,
   `fax` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -62,13 +62,14 @@ CREATE TABLE `domainservicepurchase` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
   `tld` varchar(255) NOT NULL default '',
-  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') NOT NULL default '1 year',
+  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') NOT NULL default '1 
+year',
   `domainname` varchar(255) NOT NULL default '',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `expiredate` datetime NOT NULL default '0000-00-00 00:00:00',
   `accountname` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -91,7 +92,7 @@ CREATE TABLE `hostingservice` (
   `uniqueip` enum('Required','Not Required') NOT NULL default 'Not Required',
   `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=5 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -107,7 +108,7 @@ CREATE TABLE `hostingservicepurchase` (
   `term` enum('1 month','3 month','6 month','12 month') NOT NULL default '1 month',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -125,7 +126,7 @@ CREATE TABLE `invoice` (
   `terms` int(11) NOT NULL default '1',
   `outstanding` enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=19 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -140,7 +141,7 @@ CREATE TABLE `invoiceitem` (
   `unitamount` decimal(10,2) NOT NULL default '0.00',
   `text` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=58 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -170,7 +171,7 @@ CREATE TABLE `log` (
   `remoteip` int(11) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=736 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -199,7 +200,7 @@ CREATE TABLE `modulesetting` (
   `value` text,
   `modulename` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=123 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -215,7 +216,7 @@ CREATE TABLE `note` (
   `username` varchar(10) NOT NULL default '',
   `text` blob NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -229,7 +230,7 @@ CREATE TABLE `order` (
   `contactname` varchar(255) NOT NULL default '',
   `contactemail` varchar(255) NOT NULL default '',
   `address1` varchar(255) NOT NULL default '',
-  `address2` varchar(255) NOT NULL default '',
+  `address2` varchar(255) default NULL,
   `city` varchar(255) NOT NULL default '',
   `state` varchar(255) NOT NULL default '',
   `country` char(3) NOT NULL default '',
@@ -239,8 +240,10 @@ CREATE TABLE `order` (
   `fax` varchar(255) default NULL,
   `username` varchar(10) NOT NULL default '',
   `password` varchar(32) NOT NULL default '',
+  `status` enum('Incomplete','Pending','Fulfilled') NOT NULL default 'Incomplete',
+  `accountid` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -257,7 +260,7 @@ CREATE TABLE `orderdomain` (
   `domainname` varchar(255) NOT NULL default '',
   `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') default '1 year',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -272,7 +275,7 @@ CREATE TABLE `orderhosting` (
   `serviceid` int(10) unsigned NOT NULL default '0',
   `term` enum('1 month','3 months','6 months','12 months') NOT NULL default '1 month',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -282,14 +285,17 @@ CREATE TABLE `orderhosting` (
 
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL auto_increment,
-  `invoiceid` int(11) NOT NULL default '0',
+  `invoiceid` int(11) unsigned default NULL,
+  `orderid` int(10) unsigned default NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `amount` decimal(10,2) NOT NULL default '0.00',
   `transaction1` varchar(255) default NULL,
   `transaction2` varchar(255) default NULL,
-  `type` enum('Cash','Check','Credit Card','Paypal','Account Credit','Other') NOT NULL default 'Cash',
+  `type` enum('Cash','Check','Module') NOT NULL default 'Cash',
+  `module` varchar(255) default NULL,
+  `status` enum('Completed','Pending','Refunded','Reversed') NOT NULL default 'Completed',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=2 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -304,7 +310,7 @@ CREATE TABLE `product` (
   `price` decimal(10,2) NOT NULL default '0.00',
   `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=3 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -319,7 +325,7 @@ CREATE TABLE `productpurchase` (
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `note` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=3 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -332,7 +338,7 @@ CREATE TABLE `server` (
   `hostname` varchar(255) NOT NULL default '',
   `location` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=4 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -360,7 +366,7 @@ CREATE TABLE `taxrule` (
   `allstates` enum('Yes','Specific') NOT NULL default 'Yes',
   `description` varchar(255) NOT NULL default 'Tax',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM AUTO_INCREMENT=16 ;
+) TYPE=MyISAM;
 
 -- --------------------------------------------------------
 
@@ -392,5 +398,4 @@ INSERT INTO `settings` VALUES ('nameservers_ns4', 'ns4.example.com');
 INSERT INTO `settings` VALUES ('invoice_text', 'Invoice #{invoice_id}\r\n\r\n===================================================================\r\nItem                                    Price     Qty  Total\r\n===================================================================\r\n{invoice_items}===================================================================\r\n\r\nInvoice Total: {invoice_total}\r\nPayments Received: {invoice_payments}\r\nBalance: {invoice_balance}\r\nDate Due: {invoice_due}\r\n\r\nIf you have any questions about this Invoice, please contact\r\nbilling@example.com.  Thank you!\r\n\r\nWeb Hosting Company\r\n');
 INSERT INTO `settings` VALUES ('locale_language', 'english');
 INSERT INTO `settings` VALUES ('locale_currency_symbol', '$');
-INSERT INTO `settings` VALUES ('order_remote_password', '12c500ed0b7879105fb46af0f246be87');
 

@@ -61,6 +61,7 @@
     <phrase id="ORDER">Order</phrase>
     <phrase id="PACKAGE">Package</phrase>
     <phrase id="PASSWORD">Password</phrase>
+    <phrase id="PAYMENT_METHOD">Payment Method</phrase>
     <phrase id="PHONE">Telephone</phrase>
     <phrase id="POSTALCODE">Zip Code</phrase>
     <phrase id="PRICE">Price</phrase>

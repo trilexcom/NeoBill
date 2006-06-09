@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once $base_path . "solidworks/AdminPage.class.php";
 
 /**
  * RCMConfigPage
@@ -21,7 +21,7 @@ require_once $base_path . "solidworks/Page.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RCMConfigPage extends Page
+class RCMConfigPage extends AdminPage
 {
   /**
    * @var ResellerClubModule Reseller Club Module object

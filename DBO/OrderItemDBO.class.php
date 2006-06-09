@@ -34,9 +34,9 @@ class OrderItemDBO extends DBO
   var $orderid;
 
   /**
-   * @var double Amount of taxes on this item
+   * @var double Amount of taxes charged to this item
    */
-  var $taxamount;
+  var $taxAmount = 0.00;
 
   /**
    * Set Order Item ID
@@ -118,16 +118,16 @@ class OrderItemDBO extends DBO
   /**
    * Set Tax Amount
    *
-   * @param double $taxAmount Total amount of taxes
+   * @param double $taxAmount Tax amount
    */
-  function setTaxAmount( $taxamount ) { $this->taxamount = $taxamount; }
+  function setTaxAmount( $taxAmount ) { $this->taxAmount = $taxAmount; }
 
   /**
    * Get Tax Amount
    *
    * @return double Total amount of taxes
    */
-  function getTaxAmount() { return $this->taxamount; }
+  function getTaxAmount() { return $this->taxAmount; }
 }
 
 ?>
