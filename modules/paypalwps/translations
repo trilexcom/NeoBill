@@ -13,4 +13,17 @@
     <phrase id="PS_CONFIGURATION_SAVED">Paypal WPS Configuration Saved</phrase>
   </translation>
 
+  <!-- ========== -->
+  <!-- Portuguese -->
+  <!-- ========== -->
+  <translation language="portuguese">
+    <phrase id="PAYPAL_ACCOUNT">Conta Paypal</phrase>
+    <phrase id="PAYPAL_CART_UPLOAD_URL">Paypal URL</phrase>
+    <phrase id="PAYPAL_WPS_MODULE">Módulo Paypal WPS</phrase>
+    <phrase id="PAY_WITH_PAYPAL">Pagar com Paypal</phrase>
+    <phrase id="PAY_WITH_PAYPAL_TEXT">Você optou por pagar através do Paypal.  Quando clicar em "Pagar com Paypal", irá ser redireccionado para um site seguro do Paypal de forma a completar o processo de pagamento.  Assim que o pagamento esteja efectuado, voltará para o nosso website onde terá uma confirmação do pagamento, de forma a confirmar a respectiva compra.  Se por alguma razão o processo de pagamento não for completado, por favor contacte-nos de forma a resolver a situação.</phrase>
+    <phrase id="PDT_ID_TOKEN">PDT Identity Token</phrase>
+    <phrase id="PS_CONFIGURATION_SAVED">Configurações do Paypal WPS Actualizadas</phrase>
+  </translation>
+
 </translations>
