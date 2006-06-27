@@ -183,7 +183,7 @@ class DBConnection
       }
 
     // Begin building SQL
-    $sql = "DELETE FROM " . $table_name;
+    $sql = sprintf( "DELETE FROM `%s`", $table_name );
 
     if( isset( $where ) )
       {
@@ -213,7 +213,7 @@ class DBConnection
       }
 
     // Begin building SQL
-    $sql = "UPDATE " . $table_name . " SET ";
+    $sql = sprintf( "UPDATE `%s` SET ", $table_name );
 
     // Build & validate column & value pairs
     foreach( $cols_vals as $column => $value )
@@ -293,7 +293,7 @@ class DBConnection
       }
     
     // Begin building SELECT statement
-    $sql = "SELECT " . $columns . " FROM " . $table_name;
+    $sql = sprintf( "SELECT %s FROM `%s`", $columns, $table_name );
     
     if( strlen( $filter ) > 0 )
       {
@@ -345,12 +345,14 @@ class DBConnection
       }
     
     // Query DB for a list of columns in this table
-    $sql = "SHOW COLUMNS FROM " . $table_name;
+    $sql = sprintf( "SHOW COLUMNS FROM `%s`", $table_name );
     if( !($result = @mysql_query( $sql, $this->handle() ) ) )
       {
 	// Query error
-	echo "Attempt to query table columns failed.";
-	exit();
+	fatal_error( "DBConnection::validate_column()",
+		     sprintf( "Attempt to query table columns failed.  Table = %s, column = %s",
+			      $table_name,
+			      $column_name ) );
       }
 
     // Search result set for the column name provided

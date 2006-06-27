@@ -18,7 +18,7 @@ require_once "DBConnection.class.php";
 require_once "language.php";
 
 // Load Smarty
-require_once $smarty_path;
+require_once "smarty/Smarty.class.php";
 
 // Create a Smarty object
 $smarty = new Smarty();
@@ -272,7 +272,8 @@ function loadModules()
 		  if( is_array( $phrases ) )
 		    {
 		      $translations[$language] = 
-			array_merge( $translations[$language], $phrases );
+			array_merge( isset( $translations[$language] ) ? $translations[$language] : array(), 
+				     $phrases );
 		    }
 		}
 	    }

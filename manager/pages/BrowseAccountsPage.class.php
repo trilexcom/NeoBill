@@ -38,22 +38,17 @@ class BrowseAccountsPage extends Page
   {
     switch( $action_name )
       {
-
       case "browse_accounts_action":
-
 	if( isset( $this->session['browse_accounts_action']['add'] ) )
 	  {
 	    // Goto new account page
 	    $this->goto( "accounts_new_account" );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

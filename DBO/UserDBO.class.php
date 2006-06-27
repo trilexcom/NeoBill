@@ -29,6 +29,11 @@ class UserDBO extends DBO
   var $username;
 
   /**
+   * @var integer Account ID
+   */
+  var $accountid;
+
+  /**
    * @var string Password (MD5)
    */
   var $password;
@@ -66,6 +71,20 @@ class UserDBO extends DBO
    * @return string Username
    */
   function getUsername() { return $this->username; }
+
+  /**
+   * Set Account ID
+   *
+   * @param integer $accountid Account ID
+   */
+  function setAccountID( $accountid ) { $this->accountid = $accountid; }
+
+  /**
+   * Get Account ID
+   *
+   * @return integer Account ID
+   */
+  function getAccountID() { return $this->accountid; }
 
   /**
    * Set Password
@@ -130,7 +149,7 @@ class UserDBO extends DBO
    */
   function setType( $type )
   {
-    if( !($type == "Account Manager" || $type == "Administrator" ) )
+    if( !($type == "Account Manager" || $type == "Administrator" || $type == "Client" ) )
       {
 	// Bad value
 	fatal_error( "UserDBO::setType()",
@@ -155,6 +174,7 @@ class UserDBO extends DBO
   function load( $data )
   {
     $this->setUsername( $data['username'] );
+    $this->setAccountID( $data['accountid'] );
     $this->setPassword( $data['password'] );
     $this->setFirstName( $data['firstname'] );
     $this->setLastName( $data['lastname'] );
@@ -307,7 +327,8 @@ function add_UserDBO( &$dbo )
 
   // Prepare to insert into the User table
   $sql = "INSERT INTO user VALUES ('" . 
-    $dbo->getUsername() . "', '" .
+    $dbo->getUsername() . "', " .
+    $dbo->getAccountID() . ", '" .
     $dbo->getPassword() . "', '" .
     $dbo->getType() . "', '" .
     $dbo->getFirstName() . "', '" .
@@ -333,6 +354,7 @@ function update_UserDBO( &$dbo )
 				"username = " . 
 				$DB->quote_smart( $dbo->getUsername() ),
 				array( "password" => $dbo->getPassword(),
+				       "accountid" => $dbo->getAccountID(),
 				       "firstname" => $dbo->getFirstName(),
 				       "lastname" => $dbo->getLastName(),
 				       "email" => $dbo->getEmail(),

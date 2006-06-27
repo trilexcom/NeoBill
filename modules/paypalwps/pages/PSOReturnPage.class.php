@@ -65,6 +65,9 @@ class PSOReturnPage extends Page
 
     $this->smarty->assign( "paymentStatus", $pdtData['payment_status'] );
     $this->smarty->assign( "amount", $pdtData['payment_gross'] );
+
+    // Complete the order
+    $this->ppModule->completeOrder( $_SESSION['order'] );
   }
 }
 ?>

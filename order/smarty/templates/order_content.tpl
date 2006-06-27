@@ -8,7 +8,7 @@
   </head>
 
   <body>
- 
+
     <div class="content">
 
       {* Include page header *}

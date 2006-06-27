@@ -26,17 +26,22 @@ class OrderItemDBO extends DBO
   /**
    * @var integer OrderItem ID
    */
-  var $orderitemid;
+  var $orderitemid = null;
 
   /**
    * @var integer Order ID
    */
-  var $orderid;
+  var $orderid = null;
 
   /**
    * @var double Amount of taxes charged to this item
    */
   var $taxAmount = 0.00;
+
+  /**
+   * @var string The status of this order item: Rejected, Pending, Accepted, or Fulfilled
+   */
+  var $status = "Pending";
 
   /**
    * Set Order Item ID
@@ -65,6 +70,13 @@ class OrderItemDBO extends DBO
    * @return integer Order ID
    */
   function getOrderID() { return $this->orderid; }
+
+  /**
+   * Get Order DBO
+   *
+   * @return OrderDBO The OrderDBO this item belongs to
+   */
+  function getOrderDBO() { return load_OrderDBO( $this->getOrderID() ); }
 
   /**
    * Get Description (stub)
@@ -128,6 +140,53 @@ class OrderItemDBO extends DBO
    * @return double Total amount of taxes
    */
   function getTaxAmount() { return $this->taxAmount; }
+
+  /**
+   * Set Status
+   *
+   * @param string $status Status is Rejected, Pending, Accepted, or Fulfilled
+   */
+  function setStatus( $status )
+  {
+    if( !( $status == "Rejected" || 
+	   $status == "Pending" || 
+	   $status == "Accepted" ||
+	   $status == "Fulfilled" ) )
+      {
+	fatal_error( "OrderItemDBO::setStatus()",
+		     "Invalid value for status: " . $status );
+      }
+    $this->status = $status;
+  }
+
+  /**
+   * Get Status
+   *
+   * @return string Rejected, Pending, Accepted, or Fulfilled
+   */
+  function getStatus() { return $this->status; }
+
+  /**
+   * Execute Order Item
+   *
+   * @param integer $accountID Account this order belongs to
+   * @return boolean True for success
+   */
+  function execute( $accountID )
+  {
+    fatal_error( "OrderItemDBO::execute()", "execute() not implemented!" );
+  }
+
+  /**
+   * Load Member Data from Array
+   *
+   * @param array $data Data to be loaded
+   */
+  function load( $data )
+  {
+    $this->setOrderItemID( $data['orderitemid'] );
+    $this->setStatus( $data['status'] );
+  }
 }
 
 ?>

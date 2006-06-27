@@ -131,6 +131,11 @@ function widget_radio( $widget_data )
       // This option is selected
       $html .= "checked ";
     }
+
+  if( isset( $widget_data['onclick'] ) )
+    {
+      $html .= "onClick=\"" . $widget_data['onclick'] . "\" ";
+    }
   
   $html .= "/> ";
   $html .= $widget_data['hide_value'] ? 

@@ -13,6 +13,8 @@
 // Parent class
 require_once $base_path . "DBO/OrderItemDBO.class.php";
 
+require_once $base_path . "DBO/HostingServicePurchaseDBO.class.php";
+
 /**
  * OrderHostingDBO
  *
@@ -191,10 +193,48 @@ class OrderHostingDBO extends OrderItemDBO
   function isTaxable() { return $this->servicedbo->getTaxable() == "Yes"; }
 
   /**
+   * Execute Hosting Service Order
+   *
+   * Create a new Hosting Service Purchase for this order item
+   *
+   * @param integer $accountID Account ID
+   * @return boolean True for success
+   */
+  function execute( $accountID )
+  {
+    global $DB;
+
+    // Create a hosting service purchase record
+    $purchaseDBO = new HostingServicePurchaseDBO();
+    $purchaseDBO->setAccountID( $accountID );
+    $purchaseDBO->setHostingServiceID( $this->getServiceID() );
+    $purchaseDBO->setTerm( $this->getTerm() );
+    if( !add_HostingServicePurchaseDBO( $purchaseDBO ) )
+      {
+	log_error( "OrderHostingDBO::execute()", 
+		   "Failed to add hosting service purchase to DB" );
+	return false;
+      }
+
+    // Fulfill this order item
+    $this->setStatus( "Fulfilled" );
+    if( !update_OrderHostingDBO( $this ) )
+      {
+	log_error( "OrderHostingDBO::execute()",
+		   "Failed to update OrderHostingDBO" );
+	return false;
+      }
+
+    // Success
+    return true;
+  }
+
+  /**
    * Load Member Data from Array
    */
   function load( $data )
   {
+    parent::load( $data );
     $this->setID( $data['id'] );
     $this->setOrderID( $data['orderid'] );
     $this->setServiceID( $data['serviceid'] );
@@ -216,7 +256,9 @@ function add_OrderHostingDBO( &$dbo )
   // Build SQL
   $sql = $DB->build_insert_sql( "orderhosting",
 				array( "orderid" => intval( $dbo->getOrderID() ),
+				       "orderitemid" => intval( $dbo->getOrderItemID() ),
 				       "serviceid" => $dbo->getServiceID(),
+				       "status" => $dbo->getStatus(),
 				       "term" => $dbo->getTerm() ) );
 
   // Run query
@@ -262,6 +304,7 @@ function update_OrderHostingDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ),
 				array( "orderid" => intval( $dbo->getOrderID() ),
 				       "serviceid" => $dbo->getServiceID(),
+				       "status" => $dbo->getStatus(),
 				       "term" => $dbo->getTerm() ) );
 				
   // Run query
@@ -422,5 +465,4 @@ function count_all_OrderHostingDBO( $filter = null )
   $data = mysql_fetch_array( $result );
   return $data[0];
 }
-
 ?>

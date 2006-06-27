@@ -827,6 +827,7 @@ function smarty_form_element( $params, &$smarty )
   $field_data['cols'] = isset( $params['cols'] ) ? $params['cols'] : 30;
   $field_data['rows'] = isset( $params['rows'] ) ? $params['rows'] : 2;
   $field_data['onchange'] = $params['onchange'];
+  $field_data['onclick'] = $params['onclick'];
   $field_data['checked'] = $params['checked'];
 
   // Build HTML

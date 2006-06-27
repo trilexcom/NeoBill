@@ -6,14 +6,6 @@
  * run SolidState.  More (most) configuration options are stored in the datbase,
  * and can be set through the "Administration > Settings" page.
  *
- * Smarty configuration:
- *
- *   $smarty_path    - Location of Smarty on your system 
- *                     (i.e.: /usr/local/lib/php/Smarty/Smarty.class.php)
- *
- *   $base_path      - The file system path where SolidState is installed
- *                     (must end with a '/', i.e.: /home/path/to/solidstate/)
- *
  * Database configuration:
  *
  *   $db['host']     - This is the host that your MySQL database server runs on
@@ -32,8 +24,6 @@
  *                                    Administration > Settings > Order Interface
  *   $order_conf['remote_password'] - Remote password
  */
-
-$smarty_path       = "/usr/share/pear/Smarty/Smarty.class.php";
 
 $db['host']        = "localhost";
 $db['user']        = "apache";

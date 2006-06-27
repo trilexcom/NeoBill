@@ -61,6 +61,11 @@ class ReviewPage extends Page
    */
   function checkout()
   {
+    global $DB;
+
+    $this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
+    $this->session['order']->setDateCreated( $DB->format_datetime( time() ) );
+
     // If the order does not have an ID already, save it to the database
     if( $this->session['order']->getID() == null && 
 	!add_OrderDBO( $this->session['order'] ) )
@@ -68,6 +73,7 @@ class ReviewPage extends Page
 	fatal_error( "ReviewPage::checkout()", "Failed to add Order to database!" );
       }
 
+    // Hand-off to the payment module to collect the balance due
     $paymentModule = $this->conf['modules'][$this->session['review']['module']];
     $this->goto( $paymentModule->getOrderCheckoutPage() );
   }

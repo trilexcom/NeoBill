@@ -46,5 +46,26 @@ class PaymentProcessorModule extends SolidStateModule
 
     return $this->orderCheckoutPage;
   }
+
+  /**
+   * Complete an Order
+   *
+   * @param &OrderDBO &$order A reference to the OrderDBO
+   */
+  function completeOrder( &$order )
+  {
+    global $DB;
+
+    // Set status to pending and give a timestamp
+    $order->setStatus( "Pending" );
+    $order->setDateCompleted( $DB->format_datetime( time() ) );
+
+    // Update the database record
+    if( !update_OrderDBO( $order ) )
+      {
+	fatal_error( "PaymentProcessorModule::completeOrder()",
+		     "Failed to update Order!" );
+      }
+  }
 }
 ?>

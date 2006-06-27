@@ -32,6 +32,26 @@ class OrderDBO extends DBO
   var $id;
 
   /**
+   * @var string Date order was created
+   */
+  var $datecreated;
+
+  /**
+   * @var string Date order was completed
+   */
+  var $datecompleted;
+
+  /**
+   * @var string Date order was fulfilled
+   */
+  var $datefulfilled;
+
+  /**
+   * @var integer Remote IP address that submitted this order
+   */
+  var $remoteip;
+
+  /**
    * @var string Business Name
    */
   var $businessname;
@@ -158,6 +178,69 @@ class OrderDBO extends DBO
    * @return integer Account ID
    */
   function getAccountID() { return $this->accountid; }
+
+  /**
+   * Set Date Created
+   *
+   * @param string $date Date and time when the order was created (MySQL DATETIME)
+   */
+  function setDateCreated( $date ) { $this->datecreated = $date; }
+
+  /**
+   * Get Date Created
+   *
+   * @return string Date and time when the order was created (MySQL DATETIME)
+   */
+  function getDateCreated() { return $this->datecreated; }
+
+  /**
+   * Set Date Completed
+   *
+   * @param string $date Date and time when the order was completed (MySQL DATETIME)
+   */
+  function setDateCompleted( $date ) { $this->datecompleted = $date; }
+
+  /**
+   * Get Date Completed
+   *
+   * @return string Date and time when the order was completed (MySQL DATETIME)
+   */
+  function getDateCompleted() { return $this->datecompleted; }
+
+  /**
+   * Set Date Fulfilled
+   *
+   * @param string $date Date and time when the order was fulfilled (MySQL DATETIME)
+   */
+  function setDateFulfilled( $date ) { $this->datefulfilled = $date; }
+
+  /**
+   * Get Date Fulfilled
+   *
+   * @return string Date and time when the order was fulfilled (MySQL DATETIME)
+   */
+  function getDateFulfilled() { return $this->datefulfilled; }
+
+  /**
+   * Set Remote IP
+   *
+   * @param integer $ip Remote IP address in long-word form
+   */
+  function setRemoteIP( $ip ) { $this->remoteip = $ip; }
+
+  /**
+   * Get Remote IP
+   *
+   * @return integer Remote IP address in long-word form
+   */
+  function getRemoteIP() { return $this->remoteip; }
+
+  /**
+   * Get Remote IP String
+   *
+   * @return string Remote IP address in dot-quad form
+   */
+  function getRemoteIPString() { return long2ip( $this->remoteip ); }
 
   /**
    * Set Order Status
@@ -521,6 +604,79 @@ class OrderDBO extends DBO
   }
 
   /**
+   * Set Contact Info for a Domain Item
+   *
+   * @param integer $orderitemid Order Item ID
+   * @param array $adminContact Admin Contact information array
+   * @param array $billingContact Billing Contact information array
+   * @param array $techContact Technical Contact information array
+   */
+  function setDomainContact( $orderitemid, $adminContact, $billingContact, $techContact )
+  {
+    foreach( $this->orderitems as $key => $orderitemdbo )
+      {
+	// Search for the order item id
+	if( $orderitemdbo->getOrderItemID() == $orderitemid )
+	  {
+	    // Verify that this is a domain item
+	    if( !is_a( $orderitemdbo, "OrderDomainDBO" ) )
+	      {
+		fatal_error( "OrderDBO::setDomainContact()",
+			     "The item specified is not a domain item!" );
+	      }
+
+	    // Copy $adminContact into the Domain Item DBO
+	    $orderitemdbo->setBusinessName( "admin", $adminContact['businessname'] );
+	    $orderitemdbo->setContactName( "admin", $adminContact['contactname'] );
+	    $orderitemdbo->setContactEmail( "admin", $adminContact['contactemail'] );
+	    $orderitemdbo->setAddress1( "admin", $adminContact['address1'] );
+	    $orderitemdbo->setAddress2( "admin", $adminContact['address2'] );
+	    $orderitemdbo->setAddress3( "admin", null );
+	    $orderitemdbo->setCity( "admin", $adminContact['adminCity'] );
+	    $orderitemdbo->setState( "admin", $adminContact['state'] );
+	    $orderitemdbo->setCountry( "admin", $adminContact['country'] );
+	    $orderitemdbo->setPostalCode( "admin", $adminContact['postalcode'] );
+	    $orderitemdbo->setPhone( "admin", $adminContact['phone'] );
+	    $orderitemdbo->setFax( "admin", $adminContact['fax'] );
+
+	    // Copy $billingContact into the Domain Item DBO
+	    $orderitemdbo->setBusinessName( "billing", $billingContact['businessname'] );
+	    $orderitemdbo->setContactName( "billing", $billingContact['contactname'] );
+	    $orderitemdbo->setContactEmail( "billing", $billingContact['contactemail'] );
+	    $orderitemdbo->setAddress1( "billing", $billingContact['address1'] );
+	    $orderitemdbo->setAddress2( "billing", $billingContact['address2'] );
+	    $orderitemdbo->setAddress3( "billing", null );
+	    $orderitemdbo->setCity( "billing", $billingContact['billingCity'] );
+	    $orderitemdbo->setState( "billing", $billingContact['state'] );
+	    $orderitemdbo->setCountry( "billing", $billingContact['country'] );
+	    $orderitemdbo->setPostalCode( "billing", $billingContact['postalcode'] );
+	    $orderitemdbo->setPhone( "billing", $billingContact['phone'] );
+	    $orderitemdbo->setFax( "billing", $billingContact['fax'] );
+
+	    // Copy $techContact into the Domain Item DBO
+	    $orderitemdbo->setBusinessName( "tech", $techContact['businessname'] );
+	    $orderitemdbo->setContactName( "tech", $techContact['contactname'] );
+	    $orderitemdbo->setContactEmail( "tech", $techContact['contactemail'] );
+	    $orderitemdbo->setAddress1( "tech", $techContact['address1'] );
+	    $orderitemdbo->setAddress2( "tech", $techContact['address2'] );
+	    $orderitemdbo->setAddress3( "tech", null );
+	    $orderitemdbo->setCity( "tech", $techContact['techCity'] );
+	    $orderitemdbo->setState( "tech", $techContact['state'] );
+	    $orderitemdbo->setCountry( "tech", $techContact['country'] );
+	    $orderitemdbo->setPostalCode( "tech", $techContact['postalcode'] );
+	    $orderitemdbo->setPhone( "tech", $techContact['phone'] );
+	    $orderitemdbo->setFax( "tech", $techContact['fax'] );
+
+	    // Stop looping and return
+	    return;
+	  }
+      }
+
+    fatal_error( "OrderDBO::setDomainContact()", 
+		 "Order item id does not exist: " . $orderitemid );
+  }
+
+  /**
    * Get Total of Non-recurring Costs (i.e. setup fees)
    *
    * @return double Total non-recurring price, without tax
@@ -530,7 +686,10 @@ class OrderDBO extends DBO
     $total = 0.00;
     foreach( $this->orderitems as $orderitemdbo )
       {
-	$total += $orderitemdbo->getSetupFee();
+	if( $orderitemdbo->getStatus != "Rejected" )
+	  {
+	    $total += $orderitemdbo->getSetupFee();
+	  }
       }
     return $total;
   }
@@ -545,7 +704,10 @@ class OrderDBO extends DBO
     $total = 0.00;
     foreach( $this->orderitems as $orderitemdbo )
       {
-	$total += $orderitemdbo->getPrice();
+	if( $orderitemdbo->getStatus() != "Rejected" )
+	  {
+	    $total += $orderitemdbo->getPrice();
+	  }
       }
     return $total;
   }
@@ -570,8 +732,11 @@ class OrderDBO extends DBO
     $total = 0.00;
     foreach( $this->orderitems as $orderitemdbo )
       {
-	$total += $orderitemdbo->getTaxAmount( $this->getCountry(), 
-					       $this->getState() );
+	if( $orderitemdbo->getStatus() != "Rejected" )
+	  {
+	    $total += $orderitemdbo->getTaxAmount( $this->getCountry(), 
+						   $this->getState() );
+	  }
       }
     return $total;
   }
@@ -639,6 +804,203 @@ class OrderDBO extends DBO
 	$orderItemDBO->setTaxAmount( $taxAmount );
       }
   }
+
+  /**
+   * Get Item
+   *
+   * @param integer $orderItemID Order Item ID
+   * @return &OrderItemDBO Order Item DBO
+   */
+  function &getItem( $orderItemID )
+  {
+    foreach( $this->orderitems as $key => $orderItemDBO )
+      {
+	if( $orderItemDBO->getOrderItemID() == $orderItemID )
+	  {
+	    return $orderItemDBO;
+	  }
+      }
+
+    // Not found
+    return null;
+  }
+
+  /**
+   * Accept Item
+   *
+   * Set an Item's Accept Flag to Yes
+   *
+   * @param integer $orderitemid Order Item ID
+   */
+  function acceptItem( $orderItemID )
+  {
+    if( null == ($orderItemDBO = $this->getItem( $orderItemID )) )
+      {
+	fatal_error( "OrderDBO::acceptItem()", 
+		     "Order Item not found! ID = " . $orderItemID );
+      }
+
+    $orderItemDBO->setStatus( "Accepted" );
+  }
+
+  /**
+   * Reject Item
+   *
+   * Set an Item's Accept Flag to No
+   *
+   * @param integer $orderItemID Order Item ID
+   */
+  function rejectItem( $orderItemID )
+  {
+    if( null == ($orderItemDBO = $this->getItem( $orderItemID )) )
+      {
+	fatal_error( "OrderDBO::acceptItem()", 
+		     "Order Item not found! ID = " . $orderItemID );
+      }
+
+    $orderItemDBO->setStatus( "Rejected" );
+  }
+
+  /**
+   * Get Accepted Items
+   *
+   * @return array OrderItemDBO's (references) with status == "Accepted"
+   */
+  function getAcceptedItems()
+  {
+    $acceptedItems = array();
+    foreach( $this->orderitems as $key => $orderItemDBO )
+      {
+	if( $orderItemDBO->getStatus() == "Accepted" )
+	  {
+	    $acceptedItems[] =& $orderItemDBO;
+	  }
+      }
+
+    return $acceptedItems;
+  }
+
+  /**
+   * Execute New Account Order
+   *
+   * Create a new account from the OrderDBO
+   *
+   * @param string $accountType Account type to be created
+   * @param string $accountStatus Status for the new account
+   * @param string $billingStatus Billing status for the new account
+   * @param string $billingDay Billing day for the new account
+   * @return boolean True for success
+   */
+  function executeNewAccount( $accountType, $accountStatus, $billingStatus, $billingDay )
+  {
+    global $DB;
+
+    // Verify that the username is not in use already
+    if( load_UserDBO( $this->getUsername() ) != null )
+      {
+	return false;
+      }
+
+    // Create the account
+    $accountDBO = new AccountDBO();
+    $accountDBO->setType( $accountType );
+    $accountDBO->setStatus( $accountStatus );
+    $accountDBO->setBillingStatus( $billingStatus );
+    $accountDBO->setBillingDay( $billingDay );
+    $accountDBO->setBusinessName( $this->getBusinessName() );
+    $accountDBO->setContactName( $this->getContactName() );
+    $accountDBO->setContactEmail( $this->getContactEmail() );
+    $accountDBO->setAddress1( $this->getAddress1() );
+    $accountDBO->setAddress2( $this->getAddress2() );
+    $accountDBO->setCity( $this->getCity() );
+    $accountDBO->setState( $this->getState() );
+    $accountDBO->setCountry( $this->getCountry() );
+    $accountDBO->setPostalCode( $this->getPostalCode() );
+    $accountDBO->setPhone( $this->getPhone() );
+    $accountDBO->setMobilePhone( $this->getMobilePhone() );
+    $accountDBO->setFax( $this->getFax() );
+    if( !add_AccountDBO( $accountDBO ) )
+      {
+	fatal_error( "OrderDBO::executeNewAccount()", "Could not create account!" );
+      }
+
+    // Create user
+    $userDBO = new UserDBO();
+    $userDBO->setUsername( $this->getUsername() );
+    $userDBO->setPassword( md5( $this->getPassword() ) );
+    $userDBO->setAccountID( $accountDBO->getID() );
+    $userDBO->setType( "Client" );
+    if( !add_UserDBO( $userDBO ) )
+      {
+	fatal_error( "OrderDBO::executeNewOrder()", 
+		     "Could not create new user: " . $this->getUsername() );
+      }
+    
+    // Act on all of the accepted items
+    foreach( $this->getAcceptedItems() as $orderItemDBO )
+      {
+	if( !$orderItemDBO->execute( $accountDBO->getID() ) )
+	  {
+	    fatal_error( "ExecuteOrderPage::execute()",
+			 "Could not execute item! item ID=" . 
+			 $orderItemDBO->getOrderItemID() );
+	  }
+      }
+  
+    // Set the order to fulfilled and update the database
+    $this->setAccountID( $accountDBO->getID() );
+    $this->setDateFulfilled( $DB->format_datetime( time() ) );
+    $this->setStatus( "Fulfilled" );
+    if( !update_OrderDBO( $this ) )
+      {
+	fatal_error( "ExecuteOrderPage::execute()", "Could not update order!" );
+      }
+
+    // Success
+    return true;
+  }
+
+  /**
+   * Load Data from Array
+   *
+   * @param array $data Order data
+   */
+  function load( $data )
+  {
+    $this->setID( $data['id'] );
+    $this->setDateCreated( $data['datecreated'] );
+    $this->setDateCompleted( $data['datecompleted'] );
+    $this->setDateFulfilled( $data['datefulfilled'] );
+    $this->setRemoteIP( $data['remoteip'] );
+    $this->setBusinessName( $data['businessname'] );
+    $this->setContactName( $data['contactname'] );
+    $this->setContactEmail( $data['contactemail'] );
+    $this->setAddress1( $data['address1'] );
+    $this->setAddress2( $data['address2'] );
+    $this->setCity( $data['city'] );
+    $this->setState( $data['state'] );
+    $this->setCountry( $data['country'] );
+    $this->setPostalCode( $data['postalcode'] );
+    $this->setPhone( $data['phone'] );
+    $this->setMobilePhone( $data['mobilephone'] );
+    $this->setFax( $data['fax'] );
+    $this->setUsername( $data['username'] );
+    $this->setPassword( $data['password'] );
+    $this->setStatus( $data['status'] );
+    $this->setAccountID( $data['accountid'] );
+
+    // Load order items
+    $domains = load_array_OrderDomainDBO( "orderid=" . intval( $data['id'] ) );
+    $services = load_array_OrderHostingDBO( "orderid=" . intval( $data['id'] ) );
+  
+    // Combine domains and services into the orderitems array
+    $domains = ($domains == null) ? array() : $domains;
+    $services = ($services == null) ? array() : $services;
+    $this->orderitems = array_merge( $domains, $services );
+
+    // Calculate taxes
+    $this->calculateTaxes();
+  }
 }
 
 /**
@@ -654,6 +1016,10 @@ function add_OrderDBO( &$dbo )
   // Build SQL
   $sql = $DB->build_insert_sql( "order",
 				array( "businessname" => $dbo->getBusinessName(),
+				       "datecreated" => $dbo->getDateCreated(),
+				       "datecompleted" => $dbo->getDateCompleted(),
+				       "datefulfilled" => $dbo->getDateFulfilled(),
+				       "remoteip" => $dbo->getRemoteIP(),
 				       "contactname" => $dbo->getContactName(),
 				       "contactemail" => $dbo->getContactEmail(),
 				       "address1" => $dbo->getAddress1(),
@@ -716,7 +1082,7 @@ function add_OrderDBO( &$dbo )
   // Save existing domains
   foreach( $dbo->existingdomains as $orderItemDBO )
     {
-      if( !add_OrderDomainItemDBO( $orderItemDBO ) )
+      if( !add_OrderDomainDBO( $orderItemDBO ) )
 	{
 	  fatal_error( "add_OrderDBO()", "Could not save Hosting Item to database!" );
 	}
@@ -738,10 +1104,42 @@ function update_OrderDBO( &$dbo )
 {
   global $DB;
 
+  // Update all OrderItemDBO's
+  foreach( $dbo->orderitems as $orderItemDBO )
+    {
+      if( is_a( $orderItemDBO, "OrderHostingDBO" ) )
+	{
+	  if( !update_OrderHostingDBO( $orderItemDBO ) )
+	    {
+	      fatal_error( "update_OrderDBO()", "Could not save Hosting Item to database!" );
+	    }
+	}
+      elseif( is_a( $orderItemDBO, "OrderDomainDBO" ) )
+	{
+	  if( !update_OrderDomainDBO( $orderItemDBO ) )
+	    {
+	      fatal_error( "update_OrderDBO()", "Could not save Hosting Item to database!" );
+	    }
+	}
+    }
+
+  // Save existing domains
+  foreach( $dbo->existingdomains as $orderItemDBO )
+    {
+      if( !update_OrderDomainDBO( $orderItemDBO ) )
+	{
+	  fatal_error( "update_OrderDBO()", "Could not save Hosting Item to database!" );
+	}
+    }
+
   // Build SQL
   $sql = $DB->build_update_sql( "order",
 				"id = " . intval( $dbo->getID() ),
 				array( "businessname" => $dbo->getBusinessName(),
+				       "datecreated" => $dbo->getDateCreated(),
+				       "datecompleted" => $dbo->getDateCompleted(),
+				       "datefulfilled" => $dbo->getDateFulfilled(),
+				       "remoteip" => $dbo->getRemoteIP(),
 				       "contactname" => $dbo->getContactName(),
 				       "contactemail" => $dbo->getContactEmail(),
 				       "address1" => $dbo->getAddress1(),
@@ -772,11 +1170,34 @@ function delete_OrderDBO( &$dbo )
 {
   global $DB;
 
+  // Delete all Order Items
+  if( null != ($hostingItems = $dbo->getHostingItems()) )
+    {
+      foreach( $hostingItems as $orderItemDBO )
+	{
+	  if( !delete_OrderHostingDBO( $orderItemDBO ) )
+	    {
+	      return false;
+	    }
+	}
+    }
+
+  if( null != ($domainItems = $dbo->getDomainItems()) )
+    {
+      foreach( $domainItems as $orderItemDBO )
+	{
+	  if( !delete_OrderDomainDBO( $orderItemDBO ) )
+	    {
+	      return false;
+	    }
+	}
+    }
+
   // Build SQL
   $sql = $DB->build_delete_sql( "order",
 				"id = " . intval( $dbo->getID() ) );
 
-  // Run query
+  // Delete order
   return mysql_query( $sql, $DB->handle() );
 }
 
@@ -895,7 +1316,7 @@ function count_all_OrderDBO( $filter = null )
   global $DB;
 
   // Build query
-  $sql = "SELECT COUNT(*) FROM order";
+  $sql = "SELECT COUNT(*) FROM `order`";
 
   // Run query
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )

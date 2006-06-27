@@ -1,9 +1,11 @@
+<script language="JavaScript" src="./include.js"/>
+
 {form name="domainoption"}
   <div class="domainoption">
     <table>
       <tr class="reverse">
         <td> 
-          {form_element field="domainaction" option="Register Domain"} 
+          {form_element field="domainaction" option="Register Domain" onclick="javascript:clearDomainOptions( this.form );"} 
         </td>
       </tr>
       <tr> 
@@ -17,7 +19,7 @@
 
     <table>
       <tr class="reverse">
-        <td> {form_element field="domainaction" option="Transfer Domain"} </td>
+        <td> {form_element field="domainaction" option="Transfer Domain" onclick="javascript:clearDomainOptions( this.form );"} </td>
      </tr>
       <tr> 
         <td class="indent">
@@ -30,7 +32,7 @@
 
     <table>
       <tr class="reverse">
-        <td> {form_element field="domainaction" option="Existing Domain"} </td>
+        <td> {form_element field="domainaction" option="Existing Domain" onclick="javascript:clearDomainOptions( this.form );"} </td>
       </tr>
       <tr> 
         <td class="indent">

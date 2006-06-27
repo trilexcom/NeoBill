@@ -59,7 +59,8 @@ class AddDomainPage extends Page
 	  {
 	    $this->setTemplate( "default" );
 	  }
-	else
+	elseif( isset( $this->session['registerdomain']['continue'] ) ||
+		isset( $this->session['registerdomain']['another'] ))
 	  {
 	    $this->process_registration();
 	  }
@@ -74,7 +75,8 @@ class AddDomainPage extends Page
 	  {
 	    $this->setTemplate( "default" );
 	  }
-	else
+	elseif( isset( $this->session['transferdomain']['continue'] ) ||
+		isset( $this->session['transferdomain']['another'] ) )
 	  {
 	    $this->process_transfer();
 	  }
@@ -182,7 +184,17 @@ class AddDomainPage extends Page
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
 
-    $this->done();
+    if( isset( $this->session['registerdomain']['another'] ) )
+      {
+	// Add Another Domain
+	unset( $this->session['domainoption'] );
+	$this->setTemplate( "default" );
+      }
+    else
+      {
+	// Continue
+	$this->done();
+      }
   }
 
   /**
@@ -198,12 +210,23 @@ class AddDomainPage extends Page
     $dbo->setType( "Transfer" );
     $dbo->setService( $servicedbo );
     $dbo->setDomainName( $this->session['domainoption']['transferdomainname'] );
+    $dbo->setTransferSecret( $this->session['transferdomain']['secret'] );
     $dbo->setTerm( $this->session['transferdomain']['period'] );
 
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
 
-    $this->done();
+    if( isset( $this->session['transferdomain']['another'] ) )
+      {
+	// Add Another Domain
+	unset( $this->session['domainoption'] );
+	$this->setTemplate( "default" );
+      }
+    else
+      {
+	// Continue
+	$this->done();
+      }
   }
 
   /**

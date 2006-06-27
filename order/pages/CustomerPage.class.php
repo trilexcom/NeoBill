@@ -119,6 +119,19 @@ class CustomerPage extends Page
     $this->session['order']->setUsername( $ci['username'] );
     $this->session['order']->setPassword( $ci['password'] );
 
-    $this->goto( "review" );
+    if( null != ($domainItems = $this->session['order']->getDomainItems()) && 
+	$this->session['customer_information']['domaincontact'] == "same" )
+      {
+	// Contact information for all domains is the same as customer's contact info
+	foreach( $domainItems as $domainItem )
+	  {
+	    $this->session['order']->setDomainContact( $domainItem->getOrderItemID(),
+						       $ci,
+						       $ci,
+						       $ci );
+	  }
+      }
+
+    $this->goto( "domaincontact" );
   }
 }

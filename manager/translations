@@ -6,6 +6,7 @@
   <translation language="english">
 
     <phrase id="30_DAYS_PAST_DUE">30+ days past-due invoices</phrase>
+    <phrase id="ACCEPT">Accept</phrase>
     <phrase id="ACCESS_DENIED">Access Denied: You must be an Administrator to access this page.</phrase>
     <phrase id="ACCOUNT">Account</phrase>
     <phrase id="ACCOUNT_CONFIRM">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
@@ -119,7 +120,9 @@
     <phrase id="DOMAIN_NOT_AVAILABLE">Sorry, the domain: {0} is not avaiable.  Please try again.</phrase>
     <phrase id="DOMAINS">Domains</phrase>
     <phrase id="DOMAIN_NAME">Domain Name</phrase>
+    <phrase id="DOMAIN_REGISTRATION">Domain Registration</phrase>
     <phrase id="DOMAIN_SERVICE">Domain Service</phrase>
+    <phrase id="DOMAIN_TRANSFER">Domain Transfer</phrase>
     <phrase id="DOMAIN_SERVICES">Domain Services</phrase>
     <phrase id="DOMAINS_SUMMARTY">Domains Summary</phrase>
     <phrase id="DO_NOT_BILL">Do Not Bill</phrase>
@@ -139,6 +142,8 @@
     <phrase id="END_ADDRESS">End Address</phrase>
     <phrase id="ENDING_ADDRESS">End Address</phrase>
     <phrase id="ENTER_PAYMENT">Enter Payment</phrase>
+    <phrase id="EXECUTE">Execute</phrase>
+    <phrase id="EXECUTE_ORDER">Execute Order</phrase>
     <phrase id="EXPIRATION_DATE">Expiration Date</phrase>
     <phrase id="EXPIRED_DOMAINS">Expired Domains</phrase>
     <phrase id="EXPIRES">Expires</phrase>
@@ -204,7 +209,13 @@
     <phrase id="NOTES">Notes</phrase>
     <phrase id="NOTE_TO_CUSTOMER">Note to Customer</phrase>
     <phrase id="NOT_REQUIRED">Not Required</phrase>
+    <phrase id="ORDER">Order</phrase>
+    <phrase id="ORDER_DATE">Order Date</phrase>
+    <phrase id="ORDER_ID">Order ID</phrase>
     <phrase id="ORDER_INTERFACE">Order Interface</phrase>
+    <phrase id="ORDER_IP">Order IP</phrase>
+    <phrase id="ORDER_ITEMS">Order Items</phrase>
+    <phrase id="ORDER_TOTAL">Order Total</phrase>
     <phrase id="OR_ENTER_USERNAME">or Enter Username</phrase>
     <phrase id="OTHER">Other</phrase>
     <phrase id="OTHER_PRODUCTS">Other Products</phrase>
@@ -221,6 +232,7 @@
     <phrase id="PAYPAL">Paypal</phrase>
     <phrase id="PENDING">Pending</phrase>
     <phrase id="PENDING_ACCOUNTS">Pending Accounts</phrase>
+    <phrase id="PENDING_ORDERS">Pending Orders</phrase>
     <phrase id="PERIOD">Period</phrase>
     <phrase id="PHONE">Phone</phrase>
     <phrase id="POSTED">Posted</phrase>
@@ -257,6 +269,7 @@
     <phrase id="RESET_PASSWORD">Reset Password</phrase>
     <phrase id="REVENUE_RECEIVED">Revenue received for</phrase>
     <phrase id="SAVE">Save</phrase>
+    <phrase id="SAVE_CHANGES">Save Changes</phrase>
     <phrase id="SEARCH">Search</phrase>
     <phrase id="SEND_WELCOME_EMAIL">Send a Welcome E-Mail</phrase>
     <phrase id="SEND_WELCOME_EMAIL_CUSTOMER">Send E-Mail Welcome to Customer</phrase>
@@ -275,6 +288,7 @@
     <phrase id="STATE_PROVINCE">State / Province</phrase>
     <phrase id="STATUS">Status</phrase>
     <phrase id="SUBJECT">Subject</phrase>
+    <phrase id="SUB_TOTAL">Sub-total</phrase>
     <phrase id="TAXABLE">Taxable</phrase>
     <phrase id="TAXES">Taxes</phrase>
     <phrase id="TAX_RATE">Tax Rate</phrase>
@@ -300,7 +314,9 @@
     <phrase id="VIEW">View</phrase>
     <phrase id="VIEW_HOSTING_SERVICES">View Hosting Services</phrase>
     <phrase id="VIEW_LOG_MESSAGE">View Log Message</phrase>
+    <phrase id="VIEW_ORDER">View Order</phrase>
     <phrase id="VIEW_PRODUCT">View Product</phrase>
+    <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>
     <phrase id="WEB_HOSTING_SERVICE">Web Hosting Service</phrase>
     <phrase id="WEB_HOSTING_SERVICES">Web Hosting Services</phrase>
     <phrase id="WELCOME_EMAIL">Welcome E-Mail</phrase>
@@ -408,6 +424,8 @@
     <phrase id="DOMAIN_ASSIGNED">Domain Service Added to Account</phrase>
     <phrase id="PRODUCT_ASSIGNED">Product Added to Account</phrase>
     <phrase id="INVOICE_CREATED">Invoice Created</phrase>
+    <phrase id="ORDER_DELETED">Order Deleted</phrase>
+    <phrase id="ORDER_SAVED">Order Saved</phrase>
     <phrase id="PAYMENT_ENTERED">Payment Received</phrase>
     <phrase id="PAYMENT_DELETED">Payment Deleted.</phrase>
     <phrase id="PAYMENT_UPDATED">Payment Updated.</phrase>
@@ -924,7 +942,7 @@
     <phrase id="BY">Por</phrase>
     <phrase id="CANCEL">Cancelar</phrase>
     <phrase id="CASH">Dinheiro</phrase>
-    <phrase id="CHECK">Verificar</phrase>
+    <phrase id="CHECK">Cheque</phrase>
     <phrase id="CHECK_WHOIS">Verificar WHOIS</phrase>
     <phrase id="CITY">Cidade</phrase>
     <phrase id="COMPANY">Empresa</phrase>

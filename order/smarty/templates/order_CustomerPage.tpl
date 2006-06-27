@@ -88,6 +88,25 @@
   <div class="domainoption">
     <table>
       <tr class="reverse">
+        <td> {echo phrase="DOMAIN_CONTACT_INFORMATION"} </td>
+      </tr>
+      <tr>
+        <td>
+          {echo phrase="DOMAIN_CONTACT_INFORMATION_TEXT"}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {form_element field="domaincontact" option="same"}<br/>
+          {form_element field="domaincontact" option="new"}
+        </td>
+      </tr>
+    </table>
+  </div>
+            
+  <div class="domainoption">
+    <table>
+      <tr class="reverse">
         <td>Login</td>
       </tr>
       <tr> <td> {echo phrase="LOGIN_TEXT"} </td> </tr>

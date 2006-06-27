@@ -7,19 +7,12 @@
         </td>
       </tr>
       <tr> 
-        <td> {echo phrase="DOMAIN_NAME"}: </td>
+        <td style="width: 30%"> {echo phrase="DOMAIN_NAME"}: </td>
         <td> {$domain_name}.{$domain_tld} </td>
       </tr>
       <tr>
-        <td> {form_description field="period"} </td>
+        <td style="width: 30%"> {form_description field="period"} </td>
         <td> {form_element field="period"} </td>
-      </tr>
-      <tr>
-        <td> {form_description field="contact"} </td>
-        <td> 
-          {form_element field="contact" option="Billing"}<br/>
-          {form_element field="contact" option="Other"}
-        </td>
       </tr>
     </table>
   </div>
@@ -30,7 +23,9 @@
           <td class="left">{form_element field="cancel"}</td>
         {/if}
         <td class="right">
-          {form_element field="back"}{form_element field="continue"}
+          {form_element field="back"}
+          {form_element field="another"}
+          {form_element field="continue"}
         </td>
     </table>
   </div>
