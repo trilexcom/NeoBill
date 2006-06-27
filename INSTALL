@@ -1,14 +1,6 @@
 NOTE: For the most up-to-date installation documentation please visit the
       Solid-State Homepage: http://www.solid-state.org
 
-* SolidState requires the Smarty PHP template library be installed on your system.
-  You can find instructions for installing Smarty over at:
-
-    http://smarty.php.net/manual/en/installation.php
-
-  Note the directory that you install Smarty to.  You will need to make sure that 
-  this directory is accessible to PHP (i.e. if you're using safe_mode).
-
 * Copy the SolidState source tree to your web root directory
 
 * Make sure that the user your web server runs as (i.e. apache) has
@@ -43,9 +35,6 @@ NOTE: For the most up-to-date installation documentation please visit the
     $ cp config.template config.inc.php
 
 * Edit config.inc.php:
-
-  - Make sure that the smarty_path variable is properly set to the location of 
-    Smarty.class.php on your system.
 
   - Configure your database
 
