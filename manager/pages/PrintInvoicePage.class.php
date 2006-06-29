@@ -61,3 +61,4 @@ class PrintInvoicePage extends Page
     $this->smarty->assign( "body",  $dbo->text( $this->conf['invoice_text'] ) );
   }
 }
+?>

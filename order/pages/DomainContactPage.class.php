@@ -224,3 +224,4 @@ class DomainContactPage extends Page
       }
   }
 }
+?>

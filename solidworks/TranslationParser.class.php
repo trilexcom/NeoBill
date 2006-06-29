@@ -127,3 +127,4 @@ class TranslationParser
    */
   function getTranslations() { return $this->translations; }
 }
+?>

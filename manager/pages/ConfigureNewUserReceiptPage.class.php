@@ -24,3 +24,4 @@ require_once $base_path . "DBO/UserDBO.class.php";
 class ConfigureNewUserReceiptPage extends Page
 {
 }
+?>

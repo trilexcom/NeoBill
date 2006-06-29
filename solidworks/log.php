@@ -122,3 +122,4 @@ function fatal_error( $module, $message )
   log_critical( $module, $message );
   exit();
 }
+?>

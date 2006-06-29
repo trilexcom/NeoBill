@@ -44,3 +44,4 @@ class ServicesWebHosting extends Page
       }
   }
 }
+?>

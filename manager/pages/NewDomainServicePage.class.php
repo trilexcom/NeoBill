@@ -179,3 +179,4 @@ class NewDomainServicePage extends AdminPage
     return $moduleNames;
   }
 }
+?>

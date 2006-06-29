@@ -135,3 +135,4 @@ class CustomerPage extends Page
     $this->goto( "domaincontact" );
   }
 }
+?>

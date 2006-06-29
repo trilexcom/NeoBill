@@ -149,3 +149,4 @@ class ServicesNewHosting extends AdminPage
       }
   }
 }
+?>

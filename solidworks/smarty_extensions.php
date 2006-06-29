@@ -1066,3 +1066,4 @@ function smarty_form_description( $params, &$smarty )
   // Output the field description
   return $form_field_description;
 }
+?>

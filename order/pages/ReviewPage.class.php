@@ -128,3 +128,4 @@ class ReviewPage extends Page
     return $this->session['order']->getItems();
   }
 }
+?>
