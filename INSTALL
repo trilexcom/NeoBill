@@ -6,8 +6,8 @@ NOTE: For the most up-to-date installation documentation please visit the
 * Make sure that the user your web server runs as (i.e. apache) has
   read & write permissions on the following directories:
 
-    manager/smarty/cache
-    manager/smarty/templates_c
+    solidworks/smarty/cache
+    solidworks/smarty/templates_c
 
 * Create a new MySQL database:
 

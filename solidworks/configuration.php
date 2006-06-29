@@ -24,10 +24,10 @@ require_once "smarty/Smarty.class.php";
 $smarty = new Smarty();
 
 // Set Smarty directories
-$smarty->template_dir = "./";
-$smarty->compile_dir  = "smarty/templates_c";
-$smarty->cache_dir    = "smarty/cache";
-$smarty->config_dir   = "configs";
+$smarty->template_dir = "/templates";
+$smarty->compile_dir  = "../solidworks/smarty/templates_c";
+$smarty->cache_dir    = "../solidworks/smarty/cache";
+$smarty->config_dir   = "../solidworks/smarty/configs";
 
 // Turn off notices
 error_reporting( E_ALL ^ E_NOTICE );
@@ -56,9 +56,6 @@ if( isset( $conf['pages'] ) )
 	}
     }
 }
-
-// echo "<pre>"; print_r( $conf ); echo "</pre>";
-// exit();
 
 /**
  * Load Application Configuration

@@ -21,6 +21,6 @@ require_once $base_path . "util/settings.php";
 load_settings( $conf );
 
 // Display menu
-$smarty->display( "smarty/templates/manager_menu.tpl" );
+$smarty->display( "manager_menu.tpl" );
 
 ?>

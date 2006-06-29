@@ -12,7 +12,7 @@
     <div class="content">
 
       {* Include page header *}
-      {include file="smarty/templates/order_header.tpl"}
+      {include file="order_header.tpl"}
 
       <div class="ordercontent">
 
@@ -28,7 +28,7 @@
       </div>
 
       {* Include page footer *}
-      {include file="smarty/templates/order_footer.tpl"}
+      {include file="order_footer.tpl"}
 
     </div>
 

@@ -18,6 +18,6 @@ require_once "../config.inc.php";
 require_once $base_path . "solidworks/configuration.php";
 
 // Display menu
-$smarty->display( "smarty/templates/manager_frames.tpl" );
+$smarty->display( "manager_frames.tpl" );
 
 ?>
