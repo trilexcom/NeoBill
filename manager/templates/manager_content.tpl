@@ -12,7 +12,7 @@
     <div class="content">
 
       {* Include page header *}
-      {include file="smarty/templates/manager_header.tpl"}
+      {include file="manager_header.tpl"}
 
       {* Display any error messages *}
       {page_errors}

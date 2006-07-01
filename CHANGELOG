@@ -1,7 +1,12 @@
+6/29/2006 - jdiamond
+====================
+
+ # (trac #15) Removed new-lines from the end of PHP files and converted files with DOS new-lines to Unix.
+
 6/26/2006 - jdiamond
 ====================
 
- * Bundled Smarty with SolidWorks
+ * (trac #63) Bundled Smarty with SolidWorks
 
  *** PLEASE NOTE: this commit contains a new database scheme ***
 
