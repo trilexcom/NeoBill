@@ -18,6 +18,7 @@
     <phrase id="API_DEBUG_MODE">API Debug Mode</phrase>
     <phrase id="RC_CONFIGURATION_SAVED">Reseller Club configuration saved.</phrase>
     <phrase id="CREATE_RESELLER_CLUB_ACCOUNT">Or create a new Reseller Club customer account</phrase>
+    <phrase id="DEFAULT_CUSTOMER_PASSWORD">Default Customer Password</phrase>
     <phrase id="LANGUAGE_PREFERENCE">Language Preference</phrase>
     <phrase id="PARENT_ID">Parent ID</phrase>
     <phrase id="RC_CUSTOMER">Reseller Club Customer</phrase>

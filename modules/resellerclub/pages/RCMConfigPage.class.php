@@ -68,6 +68,8 @@ class RCMConfigPage extends AdminPage
     $this->smarty->assign( "langpref", $this->rcModule->getLangPref() );
     $this->smarty->assign( "serviceurl", $this->rcModule->getServiceURL() );
     $this->smarty->assign( "debug", $this->rcModule->getDebug() );
+    $this->smarty->assign( "defaultcustomerpassword", 
+			   $this->rcModule->getDefaultCustomerPassword() );
   }
 
   /**
@@ -84,6 +86,7 @@ class RCMConfigPage extends AdminPage
     $this->rcModule->setLangPref( $this->session['rcm_config']['langpref'] );
     $this->rcModule->setServiceURL( $this->session['rcm_config']['serviceurl'] );
     $this->rcModule->setDebug( $this->session['rcm_config']['debug'] );
+    $this->rcModule->setDefaultCustomerPassword( $this->session['rcm_config']['defaultcustomerpassword'] );
     $this->rcModule->saveSettings();
 
     $this->setMessage( array( "type" => "RC_CONFIGURATION_SAVED" ) );

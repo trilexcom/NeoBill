@@ -21,10 +21,6 @@
         <td> {dbo_echo|currency dbo="dspdbo" field="price"} </td>
       </tr>
       <tr>
-        <th> {echo phrase="RESELLER_CLUB_CUSTOMER"}: </th>
-        <td> {$registrar_username} </td>
-      </tr>
-      <tr>
         <th> {echo phrase="NAME_SERVERS"}: </th>
         <td>
           {foreach from=$nameservers item=ns}

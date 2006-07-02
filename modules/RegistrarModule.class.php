@@ -36,6 +36,7 @@ class RegistrarModule extends SolidStateModule
   /**
    * Check Domain Availability
    *
+   * @param string $fqdn Domain name
    * @return boolean True if the domain is available to be registered
    */
   function checkAvailability( $fqdn )
@@ -58,6 +59,22 @@ class RegistrarModule extends SolidStateModule
       }
 
     return $this->managerRegisterDomainPage;
+  }
+
+  /**
+   * Register a New Domain
+   *
+   * @param string $domainName Domain name to be registered (without TLD)
+   * @param string $TLD Domain TLD to register
+   * @param integer $term Number of years to register the domain for
+   * @param array $contacts Admin, billing, and technical contacts
+   * @param AccountDBO $accountDBO The account that is registering this domain
+   * @return boolean True for success
+   */
+  function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
+  {
+    echo "RegistrarModule::registerDomain() has not been implemented!";
+    return false;
   }
 }
 ?>

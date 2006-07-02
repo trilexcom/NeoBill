@@ -44,6 +44,11 @@ class ResellerClub extends RegistrarModule
   var $debug = false;
 
   /**
+   * @var string Default customer password
+   */
+  var $defaultCustomerPassword = "defaultpw";
+
+  /**
    * @var DomContact Reseller Club API Domain Contact object
    */
   var $domContact = null;
@@ -150,7 +155,7 @@ class ResellerClub extends RegistrarModule
 			$fax )
   {
     // Massage the data as needed
-    if( !isset( $company ) )
+    if( empty( $company ) )
       {
 	// Company can not be null
 	$company = $name;
@@ -330,44 +335,18 @@ class ResellerClub extends RegistrarModule
   }
 
   /**
-   * Get Reseller Club Customers
-   *
-   * @return array Reseller Club Customers (Customer => Customer data (array))
-   */
-  function getCustomers()
-  {
-    // Retrieve a list of customers from Reseller Club
-    $customers = 
-      $this->customer->listOrder( $this->getUsername(),
-				  $this->getPassword(),
-				  $this->getRole(),
-				  $this->getLangPref(),
-				  $this->getParentID(),
-				  null,
-				  $this->getResellerID(),
-				  null,
-				  null,
-				  null,
-				  null,
-				  null,
-				  null,
-				  null,
-				  null,
-				  null,
-				  null,
-				  99999,
-				  1,
-				  null );
-
-    return $customers;
-  }
-
-  /**
    * Get Debug Flag
    *
    * @return boolean Debug flag
    */
   function getDebug() { return $this->debug; }
+
+  /**
+   * Get Default Customer Password
+   *
+   * @return string Default customer password
+   */
+  function getDefaultCustomerPassword() { return $this->defaultCustomerPassword; }
 
   /**
    * Get Language Preference
@@ -475,31 +454,47 @@ class ResellerClub extends RegistrarModule
   }
 
   /**
-   * Register Domain
+   * Register a New Domain
    *
-   * Register a domain name.
+   * Registers a new domain name without requiring any Reseller Club specific
+   * information.
    *
-   * @param string $domain_name Domain to be registered
+   * @param string $domainName Domain name to be registered (without TLD)
+   * @param string $TLD Domain TLD to register
    * @param integer $term Number of years to register the domain for
-   * @param array $contacts Contact information for the Admin, Technical, and Billing sections
-   * @param string $customername The customer
-   * @return boolean True on success
+   * @param array $contacts Admin, billing, and technical contacts
+   * @param AccountDBO $accountDBO The account that is registering this domain
+   * @return boolean True for success
    */
-  function registerDomain( $fqdn, $term, $contacts, $customername )
+  function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
   {
     global $conf;
 
-    // Retrieve Customer ID
-    $customerID = $this->customer->getCustomerId( $this->getUsername(),
-						  $this->getPassword(),
-						  $this->getRole(),
-						  $this->getLangPref(),
-						  $this->getParentID(),
-						  $customername );
-    if( !is_numeric( $customerID ) )
+    // Reseller Club uses e-mail addresses as customer usernames
+    $customer = $accountDBO->getContactEmail();
+
+    // Query the customer's ID
+    if( !( $customerID = $this->queryCustomerID( $customer ) ) )
       {
-	fatal_error( "ResellerClub::registerDomain()", 
-		     "could not retrieve customer ID from Reseller Club!" );
+	// Add a new customer
+	if( !($customerID = $this->addCustomer( $accountDBO->getContactEmail(),
+						$this->getDefaultCustomerPassword(),
+						$accountDBO->getContactName(),
+						$accountDBO->getBusinessName(),
+						$accountDBO->getAddress1(),
+						$accountDBO->getAddress2(),
+						null,
+						$accountDBO->getCity(),
+						$accountDBO->getState(),
+						$accountDBO->getCountry(),
+						$accountDBO->getPostalCode(),
+						$accountDBO->getPhone(),
+						$accountDBO->getMobilePhone(),
+						$accountDBO->getFax() ) ) )
+	  {
+	    fatal_error( "ResellerClub::registerNewDomain()",
+			 "There was an error when trying to add a new Reseller Club customer" );
+	  }
       }
 
     // Enter Admin contact
@@ -527,6 +522,7 @@ class ResellerClub extends RegistrarModule
       }
 
     // Register Domain
+    $fqdn = sprintf( "%s.%s", $domainName, $TLD );
     $results = $this->domOrder->registerDomain( $this->getUsername(),
 						$this->getPassword(),
 						$this->getRole(),
@@ -544,11 +540,55 @@ class ResellerClub extends RegistrarModule
     if( $results[$fqdn]['status'] != "Success" )
       {
 	// Error
+	log_error( "ResellerClub::registerNewDomain",
+		   "Failed to register domain at Reseller Club: " . 
+		   var_export( $results ) );
 	return false;
       }
 
     // Success!
     return true;
+  }
+
+  /**
+   * Query Reseller Club Customer ID
+   *
+   * Given the customer's username (an e-mail address), query the customer's ID
+   * from Reseller Club
+   *
+   * @param string $username Customer's username (an e-mail address)
+   * @return integer Customer ID, or null
+   */
+  function queryCustomerID( $username )
+  {
+    $result = $this->customer->listOrder( $this->getUsername(),
+					  $this->getPassword(),
+					  $this->getRole(),
+					  $this->getLangPref(),
+					  $this->getParentID(),
+					  null,
+					  $this->getResellerID(),
+					  $username,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  10,
+					  1,
+					  null );
+    
+    if( $result['recsindb'] > 1 )
+      {
+	fatal_error( "ResellerClub::queryCustomerID()",
+		     "Customer::list() returned unexpected results" );
+      }
+
+    return $result[1]["customer.customerid"];
   }
 
   /**
@@ -558,6 +598,7 @@ class ResellerClub extends RegistrarModule
   {
     // Save default settings
     $this->moduleDBO->saveSetting( "debug", $this->getDebug() );
+    $this->moduleDBO->saveSetting( "defaultcustomerpassword", $this->getDefaultCustomerPassword() );
     $this->moduleDBO->saveSetting( "langpref", $this->getLangPref() );
     $this->moduleDBO->saveSetting( "parentid", $this->getParentID() );
     $this->moduleDBO->saveSetting( "username", $this->getUsername() );
@@ -580,6 +621,16 @@ class ResellerClub extends RegistrarModule
 
     // Reseller Club API Global var
     $debugfunction = $debug == true;
+  }
+
+  /**
+   * Set Default Customer Password
+   *
+   * @param string $password Default customer password
+   */
+  function setDefaultCustomerPassword( $password )
+  {
+    $this->defaultCustomerPassword = $password;
   }
 
   /**

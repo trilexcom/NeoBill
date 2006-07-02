@@ -35,6 +35,10 @@
         <th> {form_description field="debug"} </th>
         <td> {form_element field="debug" value="$debug"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="defaultcustomerpassword"} </th>
+        <td> {form_element field="defaultcustomerpassword" value="$defaultcustomerpassword"} </td>
+      </tr>
       <tr class="footer">
         <td colspan="2">
           {form_element field="save"}
