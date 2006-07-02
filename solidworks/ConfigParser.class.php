@@ -119,7 +119,7 @@ class ConfigParser
 
 	$this->conf['pages'][$this->page_class_name]['templatedir'] = 
 	  isset( $this->module_name ) ? 
-	  "../modules/" . $this->module_name . "/templates/" : 
+	  "../../modules/" . $this->module_name . "/templates/" : 
 	  "";
 
 	if( isset( $this->module_name ) && isset( $attrs['HOOK'] ) )
