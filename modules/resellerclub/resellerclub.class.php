@@ -59,11 +59,6 @@ class ResellerClub extends RegistrarModule
   var $domOrder = null;
 
   /**
-   * @var string Manager Register Domain Page name
-   */
-  var $managerRegisterDomainPage = "rcm_register_domain";
-
-  /**
    * @var string Module name
    */
   var $name = "resellerclub";

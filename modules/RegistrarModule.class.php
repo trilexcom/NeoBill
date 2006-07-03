@@ -46,22 +46,6 @@ class RegistrarModule extends SolidStateModule
   }
 
   /**
-   * Get Manager Register Domain Page
-   *
-   * @return string The name of the Register Domain Page for the Manager
-   */
-  function getManagerRegisterDomainPage()
-  {
-    if( !isset( $this->managerRegisterDomainPage ) )
-      {
-	fatal_error( "RegistrarModule::getManagerRegisterDomainPage()",
-		     "The required Register Domain Page is not provided by module: " . $this->getName() );
-      }
-
-    return $this->managerRegisterDomainPage;
-  }
-
-  /**
    * Register a New Domain
    *
    * @param string $domainName Domain name to be registered (without TLD)

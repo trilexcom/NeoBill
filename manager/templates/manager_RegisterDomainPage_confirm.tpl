@@ -1,6 +1,6 @@
 <h2> {echo phrase="REGISTER_NEW_DOMAIN"} </h2>
 
-{form name="rcm_register_confirm"}
+{form name="register_domain_confirm"}
   <div class="properties">
     <p> {echo phrase="REGISTER_DOMAIN_CONFIRM"} </p>
     <table>
