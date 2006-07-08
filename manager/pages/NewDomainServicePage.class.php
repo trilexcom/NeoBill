@@ -161,7 +161,7 @@ class NewDomainServicePage extends AdminPage
   function populateModuleNames()
   {
     if( ($registrarModules = 
-	 load_array_ModuleDBO( "type='domain_registrar' AND enabled='Yes'" ) ) != null )
+	 load_array_ModuleDBO( "type='registrar' AND enabled='Yes'" ) ) != null )
       {
 	foreach( $registrarModules as $moduleDBO )
 	  {

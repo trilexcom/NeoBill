@@ -611,6 +611,7 @@ class ResellerClub extends RegistrarModule
    */
   function renewDomain( $purchaseDBO, $renewTerms )
   {
+    $this->checkEnabled();
     $fqdn = $purchaseDBO->getFullDomainName();
 
     // Query the Reseller Club domain record

@@ -1,6 +1,7 @@
 7/8/2006 - jdiamond
 ====================
 
+ * Add a "Null Registrar" module to be used when the HSP is using a domain registrar that is not supported
  * Support for domain transfers and domain renewals
  * Completed all major functions of the Order interface.  Minor touch-ups remain.
 

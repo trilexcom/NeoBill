@@ -30,7 +30,7 @@ $smarty->cache_dir    = "../solidworks/smarty/cache";
 $smarty->config_dir   = "../solidworks/smarty/configs";
 
 // Setup custom error handler
-set_error_handler( "SWErrorHandler" );
+// set_error_handler( "SWErrorHandler" );
 
 // Turn off notices
 error_reporting( E_ALL ^ E_NOTICE );
