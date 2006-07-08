@@ -12,17 +12,6 @@
  *   $db['user']     - Database user with access to the SolidState database
  *   $db['pass']     - Password for the database user
  *   $db['database'] - The name of the database that SolidState will be using.
- *
- * Order/Signup Interface configuration:
- *
- *   $order_conf['url'] - The URL where you are installing SolidState.  If you are
- *                        installing a remote Order/Signup interface, then this is the
- *                        URL where your Manager interface is installed.
- *   $order_conf['remote_username'] - This is the user that the Order interface will
- *                                    use to authenticate to the remote server.  It
- *                                    can be configured in the manager under
- *                                    Administration > Settings > Order Interface
- *   $order_conf['remote_password'] - Remote password
  */
 
 $db['host']        = "localhost";
