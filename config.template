@@ -30,9 +30,6 @@ $db['user']        = "apache";
 $db['pass']        = "password";
 $db['database']    = "solidstate";
 
-$order_conf['url']             = "http://www.example.com/solidstate-0.4";
-$order_conf['remote_password'] = "orders";
-
 // ==> This attempts to set $base_path for you.  Change it only if you need to. <==
 //
 $this_pathinfo  = pathinfo( __FILE__ );
