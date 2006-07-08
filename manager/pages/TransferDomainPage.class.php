@@ -1,8 +1,8 @@
 <?php
 /**
- * RegisterDomainPage.class.php
+ * TransferDomainPage.class.php
  *
- * This file contains the definition of the RegisterDomainPage class.
+ * This file contains the definition of the TransferDomainPage class.
  *
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
@@ -20,15 +20,12 @@ require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
 require_once $base_path . "DBO/ContactDBO.class.php";
 
 /**
- * RegisterDomainPage
- *
- * This Page registers a domain name through the default Registrar module and places
- * an entry into the DomainServicePurchase table.
+ * TransferDomainPage
  *
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RegisterDomainPage extends Page
+class TransferDomainPage extends Page
 {
   /**
    * @var AccountDBO Account this domain will be registered for
@@ -44,11 +41,6 @@ class RegisterDomainPage extends Page
    * Action
    *
    * Actions handled by this page:
-   *   register_domain (form)
-   *   register_domain_service (form)
-   *   register_domain_customer_select (form)
-   *   register_domain_customer_new (form)
-   *   register_domain_confirm (form)
    *
    * @param string $action_name Action
    */
@@ -56,36 +48,33 @@ class RegisterDomainPage extends Page
   {
     switch( $action_name )
       {
-      case "register_domain":
-	if( isset( $this->session['register_domain']['continue'] ) )
+      case "transfer_domain":
+	if( isset( $this->session['transfer_domain']['continue'] ) )
 	  {
-	    $this->checkAvailability();
+	    $this->verifyTransferEligible();
 	  }
 	break;
 
-      case "register_domain_service":
-	if( isset( $this->session['register_domain_service']['continue'] ) )
+      case "transfer_domain_service":
+	if( isset( $this->session['transfer_domain_service']['continue'] ) )
 	  {
-	    // Proceed to confirm the domain registration
 	    $this->confirm();
 	  }
-	elseif( isset( $this->session['register_domain_service']['cancel'] ) )
+	elseif( isset( $this->session['transfer_domain_service']['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
 	break;
 
-      case "register_domain_confirm":
-	if( isset( $this->session['register_domain_confirm']['continue'] ) )
+      case "transfer_domain_confirm":
+	if( isset( $this->session['transfer_domain_confirm']['continue'] ) )
 	  {
-	    // Execute registration
-	    $this->executeRegistration();
+	    $this->executeTransfer();
 	  }
-	elseif( isset( $this->session['register_domain_confirm']['cancel'] ) )
+	elseif( isset( $this->session['transfer_domain_confirm']['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
-	break;
 
       default:
 
@@ -103,55 +92,26 @@ class RegisterDomainPage extends Page
    */
   function cancel()
   {
-    $this->goto( "domains_register",
+    $this->goto( "transfer_domain",
 		 null,
 		 null );
   }
 
   /**
-   * Check Domain's Availability
-   */
-  function checkAvailability()
-  {
-    $serviceDBO = 
-      load_DomainServiceDBO( $this->session['register_domain']['servicetld'] );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
-
-    $fqdn = sprintf( "%s.%s",
-		     $this->session['register_domain']['domainname'],
-		     $this->session['register_domain']['servicetld'] );
-    if( !$module->checkAvailability( $fqdn ) )
-      {
-	// Domain is NOT available
-	$this->setError( array( "type" => "DOMAIN_NOT_AVAILABLE",
-				"args" => array( $fqdn ) ) );
-	$this->goback( 1 );
-      }
-
-    // Domain is avaialble
-    $this->purchaseDBO = new DomainServicePurchaseDBO();
-    $this->purchaseDBO->setTLD( $this->session['register_domain']['servicetld'] );
-    $this->purchaseDBO->setDomainName( $this->session['register_domain']['domainname'] );
-    $this->setMessage( array( "type" => "DOMAIN_IS_AVAILABLE",
-			      "args" => array( $fqdn ) ) );
-    $this->setTemplate( "whois_results" );
-  }
-
-  /**
-   * Confirm Domain Registration
+   * Confirm Domain Transfer
    */
   function confirm()
   {
     // Load the account DBO
     if( !($this->accountDBO = 
-	  load_AccountDBO( $this->session['register_domain_service']['accountid'] )) )
+	  load_AccountDBO( $this->session['transfer_domain_service']['accountid'] )) )
       {
 	fatal_error( "RegisterDomainPage::confirm()","Failed to load Account!" );
       }
 
     // Fill in the purchase DBO with the account id and purchase terms
     $this->purchaseDBO->setAccountID( $this->accountDBO->getID() );
-    $this->purchaseDBO->setTerm( $this->session['register_domain_service']['term'] );
+    $this->purchaseDBO->setTerm( $this->session['transfer_domain_service']['term'] );
 
     // Provide the template with the name servers
     $this->smarty->assign( "nameservers", $this->conf['dns']['nameservers'] );
@@ -161,9 +121,9 @@ class RegisterDomainPage extends Page
   }
 
   /**
-   * Execute Registration
+   * Execute Domain Transfer
    */
-  function executeRegistration()
+  function executeTransfer()
   {
     // Load the registrar module and verify that it is enabled
     $serviceDBO = load_DomainServiceDBO( $this->purchaseDBO->getTLD() );
@@ -190,25 +150,26 @@ class RegisterDomainPage extends Page
     $contacts['billing'] = $contacts['admin'];
 
     // Execute the registration at the Registrar
-    if( !$module->registerNewDomain( $this->purchaseDBO->getDomainName(),
-				     $this->purchaseDBO->getTLD(),
-				     $this->purchaseDBO->getTermInt(),
-				     $contacts,
-				     $this->accountDBO ) )
+    if( !$module->transferDomain( $this->purchaseDBO->getDomainName(),
+				  $this->purchaseDBO->getTLD(),
+				  $this->purchaseDBO->getTermInt(),
+				  $this->session['transfer_domain']['secret'],
+				  $contacts,
+				  $this->accountDBO ) )
       {
-	$this->setError( array( "type" => "DOMAIN_REGISTER_FAILED_REGISTRAR" ) );
+	$this->setError( array( "type" => "DOMAIN_TRANSFER_FAILED_REGISTRAR" ) );
 	$this->cancel();
       }
     
     // Store the purchase in database
     if( !add_DomainServicePurchaseDBO( $this->purchaseDBO ) )
       {
-	$this->setError( array( "type" => "DOMAIN_REGISTER_FAILED_DB" ) );
+	$this->setError( array( "type" => "DOMAIN_TRANSFER_FAILED_DB" ) );
 	$this->cancel();
       }
-
+    
     // Registration complete
-    $this->setMessage( array( "type" => "DOMAIN_REGISTERED",
+    $this->setMessage( array( "type" => "DOMAIN_TRANSFERED",
 			      "args" => array( $this->purchaseDBO->getFullDomainName() ) ) );
     $this->goto( "domains_browse", null, null );
   }
@@ -257,6 +218,35 @@ class RegisterDomainPage extends Page
     $return['9 year'] = "[9_YEARS] - " . $cs . $dsDBO->getPrice9yr();
     $return['10 year'] = "[10_YEARS] - " . $cs . $dsDBO->getPrice10yr();
     return $return;
+  }
+
+  /**
+   * Verify the Domain is Eligible to be Transfered
+   */
+  function verifyTransferEligible()
+  {
+    $serviceDBO = 
+      load_DomainServiceDBO( $this->session['transfer_domain']['servicetld'] );
+    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+
+    $fqdn = sprintf( "%s.%s", 
+		     $this->session['transfer_domain']['domainname'],
+		     $this->session['transfer_domain']['servicetld'] );
+    if( !$module->isTransferable( $fqdn ) )
+      {
+	// Domain is not eligible for transfer
+	$this->setError( array( "type" => "DOMAIN_NOT_TRANSFERABLE",
+				"args" => array( $fqdn ) ) );
+	$this->goback( 1 );
+      }
+
+    // Domain can be transfered
+    $this->purchaseDBO = new DomainServicePurchaseDBO();
+    $this->purchaseDBO->setTLD( $this->session['transfer_domain']['servicetld'] );
+    $this->purchaseDBO->setDomainName( $this->session['transfer_domain']['domainname'] );
+    $this->setMessage( array( "type" => "DOMAIN_IS_ELIGIBLE",
+			      "args" => array( $fqdn ) ) );
+    $this->setTemplate( "transfer" );
   }
 }
 

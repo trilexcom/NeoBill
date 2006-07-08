@@ -30,7 +30,7 @@ function log_message( $type, $module, $message )
   $logdbo->setType( $type );
   $logdbo->setModule( $module );
   $logdbo->setText( $message );
-  $logdbo->setUsername( isset( $_SESSION['client']['userdbo'] ) ? 
+  $logdbo->setUsername( !empty( $_SESSION['client']['userdbo'] ) ? 
 			$_SESSION['client']['userdbo']->getUsername() : null );
   $logdbo->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
   $logdbo->setDate( $DB->format_datetime( time() ) );

@@ -169,10 +169,10 @@ class OrderItemDBO extends DBO
   /**
    * Execute Order Item
    *
-   * @param integer $accountID Account this order belongs to
+   * @param AccountDBO $accountDBO Account this order belongs to
    * @return boolean True for success
    */
-  function execute( $accountID )
+  function execute( $accountDBO )
   {
     fatal_error( "OrderItemDBO::execute()", "execute() not implemented!" );
   }

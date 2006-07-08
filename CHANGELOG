@@ -1,7 +1,15 @@
+7/8/2006 - jdiamond
+====================
+
+ * Support for domain transfers and domain renewals
+ * Completed all major functions of the Order interface.  Minor touch-ups remain.
+
+ *** PLEASE NOTE: this commit contains a new database scheme ***
+
 6/29/2006 - jdiamond
 ====================
 
- # (trac #15) Removed new-lines from the end of PHP files and converted files with DOS new-lines to Unix.
+ * (trac #15) Removed new-lines from the end of PHP files and converted files with DOS new-lines to Unix.
 
 6/26/2006 - jdiamond
 ====================

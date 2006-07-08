@@ -607,11 +607,14 @@ class OrderDBO extends DBO
    * Set Contact Info for a Domain Item
    *
    * @param integer $orderitemid Order Item ID
-   * @param array $adminContact Admin Contact information array
-   * @param array $billingContact Billing Contact information array
-   * @param array $techContact Technical Contact information array
+   * @param ContactDBO $adminContactDBO Admin Contact information array
+   * @param ContactDBO $billingContactDBO Billing Contact information array
+   * @param ContactDBO $techContactDBO Technical Contact information array
    */
-  function setDomainContact( $orderitemid, $adminContact, $billingContact, $techContact )
+  function setDomainContact( $orderitemid, 
+			     $adminContactDBO, 
+			     $billingContactDBO, 
+			     $techContactDBO )
   {
     foreach( $this->orderitems as $key => $orderitemdbo )
       {
@@ -625,47 +628,10 @@ class OrderDBO extends DBO
 			     "The item specified is not a domain item!" );
 	      }
 
-	    // Copy $adminContact into the Domain Item DBO
-	    $orderitemdbo->setBusinessName( "admin", $adminContact['businessname'] );
-	    $orderitemdbo->setContactName( "admin", $adminContact['contactname'] );
-	    $orderitemdbo->setContactEmail( "admin", $adminContact['contactemail'] );
-	    $orderitemdbo->setAddress1( "admin", $adminContact['address1'] );
-	    $orderitemdbo->setAddress2( "admin", $adminContact['address2'] );
-	    $orderitemdbo->setAddress3( "admin", null );
-	    $orderitemdbo->setCity( "admin", $adminContact['adminCity'] );
-	    $orderitemdbo->setState( "admin", $adminContact['state'] );
-	    $orderitemdbo->setCountry( "admin", $adminContact['country'] );
-	    $orderitemdbo->setPostalCode( "admin", $adminContact['postalcode'] );
-	    $orderitemdbo->setPhone( "admin", $adminContact['phone'] );
-	    $orderitemdbo->setFax( "admin", $adminContact['fax'] );
-
-	    // Copy $billingContact into the Domain Item DBO
-	    $orderitemdbo->setBusinessName( "billing", $billingContact['businessname'] );
-	    $orderitemdbo->setContactName( "billing", $billingContact['contactname'] );
-	    $orderitemdbo->setContactEmail( "billing", $billingContact['contactemail'] );
-	    $orderitemdbo->setAddress1( "billing", $billingContact['address1'] );
-	    $orderitemdbo->setAddress2( "billing", $billingContact['address2'] );
-	    $orderitemdbo->setAddress3( "billing", null );
-	    $orderitemdbo->setCity( "billing", $billingContact['billingCity'] );
-	    $orderitemdbo->setState( "billing", $billingContact['state'] );
-	    $orderitemdbo->setCountry( "billing", $billingContact['country'] );
-	    $orderitemdbo->setPostalCode( "billing", $billingContact['postalcode'] );
-	    $orderitemdbo->setPhone( "billing", $billingContact['phone'] );
-	    $orderitemdbo->setFax( "billing", $billingContact['fax'] );
-
-	    // Copy $techContact into the Domain Item DBO
-	    $orderitemdbo->setBusinessName( "tech", $techContact['businessname'] );
-	    $orderitemdbo->setContactName( "tech", $techContact['contactname'] );
-	    $orderitemdbo->setContactEmail( "tech", $techContact['contactemail'] );
-	    $orderitemdbo->setAddress1( "tech", $techContact['address1'] );
-	    $orderitemdbo->setAddress2( "tech", $techContact['address2'] );
-	    $orderitemdbo->setAddress3( "tech", null );
-	    $orderitemdbo->setCity( "tech", $techContact['techCity'] );
-	    $orderitemdbo->setState( "tech", $techContact['state'] );
-	    $orderitemdbo->setCountry( "tech", $techContact['country'] );
-	    $orderitemdbo->setPostalCode( "tech", $techContact['postalcode'] );
-	    $orderitemdbo->setPhone( "tech", $techContact['phone'] );
-	    $orderitemdbo->setFax( "tech", $techContact['fax'] );
+	    // Set the contacts
+	    $orderitemdbo->setAdminContact( $adminContactDBO );
+	    $orderitemdbo->setBillingContact( $billingContactDBO );
+	    $orderitemdbo->setTechContact( $techContactDBO );
 
 	    // Stop looping and return
 	    return;
@@ -873,7 +839,7 @@ class OrderDBO extends DBO
       {
 	if( $orderItemDBO->getStatus() == "Accepted" )
 	  {
-	    $acceptedItems[] =& $orderItemDBO;
+	    $acceptedItems[] =& $this->orderitems[$key];
 	  }
       }
 
@@ -898,6 +864,7 @@ class OrderDBO extends DBO
     // Verify that the username is not in use already
     if( load_UserDBO( $this->getUsername() ) != null )
       {
+	log_error( "OrderDBO::executeNewAccount()", "User already exists!" );
 	return false;
       }
 
@@ -939,7 +906,7 @@ class OrderDBO extends DBO
     // Act on all of the accepted items
     foreach( $this->getAcceptedItems() as $orderItemDBO )
       {
-	if( !$orderItemDBO->execute( $accountDBO->getID() ) )
+	if( !$orderItemDBO->execute( $accountDBO ) )
 	  {
 	    fatal_error( "ExecuteOrderPage::execute()",
 			 "Could not execute item! item ID=" . 

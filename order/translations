@@ -50,7 +50,7 @@
     <phrase id="EMAIL">E-Mail</phrase>
     <phrase id="EMAIL_TEXT">Please provide us with an e-mail address where we can send you information regarding your account.</phrase>
     <phrase id="ERROR_DOMAIN_NOT_AVAILABLE">Sorry, the domain you have entered is not available.</phrase>
-    <phrase id="ERROR_DOMAIN_TRANSFER_NO_DOMAIN">The domain name you are trying to transfer ({0}) is not registered.  If you wish to register a domain that does not exist already, select "Register a new domain."</phrase>
+    <phrase id="ERROR_DOMAIN_TRANSFER_NO_DOMAIN">The domain name you entered: {0}, is not eligible for transfer.  If you wish to register a domain that does not exist already, select "Register a new domain."</phrase>
     <phrase id="EXISTING_DOMAIN_LIST">The following are domains that you already own and are to be hosted with your purchase</phrase>
     <phrase id="EXISTING_DOMAIN_OPTION">Use a domain that you have registered through someone else</phrase>
     <phrase id="EXISTING_DOMAIN_CART_TEXT">Please note: You will need to contact your domain registrar and update the name servers for each of the above domains.</phrase>
@@ -100,6 +100,7 @@
     <phrase id="USE_ADMIN_CONTACT">Check to use Admin contact</phrase>
     <phrase id="USE_BILLING_CONTACT">Check to use Billing contact</phrase>
     <phrase id="USERNAME">Username</phrase>
+    <phrase id="USERNAME_EXISTS">The username you selected: {0}, is in use.  Please select another.</phrase>
     <phrase id="VERIFY_EMAIL">Verify E-mail</phrase>
     <phrase id="VERIFY_PASSWORD">Verify Password</phrase>
     <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>

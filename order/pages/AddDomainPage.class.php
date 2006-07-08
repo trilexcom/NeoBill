@@ -266,8 +266,8 @@ class AddDomainPage extends Page
     $serviceDBO = load_DomainServiceDBO( $tld );
     $module = $this->conf['modules'][$serviceDBO->getModuleName()];
 
-    // Check WHOIS
-    if( $module->checkAvailability( $fqdn ) )
+    // Check transfer eligibility
+    if( !$module->isTransferable( $fqdn ) )
       {
 	// Domain must be registered
 	$this->setError( array( "type" => "ERROR_DOMAIN_TRANSFER_NO_DOMAIN",

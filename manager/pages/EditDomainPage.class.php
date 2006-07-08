@@ -150,8 +150,12 @@ class EditDomainPage extends Page
    */
   function renew_domain()
   {
+    global $conf;
+
     $domain_dbo =& $this->session['domain_dbo'];
     $domain_data = $this->session['renew_domain'];
+
+    $module = $conf['modules'][$domain_dbo->getModuleName()];
 
     // Update DBO
     $domain_dbo->setDate( $this->DB->format_datetime( $domain_data['date'] ) );
@@ -161,6 +165,16 @@ class EditDomainPage extends Page
 	// Update error
 	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_PURCHASE_UPDATE_FAILED" ) );
 	$this->goback( 1 );
+      }
+
+    // Update Registrar
+    if( !$module->renewDomain( $domain_dbo, $domain_dbo->getTermInt() ) )
+      {
+	// Renew error
+	$this->setError( array( "type" => "DOMAIN_REGISTRAR_RENEW_FAILED",
+				"args" => array( $domain_dbo->getFullDomainName(),
+						 $module->getShortDescription() ) ) );
+	$this->goback( 2 );
       }
 
     // Success!

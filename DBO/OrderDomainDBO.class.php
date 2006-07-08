@@ -13,6 +13,9 @@
 // Parent class
 require_once $base_path . "DBO/OrderItemDBO.class.php";
 
+// Contact DBO
+require_once $base_path . "DBO/ContactDBO.class.php";
+
 /**
  * OrderDomainDBO
  *
@@ -24,24 +27,14 @@ require_once $base_path . "DBO/OrderItemDBO.class.php";
 class OrderDomainDBO extends OrderItemDBO
 {
   /**
-   * @var integer OrderDomain ID
+   * @var ContactDBO Admin contact
    */
-  var $id;
+  var $adminContactDBO = null;
 
   /**
-   * @var string Domain order type (New, Transfer, or Existing)
+   * @var ContactDBO Billing contact
    */
-  var $type;
-
-  /**
-   * @var string TLD
-   */
-  var $tld;
-
-  /**
-   * @var DomainServiceDBO Domain service this is being ordered
-   */
-  var $servicedbo;
+  var $billingContactDBO = null;
 
   /**
    * @var string Domain Name (without TLD)
@@ -49,9 +42,29 @@ class OrderDomainDBO extends OrderItemDBO
   var $domainname;
 
   /**
+   * @var integer OrderDomain ID
+   */
+  var $id;
+
+  /**
+   * @var DomainServiceDBO Domain service this is being ordered
+   */
+  var $servicedbo;
+
+  /**
+   * @var ContactDBO Technical contact
+   */
+  var $techContactDBO = null;
+
+  /**
    * @var string Term
    */
   var $term;
+
+  /**
+   * @var string TLD
+   */
+  var $tld;
 
   /**
    * @var string Transfer secret
@@ -59,64 +72,54 @@ class OrderDomainDBO extends OrderItemDBO
   var $transferSecret;
 
   /**
-   * @var string Contact name
+   * @var string Domain order type (New, Transfer, or Existing)
    */
-  var $contactname;
+  var $type;
 
   /**
-   * @var string Contact e-mail
+   * Set Admin Contact
+   *
+   * @param ContactDBO $contactDBO Admin contact
    */
-  var $contactemail;
+  function setAdminContact( $contactDBO ) { $this->adminContactDBO = $contactDBO; }
 
   /**
-   * @var string Business name
+   * Set Billing Contact
+   *
+   * @param ContactDBO $contactDBO Billing contact
    */
-  var $businessname;
+  function setBillingContact( $contactDBO ) 
+  { 
+    $this->billingContactDBO = $contactDBO; 
+  }
 
   /**
-   * @var string Address (line 1)
+   * Set Technical Contact
+   *
+   * @param ContactDBO $contactDBO Technical contact
    */
-  var $address1;
+  function setTechContact( $contactDBO ) { $this->techContactDBO = $contactDBO; }
 
   /**
-   * @var string Address (line 2)
+   * Get Admin Contact
+   *
+   * @return ContactDBO Admin contact
    */
-  var $address2;
+  function getAdminContact() { return $this->adminContactDBO; }
 
   /**
-   * @var string Address (line 3)
+   * Get Billing Contact
+   *
+   * @return ContactDBO Billing contact
    */
-  var $address3;
+  function getBillingContact() { return $this->billingContactDBO; }
 
   /**
-   * @var string Telephone number
+   * Get Technical Contact
+   *
+   * @return ContactDBO Technical contact
    */
-  var $phone;
-
-  /**
-   * @var string Fax number
-   */
-  var $fax;
-
-  /**
-   * @var string City
-   */
-  var $city;
-
-  /**
-   * @var string State
-   */
-  var $state;
-
-  /**
-   * @var string Country
-   */
-  var $country;
-
-  /**
-   * @var string Postal/zip code
-   */
-  var $postalcode;
+  function getTechContact() { return $this->techContactDBO; }
 
   /**
    * Set OrderDomain ID
@@ -133,215 +136,15 @@ class OrderDomainDBO extends OrderItemDBO
   function getID() { return $this->id; }
 
   /**
-   * Set Business Name
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $name New Business Name
-   */
-  function setBusinessName( $type, $name ) { $this->businessname[$type] = $name; }
-
-  /**
-   * Get Business Name
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * return string Business Name
-   */
-  function getBusinessName( $type ) { return $this->businessname[$type]; }
-
-  /**
-   * Set Contact's Name
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $name New Contact Name
-   */
-  function setContactName( $type, $name ) { $this->contactname[$type] = $name; }
-
-  /**
-   * Get Contact's Name
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @return string Contact's name
-   */
-  function getContactName( $type ) { return $this->contactname[$type]; }
-
-  /**
-   * Set Contact's Email Address
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $email New contact email address
-   */
-  function setContactEmail( $type, $email ) { $this->contactemail[$type] = $email; }
-
-  /**
-   * Get Contact's Email Address
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @return string Contact's email address
-   */
-  function getContactEmail( $type ) { return $this->contactemail[$type]; }
-
-  /**
-   * Set Contact's Address (line 1)
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $address Contact's first address line
-   */
-  function setAddress1( $type, $address ) { $this->address1[$type] = $address; }
-
-  /**
-   * Get Contact's Address (line 1)
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * return string Contact's first address line
-   */
-  function getAddress1( $type ) { return $this->address1[$type]; }
-
-  /**
-   * Set Contact's Address (line 2)
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $address Contact's address line 2
-   */
-  function setAddress2( $type, $address ) { $this->address2[$type] = $address; }
-
-  /**
-   * Get Contac'ts Address (line 2)
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * return string Contact's address line 2
-   */
-  function getAddress2( $type ) { return $this->address2[$type]; }
-
-  /**
-   * Set Contact's Address (line 3)
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $address Contact's address line 3
-   */
-  function setAddress3( $type, $address ) { $this->address3[$type] = $address; }
-
-  /**
-   * Get Contac'ts Address (line 3)
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * return string Contact's address line 3
-   */
-  function getAddress3( $type ) { return $this->address3[$type]; }
-
-  /**
-   * Set Contact's City
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $city Contact's city
-   */
-  function setCity( $type, $city ) { $this->city[$type] = $city; }
-
-  /**
-   * Get Contact's City
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * return $string Contact's City
-   */
-  function getCity( $type ) { return $this->city[$type]; }
-
-  /**
-   * Set Contact's State
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $state Contact's State
-   */
-  function setState( $type, $state ) { $this->state[$type] = $state; }
-
-  /**
-   * Get Contact's State
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @return string Contact's State
-   */
-  function getState( $type ) { return $this->state[$type]; }
-
-  /**
-   * Set Contact's Country
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $country Contact's country code
-   */
-  function setCountry( $type, $country ) { $this->country[$type] = $country; }
-
-  /**
-   * Get Contact's Country
-   *
-   * @return string Contac'ts 2-digit country code
-   */
-  function getCountry( $type ) { return $this->country[$type]; }
-
-  /**
-   * Set Contact's Postal Code
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $zip Contact's postal code
-   */
-  function setPostalCode( $type, $zip ) { $this->postalcode[$type] = $zip; }
-
-  /**
-   * Get Contact's Postal Code
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @return string Contac'ts postal code
-   */
-  function getPostalCode( $type ) { return $this->postalcode[$type]; }
-
-  /**
-   * Set Contact's Phone Number
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $phone Contact's phone number
-   */
-  function setPhone( $type, $phone ) { $this->phone[$type] = $phone; }
-
-  /**
-   * Get Contact's Phone Number
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @return string Contact's phone number
-   */
-  function getPhone( $type ) { return $this->phone[$type]; }
-
-  /**
-   * Set Contact's Fax Number
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @param string $fax Contact's fax number
-   */
-  function setFax( $type, $fax ) { $this->fax[$type] = $fax; }
-
-  /**
-   * Get Contact's Fax Number
-   *
-   * @param string $type Contact information type (i.e. admin, billing, tech, etc.)
-   * @return string Contact's fax number
-   */
-  function getFax( $type ) { return $this->fax[$type]; }
-
-  /**
    * Has Contact Information
    *
    * @return boolean True if contact information has been supplied for this domain
    */
   function hasContactInformation()
   {
-    return ($this->businessname != null ||
-	    $this->contactname != null ||
-	    $this->contactemail != null ||
-	    $this->address1 != null ||
-	    $this->address2 != null ||
-	    $this->address3 != null ||
-	    $this->city != null ||
-	    $this->state != null ||
-	    $this->country != null ||
-	    $this->postalcode != null ||
-	    $this->phone != null ||
-	    $this->fax != null );
+    return ( $this->adminContactDBO != null || 
+	     $this->billingContactDBO != null || 
+	     $this->techContactDBO != null );
   }
 
   /**
@@ -462,6 +265,30 @@ class OrderDomainDBO extends OrderItemDBO
   function getTerm() { return $this->term; }
 
   /**
+   * Get Registration Term as Integer
+   *
+   * @return integer Registration term (in years)
+   */
+  function getTermInt()
+  {
+    switch( $this->getTerm() )
+      {
+      case "1 year": return 1; break;
+      case "2 year": return 2; break;
+      case "3 year": return 3; break;
+      case "4 year": return 4; break;
+      case "5 year": return 5; break;
+      case "6 year": return 6; break;
+      case "7 year": return 7; break;
+      case "8 year": return 8; break;
+      case "9 year": return 9; break;
+      case "10 year": return 10; break;
+      }
+
+    return 0;
+  }
+
+  /**
    * Get Description
    *
    * @return string Description of this order item
@@ -556,10 +383,10 @@ class OrderDomainDBO extends OrderItemDBO
    * Register or Transfer the domain and create a new Domain Service Purchase 
    * for this order item
    *
-   * @param integer $accountID Account ID
+   * @param AccountDBO $accountDBO Account object
    * @return boolean True for success
    */
-  function execute( $accountID )
+  function execute( $accountDBO )
   {
     global $DB;
 
@@ -571,25 +398,64 @@ class OrderDomainDBO extends OrderItemDBO
 	break;
 
       case "New":
-	return $this->registerDomain();
+	if( !$this->registerDomain( $accountDBO ) )
+	  {
+	    return false;
+	  }
 	break;
 
       case "Transfer":
+	if( !$this->transferDomain( $accountDBO ) )
+	  {
+	    return false;
+	  }
+	break;
+
       default:
 	fatal_error( "OrderDomainDBO::execute()",
 		     "Domain order type not supported: " . $this->getType() );
       }
+
+    // Create a new domain service purchase record
+    $purchaseDBO = new DomainServicePurchaseDBO();
+    $purchaseDBO->setAccountID( $accountDBO->getID() );
+    $purchaseDBO->setTLD( $this->getTLD() );
+    $purchaseDBO->setTerm( $this->getTerm() );
+    $purchaseDBO->setDomainName( $this->getDomainName() );
+    $purchaseDBO->setDate( $DB->format_datetime( time() ) );
+    if( !add_DomainServicePurchaseDBO( $purchaseDBO ) )
+      {
+	log_error( "OrderDomainDBO::execute()",
+		   "Failed to add domain service purchase to DB" );
+	return false;
+      }
+
+    // Fulfill this order item
+    $this->setStatus( "Fulfilled" );
+    if( !update_OrderDomainDBO( $this ) )
+      {
+	log_error( "OrderDomainDBO::execute()",
+		   "Failed to update OrderDomainDBO" );
+	return false;
+      }
+
+    // Success
+    return true;
   }
 
   /**
    * Register this Domain
    *
+   * @param AccountDBO $accountDBO The account registering this domain
    * @return boolean True for success
    */
-  function registerDomain()
+  function registerDomain( $accountDBO )
   {
+    global $DB, $conf;
+
+    // Verify that the registrar module is enabled
     $serviceDBO = load_DomainServiceDBO( $this->getTLD() );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+    $module = $conf['modules'][$serviceDBO->getModuleName()];
 
     // Make sure the domain is available
     if( !$module->checkAvailability( $this->getFullDomainName() ) )
@@ -599,8 +465,53 @@ class OrderDomainDBO extends OrderItemDBO
 	return false;
       }
 
-    // Success
-    return true;
+    // Prepare contact info
+    $contacts['admin'] = $this->getAdminContact();
+    $contacts['billing'] = $this->getBillingContact();
+    $contacts['tech'] = $this->getTechContact();
+
+    // Register the domain
+    return $module->registerNewDomain( $this->getDomainName(),
+				       $this->getTLD(),
+				       $this->getTermInt(),
+				       $contacts,
+				       $accountDBO );
+  }
+
+  /**
+   * Transfer this Domain
+   *
+   * @param AccountDBO $accountDBO The account registering this domain
+   * @return boolean True for success
+   */
+  function transferDomain( $accountDBO )
+  {
+    global $conf;
+
+    $serviceDBO = load_DomainServiceDBO( $this->getTLD() );
+    $module = $conf['modules'][$serviceDBO->getModuleName()];
+
+    // Verify that the domain is transferable
+    if( !$module->isTransferable( $this->getFullDomainName() ) )
+      {
+	log_error( "OrderDomainDBO::transferDomain()",
+		   "Attempted to transfer a domain that is not eligible for transfer: " .
+		   $this->getFullDomainName() );
+	return false;
+      }
+
+    // Prepare contact info
+    $contacts['admin'] = $this->getAdminContact();
+    $contacts['billing'] = $this->getBillingContact();
+    $contacts['tech'] = $this->getTechContact();
+
+    // Transfer the domain
+    return $module->transferDomain( $this->getDomainName(),
+				    $this->getTLD(),
+				    $this->getTermInt(),
+				    $this->getTransferSecret(),
+				    $contacts,
+				    $accountDBO );
   }
 
   /**
@@ -615,6 +526,10 @@ class OrderDomainDBO extends OrderItemDBO
     $this->setTLD( $data['tld'] );
     $this->setDomainName( $data['domainname'] );
     $this->setTerm( $data['term'] );
+    $this->setTransferSecret( $data['transfersecret'] );
+    $this->setAdminContact( ContactDBO_load( $data['admincontactid'] ) );
+    $this->setBillingContact( ContactDBO_load( $data['billingcontactid'] ) );
+    $this->setTechContact( ContactDBO_load( $data['techcontactid'] ) );
   }
 }
 
@@ -628,15 +543,40 @@ function add_OrderDomainDBO( &$dbo )
 {
   global $DB;
 
+  // Save contacts
+  $adminContactDBO = $dbo->getAdminContact();
+  if( !ContactDBO_add( $adminContactDBO ) )
+    {
+      log_error( "add_OrderDomainDBO", "Failed to add admin contact to database!" );
+      return false;
+    }
+  $billingContactDBO = $dbo->getBillingContact();
+  if( !ContactDBO_add( $billingContactDBO ) )
+    {
+      log_error( "add_OrderDomainDBO", "Failed to add billing contact to database!" );
+      return false;
+    }
+  $techContactDBO = $dbo->getTechContact();
+  if( !ContactDBO_add( $techContactDBO ) )
+    {
+      log_error( "add_OrderDomainDBO", "Failed to add technical contact to database!" );
+      return false;
+    }
+
   // Build SQL
-  $sql = $DB->build_insert_sql( "orderdomain",
-				array( "orderid" => intval( $dbo->getOrderID() ),
-				       "orderitemid" => intval( $dbo->getOrderItemID() ),
-				       "type" => $dbo->getType(),
-				       "tld" => $dbo->getTLD(),
-				       "status" => $dbo->getStatus(),
-				       "domainname" => $dbo->getDomainName(),
-				       "term" => $dbo->getTerm() ) );
+  $sql = 
+    $DB->build_insert_sql( "orderdomain",
+			   array( "orderid" => intval( $dbo->getOrderID() ),
+				  "orderitemid" => intval( $dbo->getOrderItemID() ),
+				  "type" => $dbo->getType(),
+				  "tld" => $dbo->getTLD(),
+				  "status" => $dbo->getStatus(),
+				  "domainname" => $dbo->getDomainName(),
+				  "term" => $dbo->getTerm(),
+				  "transfersecret" => $dbo->getTransferSecret(),
+				  "admincontactid" => $adminContactDBO->getID(), 
+				  "billingcontactid" => $billingContactDBO->getID(),
+				  "techcontactid" => $techContactDBO->getID() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -684,7 +624,8 @@ function update_OrderDomainDBO( &$dbo )
 				       "tld" => $dbo->getTLD(),
 				       "status" => $dbo->getStatus(),
 				       "domainname" => $dbo->getDomainName(),
-				       "term" => $dbo->getTerm() ) );
+				       "term" => $dbo->getTerm(),
+				       "transfersecret" => $dbo->getTransferSecret() ) );
 				
   // Run query
   return mysql_query( $sql, $DB->handle() );

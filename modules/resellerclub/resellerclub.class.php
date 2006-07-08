@@ -199,15 +199,15 @@ class ResellerClub extends RegistrarModule
    * Add a new contact record at Reseller Club, or if it already exists, update it.
    *
    * @param integer $customer_id The customer who this contact belongs to
-   * @param array $contact Contact data
+   * @param ContactDBO $contactDBO Contact DBO
    * @return integer Directi Contact ID
    */
-  function addOrEditContact( $customerID, $contact )
+  function addOrEditContact( $customerID, $contactDBO )
   {
-    if( $contact['company'] == null )
+    if( empty( $contactDBO->getBusinessName ) )
       {
 	// If no company is provided, set company field to contact name
-	$contact['company'] = $contact['name'];
+	$contactDBO->setBusinessName( $contactDBO->getName() );
       }
 
     // Find out if this contact already exists
@@ -224,8 +224,8 @@ class ResellerClub extends RegistrarModule
 	  {
 	    if( is_numeric( $key ) )
 	      {
-		if( $data['company'] == $contact['company'] && 
-		    $data['name'] == $contact['name'] )
+		if( $data['company'] == $contactDBO->getBusinessName() && 
+		    $data['name'] == $contactDBO->getName() )
 		  {
 		    // Contact already exists
 		    $contactID = $data['contactid'];
@@ -238,30 +238,31 @@ class ResellerClub extends RegistrarModule
     if( $contactID > 0 )
       {
 	// Update contact
-	$phone = parse_phone_number( $contact['phone'] );
-	$mobile_phone = parse_phone_number( $contact['mobilephone'] );
+	$phone = parse_phone_number( $contactDBO->getPhone() );
+	$fax = parse_phone_number( $contactDBO->getFax() );
 	$result = $this->domContact->mod( $this->getUsername(),
 					  $this->getPassword(),
 					  $this->getRole(),
 					  $this->getLangPref(),
 					  $this->getParentID(),
 					  $contactID,
-					  $contact['name'],
-					  $contact['company'],
-					  $contact['email'],
-					  $contact['address1'],
-					  $contact['address2'],
-					  $contact['address3'],
-					  $contact['city'],
-					  $contact['state'],
-					  $contact['country'],
-					  $contact['zip'],
+					  $contactDBO->getName(),
+					  $contactDBO->getBusinessName(),
+					  $contactDBO->getEmail(),
+					  $contactDBO->getAddress1(),
+					  $contactDBO->getAddress2(),
+					  $contactDBO->getAddress3(),
+					  $contactDBO->getCity(),
+					  $contactDBO->getState(),
+					  $contactDBO->getCountry(),
+					  $contactDBO->getPostalCode(),
 					  $phone['cc'],
 					  $phone['area'] . $phone['number'],
-					  $mobile_phone['cc'],
-					  $mobile_phone['area'] . $mobile_phone['number'] );
+					  $fax['cc'],
+					  $fax['area'] . $fax['number'] );
 	if( $result['status'] != "Success" )
 	  {
+	    print_r( $result );
 	    fatal_error( "ResellerClub::addOrEditContact()", 
 			 "could not modify contact for domain registration at Reseller Club!" );
 	  }
@@ -269,28 +270,28 @@ class ResellerClub extends RegistrarModule
     else
       {
 	// Add contact
-	$phone = parse_phone_number( $contact['phone'] );
-	$mobile_phone = parse_phone_number( $contact['mobilephone'] );
+	$phone = parse_phone_number( $contactDBO->getPhone() );
+	$fax = parse_phone_number( $contactDBO->getFax() );
 	$contact_id = 
 	  $this->domContact->addContact( $this->getUsername(),
 					 $this->getPassword(),
 					 $this->getRole(),
 					 $this->getLangPref(),
 					 $this->getParentID(),
-					 $contact['name'],
-					 $contact['company'],
-					 $contact['email'],
-					 $contact['address1'],
-					 $contact['address2'],
-					 $contact['address3'],
-					 $contact['city'],
-					 $contact['state'],
-					 $contact['country'],
-					 $contact['zip'],
+					 $contactDBO->getName(),
+					 $contactDBO->getBusinessName(),
+					 $contactDBO->getEmail(),
+					 $contactDBO->getAddress1(),
+					 $contactDBO->getAddress2(),
+					 $contactDBO->getAddress3(),
+					 $contactDBO->getCity(),
+					 $contactDBO->getState(),
+					 $contactDBO->getCountry(),
+					 $contactDBO->getPostalCode(),
 					 $phone['cc'],
 					 $phone['area'] . $phone['number'],
-					 $mobile_phone['cc'],
-					 $mobile_phone['area'] . $mobile_phone['number'],
+					 $fax['cc'],
+					 $fax['area'] . $fax['number'],
 					 $customerID );
 	if( !is_numeric( $contactID ) )
 	  {
@@ -449,22 +450,49 @@ class ResellerClub extends RegistrarModule
   }
 
   /**
-   * Register a New Domain
+   * Verify Domain is Transfer Eligible
    *
-   * Registers a new domain name without requiring any Reseller Club specific
-   * information.
-   *
-   * @param string $domainName Domain name to be registered (without TLD)
-   * @param string $TLD Domain TLD to register
-   * @param integer $term Number of years to register the domain for
-   * @param array $contacts Admin, billing, and technical contacts
-   * @param AccountDBO $accountDBO The account that is registering this domain
-   * @return boolean True for success
+   * @param string $fqdn Domain name
+   * @return boolean True if the domain is transfer eligible
    */
-  function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
+  function isTransferable( $fqdn )
   {
-    global $conf;
+    $this->checkEnabled();
 
+    // Check domain name availability
+    $result = $this->domOrder->checkAvailability( $this->getUsername(),
+						  $this->getPassword(),
+						  $this->getRole(),
+						  $this->getLangPref(),
+						  $this->getParentID(),
+						  $fqdn,
+						  false );
+
+    if( !isset( $result[$fqdn] ) )
+      {
+	fatal_error( "ResellerClub::checkAvailability",
+		     "No data returned from Reseller Club API, turn on debugging and try again" );
+      }
+
+    // Transferable rules:
+    //  * The domain must not be available
+    //  * The domain must not be registered through us
+    return !($result[$fqdn]['status'] == "available" ||
+	     $result[$fqdn]['status'] == "regthroughus");
+  }
+
+  /**
+   * Prepare Customer and Contacts
+   *
+   * Queries the customer ID, or creates a new customer if necessary.  Then adds
+   * or edits the contacts as necessary.
+   *
+   * @param array $contacts An array of ContactDBO's
+   * @param AccountDBO $accountDBO The account DBO
+   * @return array ID's in an associative array with keys: customerid, adminid, techid, billingid
+   */
+  function prepareCustomerContacts( $contacts, $accountDBO )
+  {
     // Reseller Club uses e-mail addresses as customer usernames
     $customer = $accountDBO->getContactEmail();
 
@@ -494,7 +522,7 @@ class ResellerClub extends RegistrarModule
 
     // Enter Admin contact
     $adminID = $this->addOrEditContact( $customerID, $contacts['admin'] );
-    if( !is_numeric( $adminID ) )
+    if( !is_numeric( $adminID ) || $adminID < 0 )
       {
 	fatal_error( "ResellerClub::registerDomain", 
 		     "could not add Admin contact for domain registration at Reseller Club!" );
@@ -502,7 +530,7 @@ class ResellerClub extends RegistrarModule
 
     // Enter Technical contact
     $techID = $this->addOrEditContact( $customerID, $contacts['tech'] );
-    if( !is_numeric( $techID ) )
+    if( !is_numeric( $techID ) || $techID < 0 )
       {
 	fatal_error( "ResellerClub::registerDomain",
 		     "could not add Tech contact for domain registration at Reseller Club!" );
@@ -510,11 +538,40 @@ class ResellerClub extends RegistrarModule
 
     // Enter Billing contact
     $billingID = $this->addOrEditContact( $customerID, $contacts['billing'] );
-    if( !is_numeric( $billingID ) )
+    if( !is_numeric( $billingID )  || $billingID < 0 )
       {
 	fatal_error( "ResellerClub::registerDomain",
 		     "could not add Billing contact for domain registration at Reseller Club!" );
       }
+
+    return array( "customerid" => $customerID,
+		  "adminid" => $adminID,
+		  "techid" => $techID,
+		  "billingid" => $billingID );
+  }
+
+  /**
+   * Register a New Domain
+   *
+   * Registers a new domain name without requiring any Reseller Club specific
+   * information.
+   *
+   * @param string $domainName Domain name to be registered (without TLD)
+   * @param string $TLD Domain TLD to register
+   * @param integer $term Number of years to register the domain for
+   * @param array $contacts Admin, billing, and technical contact DBOs
+   * @param AccountDBO $accountDBO The account that is registering this domain
+   * @return boolean True for success
+   */
+  function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
+  {
+    global $conf;
+
+    // Make sure this module is enabled
+    $this->checkEnabled();
+
+    // Prepare customer and contacts, get IDs
+    $ids = $this->prepareCustomerContacts( $contacts, $accountDBO );
 
     // Register Domain
     $fqdn = sprintf( "%s.%s", $domainName, $TLD );
@@ -525,11 +582,11 @@ class ResellerClub extends RegistrarModule
 						$this->getParentID(),
 						array( $fqdn => "{$term}" ),
 						$conf['dns']['nameservers'],
-						$adminID,
-						$adminID,
-						$techID,
-						$billingID,
-						$customerID,
+						$ids['adminid'],
+						$ids['adminid'],
+						$ids['techid'],
+						$ids['billingid'],
+						$ids['customerid'],
 						"NoInvoice" );
 
     if( $results[$fqdn]['status'] != "Success" )
@@ -542,6 +599,52 @@ class ResellerClub extends RegistrarModule
       }
 
     // Success!
+    return true;
+  }
+
+  /**
+   * Renew a Domain
+   *
+   * @param DomainServicePurchaseDBO $purchseDBO The domain to be renewed
+   * @param integer $renewTerms Number of years to renew for
+   * @return boolean True for success
+   */
+  function renewDomain( $purchaseDBO, $renewTerms )
+  {
+    $fqdn = $purchaseDBO->getFullDomainName();
+
+    // Query the Reseller Club domain record
+    if( !($domainRecord = $this->queryDomainRecord( $fqdn )) )
+      {
+	// Domain record not found at Reseller Club
+	return false;
+      }
+
+    // Renew the domain (note: noofyears must be passed as a string)
+    $request = array( $fqdn => array( "entityid" => $domainRecord['entity.entityid'],
+				      "noofyears" => sprintf( "%d", $renewTerms ),
+				      "expirydate" => $domainRecord['orders.endtime'] ) );
+    if( !($result = $this->domOrder->renewDomain( $this->getUsername(),
+						  $this->getPassword(),
+						  $this->getRole(),
+						  $this->getLangPref(),
+						  $this->getParentID(),
+						  $request,
+						  "NoInvoice" ) ) )
+      {
+	fatal_error( "ResellerClub::renewDomain()",
+		     "Unexpected return value from DomOrder::renewDomain()!" );
+      }
+    if( !$result[$fqdn]['actionstatus'] == "Success" )
+      {
+	// Error
+	log_error( "ResellerClub::renewDomain()",
+		   "Failed to renew domain at ResellerClub: " .
+		   $result['actionstatusdesc'] );
+	return false;
+      }
+
+    // Success
     return true;
   }
 
@@ -584,6 +687,56 @@ class ResellerClub extends RegistrarModule
       }
 
     return $result[1]["customer.customerid"];
+  }
+
+  /**
+   * Query Reseller Club Domain Record
+   *
+   * Given a domain name, query the order record stored at Reseller Club
+   *
+   * @param string $fqdn Domain name
+   * @return array Reseller Club's domain record
+   */
+  function queryDomainRecord( $fqdn )
+  {
+    // Query the domain
+    $result = $this->domOrder->listOrder( $this->getUsername(),
+					  $this->getPassword(),
+					  $this->getRole(),
+					  $this->getLangPref(),
+					  $this->getParentID(),
+					  null,
+					  $this->getResellerID(),
+					  null,
+					  true,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  null,
+					  100,
+					  1,
+					  null );
+    if( !is_array( $result ) )
+      {
+	fatal_error( "ResellerClub::queryDomainRecord()",
+		     "Unexpected result from domOrder::listOrder()!" );
+      }
+					  
+    // Search the list for the domain name
+    foreach( $result as $key => $domainData )
+      {
+	if( is_array( $domainData ) && $domainData['entity.description'] == $fqdn )
+	  {
+	    // Domain record found
+	    return $domainData;
+	  }
+      }
+
+    // Could not find domain record
+    return false;
   }
 
   /**
@@ -684,5 +837,53 @@ class ResellerClub extends RegistrarModule
    * @param string $username Username
    */
   function setUsername( $username ) { $this->username = $username; }
+
+  /**
+   * Transfer a Domain
+   *
+   * @param string $domainName Domain name to be transferred (without TLD)
+   * @param string $TLD Domain TLD
+   * @param integer $term Number of years to renew domain for
+   * @param string $secret The domain secret
+   * @param array An associative array of ContactDBO's (admin, billing, and tech)
+   * @param AccountDBO $accountDBO The account that is transferring this domain
+   * @return boolean True for success
+   */
+  function transferDomain( $domainName, $TLD, $term, $secret, $contacts, $accountDBO )
+  {
+    global $conf;
+
+    // Make sure this module is enabled
+    $this->checkEnabled();
+
+    // Prepare customer and contacts, get IDs
+    $ids = $this->prepareCustomerContacts( $contacts, $accountDBO );
+
+    // Send transfer request to Reseller Club
+    $fqdn = sprintf( "%s.%s", $domainName, $TLD );
+    $result = $this->domOrder->transferDomain( $this->getUsername(),
+					       $this->getPassword(),
+					       $this->getRole(),
+					       $this->getLangPref(),
+					       $this->getParentID(),
+					       array( $fqdn => $secret ),
+					       $ids['adminid'],
+					       $ids['adminid'],
+					       $ids['techid'],
+					       $ids['billingid'],
+					       $ids['customerid'],
+					       "NoInvoice" );
+    if( $result[$fqdn]['status'] != "Success" )
+      {
+	// Error
+	log_error( "ResellerClub::registerNewDomain",
+		   "Failed to transfer domain at Reseller Club: " . 
+		   $result[$fqdn]['actionstatusdesc'] );
+	return false;
+      }
+
+    // Success!
+    return true;
+  }
 }
 ?>

@@ -197,16 +197,16 @@ class OrderHostingDBO extends OrderItemDBO
    *
    * Create a new Hosting Service Purchase for this order item
    *
-   * @param integer $accountID Account ID
+   * @param AccountDBO $accountDBO Account object
    * @return boolean True for success
    */
-  function execute( $accountID )
+  function execute( $accountDBO )
   {
     global $DB;
 
     // Create a hosting service purchase record
     $purchaseDBO = new HostingServicePurchaseDBO();
-    $purchaseDBO->setAccountID( $accountID );
+    $purchaseDBO->setAccountID( $accountDBO->getID() );
     $purchaseDBO->setHostingServiceID( $this->getServiceID() );
     $purchaseDBO->setTerm( $this->getTerm() );
     if( !add_HostingServicePurchaseDBO( $purchaseDBO ) )
@@ -216,12 +216,12 @@ class OrderHostingDBO extends OrderItemDBO
 	return false;
       }
 
-    // Fulfill this order item
+    // Fulfill the order and return
     $this->setStatus( "Fulfilled" );
     if( !update_OrderHostingDBO( $this ) )
       {
-	log_error( "OrderHostingDBO::execute()",
-		   "Failed to update OrderHostingDBO" );
+	log_error( "OrderDomainDBO::execute()",
+		   "Failed to update OrderDomainDBO" );
 	return false;
       }
 

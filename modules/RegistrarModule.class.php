@@ -46,6 +46,18 @@ class RegistrarModule extends SolidStateModule
   }
 
   /**
+   * Verify Domain is Transfer Eligible
+   *
+   * @param string $fqdn Domain name
+   * @return boolean True if the domain is transfer eligible
+   */
+  function isTransferable( $fqdn )
+  {
+    echo "RegistrarModule::isTransferable() has not been implemented!";
+    return false;
+  }
+
+  /**
    * Register a New Domain
    *
    * @param string $domainName Domain name to be registered (without TLD)
@@ -58,6 +70,36 @@ class RegistrarModule extends SolidStateModule
   function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
   {
     echo "RegistrarModule::registerDomain() has not been implemented!";
+    return false;
+  }
+
+  /**
+   * Renew a Domain
+   *
+   * @param DomainServicePurchaseDBO $purchseDBO The domain to be renewed
+   * @param integer $renewTerms Number of years to renew for
+   * @return boolean True for success
+   */
+  function renewDomain( $purchaseDBO, $renewTerms )
+  {
+    echo "RegistrarModule::renewDomain() has not been implemented!";
+    return false;
+  }
+
+  /**
+   * Transfer a Domain
+   *
+   * @param string $domainName Domain name to be transferred (without TLD)
+   * @param string $TLD Domain TLD
+   * @param integer $term Number of years to renew domain for
+   * @param string $secret The domain secret
+   * @param array $contacts Admin, billing, and technical contacts
+   * @param AccountDBO $accountDBO The account that is transferring this domain
+   * @return boolean True for success
+   */
+  function transferDomain( $domainName, $TLD, $term, $secret, $contacts, $accountDBO )
+  {
+    echo "RegistrarModule::transferDomain() has not been implemented!";
     return false;
   }
 }

@@ -50,6 +50,7 @@
           <li> <a href="manager_content.php?page=domains_browse" target="content">{echo phrase="REGISTERED_DOMAINS"}</a> </li>
           <li> <a href="manager_content.php?page=domains_expired" target="content">{echo phrase="EXPIRED_DOMAINS"}</a> </li>
           <li> <a href="manager_content.php?page=domains_register" target="content">{echo phrase="REGISTER_NEW_DOMAIN"}</a> </li>
+          <li> <a href="manager_content.php?page=transfer_domain" target="content">{echo phrase="TRANSFER_DOMAIN"}</a> </li>
         </ul>
 
       </div>

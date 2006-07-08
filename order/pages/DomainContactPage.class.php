@@ -157,53 +157,54 @@ class DomainContactPage extends Page
    */
   function processContact()
   {
-    $adminContact =
-      array( "bussinessname" => $this->session['domain_contact']['abusinessname'],
-	     "contactname" => $this->session['domain_contact']['acontactname'],
-	     "contactemail" => $this->session['domain_contact']['acontactemail'],
-	     "address1" => $this->session['domain_contact']['aaddress1'],
-	     "address2" => $this->session['domain_contact']['aaddress2'],
-	     "address3" => $this->session['domain_contact']['aaddress3'],
-	     "country" => $this->session['domain_contact']['acountry'],
-	     "city" => $this->session['domain_contact']['acity'],
-	     "state" => $this->session['domain_contact']['astate'],
-	     "postalcode" => $this->session['domain_contact']['apostalcode'],
-	     "phone" => $this->session['domain_contact']['aphone'],
-	     "fax" => $this->session['domain_contact']['afax'] );
-
-    $billingContact =
-      array( "bussinessname" => $this->session['domain_contact']['bbusinessname'],
-	     "contactname" => $this->session['domain_contact']['bcontactname'],
-	     "contactemail" => $this->session['domain_contact']['bcontactemail'],
-	     "address1" => $this->session['domain_contact']['baddress1'],
-	     "address2" => $this->session['domain_contact']['baddress2'],
-	     "address3" => $this->session['domain_contact']['baddress3'],
-	     "country" => $this->session['domain_contact']['bcountry'],
-	     "city" => $this->session['domain_contact']['bcity'],
-	     "state" => $this->session['domain_contact']['bstate'],
-	     "postalcode" => $this->session['domain_contact']['bpostalcode'],
-	     "phone" => $this->session['domain_contact']['bphone'],
-	     "fax" => $this->session['domain_contact']['bfax'] );
-
-    $techContact =
-      array( "bussinessname" => $this->session['domain_contact']['tbusinessname'],
-	     "contactname" => $this->session['domain_contact']['tcontactname'],
-	     "contactemail" => $this->session['domain_contact']['tcontactemail'],
-	     "address1" => $this->session['domain_contact']['taddress1'],
-	     "address2" => $this->session['domain_contact']['taddress2'],
-	     "address3" => $this->session['domain_contact']['taddress3'],
-	     "country" => $this->session['domain_contact']['tcountry'],
-	     "city" => $this->session['domain_contact']['tcity'],
-	     "state" => $this->session['domain_contact']['tstate'],
-	     "postalcode" => $this->session['domain_contact']['tpostalcode'],
-	     "phone" => $this->session['domain_contact']['tphone'],
-	     "fax" => $this->session['domain_contact']['tfax'] );
+    $adminContactDBO =
+      new ContactDBO( $this->session['domain_contact']['acontactname'],
+		      $this->session['domain_contact']['abusinessname'],
+		      $this->session['domain_contact']['acontactemail'],
+		      $this->session['domain_contact']['aaddress1'],
+		      $this->session['domain_contact']['aaddress2'],
+		      $this->session['domain_contact']['aaddress3'],
+		      $this->session['domain_contact']['acity'],
+		      $this->session['domain_contact']['astate'],
+		      $this->session['domain_contact']['apostalcode'],
+		      $this->session['domain_contact']['acountry'],
+		      $this->session['domain_contact']['aphone'],
+		      null,
+		      $this->session['domain_contact']['afax'] );
+    $billingContactDBO =
+      new ContactDBO( $this->session['domain_contact']['bcontactname'],
+		      $this->session['domain_contact']['bbusinessname'],
+		      $this->session['domain_contact']['bcontactemail'],
+		      $this->session['domain_contact']['baddress1'],
+		      $this->session['domain_contact']['baddress2'],
+		      $this->session['domain_contact']['baddress3'],
+		      $this->session['domain_contact']['bcity'],
+		      $this->session['domain_contact']['bstate'],
+		      $this->session['domain_contact']['bpostalcode'],
+		      $this->session['domain_contact']['bcountry'],
+		      $this->session['domain_contact']['bphone'],
+		      null,
+		      $this->session['domain_contact']['bfax'] );
+    $techContactDBO =
+      new ContactDBO( $this->session['domain_contact']['tcontactname'],
+		      $this->session['domain_contact']['tbusinessname'],
+		      $this->session['domain_contact']['tcontactemail'],
+		      $this->session['domain_contact']['taddress1'],
+		      $this->session['domain_contact']['taddress2'],
+		      $this->session['domain_contact']['taddress3'],
+		      $this->session['domain_contact']['tcity'],
+		      $this->session['domain_contact']['tstate'],
+		      $this->session['domain_contact']['tpostalcode'],
+		      $this->session['domain_contact']['tcountry'],
+		      $this->session['domain_contact']['tphone'],
+		      null,
+		      $this->session['domain_contact']['tfax'] );
 
     // Copy the form contents into the domain we are collecting for
     $this->session['order']->setDomainContact( $this->domainItem->getOrderItemID(),
-					       $adminContact,
-					       $billingContact,
-					       $techContact );
+					       $adminContactDBO,
+					       $billingContactDBO,
+					       $techContactDBO );
 
     // And all the other domains selected from the table
     if( isset( $this->session['domain_contact']['domains'] ) )
@@ -211,9 +212,9 @@ class DomainContactPage extends Page
 	foreach( $this->session['domain_contact']['domains'] as $itemID )
 	  {
 	    $this->session['order']->setDomainContact( $itemID,
-						       $adminContact,
-						       $billingContact,
-						       $techContact );
+						       $adminContactDBO,
+						       $billingContactDBO,
+						       $techContactDBO );
 	  }
       }
 

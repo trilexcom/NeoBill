@@ -20,7 +20,24 @@
  */
 class DBO
 {
+  /**
+   * Load DBO
+   *
+   * Takes an associative array and calls the 'getXxx' method for each key in
+   * the array
+   *
+   * @param array $data Data to load
+   */
+  function load( $data )
+  {
+    foreach( $data as $key => $value )
+      {
+	$method = sprintf( "set%s", $key );
+	if( is_callable( array( $this, $method ) ) )
+	  {
+	    $this->$method( $value );
+	  }
+      }
+  }
 }
-
-
 ?>

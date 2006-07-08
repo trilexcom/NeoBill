@@ -16,6 +16,9 @@ require_once $base_path . "solidworks/Page.class.php";
 // Order DBO
 require_once $base_path . "DBO/OrderDBO.class.php";
 
+// User DBO
+require_once $base_path . "DBO/UserDBO.class.php";
+
 /**
  * CustomerPage
  *
@@ -102,6 +105,14 @@ class CustomerPage extends Page
 	return;
       }
 
+    // Check for a duplicate username
+    if( load_UserDBO( $this->session['customer_information']['username'] ) )
+      {
+	$this->setError( array( "type" => "USERNAME_EXISTS",
+				"args" => array( $this->session['customer_information']['username'] ) ) );
+	return;
+      }
+
     // Stuff the contact info into the order
     $ci = $this->session['customer_information'];
     $this->session['order']->setBusinessName( $ci['businessname'] );
@@ -123,12 +134,25 @@ class CustomerPage extends Page
 	$this->session['customer_information']['domaincontact'] == "same" )
       {
 	// Contact information for all domains is the same as customer's contact info
+	$contactDBO = new ContactDBO( $ci['contactname'],
+				      $ci['businessname'],
+				      $ci['contactemail'],
+				      $ci['address1'],
+				      $ci['address2'],
+				      null,
+				      $ci['city'],
+				      $ci['state'],
+				      $ci['postalcode'],
+				      $ci['country'],
+				      $ci['phone'],
+				      $ci['mobilephone'],
+				      $ci['fax'] );
 	foreach( $domainItems as $domainItem )
 	  {
 	    $this->session['order']->setDomainContact( $domainItem->getOrderItemID(),
-						       $ci,
-						       $ci,
-						       $ci );
+						       $contactDBO,
+						       $contactDBO,
+						       $contactDBO );
 	  }
       }
 

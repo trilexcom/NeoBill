@@ -233,6 +233,51 @@ function &get_page_object( $conf, $smarty, $DB )
 }
 
 /**
+ * SolidWorks Error Handler
+ *
+ * @param integer $errno Error number
+ * @param string $errstr Error message
+ * @param string $errfile The source file where the error occured
+ * @param integer $errline The line where the error occured
+ */
+function SWErrorHandler( $errno, $errstr, $errfile, $errline )
+{
+  if( $errno == E_NOTICE || $errno == E_STRICT )
+    {
+      return;
+    }
+
+  echo "<h1>Error (number = " . $errno . ")</h1>\n\n";
+  echo "<pre>\n";
+  printf( "%s\n\nIn: %s, at line %d\n\nCall stack:\n\n",
+	  $errstr,
+	  $errfile,
+	  $errline );
+  echo "</pre>\n";
+
+  dumpCallStack();
+  
+  die();
+}
+
+/**
+ * Dump the Call Stack
+ */
+function dumpCallStack()
+{
+  echo "<pre>\n";
+  $backtrace = debug_backtrace();
+  foreach( $backtrace as $step )
+    {
+      printf( "File: %s at line: %d, function = %s\n", 
+	      $step['file'], 
+	      $step['line'], 
+	      $step['function'] );
+    }
+  echo "</pre>";
+}
+
+/**
  * Dump Session
  *
  * Prints $_SESSION inside 'pre' tags

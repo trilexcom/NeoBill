@@ -117,6 +117,7 @@
     <phrase id="DESCRIPTION">Description</phrase>
     <phrase id="DNS">DNS</phrase>
     <phrase id="DOMAIN_IS_AVAILABLE">{0} is available!</phrase>
+    <phrase id="DOMAIN_IS_ELIGIBLE">{0} is eligible for transfer.</phrase>
     <phrase id="DOMAIN_NOT_AVAILABLE">Sorry, the domain: {0} is not avaiable.  Please try again.</phrase>
     <phrase id="DOMAINS">Domains</phrase>
     <phrase id="DOMAIN_NAME">Domain Name</phrase>
@@ -265,6 +266,7 @@
     <phrase id="RENEW">Renew</phrase>
     <phrase id="RENEW_DOMAIN">Renew Domain</phrase>
     <phrase id="RENEW_FOR">Renew for</phrase>
+    <phrase id="RENEWAL_TERMS">Renewal Terms</phrase>
     <phrase id="REQUIRED">Required</phrase>
     <phrase id="RESET_PASSWORD">Reset Password</phrase>
     <phrase id="REVENUE_RECEIVED">Revenue received for</phrase>
@@ -301,6 +303,10 @@
     <phrase id="TOTAL_PAST_DUE">Total past-due invoices</phrase>
     <phrase id="TOTAL_30_PAST_DUE">Total 30+ days past-due invoices</phrase>
     <phrase id="TRANSACTION_DATA">Transaction Data</phrase>
+    <phrase id="TRANSFER">Transfer</phrase>
+    <phrase id="TRANSFER_DOMAIN">Transfer Domain</phrase>
+    <phrase id="TRANSFER_DOMAIN_CONFIRM">Please confirm the Domain Transfer details and click "Continue" to proceed.</phrase>
+    <phrase id="TRANSFER_SECRET">Transfer Secret</phrase>
     <phrase id="TYPE">Type</phrase>
     <phrase id="UNIQUE_IP_ADDRESS">Unique IP Address</phrase>
     <phrase id="UNIT_PRICE">Unit Price</phrase>
@@ -392,6 +398,7 @@
     <phrase id="INVALID_PHONE_NUMBER">Invalid Phone Number provided for {0}.  Please make sure you use no hyphens and only supply numeric digits.</phrase>
     <phrase id="DOMAIN_REGISTER_FAILED_REGISTRAR">Failed to register domain.  Please contact your Registrar for help.</phrase>
     <phrase id="DOMAIN_REGISTER_FAILED_DB">Domain registration completed, but there was a problem writing the transaction to the database.  Please contact system administrator.</phrase>
+    <phrase id="DOMAIN_NOT_TRANSFERABLE">The domain you have entered: {0}, can not be transfered.</phrase>
     <phrase id="INVOICE_EMAIL_FAILED">Failed to deliver Invoice via E-Mail.  Please contact system administrator.</phrase>
     <phrase id="WELCOME_EMAIL_FAILED">Failed to deliver Welcome E-Mail.  Please contact system administrator.</phrase>
     <phrase id="DUPLICATE_IP">Duplicate IP Address</phrase>
@@ -400,6 +407,9 @@
     <phrase id="SELECT_IP">The Hosting Service you have selected requires that you assign an IP address for this purchase.</phrase>
     <phrase id="SERVER_NOT_FREE">The Server you are trying to delete has one or more Hosting Services assigned to it.  Please remove these services and try again.</phrase>
     <phrase id="PURCHASES_EXIST">The service or product you are trying to delete is currently assigned to one or more accounts.  You must free it before continuing.</phrase>
+    <phrase id="DOMAIN_TRANSFER_FAILED_REGISTRAR">Failed to transfer domain.  Please contact your Registrar for help.</phrase>
+    <phrase id="DOMAIN_TRANSFER_FAILED_DB">Domain transfer completed, but there was a problem writing the transaction to the database.  Please contact system administrator.</phrase>
+    <phrase id="DOMAIN_REGISTRAR_RENEW_FAILED">Warning: failed to renew {0} at {1}.</phrase>
 
     <!-- Messages -->
 
@@ -450,6 +460,7 @@
     <phrase id="TAX_RULE_CREATED">Tax Rule Created.</phrase>
     <phrase id="TAX_RULE_DELETED">Tax Rule Deleted.</phrase>
     <phrase id="MODULES_UPDATED">Modules Updated.</phrase>
+    <phrase id="DOMAIN_TRANSFERED">Domain Transfered: {0}.</phrase>
 
   </translation>
 
