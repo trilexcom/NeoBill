@@ -69,12 +69,12 @@ class InvoiceDBO extends DBO
   /**
    * @var array Invoice items (InvoiceItemDBO)
    */
-  var $invoiceitemdbo_array;
+  var $invoiceitemdbo_array = array();
 
   /**
    * @var array Payments (PaymentDBO)
    */
-  var $paymentdbo_array;
+  var $paymentdbo_array = array();
 
   /**
    * Set Invoice ID
