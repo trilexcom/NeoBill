@@ -18,17 +18,26 @@
     <phrase id="8_YEARS">8 Years</phrase>
     <phrase id="9_YEARS">9 Years</phrase>
     <phrase id="10_YEARS">10 Years</phrase>
+    <phrase id="A_CONFIRMATION_EMAIL">A confirmation e-mail has been sent to</phrase>
     <phrase id="ADD_ANOTHER_DOMAIN">Add Another Domain</phrase>
     <phrase id="ADD_DOMAIN">Add Domain</phrase>
     <phrase id="ADD_HOSTING">Add Web Hosting Package</phrase>
     <phrase id="ADDRESS">Address</phrase>
     <phrase id="ADMINISTRATIVE_CONTACT">Administrative Contact</phrase>
     <phrase id="APPLY_TO_THESE_DOMAINS">Apply the above contact information to the following domains as well</phrase>
+    <phrase id="AUTHORIZE">Authorize</phrase>
     <phrase id="BACK">Back</phrase>
     <phrase id="BILLING_CONTACT">Billing Contact</phrase>  
+    <phrase id="BILLING_INFORMATION">Billing Information</phrase>
+    <phrase id="BILLING_INFO_NOTE">The contact information you submit with your order must match the billing information on-file with your credit card company.  If you need to make changes, please do so now.</phrase>
     <phrase id="BILLING_PERIOD">Billing Period</phrase>
     <phrase id="BUSINESS_NAME">Business Name</phrase>
     <phrase id="CANCEL">Cancel</phrase>
+    <phrase id="CARD_NUMBER">Card Number</phrase>
+    <phrase id="CARD_NUMBER_FORMAT">(no spaces)</phrase>
+    <phrase id="CARD_EXPIRATION">Expiration Date</phrase>
+    <phrase id="CARD_CODE">Security Code</phrase>
+    <phrase id="CARD_CODE_FORMAT">(help)</phrase>
     <phrase id="CART">Cart</phrase>
     <phrase id="CART_TOTAL">Total</phrase>
     <phrase id="CHECKOUT">Checkout</phrase>
@@ -40,6 +49,7 @@
     <phrase id="CONTACT_NAME">Contact Name</phrase>
     <phrase id="CONTINUE">Continue</phrase>
     <phrase id="COUNTRY">Country</phrase>
+    <phrase id="CREDIT_CARD_INFORMATION">Credit Card Information</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION">Domain Contact Info (WHOIS database)</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION_FOR">Domain Contact Information for</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION_TEXT">Your domain contact information will be publicly available through the WHOIS database.  You may use the contaction information entered above, or enter new contact information for each of your domains.</phrase>
@@ -92,6 +102,7 @@
     <phrase id="TAXES">Taxes</phrase>
     <phrase id="TECHNICAL_CONTACT">Technical Contact</phrase>
     <phrase id="TERM">Term</phrase>
+    <phrase id="THANK_YOU_FOR_YOUR_ORDER">Thank you for your order!</phrase>
     <phrase id="TRANSFER_DOMAIN_OPTION">Transfer a domain that you have registered through someone else to us</phrase>
     <phrase id="TRANSFER_DOMAIN_OPTION_TEXT">Use this option to transfer a domain that you already own to us.  Transferring a domain allows you to renew your domain and take advantage of our low-pricing.  If you currently own a domain, it is recommended that you transfer your domain to us, but it is not required.  For more information, see the option below.</phrase>
     <phrase id="TRANSFER_PERIOD">Transfer and Renewal Period</phrase>
@@ -106,9 +117,11 @@
     <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>
     <phrase id="YOUR_CART">Your Cart</phrase>
     <phrase id="YOUR_ORDER">Your Order</phrase>
+    <phrase id="YOUR_ORDER_REFERENCE_NUMBER_IS">Your order reference number is</phrase>
 
     <!-- Error Messages -->
 
+    <phrase id="CC_PROCESSING_ERROR">We have encountered an error while processing your credit card.  The error occured while contacting the credit card company, and was not caused by a mistake in the data you have provided us.  Your credit card has not been charged.  You may try submitting again (you will not be charged twice), or contact us.</phrase>
     <phrase id="EMAIL_MISMATCH">Your email was not entered correctly.  Please try again.</phrase>
     <phrase id="FIELD_MISSING">Missing required field: {0}</phrase>
     <phrase id="FIELD_TOO_BIG">Size limit ({1}) exceeded for field: {0}</phrase>

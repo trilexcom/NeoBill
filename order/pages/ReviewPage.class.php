@@ -73,9 +73,13 @@ class ReviewPage extends Page
 	fatal_error( "ReviewPage::checkout()", "Failed to add Order to database!" );
       }
 
-    // Hand-off to the payment module to collect the balance due
+    // Collect Payment
     $paymentModule = $this->conf['modules'][$this->session['review']['module']];
-    $this->goto( $paymentModule->getOrderCheckoutPage() );
+    $checkoutPage = $paymentModule->getType() == "payment_processor" ?
+      $paymentModule->getOrderCheckoutPage() : "ccpayment";
+
+    $_SESSION['module'] = $paymentModule;
+    $this->goto( $checkoutPage );
   }
 
   /**

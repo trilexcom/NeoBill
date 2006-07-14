@@ -928,6 +928,37 @@ class OrderDBO extends DBO
   }
 
   /**
+   * Complete Order
+   *
+   * Set the status to "Pending" and the data completed to now, then update DB
+   */
+  function complete()
+  {
+    global $DB;
+
+    // Set status to pending and give a timestamp
+    $this->setStatus( "Pending" );
+    $this->setDateCompleted( $DB->format_datetime( time() ) );
+
+    // Update the database record
+    if( !update_OrderDBO( $this ) )
+      {
+	fatal_error( "OrderDBO::complete()",
+		     "Failed to update Order!" );
+      }
+  }
+
+  /**
+   * Get Payment's
+   *
+   * @return array An array of PaymentDBO's for this order
+   */
+  function getPayments() 
+  { 
+    return load_array_PaymentDBO( "orderid=" . $this->getID() ); 
+  }
+
+  /**
    * Load Data from Array
    *
    * @param array $data Order data

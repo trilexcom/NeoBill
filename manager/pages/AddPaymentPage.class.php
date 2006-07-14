@@ -144,6 +144,7 @@ class AddPaymentPage extends Page
     $payment_dbo->setDate( $this->DB->format_datetime( $payment_date ) );
     $payment_dbo->setAmount( $amount );
     $payment_dbo->setType( $type );
+    $payment_dbo->setStatus( "Completed" );
     $payment_dbo->setTransaction1( $transaction1 );
     $payment_dbo->setTransaction2( $transaction2 );
 

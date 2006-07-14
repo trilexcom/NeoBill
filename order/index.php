@@ -16,6 +16,10 @@ require_once "../config.inc.php";
 // Load SolidWorks
 require_once $base_path . "solidworks/solidworks.php";
 
+// Load settings from database
+require_once $base_path . "util/settings.php";
+load_settings( $conf );
+
 // Hand off to SolidWorks
 solidworks( $conf, $smarty );
 ?>

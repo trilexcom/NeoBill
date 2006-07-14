@@ -56,6 +56,9 @@
     <phrase id="ASSIGNED_TO">Assigned to</phrase>
     <phrase id="ASSIGN_TO_SERVER">Assign to Server</phrase>
     <phrase id="AUTHENTICATION">Authentication</phrase>
+    <phrase id="AUTHORIZE_ONLY">Authorize Only</phrase>
+    <phrase id="AUTHORIZE_AND_CAPTURE">Authorize and Capture</phrase>
+    <phrase id="AUTHORIZED">Authorized</phrase>
     <phrase id="BALANCE">Balance</phrase>
     <phrase id="BEGINNING_ADDRESS">Beginning Address</phrase>
     <phrase id="BEGINNING_OF_INVOICE_PERIOD">Beginning of Invoice Period</phrase>
@@ -71,12 +74,14 @@
     <phrase id="BUSINESS_NAME">Business Name</phrase>
     <phrase id="BY">By</phrase>
     <phrase id="CANCEL">Cancel</phrase>
+    <phrase id="CAPTURE_PAYMENT">Capture Payment</phrase>
     <phrase id="CASH">Cash</phrase>
     <phrase id="CHECK">Check</phrase>
     <phrase id="CHECK_WHOIS">Check WHOIS</phrase>
     <phrase id="CITY">City</phrase>
     <phrase id="COMPANY">Company</phrase>
     <phrase id="COMPANY_NAME">Company Name</phrase>
+    <phrase id="COMPLETED">Completed</phrase>
     <phrase id="CONFIRM_DOMAIN_SERVICE">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
     <phrase id="CONFIRM_HOSTING">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
     <phrase id="CONFIRM_IP">Confirm New IP Addresses for</phrase>
@@ -95,6 +100,7 @@
     <phrase id="CREATE_NEW_ACCOUNT">Create New Account</phrase>
     <phrase id="CREATE_PRODUCT">Create Product</phrase>
     <phrase id="CREATE_USER">Create User</phrase>
+    <phrase id="CREDIT">Credit</phrase>
     <phrase id="CREDIT_CARD">Credit Card</phrase>
     <phrase id="CURRENCY_SYMBOL">Currency Symbol</phrase>
     <phrase id="CUSTOMER">Customer</phrase>
@@ -102,6 +108,7 @@
     <phrase id="DATE">Date</phrase>
     <phrase id="DATE_OF_RENEWAL">Date of Renewal</phrase>
     <phrase id="DATE_RECEIVED">Date Received</phrase>
+    <phrase id="DECLINED">Declined</phrase>
     <phrase id="DELETE">Delete</phrase>
     <phrase id="DELETE_ACCOUNT">You are about to remove the following Account.  To continue, click Delete.</phrase>
     <phrase id="DELETE_ACCOUNT_TITLE">Delete Account</phrase>
@@ -227,6 +234,11 @@
     <phrase id="PAST_DUE_INVOICES">Past-due invoices</phrase>
     <phrase id="PAYMENT">Payment</phrase>
     <phrase id="PAYMENT_DATE">Payment Date</phrase>
+    <phrase id="PAYMENT_GATEWAY">Payment Gateway</phrase>
+    <phrase id="PAYMENT_GATEWAY_MODULE">Payment Gateway Module</phrase>
+    <phrase id="PAYMENT_METHOD_FOR_ORDERS">Payment Method for Orders</phrase>
+    <phrase id="PAYMENT_STATUS">Payment Status</phrase>
+    <phrase id="PAYMENT_STATUS_MESSAGE">Payment Status Message</phrase>
     <phrase id="PAYMENT_TYPE">Payment Type</phrase>
     <phrase id="PAYMENTS">Payments</phrase>
     <phrase id="PAYMENTS_RECEIVED">Payments received for</phrase>
@@ -250,6 +262,8 @@
     <phrase id="RECEIVE_PAYMENT">Receive Payment</phrase>
     <phrase id="RECURRING_PRICE">Recurring Price</phrase>
     <phrase id="REENTER_PASSWORD">Re-enter Password</phrase>
+    <phrase id="REFUND_PAYMENT">Refund Payment</phrase>
+    <phrase id="REFUNDED">Refunded</phrase>
     <phrase id="REGISTER">Register</phrase>
     <phrase id="REGISTER_DOMAIN_CONFIRM">Please confirm the Domain Registration details and click "Continue" to proceed.</phrase>
     <phrase id="REGISTER_NEW_DOMAIN">Register New Domain</phrase>
@@ -270,6 +284,7 @@
     <phrase id="REQUIRED">Required</phrase>
     <phrase id="RESET_PASSWORD">Reset Password</phrase>
     <phrase id="REVENUE_RECEIVED">Revenue received for</phrase>
+    <phrase id="REVERSED">Reversed</phrase>
     <phrase id="SAVE">Save</phrase>
     <phrase id="SAVE_CHANGES">Save Changes</phrase>
     <phrase id="SEARCH">Search</phrase>
@@ -322,6 +337,8 @@
     <phrase id="VIEW_LOG_MESSAGE">View Log Message</phrase>
     <phrase id="VIEW_ORDER">View Order</phrase>
     <phrase id="VIEW_PRODUCT">View Product</phrase>
+    <phrase id="VOID_PAYMENT">Void Payment</phrase>
+    <phrase id="VOIDED">Voided</phrase>
     <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>
     <phrase id="WEB_HOSTING_SERVICE">Web Hosting Service</phrase>
     <phrase id="WEB_HOSTING_SERVICES">Web Hosting Services</phrase>
@@ -410,6 +427,10 @@
     <phrase id="DOMAIN_TRANSFER_FAILED_REGISTRAR">Failed to transfer domain.  Please contact your Registrar for help.</phrase>
     <phrase id="DOMAIN_TRANSFER_FAILED_DB">Domain transfer completed, but there was a problem writing the transaction to the database.  Please contact system administrator.</phrase>
     <phrase id="DOMAIN_REGISTRAR_RENEW_FAILED">Warning: failed to renew {0} at {1}.</phrase>
+    <phrase id="CC_CAPTURE_DECLINED">The payment capture was declined by the gateway.</phrase>
+    <phrase id="CC_REFUND_DECLINED">Your request to refund payment was declined by the gateway.</phrase>
+    <phrase id="CC_VOID_DECLINED">Your request to void payment was declined by the gateway.</phrase>
+    <phrase id="CC_TRANSACTION_FAILED">There was an error while processing your transaction.  The transaction has not been declined.  Please try again or contact your gateway account provider.  Refer to the log for more detail.</phrase>
 
     <!-- Messages -->
 
@@ -461,6 +482,9 @@
     <phrase id="TAX_RULE_DELETED">Tax Rule Deleted.</phrase>
     <phrase id="MODULES_UPDATED">Modules Updated.</phrase>
     <phrase id="DOMAIN_TRANSFERED">Domain Transfered: {0}.</phrase>
+    <phrase id="CC_CAPTURED">Payment captured.</phrase>
+    <phrase id="CC_REFUNDED">Payment refunded.</phrase>
+    <phrase id="CC_VOIDED">Payment voided.</phrase>
 
   </translation>
 

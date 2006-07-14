@@ -53,7 +53,10 @@ function load_settings( &$conf )
 	case "locale_language": $conf['locale']['language'] = $val; break;
 	case "locale_currency_symbol": $conf['locale']['currency_symbol'] = $val; break;
 
-	case "order_remote_password": $conf['order']['remote_password'] = $val; break;
+	case "payment_gateway_default_module": 
+	  $conf['payment_gateway']['default_module'] = $val; break;
+	case "payment_gateway_order_method":
+	  $conf['payment_gateway']['order_method'] = $val; break;
 	}
     }
 }
@@ -83,7 +86,10 @@ function save_settings( &$conf )
   update_setting( "locale_currency_symbol", $conf['locale']['currency_symbol'] );
   update_setting( "locale_language", $conf['locale']['language'] );
 
-  update_setting( "order_remote_password", $conf['order']['remote_password'] );
+  update_setting( "payment_gateway_default_module", 
+		  $conf['payment_gateway']['default_module'] );
+  update_setting( "payment_gateway_order_method",
+		  $conf['payment_gateway']['order_method'] );
 
   // Reload
   load_settings( $conf );

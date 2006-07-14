@@ -30,14 +30,14 @@ class NullRegistrar extends RegistrarModule
   var $configPage = "nr_config";
 
   /**
-   * @var string Module name
-   */
-  var $name = "nullregistrar";
-
-  /**
    * @var string Long description
    */
   var $description = "Null Registrar Module";
+
+  /**
+   * @var string Module name
+   */
+  var $name = "nullregistrar";
 
   /**
    * @var string Short Description

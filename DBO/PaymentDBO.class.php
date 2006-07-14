@@ -76,6 +76,11 @@ class PaymentDBO extends DBO
   var $status;
 
   /**
+   * @var string Status message, usually provided by the payment module
+   */
+  var $statusMessage;
+
+  /**
    * Set Payment ID
    *
    * @param integer $id Payment ID
@@ -182,7 +187,8 @@ class PaymentDBO extends DBO
   {
     if( !( $type == "Cash" ||
 	   $type == "Check" ||
-	   $type == "Module" ) )
+	   $type == "Module" ||
+	   $type == "Other" ) )
       {
 	fatal_error( "PaymentDBO::setType()", "Invalid Payment type: " . $type );
       }
@@ -211,16 +217,32 @@ class PaymentDBO extends DBO
   function getModule() { return $this->module; }
 
   /**
+   * Get Module Type
+   *
+   * @return string The type of module that processed this payment
+   */
+  function getModuleType()
+  {
+    global $conf;
+
+    return $this->getModule() == null ?
+      null : $conf['modules'][$this->getModule()]->getType();
+  }
+
+  /**
    * Set Payment Status
    *
    * @param string $status Payment status
    */
   function setStatus( $status )
   {
-    if( !( $status == "Completed" || 
+    if( !( $status == "Declined" ||
+	   $status == "Completed" || 
 	   $status == "Pending" || 
+	   $status == "Authorized" ||
 	   $status == "Refunded" ||
-	   $status == "Reversed" ) )
+	   $status == "Reversed" ||
+	   $status == "Voided" ) )
       {
 	fatal_error( "PaymentDBO::setStatus()", "Invalid status: " . $status );
       }
@@ -236,6 +258,20 @@ class PaymentDBO extends DBO
   function getStatus() { return $this->status; }
 
   /**
+   * Set Status Message
+   *
+   * @param string $message Payment status message
+   */
+  function setStatusMessage( $message ) { $this->statusMessage = $message; }
+
+  /**
+   * Get Status Message
+   *
+   * @return string Payment status message
+   */
+  function getStatusMessage() { return $this->statusMessage; }
+
+  /**
    * Get Account Name
    *
    * @return string Account Name
@@ -248,6 +284,133 @@ class PaymentDBO extends DBO
 		     "Invoice ID is invalid: " . $this->invoiceid );
       }
     return $invoice_dbo->getAccountName(); 
+  }
+
+  /**
+   * Process Credit Card
+   *
+   * Contacts the payment gateway and authorizes the provided credit card for
+   * $this->amount.  $this->status will be set with the result of the transaction
+   * (either Authorized, Completed, or Declined).  If there is an error contacting
+   * the payment gateway, or if no payment gateway is installed, then false is
+   * returned and $this->status is not altered.
+   *
+   * @param ContactDBO $billingContact The CC billing contact
+   * @param string $cardNumber The credit cardnumber, just numbers, no spaces or -'s
+   * @param string $expireDate Expiration date in MMYY format
+   * @param string $cardCode Credit card security code
+   * @param string $method Transaction method ("Authroze Only" or "Authorize and Capture"
+   * @return boolean True for success
+   */
+  function processCreditCard( $billingContact,
+			      $cardNumber,
+			      $expireDate,
+			      $cardCode,
+			      $method )
+  {
+    global $conf;
+    if( !($module = $conf['modules'][$this->getModule()] ) )
+      {
+	log_error( "PaymentDBO::processCreditCard()", 
+		   "Could not access a payment gateway module! " );
+	return false;
+      }
+
+    switch( $method )
+      {
+      case "Authorize Only":
+	return $module->authorize( $billingContact, 
+				   $cardNumber, 
+				   $expireDate,
+				   $cardCode,
+				   $this );
+
+      case "Authorize and Capture":
+	return $module->authorizeAndCapture( $billingContact, 
+					     $cardNumber, 
+					     $expireDate,
+					     $cardCode,
+					     $this );
+
+      default: 
+      }
+
+    // Invalid method
+    log_error( "PaymentDBO::processCreditCard()", 
+	       "Invalid transaction method: " . $method );
+    return false;
+  }
+
+  /**
+   * Capture Payment
+   *
+   * This method can only be used on payment's authorized through a payment_gateway
+   * module.  It attempts to contact the gateway and finalize payment for a
+   * previously authorized transaction.
+   *
+   * @return boolean True for success
+   */
+  function capture()
+  {
+    global $conf;
+
+    if( !($this->getModuleType() == "payment_gateway" &&
+	  $this->getStatus() == "Authorized" ) )
+      {
+	// This payment cannot be captured
+	return false;
+      }
+
+    $module = $conf['modules'][$this->getModule()];
+    return $module->capture( $this );
+  }
+
+  /**
+   * Refund Payment
+   *
+   * This method can only be used on payment's authorized through a payment_gateway
+   * module.  It attempts to contact the gateway and refund payment for a previously
+   * captured transaction.
+   *
+   * @return boolean True for success
+   */
+  function refund()
+  {
+    global $conf;
+
+    if( !($this->getModuleType() == "payment_gateway" &&
+	  $this->getStatus() == "Completed" ) )
+      {
+	// This payment cannot be voided
+	return false;
+      }
+
+    $module = $conf['modules'][$this->getModule()];
+    return $module->refund( $this );
+  }
+
+  /**
+   * Void Payment
+   *
+   * This method can only be used on payment's authorized through a payment_gateway
+   * module.  It attempts to contact the gateway and void payment for a previously
+   * authorized transaction.
+   *
+   * @return boolean True for success
+   */
+  function void()
+  {
+    global $conf;
+
+    if( !($this->getModuleType() == "payment_gateway" &&
+	  $this->getStatus() == "Authorized" ) )
+      {
+	// This payment cannot be voided
+	return false;
+      }
+
+    $module = $conf['modules'][$this->getModule()];
+    return $module->void( $this );
   }
 
   /**
@@ -266,6 +429,7 @@ class PaymentDBO extends DBO
     $this->setTransaction2( $data['transaction2'] );
     $this->setType( $data['type'] );
     $this->setStatus( $data['status'] );
+    $this->setStatusMessage( $data['statusmessage'] );
     $this->setModule( $data['module'] );
   }
 

@@ -431,4 +431,5 @@ INSERT INTO `settings` VALUES ('nameservers_ns4', 'ns4.example.com');
 INSERT INTO `settings` VALUES ('invoice_text', 'Invoice #{invoice_id}\r\n\r\n===================================================================\r\nItem                                    Price     Qty  Total\r\n===================================================================\r\n{invoice_items}===================================================================\r\n\r\nInvoice Total: {invoice_total}\r\nPayments Received: {invoice_payments}\r\nBalance: {invoice_balance}\r\nDate Due: {invoice_due}\r\n\r\nIf you have any questions about this Invoice, please contact\r\nbilling@example.com.  Thank you!\r\n\r\nWeb Hosting Company\r\n');
 INSERT INTO `settings` VALUES ('locale_language', 'english');
 INSERT INTO `settings` VALUES ('locale_currency_symbol', '$');
-
+INSERT INTO `settings` VALUES ('payment_gateway_default_module', '');
+INSERT INTO `settings` VALUES ('payment_gateway_order_method', 'Authorize Only`);

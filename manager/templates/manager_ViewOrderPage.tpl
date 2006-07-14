@@ -132,4 +132,30 @@
     {form_element field="save"}
   </div>
 
+  <h2> {echo phrase="PAYMENTS"} </h2>
+
+  <div class="table">
+    {dbo_table dbo_class="PaymentDBO" 
+               name="paymentdbo_table" 
+               method_name="populatePaymentTable"
+               title="[PAYMENTS]"}
+
+      {dbo_table_column header="[ID]" sort_field="id"}
+        <a href="manager_content.php?page=edit_payment&id={dbo_echo dbo="paymentdbo_table" field="id"}">{dbo_echo dbo="paymentdbo_table" field="id"}</a>
+      {/dbo_table_column}
+
+      {dbo_table_column header="[DATE_RECEIVED]" sort_field="date"}
+        {dbo_echo|datetime:date dbo="paymentdbo_table" field="date"}
+      {/dbo_table_column}
+
+      {dbo_table_column header="[AMOUNT]" sort_field="amount"}
+        {dbo_echo|currency dbo="paymentdbo_table" field="amount"}
+      {/dbo_table_column}
+
+      {dbo_table_column header="[PAYMENT_TYPE]" sort_field="type"}
+        {dbo_echo dbo="paymentdbo_table" field="type"}
+      {/dbo_table_column}
+
+    {/dbo_table}
+
 {/form}

@@ -133,6 +133,16 @@ class ViewOrderPage extends Page
   }
   
   /**
+   * Populate the Order Payment Table
+   *
+   * @return array An array of all PaymentDBO's for this Order
+   */
+  function populatePaymentTable()
+  {
+    return $this->orderDBO->getPayments();
+  }
+  
+  /**
    * Save Order
    */
   function save()

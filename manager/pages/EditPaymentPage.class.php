@@ -24,6 +24,11 @@ require_once $base_path . "solidworks/Page.class.php";
 class EditPaymentPage extends Page
 {
   /**
+   * @var PaymentDBO The payment being worked on
+   */
+  var $paymentDBO = null;
+
+  /**
    * Initialize the Edit Payment Page
    *
    * If the Payment ID is provided in the query string, load the PaymentDBO from
@@ -32,29 +37,17 @@ class EditPaymentPage extends Page
    */
   function init()
   {
-    $id = $_GET['id'];
-
-    if( isset( $id ) )
+    $this->paymentDBO =& $this->session['payment_dbo'];
+    if( isset( $_GET['id'] ) )
       {
 	// Retrieve the Account from the database
-	$dbo = load_PaymentDBO( $id );
+	$this->paymentDBO = load_PaymentDBO( intval( $_GET['id'] ) );
       }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['payment_dbo'];
-      }
-
-    if( !isset( $dbo ) )
+    if( !isset( $this->paymentDBO ) )
       {
 	// Could not find Account
 	$this->setError( array( "type" => "DB_PAYMENT_NOT_FOUND",
 				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['payment_dbo'] = $dbo;
       }
   }
 
@@ -75,7 +68,19 @@ class EditPaymentPage extends Page
 	  {
 	    $this->save();
 	  }
-	else
+	elseif( isset( $this->session['edit_payment']['capture'] ) )
+	  {
+	    $this->capture();
+	  }
+	elseif( isset( $this->session['edit_payment']['void'] ) )
+	  {
+	    $this->void();
+	  }
+	elseif( isset( $this->session['edit_payment']['refund'] ) )
+	  {
+	    $this->refund();
+	  }
+	elseif( isset( $this->session['edit_payment']['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
@@ -95,7 +100,67 @@ class EditPaymentPage extends Page
   {
     $this->goto( "billing_view_invoice",
 		 null,
-		 "id=" . $this->session['payment_dbo']->getInvoiceID() );
+		 "id=" . $this->paymentDBO->getInvoiceID() );
+  }
+
+  /**
+   * Capture a Previously Authorized Payment
+   */
+  function capture()
+  {
+    // Capture payment
+    if( !$this->paymentDBO->capture() )
+      {
+	// There was an error processing the transaction
+	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
+	return;
+      }
+
+    // Update the payment record
+    if( !update_PaymentDBO( $this->paymentDBO ) )
+      {
+	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
+      }
+
+    if( $paymentDBO->getStatus() == "Declined" )
+      {
+	// Transaction was declined
+	$this->setError( array( "type" => "CC_CAPTURE_DECLINED" ) );
+	return;
+      }
+
+    // Success
+    $this->setMessage( array( "type" => "CC_CAPTURED" ) );
+  }
+
+  /**
+   * Refund Payment
+   */
+  function refund()
+  {
+    // Capture payment
+    if( !$this->paymentDBO->refund() )
+      {
+	// There was an error processing the transaction
+	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
+	return;
+      }
+
+    if( $paymentDBO->getStatus() == "Declined" )
+      {
+	// Transaction was declined
+	$this->setError( array( "type" => "CC_REFUND_DECLINED" ) );
+	return;
+      }
+
+    // Update the payment record
+    if( !update_PaymentDBO( $this->paymentDBO ) )
+      {
+	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
+      }
+
+    // Success
+    $this->setMessage( array( "type" => "CC_REFUNDED" ) );
   }
 
   /**
@@ -103,25 +168,52 @@ class EditPaymentPage extends Page
    */
   function save()
   {
-    $payment_dbo =& $this->session['payment_dbo'];
     $payment_data = $this->session['edit_payment'];
 
     // Update Payment DBO
-    $payment_dbo->setDate( $this->DB->format_datetime( $payment_data['date'] ) );
-    $payment_dbo->setAmount( $payment_data['amount'] );
-    $payment_dbo->setTransaction1( $payment_data['transaction1'] );
-    $payment_dbo->setTransaction2( $payment_data['transaction2'] );
-    $payment_dbo->setType( $payment_data['type'] );
-    if( !update_PaymentDBO( $payment_dbo ) )
+    $this->paymentDBO->setDate( $this->DB->format_datetime( $payment_data['date'] ) );
+    $this->paymentDBO->setAmount( $payment_data['amount'] );
+    $this->paymentDBO->setTransaction1( $payment_data['transaction1'] );
+    $this->paymentDBO->setTransaction2( $payment_data['transaction2'] );
+    $this->paymentDBO->setStatus( $payment_data['status'] );
+    $this->paymentDBO->setStatusMessage( $payment_data['statusmessage'] );
+    if( !update_PaymentDBO( $this->paymentDBO ) )
       {
 	// Update error
 	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
-	$this->cancel();
       }
 
     // Success!
     $this->setMessage( array( "type" => "PAYMENT_UPDATED" ) );
-    $this->cancel();
+  }
+
+  /**
+   * Void a Previously Authorized Payment
+   */
+  function void()
+  {
+    if( !$this->paymentDBO->void() )
+      {
+	// There was an error processing the transaction
+	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
+	return;
+      }
+
+    if( $paymentDBO->getStatus() == "Declined" )
+      {
+	// Transaction was declined
+	$this->setError( array( "type" => "CC_VOID_DECLINED" ) );
+	return;
+      }
+
+    // Update the payment record
+    if( !update_PaymentDBO( $this->paymentDBO ) )
+      {
+	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
+      }
+
+    // Success
+    $this->setMessage( array( "type" => "CC_VOIDED" ) );
   }
 }
 

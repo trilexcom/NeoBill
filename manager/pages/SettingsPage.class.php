@@ -44,7 +44,7 @@ class SettingsPage extends AdminPage
 
     $this->smarty->assign( "currency", $this->conf['locale']['currency_symbol'] );
 
-    $this->smarty->assign( "order_username", $this->conf['order']['remote_username'] );
+    $this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] );
 
     // Place the supported languages into a drop-down select
     $this->session['languages'] = array();
@@ -92,8 +92,8 @@ class SettingsPage extends AdminPage
 	$this->setTemplate( "locale" );
 	break;
 
-      case "order":
-	$this->setTemplate( "order" );
+      case "payment_gateway":
+	$this->setTemplate( "payment_gateway" );
 	break;
 
       case "settings_company":
@@ -116,14 +116,32 @@ class SettingsPage extends AdminPage
 	$this->update_locale();
 	break;
 
-      case "settings_order_password":
-	$this->update_order_password();
+      case "settings_payment_gateway":
+	$this->update_payment_gateway();
 	break;
 
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
+  }
+
+  /**
+   * Populate the Payment Gateway drop-down
+   *
+   * @return array All payment gateway modules install in the system
+   */
+  function populateDefaultModule()
+  {
+    $modules = array();
+    foreach( $this->conf['modules'] as $modulename => $module )
+      {
+	if( $module->isEnabled() && $module->getType() == "payment_gateway" )
+	  {
+	    $modules[$modulename] = $modulename;
+	  }
+      }
+    return $modules;
   }
 
   /**
@@ -182,23 +200,16 @@ class SettingsPage extends AdminPage
   }
 
   /**
-   * Update Order Interface Password
+   * Update Payment Gateway
    */
-  function update_order_password()
+  function update_payment_gateway()
   {
-    if( $this->session['settings_order_password']['password'] !=
-	$this->session['settings_order_password']['repassword'] )
-      {
-	// Passwords do not match
-	$this->setError( array( "type" => "PASSWORD_MISMATCH" ) );
-	$this->setTemplate( "order" );
-	$this->goback( 1 );
-      }
-
-    $this->conf['order']['remote_password'] = 
-      $this->session['settings_order_password']['password'];
+    $this->conf['payment_gateway']['default_module'] = 
+      $this->session['settings_payment_gateway']['default_module'];
+    $this->conf['payment_gateway']['order_method'] =
+      $this->session['settings_payment_gateway']['order_method'];
     $this->save();
-    $this->setTemplate( "order" );
+    $this->setTemplate( "payment_gateway" );
   }
 
   /**

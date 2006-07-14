@@ -24,7 +24,7 @@ require_once $base_path . "modules/SolidStateModule.class.php";
 class PaymentProcessorModule extends SolidStateModule
 {
   /**
-   * @var string Module type is registrar
+   * @var string Module type is payment_processor
    */
   var $type = "payment_processor";
 
@@ -45,27 +45,6 @@ class PaymentProcessorModule extends SolidStateModule
       }
 
     return $this->orderCheckoutPage;
-  }
-
-  /**
-   * Complete an Order
-   *
-   * @param &OrderDBO &$order A reference to the OrderDBO
-   */
-  function completeOrder( &$order )
-  {
-    global $DB;
-
-    // Set status to pending and give a timestamp
-    $order->setStatus( "Pending" );
-    $order->setDateCompleted( $DB->format_datetime( time() ) );
-
-    // Update the database record
-    if( !update_OrderDBO( $order ) )
-      {
-	fatal_error( "PaymentProcessorModule::completeOrder()",
-		     "Failed to update Order!" );
-      }
   }
 }
 ?>

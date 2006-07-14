@@ -3,20 +3,20 @@
   <li> <a href="manager_content.php?page=settings&action=billing"> {echo phrase="BILLING"} </a> </li>
   <li> <a href="manager_content.php?page=settings&action=dns"> {echo phrase="DNS"} </a> </li>
   <li> <a href="manager_content.php?page=settings&action=locale"> {echo phrase="LOCALE"} </a> </li>
-  <li class="selected"> <a href="manager_content.php?page=settings&action=order"> {echo phrase="ORDER_INTERFACE"} </a> </li>
+  <li class="selected"> <a href="manager_content.php?page=settings&action=payment_gateway"> {echo phrase="PAYMENT_GATEWAY"} </a> </li>
 </ul>
 
-<h2> {echo phrase="AUTHENTICATION"} </h2>
+<h2> {echo phrase="PAYMENT_GATEWAY"} </h2>
 <div class="form">
-  {form name="settings_order_password"}
+  {form name="settings_payment_gateway"}
     <table style="width: 95%">
       <tr>
-        <th> {form_description field="password"} </th>
-        <td> {form_element field="password" size="20"} </td>
+        <th> {form_description field="default_module"} </th>
+        <td> {form_element field="default_module"} </td>
       </tr>
       <tr>
-        <th> {form_description field="repassword"} </th>
-        <td> {form_element field="repassword" size="20"} </td>
+        <th> {form_description field="order_method"} </th>
+        <td> {form_element field="order_method"} </td>
       </tr>
       <tr class="footer">
         <td colspan="2">
