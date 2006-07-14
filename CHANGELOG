@@ -3,6 +3,7 @@
 
  * (trac #73) Fixed a foreach() warning that resulted when deleting invoices.
  * (trac #64) Fixed a bug that was causing empty invoices to be generated in batch.
+ * (trac #87) Fixed a database bug that was truncating tax rule's > 9.99%
 
 7/13/2006 - jdiamond
 ====================
