@@ -1,7 +1,8 @@
 7/14/2006 - jdiamond
 ====================
 
- * (trac #73) Fixed a foreach() warning that resulted when deleting invoices
+ * (trac #73) Fixed a foreach() warning that resulted when deleting invoices.
+ * (trac #64) Fixed a bug that was causing empty invoices to be generated in batch.
 
 7/13/2006 - jdiamond
 ====================

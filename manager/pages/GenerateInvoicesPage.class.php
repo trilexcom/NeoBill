@@ -97,6 +97,13 @@ class GenerateInvoicesPage extends Page
 	// Generate line items
 	$invoice->generate();
 
+	$invoiceItems = $invoice->getItems();
+	if( empty( $invoiceItems ) )
+	  {
+	    // Abandon empty invoices
+	    continue;
+	  }
+
 	// Insert invoice into database
 	if( !add_InvoiceDBO( $invoice ) )
 	  {
