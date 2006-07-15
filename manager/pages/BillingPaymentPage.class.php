@@ -74,6 +74,7 @@ class BillingPaymentPage extends Page
     $type         = $this->session['billing_payment']['type'];
     $transaction1 = $this->session['billing_payment']['transaction1'];
     $transaction2 = $this->session['billing_payment']['transaction2'];
+    $status       = $this->session['billing_payment']['status'];
 
     // Validate the invoice ID
     if( load_InvoiceDBO( $invoice_id ) == null )
@@ -91,6 +92,7 @@ class BillingPaymentPage extends Page
     $payment_dbo->setType( $type );
     $payment_dbo->setTransaction1( $transaction1 );
     $payment_dbo->setTransaction2( $transaction2 );
+    $payment_dbo->setStatus( $status );
 
     // Insert Payment into database
     if( !add_PaymentDBO( $payment_dbo ) )

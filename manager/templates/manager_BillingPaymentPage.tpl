@@ -24,6 +24,10 @@
         <td> {form_element field="amount" size="7"} </td>
       </tr>
       <tr>
+        <th> {form_description field="status"} </th>
+        <td> {form_element field="status" size="7"} </td>
+      </tr>
+      <tr>
         <th> {form_description field="transaction1"} </th>
         <td> {form_element field="transaction1" size="20"} </td>
       </tr>
