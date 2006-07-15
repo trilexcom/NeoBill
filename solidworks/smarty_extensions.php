@@ -168,7 +168,7 @@ function smarty_dbo_table_column( $params, $content, &$smarty, &$repeat )
 {
   global $dbo_table_print_headers, $dbo_table_name, $dbo_table_cols, $page, $dbo_table_url, $conf;
 
-  $header     = translate_string( $conf['language'], $params['header'] );
+  $header     = translate_string( $conf['locale']['language'], $params['header'] );
   $sort_field = $params['sort_field'];
   $style      = $params['style'];
 

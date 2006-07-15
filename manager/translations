@@ -191,7 +191,9 @@
     <phrase id="LOG">Log</phrase>
     <phrase id="LOG_ENTRIES">Log Entries</phrase>
     <phrase id="LOG_MESSAGE_ID">Log Message ID</phrase>
+    <phrase id="LOGGED_IN_AS">Logged in as</phrase>
     <phrase id="LOGIN">Login</phrase>
+    <phrase id="LOGOUT">Logout</phrase>
     <phrase id="MESSAGE">Message</phrase>
     <phrase id="MOBILE_PHONE">Mobile Phone</phrase>
     <phrase id="MODULE">Module</phrase>
@@ -217,6 +219,7 @@
     <phrase id="NOTES">Notes</phrase>
     <phrase id="NOTE_TO_CUSTOMER">Note to Customer</phrase>
     <phrase id="NOT_REQUIRED">Not Required</phrase>
+    <phrase id="ON">on</phrase>
     <phrase id="ORDER">Order</phrase>
     <phrase id="ORDER_DATE">Order Date</phrase>
     <phrase id="ORDER_ID">Order ID</phrase>

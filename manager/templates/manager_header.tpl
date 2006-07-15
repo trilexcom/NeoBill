@@ -18,19 +18,19 @@
 
             {sectionelse}
 
-              Home
+              {echo phrase="HOME"}
 
             {/section}
 
           </p>
 
 	  <p class="user_display">
-            Logged in as: {$username}
-            (<a href="manager_content.php?page=home&action=logout">Logout</a>)
+            {echo phrase="LOGGED_IN_AS"}: {$username}
+            (<a href="manager_content.php?page=home&action=logout">{echo phrase="LOGOUT"}</a>)
           </p>
 
           <p class="ip_display">
-            {$version} on {$machine}
+            {$version} {echo phrase="ON"} {$machine}
           </p>
 
         </div>

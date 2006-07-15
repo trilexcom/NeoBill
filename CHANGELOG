@@ -6,6 +6,7 @@
  * (trac #87) Fixed a database bug that was truncating tax rule's > 9.99%
  * Moved the database SQL from manager/db/ to sql/
  * (trac #74) Replaced hard-coded $ symbols in the printed/e-mail invoice
+ * (trac #25) Fixed a number of hard-coded english phrases
 
 7/13/2006 - jdiamond
 ====================
