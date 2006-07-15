@@ -28,7 +28,7 @@ NOTE: For the most up-to-date installation documentation please visit the
 
 * Import the Solid-State DB scheme:
 
-    $ mysql -u apache -p solidstate < manager/db/solid-state.mysql.sql
+    $ mysql -u apache -p solidstate < sql/solid-state.mysql.sql
 
 * Create your config.inc.php by copying the example template, config.template:
 
