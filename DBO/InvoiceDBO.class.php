@@ -483,16 +483,24 @@ class InvoiceDBO extends DBO
    */
   function text( $email_text )
   {
+    global $conf;
+
     // Generate Invoice & E-mail text
     $email_text = str_replace( "{invoice_id}", $this->getID(), $email_text );
     $email_text = str_replace( "{invoice_total}", 
-			       sprintf( "$%.2f", $this->getTotal() ), 
+			       sprintf( "%s%01.2f", 
+					$conf['locale']['currency_symbol'], 
+					$this->getTotal() ), 
 			       $email_text );
     $email_text = str_replace( "{invoice_payments}", 
-			       sprintf( "$%.2f", $this->getTotalPayments() ), 
+			       sprintf( "%s%01.2f", 
+					$conf['locale']['currency_symbol'],
+					$this->getTotalPayments() ), 
 			       $email_text );
     $email_text = str_replace( "{invoice_balance}", 
-			       sprintf( "$%.2f", $this->getBalance() ), 
+			       sprintf( "%s%.2f", 
+					$conf['locale']['currency_symbol'],
+					$this->getBalance() ), 
 			       $email_text );
     $due_date = strftime( "%B %e, %G", $this->getDueDate() );
     $email_text = str_replace( "{invoice_due}", $due_date, $email_text );
@@ -503,10 +511,12 @@ class InvoiceDBO extends DBO
       {
 	foreach( $item_dbo_array as $item_dbo )
 	  {
-	    $line_items .= sprintf( "%-40s$%6.2f %3d    $%6.2f\n", 
+	    $line_items .= sprintf( "%-40s%s%6.2f %3d    %s%6.2f\n", 
 				    $item_dbo->getText(),
+				    $conf['locale']['currency_symbol'],
 				    $item_dbo->getUnitAmount(),
 				    $item_dbo->getQuantity(),
+				    $conf['locale']['currency_symbol'],
 				    $item_dbo->getAmount() );
 	  }
       }
