@@ -26,16 +26,24 @@
       </td>
     </tr>
     <tr>
-      <th> {echo phrase="AMOUNT_DUE"}: </th>
-      <td> {dbo_echo|currency dbo="invoice_dbo" field="balance"} </td>
-    </tr>
-    <tr>
       <th> {echo phrase="INVOICE_DATE"}: </th>
       <td> {dbo_echo|datetime:date dbo="invoice_dbo" field="date"} </td>
     </tr>
     <tr>
+      <th> {echo phrase="SUB_TOTAL"}: </th>
+      <td> {dbo_echo|currency dbo="invoice_dbo" field="subtotal"} </td>
+    </tr>
+    <tr>
+      <th> {echo phrase="TAXES"}: </th>
+      <td> {dbo_echo|currency dbo="invoice_dbo" field="taxtotal"} </td>
+    </tr>
+    <tr>
       <th> {echo phrase="INVOICE_TOTAL"}: </th>
       <td> {dbo_echo|currency dbo="invoice_dbo" field="total"} </td>
+    </tr>
+    <tr>
+      <th> {echo phrase="AMOUNT_DUE"}: </th>
+      <td> {dbo_echo|currency dbo="invoice_dbo" field="balance"} </td>
     </tr>
     <tr>
       <th> {echo phrase="NOTE_TO_CUSTOMER"}: </th>

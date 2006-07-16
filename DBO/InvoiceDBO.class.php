@@ -206,6 +206,48 @@ class InvoiceDBO extends DBO
   function getAccountName() { return $this->accountdbo->getAccountName(); }
 
   /**
+   * Get Invoice Sub-Total
+   *
+   * Returns the total of all non-tax items.
+   *
+   * @return float Invoice sub-total
+   */
+  function getSubTotal()
+  {
+    // Sum the price of all invoice items
+    $total = 0.00;
+    foreach( $this->invoiceitemdbo_array as $itemdbo )
+      {
+	if( !$itemdbo->isTaxItem() )
+	  {
+	    $total += $itemdbo->getAmount();
+	  }
+      }
+    return $total;
+  }
+
+  /**
+   * Get Tax Total
+   *
+   * Returns the total of taxes on invoice items
+   *
+   * @return float Invoice tax total
+   */
+  function getTaxTotal()
+  {
+    // Sum all the tax items
+    $total = 0.00;
+    foreach( $this->invoiceitemdbo_array as $itemdbo )
+      {
+	if( $itemdbo->isTaxItem() )
+	  {
+	    $total += $itemdbo->getAmount();
+	  }
+      }
+    return $total;
+  }
+
+  /**
    * Get Invoice Total
    *
    * Returns the total of all invoice items, not the balance of the invoice (the
@@ -217,12 +259,9 @@ class InvoiceDBO extends DBO
   {
     // Sum invoice items
     $total = 0.00;
-    if( $this->invoiceitemdbo_array != null )
+    foreach( $this->invoiceitemdbo_array as $itemdbo )
       {
-	foreach( $this->invoiceitemdbo_array as $itemdbo )
-	  {
-	    $total += $itemdbo->getAmount();
-	  }
+	$total += $itemdbo->getAmount();
       }
     return $total;
   }
@@ -353,7 +392,7 @@ class InvoiceDBO extends DBO
 	    if( $hsp_dbo->is_billable( $period_begin, $period_end ) )
 	      {
 		// Add a line item for this web hosting service
-		$this->add_item( 1, $hsp_dbo->getPrice(), $hsp_dbo->getTitle() );
+		$this->add_item( 1, $hsp_dbo->getPrice(), $hsp_dbo->getTitle(), false );
 
 		// Add a line item for each tax rule that applies to this purchase
 		if( ($taxrules = $hsp_dbo->getTaxes()) != null )
@@ -363,7 +402,8 @@ class InvoiceDBO extends DBO
 			$this->add_item( 1, 
 					 $hsp_dbo->calculateTax( $taxrule_dbo ),
 					 "+ " . $taxrule_dbo->getDescription() .
-					 " @ " . $taxrule_dbo->getRate() . "%" );
+					 " @ " . $taxrule_dbo->getRate() . "%",
+					 true );
 		      }
 		  }
 	      }
@@ -378,7 +418,10 @@ class InvoiceDBO extends DBO
 	    if( $dsp_dbo->is_billable( $period_begin, $period_end ) )
 	      {
 		// Add a line item for this domain service
-		$this->add_item( 1, $dsp_dbo->getPrice(), $dsp_dbo->getFullDomainName() );
+		$this->add_item( 1, 
+				 $dsp_dbo->getPrice(), 
+				 $dsp_dbo->getFullDomainName(), 
+				 false );
 
 		// Add a line item for each tax rule that applies to this purchase
 		if( ($taxrules = $dsp_dbo->getTaxes()) != null )
@@ -388,7 +431,8 @@ class InvoiceDBO extends DBO
 			$this->add_item( 1, 
 					 $dsp_dbo->calculateTax( $taxrule_dbo ),
 					 "+ " . $taxrule_dbo->getDescription() .
-					 " @ " . $taxrule_dbo->getRate() . "%" );
+					 " @ " . $taxrule_dbo->getRate() . "%",
+					 true );
 		      }
 		  }
 	      }
@@ -403,7 +447,10 @@ class InvoiceDBO extends DBO
 	    if( $pp_dbo->is_billable( $period_begin, $period_end ) )
 	      {
 		// Add a line item for this product
-		$this->add_item( 1, $pp_dbo->getPrice(), $pp_dbo->getProductName() );
+		$this->add_item( 1, 
+				 $pp_dbo->getPrice(), 
+				 $pp_dbo->getProductName(),
+				 false );
 
 		// Add a line item for each tax rule that applies to this purchase
 		if( ($taxrules = $pp_dbo->getTaxes()) != null )
@@ -413,7 +460,8 @@ class InvoiceDBO extends DBO
 			$this->add_item( 1, 
 					 $pp_dbo->calculateTax( $taxrule_dbo ),
 					 "+ " . $taxrule_dbo->getDescription() .
-					 " @ " . $taxrule_dbo->getRate() . "%" );
+					 " @ " . $taxrule_dbo->getRate() . "%",
+					 true );
 		      }
 		  }
 	      }
@@ -447,8 +495,9 @@ class InvoiceDBO extends DBO
    * @param integer $quantity Quantity of units
    * @param double $unitamount Cost of each unit
    * @param string $text Description of unit(s)
+   * @param boolean $taxflag True if this item is a tax item
    */
-  function add_item( $quantity, $unitamount, $text )
+  function add_item( $quantity, $unitamount, $text, $taxflag )
   {
     // Create a new Invoice Item DBO
     $itemdbo = new InvoiceItemDBO;
@@ -456,6 +505,7 @@ class InvoiceDBO extends DBO
     $itemdbo->setQuantity( $quantity );
     $itemdbo->setUnitAmount( $unitamount );
     $itemdbo->setText( $text );
+    $itemdbo->setTaxItem( $taxflag ? "Yes" : "No" );
     
     // Add DBO to invoice
     if( $this->getID() != null )
@@ -487,6 +537,16 @@ class InvoiceDBO extends DBO
 
     // Generate Invoice & E-mail text
     $email_text = str_replace( "{invoice_id}", $this->getID(), $email_text );
+    $email_text = str_replace( "{invoice_subtotal}", 
+			       sprintf( "%s%01.2f", 
+					$conf['locale']['currency_symbol'], 
+					$this->getSubTotal() ), 
+			       $email_text );
+    $email_text = str_replace( "{invoice_taxtotal}", 
+			       sprintf( "%s%01.2f", 
+					$conf['locale']['currency_symbol'], 
+					$this->getTaxTotal() ), 
+			       $email_text );
     $email_text = str_replace( "{invoice_total}", 
 			       sprintf( "%s%01.2f", 
 					$conf['locale']['currency_symbol'], 

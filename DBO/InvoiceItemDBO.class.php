@@ -49,6 +49,11 @@ class InvoiceItemDBO extends DBO
   var $text;
 
   /**
+   * @var string Tax item flag
+   */
+  var $taxItem = "No";
+
+  /**
    * Set Invoice Item ID
    *
    * @param integer $id Invoice Item ID
@@ -139,6 +144,35 @@ class InvoiceItemDBO extends DBO
   function getText() { return $this->text; }
 
   /**
+   * Set Tax Item Flag
+   *
+   * @param string $taxitem 'Yes' if this item is a tax item, 'No' otherwise
+   */
+  function setTaxItem( $taxitem )
+  {
+    if( !( $taxitem == "Yes" || $taxitem == "No" ) )
+      {
+	fatal_error( "InvoiceItemDBO::setTaxItem()", 
+		     "Invalid value for tax item flag: " . $taxitem );
+      }
+    $this->taxItem = $taxitem;
+  }
+
+  /**
+   * Get Tax Item Flag
+   *
+   * @return string Tax item flag ("Yes" or "No)
+   */
+  function getTaxItem() { return $this->taxItem; }
+
+  /**
+   * Is This Item a Tax Item
+   *
+   * @return boolean True if this invoice item is a tax item
+   */
+  function isTaxItem() { return $this->taxItem == "Yes"; }
+
+  /**
    * Load member data from an array
    *
    * @param array $data Data to load
@@ -150,6 +184,7 @@ class InvoiceItemDBO extends DBO
     $this->setQuantity( $data['quantity'] );
     $this->setUnitAmount( $data['unitamount'] );
     $this->setText( $data['text'] );
+    $this->setTaxItem( $data['taxitem'] );
   }
 
   /**
@@ -184,7 +219,8 @@ function add_InvoiceItemDBO( &$dbo )
 				array( "invoiceid" => intval( $dbo->getInvoiceID() ),
 				       "quantity" => intval( $dbo->getQuantity() ),
 				       "unitamount" => $dbo->getUnitAmount(),
-				       "text" => $dbo->getText() ) );
+				       "text" => $dbo->getText(),
+				       "taxitem" => $dbo->getTaxItem() ) );
 
   
   // Run query
@@ -235,7 +271,8 @@ function update_InvoiceItemDBO( &$dbo )
 				array( "invoiceid" => intval( $dbo->getInvoiceID() ),
 				       "quantity" => $dbo->getQuantity(),
 				       "unitamount" => $dbo->getUnitAmount(),
-				       "text" => $dbo->getText() ) );
+				       "text" => $dbo->getText(),
+				       "taxitem" => $dbo->getTaxItem() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
