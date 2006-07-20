@@ -445,6 +445,22 @@ class AccountDBO extends DBO
   }
 
   /**
+   * Get All Purchases for this Account
+   *
+   * return array Arroy of PurchaseDBO's for this account
+   */
+  function getPurchases()
+  {
+    $hosting = $this->getHostingServices();
+    $domain = $this->getDomainServices();
+    $product = $this->getProducts();
+    return array_merge( array(), 
+			$hosting == null ? array() : $hosting,
+			$domain == null ? array() : $domain,
+			$product == null ? array() : $product );
+  }
+
+  /**
    * Load member data from an array
    *
    * @param array $data Data to load

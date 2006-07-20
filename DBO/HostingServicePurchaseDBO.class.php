@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once $base_path . "DBO/PurchaseDBO.class.php";
 
 /**
  * HostingServicePurchaseDBO
@@ -22,7 +22,7 @@ require_once $base_path . "solidworks/DBO.class.php";
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class HostingServicePurchaseDBO extends DBO
+class HostingServicePurchaseDBO extends PurchaseDBO
 {
   /**
    * @var integer HostingServicePurchase ID
@@ -58,16 +58,6 @@ class HostingServicePurchaseDBO extends DBO
    * @var ServerDBO Server this hosting service purchase is assigned to
    */
   var $serverdbo;
-
-  /**
-   * @var string Date of purchase (MySQL DATETIME)
-   */
-  var $date;
-
-  /**
-   * @var string Terms of purchase
-   */
-  var $term;
 
   /**
    * Set Hosting Service Purchase ID
@@ -173,20 +163,6 @@ class HostingServicePurchaseDBO extends DBO
   }
 
   /**
-   * Set Purchase Date
-   *
-   * @param string $date Purchase date (MySQL DATETIME)
-   */
-  function setDate( $date ) { $this->date = $date; }
-
-  /**
-   * Get Purchase Date
-   *
-   * @return string Purchase date (MySQL DATETIME)
-   */
-  function getDate() { return $this->date; }
-
-  /**
    * Get Expiration Date
    *
    * @return string Expiration date (MySQL DATETIME)
@@ -233,15 +209,8 @@ class HostingServicePurchaseDBO extends DBO
 	fatal_error( "HostingServicePurchaseDBO::setTerm()",
 		     "Invalid term: " . $term );
       }
-    $this->term = $term;
+    parent::setTerm( $term );
   }
-
-  /**
-   * Get Purchase Term
-   *
-   * @return string Term
-   */
-  function getTerm() { return $this->term; }
 
   /**
    * Get Hosting Service Title
@@ -284,40 +253,28 @@ class HostingServicePurchaseDBO extends DBO
   }
 
   /**
-   * Get Taxes
+   * Get Setup Fee
    *
-   * Returns all the Tax Rules that affect this purchase (if taxable)
-   *
-   * @return array TaxRuleDBO array
+   * @return float Setup fee
    */
-  function getTaxes()
-  {
-    global $DB;
-
-    if( $this->hostingservicedbo->getTaxable() == "No" )
+  function getSetupFee() 
+  { 
+    switch( $this->getTerm() )
       {
-	return null;
+      case "1 month": return $this->hostingservicedbo->getSetupPrice1mo();
+      case "3 month": return $this->hostingservicedbo->getSetupPrice3mo();
+      case "6 month": return $this->hostingservicedbo->getSetupPrice6mo();
+      case "12 month": return $this->hostingservicedbo->getSetupPrice12mo();
+      default: return 0;
       }
-
-    $filter = 
-      "country=" . $DB->quote_smart( $this->accountdbo->getCountry() ) . " AND (" .
-      "allstates=" . $DB->quote_smart( "YES" ) . " OR " .
-      "state=" . $DB->quote_smart( $this->accountdbo->getState() ) . ")";
-    return load_array_TaxRuleDBO( $filter );
   }
 
   /**
-   * Calculate Tax
+   * Is Taxable
    *
-   * Given a Tax Rule, determine the amount of tax on this purchase
-   *
-   * @param TaxRuleDBO $taxruledbo Tax rule
-   * @return float Amount of tax
+   * @return boolean True if this service is taxable
    */
-  function calculateTax( $taxruledbo )
-  {
-    return $this->getPrice() * ($taxruledbo->getRate() / 100.00);
-  }
+  function isTaxable() { return $this->hostingservicedbo->getTaxable() == "Yes"; }
 
   /**
    * Get Account Name
@@ -339,23 +296,6 @@ class HostingServicePurchaseDBO extends DBO
     $this->setServerID( $data['serverid'] );
     $this->setTerm( $data['term'] );
     $this->setDate( $data['date'] );
-  }
-
-  /**
-   * Determine if Billable
-   *
-   * Given an invoice period, returns true if this purchase occured during that
-   * period and thus, should be billed.
-   *
-   * @param string $period_begin Beginning of invoice period (MySQL DATETIME)
-   * @param string $period_end End of invoice period (MySQL DATETIME)
-   * @return boolean True if billable
-   */
-  function is_billable( $period_begin, $period_end )
-  {
-    global $DB;
-    return ($DB->datetime_to_unix($this->getDate()) >= $period_begin) && 
-      ($DB->datetime_to_unix($this->getDate()) < $period_end);
   }
 }
 

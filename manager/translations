@@ -60,6 +60,7 @@
     <phrase id="AUTHORIZE_AND_CAPTURE">Authorize and Capture</phrase>
     <phrase id="AUTHORIZED">Authorized</phrase>
     <phrase id="BALANCE">Balance</phrase>
+    <phrase id="BALANCE_DUE">Balance Due</phrase>
     <phrase id="BEGINNING_ADDRESS">Beginning Address</phrase>
     <phrase id="BEGINNING_OF_INVOICE_PERIOD">Beginning of Invoice Period</phrase>
     <phrase id="BILL">Bill</phrase>
@@ -173,6 +174,7 @@
     <phrase id="INVOICE">Invoice</phrase>
     <phrase id="INVOICE_ID">Invoice ID</phrase>
     <phrase id="INVOICES">Invoices</phrase>
+    <phrase id="INVOICE_BALANCE">Invoice Balance</phrase>
     <phrase id="INVOICE_DATE">Invoice Date</phrase>
     <phrase id="INVOICE_TEXT">Invoice Text</phrase>
     <phrase id="INVOICE_TO_PAY">Invoice to Pay</phrase>
@@ -231,6 +233,7 @@
     <phrase id="OTHER">Other</phrase>
     <phrase id="OTHER_PRODUCTS">Other Products</phrase>
     <phrase id="OTHER_PRODUCTS_SERVICES">Other Products / Services</phrase>
+    <phrase id="OUTSTANDING_BALANCE">Outstanding Balance</phrase>
     <phrase id="OUTSTANDING_INVOICES">Outstanding invoices</phrase>
     <phrase id="PAGE_NOT_FOUND">Error: Page Not Found</phrase>
     <phrase id="PASSWORD">Password</phrase>
@@ -301,6 +304,7 @@
     <phrase id="SERVICE_NAME">Service Name</phrase>
     <phrase id="SERVICE_TERMS">Service Terms</phrase>
     <phrase id="SETTINGS">Settings</phrase>
+    <phrase id="SETUP_FEE">Setup Fee</phrase>
     <phrase id="SETUP_PRICE">Setup Price</phrase>
     <phrase id="SOLIDSTATE_LOG">Solid-State Log</phrase>
     <phrase id="SPECIFIC_STATE">or specify a specific State</phrase>

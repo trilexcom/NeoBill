@@ -11,47 +11,65 @@
 </div>
 
 <h2> {echo phrase="INVOICE"} #{$invoice_id}</h2>
-
-<div class="properties">
-  <table>
-    <tr>
-      <th> {echo phrase="ACCOUNT"}: </th>
-      <td> {dbo_echo dbo="invoice_dbo" field="accountname"} (ID: {dbo_echo dbo="invoice_dbo" field="accountid"})</td>
-    </tr>
-    <tr>
-      <th> {echo phrase="PERIOD"}: </th>
-      <td> 
-        {dbo_echo|datetime:date dbo="invoice_dbo" field="periodbegin"} -
-        {dbo_echo|datetime:date dbo="invoice_dbo" field="periodend"}
-      </td>
-    </tr>
-    <tr>
-      <th> {echo phrase="INVOICE_DATE"}: </th>
-      <td> {dbo_echo|datetime:date dbo="invoice_dbo" field="date"} </td>
-    </tr>
-    <tr>
-      <th> {echo phrase="SUB_TOTAL"}: </th>
-      <td> {dbo_echo|currency dbo="invoice_dbo" field="subtotal"} </td>
-    </tr>
-    <tr>
-      <th> {echo phrase="TAXES"}: </th>
-      <td> {dbo_echo|currency dbo="invoice_dbo" field="taxtotal"} </td>
-    </tr>
-    <tr>
-      <th> {echo phrase="INVOICE_TOTAL"}: </th>
-      <td> {dbo_echo|currency dbo="invoice_dbo" field="total"} </td>
-    </tr>
-    <tr>
-      <th> {echo phrase="AMOUNT_DUE"}: </th>
-      <td> {dbo_echo|currency dbo="invoice_dbo" field="balance"} </td>
-    </tr>
-    <tr>
-      <th> {echo phrase="NOTE_TO_CUSTOMER"}: </th>
-      <td> {dbo_echo dbo="invoice_dbo" field="note"} </td>
-    </tr>
-  </table>
-</div>
-
+<table style="width: 100%">
+  <tr>
+    <td style="vertical-align: top">
+      <div class="properties">
+        <table style="width:350px">
+          <tr>
+            <th> {echo phrase="INVOICE_DATE"}: </th>
+            <td> {dbo_echo|datetime:date dbo="invoice_dbo" field="date"} </td>
+          </tr>
+          <tr>
+            <th> {echo phrase="PERIOD"}: </th>
+            <td> 
+              {dbo_echo|datetime:date dbo="invoice_dbo" field="periodbegin"} -
+              {dbo_echo|datetime:date dbo="invoice_dbo" field="periodend"}
+            </td>
+          </tr>
+          <tr>
+            <th> {echo phrase="ACCOUNT"}: </th>
+            <td> <a href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="invoice_dbo" field="accountid"}">{dbo_echo dbo="invoice_dbo" field="accountname"}</a> (ID: {dbo_echo dbo="invoice_dbo" field="accountid"})</td>
+          </tr>
+          <tr>
+            <th> {echo phrase="NOTE_TO_CUSTOMER"}: </th>
+            <td> {dbo_echo dbo="invoice_dbo" field="note"} </td>
+          </tr>
+        </table>
+      </div>
+    </td>
+    <td>
+      <div class="properties">
+        <table style="width: 350px">
+          <tr>
+            <th> {echo phrase="SUB_TOTAL"}: </th>
+            <td> {dbo_echo|currency dbo="invoice_dbo" field="subtotal"} </td>
+          </tr>
+          <tr>
+            <th> {echo phrase="TAXES"}: </th>
+            <td> {dbo_echo|currency dbo="invoice_dbo" field="taxtotal"} </td>
+          </tr>
+          <tr>
+            <th> {echo phrase="INVOICE_TOTAL"}: </th>
+            <td> {dbo_echo|currency dbo="invoice_dbo" field="total"} </td>
+          </tr>
+          <tr>
+            <th> {echo phrase="PAYMENTS"}: </th>
+            <td> {dbo_echo|currency dbo="invoice_dbo" field="totalpayments"} </td>
+          </tr>
+          <tr>
+            <th> {echo phrase="INVOICE_BALANCE"}: </th>
+            <td> {dbo_echo|currency dbo="invoice_dbo" field="balance"} </td>
+          </tr>
+          <tr>
+            <th> {echo phrase="OUTSTANDING_BALANCE"}: </th>
+            <td> {dbo_echo|currency dbo="invoice_dbo" field="outstandingbalance"} </td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  <tr>
+</table>
 <div class="table">
   {dbo_table dbo_class="InvoiceItemDBO" 
              filter="invoiceid=$invoice_id" 
@@ -129,6 +147,42 @@
 
     {dbo_table_column header="[ACTIONS]"}
       <a href="manager_content.php?page=billing_view_invoice&action=delete_payment&paymentid={dbo_echo dbo="paymentdbo_table" field="id"}">remove</a>
+    {/dbo_table_column}
+
+  {/dbo_table}
+</div>
+
+<h2> {echo phrase="OUTSTANDING_INVOICES"} </h2>
+
+<div class="table">
+  {dbo_table dbo_class="InvoiceDBO"
+             method_name="populateOutstandingInvoices"
+             name="oinvoicedbo_table"
+             title="[OUTSTANDING_INVOICES]"}
+
+    {dbo_table_column header="[ID]" sort_field="id"}
+      <a href="./manager_content.php?page=billing_view_invoice&id={dbo_echo dbo="oinvoicedbo_table" field="id"}">{dbo_echo dbo="oinvoicedbo_table" field="id"}</a>
+    {/dbo_table_column}
+
+    {dbo_table_column header="[INVOICE_DATE]" sort_field="date"}
+      {dbo_echo|datetime:date dbo="oinvoicedbo_table" field="date"}
+    {/dbo_table_column}
+
+    {dbo_table_column header="[BILLING_PERIOD]" sort_field="periodbegin"}
+      {dbo_echo|datetime:date dbo="oinvoicedbo_table" field="periodbegin"} -
+      {dbo_echo|datetime:date dbo="oinvoicedbo_table" field="periodend"}
+    {/dbo_table_column}
+
+    {dbo_table_column header="[INVOICE_TOTAL]"}
+      {dbo_echo|currency dbo="oinvoicedbo_table" field="total"}
+    {/dbo_table_column}
+
+    {dbo_table_column header="[AMOUNT_PAID]"}
+      {dbo_echo|currency dbo="oinvoicedbo_table" field="totalpayments"}
+    {/dbo_table_column}
+
+    {dbo_table_column header="[AMOUNT_DUE]"}
+      {dbo_echo|currency dbo="oinvoicedbo_table" field="balance"}
     {/dbo_table_column}
 
   {/dbo_table}

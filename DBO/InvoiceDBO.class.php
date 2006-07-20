@@ -39,7 +39,7 @@ class InvoiceDBO extends DBO
   /**
    * @var AccountDBO The Account this Invoice is assigned to
    */
-  var $accountdbo;
+  var $accountDBO;
 
   /**
    * @var string Invoice date (MySQL DATETIME)
@@ -86,10 +86,12 @@ class InvoiceDBO extends DBO
     $this->id = $id; 
 
     // Load any line-items for this Invoice
-    $this->invoiceitemdbo_array = load_array_InvoiceItemDBO( "invoiceid=" . intval( $id ) );
+    $invoiceItems = load_array_InvoiceItemDBO( "invoiceid=" . intval( $id ) );
+    $this->invoiceitemdbo_array = $invoiceItems == null ? array() : $invoiceItems;
 
     // Load any payments for this Invoice
-    $this->paymentdbo_array = load_array_PaymentDBO( "invoiceid=" . intval( $id ) );
+    $payments = load_array_PaymentDBO( "invoiceid=" . intval( $id ) );
+    $this->paymentdbo_array = $payments == null ? array() : $payments;
   }
 
   /**
@@ -107,7 +109,7 @@ class InvoiceDBO extends DBO
   function setAccountID( $id )
   {
     $this->accountid = $id;
-    if( ($this->accountdbo = load_AccountDBO( $id )) == null )
+    if( ($this->accountDBO = load_AccountDBO( $id )) == null )
       {
 	fatal_error( "InvoiceDBO::setAccountID()",
 		     "could not load AccountDBO for InvoiceDBO, id = " . $id );
@@ -126,7 +128,7 @@ class InvoiceDBO extends DBO
    *
    * @return AccountDBO Account for this invoice
    */
-  function getAccountDBO() { return $this->accountdbo; }
+  function getAccountDBO() { return $this->accountDBO; }
 
   /**
    * Set Invoice Date
@@ -203,7 +205,7 @@ class InvoiceDBO extends DBO
    *
    * @return string Account name
    */
-  function getAccountName() { return $this->accountdbo->getAccountName(); }
+  function getAccountName() { return $this->accountDBO->getAccountName(); }
 
   /**
    * Get Invoice Sub-Total
@@ -250,19 +252,31 @@ class InvoiceDBO extends DBO
   /**
    * Get Invoice Total
    *
-   * Returns the total of all invoice items, not the balance of the invoice (the
-   * sum of invoice items minus the sum of payments).
+   * Returns sub-total + tax-total
    *
    * @return double Invoice total
    */
   function getTotal()
   {
-    // Sum invoice items
+    return $this->getSubTotal() + $this->getTaxTotal();
+  }
+
+  /**
+   * Get Outstanding Invoices Total
+   *
+   * Returns the sum of the balances of all outstanding invoices that are
+   * dated before this invoice period.
+   *
+   * @return double Outstanding invoice total
+   */
+  function getOutstandingTotal()
+  {
     $total = 0.00;
-    foreach( $this->invoiceitemdbo_array as $itemdbo )
+    foreach( $this->getOutStandingInvoices() as $invoiceDBO )
       {
-	$total += $itemdbo->getAmount();
+	$total += $invoiceDBO->getBalance();
       }
+
     return $total;
   }
 
@@ -275,14 +289,36 @@ class InvoiceDBO extends DBO
   {
     // Sum payments
     $payments = 0.00;
-    if( $this->paymentdbo_array != null )
+    foreach( $this->paymentdbo_array as $paymentdbo )
       {
-	foreach( $this->paymentdbo_array as $paymentdbo )
-	  {
-	    $payments += $paymentdbo->getAmount();
-	  }
+	$payments += $paymentdbo->getAmount();
       }
+
     return $payments;
+  }
+
+  /**
+   * Get Invoice Balance
+   *
+   * @return double Balance
+   */
+  function getBalance()
+  {
+    // Invoice Total - Payments
+    return ( $this->getTotal() -
+	     $this->getTotalPayments() );
+  }
+
+  /**
+   * Get Outstanding Balance
+   *
+   * Returns the invoice balance + all outstanding invoice balances
+   *
+   * @return float Outstanding balance
+   */
+  function getOutstandingBalance()
+  {
+    return $this->getBalance() + $this->getOutstandingTotal();
   }
 
   /**
@@ -302,17 +338,6 @@ class InvoiceDBO extends DBO
       date( "n/j/Y", $DB->datetime_to_unix( $this->getPeriodBegin() ) ) . " - " . 
       date( "n/j/Y", $DB->datetime_to_unix( $this->getPeriodEnd() ) ) . ", " .
       sprintf( "$%01.2f", $this->getBalance() ) . ")";
-  }
-
-  /**
-   * Get Invoice Balance
-   *
-   * @return double Balance
-   */
-  function getBalance()
-  {
-    // Invoice Total - Payments
-    return $this->getTotal() - $this->getTotalPayments();
   }
 
   /**
@@ -361,6 +386,24 @@ class InvoiceDBO extends DBO
   }
 
   /**
+   * Get Outstanding Invoices
+   *
+   * Returns an array of all outstanding invoices with a creation date before
+   * the beginning of this invoice period.
+   *
+   * @return array An array of InvoiceDBO's
+   */
+  function getOutstandingInvoices()
+  {
+    $where = sprintf( "accountid=%d AND outstanding='%s' AND `date` < '%s'",
+		      $this->getAccountID(),
+		      "yes",
+		      $this->getPeriodBegin() );
+    $invoices = load_array_InvoiceDBO( $where );
+    return $invoices == null ? array() : $invoices;
+  }
+
+  /**
    * Generate Invoice
    *
    * Given an Account to generate the invoice for and a period for which to bill,
@@ -373,102 +416,69 @@ class InvoiceDBO extends DBO
   {
     global $DB;
 
-    if( $this->getAccountID() == null ||
-	$this->getPeriodBegin() == null ||
-	$this->getPeriodEnd() == null )
+    if( !( $this->getAccountID() || $this->getPeriodBegin() || $this->getPeriodEnd() ) )
       {
-	// Missing necessary information to generate this invoice
-	return false;
+	fatal_error( "InvoiceDBO::generate()",
+		     "Missing necessary information to generate this invoice" );
       }
 
-    $period_begin = $DB->datetime_to_unix( $this->getPeriodBegin() );
-    $period_end   = $DB->datetime_to_unix( $this->getPeriodEnd() );
+    $periodBeginTS = $DB->datetime_to_unix( $this->getPeriodBegin() );
+    $periodEndTS = $DB->datetime_to_unix( $this->getPeriodEnd() );
 
-    // Add a line item for each web hosting service
-    if( ($hsp_dbo_array = $this->accountdbo->getHostingServices()) != null )
+    // Bill all applicable purchases for the account
+    foreach( $this->accountDBO->getPurchases() as $purchaseDBO )
       {
-	foreach( $hsp_dbo_array as $hsp_dbo )
+	if( $purchaseDBO->isBillable( $periodBeginTS, $periodEndTS ) )
 	  {
-	    if( $hsp_dbo->is_billable( $period_begin, $period_end ) )
-	      {
-		// Add a line item for this web hosting service
-		$this->add_item( 1, $hsp_dbo->getPrice(), $hsp_dbo->getTitle(), false );
-
-		// Add a line item for each tax rule that applies to this purchase
-		if( ($taxrules = $hsp_dbo->getTaxes()) != null )
-		  {
-		    foreach( $taxrules as $taxrule_dbo )
-		      {
-			$this->add_item( 1, 
-					 $hsp_dbo->calculateTax( $taxrule_dbo ),
-					 "+ " . $taxrule_dbo->getDescription() .
-					 " @ " . $taxrule_dbo->getRate() . "%",
-					 true );
-		      }
-		  }
-	      }
+	    // This item is billable during the period
+	    $this->addPurchaseItem( $purchaseDBO, 
+				    $purchaseDBO->isNewThisTerm( $periodBeginTS, 
+								 $periodEndTS ) );
 	  }
       }
 
-    // Add a line item for each domain service
-    if( ($dsp_dbo_array = $this->accountdbo->getDomainServices()) != null )
-      {
-	foreach( $dsp_dbo_array as $dsp_dbo )
-	  {
-	    if( $dsp_dbo->is_billable( $period_begin, $period_end ) )
-	      {
-		// Add a line item for this domain service
-		$this->add_item( 1, 
-				 $dsp_dbo->getPrice(), 
-				 $dsp_dbo->getFullDomainName(), 
-				 false );
-
-		// Add a line item for each tax rule that applies to this purchase
-		if( ($taxrules = $dsp_dbo->getTaxes()) != null )
-		  {
-		    foreach( $taxrules as $taxrule_dbo )
-		      {
-			$this->add_item( 1, 
-					 $dsp_dbo->calculateTax( $taxrule_dbo ),
-					 "+ " . $taxrule_dbo->getDescription() .
-					 " @ " . $taxrule_dbo->getRate() . "%",
-					 true );
-		      }
-		  }
-	      }
-	  }
-      }
-
-    // Add a line item for each product
-    if( ($pp_dbo_array = $this->accountdbo->getProducts()) != null )
-      {
-	foreach( $pp_dbo_array as $pp_dbo )
-	  {
-	    if( $pp_dbo->is_billable( $period_begin, $period_end ) )
-	      {
-		// Add a line item for this product
-		$this->add_item( 1, 
-				 $pp_dbo->getPrice(), 
-				 $pp_dbo->getProductName(),
-				 false );
-
-		// Add a line item for each tax rule that applies to this purchase
-		if( ($taxrules = $pp_dbo->getTaxes()) != null )
-		  {
-		    foreach( $taxrules as $taxrule_dbo )
-		      {
-			$this->add_item( 1, 
-					 $pp_dbo->calculateTax( $taxrule_dbo ),
-					 "+ " . $taxrule_dbo->getDescription() .
-					 " @ " . $taxrule_dbo->getRate() . "%",
-					 true );
-		      }
-		  }
-	      }
-	  }
-      }
-
+    // Done
     return true;
+  }
+
+  /**
+   * Add Purchase Item
+   *
+   * Given a PurchaseDBO, this method adds a line item to the invoice.  If
+   * $chargeSetupFee is true, then the setup fee (if any) is added as a line item
+   * as well.  Also, any taxes related to the purchase will be added as line items.
+   *
+   * @param PurchaseDBO $purchaseDBO The purchase to add to the inoice
+   * @param boolean Set to false to suppress the setup fee
+   */
+  function addPurchaseItem( $purchaseDBO, $chargeSetupFee = false  )
+  {
+    global $conf;
+
+    // Add line item to invoice
+    $this->add_item( 1, $purchaseDBO->getPrice(), $purchaseDBO->getTitle(), false );
+
+    // Setup fee?
+    if( $chargeSetupFee && ($purchaseDBO->getSetupFee() > 0) )
+      {
+	$this->add_item( 1, 
+			 $purchaseDBO->getSetupFee(),
+			 $purchaseDBO->getTitle() .
+			 translate_string( $conf['locale']['language'],
+					   ": [SETUP_FEE]" ),
+			 false );
+      }
+
+    // Charge taxes
+    foreach( $purchaseDBO->getTaxes() as $taxRuleDBO )
+      {
+	$this->add_item( 1, 
+			 $purchaseDBO->calculateTax( $taxRuleDBO ),
+			 $purchaseDBO->getTitle() .
+			 ": " . $taxRuleDBO->getDescription() .
+			 " @ " . $taxRuleDBO->getRate() . "%",
+			 true );
+      }
   }
 
   /**
@@ -533,35 +543,52 @@ class InvoiceDBO extends DBO
    */
   function text( $email_text )
   {
-    global $conf;
+    global $conf, $DB;
 
     // Generate Invoice & E-mail text
     $email_text = str_replace( "{invoice_id}", $this->getID(), $email_text );
+
+    $invoiceDate = $DB->datetime_to_unix( $this->getDate() );
+    $email_text = str_replace( "{invoice_date}", 
+			       strftime( "%B %e, %G", $invoiceDate ),
+			       $email_text );
+
     $email_text = str_replace( "{invoice_subtotal}", 
 			       sprintf( "%s%01.2f", 
 					$conf['locale']['currency_symbol'], 
 					$this->getSubTotal() ), 
 			       $email_text );
+
     $email_text = str_replace( "{invoice_taxtotal}", 
 			       sprintf( "%s%01.2f", 
 					$conf['locale']['currency_symbol'], 
 					$this->getTaxTotal() ), 
 			       $email_text );
+
     $email_text = str_replace( "{invoice_total}", 
 			       sprintf( "%s%01.2f", 
 					$conf['locale']['currency_symbol'], 
 					$this->getTotal() ), 
 			       $email_text );
+
     $email_text = str_replace( "{invoice_payments}", 
 			       sprintf( "%s%01.2f", 
 					$conf['locale']['currency_symbol'],
 					$this->getTotalPayments() ), 
 			       $email_text );
+ 
     $email_text = str_replace( "{invoice_balance}", 
 			       sprintf( "%s%.2f", 
 					$conf['locale']['currency_symbol'],
 					$this->getBalance() ), 
 			       $email_text );
+ 
+    $email_text = str_replace( "{outstanding_balance}",
+			       sprintf( "%s%.2f", 
+					$conf['locale']['currency_symbol'],
+					$this->getOutstandingBalance() ), 
+			       $email_text );
+
     $due_date = strftime( "%B %e, %G", $this->getDueDate() );
     $email_text = str_replace( "{invoice_due}", $due_date, $email_text );
 

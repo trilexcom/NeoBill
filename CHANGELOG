@@ -1,3 +1,9 @@
+7/20/2006 - jdiamond
+====================
+
+ * (trac #21, #71) The billing & invoices code was cleaned up and a few bugs relating to past purchases being 
+   billed correctly were fixed.
+
 7/15/2006 - jdiamond
 ====================
 

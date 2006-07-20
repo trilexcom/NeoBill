@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once $base_path . "DBO/PurchaseDBO.class.php";
 
 /**
  * DomainServicePurchaseDBO
@@ -22,7 +22,7 @@ require_once $base_path . "solidworks/DBO.class.php";
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DomainServicePurchaseDBO extends DBO
+class DomainServicePurchaseDBO extends PurchaseDBO
 {
   /**
    * @var integer DomainServicePurchase ID
@@ -50,19 +50,9 @@ class DomainServicePurchaseDBO extends DBO
   var $domainservicedbo;
 
   /**
-   * @var string Registration term ("1 year", "2 year" ... "10 year")
-   */
-  var $term;
-
-  /**
    * @var string Domain name (minus tld)
    */
   var $domainname;
-
-  /**
-   * @var string Date of purchase (MySQL DATETIME)
-   */
-  var $date;
 
   /**
    * @var string Expiration date (MySQL DATETIME)
@@ -155,16 +145,9 @@ class DomainServicePurchaseDBO extends DBO
 	echo "Invalid term: " . $term;
 	exit();
       }
-    $this->term = $term;
+    parent::setTerm( $term );
     $this->generateExpireDate();
   }
-
-  /**
-   * Get Registration Term
-   *
-   * @return string Registration term ("1 year", "2 year" ... "10 year"")
-   */
-  function getTerm() { return $this->term; }
 
   /**
    * Set Domain Name
@@ -190,22 +173,15 @@ class DomainServicePurchaseDBO extends DBO
   /**
    * Set Registration Date
    *
-   * Sets the registration date and calculates the expiration date at the same time
+   * Sets the purchase date and calculates the expiration date at the same time
    *
    * @param string $date Registration date (MySQL DATETIME)
    */
   function setDate( $date ) 
   { 
-    $this->date = $date; 
+    parent::setDate( $date );
     $this->generateExpireDate();
   }
-
-  /**
-   * Get Registration Date
-   *
-   * @return string Registration date (MySQL DATETIME)
-   */
-  function getDate() { return $this->date; }
 
   /**
    * Generate Expiration Date
@@ -310,43 +286,11 @@ class DomainServicePurchaseDBO extends DBO
   }
 
   /**
-   * Is Billable
+   * Is Taxable
    *
-   * Given an invoice period, return true if this purchase should be billed on the
-   * invoice.
-   *
-   * @param string $period_begin Beginning of invoice period (MySQL DATETIME)
-   * @param string $period_end End of invoice period (MySQL DATETIME)
+   * @return boolean True if this purchase is taxable
    */
-  function is_billable( $period_begin, $period_end )
-  {
-    global $DB;
-    return ($DB->datetime_to_unix($this->getDate()) >= $period_begin) && 
-      ($DB->datetime_to_unix($this->getDate()) < $period_end);
-  }
-
-  /**
-   * Get Taxes
-   *
-   * Returns all the Tax Rules that affect this purchase
-   *
-   * @return array TaxRuleDBO array
-   */
-  function getTaxes()
-  {
-    global $DB;
-
-    if( $this->domainservicedbo->getTaxable() == "No" )
-      {
-	return null;
-      }
-
-    $filter = 
-      "country=" . $DB->quote_smart( $this->accountdbo->getCountry() ) . " AND (" .
-      "allstates=" . $DB->quote_smart( "YES" ) . " OR " .
-      "state=" . $DB->quote_smart( $this->accountdbo->getState() ) . ")";
-    return load_array_TaxRuleDBO( $filter );
-  }
+  function isTaxable() { return $this->domainservicedbo->getTaxable() == "Yes"; }
 
   /**
    * Get Module Name
@@ -356,17 +300,11 @@ class DomainServicePurchaseDBO extends DBO
   function getModuleName() { return $this->domainservicedbo->getModuleName(); }
 
   /**
-   * Calculate Tax
+   * Get Domain Service Title
    *
-   * Given a Tax Rule, determine the amount of tax on this purchase
-   *
-   * @param TaxRuleDBO $taxruledbo Tax rule
-   * @return float Amount of tax
+   * @return string FQDN
    */
-  function calculateTax( $taxruledbo )
-  {
-    return $this->getPrice() * ($taxruledbo->getRate() / 100.00);
-  }
+  function getTitle() { return $this->getFullDomainName(); }
 
   /**
    * Load member data from an array

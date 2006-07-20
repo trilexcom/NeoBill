@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once $base_path . "DBO/PurchaseDBO.class.php";
 
 require_once "ProductDBO.class.php";
 require_once "AccountDBO.class.php";
@@ -24,7 +24,7 @@ require_once "AccountDBO.class.php";
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ProductPurchaseDBO extends DBO
+class ProductPurchaseDBO extends PurchaseDBO
 {
   /**
    * @var integer Product Purchase ID
@@ -50,11 +50,6 @@ class ProductPurchaseDBO extends DBO
    * @var AccountDBO Account
    */
   var $accountdbo;
-
-  /**
-   * @var string Date of purchase (MySQL DATETIME)
-   */
-  var $date;
 
   /**
    * @var string Purchase note
@@ -120,20 +115,6 @@ class ProductPurchaseDBO extends DBO
   function getAccountID() { return $this->accountid; }
 
   /**
-   * Set Purchase Date
-   *
-   * @param string $date Purchase date (MySQL DATETIME)
-   */
-  function setDate( $date ) { $this->date = $date; }
-
-  /**
-   * Get Purchase Date
-   *
-   * @return string Purchase date (MySQL DATETIME)
-   */
-  function getDate() { return $this->date; }
-
-  /**
    * Set Purchase Note
    *
    * @param string $note Purchase note
@@ -162,57 +143,18 @@ class ProductPurchaseDBO extends DBO
   function getPrice() { return $this->productdbo->getPrice(); }
 
   /**
-   * Get Taxes
+   * Is Taxable
    *
-   * Returns all the Tax Rules that affect this purchase (if taxable)
-   *
-   * @return array TaxRuleDBO array
+   * @return boolean True if this service is taxable
    */
-  function getTaxes()
-  {
-    global $DB;
-
-    if( $this->productdbo->getTaxable() == "No" )
-      {
-	return null;
-      }
-
-    $filter = 
-      "country=" . $DB->quote_smart( $this->accountdbo->getCountry() ) . " AND (" .
-      "allstates=" . $DB->quote_smart( "YES" ) . " OR " .
-      "state=" . $DB->quote_smart( $this->accountdbo->getState() ) . ")";
-    return load_array_TaxRuleDBO( $filter );
-  }
+  function isTaxable() { return $this->productdbo->getTaxable() == "Yes"; }
 
   /**
-   * Calculate Tax
+   * Get Domain Service Title
    *
-   * Given a Tax Rule, determine the amount of tax on this purchase
-   *
-   * @param TaxRuleDBO $taxruledbo Tax rule
-   * @return float Amount of tax
+   * @return string Product name
    */
-  function calculateTax( $taxruledbo )
-  {
-    return $this->getPrice() * ($taxruledbo->getRate() / 100.00);
-  }
-
-  /**
-   * Determine if Billable
-   *
-   * Given an invoice period, returns true if this purchase occured during that
-   * period and thus, should be billed.
-   *
-   * @param string $period_begin Beginning of invoice period (MySQL DATETIME)
-   * @param string $period_end End of invoice period (MySQL DATETIME)
-   * @return boolean True if billable
-   */
-  function is_billable( $period_begin, $period_end )
-  {
-    global $DB;
-    return ($DB->datetime_to_unix($this->getDate()) >= $period_begin) && 
-      ($DB->datetime_to_unix($this->getDate()) < $period_end);
-  }
+  function getTitle() { return $this->getProductName(); }
 
   /**
    * Load Member Data from Array

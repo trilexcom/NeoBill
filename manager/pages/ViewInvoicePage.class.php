@@ -226,6 +226,16 @@ class ViewInvoicePage extends Page
 		 null,
 		 "id=" . $this->session['invoice_dbo']->getID() );
   }
+
+  /**
+   * Populate Outstanding Invoices Table
+   *
+   * @return array InvoiceDBO's
+   */
+  function populateOutstandingInvoices()
+  {
+    return $this->session['invoice_dbo']->getOutstandingInvoices();
+  }
 }
 
 ?>
