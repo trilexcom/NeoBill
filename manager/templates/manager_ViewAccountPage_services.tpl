@@ -48,10 +48,6 @@
         {dbo_echo|datetime:date dbo="hostingdbo_table" field="date"}
       {/dbo_table_column}
 
-      {dbo_table_column header="[EXPIRES]"}
-        {dbo_echo|datetime:date dbo="hostingdbo_table" field="expiredate"}
-      {/dbo_table_column}
-
       {dbo_table_column header="[ACTION]"}
         <a href="manager_content.php?page=accounts_view_account&action=delete_hosting&purchase_id={dbo_echo dbo="hostingdbo_table" field="id"}">remove</a>
       {/dbo_table_column}

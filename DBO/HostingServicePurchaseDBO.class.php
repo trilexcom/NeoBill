@@ -163,38 +163,6 @@ class HostingServicePurchaseDBO extends PurchaseDBO
   }
 
   /**
-   * Get Expiration Date
-   *
-   * @return string Expiration date (MySQL DATETIME)
-   */
-  function getExpireDate()
-  {
-    global $DB;
-
-    // Break up the start date timestamp
-    $start_date = getdate( $DB->datetime_to_unix( $this->getDate() ) );
-
-    // Add term-monthss to start date
-    $months = 0;
-    switch( $this->getTerm() )
-      {
-      case "1 month": $months = 1; break;
-      case "3 month": $months = 3; break;
-      case "6 month": $months = 6; break;
-      case "12 month": $months = 12; break;
-      }
-    $expire_date = mktime( $start_date['hours'],
-			   $start_date['minutes'],
-			   $start_date['seconds'],
-			   $start_date['mon'] + $months,
-			   $start_date['mday'],
-			   $start_date['year'] );
-
-    // Convert back to a datetime
-    return $DB->format_datetime( $expire_date );
-  }
-
-  /**
    * Set Purchase Term
    *
    * @param string $term Purchase term ("1 month", "3 month", "6 month", "12 month")
