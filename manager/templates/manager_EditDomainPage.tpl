@@ -39,6 +39,10 @@
         <th> {form_description field="date"} </th>
         <td> {form_element field="date"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="registrar"} </th>
+        <td> {form_element field="registrar"} </td>
+      </tr>
       <tr class="footer">
         <th colspan="2">
           {form_element field="continue"}

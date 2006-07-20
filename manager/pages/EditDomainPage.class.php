@@ -167,8 +167,9 @@ class EditDomainPage extends Page
 	$this->goback( 1 );
       }
 
-    // Update Registrar
-    if( !$module->renewDomain( $domain_dbo, $domain_dbo->getTermInt() ) )
+    // Update Registrar (but only if the "contact registrar" box was checked)
+    if( $this->session['renew_domain']['registrar'] &&
+	!$module->renewDomain( $domain_dbo, $domain_dbo->getTermInt() ) )
       {
 	// Renew error
 	$this->setError( array( "type" => "DOMAIN_REGISTRAR_RENEW_FAILED",

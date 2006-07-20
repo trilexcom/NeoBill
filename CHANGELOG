@@ -1,6 +1,7 @@
 7/20/2006 - jdiamond
 ====================
 
+ * Added a "contact registrar" button to the edit/renew domain page
  * (trac #21, #71) The billing & invoices code was cleaned up and a few bugs relating to past purchases being 
    billed correctly were fixed.
 

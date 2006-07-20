@@ -307,6 +307,13 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   function getTitle() { return $this->getFullDomainName(); }
 
   /**
+   * Domain Service's do not automatically recur
+   *
+   * @return boolean Always false
+   */
+  function isRecurring() { return false; }
+
+  /**
    * Load member data from an array
    *
    * @param array $data Data to load
