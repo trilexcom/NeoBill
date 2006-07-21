@@ -13,6 +13,8 @@
 // Parent class
 require_once $base_path . "solidworks/DBO.class.php";
 
+require_once $base_path . "solidworks/Email.class.php";
+
 require_once $base_path . "DBO/OrderDomainDBO.class.php";
 require_once $base_path . "DBO/OrderHostingDBO.class.php";
 
@@ -934,7 +936,7 @@ class OrderDBO extends DBO
    */
   function complete()
   {
-    global $DB;
+    global $DB, $conf;
 
     // Set status to pending and give a timestamp
     $this->setStatus( "Pending" );
@@ -946,6 +948,53 @@ class OrderDBO extends DBO
 	fatal_error( "OrderDBO::complete()",
 		     "Failed to update Order!" );
       }
+
+    // Notification e-mail
+    $body = 
+      $this->replaceTokens( translate_string( $conf['locale']['language'],
+					      $conf['order']['notification_email'] ) );
+
+    $notifyEmail = new Email();
+    $notifyEmail->addRecipient( $conf['company']['notification_email'] );
+    $notifyEmail->setFrom( $conf['company']['email'], "SolidState" );
+    $notifyEmail->setSubject( translate_string( $conf['locale']['language'],
+						$conf['order']['notification_subject'] ) );
+    $notifyEmail->setBody( $body );
+    if( !$notifyEmail->send() )
+      {
+	log_error( "OrderDBO::complete()", 
+		   "Failed to send notification e-mail to: " . $notifyEmail->getTo() );
+      }
+
+    // Confirmation e-mail
+    $body = $this->replaceTokens( $conf['order']['confirmation_email'] );
+
+    $confirmEmail = new Email();
+    $confirmEmail->addRecipient( $this->getContactEmail() );
+    $confirmEmail->setFrom( $conf['company']['email'], $conf['company']['name'] );
+    $confirmEmail->setSubject( $conf['order']['confirmation_subject'] );
+    $confirmEmail->setBody( $body );
+    if( !$confirmEmail->send() )
+      {
+	log_error( "OrderDBO::complete()",
+		   "Failed to send confirmation e-mail to: " . $confirmEmail->getTo() );
+      }
+  }
+
+  /**
+   * Replace E-Mail Tokens
+   *
+   * @param string $body E-mail body
+   * @return string E-mail body with tokens replaced
+   */
+  function replaceTokens( $body )
+  {
+    $body = str_replace( "{contact_name}", $this->getContactName(), $body );
+    $body = str_replace( "{order_datestamp}", $this->getDateCompleted(), $body );
+    $body = str_replace( "{order_id}", $this->getID(), $body );
+    $body = str_replace( "{order_ip}", long2ip( $this->getRemoteIP() ), $body );
+
+    return $body;
   }
 
   /**

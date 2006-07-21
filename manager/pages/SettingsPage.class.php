@@ -31,6 +31,18 @@ class SettingsPage extends AdminPage
 
     $this->smarty->assign( "company_name", $this->conf['company']['name'] );
     $this->smarty->assign( "company_email", $this->conf['company']['email'] );
+    $this->smarty->assign( "company_notification_email",
+			   $this->conf['company']['notification_email'] );
+
+    $this->smarty->assign( "confirmation_subject", 
+			   $this->conf['order']['confirmation_subject'] );
+    $this->smarty->assign( "confirmation_email", 
+			   $this->conf['order']['confirmation_email'] );
+
+    $this->smarty->assign( "notification_subject", 
+			   $this->conf['order']['notification_subject'] );
+    $this->smarty->assign( "notification_email", 
+			   $this->conf['order']['notification_email'] );
 
     $this->smarty->assign( "welcome_subject", $this->conf['welcome_subject'] );
     $this->smarty->assign( "welcome_email", $this->conf['welcome_email'] );
@@ -104,6 +116,14 @@ class SettingsPage extends AdminPage
 	$this->update_welcome();
 	break;
 
+      case "settings_confirmation":
+	$this->updateOrderConfirmation();
+	break;
+
+      case "settings_notification":
+	$this->updateOrderNotification();
+	break;
+
       case "settings_nameservers":
 	$this->update_nameservers();
 	break;
@@ -151,6 +171,8 @@ class SettingsPage extends AdminPage
   {
     $this->conf['company']['name'] = $this->session['settings_company']['name'];
     $this->conf['company']['email'] = $this->session['settings_company']['email'];
+    $this->conf['company']['notification_email'] = 
+      $this->session['settings_company']['notification_email'];
     $this->save();
   }
 
@@ -161,6 +183,30 @@ class SettingsPage extends AdminPage
   {
     $this->conf['welcome_subject'] = $this->session['settings_welcome']['subject'];
     $this->conf['welcome_email'] = $this->session['settings_welcome']['email'];
+    $this->save();
+  }
+
+  /**
+   * Update Order Confirmation Email Settings
+   */
+  function updateOrderConfirmation()
+  {
+    $this->conf['order']['confirmation_subject'] = 
+      $this->session['settings_confirmation']['subject'];
+    $this->conf['order']['confirmation_email'] = 
+      $this->session['settings_confirmation']['email'];
+    $this->save();
+  }
+
+  /**
+   * Update Order Notification Email Settings
+   */
+  function updateOrderNotification()
+  {
+    $this->conf['order']['notification_subject'] = 
+      $this->session['settings_notification']['subject'];
+    $this->conf['order']['notification_email'] = 
+      $this->session['settings_notification']['email'];
     $this->save();
   }
 

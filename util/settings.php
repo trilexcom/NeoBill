@@ -39,6 +39,18 @@ function load_settings( &$conf )
 	{
 	case "company_name": $conf['company']['name'] = $val; break;
 	case "company_email": $conf['company']['email'] = $val; break;
+	case "company_notification_email": 
+	  $conf['company']['notification_email'] = $val; break;
+
+	case "order_confirmation_email": 
+	  $conf['order']['confirmation_email'] = $val; break;
+	case "order_confirmation_subject":
+	  $conf['order']['confirmation_subject'] = $val; break;
+
+	case "order_notification_email":
+	  $conf['order']['notification_email'] = $val; break;
+	case "order_notification_subject":
+	  $conf['order']['notification_subject'] = $val; break;
 
 	case "welcome_email": $conf['welcome_email'] = $val; break;
 	case "welcome_subject": $conf['welcome_subject'] = $val; break;
@@ -72,6 +84,14 @@ function save_settings( &$conf )
 {
   update_setting( "company_name", $conf['company']['name'] );
   update_setting( "company_email", $conf['company']['email'] );
+  update_setting( "company_notification_email", 
+		  $conf['company']['notification_email'] );
+
+  update_setting( "order_confirmation_subject", $conf['order']['confirmation_subject'] );
+  update_setting( "order_confirmation_email", $conf['order']['confirmation_email'] );
+
+  update_setting( "order_notification_subject", $conf['order']['notification_subject'] );
+  update_setting( "order_notification_email", $conf['order']['notification_email'] );
 
   update_setting( "welcome_email", $conf['welcome_email'] );
   update_setting( "welcome_subject", $conf['welcome_subject'] );

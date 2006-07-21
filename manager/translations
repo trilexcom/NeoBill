@@ -221,14 +221,17 @@
     <phrase id="NOTE">Note</phrase>
     <phrase id="NOTES">Notes</phrase>
     <phrase id="NOTE_TO_CUSTOMER">Note to Customer</phrase>
+    <phrase id="NOTIFICATION_EMAIL">Notification E-mail</phrase>
     <phrase id="NOT_REQUIRED">Not Required</phrase>
     <phrase id="ON">on</phrase>
     <phrase id="ORDER">Order</phrase>
+    <phrase id="ORDER_CONFIRMATION_EMAIL">Order Confirmation E-Mail</phrase>
     <phrase id="ORDER_DATE">Order Date</phrase>
     <phrase id="ORDER_ID">Order ID</phrase>
     <phrase id="ORDER_INTERFACE">Order Interface</phrase>
     <phrase id="ORDER_IP">Order IP</phrase>
     <phrase id="ORDER_ITEMS">Order Items</phrase>
+    <phrase id="ORDER_NOTIFICATION_EMAIL">Order Notification E-Mail</phrase>
     <phrase id="ORDER_TOTAL">Order Total</phrase>
     <phrase id="OR_ENTER_USERNAME">or Enter Username</phrase>
     <phrase id="OTHER">Other</phrase>

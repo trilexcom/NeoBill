@@ -1,11 +1,14 @@
 7/20/2006 - jdiamond
 ====================
 
+ * Added order notification and confirmation e-mails.  You can customize them through the Settings page.
  * Removed the expiration date from the hosting services page.  With auto-recurring now supported in the invoice
    code, this is no longer necessary.
  * Added a "contact registrar" button to the edit/renew domain page
  * (trac #21, #71) The billing & invoices code was cleaned up and a few bugs relating to past purchases being 
    billed correctly were fixed.
+
+  *** PLEASE NOTE: this commit contains a new database scheme ***
 
 7/15/2006 - jdiamond
 ====================

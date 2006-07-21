@@ -55,4 +55,3 @@
     {/dbo_table}
 
   </div>
-
