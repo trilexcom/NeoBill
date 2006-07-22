@@ -242,7 +242,8 @@ class SettingsPage extends AdminPage
     $this->conf['locale']['currency_symbol'] = $this->session['settings_locale']['currency'];
     $this->conf['locale']['language'] = $this->session['settings_locale']['language'];
     $this->save();
-    $this->setTemplate( "locale" );
+    $_SESSION['jsFunction'] = "reloadMenu()";
+    $this->goto( "settings", null, "action=locale" );
   }
 
   /**

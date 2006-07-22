@@ -228,7 +228,7 @@ class ConfigureEditUserPage extends AdminPage
     // Access UserDBO being edited
     $user_dbo =& $this->session['edit_user_dbo'];
 
-    if( $_SESSION['client']['userdbo']->getUsername() == $user_dbo->getUsername() &&
+    if( ($_SESSION['client']['userdbo']->getUsername() == $user_dbo->getUsername()) &&
 	$user_data['type'] != $user_dbo->getType() )
       {
 	// Client can not change his own user type

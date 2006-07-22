@@ -80,6 +80,7 @@
     <phrase id="CHECK">Check</phrase>
     <phrase id="CHECK_WHOIS">Check WHOIS</phrase>
     <phrase id="CITY">City</phrase>
+    <phrase id="CLIENT">Client</phrase>
     <phrase id="COMPANY">Company</phrase>
     <phrase id="COMPANY_NAME">Company Name</phrase>
     <phrase id="COMPLETED">Completed</phrase>
