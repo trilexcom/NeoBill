@@ -162,6 +162,7 @@ class ConfigureNewUserPage extends AdminPage
     if( !add_UserDBO( $user_dbo ) )
       {
 	// Unable to add user
+	echo mysql_error();
 	$this->setError( array( "type" => "DB_USER_ADD_FAILED",
 				"args" => array( $user_dbo->getUsername() ) ) );
 
@@ -177,6 +178,27 @@ class ConfigureNewUserPage extends AdminPage
 	// Show receipt
 	$this->setTemplate( "receipt" );
       }
+  }
+
+  /**
+   * Populate the Language Preference Box
+   *
+   * @return array An array of languages
+   */
+  function populateLanguage()
+  {
+    global $translations;
+
+    $langauges = array();
+    foreach( $translations as $language => $phrases )
+      {
+	if( is_array( $phrases ) )
+	  {
+	    $languages[$language] = $language;
+	  }
+      }
+
+    return $languages;
   }
 }
 

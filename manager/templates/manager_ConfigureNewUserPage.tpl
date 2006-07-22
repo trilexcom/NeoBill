@@ -31,6 +31,10 @@
         <th> {form_description field="email"} </th>
         <td> {form_element field="email" size="30"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="language"} </th>
+        <td> {form_element field="language" size="30"} </td>
+      </tr>
       <tr class="footer">
         <th> <input type="submit" value="Create User"/> </th>
 	<td/>

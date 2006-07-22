@@ -3,11 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
   <head>
-    <title>Solid-State Manager - {$location|capitalize}</title>
+    <title>SolidState Manager - {$location|capitalize}</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
   </head>
 
-  <body>
+  <script language="JavaScript" src="../solidworks/include.js"/>
+
+  {if isset( $jsFunction )}
+    <body onLoad="{$jsFunction}">
+  {else}
+    <body>
+  {/if}
  
     <div class="content">
 

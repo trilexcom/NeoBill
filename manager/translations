@@ -189,6 +189,7 @@
     <phrase id="LINE_ITEMS">Line Items</phrase>
     <phrase id="LAST_NAME">Last Name</phrase>
     <phrase id="LANGUAGE">Language</phrase>
+    <phrase id="LANGUAGE_PREFERENCE">Language Preference</phrase>
     <phrase id="LOCALE">Locale</phrase>
     <phrase id="LOCATION">Location</phrase>
     <phrase id="LOG">Log</phrase>

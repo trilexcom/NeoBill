@@ -30,10 +30,11 @@ require_once "Page.class.php";
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-function solidworks( $conf, $smarty )
+function solidworks( &$conf, $smarty )
 {
   global $page; // Make the Page object available to smarty_extensions
   global $DB;   // Make DB available for DBO's
+  global $translations;
 
   // Change the charset to UTF-8
   header( "Content-type: text/html; charset=utf-8" );
@@ -44,6 +45,14 @@ function solidworks( $conf, $smarty )
   // Make sure the client is logged in as a valid user before proceeding
   validate_client();
 
+  // Load the user's language preference
+  $language = isset( $_SESSION['client']['userdbo'] ) ? 
+    $_SESSION['client']['userdbo']->getLanguage() : null;
+  if( isset( $translations[$language] ) )
+    {
+      $conf['locale']['language'] = $language;
+    }
+  
   if( $_SESSION['currentpage'] != $_GET['page'] )
     {
       $_SESSION['lastpage'] = $_SESSION['currentpage'];
@@ -117,6 +126,13 @@ function display_page( $page )
   if( $conf['authenticate_user'] && isset( $_SESSION['client']['userdbo'] ) )
     {
       $smarty->assign( "username", $_SESSION['client']['userdbo']->getUsername() );
+    }
+
+  // Invoke any javascript
+  if( isset( $_SESSION['jsFunction'] ) )
+    {
+      $smarty->assign( "jsFunction", $_SESSION['jsFunction'] );
+      unset( $_SESSION['jsFunction'] );
     }
 
   if( intval( $_GET['no_headers'] ) == 1 )

@@ -208,7 +208,7 @@ CREATE TABLE `log` (
   `remoteip` int(11) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1524 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1581 ;
 
 -- --------------------------------------------------------
 
@@ -432,6 +432,7 @@ CREATE TABLE `user` (
   `firstname` varchar(30) default NULL,
   `lastname` varchar(30) default NULL,
   `email` varchar(30) default NULL,
+  `language` varchar(255) default NULL,
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 

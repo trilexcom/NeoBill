@@ -59,6 +59,11 @@ class UserDBO extends DBO
   var $type;
 
   /**
+   * @var string Language preference
+   */
+  var $language;
+
+  /**
    * Set Username
    *
    * @param string $username Username
@@ -167,6 +172,20 @@ class UserDBO extends DBO
   function getType() { return $this->type; }
 
   /**
+   * Set Language Preference
+   *
+   * @param string $language Language preference
+   */
+  function setLanguage( $language ) { $this->language = $language; }
+
+  /** 
+   * Get Language Preference
+   *
+   * @return string Language preference
+   */
+  function getLanguage() { return $this->language; }
+
+  /**
    * Load Memeber Data from Array
    *
    * @param array $data Data to load
@@ -180,6 +199,7 @@ class UserDBO extends DBO
     $this->setLastName( $data['lastname'] );
     $this->setEmail( $data['email'] );
     $this->setType( $data['type'] );
+    $this->setLanguage( $data['language'] );
   }
 }
 
@@ -326,14 +346,15 @@ function add_UserDBO( &$dbo )
   global $DB;
 
   // Prepare to insert into the User table
-  $sql = "INSERT INTO user VALUES ('" . 
-    $dbo->getUsername() . "', " .
-    $dbo->getAccountID() . ", '" .
-    $dbo->getPassword() . "', '" .
-    $dbo->getType() . "', '" .
-    $dbo->getFirstName() . "', '" .
-    $dbo->getLastName() . "', '" .
-    $dbo->getEmail() ."')";
+  $sql = $DB->build_insert_sql( "user",
+				array( "username" => $dbo->getUsername(),
+				       "password" => $dbo->getPassword(),
+				       "accountid" => $dbo->getAccountID(),
+				       "type" => $dbo->getType(),
+				       "firstname" => $dbo->getFirstName(),
+				       "lastname" => $dbo->getLastName(),
+				       "email" => $dbo->getEmail(),
+				       "language" => $dbo->getLanguage() ) );
 
   // Execute
   return mysql_query( $sql, $DB->handle() );
@@ -358,7 +379,8 @@ function update_UserDBO( &$dbo )
 				       "firstname" => $dbo->getFirstName(),
 				       "lastname" => $dbo->getLastName(),
 				       "email" => $dbo->getEmail(),
-				       "type" => $dbo->getType() ) );
+				       "type" => $dbo->getType(),
+				       "language" => $dbo->getLanguage() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

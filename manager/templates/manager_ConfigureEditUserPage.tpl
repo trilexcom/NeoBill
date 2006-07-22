@@ -26,6 +26,10 @@
         <th> {form_description field="email"} </th>
         <td> {form_element dbo="edit_user_dbo" field="email" size="30"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="language"} </th>
+        <td> {form_element dbo="edit_user_dbo" field="language"} </td>
+      </tr>
       <tr class="footer">
         <th> 
           <input type="submit" value="Update User"/> 

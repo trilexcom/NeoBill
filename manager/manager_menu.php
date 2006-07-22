@@ -20,6 +20,15 @@ require_once $base_path . "solidworks/solidworks.php";
 require_once $base_path . "util/settings.php";
 load_settings( $conf );
 
+// Load the user's language preference
+session_start();
+$language = isset( $_SESSION['client']['userdbo'] ) ? 
+  $_SESSION['client']['userdbo']->getLanguage() : null;
+if( isset( $translations[$language] ) )
+  {
+    $conf['locale']['language'] = $language;
+  }
+
 // Display menu
 $smarty->display( "manager_menu.tpl" );
 

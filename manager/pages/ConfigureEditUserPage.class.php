@@ -244,6 +244,7 @@ class ConfigureEditUserPage extends AdminPage
     $user_dbo->setLastName( $user_data['lastname'] );
     $user_dbo->setEmail( $user_data['email'] );
     $user_dbo->setType( $user_data['type'] );
+    $user_dbo->setLanguage( $user_data['language'] );
 
     // Commit changes
     if( !update_UserDBO( $user_dbo ) )
@@ -256,6 +257,12 @@ class ConfigureEditUserPage extends AdminPage
     // Success - Display message
     $this->setMessage( array( "type" => "USER_UPDATED", 
 			      "args" => array( $user_dbo->getUsername() ) ) );
+
+    // Load language preference
+    $_SESSION['client']['userdbo'] = $user_dbo;
+    $this->conf['locale']['language'] = $user_dbo->getLanguage();
+    $_SESSION['jsFunction'] = "reloadMenu()";
+    $this->goto( "config_edit_user", null, "my_info=1" );
   }
 
   /**
@@ -299,6 +306,27 @@ class ConfigureEditUserPage extends AdminPage
     // Display message
     $this->setMessage( array( "type" => "USER_PASS_UPDATED", 
 			      "args" => array( $user_dbo->getUsername() ) ) );
+  }
+
+  /**
+   * Populate the Language Preference Box
+   *
+   * @return array An array of languages
+   */
+  function populateLanguage()
+  {
+    global $translations;
+
+    $langauges = array();
+    foreach( $translations as $language => $phrases )
+      {
+	if( is_array( $phrases ) )
+	  {
+	    $languages[$language] = $language;
+	  }
+      }
+
+    return $languages;
   }
 }
 
