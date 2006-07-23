@@ -209,6 +209,7 @@ class OrderHostingDBO extends OrderItemDBO
     $purchaseDBO->setAccountID( $accountDBO->getID() );
     $purchaseDBO->setHostingServiceID( $this->getServiceID() );
     $purchaseDBO->setTerm( $this->getTerm() );
+    $purchaseDBO->setDate( $DB->format_datetime( time() ) );
     if( !add_HostingServicePurchaseDBO( $purchaseDBO ) )
       {
 	log_error( "OrderHostingDBO::execute()", 

@@ -11,6 +11,10 @@
       <a target="content" href="manager_content.php?page=view_order&id={dbo_echo dbo="orderdbo_table" field="id"}">{dbo_echo dbo="orderdbo_table" field="id"}</a>
     {/dbo_table_column}
 
+    {dbo_table_column header="[ACCOUNT]"}
+      {dbo_echo dbo="orderdbo_table" field="accounttype"}
+    {/dbo_table_column}
+
     {dbo_table_column header="[ORDER_DATE]"}
       {dbo_echo|datetime dbo="orderdbo_table" field="datecompleted"}
     {/dbo_table_column}

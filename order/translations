@@ -49,7 +49,9 @@
     <phrase id="CONTACT_NAME">Contact Name</phrase>
     <phrase id="CONTINUE">Continue</phrase>
     <phrase id="COUNTRY">Country</phrase>
+    <phrase id="CREDIT_CARD_EXPIRED">The credit card you have entered is expired</phrase>
     <phrase id="CREDIT_CARD_INFORMATION">Credit Card Information</phrase>
+    <phrase id="CUSTOMER_LOGIN">Customer Login</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION">Domain Contact Info (WHOIS database)</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION_FOR">Domain Contact Information for</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION_TEXT">Your domain contact information will be publicly available through the WHOIS database.  You may use the contaction information entered above, or enter new contact information for each of your domains.</phrase>
@@ -66,7 +68,9 @@
     <phrase id="EXISTING_DOMAIN_CART_TEXT">Please note: You will need to contact your domain registrar and update the name servers for each of the above domains.</phrase>
     <phrase id="EXISTING_DOMAIN_OPTION_TEXT">If you have already own a domain name and you do not wish to transfer it to us, select this option.  After your account is setup you will need to update your DNS settings with our name servers:</phrase>
     <phrase id="FAX">Fax</phrase>
+    <phrase id="IF_YOU_ARE_AN_EXISTING_CUSTOMER">If you are an existing customer, </phrase>
     <phrase id="ITEM">Item</phrase>
+    <phrase id="LOGIN">Login</phrase>
     <phrase id="LOGIN_INFORMATION">Login Information</phrase>
     <phrase id="LOGIN_TEXT">Please choose a username and password for logging into our system.  Usernames must be between 3 and 10 characters, and passwords must be within 3 and 32 characters.</phrase>
     <phrase id="MOBILE_PHONE">Mobile Phone</phrase>
@@ -80,6 +84,7 @@
     <phrase id="PASSWORD">Password</phrase>
     <phrase id="PAYMENT_METHOD">Payment Method</phrase>
     <phrase id="PHONE">Telephone</phrase>
+    <phrase id="PLEASE_LOGIN">please login</phrase>
     <phrase id="POSTALCODE">Zip Code</phrase>
     <phrase id="PRICE">Price</phrase>
     <phrase id="RECURRING">Recurring</phrase>
@@ -115,6 +120,8 @@
     <phrase id="VERIFY_EMAIL">Verify E-mail</phrase>
     <phrase id="VERIFY_PASSWORD">Verify Password</phrase>
     <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>
+    <phrase id="WELCOME_BACK">Welcome back</phrase>
+    <phrase id="YOUR_ACCOUNT_WILL_BE_BILLED">Your account will be billed for today's purchase on your next invoice.</phrase>
     <phrase id="YOUR_CART">Your Cart</phrase>
     <phrase id="YOUR_ORDER">Your Order</phrase>
     <phrase id="YOUR_ORDER_REFERENCE_NUMBER_IS">Your order reference number is</phrase>
@@ -134,6 +141,8 @@
     <phrase id="INVALID_SELECT">Value received for field '{0}' is not valid: {1}</phrase>
     <phrase id="INVALID_DATE">Invalid date provided for {0}</phrase>
     <phrase id="INVALID_PHONE_NUMBER">Invalid Phone Number provided for {0}.  Please make sure you use no hyphens and only supply numeric digits.</phrase>
+    <phrase id="LOGIN_FAILED">Login failed.</phrase>
+    <phrase id="ONLY_CUSTOMERS_CAN_LOGIN">Only customers may login to the order interface.</phrase>
     <phrase id="PASSWORD_MISMATCH">Your password was not entered correctly.  Please try again.</phrase>
 
   </translation>

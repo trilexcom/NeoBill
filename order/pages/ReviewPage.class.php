@@ -63,6 +63,14 @@ class ReviewPage extends Page
   {
     global $DB;
 
+    // The module must have been picked if this is not an existing customer
+    if( $this->session['order']->getAccountType() == "New Account" &&
+	!isset( $this->session['review']['module'] ) )
+      {
+	fatal_error( "ReviewPage::checkout()",
+		     "Expected a module selection!" );
+      }
+
     $this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
     $this->session['order']->setDateCreated( $DB->format_datetime( time() ) );
 
@@ -71,6 +79,12 @@ class ReviewPage extends Page
 	!add_OrderDBO( $this->session['order'] ) )
       {
 	fatal_error( "ReviewPage::checkout()", "Failed to add Order to database!" );
+      }
+
+    if( $this->session['order']->getAccountType() == "Existing Account" )
+      {
+	$this->session['order']->complete();
+	$this->goto( "receipt" );
       }
 
     // Collect Payment

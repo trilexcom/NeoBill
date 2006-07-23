@@ -56,7 +56,9 @@ class LoginPage extends Page
   {
     $user_dbo = load_UserDBO( $this->session['login']['username'] );
     if( $user_dbo != null &&
-	$user_dbo->getPassword() == $this->session['login']['password'] )
+	$user_dbo->getPassword() == $this->session['login']['password'] &&
+	($user_dbo->getType() == "Administrator" || 
+	 $user_dbo->getType() == "Account Manager") )
       {
 	// Login success
 	$_SESSION['client']['userdbo'] = $user_dbo;

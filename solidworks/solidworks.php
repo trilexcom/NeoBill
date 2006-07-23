@@ -123,7 +123,7 @@ function display_page( $page )
   $smarty->assign( "url", $page->getUrl() );
   $smarty->assign( "version", $conf['application_name'] );
   $smarty->assign( "machine", $_SERVER['SERVER_NAME'] );
-  if( $conf['authenticate_user'] && isset( $_SESSION['client']['userdbo'] ) )
+  if( isset( $_SESSION['client']['userdbo'] ) )
     {
       $smarty->assign( "username", $_SESSION['client']['userdbo']->getUsername() );
     }

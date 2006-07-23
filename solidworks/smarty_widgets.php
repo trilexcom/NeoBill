@@ -345,7 +345,12 @@ function widget_date( $widget_data )
   $day_widget_data['name'] .= "_day";
   $day_widget_data['enum'] = $days;
   $day_widget_data['value'] = $date['mday'];
-  $html .= widget_select( $day_widget_data ) . " / ";
+
+  $hidden = sprintf( "<input name=\"%s\" type=\"hidden\" value=1/>",
+		     $day_widget_data['name'] );
+
+  $html .= $widget_data['noDayField'] == "true" ?
+    $hidden : widget_select( $day_widget_data ) . " / ";
 
   // Create a text widget for the year
   $year_widget_data = $widget_data;

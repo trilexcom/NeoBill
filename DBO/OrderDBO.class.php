@@ -182,6 +182,13 @@ class OrderDBO extends DBO
   function getAccountID() { return $this->accountid; }
 
   /**
+   * Get Account DBO
+   *
+   * @return AccountDBO Account DBO
+   */
+  function getAccount() { return load_AccountDBO( $this->getAccountID() ); }
+
+  /**
    * Set Date Created
    *
    * @param string $date Date and time when the order was created (MySQL DATETIME)
@@ -717,6 +724,19 @@ class OrderDBO extends DBO
   function getTotal() { return $this->getSubTotal() + $this->getTaxTotal(); }
 
   /**
+   * Get Account Type
+   *
+   * If the order has an account ID already, it is an "Existing Account", otherwise
+   * it is a "New Account" type.
+   *
+   * @return string Account type, Existing Account or New Account
+   */
+  function getAccountType()
+  {
+    return $this->getAccountID() != 0 ? "Existing Account" : "New Account";
+  }
+  
+  /**
    * Is the Order Empty?
    *
    * @return boolean True if there are no items attached to this order
@@ -904,7 +924,24 @@ class OrderDBO extends DBO
 	fatal_error( "OrderDBO::executeNewOrder()", 
 		     "Could not create new user: " . $this->getUsername() );
       }
-    
+
+    return $this->execute();
+  }
+
+  /**
+   * Execute Order
+   *
+   * @return boolean True for success
+   */
+  function execute()
+  {
+    global $DB;
+
+    if( null == ($accountDBO = $this->getAccount() ) )
+      {
+	fatal_error( "OrderDBO::execute()", "Account not found!" );
+      }
+
     // Act on all of the accepted items
     foreach( $this->getAcceptedItems() as $orderItemDBO )
       {

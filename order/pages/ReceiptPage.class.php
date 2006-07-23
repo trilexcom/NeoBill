@@ -48,5 +48,8 @@ class ReceiptPage extends Page
   {
     // Give access to the template
     $this->session['order'] =& $_SESSION['order'];
+
+    // Supress the welcome message
+    $this->smarty->assign( "supressWelcome", true );
   }
 }

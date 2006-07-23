@@ -74,15 +74,32 @@ class ExecuteOrderPage extends Page
   function execute()
   {
     // Execute the order
-    if( !$this->orderDBO->executeNewAccount( $this->session['execute_order']['type'],
-					     $this->session['execute_order']['status'],
-					     $this->session['execute_order']['billingstatus'],
-					     $this->session['execute_order']['billingday'] ) )
+    switch( $this->orderDBO->getAccountType() )
       {
-	fatal_error( "ExecuteOrderPage::execut()", 
-		     "Failed to execute Order.  ID=" . $this->orderDBO->getID() );
-      }
+      case "New Account":
+	if( !$this->orderDBO->executeNewAccount( $this->session['execute_order']['type'],
+						 $this->session['execute_order']['status'],
+						 $this->session['execute_order']['billingstatus'],
+						 $this->session['execute_order']['billingday'] ) )
+	  {
+	    fatal_error( "ExecuteOrderPage::execut()", 
+			 "Failed to execute Order.  ID=" . $this->orderDBO->getID() );
+	  }
+	break;
 
+      case "Existing Account":
+	if( !$this->orderDBO->execute() )
+	  {
+	    fatal_error( "ExecuteOrderPage::execut()", 
+			 "Failed to execute Order.  ID=" . $this->orderDBO->getID() );
+	  }
+	break;
+
+      default:
+	fatal_error( "ExecuteOrderPage::execute()",
+		     "Failed to execute order: invalid account type." );
+      }
+	
     // Jump to the view account page
     $this->goto( "accounts_view_account", 
 		 null, 
@@ -110,6 +127,12 @@ class ExecuteOrderPage extends Page
 
     // Set Nav vars
     $this->setNavVar( "order_id", $this->orderDBO->getID() );
+
+    // Go ahead and execute if this is an existing customer
+    if( $this->orderDBO->getAccountType() == "Existing Account" )
+      {
+	$this->execute();
+      }
   }
 
   /**

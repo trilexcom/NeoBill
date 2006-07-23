@@ -829,6 +829,7 @@ function smarty_form_element( $params, &$smarty )
   $field_data['onchange'] = $params['onchange'];
   $field_data['onclick'] = $params['onclick'];
   $field_data['checked'] = $params['checked'];
+  $field_data['noDayField'] = $params['noDayField'];
 
   // Build HTML
   switch( $field_data['type'] )

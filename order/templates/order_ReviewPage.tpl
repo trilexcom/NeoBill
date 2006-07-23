@@ -126,7 +126,9 @@
 </div>
 
 {form name="review"}
-  <div class="cart_total">
+  {dbo_assign dbo="order" field="accounttype" var="accounttype"}
+  {if $accounttype == "New Account"}
+    <div class="cart_total">
       <table>
         <tr>
           <th>{echo phrase="RECURRING_TOTAL"}:</th>
@@ -153,7 +155,10 @@
           <td>{form_element field="module"}</td>
         </tr>
       </table>
-  </div>
+    </div>
+  {else}
+    <p> <b>{echo phrase="YOUR_ACCOUNT_WILL_BE_BILLED"}</b> </p>
+  {/if}
 
   <p/>
 

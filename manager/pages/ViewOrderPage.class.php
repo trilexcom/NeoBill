@@ -118,6 +118,13 @@ class ViewOrderPage extends Page
 	$this->session['itemids'][] = $itemDBO->getOrderItemID();
       }
 
+    // If this is an existing account order, make sure the template has access
+    // to the account DBO
+    if( $this->orderDBO->getAccountType() == "Existing Account" )
+      {
+	$this->session['accountdbo'] = $this->orderDBO->getAccount();
+      }
+
     // Set Nav vars
     $this->setNavVar( "order_id", $this->orderDBO->getID() );
   }

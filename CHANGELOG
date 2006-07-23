@@ -1,6 +1,7 @@
 7/22/2006 - jdiamond
 ====================
 
+ * Added a login page for the order interface (for repeat customers)
  * (trac #88) - Implemented per-user language preferences.
 
 7/20/2006 - jdiamond

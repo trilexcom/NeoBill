@@ -36,60 +36,81 @@
     </table>
   </div>
 
-  <h2> {echo phrase="CONTACT_INFORMATION"} </h2>
+  {dbo_assign dbo="orderdbo" field="accounttype" var="accounttype"}
+  {if $accounttype == "New Account"}
 
-  <div class="form">
-    <table style="width: 35em">
-      <tr>
-        <th> {form_description field="businessname"} </th>
-        <td> {form_element dbo="orderdbo" field="businessname" size="40"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="contactname"} </th>
-        <td> {form_element dbo="orderdbo" field="contactname" size="30"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="contactemail"} </th>
-        <td> {form_element dbo="orderdbo" field="contactemail" size="30"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="address1"} </th>
-        <td> {form_element dbo="orderdbo" field="address1" size="40"} </th>
-      </tr>
-      <tr>
-        <th> {form_description field="address2"} </th>
-        <td> {form_element dbo="orderdbo" field="address2" size="40"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="city"} </th>
-        <td> {form_element dbo="orderdbo" field="city" size="30"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="state"} </th>
-        <td> {form_element dbo="orderdbo" field="state" size="20"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="country"} </th>
-        <td> {form_element dbo="orderdbo" field="country" size="20"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="postalcode"} </th>
-        <td> {form_element dbo="orderdbo" field="postalcode" size="10"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="phone"} </th>
-        <td> {form_element dbo="orderdbo" field="phone" size="15"} </th>
-       </tr>
-      <tr>
-        <th> {form_description field="mobilephone"} </th>
-        <td> {form_element dbo="orderdbo" field="mobilephone" size="15"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="fax"} </th>
-        <td> {form_element dbo="orderdbo" field="fax" size="15"} </td>
-      </tr>
-    </table>
-  </div>
+    <h2> {echo phrase="CONTACT_INFORMATION"} </h2>
+ 
+    <div class="form">
+      <table style="width: 35em">
+        <tr>
+          <th> {form_description field="businessname"} </th>
+          <td> {form_element dbo="orderdbo" field="businessname" size="40"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="contactname"} </th>
+          <td> {form_element dbo="orderdbo" field="contactname" size="30"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="contactemail"} </th>
+          <td> {form_element dbo="orderdbo" field="contactemail" size="30"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="address1"} </th>
+          <td> {form_element dbo="orderdbo" field="address1" size="40"} </th>
+        </tr>
+        <tr>
+          <th> {form_description field="address2"} </th>
+          <td> {form_element dbo="orderdbo" field="address2" size="40"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="city"} </th>
+          <td> {form_element dbo="orderdbo" field="city" size="30"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="state"} </th>
+          <td> {form_element dbo="orderdbo" field="state" size="20"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="country"} </th>
+          <td> {form_element dbo="orderdbo" field="country" size="20"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="postalcode"} </th>
+          <td> {form_element dbo="orderdbo" field="postalcode" size="10"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="phone"} </th>
+          <td> {form_element dbo="orderdbo" field="phone" size="15"} </th>
+         </tr>
+        <tr>
+          <th> {form_description field="mobilephone"} </th>
+          <td> {form_element dbo="orderdbo" field="mobilephone" size="15"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="fax"} </th>
+          <td> {form_element dbo="orderdbo" field="fax" size="15"} </td>
+        </tr>
+      </table>
+    </div>
+
+  {else}
+
+    <h2> {echo phrase="ACCOUNT_INFORMATION"} </h2>
+     <div class="properties">
+      <table style="width: 35em">
+        <tr>
+          <th> {echo phrase="ACCOUNT"}: </th>
+          <td> <a href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="accountdbo" field="id"}">{dbo_echo dbo="accountdbo" field="accountname"}</a>
+        </tr>
+        <tr>
+          <th> {echo phrase="BALANCE"}: </th>
+          <td> {dbo_echo|currency dbo="accountdbo" field="balance"} </td>
+        </tr>
+      </table>
+     </div>
+
+  {/if}
 
   <h2> {echo phrase="ORDER_ITEMS"} </h2>
 

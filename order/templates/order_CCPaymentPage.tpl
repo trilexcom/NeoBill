@@ -65,11 +65,11 @@
               </tr>
               <tr>
                 <th> {form_description field="cardexpire"} </th>
-                <td> {form_element field="cardexpire" size="4"} </td>
+                <td> {form_element field="cardexpire" size="4" noDayField="true"} </td>
               </tr>            
               <tr>
                 <th> {form_description field="cardcode"} </th>
-                <td> {form_element field="cardcode" size="4"} {echo phrase="CARD_CODE_FORMAT"}</td>
+                <td> {form_element field="cardcode" size="4"}</td>
               </tr>            
             </table>
           </div>

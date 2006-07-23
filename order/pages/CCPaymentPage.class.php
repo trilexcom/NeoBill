@@ -102,6 +102,19 @@ class CCPaymentPage extends Page
    */
   function processCard()
   {
+    // Validate the expiration date
+    $realExpireDate = mktime( 0,
+			      0,
+			      0,
+			      date( 'n', $this->session['creditcard']['cardexpire'] ) + 1,
+			      0,
+			      date( 'Y', $this->session['creditcard']['cardexpire'] ) );
+    if( time() > $realExpireDate )
+      {
+	$this->setError( array( "type" => "CREDIT_CARD_EXPIRED" ) );
+	return false;
+      }
+
     // Update contact information
     $billingContact = new ContactDBO( $this->session['creditcard']['contactname'],
 				      null,
