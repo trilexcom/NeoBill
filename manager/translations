@@ -226,6 +226,7 @@
     <phrase id="NOTIFICATION_EMAIL">Notification E-mail</phrase>
     <phrase id="NOT_REQUIRED">Not Required</phrase>
     <phrase id="ON">on</phrase>
+    <phrase id="ONLY_SUPPLY_A_PASSWORD">Only supply a password if you want to overide the password provided by the customer.</phrase>
     <phrase id="ORDER">Order</phrase>
     <phrase id="ORDER_CONFIRMATION_EMAIL">Order Confirmation E-Mail</phrase>
     <phrase id="ORDER_DATE">Order Date</phrase>

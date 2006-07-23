@@ -94,10 +94,27 @@
       </table>
     </div>
 
+    <h2> {echo phrase="ACCOUNT_INFORMATION"} </h2>
+     <div class="properties">
+      <table style="width: 35em">
+        <tr>
+          <th> {form_description field="username"} </th>
+          <td> {form_element dbo="orderdbo" field="username" size="10"} </a>
+        </tr>
+        <tr>
+          <th> {form_description field="password"} </th>
+          <td> 
+            {form_element field="password" size="10"} <br/>
+            {echo phrase="ONLY_SUPPLY_A_PASSWORD"} 
+          </td>
+        </tr>
+      </table>
+     </div>
+
   {else}
 
     <h2> {echo phrase="ACCOUNT_INFORMATION"} </h2>
-     <div class="properties">
+     <div class="form">
       <table style="width: 35em">
         <tr>
           <th> {echo phrase="ACCOUNT"}: </th>

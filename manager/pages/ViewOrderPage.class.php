@@ -173,6 +173,29 @@ class ViewOrderPage extends Page
    */
   function saveChanges()
   {
+    if( $this->orderDBO->getAccountType() == "New Account" )
+      {
+	if( !isset( $this->session['order']['username'] ) )
+	  {
+	    $this->setError( array( "type" => "FIELD_MISSING",
+				    "args" => array( "username" ) ) );
+	    $this->goback( 1 );
+	  }
+
+	if( load_UserDBO( $this->session['order']['username'] ) != null )
+	  {
+	    $this->setError( array( "type" => "DB_USER_EXISTS",
+				    "args" => array( $this->session['order']['username'] ) ) );
+	    $this->goback( 1 );
+	  }
+
+	$this->orderDBO->setUsername( $this->session['order']['username'] );
+	if( isset( $this->session['order']['password'] ) )
+	  {
+	    $this->orderDBO->setPassword( $this->session['order']['password'] );
+	  }
+      }
+
     // Update OrderDBO
     $this->orderDBO->setContactName( $this->session['order']['contactname'] );
     $this->orderDBO->setContactEmail( $this->session['order']['contactemail'] );

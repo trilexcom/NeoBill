@@ -11,6 +11,10 @@
         <th> {form_description field="status"} </th>
         <td> {form_element field="status"} </td>
       </tr>
+      <tr>
+        <th> {echo phrase="USERNAME"}: </th>
+        <td> {dbo_echo dbo="orderdbo" field="username"} </td>
+      </tr>
     </table>
   </div>
 
