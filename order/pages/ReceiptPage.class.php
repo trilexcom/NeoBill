@@ -46,10 +46,25 @@ class ReceiptPage extends Page
    */
   function init()
   {
+    if( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() )
+      {
+	$this->goto( "cart" );
+      }
+
     // Give access to the template
     $this->session['order'] =& $_SESSION['order'];
 
     // Supress the welcome message
     $this->smarty->assign( "supressWelcome", true );
+
+    $this->smarty->assign( "orderid", $this->session['order']->getID() );
+    $this->smarty->assign( "contactemail", 
+			   $this->session['order']->getContactEmail() );
+
+    // Destroy the order object
+    unset( $_SESSION['order'] );
+
+    // Logout the user
+    unset( $_SESSION['client']['userdbo'] );
   }
 }

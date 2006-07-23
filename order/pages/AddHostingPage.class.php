@@ -131,9 +131,9 @@ class AddHostingPage extends Page
 
     $cs = $this->conf['locale']['currency_symbol'];
     return( array( "1 month" => "[1_MONTH] (" . $cs . $service_dbo->getSetupPrice1mo() . " [SETUP], " . $cs . $service_dbo->getPrice1mo() . " [RECURRING])",
-		   "3 months" => "[3_MONTHS] (" . $cs . $service_dbo->getSetupPrice3mo() . " [SETUP], " . $cs . $service_dbo->getPrice3mo() . " [RECURRING])",
-		   "6 months" => "[6_MONTHS] (" . $cs . $service_dbo->getSetupPrice6mo() . " [SETUP], " . $cs . $service_dbo->getPrice6mo() . " [RECURRING])",
-		   "12 months" => "[12_MONTHS] (" . $cs . $service_dbo->getSetupPrice12mo() . " [SETUP], " . $cs . $service_dbo->getPrice12mo() . " [RECURRING])" ) );
+		   "3 month" => "[3_MONTHS] (" . $cs . $service_dbo->getSetupPrice3mo() . " [SETUP], " . $cs . $service_dbo->getPrice3mo() . " [RECURRING])",
+		   "6 month" => "[6_MONTHS] (" . $cs . $service_dbo->getSetupPrice6mo() . " [SETUP], " . $cs . $service_dbo->getPrice6mo() . " [RECURRING])",
+		   "12 month" => "[12_MONTHS] (" . $cs . $service_dbo->getSetupPrice12mo() . " [SETUP], " . $cs . $service_dbo->getPrice12mo() . " [RECURRING])" ) );
   }
 
   /**

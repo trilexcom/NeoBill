@@ -20,7 +20,7 @@ function validate_client()
   global $conf;
 
   if( $conf['authenticate_user'] && 
-      (!isset( $_SESSION['client'] ) || 
+      (!isset( $_SESSION['client']['userdbo'] ) || 
        $_SESSION['client']['userdbo']->getType() == "Client") )
     {
       $_GET['page'] = $conf['login_page'];

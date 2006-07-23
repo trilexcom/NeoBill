@@ -105,9 +105,9 @@ class OrderHostingDBO extends OrderItemDBO
   {
     if( !( $term == null ||
 	   $term == "1 month" ||
-	   $term == "3 months" ||
-	   $term == "6 months" ||
-	   $term == "12 months"  ) )
+	   $term == "3 month" ||
+	   $term == "6 month" ||
+	   $term == "12 month"  ) )
       {
 	fatal_error( "OrderHostingDBO::setTerm()", "Invalid term: " . $term );
       }
@@ -143,9 +143,9 @@ class OrderHostingDBO extends OrderItemDBO
     switch( $this->getTerm() )
       {
       case "1 month": return $this->servicedbo->getPrice1mo();
-      case "3 months": return $this->servicedbo->getPrice3mo();
-      case "6 months": return $this->servicedbo->getPrice6mo();
-      case "12 months": return $this->servicedbo->getPrice12mo();
+      case "3 month": return $this->servicedbo->getPrice3mo();
+      case "6 month": return $this->servicedbo->getPrice6mo();
+      case "12 month": return $this->servicedbo->getPrice12mo();
       }
   }
 
@@ -169,9 +169,9 @@ class OrderHostingDBO extends OrderItemDBO
     switch( $this->getTerm() )
       {
       case "1 month": return $this->servicedbo->getSetupPrice1mo();
-      case "3 months": return $this->servicedbo->getSetupPrice3mo();
-      case "6 months": return $this->servicedbo->getSetupPrice6mo();
-      case "12 months": return $this->servicedbo->getSetupPrice12mo();
+      case "3 month": return $this->servicedbo->getSetupPrice3mo();
+      case "6 month": return $this->servicedbo->getSetupPrice6mo();
+      case "12 month": return $this->servicedbo->getSetupPrice12mo();
       }
   }
 

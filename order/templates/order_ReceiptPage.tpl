@@ -2,12 +2,12 @@
 
 <p>
   {echo phrase="YOUR_ORDER_REFERENCE_NUMBER_IS"}:
-  {dbo_echo dbo="order" field="id"}
+  {$orderid}
 </p>
 
 <p>
   {echo phrase="A_CONFIRMATION_EMAIL"}
-  {dbo_echo dbo="order" field="contactemail"}.
+  {$contactemail}.
 </p>
 
 <p>

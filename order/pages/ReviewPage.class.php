@@ -67,8 +67,8 @@ class ReviewPage extends Page
     if( $this->session['order']->getAccountType() == "New Account" &&
 	!isset( $this->session['review']['module'] ) )
       {
-	fatal_error( "ReviewPage::checkout()",
-		     "Expected a module selection!" );
+	$this->setError( array( "type" => "YOU_MUST_SELECT_PAYMENT" ) );
+	return;
       }
 
     $this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
@@ -106,6 +106,9 @@ class ReviewPage extends Page
 
     // Calculate tax on the order
     $this->session['order']->calculateTaxes();
+
+    // Supress the login link
+    $this->smarty->assign( "supressWelcome", true );
   }
 
   /**

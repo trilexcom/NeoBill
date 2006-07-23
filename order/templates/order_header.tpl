@@ -5,7 +5,7 @@
 </div>
 
 <p>
-  {if $username == null }
+  {if $username == null && !$supressWelcome }
     {echo phrase="IF_YOU_ARE_AN_EXISTING_CUSTOMER"}
     <a href="index.php?page=customerlogin">{echo phrase="PLEASE_LOGIN"}</a>.
   {elseif $username == " "}

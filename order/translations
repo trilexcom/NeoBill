@@ -144,6 +144,7 @@
     <phrase id="LOGIN_FAILED">Login failed.</phrase>
     <phrase id="ONLY_CUSTOMERS_CAN_LOGIN">Only customers may login to the order interface.</phrase>
     <phrase id="PASSWORD_MISMATCH">Your password was not entered correctly.  Please try again.</phrase>
+    <phrase id="YOU_MUST_SELECT_PAYMENT">You must select a payment method.</phrase>
 
   </translation>
 

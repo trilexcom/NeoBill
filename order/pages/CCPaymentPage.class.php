@@ -85,6 +85,9 @@ class CCPaymentPage extends Page
 
     // Reference the order object from the local session so the template can see it
     $this->session['order'] =& $_SESSION['order'];
+
+    // Supress the login link
+    $this->smarty->assign( "supressWelcome", true );
   }
 
   /**
