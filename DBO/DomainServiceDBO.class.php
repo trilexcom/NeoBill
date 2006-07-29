@@ -13,9 +13,6 @@
 // Parent class
 require_once $base_path . "solidworks/DBO.class.php";
 
-// XML-RPC library
-require_once $base_path . "xmlrpc/IXR.php";
-
 /**
  * DomainServiceDBO
  *
