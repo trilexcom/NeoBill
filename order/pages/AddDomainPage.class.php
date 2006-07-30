@@ -14,6 +14,7 @@
 require_once $base_path . "solidworks/Page.class.php";
 
 require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once $base_path . "DBO/OrderDBO.class.php";
 
 /**
  * AddDomainPage

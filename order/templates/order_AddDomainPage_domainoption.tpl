@@ -41,7 +41,9 @@
           <p> {echo phrase="EXISTING_DOMAIN_OPTION_TEXT"} </p>
           <p>
             {foreach key=key item=nameserver from=$nameservers}
-              {echo phrase="NAMESERVER"} #{$key+1} - {$nameserver} <br/>
+              {if !empty($nameserver)}
+                {echo phrase="NAMESERVER"} #{$key+1} - {$nameserver} <br/>
+              {/if}
             {/foreach}
           </p>
         </td>

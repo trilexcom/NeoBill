@@ -1,7 +1,7 @@
 7/30/2006 - jdiamond
 ====================
 
- * Fixed several bugs in the Manager interface that were located during testing
+ * Fixed several bugs in the Manager & Order interfaces that were located during testing
  * Expanded the 'username' field from 10 characters to 32
  * (trac #13) - Made the page loader more efficient by only loading the class file for the page being requested
 

@@ -16,6 +16,8 @@ require_once $base_path . "DBO/OrderItemDBO.class.php";
 // Contact DBO
 require_once $base_path . "DBO/ContactDBO.class.php";
 
+require_once $base_path . "DBO/DomainServiceDBO.class.php";
+
 /**
  * OrderDomainDBO
  *
@@ -543,24 +545,34 @@ function add_OrderDomainDBO( &$dbo )
 {
   global $DB;
 
-  // Save contacts
-  $adminContactDBO = $dbo->getAdminContact();
-  if( !ContactDBO_add( $adminContactDBO ) )
+  // Initialize contact ID's to 0
+  $adminID = $billingID = $techID = 0;
+  if( $dbo->getType() != "Existing" )
     {
-      log_error( "add_OrderDomainDBO", "Failed to add admin contact to database!" );
-      return false;
-    }
-  $billingContactDBO = $dbo->getBillingContact();
-  if( !ContactDBO_add( $billingContactDBO ) )
-    {
-      log_error( "add_OrderDomainDBO", "Failed to add billing contact to database!" );
-      return false;
-    }
-  $techContactDBO = $dbo->getTechContact();
-  if( !ContactDBO_add( $techContactDBO ) )
-    {
-      log_error( "add_OrderDomainDBO", "Failed to add technical contact to database!" );
-      return false;
+      // Save contacts
+      $adminContactDBO = $dbo->getAdminContact();
+      if( !ContactDBO_add( $adminContactDBO ) )
+	{
+	  log_error( "add_OrderDomainDBO", "Failed to add admin contact to database!" );
+	  return false;
+	}
+      $adminID = $adminContactDBO->getID();
+
+      $billingContactDBO = $dbo->getBillingContact();
+      if( !ContactDBO_add( $billingContactDBO ) )
+	{
+	  log_error( "add_OrderDomainDBO", "Failed to add billing contact to database!" );
+	  return false;
+	}
+      $billingID = $billingContactDBO->getID();
+
+      $techContactDBO = $dbo->getTechContact();
+      if( !ContactDBO_add( $techContactDBO ) )
+	{
+	  log_error( "add_OrderDomainDBO", "Failed to add technical contact to database!" );
+	  return false;
+	}
+      $techID = $techContactDBO->getID();
     }
 
   // Build SQL
@@ -574,9 +586,9 @@ function add_OrderDomainDBO( &$dbo )
 				  "domainname" => $dbo->getDomainName(),
 				  "term" => $dbo->getTerm(),
 				  "transfersecret" => $dbo->getTransferSecret(),
-				  "admincontactid" => $adminContactDBO->getID(), 
-				  "billingcontactid" => $billingContactDBO->getID(),
-				  "techcontactid" => $techContactDBO->getID() ) );
+				  "admincontactid" => $adminID, 
+				  "billingcontactid" => $billingID,
+				  "techcontactid" => $techID ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
