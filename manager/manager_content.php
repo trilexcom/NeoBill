@@ -11,7 +11,7 @@
  */
 
 // Load config file
-require_once "../config.inc.php";
+require_once "../config/config.inc.php";
 
 // Load SolidWorks
 require_once $base_path . "solidworks/solidworks.php";

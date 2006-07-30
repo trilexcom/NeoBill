@@ -13,8 +13,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Load config
-require_once "../config.inc.php";
+// Load config file
+require_once "../config/config.inc.php";
+
 require_once $base_path . "solidworks/configuration.php";
 
 // Display menu

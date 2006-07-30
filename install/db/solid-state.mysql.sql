@@ -62,7 +62,7 @@ CREATE TABLE `contact` (
   `mobilephone` varchar(255) default NULL,
   `fax` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
 
 -- --------------------------------------------------------
 
@@ -98,14 +98,13 @@ CREATE TABLE `domainservicepurchase` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
   `tld` varchar(255) NOT NULL default '',
-  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') NOT 
-NULL default '1 year',
+  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') NOT NULL default '1 year',
   `domainname` varchar(255) NOT NULL default '',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `expiredate` datetime NOT NULL default '0000-00-00 00:00:00',
   `accountname` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -144,7 +143,7 @@ CREATE TABLE `hostingservicepurchase` (
   `term` enum('1 month','3 month','6 month','12 month') NOT NULL default '1 month',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -208,7 +207,7 @@ CREATE TABLE `log` (
   `remoteip` int(11) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1581 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1667 ;
 
 -- --------------------------------------------------------
 
@@ -284,7 +283,7 @@ CREATE TABLE `order` (
   `status` enum('Incomplete','Pending','Fulfilled') NOT NULL default 'Incomplete',
   `accountid` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 -- --------------------------------------------------------
 
@@ -300,14 +299,13 @@ CREATE TABLE `orderdomain` (
   `status` enum('Rejected','Pending','Accepted','Fulfilled') NOT NULL default 'Pending',
   `tld` varchar(255) default NULL,
   `domainname` varchar(255) NOT NULL default '',
-  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') 
-default '1 year',
+  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') default '1 year',
   `transfersecret` varchar(255) default NULL,
   `admincontactid` int(10) unsigned NOT NULL,
   `billingcontactid` int(10) unsigned NOT NULL,
   `techcontactid` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=31 ;
 
 -- --------------------------------------------------------
 
@@ -323,7 +321,7 @@ CREATE TABLE `orderhosting` (
   `serviceid` int(10) unsigned NOT NULL default '0',
   `term` enum('1 month','3 month','6 month','12 month') NOT NULL default '1 month',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 -- --------------------------------------------------------
 
@@ -341,11 +339,10 @@ CREATE TABLE `payment` (
   `transaction2` varchar(255) default NULL,
   `type` enum('Credit','Cash','Check','Module','Other') NOT NULL default 'Cash',
   `module` varchar(255) default NULL,
-  `status` enum('Declined','Completed','Pending','Authorized','Refunded','Reversed','Voided') NOT NULL default 
-'Completed',
+  `status` enum('Declined','Completed','Pending','Authorized','Refunded','Reversed','Voided') NOT NULL default 'Completed',
   `statusmessage` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=47 ;
 
 -- --------------------------------------------------------
 
@@ -436,24 +433,12 @@ CREATE TABLE `user` (
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- Admin password is 'temp'
-INSERT INTO `user` (`username`, `password`, `type`, `firstname`, `lastname`, `email`) VALUES ('admin', '3d801aa532c1cec3ee82d87a99fdf63f', 'Administrator', 'Default', 'Administrator', '');
-
-INSERT INTO `settings` VALUES ('company_name', 'SolidState v0.4');
-INSERT INTO `settings` VALUES ('company_email', 'demo@solid-state.org');
 INSERT INTO `settings` VALUES ('welcome_subject', 'Welcome to Web Hosting Company!');
 INSERT INTO `settings` VALUES ('welcome_email', 'This is the welcome email that can be sent to your new \r\ncustomers.');
-INSERT INTO `settings` VALUES ('nameservers_ns1', 'ns1.example.com');
-INSERT INTO `settings` VALUES ('nameservers_ns2', 'ns2.example.com');
-INSERT INTO `settings` VALUES ('nameservers_ns3', 'ns3.example.com');
-INSERT INTO `settings` VALUES ('nameservers_ns4', 'ns4.example.com');
 INSERT INTO `settings` VALUES ('invoice_text', 'Invoice #{invoice_id}\r\n\r\n===================================================================\r\nItem                                    Price     Qty  Total\r\n===================================================================\r\n{invoice_items}===================================================================\r\n\r\nSub-Total: {invoice_subtotal}\r\nTaxes: {invoice_taxtotal}\r\nInvoice Total: {invoice_total}\r\nPayments Received: {invoice_payments}\r\nBalance: {invoice_balance}\r\nDate Due: {invoice_due}\r\n\r\nIf you have any questions about this Invoice, please contact\r\nbilling@example.com.  Thank you!\r\n\r\nWeb Hosting Company\r\n');
-INSERT INTO `settings` VALUES ('locale_language', 'english');
-INSERT INTO `settings` VALUES ('locale_currency_symbol', '$');
 INSERT INTO `settings` VALUES ('payment_gateway_default_module', '');
-INSERT INTO `settings` VALUES ('payment_gateway_order_method', 'Authorize Only`);
-INSERT INTO `settings` VALUES ('company_notification_email', 'demo@solid-state.org'),
-INSERT INTO `settings` VALUES ('order_confirmation_email', '{contact_name},\r\n\r\nThank you for choosing SolidState!\r\n\r\nYour order has been received and we will contact you after one of our account representatives has reviewed it.\r\n\r\nOrder ID: {order_id}\r\nReceived from: {order_ip}'),
-INSERT INTO `settings` VALUES ('order_confirmation_subject', 'Thank you for your order!'),
-INSERT INTO `settings` VALUES ('order_notification_subject', 'SolidState Order Received'),
-INSERT INTO `settings` VALUES ('order_notification_email', 'A new order from {contact_name} has been received.\r\n\r\nRemote IP: {order_ip}\r\nTimestamp: {order_datestamp}');
+INSERT INTO `settings` VALUES ('payment_gateway_order_method', 'Authorize Only');
+INSERT INTO `settings` VALUES ('order_confirmation_email', '{contact_name},\r\n\r\nThank you for choosing SolidState!\r\n\r\nYour order has been received and we will contact you after one of our account representatives has reviewed it.\r\n\r\nOrder ID: {order_id}\r\nReceived from: {order_ip}');
+INSERT INTO `settings` VALUES ('order_confirmation_subject', 'Thank you for your order!');
+INSERT INTO `settings` VALUES ('order_notification_subject', 'SolidState Order Received');
+INSERT INTO `settings` VALUES ('order_notification_email', 'A new order from {contact_name} has been received.\r\n\r\nRemote IP: ({order_ip})\r\nTimestamp: {order_datestamp}');

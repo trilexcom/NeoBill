@@ -65,8 +65,8 @@ class DBConnection
 
     // Open a connection to the database server
     $this->dbh = @mysql_connect( $conf['db']['host'],
-				 $conf['db']['user'],
-				 $conf['db']['pass'] );
+				 base64_decode( $conf['db']['user'] ),
+				 base64_decode( $conf['db']['pass'] ) );
     if( $this->dbh == null )
       {
 	// Connection failed

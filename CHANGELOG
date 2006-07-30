@@ -1,4 +1,10 @@
+7/29/2006 - jdiamond
+====================
+
+ * (trac #84) - Added an install script
+
 7/23/2006 - jdiamond
+====================
 
  * Fixed a bug causing orders for a hosting service with term != 1 month to be $0
 

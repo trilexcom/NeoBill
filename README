@@ -3,12 +3,6 @@ NOTE: For the most up-to-date installation documentation please visit the
 
 * Copy the SolidState source tree to your web root directory
 
-* Make sure that the user your web server runs as (i.e. apache) has
-  read & write permissions on the following directories:
-
-    solidworks/smarty/cache
-    solidworks/smarty/templates_c
-
 * Create a new MySQL database:
 
     $ mysqladmin -u root -p create solidstate
@@ -24,24 +18,12 @@ NOTE: For the most up-to-date installation documentation please visit the
 
 * Don't forget to activate your new privleges:
 
-    mysql> FLUSH PRIVILEGES;           
+    mysql> FLUSH PRIVILEGES;
 
-* Import the Solid-State DB scheme:
+* Open a web browser and run the Install script: http://<your-host>/path/to/solidstate/install
 
-    $ mysql -u apache -p solidstate < sql/solid-state.mysql.sql
-
-* Create your config.inc.php by copying the example template, config.template:
-
-    $ cp config.template config.inc.php
-
-* Edit config.inc.php:
-
-  - Configure your database
+* Remove the install/ directory from your installation
 
 * Open a web browser and visit: http://<your-host>/path/to/solidstate/manager
-
-* Login as admin, password: temp
-
-* Goto "Administration / My Info" and change your password
 
 * Goto "Administration / Settings" and edit your configuration settings.

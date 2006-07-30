@@ -65,7 +65,6 @@ class LoginPage extends Page
 	log_notice( "Login", "User: " . $user_dbo->getUsername() . " logged in" );
 	$_SESSION['jsFunction'] = "reloadMenu()";
 	$this->goto( "home" );
-	exit();
       }
     // Login failure
     log_security( "Login", 
