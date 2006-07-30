@@ -2,7 +2,7 @@
 /**
  * DeleteProductPage.class.php
  *
- * This file contains the definition for the Delete Domain Page class
+ * This file contains the definition for the Delete Product Page class
  *
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
@@ -12,6 +12,9 @@
 
 // Include the parent class
 require_once $base_path . "solidworks/AdminPage.class.php";
+
+require_once $base_path . "DBO/ProductDBO.class.php";
+require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
 
 /**
  * DeleteProductPage

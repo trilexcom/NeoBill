@@ -45,6 +45,6 @@ global $db;
 $db['host'] = 'localhost';
 $db['user'] = 'YXBhY2hl';
 $db['pass'] = 'cGFzc3dvcmQ=';
-$db['database'] = 'solidstate2';
+$db['database'] = 'ssdemo';
 $db['encoded']		= 1;
 ?>

@@ -13,9 +13,10 @@
 // Parent class
 require_once $base_path . "solidworks/DBO.class.php";
 
-require_once "HostingServicePurchaseDBO.class.php";
-require_once "DomainServicePurchaseDBO.class.php";
-require_once "ProductPurchaseDBO.class.php";
+require_once $base_path . "DBO/HostingServicePurchaseDBO.class.php";
+require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
+require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
+require_once $base_path . "DBO/InvoiceDBO.class.php";
 
 /**
  * AccountDBO

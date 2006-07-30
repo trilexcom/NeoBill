@@ -13,6 +13,8 @@
 // Parent class
 require_once $base_path . "solidworks/DBO.class.php";
 
+require_once $base_path . "DBO/ServerDBO.class.php";
+
 /**
  * IPAddressDBO
  *

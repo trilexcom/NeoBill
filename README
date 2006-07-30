@@ -27,3 +27,5 @@ NOTE: For the most up-to-date installation documentation please visit the
 * Open a web browser and visit: http://<your-host>/path/to/solidstate/manager
 
 * Goto "Administration / Settings" and edit your configuration settings.
+
+* Goto "Administration / Modules" to enable and configure the modules you wish to use

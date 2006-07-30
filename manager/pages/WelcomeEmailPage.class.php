@@ -68,7 +68,7 @@ class WelcomeEmailPage extends Page
     // Place values on the template
     $this->smarty->assign( "email",      $dbo->getContactEmail() );
     $this->smarty->assign( "subject",    $this->conf['welcome_subject'] );
-    $this->smarty->assign( "email_body", $this->conf['welcome_text'] );
+    $this->smarty->assign( "email_body", $this->conf['welcome_email'] );
   }
 
   /**

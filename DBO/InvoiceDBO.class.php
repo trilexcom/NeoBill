@@ -13,8 +13,9 @@
 // Parent class
 require_once $base_path . "solidworks/DBO.class.php";
 
-require_once "AccountDBO.class.php";
-require_once "InvoiceItemDBO.class.php";
+require_once $base_path . "DBO/AccountDBO.class.php";
+require_once $base_path . "DBO/InvoiceItemDBO.class.php";
+require_once $base_path . "DBO/PaymentDBO.class.php";
 
 /**
  * InvoiceDBO
@@ -395,7 +396,8 @@ class InvoiceDBO extends DBO
    */
   function getOutstandingInvoices()
   {
-    $where = sprintf( "accountid=%d AND outstanding='%s' AND `date` < '%s'",
+    $where = sprintf( "id <> %d AND accountid=%d AND outstanding='%s' AND `date` < '%s'",
+		      $this->getID(),
 		      $this->getAccountID(),
 		      "yes",
 		      $this->getPeriodBegin() );

@@ -12,6 +12,7 @@
 
 require_once $base_path . "solidworks/AdminPage.class.php";
 
+require_once $base_path . "DBO/ServerDBO.class.php";
 require_once $base_path . "DBO/IPAddressDBO.class.php";
 
 /**

@@ -13,6 +13,9 @@
 // Include the parent class
 require_once $base_path . "solidworks/AdminPage.class.php";
 
+require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
+
 /**
  * DeleteDomainServicePage
  *

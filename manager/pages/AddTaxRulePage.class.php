@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once $base_path . "solidworks/AdminPage.class.php";
 
 // TaxRuleDBO class
 require_once $base_path . "DBO/TaxRuleDBO.class.php";

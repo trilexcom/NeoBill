@@ -13,6 +13,8 @@
 // Include the parent class
 require_once $base_path . "solidworks/AdminPage.class.php";
 
+require_once $base_path . "DBO/DomainServiceDBO.class.php";
+
 /**
  * EditDomainServicePage
  *
@@ -149,16 +151,16 @@ class EditDomainServicePage extends AdminPage
    */
   function populateModuleNames()
   {
-    foreach( $this->conf['modules'] as $moduleName => $moduleData )
+    if( ($registrarModules = 
+	 load_array_ModuleDBO( "type='registrar' AND enabled='Yes'" ) ) != null )
       {
-	if( $moduleData['type'] == "domain_registrar" )
+	foreach( $registrarModules as $moduleDBO )
 	  {
 	    // Add this module to the list
-	    $moduleNames[$moduleName] = $moduleData['shortDescription'];
+	    $moduleNames[$moduleDBO->getName()] = $moduleDBO->getShortDescription();
 	  }
       }
-
-    if( !isset( $moduleNames ) )
+    else
       {
 	// No registrar modules found
 	$moduleNames[] = translate_string( $this->conf['locale']['language'],

@@ -162,7 +162,7 @@ function insert_company_info()
   $sqlquery = "INSERT INTO `settings` VALUES ('locale_language', '$language')";
   mysql_query( $sqlquery ) or die ('Query failed: ' . mysql_error() );
   
-  $sqlquery = "INSERT INTO `settings` VALUES ('locale_currency', '$currency')";
+  $sqlquery = "INSERT INTO `settings` VALUES ('locale_currency_symbol', '$currency')";
   mysql_query( $sqlquery ) or die ('Query failed: ' . mysql_error() );
   
   $sqlquery = "INSERT INTO `settings` VALUES ('nameservers_ns1', '$ns1')";

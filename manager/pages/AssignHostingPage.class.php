@@ -13,6 +13,11 @@
 // Include the parent class
 require_once $base_path . "solidworks/Page.class.php";
 
+require_once $base_path . "DBO/AccountDBO.class.php";
+require_once $base_path . "DBO/HostingServiceDBO.class.php";
+require_once $base_path . "DBO/ServerDBO.class.php";
+require_once $base_path . "DBO/IPAddressDBO.class.php";
+
 /**
  * AssignHostingPage
  *
