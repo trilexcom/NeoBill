@@ -1,3 +1,8 @@
+7/30/2006 - jdiamond
+====================
+
+ * (trac #13) - Made the page loader more efficient by only loading the class file for the page being requested
+
 7/29/2006 - jdiamond
 ====================
 

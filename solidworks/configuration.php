@@ -51,9 +51,15 @@ loadModules();
 // Load page classes
 if( isset( $conf['pages'] ) )
 {
+  if( !isset( $_GET['page'] ) )
+    {
+      $_GET['page'] = $conf['home_page'];
+    }
+
   foreach( $conf['pages'] as $class_name => $page_data )
     {
-      if( isset( $page_data['class_file'] ) )
+      if( isset( $page_data['class_file'] ) &&
+	  $_GET['page'] == $page_data['name'] )
 	{
 	  require_once $base_path . $page_data['class_file'];
 	}
