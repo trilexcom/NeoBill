@@ -17,6 +17,7 @@ require_once $base_path . "solidworks/Email.class.php";
 
 require_once $base_path . "DBO/OrderDomainDBO.class.php";
 require_once $base_path . "DBO/OrderHostingDBO.class.php";
+require_once $base_path . "DBO/PaymentDBO.class.php";
 
 /**
  * OrderDBO
@@ -925,6 +926,7 @@ class OrderDBO extends DBO
 		     "Could not create new user: " . $this->getUsername() );
       }
 
+    $this->setAccountID( $accountDBO->getID() );
     return $this->execute();
   }
 
