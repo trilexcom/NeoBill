@@ -746,7 +746,8 @@ class ResellerClub extends RegistrarModule
   function saveSettings()
   {
     // Save default settings
-    $this->moduleDBO->saveSetting( "debug", $this->getDebug() );
+    $this->moduleDBO->saveSetting( "debug", 
+				   $this->getDebug() == null ? 0 : $this->getDebug() );
     $this->moduleDBO->saveSetting( "defaultcustomerpassword", $this->getDefaultCustomerPassword() );
     $this->moduleDBO->saveSetting( "langpref", $this->getLangPref() );
     $this->moduleDBO->saveSetting( "parentid", $this->getParentID() );
@@ -769,7 +770,7 @@ class ResellerClub extends RegistrarModule
     $this->debug = $debug; 
 
     // Reseller Club API Global var
-    $debugfunction = $debug == true;
+    $debugfunction = ($debug == true);
   }
 
   /**
