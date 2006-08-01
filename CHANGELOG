@@ -3,6 +3,8 @@
 
  * (trac #93) Fixed a multiple error-message bug for Access Denied pages
  * (trac #96) Added Fulfilled Orders page
+ * (trac #92) Fixed a bug preventing you from scrolling the server IP list
+ * (trac #95) Added checks for blank domain fields in the Order interface
 
 7/31/2006 - jdiamond
 ====================

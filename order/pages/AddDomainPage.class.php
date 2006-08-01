@@ -156,6 +156,13 @@ class AddDomainPage extends Page
    */
   function process_existing()
   {
+    if( empty( $this->session['domainoption']['existingdomainname'] ) )
+      {
+	$this->setError( array( "type" => "FIELD_MISSING",
+				"args" => array( "Domain Name" ) ) );
+	$this->goback( 1 );
+      }
+
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
     $dbo->setType( "Existing" );
@@ -263,6 +270,13 @@ class AddDomainPage extends Page
     $tld = $this->session['domainoption']['transferdomaintld'];
     $fqdn = $domain_name . "." . $tld;
 
+    if( empty( $domain_name ) || empty( $tld ) )
+      {
+	$this->setError( array( "type" => "FIELD_MISSING",
+				"args" => array( "Domain Name" ) ) );
+	$this->goback( 1 );
+      }
+
     // Access the Registrar module
     $serviceDBO = load_DomainServiceDBO( $tld );
     $module = $this->conf['modules'][$serviceDBO->getModuleName()];
@@ -293,6 +307,13 @@ class AddDomainPage extends Page
     $domain_name = $this->session['domainoption']['registerdomainname'];
     $tld = $this->session['domainoption']['registerdomaintld'];
     $fqdn = $domain_name . "." . $tld;
+
+    if( empty( $domain_name ) || empty( $tld ) )
+      {
+	$this->setError( array( "type" => "FIELD_MISSING",
+				"args" => array( "Domain Name" ) ) );
+	$this->goback( 1 );
+      }
 
     // Access the Registrar module
     $serviceDBO = load_DomainServiceDBO( $tld );
