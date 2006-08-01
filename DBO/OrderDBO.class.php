@@ -190,6 +190,22 @@ class OrderDBO extends DBO
   function getAccount() { return load_AccountDBO( $this->getAccountID() ); }
 
   /**
+   * Get Account Name
+   *
+   * Returns the account name, or null if the account does not exist
+   *
+   * @return string Account name
+   */
+  function getAccountName()
+  {
+    if( !($accountDBO = $this->getAccount()) )
+      {
+	return null;
+      }
+    return $accountDBO->getAccountName();
+  }
+
+  /**
    * Set Date Created
    *
    * @param string $date Date and time when the order was created (MySQL DATETIME)

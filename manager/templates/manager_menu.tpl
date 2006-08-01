@@ -12,6 +12,7 @@
           <li> <a href="manager_content.php?page=accounts_browse_pending" target="content">{echo phrase="PENDING_ACCOUNTS"}</a> </li>
           <li> <a href="manager_content.php?page=accounts_browse_inactive" target="content">{echo phrase="INACTIVE_ACCOUNTS"}</a> </li>
           <li> <a href="manager_content.php?page=pending_orders" target="content">{echo phrase="PENDING_ORDERS"}</a> </li>
+          <li> <a href="manager_content.php?page=fulfilled_orders" target="content">{echo phrase="FULFILLED_ORDERS"}</a> </li>
         </ul>
 
       </div>

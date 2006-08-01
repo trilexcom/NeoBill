@@ -109,6 +109,7 @@
     <phrase id="CUSTOMER">Customer</phrase>
     <phrase id="CUSTOMERS_EMAIL">Customer's E-Mail Address</phrase>
     <phrase id="DATE">Date</phrase>
+    <phrase id="DATE_FULFILLED">Date Fulfilled</phrase>
     <phrase id="DATE_OF_RENEWAL">Date of Renewal</phrase>
     <phrase id="DATE_RECEIVED">Date Received</phrase>
     <phrase id="DECLINED">Declined</phrase>
@@ -160,6 +161,7 @@
     <phrase id="EXPIRES">Expires</phrase>
     <phrase id="FAX">Fax</phrase>
     <phrase id="FIRST_NAME">First Name</phrase>
+    <phrase id="FULFILLED_ORDERS">Fulfilled Orders</phrase>
     <phrase id="GENERAL">General</phrase>
     <phrase id="GENERATE_INVOICE_BATCH">Generate Invoice Batch</phrase>
     <phrase id="GENERATE_INVOICES">Generate Invoices</phrase>
