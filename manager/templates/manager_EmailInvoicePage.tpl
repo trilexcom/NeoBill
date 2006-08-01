@@ -8,8 +8,14 @@
         <td style="width: 70%"> {form_element field="email" size="30" value="$email"} </td>
       </tr>
       <tr>
-        <th style="width: 30%"> {form_description field="invoice"} </th>
-        <td style="width: 70%"> {form_element field="invoice" cols="60" rows="20" value="$body"} </td>
+        <th style="width: 30%"> {form_description field="subject"} </th>
+        <td style="width: 70%"> {form_element field="subject" size="60" value="$subject"} </td>
+      </tr>
+      <tr>
+        <th colspan="2"> {form_description field="invoice"} </th>
+      </tr>
+      <tr>
+        <td colspan="2"> {form_element field="invoice" cols="80" rows="20" value="$body"} </td>
       </tr>
       <tr class="footer">
         <td colspan="2">

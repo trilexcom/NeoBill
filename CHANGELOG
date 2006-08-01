@@ -2,6 +2,7 @@
 ====================
 
  * (trac #94) Fixed reseller club debug flag bug
+ * (trac #91) Added a subject field to the invoice email page
 
 7/30/2006 - jdiamond
 ====================

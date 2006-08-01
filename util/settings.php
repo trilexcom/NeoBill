@@ -61,6 +61,7 @@ function load_settings( &$conf )
 	case "nameservers_ns4": $conf['dns']['nameservers'][3] = $val; break;
 
 	case "invoice_text": $conf['invoice_text'] = $val; break;
+	case "invoice_subject": $conf['invoice_subject'] = $val; break;
 
 	case "locale_language": $conf['locale']['language'] = $val; break;
 	case "locale_currency_symbol": $conf['locale']['currency_symbol'] = $val; break;
@@ -102,6 +103,7 @@ function save_settings( &$conf )
   update_setting( "nameservers_ns4", $conf['dns']['nameservers'][3] );
 
   update_setting( "invoice_text", $conf['invoice_text'] );
+  update_setting( "invoice_subject", $conf['invoice_subject'] );
 
   update_setting( "locale_currency_symbol", $conf['locale']['currency_symbol'] );
   update_setting( "locale_language", $conf['locale']['language'] );

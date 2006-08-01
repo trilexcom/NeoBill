@@ -178,6 +178,7 @@
     <phrase id="INVOICES">Invoices</phrase>
     <phrase id="INVOICE_BALANCE">Invoice Balance</phrase>
     <phrase id="INVOICE_DATE">Invoice Date</phrase>
+    <phrase id="INVOICE_EMAIL_SUBJECT">Invoice E-mail Subject</phrase>
     <phrase id="INVOICE_TEXT">Invoice Text</phrase>
     <phrase id="INVOICE_TO_PAY">Invoice to Pay</phrase>
     <phrase id="INVOICE_TOTAL">Invoice Total</phrase>

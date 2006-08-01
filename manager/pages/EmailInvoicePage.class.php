@@ -40,6 +40,8 @@ class EmailInvoicePage extends Page
    */
   function init()
   {
+    global $DB;
+
     $id = $_GET['id'];
 
     if( isset( $id ) )
@@ -70,7 +72,20 @@ class EmailInvoicePage extends Page
 
     $account_dbo = $dbo->getAccountDBO();
 
+    // Replace tokens in subject field
+    $subject = $this->conf['invoice_subject'];
+    $subject = str_replace( "{company_name}", $this->conf['company']['name'], $subject );
+    $subject = str_replace( "{period_begin_date}",
+			    strftime( "%D", 
+				      $DB->datetime_to_unix( $dbo->getPeriodBegin() ) ),
+			    $subject );
+    $subject = str_replace( "{period_end_date}",
+			    strftime( "%D", 
+				      $DB->datetime_to_unix( $dbo->getPeriodEnd() ) ),
+			    $subject );
+
     $this->smarty->assign( "email", $account_dbo->getContactEmail() );
+    $this->smarty->assign( "subject", $subject );
     $this->smarty->assign( "body",  $dbo->text( $this->conf['invoice_text'] ) );
   }
 
@@ -132,7 +147,7 @@ class EmailInvoicePage extends Page
     $email->setFrom( $this->conf['company']['email'],
 		     $this->conf['company']['name'] );
     $email->addRecipient( $this->session['email_invoice']['email'] );
-    $email->setSubject( "Invoice" );
+    $email->setSubject( $this->session['email_invoice']['subject'] );
     $email->setBody( $this->session['email_invoice']['invoice'] );
 
     // Send the email

@@ -11,6 +11,12 @@
   {form name="settings_invoice"}
     <table style="width: 95%">
       <tr>
+        <th colspan="2"> {form_description field="subject"} </th>
+      </tr>
+      <tr>
+        <td colspan="2"> {form_element field="subject" value="$invoice_subject" size="80"} </td>
+      </tr>
+      <tr>
         <th colspan="2"> {form_description field="text"} </th>
       </tr>
       <tr>

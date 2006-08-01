@@ -53,6 +53,7 @@ class SettingsPage extends AdminPage
     $this->smarty->assign( "nameservers_ns4", $this->conf['dns']['nameservers'][3] );
 
     $this->smarty->assign( "invoice_text", $this->conf['invoice_text'] );
+    $this->smarty->assign( "invoice_subject", $this->conf['invoice_subject'] );
 
     $this->smarty->assign( "currency", $this->conf['locale']['currency_symbol'] );
 
@@ -230,6 +231,7 @@ class SettingsPage extends AdminPage
   function update_invoice()
   {
     $this->conf['invoice_text'] = $this->session['settings_invoice']['text'];
+    $this->conf['invoice_subject'] = $this->session['settings_invoice']['subject'];
     $this->save();
     $this->setTemplate( "billing" );
   }
