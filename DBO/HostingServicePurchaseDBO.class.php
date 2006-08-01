@@ -13,6 +13,7 @@
 // Parent class
 require_once $base_path . "DBO/PurchaseDBO.class.php";
 
+require_once $base_path . "DBO/AccountDBO.class.php";
 require_once $base_path . "DBO/HostingServiceDBO.class.php";
 require_once $base_path . "DBO/ServerDBO.class.php";
 

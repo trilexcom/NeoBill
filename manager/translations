@@ -364,7 +364,6 @@
 
     <!-- Error Messages -->
     <phrase id="LOGIN_FAILED">Login Failed</phrase>
-    <phrase id="ACCESS_DENIED">Access Denied</phrase>
     <phrase id="FIELD_MISSING">Missing required field: {0}</phrase>
     <phrase id="FIELD_TOO_BIG">Size limit ({1}) exceeded for field: {0}</phrase>
     <phrase id="FIELD_TOO_SMALL">Minimum size ({1}) for field: {0} not met</phrase>
