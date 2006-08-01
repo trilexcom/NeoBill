@@ -88,6 +88,10 @@ class CustomerPage extends Page
     // Give access to the template
     $this->session['order'] =& $_SESSION['order'];
 
+    // Indicate to the template wether or not the order contains any domain items
+    $this->smarty->assign( "orderHasDomains",
+			   $this->session['order']->getDomainItems() != null );
+       
     if( isset( $_SESSION['client']['userdbo'] ) )
       {
 	// Use the account information already on file
@@ -113,6 +117,11 @@ class CustomerPage extends Page
 	$this->session['order']->setMobilePhone( $accountDBO->getMobilePhone() );
 	$this->session['order']->setFax( $accountDBO->getFax() );
 	$this->session['order']->setUsername( $userDBO->getUsername() );
+
+	if( $this->session['order']->getDomainItems() == null )
+	  {
+	    $this->process();
+	  }
 
 	$this->setTemplate( "repeatcustomer" );
       }

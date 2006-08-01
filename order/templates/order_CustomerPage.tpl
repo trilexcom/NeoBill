@@ -85,24 +85,28 @@
     </table>
   </div>
 
-  <div class="domainoption">
-    <table>
-      <tr class="reverse">
-        <td> {echo phrase="DOMAIN_CONTACT_INFORMATION"} </td>
-      </tr>
-      <tr>
-        <td>
-          {echo phrase="DOMAIN_CONTACT_INFORMATION_TEXT"}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          {form_element field="domaincontact" option="same"}<br/>
-          {form_element field="domaincontact" option="new"}
-        </td>
-      </tr>
-    </table>
-  </div>
+  {if $orderHasDomains}
+    <div class="domainoption">
+      <table>
+        <tr class="reverse">
+          <td> {echo phrase="DOMAIN_CONTACT_INFORMATION"} </td>
+        </tr>
+        <tr>
+          <td>
+            {echo phrase="DOMAIN_CONTACT_INFORMATION_TEXT"}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {form_element field="domaincontact" option="same"}<br/>
+            {form_element field="domaincontact" option="new"}
+          </td>
+        </tr>
+      </table>
+    </div>
+  {else}
+    <input type="hidden" name="domaincontact" value="same"/>
+  {/if}
             
   <div class="domainoption">
     <table>

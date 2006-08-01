@@ -38,6 +38,11 @@ class ReviewPage extends Page
       case "review":
 	if( isset( $this->session['review']['back'] ) )
 	  {
+	    if( $this->session['order']->getAccountID() != null &&
+		$this->session['order']->getDomainItems() == null )
+	      {
+		$this->goto( "cart" );
+	      }
 	    $this->goto( "customer" );
 	  }
 	elseif( isset( $this->session['review']['checkout'] ) )
