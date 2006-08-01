@@ -34,6 +34,11 @@ class ViewServerPage extends Page
    */
   function init()
   {
+    if( isset( $this->session['template'] ) )
+      {
+	$this->setTemplate( $this->session['template'] );
+      }
+
     $id = $_GET['id'];
 
     if( isset( $id ) )
@@ -80,14 +85,17 @@ class ViewServerPage extends Page
     switch( $action_name )
       {
       case "info":
+	$this->session['template'] = "default";
 	$this->setTemplate( "default" );
 	break;
 
       case "ips":
+	$this->session['template'] = "ips";
 	$this->setTemplate( "ips" );
 	break;
 
       case "services":
+	$this->session['template'] = "services";
 	$this->setTemplate( "services" );
 	break;
 

@@ -771,7 +771,18 @@ class Page
    */
   function getUrl()
   {
-    return $this->url;
+    $url = $this->url;
+
+    // Replace Nav Vars with their values
+    if( $_SESSION['nav_vars'] != null )
+      {
+	foreach( $_SESSION['nav_vars'] as $name => $value )
+	  {
+	    $url = str_replace( "{" . $name . "}", $value, $url);
+	  }
+      }
+    
+    return $url;
   }
 
   /**
