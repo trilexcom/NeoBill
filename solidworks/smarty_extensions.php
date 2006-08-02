@@ -249,6 +249,7 @@ function smarty_dbo_table( $params, $content, &$smarty, &$repeat )
   $sortdir        = $params['sortdir'];
   $style          = $params['style'];
   $search         = $params['search'] == "true";
+  $noFooter       = $params['noFooter'] == "true";
   $dbo_table_url  = $params['url'];
 
   // Append the filter paramater if it has already been defined in the session
@@ -333,46 +334,51 @@ function smarty_dbo_table( $params, $content, &$smarty, &$repeat )
 	  // Close table HTML
 	  $start = $properties['start'];
 	  $content .= "</tr>\n";
-	  $content .= "<tr class=\"footer\">\n";
-	  $content .= "  <td colspan=\"" . $dbo_table_cols . "\">\n";
 
-	  if( $start > 0 )
+	  if( !$noFooter )
 	    {
-	      // Provide "prev" and "begin" links
-	      $start_val = ($start - $size) > 0 ? ($start - $size) : 0;
-	      $content .= 
-		" (<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name .
-		"&start=0" . $dbo_table_url . "\">Begin</a>) ";
-	      $content .=
-		"<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name .
-		"&start=" . $start_val . $dbo_table_url . "\">Prev</a>";
-	    }
-	  else
-	    {
-	      // This is the first page of data - no prev link
-	      $content .= "(Begin) Prev";
+	      $content .= "<tr class=\"footer\">\n";
+	      $content .= "  <td colspan=\"" . $dbo_table_cols . "\">\n";
+	      
+	      if( $start > 0 )
+		{
+		  // Provide "prev" and "begin" links
+		  $start_val = ($start - $size) > 0 ? ($start - $size) : 0;
+		  $content .= 
+		    " (<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name .
+		    "&start=0" . $dbo_table_url . "\">Begin</a>) ";
+		  $content .=
+		    "<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name .
+		    "&start=" . $start_val . $dbo_table_url . "\">Prev</a>";
+		}
+	      else
+		{
+		  // This is the first page of data - no prev link
+		  $content .= "(Begin) Prev";
+		}
+	      
+	      $content .= " | ";
+	      
+	      if( $start + $size < $count )
+		{
+		  // Provide "next" and "end" links
+		  $content .= 
+		    "<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name . 
+		    "&start=" . ($start + $size) . $dbo_table_url . "\">Next</a>";
+		  $content .= 
+		    " (<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name .
+		    "&start=" . ($count - $size) . $dbo_table_url . "\">End</a>)";
+		}
+	      else
+		{
+		  // This is the last page of data - no next link
+		  $content .= "Next (End)";
+		}
+	      
+	      $content .= "  </td>\n";
+	      $content .= "</tr>";
 	    }
 
-	  $content .= " | ";
-
-	  if( $start + $size < $count )
-	    {
-	      // Provide "next" and "end" links
-	      $content .= 
-		"<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name . 
-		"&start=" . ($start + $size) . $dbo_table_url . "\">Next</a>";
-	      $content .= 
-		" (<a href=\"" . $page->getUrl() . "&table=" . $dbo_table_name .
-		"&start=" . ($count - $size) . $dbo_table_url . "\">End</a>)";
-	    }
-	  else
-	    {
-	      // This is the last page of data - no next link
-	      $content .= "Next (End)";
-	    }
-
-	  $content .= "  </td>\n";
-	  $content .= "</tr>";
 	  $content .= "</table>\n";
 	  echo $content;
 	}

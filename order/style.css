@@ -78,6 +78,11 @@
 	color: #ffffff;
 }
 
+.cart th {
+	background-color: #000000;
+	color: #ffffff;
+}
+
 .cart td {
 	border-style: solid;
 	border-width: 1px;

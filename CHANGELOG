@@ -6,6 +6,7 @@
  * (trac #92) Fixed a bug preventing you from scrolling the server IP list
  * (trac #95) Added checks for blank domain fields in the Order interface
  * (trac #97) Domain contact box no longer shows up when there are no domains in the order
+ * (trac #98) Made asthetic improvements to the shopping cart on the review page
 
 7/31/2006 - jdiamond
 ====================

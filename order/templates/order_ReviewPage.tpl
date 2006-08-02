@@ -73,7 +73,9 @@
     </tr>
 
   </table>
+</div>
 
+<div class="domainoption">
   <table>
     <tr class="reverse"> <td> {echo phrase="LOGIN_INFORMATION"} </td> </tr>
     <tr>
@@ -100,7 +102,8 @@
   {dbo_table dbo_class="OrderItemDBO"
              name="orderTable"
              method_name="populateOrderTable"
-             title="[YOUR_CART]"}
+             title="[YOUR_CART]"
+             noFooter="true"}
 
     {dbo_table_column header="[ITEM]"}
       {dbo_echo dbo="orderTable" field="description"}
@@ -123,6 +126,32 @@
     {/dbo_table_column}
 
   {/dbo_table}
+</div>
+
+<div class="cart_total">
+      <table>
+        <tr>
+          <th>{echo phrase="RECURRING_TOTAL"}:</th>
+          <td>{dbo_echo|currency dbo="order" field="recurringtotal"}</td>
+        </tr>
+        <tr>
+          <th>{echo phrase="NONRECURRING_TOTAL"}:</th>
+          <td>{dbo_echo|currency dbo="order" field="nonrecurringtotal"}</td>
+        </tr>
+        <tr>
+          <th>{echo phrase="SUB_TOTAL"}:</th>
+          <td>{dbo_echo|currency dbo="order" field="subtotal"}</td>
+        </tr>
+        <tr>
+          <th>{echo phrase="TAXES"}:</th>
+          <td>{dbo_echo|currency dbo="order" field="taxtotal"}</td>
+        </tr>
+        <tr>
+          <th>{echo phrase="CART_TOTAL"}:</th>
+          <td>{dbo_echo|currency dbo="order" field="total"}</td>
+        </tr>
+      </table>
+      <p/>
 </div>
 
 {form name="review"}
