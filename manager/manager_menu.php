@@ -29,6 +29,9 @@ if( isset( $translations[$language] ) )
     $conf['locale']['language'] = $language;
   }
 
+// Change the charset to UTF-8
+header( "Content-type: text/html; charset=utf-8" );
+
 // Display menu
 $smarty->display( "manager_menu.tpl" );
 
