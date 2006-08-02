@@ -118,6 +118,12 @@ class AddDomainPage extends Page
    */
   function init()
   {
+    if( load_array_DomainServiceDBO() == null )
+      {
+	// No domains to add
+	$this->done();
+      }
+
     if( !isset( $_SESSION['order'] ) )
       {
 	// Start a new order

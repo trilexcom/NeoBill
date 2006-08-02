@@ -78,6 +78,11 @@ class AddHostingPage extends Page
    */
   function init()
   {
+    if( load_array_HostingServiceDBO() == null )
+      {
+	$this->done();
+      }
+
     if( !isset( $_SESSION['order'] ) )
       {
 	// Start a new order

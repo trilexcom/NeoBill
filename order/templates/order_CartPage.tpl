@@ -1,13 +1,14 @@
 <b> {echo phrase="YOUR_ORDER"}: </b>
-<div class="cart">
-  {form name="cart_mod"}
+{form name="cart_mod"}
+  <div class="cart">
     {form_element field="carttable"}
 
     {form_element field="adddomain"}
     {form_element field="addhosting"}
     {form_element field="remove"}
+  </div>
 
-    <div class="cart_total">
+  <div class="cart_total">
       <table>
         <tr>
           <th>{echo phrase="RECURRING_TOTAL"}:</th>
@@ -23,9 +24,10 @@
         </tr>
       </table>
       <p>({echo phrase="DOES_NOT_INCLUDE_TAXES"})</p>
-    </div>
-  {/form}
+  </div>
+{/form}
 
+<div class="cart">
   {form name="cart_domains"}
 
     {if $show_existing_domains}

@@ -7,6 +7,8 @@
  * (trac #95) Added checks for blank domain fields in the Order interface
  * (trac #97) Domain contact box no longer shows up when there are no domains in the order
  * (trac #98) Made asthetic improvements to the shopping cart on the review page
+ * (trac #90) Added a check for no domain service and no hosting services to the
+              add domain / add hosting pages of the order interface
 
 7/31/2006 - jdiamond
 ====================
