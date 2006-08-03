@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 2.8.1
--- http://www.phpmyadmin.net
--- 
--- Host: localhost
--- Generation Time: Aug 03, 2006 at 10:08 AM
--- Server version: 5.0.22
--- PHP Version: 5.1.4
--- 
 -- Database: `solidstate`
 -- 
 
