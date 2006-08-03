@@ -25,7 +25,7 @@
 **/
 
 $this_pathinfo  = pathinfo( __FILE__ );
-$base_path      = $this_pathinfo['dirname']);
+$base_path      = $this_pathinfo['dirname'];
 
 /** 
  * ----------------------------------------------------------------------
