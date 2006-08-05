@@ -5,9 +5,8 @@
   <head>
     <title>SolidState Manager - {$location|capitalize}</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
+    <script type="text/javascript" src="../solidworks/include.js"></script>
   </head>
-
-  <script language="JavaScript" src="../solidworks/include.js"/>
 
   {if isset( $jsFunction )}
     <body onLoad="{$jsFunction}">

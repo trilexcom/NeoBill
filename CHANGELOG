@@ -1,3 +1,9 @@
+8/5/2006 - jdiamond
+====================
+
+ * (trac #102) Fixed a bug in manager_content.tpl that was causing manager pages to
+   show up blank in IE.
+
 8/1/2006 - jdiamond
 ====================
 
