@@ -443,3 +443,4 @@ INSERT INTO `settings` VALUES ('order_confirmation_subject', 'Thank you for your
 INSERT INTO `settings` VALUES ('order_notification_subject', 'SolidState Order Received');
 INSERT INTO `settings` VALUES ('order_notification_email', 'A new order from {contact_name} has been received.\r\n\r\nRemote IP: ({order_ip})\r\nTimestamp: {order_datestamp}');
 INSERT INTO `settings` VALUES ('invoice_subject', 'Your {company_name} Invoice for {period_begin_date} - {period_end_date}');
+INSERT INTO `settings` (`setting`, `value`) VALUES ('order_accept_checks', '0');
