@@ -70,6 +70,8 @@ function load_settings( &$conf )
 	  $conf['payment_gateway']['default_module'] = $val; break;
 	case "payment_gateway_order_method":
 	  $conf['payment_gateway']['order_method'] = $val; break;
+
+	case "order_accept_checks": $conf['order']['accept_checks'] = $val; break;
 	}
     }
 }
@@ -112,6 +114,8 @@ function save_settings( &$conf )
 		  $conf['payment_gateway']['default_module'] );
   update_setting( "payment_gateway_order_method",
 		  $conf['payment_gateway']['order_method'] );
+
+  update_setting( "order_accept_checks", $conf['order']['accept_checks'] ? "1" : "0" );
 
   // Reload
   load_settings( $conf );

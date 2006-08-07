@@ -61,6 +61,9 @@ class ReceiptPage extends Page
     $this->smarty->assign( "contactemail", 
 			   $this->session['order']->getContactEmail() );
 
+    // If the paybycheck flag is set, display the payment information
+    $this->smarty->assign( "paybycheck", $_GET['payByCheck'] == 1 );
+
     // Destroy the order object
     unset( $_SESSION['order'] );
 

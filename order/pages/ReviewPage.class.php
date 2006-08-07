@@ -16,6 +16,9 @@ require_once $base_path . "solidworks/Page.class.php";
 // Order DBO
 require_once $base_path . "DBO/OrderDBO.class.php";
 
+// Payment DBO
+require_once $base_path . "DBO/PaymentDBO.class.php";
+
 /**
  * ReviewPage
  *
@@ -88,8 +91,29 @@ class ReviewPage extends Page
 
     if( $this->session['order']->getAccountType() == "Existing Account" )
       {
+	// Send existing accounts off to the receipt page
 	$this->session['order']->complete();
 	$this->goto( "receipt" );
+      }
+
+    if( $this->session['review']['module'] == "Check" )
+      {
+	// Record the promise to pay by check
+	$checkPayment = new PaymentDBO();
+	$checkPayment->setOrderID( $this->session['order']->getID() );
+	$checkPayment->setAmount( $this->session['order']->getTotal() );
+	$checkPayment->setStatus( "Pending" );
+	$checkPayment->setDate( $DB->format_datetime( time() ) );
+	$checkPayment->setType( "Check" );
+	if( !add_PaymentDBO( $checkPayment ) )
+	  {
+	    fatal_error( "ReviewPage::checkout()", 
+			 "Failed to record payment by check!" );
+	  }
+
+	// Goto the receipt page
+	$this->session['order']->complete();
+	$this->goto( "receipt", null, "payByCheck=1" );
       }
 
     // Collect Payment
@@ -135,12 +159,19 @@ class ReviewPage extends Page
     $values = array();
     foreach( $this->conf['modules'] as $moduleDBO )
       {
+	// Add each payment module to the list
 	if( (is_a( $moduleDBO, "PaymentProcessorModule" ) ||
 	     is_a( $moduleDBO, "PaymentGatewayModule" )) &&
 	    $moduleDBO->isEnabled() )
 	  {
 	    $values[$moduleDBO->getName()] = $moduleDBO->getShortDescription();
 	  }
+      }
+    if( $this->conf['order']['accept_checks'] )
+      {
+	// Add check or money order to the list
+	$values['Check'] = translate_string( $this->conf['locale']['language'],
+					     "[CHECK_OR_MONEY_ORDER]" );
       }
 
     return $values;

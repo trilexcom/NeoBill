@@ -150,6 +150,7 @@
     <phrase id="EMAIL_BODY">E-Mail Body</phrase>
     <phrase id="EMAIL_BODY_INVOICE">E-Mail Body w/ Invoice</phrase>
     <phrase id="EMAIL_INVOICE">E-Mail Invoice to Customer</phrase>
+    <phrase id="ENABLE_CHECK_MO_PAYMENTS">Enable Check/Money Order Payments</phrase>
     <phrase id="ENABLED">Enabled</phrase>
     <phrase id="END_ADDRESS">End Address</phrase>
     <phrase id="ENDING_ADDRESS">End Address</phrase>

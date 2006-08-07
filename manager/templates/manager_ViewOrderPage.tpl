@@ -194,6 +194,14 @@
         {dbo_echo dbo="paymentdbo_table" field="type"}
       {/dbo_table_column}
 
+      {dbo_table_column header="[MODULE]" sort_field="module"}
+        {dbo_echo dbo="paymentdbo_table" field="module"}
+      {/dbo_table_column}
+
+      {dbo_table_column header="[PAYMENT_STATUS]" sort_field="status"}
+        {dbo_echo dbo="paymentdbo_table" field="status"}
+      {/dbo_table_column}
+
     {/dbo_table}
 
 {/form}

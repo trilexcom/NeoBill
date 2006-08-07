@@ -3,7 +3,7 @@
   <li class="selected"> <a href="manager_content.php?page=settings&action=billing"> {echo phrase="BILLING"} </a> </li>
   <li> <a href="manager_content.php?page=settings&action=dns"> {echo phrase="DNS"} </a> </li>
   <li> <a href="manager_content.php?page=settings&action=locale"> {echo phrase="LOCALE"} </a> </li>
-  <li> <a href="manager_content.php?page=settings&action=payment_gateway"> {echo phrase="PAYMENT_GATEWAY"} </a> </li>
+  <li> <a href="manager_content.php?page=settings&action=payment_gateway"> {echo phrase="PAYMENTS"} </a> </li>
 </ul>
 
 <h2> {echo phrase="INVOICE"} </h2>

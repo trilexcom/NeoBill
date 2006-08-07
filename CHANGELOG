@@ -3,6 +3,7 @@
 
  * (trac #102) Fixed a bug in manager_content.tpl that was causing manager pages to
    show up blank in IE.
+ * (trac #101) Enabled check/money order payments for the order interface.
 
 8/1/2006 - jdiamond
 ====================

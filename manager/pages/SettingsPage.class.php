@@ -59,6 +59,8 @@ class SettingsPage extends AdminPage
 
     $this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] );
 
+    $this->smarty->assign( "order_accept_checks", $this->conf['order']['accept_checks'] );
+
     // Place the supported languages into a drop-down select
     $this->session['languages'] = array();
     foreach( array_keys( $translations ) as $language )
@@ -141,6 +143,10 @@ class SettingsPage extends AdminPage
 	$this->update_payment_gateway();
 	break;
 
+      case "settings_order_interface":
+	$this->updateOrderInterfacePayments();
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );
@@ -197,6 +203,14 @@ class SettingsPage extends AdminPage
     $this->conf['order']['confirmation_email'] = 
       $this->session['settings_confirmation']['email'];
     $this->save();
+  }
+
+  function updateOrderInterfacePayments()
+  {
+    $this->conf['order']['accept_checks'] =
+      $this->session['settings_order_interface']['accept_checks'];
+    $this->save();
+    $this->setTemplate( "payment_gateway" );
   }
 
   /**

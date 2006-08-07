@@ -128,32 +128,6 @@
   {/dbo_table}
 </div>
 
-<div class="cart_total">
-      <table>
-        <tr>
-          <th>{echo phrase="RECURRING_TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="recurringtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="NONRECURRING_TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="nonrecurringtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="SUB_TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="subtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="TAXES"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="taxtotal"}</td>
-        </tr>
-        <tr>
-          <th>{echo phrase="CART_TOTAL"}:</th>
-          <td>{dbo_echo|currency dbo="order" field="total"}</td>
-        </tr>
-      </table>
-      <p/>
-</div>
-
 {form name="review"}
   {dbo_assign dbo="order" field="accounttype" var="accounttype"}
   {if $accounttype == "New Account"}
