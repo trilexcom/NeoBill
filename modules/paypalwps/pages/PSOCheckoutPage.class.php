@@ -75,6 +75,18 @@ class PSOCheckoutPage extends Page
 			 "quantity" => 1,
 			 "amount" => $orderItemDBO->getPrice(),
 			 "tax" => $orderItemDBO->getTaxAmount() );
+
+	if( is_a( $orderItemDBO, "OrderHostingDBO" ) &&
+	    $orderItemDBO->getSetupFee() > 0 )
+	  {
+	    // Charge a setup fee
+	    $desc = sprintf( "%s: [SETUP_FEE]", $orderItemDBO->getDescription() );
+	    $desc = translate_string( $this->conf['locale']['language'], $desc );
+	    $cart[] = array( "name" => $desc,
+			     "quantity" => 1,
+			     "amount" => $orderItemDBO->getSetupFee(),
+			     "tax" => 0 );
+	  }
       }
     return $cart;
   }
