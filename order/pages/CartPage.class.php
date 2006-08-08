@@ -81,6 +81,35 @@ class CartPage extends Page
    */
   function init()
   {
+    // Make sure we have things to sell
+    if( (load_array_DomainServiceDBO() == null) &&
+	(load_array_HostingServiceDBO() == null) )
+      {
+	fatal_error( "CartPage::init()", 
+		     "There are no services configured.  The HSP must configure some services before the order interface can be used" );
+      }
+
+    // Make sure we have a way to collect payment
+    $paymentMethods = 0;
+    foreach( $this->conf['modules'] as $moduleDBO )
+      {
+	if( (is_a( $moduleDBO, "PaymentProcessorModule" ) ||
+	     is_a( $moduleDBO, "PaymentGatewayModule" )) &&
+	    $moduleDBO->isEnabled() )
+	  {
+	    $paymentMethods++;
+	  }
+      }
+    if( $this->conf['order']['accept_checks'] )
+      {
+	$paymentMethods++;
+      }
+    if( $paymentMethods == 0 )
+      {
+	fatal_error( "CartPage::init()",
+		     "No payment methods have been enabled.  The HSP must enable at least one payment method before the order interface can be used" );
+      }
+
     if( !isset( $_SESSION['order'] ) )
       {
 	$this->newOrder();

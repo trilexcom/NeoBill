@@ -1,6 +1,8 @@
 8/8/2006 - jdiamond
 ====================
 
+ * (trac #105) Added restrictions to the Order interface to prevent it from functioning when there are no
+   services configured or no payment methods enabled.
  * (trac #103) Added code to include setup fee's in the Paypal cart upload
 
 8/5/2006 - jdiamond
