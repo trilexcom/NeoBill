@@ -34,9 +34,9 @@ class OrderItemDBO extends DBO
   var $orderid = null;
 
   /**
-   * @var double Amount of taxes charged to this item
+   * @var double Tax amount for this item
    */
-  var $taxAmount = 0.00;
+  var $taxAmount = 0;
 
   /**
    * @var string The status of this order item: Rejected, Pending, Accepted, or Fulfilled
@@ -97,7 +97,7 @@ class OrderItemDBO extends DBO
    *
    * @return double Price of this order item
    */
-  function getPrice() { return "getPrice() Not Implemented"; }
+  function getPrice() { return 0.00; }
 
   /**
    * Get Price String (stub)
@@ -111,7 +111,7 @@ class OrderItemDBO extends DBO
    *
    * @return double Setup fee for this order item
    */
-  function getSetupFee() { return "getSetupFee() Not Implemented"; }
+  function getSetupFee() { 0.00; }
 
   /**
    * Get Setup Fee String (stub)
@@ -128,18 +128,18 @@ class OrderItemDBO extends DBO
   function isTaxable() { return "isTaxable() Not Implemented"; }
 
   /**
-   * Set Tax Amount
-   *
-   * @param double $taxAmount Tax amount
-   */
-  function setTaxAmount( $taxAmount ) { $this->taxAmount = $taxAmount; }
-
-  /**
    * Get Tax Amount
    *
    * @return double Total amount of taxes
    */
   function getTaxAmount() { return $this->taxAmount; }
+
+  /**
+   * Set Tax Amount
+   *
+   * @param double Tax to be charged for this item
+   */
+  function setTaxAmount( $taxAmount ) { $this->taxAmount = $taxAmount; }
 
   /**
    * Set Status

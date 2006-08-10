@@ -726,8 +726,7 @@ class OrderDBO extends DBO
       {
 	if( $orderitemdbo->getStatus() != "Rejected" )
 	  {
-	    $total += $orderitemdbo->getTaxAmount( $this->getCountry(), 
-						   $this->getState() );
+	    $total += $orderitemdbo->getTaxAmount();
 	  }
       }
     return $total;
@@ -777,12 +776,11 @@ class OrderDBO extends DBO
       }
 
     // Load the tax rules that apply to the country and state provided
-    if( null == 
-	($taxRuleDBOArray = 
-	 load_array_TaxRuleDBO( sprintf( "country=%s AND (allstates=%s OR state=%s)",
-					 $DB->quote_smart( $this->getCountry() ),
-					 $DB->quote_smart( "YES" ),
-					 $DB->quote_smart( $this->getState() ) ) ) ) )
+    $taxQuery = sprintf( "country=%s AND (allstates=%s OR state=%s)",
+			 $DB->quote_smart( $this->getCountry() ),
+			 $DB->quote_smart( "YES" ),
+			 $DB->quote_smart( $this->getState() ) );
+    if( !($taxRuleDBOArray = load_array_TaxRuleDBO( $taxQuery ) ) )
       {
 	// No taxes apply
 	return;
