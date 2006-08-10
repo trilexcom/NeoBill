@@ -95,10 +95,21 @@
       
       $sql_queries = explode(";\n", $sql_file);
       
-      for ($i = 0; $i < count($sql_queries); $i++) {
-          $result = mysql_query($sql_queries[$i]) or die( _INSTALLERDBQUERYFAILED . ': ' . mysql_error());
-          echo _INSTALLERDBQUERYCOMPLETE . " $i <br />";
-      }
+      for ($i = 0; $i < count($sql_queries); $i++) 
+	{
+	  if( $sql_queries[$i] )
+	    {
+	      if( !($result = mysql_query($sql_queries[$i])) )
+		{
+		  // Ignore "empty query" messages
+		  if( mysql_errno() != 1065 )
+		    {
+		      die( _INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+		    }
+		}
+	      echo _INSTALLERDBQUERYCOMPLETE . " $i <br />";
+	    }
+	}
       
       mysql_close($link);
       
