@@ -1201,7 +1201,7 @@
     <phrase id="TOTAL_30_PAST_DUE">Total das facturas vencidas 30+ dias</phrase>
     <phrase id="TRANSACTION_DATA">Data da transa&#231;&#227;o</phrase>
     <phrase id="TYPE">Tipo</phrase>
-    <phrase id="UNIQUE_IP_ADDRESS">Unique IP Address</phrase>
+    <phrase id="UNIQUE_IP_ADDRESS">IP dedicado</phrase>
     <phrase id="UNIT_PRICE">Pre&#231;o por Unidade</phrase>
     <phrase id="USER">Utilizador</phrase>
     <phrase id="USERS">Utilizadores</phrase>
@@ -1213,8 +1213,8 @@
     <phrase id="VIEW_HOSTING_SERVICES">Ver Servi&#231;os de Alojamento</phrase>
     <phrase id="VIEW_LOG_MESSAGE">Ver Log</phrase>
     <phrase id="VIEW_PRODUCT">Ver Produto</phrase>
-    <phrase id="WEB_HOSTING_SERVICE">Servi&#231;o de WebHosting</phrase>
-    <phrase id="WEB_HOSTING_SERVICES">Servi&#231;os de WebHosting</phrase>
+    <phrase id="WEB_HOSTING_SERVICE">Servi&#231;o de Alojamento</phrase>
+    <phrase id="WEB_HOSTING_SERVICES">Servi&#231;os de Alojamento</phrase>
     <phrase id="WELCOME_EMAIL">E-mail de Boas-Vindas</phrase>
     <phrase id="YEAR">Ano</phrase>
     <phrase id="YES">Sim</phrase>

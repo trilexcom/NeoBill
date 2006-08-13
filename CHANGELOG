@@ -2,6 +2,7 @@
 ====================
 
  * Fixed a "blank query" bug in the installer
+ * (trac #106) Fixed a bug that prevented taxes from being calculated for orders
 
 8/8/2006 - jdiamond
 ====================
