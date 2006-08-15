@@ -328,7 +328,7 @@ function validate_phone( $field_data, $posted_data )
     }
 
   $cc_field_data = $field_data;
-  $cc_field_data['max_value'] = 999;
+  $cc_field_data['max_value'] = 999999;
   $cc_field_data['min_value'] = 1;
   $cc_field_data['description'] .= " (country code)";
   if( ($error = validate_number( $cc_field_data, $posted_data['cc'] )) != null )
@@ -338,7 +338,7 @@ function validate_phone( $field_data, $posted_data )
 
   $area_field_data = $field_data;
   $area_field_data['min_value'] = 0;
-  $area_field_data['max_value'] = 999;
+  $area_field_data['max_value'] = 999999;
   $area_field_data['description'] .= " (area code)";
   if( ($error = validate_number( $area_field_data, $posted_data['area'] )) != null )
     {
