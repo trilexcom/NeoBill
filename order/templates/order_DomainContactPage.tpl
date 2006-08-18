@@ -1,4 +1,4 @@
-<script language="JavaScript" src="./include.js"/>
+<script type="text/javascript" src="./include.js"></script>
 
 {form name="domain_contact"}
   <h2> {echo phrase="DOMAIN_CONTACT_INFORMATION_FOR"}: {$fqdn} </h2>
