@@ -155,7 +155,11 @@ class EditDomainPage extends Page
     $domain_dbo =& $this->session['domain_dbo'];
     $domain_data = $this->session['renew_domain'];
 
-    $module = $conf['modules'][$domain_dbo->getModuleName()];
+    if( !($module = $conf['modules'][$domain_dbo->getModuleName()]) )
+      {
+	fatal_error( "EditDomainPage::renew_domain()", 
+		     "Failed to load registrar module: " . $domain_dbo->getModuleName() );
+      }
 
     // Update DBO
     $domain_dbo->setDate( $this->DB->format_datetime( $domain_data['date'] ) );

@@ -1,4 +1,4 @@
-<script language="JavaScript" src="./include.js"/>
+<script type="text/javascript" src="./include.js"></script>
 
 {form name="domainoption"}
   <div class="domainoption">
