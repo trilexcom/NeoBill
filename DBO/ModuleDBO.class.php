@@ -218,7 +218,7 @@ class ModuleDBO extends DBO
     if( !mysql_query( $sql, $DB->handle() ) )
       {
 	fatal_error( "ModuleDBO::saveSetting()",
-		     "Could not insert/update module setting: " . mysql_error() );
+		     "Could not insert/update module setting  " . $name . ": " . mysql_error() );
       }
 
     return true;

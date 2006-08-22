@@ -1,12 +1,3 @@
--- Database: `solidstate`
--- 
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `account`
--- 
-
 CREATE TABLE `account` (
   `id` int(11) NOT NULL auto_increment,
   `type` enum('Individual Account','Business Account') NOT NULL default 'Business Account',
@@ -27,25 +18,11 @@ CREATE TABLE `account` (
   `fax` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `authorizeaim`
--- 
-
 CREATE TABLE `authorizeaim` (
   `transid` varchar(10) NOT NULL,
   `lastdigits` varchar(4) NOT NULL,
   PRIMARY KEY  (`transid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `contact`
--- 
-
 CREATE TABLE `contact` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL,
@@ -63,13 +40,6 @@ CREATE TABLE `contact` (
   `fax` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `domainservice`
--- 
-
 CREATE TABLE `domainservice` (
   `tld` varchar(255) NOT NULL default '',
   `modulename` varchar(255) default NULL,
@@ -87,13 +57,6 @@ CREATE TABLE `domainservice` (
   `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`tld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `domainservicepurchase`
--- 
-
 CREATE TABLE `domainservicepurchase` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
@@ -105,13 +68,6 @@ CREATE TABLE `domainservicepurchase` (
   `accountname` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `hostingservice`
--- 
-
 CREATE TABLE `hostingservice` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
@@ -128,13 +84,6 @@ CREATE TABLE `hostingservice` (
   `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `hostingservicepurchase`
--- 
-
 CREATE TABLE `hostingservicepurchase` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
@@ -144,13 +93,6 @@ CREATE TABLE `hostingservicepurchase` (
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `invoice`
--- 
-
 CREATE TABLE `invoice` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
@@ -162,13 +104,6 @@ CREATE TABLE `invoice` (
   `outstanding` enum('yes','no') NOT NULL default 'yes',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `invoiceitem`
--- 
-
 CREATE TABLE `invoiceitem` (
   `id` int(11) NOT NULL auto_increment,
   `invoiceid` int(11) NOT NULL default '0',
@@ -178,26 +113,12 @@ CREATE TABLE `invoiceitem` (
   `text` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `ipaddress`
--- 
-
 CREATE TABLE `ipaddress` (
   `ipaddress` int(11) NOT NULL default '0',
   `serverid` int(11) NOT NULL default '0',
   `purchaseid` int(11) default NULL,
   PRIMARY KEY  (`ipaddress`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `log`
--- 
-
 CREATE TABLE `log` (
   `id` int(11) NOT NULL auto_increment,
   `type` enum('notice','warning','error','critical','security') NOT NULL default 'notice',
@@ -208,13 +129,6 @@ CREATE TABLE `log` (
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `module`
--- 
-
 CREATE TABLE `module` (
   `name` varchar(255) NOT NULL default '',
   `enabled` enum('Yes','No') NOT NULL default 'No',
@@ -223,13 +137,6 @@ CREATE TABLE `module` (
   `description` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `modulesetting`
--- 
-
 CREATE TABLE `modulesetting` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
@@ -237,13 +144,6 @@ CREATE TABLE `modulesetting` (
   `modulename` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `note`
--- 
-
 CREATE TABLE `note` (
   `id` int(11) NOT NULL auto_increment,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -253,13 +153,6 @@ CREATE TABLE `note` (
   `text` blob NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `order`
--- 
-
 CREATE TABLE `order` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `datecreated` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -284,13 +177,6 @@ CREATE TABLE `order` (
   `accountid` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `orderdomain`
--- 
-
 CREATE TABLE `orderdomain` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `orderid` int(10) unsigned NOT NULL default '0',
@@ -306,13 +192,6 @@ CREATE TABLE `orderdomain` (
   `techcontactid` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `orderhosting`
--- 
-
 CREATE TABLE `orderhosting` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `orderid` int(10) unsigned NOT NULL default '0',
@@ -322,13 +201,6 @@ CREATE TABLE `orderhosting` (
   `term` enum('1 month','3 month','6 month','12 month') NOT NULL default '1 month',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `payment`
--- 
-
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL auto_increment,
   `invoiceid` int(11) unsigned default NULL,
@@ -343,13 +215,6 @@ CREATE TABLE `payment` (
   `statusmessage` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `product`
--- 
-
 CREATE TABLE `product` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
@@ -358,13 +223,6 @@ CREATE TABLE `product` (
   `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `productpurchase`
--- 
-
 CREATE TABLE `productpurchase` (
   `id` int(11) NOT NULL auto_increment,
   `productid` int(11) NOT NULL default '0',
@@ -373,38 +231,17 @@ CREATE TABLE `productpurchase` (
   `note` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `server`
--- 
-
 CREATE TABLE `server` (
   `id` int(11) NOT NULL auto_increment,
   `hostname` varchar(255) NOT NULL default '',
   `location` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `settings`
--- 
-
 CREATE TABLE `settings` (
   `setting` varchar(255) NOT NULL default '',
   `value` text,
   PRIMARY KEY  (`setting`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `taxrule`
--- 
-
 CREATE TABLE `taxrule` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `country` char(2) NOT NULL default '',
@@ -414,13 +251,6 @@ CREATE TABLE `taxrule` (
   `description` varchar(255) NOT NULL default 'Tax',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `user`
--- 
-
 CREATE TABLE `user` (
   `username` varchar(32) NOT NULL,
   `accountid` int(10) unsigned default NULL,
@@ -432,7 +262,6 @@ CREATE TABLE `user` (
   `language` varchar(255) default NULL,
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
 INSERT INTO `settings` VALUES ('welcome_subject', 'Welcome to Web Hosting Company!');
 INSERT INTO `settings` VALUES ('welcome_email', 'This is the welcome email that can be sent to your new \r\ncustomers.');
 INSERT INTO `settings` VALUES ('invoice_text', 'Invoice #{invoice_id}\r\n\r\n===================================================================\r\nItem                                    Price     Qty  Total\r\n===================================================================\r\n{invoice_items}===================================================================\r\n\r\nSub-Total: {invoice_subtotal}\r\nTaxes: {invoice_taxtotal}\r\nInvoice Total: {invoice_total}\r\nPayments Received: {invoice_payments}\r\nBalance: {invoice_balance}\r\nDate Due: {invoice_due}\r\n\r\nIf you have any questions about this Invoice, please contact\r\nbilling@example.com.  Thank you!\r\n\r\nWeb Hosting Company\r\n');
@@ -443,4 +272,4 @@ INSERT INTO `settings` VALUES ('order_confirmation_subject', 'Thank you for your
 INSERT INTO `settings` VALUES ('order_notification_subject', 'SolidState Order Received');
 INSERT INTO `settings` VALUES ('order_notification_email', 'A new order from {contact_name} has been received.\r\n\r\nRemote IP: ({order_ip})\r\nTimestamp: {order_datestamp}');
 INSERT INTO `settings` VALUES ('invoice_subject', 'Your {company_name} Invoice for {period_begin_date} - {period_end_date}');
-INSERT INTO `settings` (`setting`, `value`) VALUES ('order_accept_checks', '0');
+INSERT INTO `settings` VALUES ('order_accept_checks', '0');
