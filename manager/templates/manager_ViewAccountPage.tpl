@@ -87,7 +87,7 @@
         <td/>
       </tr>
     </table>
-  </div
+  </div>
 {/form}
 
 {form name="view_account_note"}

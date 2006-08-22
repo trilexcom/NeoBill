@@ -146,12 +146,10 @@ class ViewAccountPage extends Page
 	break;
 
       case "view_account_note":
-
 	if( isset( $this->session['view_account_note']['add'] ) )
 	  {
 	    $this->add_note();
 	  }
-
 	break;
 
       case "delete_note":
