@@ -70,6 +70,10 @@ class SettingsPage extends AdminPage
 	    $this->session['languages'][$language] = $language;
 	  }
       }
+
+    // This flag indicates if any payment_gateway modules are enabled
+    $modules = $this->populateDefaultModule();
+    $this->smarty->assign( "gatewaysAreEnabled", !empty( $modules ) );
   }
 
   /**

@@ -330,6 +330,7 @@
     <phrase id="TAX_RULES">Tax Rules</phrase>
     <phrase id="TERM">Term</phrase>
     <phrase id="TERMS_DAYS">Terms (days)</phrase>
+    <phrase id="THERE_ARE_NO_GATEWAY_MODULES">There are no payment gateway modules enabled.</phrase>
     <phrase id="TITLE">Title</phrase>
     <phrase id="TOTAL">Total</phrase>
     <phrase id="TOTAL_OUTSTANDING_INVOICES">Total outstanding invoices</phrase>

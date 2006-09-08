@@ -15,6 +15,10 @@
         <th> {form_description field="idtoken"} </th>
         <td> {form_element field="idtoken" value="$idToken" size="80"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="currency"} </th>
+        <td> {form_element field="currency" value="$currency"} </td>
+      </tr>
       <tr class="footer">
         <td colspan="2"> {form_element field="save"} </td>
       </tr>

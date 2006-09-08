@@ -6,6 +6,7 @@
   <translation language="english">
     <phrase id="PAYPAL_ACCOUNT">Paypal Account</phrase>
     <phrase id="PAYPAL_CART_UPLOAD_URL">Paypal Cart Upload URL</phrase>
+    <phrase id="PAYPAL_CURRENCY">Paypal Currency</phrase>
     <phrase id="PAYPAL_WPS_MODULE">Paypal WPS Module</phrase>
     <phrase id="PAY_WITH_PAYPAL">Pay with Paypal</phrase>
     <phrase id="PAY_WITH_PAYPAL_TEXT">You have selected to pay using Paypal.  When you click "Pay with Paypal", you will be redirected to Paypal's secure site to complete the checkout process.  Once your payment has been completed, you will be brought back to our website and presented with a receipt and further information regarding your purchase.  If for some reason you do not complete the payment process at Paypal, please contact us and we will help you complete the process.</phrase>
