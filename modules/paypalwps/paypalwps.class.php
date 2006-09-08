@@ -39,6 +39,11 @@ class PaypalWPS extends PaymentProcessorModule
   var $configPage = "psm_config";
 
   /**
+   * @var string Paypal Currency Setting
+   */
+  var $currencyCode = "USD";
+
+  /**
    * @var string Long description
    */
   var $description = "Paypal WPS Payment Processor Module";
@@ -89,6 +94,7 @@ class PaypalWPS extends PaymentProcessorModule
     $this->setAccount( $this->moduleDBO->loadSetting( "account" ) );
     $this->setCartURL( $this->moduleDBO->loadSetting( "carturl" ) );
     $this->setIdToken( $this->moduleDBO->loadSetting( "idtoken" ) );
+    $this->setCurrencyCode( $this->moduleDBO->loadSetting( "paypalcurrencycode" ) );
 
     return true;
   }
@@ -124,6 +130,13 @@ class PaypalWPS extends PaymentProcessorModule
    * @return string Paypal cart upload URL
    */
   function getCartURL() { return $this->cartURL; }
+
+  /**
+   * Get Currency Code
+   *
+   * @return string Paypal Currency Code
+   */
+  function getCurrencyCode() { return $this->currencyCode; }
 
   /**
    * Get PDT Identity Token
@@ -304,6 +317,7 @@ class PaypalWPS extends PaymentProcessorModule
     $this->moduleDBO->saveSetting( "account", $this->getAccount() );
     $this->moduleDBO->saveSetting( "carturl", $this->getCartURL() );
     $this->moduleDBO->saveSetting( "idtoken", $this->getIdToken() );
+    $this->moduleDBO->saveSetting( "paypalcurrencycode", $this->getCurrencyCode() );
   }
 
   /**
@@ -319,6 +333,13 @@ class PaypalWPS extends PaymentProcessorModule
    * @param string $cartURL Paypal cart upload url
    */
   function setCartURL( $cartURL ) { $this->cartURL = $cartURL; }
+
+  /**
+   * Set Currency Code
+   *
+   * @param string $currencyCode Paypal Currency Code
+   */
+  function setCurrencyCode( $currencyCode ) { $this->currencyCode = $currencyCode; }
 
   /**
    * Set PDT Identity Token

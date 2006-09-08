@@ -100,6 +100,7 @@ class PSOCheckoutPage extends Page
 
     $this->smarty->assign( "account", $this->ppModule->getAccount() );
     $this->smarty->assign( "cartURL", $this->ppModule->getCartURL() );
+    $this->smarty->assign( "currencyCode", $this->ppModule->getCurrencyCode() );
     $this->smarty->assign( "orderid", $_SESSION['order']->getID() );
 
     // Dump the cart contents into a Smarty variable.  The Paypal cart upload

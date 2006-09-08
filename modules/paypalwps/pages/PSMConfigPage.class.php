@@ -63,6 +63,7 @@ class PSMConfigPage extends AdminPage
     $this->smarty->assign( "account", $this->ppModule->getAccount() );
     $this->smarty->assign( "cartURL", $this->ppModule->getCartURL() );
     $this->smarty->assign( "idToken", $this->ppModule->getIdToken() );
+    $this->smarty->assign( "currency", $this->ppModule->getCurrencyCode() );
   }
 
   /**
@@ -74,6 +75,7 @@ class PSMConfigPage extends AdminPage
     $this->ppModule->setAccount( $this->session['psm_config']['account'] );
     $this->ppModule->setCartURL( $this->session['psm_config']['carturl'] );
     $this->ppModule->setIdToken( $this->session['psm_config']['idtoken'] );
+    $this->ppModule->setCurrencyCode( $this->session['psm_config']['currency'] );
     $this->ppModule->saveSettings();
 
     $this->setMessage( array( "type" => "PS_CONFIGURATION_SAVED" ) );

@@ -3,6 +3,7 @@
   <input type="hidden" name="upload" value="1"/>
   <input type="hidden" name="custom" value="{$orderid}"/>
   <input type="hidden" name="business" value="{$account}"/>
+  <input type="hidden" name="currency_code" value="{$currencyCode}"/>
 
   {* Generate list of cart items *}
   {foreach from=$paypalCart item=cartitem key=itemnum name=cartloop}
