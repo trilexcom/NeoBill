@@ -555,7 +555,12 @@ function delete_PaymentDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      return false;
+    }
+  $dbo->touchInvoice();
+  return true;
 }
 
 /**
