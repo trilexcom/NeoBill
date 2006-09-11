@@ -1,3 +1,8 @@
+9/10/2006 - jdiamond
+====================
+
+ * (trac #111) Fixed an "Invalid Account" bug that occured when the user canceled a domain edit
+
 9/8/2006 - jdiamond
 ====================
 

@@ -1,11 +1,11 @@
 {dbo_assign dbo="account_dbo" var="account_id" field="id"}
 
 <ul id="tabnav">
-  <li class="selected"> <a href="manager_content.php?page=accounts_view_account&action=account_info"> {echo phrase="ACCOUNT_INFO"} </a> </li>
-  <li> <a href="manager_content.php?page=accounts_view_account&action=services"> {echo phrase="WEB_HOSTING_SERVICES"} </a> </li>
-  <li> <a href="manager_content.php?page=accounts_view_account&action=domains"> {echo phrase="DOMAINS"} </a> </li>
-  <li> <a href="manager_content.php?page=accounts_view_account&action=products"> {echo phrase="OTHER_PRODUCTS_SERVICES"} </a> </li>
-  <li> <a href="manager_content.php?page=accounts_view_account&action=billing"> {echo phrase="BILLING"} </a> </li>
+  <li class="selected"> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=account_info"> {echo phrase="ACCOUNT_INFO"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=services"> {echo phrase="WEB_HOSTING_SERVICES"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=domains"> {echo phrase="DOMAINS"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=products"> {echo phrase="OTHER_PRODUCTS_SERVICES"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=billing"> {echo phrase="BILLING"} </a> </li>
 </ul>
 
 {form name="view_account_action"}
