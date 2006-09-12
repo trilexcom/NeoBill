@@ -104,7 +104,7 @@ class CartPage extends Page
       {
 	$paymentMethods++;
       }
-    if( $paymentMethods == 0 )
+    if( $paymentMethods == 0 && !$this->conf['order']['accept_checks'] )
       {
 	fatal_error( "CartPage::init()",
 		     "No payment methods have been enabled.  The HSP must enable at least one payment method before the order interface can be used" );

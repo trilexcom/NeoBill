@@ -1,3 +1,15 @@
+9/12/2006 - jdiamond
+====================
+
+ * Fixed a bug that was preventing the Order interface from functioning when only
+   the Pay by Check setting was turned on
+
+9/11/2006 - jdiamond
+====================
+
+ * Branched off v0.4
+ * v0.5 development will now begin in the main trunk
+
 9/10/2006 - jdiamond
 ====================
 

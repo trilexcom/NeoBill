@@ -37,7 +37,7 @@
     <table style="width: 95%">
       <tr>
         <th> {form_description field="accept_checks"} </th>
-        <td> {form_element field="accept_checks" value="$order_accept_checls"} </td>
+        <td> {form_element field="accept_checks" value="$order_accept_checks"} </td>
       </tr>
       <tr class="footer">
         <td colspan="2">
