@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.logicboxes.foundation.sfnb.Website" xmlns:impl="com.logicboxes.foundation.sfnb.Website" xmlns:intf="com.logicboxes.foundation.sfnb.Website" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+ <wsdl:types>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xml.apache.org/xml-soap">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="Map">
+    <sequence>
+     <element name="item" minOccurs="0" maxOccurs="unbounded">
+      <complexType>
+       <all>
+        <element name="key" type="xsd:anyType"/>
+        <element name="value" type="xsd:anyType"/>
+       </all>
+      </complexType>
+     </element>
+    </sequence>
+   </complexType>
+   <element name="Map" nillable="true" type="apachesoap:Map"/>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="moveWebsiteRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="websiteName" type="xsd:string"/>
+
+      <wsdl:part name="newCustomerId" type="xsd:int"/>
+
+      <wsdl:part name="defaultcontact" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="moveWebsiteResponse">
+
+      <wsdl:part name="moveWebsiteReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="Website">
+
+      <wsdl:operation name="moveWebsite" parameterOrder="userName password role langpref parentid websiteName newCustomerId defaultcontact">
+
+         <wsdl:input name="moveWebsiteRequest" message="impl:moveWebsiteRequest"/>
+
+         <wsdl:output name="moveWebsiteResponse" message="impl:moveWebsiteResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="WebsiteServiceSoapBinding" type="impl:Website">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="moveWebsite">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="moveWebsiteRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.Website"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="moveWebsiteResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.Website"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="WebsiteService">
+
+      <wsdl:port name="WebsiteService" binding="impl:WebsiteServiceSoapBinding">
+
+         <wsdlsoap:address location="http://prog.internal.directi.com:9090/anacreon/servlet/rpcrouter"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

@@ -1,0 +1,17 @@
+<translations>
+
+  <!-- ======= -->
+  <!-- English -->
+  <!-- ======= -->
+  <translation language="english">
+
+    <phrase id="AAIM_CONFIGURATION_SAVED">Configuration Saved</phrase>
+    <phrase id="AAIM_DELIMITER">AIM Delimiter</phrase>
+    <phrase id="AAIM_LOGINID">Authorize.net API Login ID</phrase>
+    <phrase id="AAIM_TRANSACTIONKEY">Authorize.net Transaction Key</phrase>
+    <phrase id="AAIM_URL">Authorize.net Transaction URL</phrase>
+    <phrase id="AUTHORIZENET_AIM_MODULE">Authorize.net Advanced Integration Method (AIM) Module</phrase>
+
+  </translation>
+
+</translations>

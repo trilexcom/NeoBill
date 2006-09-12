@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd" xmlns:impl="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd" xmlns:intf="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+ <wsdl:types>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_int">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:int[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <element name="ArrayOf_xsd_int" nillable="true" type="impl:ArrayOf_xsd_int"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <element name="ArrayOf_xsd_string" nillable="true" type="impl:ArrayOf_xsd_string"/>
+  </schema>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xml.apache.org/xml-soap">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="Map">
+    <sequence>
+     <element name="item" minOccurs="0" maxOccurs="unbounded">
+      <complexType>
+       <all>
+        <element name="key" type="xsd:anyType"/>
+        <element name="value" type="xsd:anyType"/>
+       </all>
+      </complexType>
+     </element>
+    </sequence>
+   </complexType>
+   <element name="Map" nillable="true" type="apachesoap:Map"/>
+   <complexType name="Vector">
+    <sequence>
+     <element name="item" minOccurs="0" maxOccurs="unbounded" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <element name="Vector" nillable="true" type="apachesoap:Vector"/>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="manageResponse">
+
+      <wsdl:part name="manageReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="renewServiceRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="domainHash" type="apachesoap:Map"/>
+
+      <wsdl:part name="invoiceOption" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteServiceResponse">
+
+      <wsdl:part name="deleteServiceReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDetailsResponse">
+
+      <wsdl:part name="getDetailsReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listResponse">
+
+      <wsdl:part name="listReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="renewServiceResponse">
+
+      <wsdl:part name="renewServiceReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteServiceRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="entityId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="listRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="orderId" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="resellerId" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="customerId" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="showChildOrders" type="xsd:boolean"/>
+
+      <wsdl:part name="currentStatus" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="domainname" type="xsd:string"/>
+
+      <wsdl:part name="forward" type="xsd:string"/>
+
+      <wsdl:part name="checkUrlMasking" type="xsd:string"/>
+
+      <wsdl:part name="checkPathForwarding" type="xsd:string"/>
+
+      <wsdl:part name="checkSubDomainForwarding" type="xsd:string"/>
+
+      <wsdl:part name="creationDTRangStart" type="xsd:string"/>
+
+      <wsdl:part name="creationDTRangEnd" type="xsd:string"/>
+
+      <wsdl:part name="endTimeRangStart" type="xsd:string"/>
+
+      <wsdl:part name="endTimeRangEnd" type="xsd:string"/>
+
+      <wsdl:part name="numOfRecordPerPage" type="xsd:int"/>
+
+      <wsdl:part name="pageNum" type="xsd:int"/>
+
+      <wsdl:part name="orderBy" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="manageRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="entityId" type="xsd:int"/>
+
+      <wsdl:part name="forward" type="xsd:string"/>
+
+      <wsdl:part name="urlMasking" type="xsd:boolean"/>
+
+      <wsdl:part name="subdomainForwarding" type="xsd:boolean"/>
+
+      <wsdl:part name="noframes" type="xsd:string"/>
+
+      <wsdl:part name="headerTags" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addServiceResponse">
+
+      <wsdl:part name="addServiceReturn" type="apachesoap:Map"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDetailsRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="orderId" type="xsd:int"/>
+
+      <wsdl:part name="option" type="apachesoap:Vector"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addServiceRequest">
+
+      <wsdl:part name="userName" type="xsd:string"/>
+
+      <wsdl:part name="password" type="xsd:string"/>
+
+      <wsdl:part name="role" type="xsd:string"/>
+
+      <wsdl:part name="langpref" type="xsd:string"/>
+
+      <wsdl:part name="parentid" type="xsd:int"/>
+
+      <wsdl:part name="domainHash" type="apachesoap:Map"/>
+
+      <wsdl:part name="customerId" type="xsd:int"/>
+
+      <wsdl:part name="invoiceOption" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="DomainFwd">
+
+      <wsdl:operation name="list" parameterOrder="userName password role langpref parentid orderId resellerId customerId showChildOrders currentStatus domainname forward checkUrlMasking checkPathForwarding checkSubDomainForwarding creationDTRangStart creationDTRangEnd endTimeRangStart endTimeRangEnd numOfRecordPerPage pageNum orderBy">
+
+         <wsdl:input name="listRequest" message="impl:listRequest"/>
+
+         <wsdl:output name="listResponse" message="impl:listResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addService" parameterOrder="userName password role langpref parentid domainHash customerId invoiceOption">
+
+         <wsdl:input name="addServiceRequest" message="impl:addServiceRequest"/>
+
+         <wsdl:output name="addServiceResponse" message="impl:addServiceResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="renewService" parameterOrder="userName password role langpref parentid domainHash invoiceOption">
+
+         <wsdl:input name="renewServiceRequest" message="impl:renewServiceRequest"/>
+
+         <wsdl:output name="renewServiceResponse" message="impl:renewServiceResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="manage" parameterOrder="userName password role langpref parentid entityId forward urlMasking subdomainForwarding noframes headerTags">
+
+         <wsdl:input name="manageRequest" message="impl:manageRequest"/>
+
+         <wsdl:output name="manageResponse" message="impl:manageResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteService" parameterOrder="userName password role langpref parentid entityId">
+
+         <wsdl:input name="deleteServiceRequest" message="impl:deleteServiceRequest"/>
+
+         <wsdl:output name="deleteServiceResponse" message="impl:deleteServiceResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDetails" parameterOrder="userName password role langpref parentid orderId option">
+
+         <wsdl:input name="getDetailsRequest" message="impl:getDetailsRequest"/>
+
+         <wsdl:output name="getDetailsResponse" message="impl:getDetailsResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="DomainFwdServiceSoapBinding" type="impl:DomainFwd">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="list">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="listRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="listResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addService">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addServiceRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addServiceResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="renewService">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="renewServiceRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="renewServiceResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="manage">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="manageRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="manageResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteService">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteServiceRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteServiceResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDetails">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDetailsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDetailsResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="com.logicboxes.foundation.sfnb.order.domainfwd.DomainFwd"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="DomainFwdService">
+
+      <wsdl:port name="DomainFwdService" binding="impl:DomainFwdServiceSoapBinding">
+
+         <wsdlsoap:address location="http://prog.internal.directi.com:9090/anacreon/servlet/rpcrouter"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
