@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
-require_once $base_path . "util/domains.php";
+require_once BASE_PATH . "util/domains.php";
 
 /**
  * Domains Summary Page

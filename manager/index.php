@@ -16,7 +16,7 @@
 // Load config file
 require_once "../config/config.inc.php";
 
-require_once $base_path . "solidworks/configuration.php";
+require_once BASE_PATH . "solidworks/configuration.php";
 
 // Display menu
 $smarty->display( "manager_frames.tpl" );

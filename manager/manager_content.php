@@ -14,14 +14,14 @@
 require_once "../config/config.inc.php";
 
 // Load SolidWorks
-require_once $base_path . "solidworks/solidworks.php";
+require_once BASE_PATH . "solidworks/solidworks.php";
 
 // Load settings from database
-require_once $base_path . "util/settings.php";
+require_once BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
 // Remove any uninstalled modules from the database
-require_once $base_path . "modules/SolidStateModule.class.php";
+require_once BASE_PATH . "modules/SolidStateModule.class.php";
 removeMissingModules();
 
 // Hand off to SolidWorks

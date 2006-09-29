@@ -61,7 +61,7 @@ if( isset( $conf['pages'] ) )
       if( isset( $page_data['class_file'] ) &&
 	  $_GET['page'] == $page_data['name'] )
 	{
-	  require_once $base_path . $page_data['class_file'];
+	  require_once BASE_PATH . $page_data['class_file'];
 	}
     }
 }
@@ -240,11 +240,11 @@ function get_page_class( $name )
  */
 function loadModules()
 {
-  global $base_path, $conf, $translations;
+  global $conf, $translations;
 
   // Read the contents of the modules directory
   $modules = array();
-  $modulesDir = $base_path . "modules/";
+  $modulesDir = BASE_PATH . "modules/";
   if( !($dh = opendir( $modulesDir ) ) )
     {
       fatal_error( "loadModules()", "Could not access the modules directory." );

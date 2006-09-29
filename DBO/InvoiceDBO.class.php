@@ -11,11 +11,11 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
-require_once $base_path . "DBO/AccountDBO.class.php";
-require_once $base_path . "DBO/InvoiceItemDBO.class.php";
-require_once $base_path . "DBO/PaymentDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceItemDBO.class.php";
+require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 
 /**
  * InvoiceDBO

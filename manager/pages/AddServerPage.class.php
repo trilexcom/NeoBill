@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "solidworks/AdminPage.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
 
 /**
  * AddServerPage

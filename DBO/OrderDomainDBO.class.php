@@ -11,12 +11,12 @@
  */
 
 // Parent class
-require_once $base_path . "DBO/OrderItemDBO.class.php";
+require_once BASE_PATH . "DBO/OrderItemDBO.class.php";
 
 // Contact DBO
-require_once $base_path . "DBO/ContactDBO.class.php";
+require_once BASE_PATH . "DBO/ContactDBO.class.php";
 
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 
 /**
  * OrderDomainDBO

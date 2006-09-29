@@ -10,7 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
 
 /**
  * Gather stats on active & expired domains

@@ -11,13 +11,13 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
 // Order DBO
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 // User DBO
-require_once $base_path . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * CustomerPage

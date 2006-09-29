@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
 // Include UserDBO
-require_once $base_path . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * ConfigureNewUserReceiptPage

@@ -9,7 +9,7 @@
  * @copyright John Diamond <jdiamond@solid-state.org>
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
-require_once $base_path . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * Validate client
@@ -18,7 +18,7 @@ require_once $base_path . "DBO/UserDBO.class.php";
  */
 function validate_client()
 {
-  global $conf, $base_path;
+  global $conf;
 
   if( $conf['authenticate_user'] && 
       (!isset( $_SESSION['client']['userdbo'] ) || 
@@ -28,7 +28,7 @@ function validate_client()
       $_GET['no_headers'] = 1;
 
       $class = get_page_class( $_GET['page'] );
-      require_once $base_path . $conf['pages'][$class]['class_file'];
+      require_once BASE_PATH . $conf['pages'][$class]['class_file'];
     }
 
   // Client is valid

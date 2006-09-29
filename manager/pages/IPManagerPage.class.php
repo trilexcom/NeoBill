@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
-require_once $base_path . "DBO/IPAddressDBO.class.php";
+require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
 
 /**
  * IPManagerPage

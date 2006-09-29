@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
 // InvoiceDBO class
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * OutstandingInvoicesPage

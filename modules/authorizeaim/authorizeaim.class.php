@@ -11,7 +11,7 @@
  */
 
 // Base class
-require_once $base_path . "modules/PaymentGatewayModule.class.php";
+require_once BASE_PATH . "modules/PaymentGatewayModule.class.php";
 
 // Positions in the AIM response record
 define( AIM_RESP_CODE, 0 );
@@ -371,8 +371,6 @@ class AuthorizeAIM extends PaymentGatewayModule
    */
   function init()
   {
-    global $base_path;
-
     if( !parent::init() )
       {
 	return false;

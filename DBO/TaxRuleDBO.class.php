@@ -11,10 +11,10 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 // Country Codes
-require_once $base_path . "solidworks/cc.php";
+require_once BASE_PATH . "solidworks/cc.php";
 
 /**
  * TaxRuleDBO

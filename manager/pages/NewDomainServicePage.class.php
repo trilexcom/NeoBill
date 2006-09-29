@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "solidworks/AdminPage.class.php";
 
 // Include the DomainServiceDBO class
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 
 /**
  * NewDomainServicePage

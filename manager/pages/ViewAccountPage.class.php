@@ -11,12 +11,12 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
-require_once $base_path . "DBO/NoteDBO.class.php";
-require_once $base_path . "DBO/HostingServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/NoteDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/ProductPurchaseDBO.class.php";
 
 /**
  * ViewAccountPage

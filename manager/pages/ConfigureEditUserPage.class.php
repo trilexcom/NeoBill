@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "solidworks/AdminPage.class.php";
 
 // Include UserDBO
-require_once $base_path . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * ConfigureEditUserPage

@@ -11,7 +11,7 @@
  */
 
 // Base class
-require_once $base_path . "modules/RegistrarModule.class.php";
+require_once BASE_PATH . "modules/RegistrarModule.class.php";
 
 /**
  * NullRegistrar
@@ -70,8 +70,6 @@ class NullRegistrar extends RegistrarModule
    */
   function init()
   {
-    global $base_path;
-
     if( !parent::init() )
       {
 	return false;

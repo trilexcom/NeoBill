@@ -1,3 +1,8 @@
+9/29/2006 - jdiamond
+====================
+
+ * (trac #127) Replaced the $base_path global with a constant called BASE_PATH
+
 9/12/2006 - jdiamond
 ====================
 

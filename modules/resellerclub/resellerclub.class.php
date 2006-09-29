@@ -11,12 +11,12 @@
  */
 
 // Base class
-require_once $base_path . "modules/RegistrarModule.class.php";
+require_once BASE_PATH . "modules/RegistrarModule.class.php";
 
 // Reseller Club API
-require_once $base_path . "modules/resellerclub/lib/domorder.class.php";
-require_once $base_path . "modules/resellerclub/lib/customer.class.php";
-require_once $base_path . "modules/resellerclub/lib/domcontact.class.php";
+require_once BASE_PATH . "modules/resellerclub/lib/domorder.class.php";
+require_once BASE_PATH . "modules/resellerclub/lib/customer.class.php";
+require_once BASE_PATH . "modules/resellerclub/lib/domcontact.class.php";
 
 /**
  * ResellerClub
@@ -403,8 +403,6 @@ class ResellerClub extends RegistrarModule
    */
   function init()
   {
-    global $base_path;
-
     if( !parent::init() )
       {
 	return false;
@@ -422,11 +420,11 @@ class ResellerClub extends RegistrarModule
 
     // Create Reseller Club objects
     $this->domOrder = 
-      new DomOrder( $base_path . "modules/resellerclub/lib/wsdl/domain.wsdl" );
+      new DomOrder( BASE_PATH . "modules/resellerclub/lib/wsdl/domain.wsdl" );
     $this->customer = 
-      new Customer( $base_path . "modules/resellerclub/lib/wsdl/customer.wsdl" );
+      new Customer( BASE_PATH . "modules/resellerclub/lib/wsdl/customer.wsdl" );
     $this->domContact = 
-      new DomContact( $base_path . "modules/resellerclub/lib/wsdl/domaincontact.wsdl" );
+      new DomContact( BASE_PATH . "modules/resellerclub/lib/wsdl/domaincontact.wsdl" );
 
     return true;
   }

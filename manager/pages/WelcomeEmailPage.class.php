@@ -11,13 +11,13 @@
  */
 
 // Include the Email class
-require_once $base_path ."solidworks/Email.class.php";
+require_once BASE_PATH ."solidworks/Email.class.php";
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
 // Include the AccountDBO
-require_once $base_path . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
 
 /**
  * WelcomeEmailPage

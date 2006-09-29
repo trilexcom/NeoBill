@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "solidworks/AdminPage.class.php";
 
-require_once $base_path . "DBO/HostingServiceDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
 
 /**
  * EditHostingServicePage
