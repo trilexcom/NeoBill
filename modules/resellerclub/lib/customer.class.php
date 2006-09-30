@@ -1,6 +1,6 @@
 <?php
 
-	include_once("nusoap.php");
+	include_once("nusoapw.php");
 
 	/**
 	* @access private
@@ -16,7 +16,7 @@
 		* @access private
 		* @var object
 		*/
-		var $s;	// This will hold an instance of soapclient class in nusoap.php
+		var $s;	// This will hold an instance of soapclientw class in nusoapw.php
 		
 		/**
 		* @access private
@@ -36,7 +36,7 @@
 		function Customer($wsdlurl="wsdl/customer.wsdl")
 		{
 			$this->wsdl = $wsdlurl;
-			$this->s = new soapclient($this->wsdl,"wsdl");
+			$this->s = new soapclientw($this->wsdl,"wsdl");
 		}
 
 		/**

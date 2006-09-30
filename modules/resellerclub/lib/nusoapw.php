@@ -1,7 +1,7 @@
 <?php
 
 /*
-$Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+$Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -25,7 +25,7 @@ If you have any questions or comments, please email:
 
 Dietrich Ayala
 dietrich@ganx4.com
-http://dietrich.ganx4.com/nusoap
+http://dietrich.ganx4.com/nusoapw
 
 NuSphere Corporation
 http://www.nusphere.com
@@ -35,7 +35,7 @@ http://www.nusphere.com
 /* load classes
 
 // necessary classes
-require_once('class.soapclient.php');
+require_once('class.soapclientw.php');
 require_once('class.soap_val.php');
 require_once('class.soap_parser.php');
 require_once('class.soap_fault.php');
@@ -52,13 +52,13 @@ require_once('class.soap_server.php');*/
 
 /**
 *
-* nusoap_base
+* nusoapw_base
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access   public
 */
-class nusoap_base {
+class nusoapw_base {
 
 	var $title = 'NuSOAP';
 	var $version = '0.6.6';
@@ -580,10 +580,10 @@ function usleepWindows($usec)
 * mainly used for returning faults from deployed functions
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access public
 */
-class soap_fault extends nusoap_base {
+class soap_fault extends nusoapw_base {
 
 	var $faultcode;
 	var $faultactor;
@@ -645,10 +645,10 @@ class soap_fault extends nusoap_base {
 * tutorials I refer to :)
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access   public
 */
-class XMLSchema extends nusoap_base  {
+class XMLSchema extends nusoapw_base  {
 	
 	// files
 	var $schema = '';
@@ -1317,10 +1317,10 @@ class XMLSchema extends nusoap_base  {
 * NOTE: this is only really used when WSDL is not available.
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access   public
 */
-class soapval extends nusoap_base {
+class soapval extends nusoapw_base {
 	/**
 	* constructor
 	*
@@ -1374,10 +1374,10 @@ class soapval extends nusoap_base {
 * NOTE: PHP must be compiled with the CURL extension for HTTPS support
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access public
 */
-class soap_transport_http extends nusoap_base {
+class soap_transport_http extends nusoapw_base {
 
 	var $url = '';
 	var $uri = '';
@@ -1907,10 +1907,10 @@ class soap_transport_http extends nusoap_base {
 * NOTE: WSDL functionality is experimental
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access   public
 */
-class soap_server extends nusoap_base {
+class soap_server extends nusoapw_base {
 
 	var $service = ''; // service name
     var $operations = array(); // assoc array of operations => opData
@@ -2558,7 +2558,7 @@ $serviceurl = $SERVICE_URL;
 * parses a WSDL file, allows access to it's data, other utility methods
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access public 
 */
 class wsdl extends XMLSchema {
@@ -3559,10 +3559,10 @@ class wsdl extends XMLSchema {
 * soap_parser class parses SOAP XML messages into native PHP values
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access   public
 */
-class soap_parser extends nusoap_base {
+class soap_parser extends nusoapw_base {
 
 	var $xml = '';
 	var $xml_encoding = '';
@@ -4062,24 +4062,24 @@ class soap_parser extends nusoap_base {
 
 /**
 *
-* soapclient higher level class for easy usage.
+* soapclientw higher level class for easy usage.
 *
 * usage:
 *
 * // instantiate client with server info
-* $soapclient = new soapclient( string path [ ,boolean wsdl] );
+* $soapclientw = new soapclientw( string path [ ,boolean wsdl] );
 *
 * // call method, get results
-* echo $soapclient->call( string methodname [ ,array parameters] );
+* echo $soapclientw->call( string methodname [ ,array parameters] );
 *
 * // bye bye client
-* unset($soapclient);
+* unset($soapclientw);
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
+* @version  $Id: nusoapw.php,v 1.1 2006/05/29 20:23:03 colklink Exp $
 * @access   public
 */
-class soapclient extends nusoap_base  {
+class soapclientw extends nusoapw_base  {
 
 	var $username = '';
 	var $password = '';
@@ -4124,7 +4124,7 @@ class soapclient extends nusoap_base  {
 	* @param	string $proxypassword
 	* @access   public
 	*/
-	function soapclient($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false){
+	function soapclientw($endpoint,$wsdl = false,$proxyhost = false,$proxyport = false,$proxyusername = false, $proxypassword = false){
 		$this->endpoint = $endpoint;
 		$this->proxyhost = $proxyhost;
 		$this->proxyport = $proxyport;
@@ -4562,7 +4562,7 @@ class soapclient extends nusoap_base  {
 			}
 		}
 		$r = rand();
-		$evalStr = 'class soap_proxy_'.$r.' extends soapclient {
+		$evalStr = 'class soap_proxy_'.$r.' extends soapclientw {
 				'.$evalStr.'
 			}';
 		//print "proxy class:<pre>$evalStr</pre>";

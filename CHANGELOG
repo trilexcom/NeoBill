@@ -7,6 +7,7 @@
  * (trac #125) Fixed a bug that was preventing the user from moving past the 
                Domain Contact page in the Order interface under certain 
                installations of PHP
+ * (trace #83) Fixed the "Cannot redeclare class soapclient" error that some were experiencing
 
 9/12/2006 - jdiamond
 ====================
