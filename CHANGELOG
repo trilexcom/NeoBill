@@ -4,6 +4,9 @@
  * (trac #127) Replaced the $base_path global with a constant called BASE_PATH
  * (trac #124) Expanded currency fields to 8 digits maximum length
  * (trac #126) Fixed a bug that was preventing tables on the view account page from paging correctly
+ * (trac #125) Fixed a bug that was preventing the user from moving past the 
+               Domain Contact page in the Order interface under certain 
+               installations of PHP
 
 9/12/2006 - jdiamond
 ====================

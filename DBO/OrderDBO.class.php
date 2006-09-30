@@ -655,9 +655,9 @@ class OrderDBO extends DBO
 	      }
 
 	    // Set the contacts
-	    $orderitemdbo->setAdminContact( $adminContactDBO );
-	    $orderitemdbo->setBillingContact( $billingContactDBO );
-	    $orderitemdbo->setTechContact( $techContactDBO );
+            $this->orderitems[$key]->setAdminContact( $adminContactDBO );
+            $this->orderitems[$key]->setBillingContact( $billingContactDBO );
+            $this->orderitems[$key]->setTechContact( $techContactDBO );
 
 	    // Stop looping and return
 	    return;
