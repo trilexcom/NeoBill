@@ -100,9 +100,12 @@ class EditPaymentPage extends Page
    */
   function cancel()
   {
+    $this->goback();
+    /*
     $this->goto( "billing_view_invoice",
 		 null,
 		 "id=" . $this->paymentDBO->getInvoiceID() );
+    */
   }
 
   /**

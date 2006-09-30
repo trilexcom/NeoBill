@@ -120,7 +120,7 @@ class ExecuteOrderPage extends Page
 
     if( !isset( $this->orderDBO ) )
       {
-	// Could not find Server
+	// Could not find the Order
 	fatal_error( "ExecuteOrderPage::init()", 
 		     "Could not load Order.  ID = " . $_GET['id'] );
       }
