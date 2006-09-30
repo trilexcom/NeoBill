@@ -2,6 +2,7 @@
 ====================
 
  * (trac #127) Replaced the $base_path global with a constant called BASE_PATH
+ * (trac #124) Expanded currency fields to 8 digits maximum length
 
 9/12/2006 - jdiamond
 ====================
