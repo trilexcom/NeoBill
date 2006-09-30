@@ -37,6 +37,11 @@ class ViewAccountPage extends Page
    */
   function init()
   {
+    if( isset( $this->session['template'] ) )
+      {
+	$this->setTemplate( $this->session['template'] );
+      }
+
     $id = $_GET['id'];
 
     if( isset( $id ) )
@@ -95,22 +100,27 @@ class ViewAccountPage extends Page
       {
 
       case "account_info":
+	$this->session['template'] = "default";
 	$this->setTemplate( "default" );
 	break;
 
       case "services":
+	$this->session['template'] = "services";
 	$this->setTemplate( "services" );
 	break;
 
       case "domains":
+	$this->session['template'] = "domains";
 	$this->setTemplate( "domains" );
 	break;
 
       case "products":
+	$this->session['template'] = "products";
 	$this->setTemplate( "products" );
 	break;
 
       case "billing":
+	$this->session['template'] = "billing";
 	$this->setTemplate( "billing" );
 	break;
 
