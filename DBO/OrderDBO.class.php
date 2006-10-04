@@ -843,7 +843,8 @@ class OrderDBO extends DBO
 		     "Order Item not found! ID = " . $orderItemID );
       }
 
-    $orderItemDBO->setStatus( "Accepted" );
+    $this->orderitems[$orderItemDBO->getOrderItemID()]->setStatus( "Accepted" );
+    // $orderItemDBO->setStatus( "Accepted" );
   }
 
   /**

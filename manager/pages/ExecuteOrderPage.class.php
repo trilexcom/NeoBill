@@ -144,6 +144,5 @@ class ExecuteOrderPage extends Page
   {
     return $this->orderDBO->getAcceptedItems();
   }
-  
 }
 ?>

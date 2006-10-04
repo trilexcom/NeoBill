@@ -1,3 +1,8 @@
+10/4/2006 - jdiamond
+====================
+
+ * (trac #121) Fixed a bug that for some PHP installs, wasn't executing line items on a pending order
+
 9/30/2006 - jdiamond
 ====================
 
