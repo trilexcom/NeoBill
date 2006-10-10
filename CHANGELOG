@@ -2,6 +2,7 @@
 =====================
 
  * (trac #121) Another attempt at the bug mentioned bellow
+ * Removed the javascript call that clears the form when you select a new domain option when adding a domain to your order
 
 10/4/2006 - jdiamond
 ====================

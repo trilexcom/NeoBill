@@ -5,7 +5,7 @@
     <table>
       <tr class="reverse">
         <td> 
-          {form_element field="domainaction" option="Register Domain" onclick="javascript:clearDomainOptions( this.form );"} 
+          {form_element field="domainaction" option="Register Domain"} 
         </td>
       </tr>
       <tr> 
@@ -19,7 +19,7 @@
 
     <table>
       <tr class="reverse">
-        <td> {form_element field="domainaction" option="Transfer Domain" onclick="javascript:clearDomainOptions( this.form );"} </td>
+        <td> {form_element field="domainaction" option="Transfer Domain"} </td>
      </tr>
       <tr> 
         <td class="indent">
@@ -32,7 +32,7 @@
 
     <table>
       <tr class="reverse">
-        <td> {form_element field="domainaction" option="Existing Domain" onclick="javascript:clearDomainOptions( this.form );"} </td>
+        <td> {form_element field="domainaction" option="Existing Domain"} </td>
       </tr>
       <tr> 
         <td class="indent">
