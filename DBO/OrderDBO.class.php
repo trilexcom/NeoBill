@@ -829,6 +829,26 @@ class OrderDBO extends DBO
   }
 
   /**
+   * Get Item Index
+   *
+   * @param integer $orderItemID Order Item ID
+   * @return integer The index of the Order item in the orderitems array
+   */
+  function getItemIndex( $orderItemID )
+  {
+    foreach( $this->orderitems as $key => $orderItemDBO )
+      {
+	if( $orderItemDBO->getOrderItemID() == $orderItemID )
+	  {
+	    return $key;
+	  }
+      }
+
+    // Not found
+    return -1;
+  }
+
+  /**
    * Accept Item
    *
    * Set an Item's Accept Flag to Yes
@@ -837,14 +857,14 @@ class OrderDBO extends DBO
    */
   function acceptItem( $orderItemID )
   {
-    if( null == ($orderItemDBO = $this->getItem( $orderItemID )) )
+    if( ($index = $this->getItemIndex( $orderItemID )) < 0 )
       {
 	fatal_error( "OrderDBO::acceptItem()", 
 		     "Order Item not found! ID = " . $orderItemID );
       }
 
-    $this->orderitems[$orderItemDBO->getOrderItemID()]->setStatus( "Accepted" );
     // $orderItemDBO->setStatus( "Accepted" );
+    $this->orderitems[$index]->setStatus( "Accepted" );
   }
 
   /**
@@ -856,13 +876,14 @@ class OrderDBO extends DBO
    */
   function rejectItem( $orderItemID )
   {
-    if( null == ($orderItemDBO = $this->getItem( $orderItemID )) )
+    if( ($index = $this->getItemIndex( $orderItemID )) < 0 )
       {
 	fatal_error( "OrderDBO::acceptItem()", 
 		     "Order Item not found! ID = " . $orderItemID );
       }
 
-    $orderItemDBO->setStatus( "Rejected" );
+    // $orderItemDBO->setStatus( "Accepted" );
+    $this->orderitems[$index]->setStatus( "Rejected" );
   }
 
   /**
