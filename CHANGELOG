@@ -1,3 +1,10 @@
+10/11/2006 - jdiamond
+=====================
+
+ * Added a Bosnian translation provided by Eminos to the Order interface.  No
+   translation for the Manager interface has been done yet, but I did create a
+   stub for it.
+
 10/10/2006 - jdiamond
 =====================
 
