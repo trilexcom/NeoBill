@@ -4,6 +4,8 @@
  * Added a Bosnian translation provided by Eminos to the Order interface.  No
    translation for the Manager interface has been done yet, but I did create a
    stub for it.
+ * (trac #71) Fixed a bug that was preventing services with a 1 month term from
+              recurring properly
 
 10/10/2006 - jdiamond
 =====================

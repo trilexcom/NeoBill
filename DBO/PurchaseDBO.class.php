@@ -194,7 +194,8 @@ class PurchaseDBO extends DBO
     $recursBeforePeriodEnds =
       (($monthDiff2 % $this->getTermMonths() == 0) && 
        (date( 'j', $purchaseTS ) < date( 'j', $periodEndTS ))) ||
-      (($monthDiff2 % $this->getTermMonths() == 1) &&
+      (($monthDiff2 % $this->getTermMonths() == 0 || 
+	$monthDiff2 % $this->getTermMonths() == 1) &&
        (date( 'j', $purchaseTS ) >= date( 'j', $periodEndTS )));
 
     // Usefull for debugging
@@ -202,7 +203,7 @@ class PurchaseDBO extends DBO
     echo $this->getTitle() . ": " .
       !$purchasedSameMonthButBeforePeriodBegins . "/" .
       $recursAfterPeriodBegins . "/" .
-      $recursBeforePeriodEnds . " monthDiff1: " . $monthDiff2 . "\n";
+      $recursBeforePeriodEnds . " monthDiff2: " . $monthDiff2 . "\n";
     */
 
     // Test if this purchase recurs during the invoice period using the truths
