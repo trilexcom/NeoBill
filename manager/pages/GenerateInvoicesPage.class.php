@@ -85,6 +85,13 @@ class GenerateInvoicesPage extends Page
     // Generate an invoice for each account
     foreach( $accountdbo_array as $account )
       {
+	if( $account->getStatus() != "Active" ||
+	    $account->getBillingStatus() == "Do Not Bill" )
+	  {
+	    // Skip invalid, pending, and non-billable accounts
+	    continue;
+	  }
+
 	// Create a new Invoice
 	$invoice = new InvoiceDBO();
 	$invoice->setAccountID( $account->getID() );

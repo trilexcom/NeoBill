@@ -1,3 +1,9 @@
+10/13/2006 - jdiamond
+=====================
+
+ * (trac #139) Added a check to the generate invoice page to prevent invoices 
+               from being generated for inactive, or non-billable accounts
+
 10/11/2006 - jdiamond
 =====================
 
