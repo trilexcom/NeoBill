@@ -507,6 +507,13 @@
   </translation>
 
   <!-- ======= -->
+  <!-- Francais - French -->
+  <!-- ======= -->
+  <translation language="francais">
+    <phrase id="PLACEHOLDER">Manage translation has not been completed yet.</phrase>
+  </translation>
+
+  <!-- ======= -->
   <!-- Italian -->
   <!-- ======= -->
   <translation language="italian">
