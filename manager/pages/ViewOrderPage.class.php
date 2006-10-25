@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // OrderDBO class
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 /**
  * ViewOrderPage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewOrderPage extends Page
+class ViewOrderPage extends SolidStatePage
 {
   /**
    * @var OrderDBO The order
@@ -44,15 +44,15 @@ class ViewOrderPage extends Page
     switch( $action_name )
       {
       case "order":
-	if( isset( $this->session['order']['execute'] ) )
+	if( isset( $this->post['execute'] ) )
 	  {
 	    $this->execute();
 	  }
-	elseif( isset( $this->session['order']['save'] ) )
+	elseif( isset( $this->post['save'] ) )
 	  {
 	    $this->save();
 	  }
-	elseif( isset( $this->session['order']['delete'] ) )
+	elseif( isset( $this->post['delete'] ) )
 	  {
 	    $this->delete();
 	  }
@@ -69,15 +69,15 @@ class ViewOrderPage extends Page
    */
   function delete()
   {
-    if( !delete_OrderDBO( $this->orderDBO ) )
+    if( !delete_OrderDBO( $this->get['order'] ) )
       {
 	fatal_error( "ViewOrderPage::delete()",
-		     "Could not delete Order.  ID = " . $this->orderDBO->getID() );
+		     "Could not delete Order.  ID = " . $this->get['order']->getID() );
       }
 
     // Success
     $this->setMessage( array( "type" => "ORDER_DELETED",
-			      "args" => array( $this->orderDBO->getID() ) ) );
+			      "args" => array( $this->get['order']->getID() ) ) );
     $this->goto( "pending_orders" );
   }
 
@@ -90,7 +90,8 @@ class ViewOrderPage extends Page
     $this->saveChanges();
 
     // Redirect to the execute order page
-    $this->goto( "execute_order", null, sprintf( "id=%d", $this->orderDBO->getID() ) );
+    $this->goto( "execute_order", null, sprintf( "order=%d", 
+						 $this->get['order']->getID() ) );
   }
 
   /**
@@ -98,35 +99,27 @@ class ViewOrderPage extends Page
    */
   function init()
   {
-    $this->orderDBO =& $this->session['orderdbo'];
-    if( isset( $_GET['id'] ) )
-      {
-	// Retrieve the Order from the database
-	$this->orderDBO = load_OrderDBO( intval( $_GET['id'] ) );
-      }
+    parent::init();
 
-    if( !isset( $this->orderDBO ) )
-      {
-	// Could not find Server
-	fatal_error( "ViewOrderPage::init()", 
-		     "Could not load Order.  ID = " . $_GET['id'] );
-      }
+    // Set URL Fields
+    $this->setURLField( "order", $this->get['order']->getID() );
 
-    // Store item id's in the session to be used for the "Accept" checkboxes
-    foreach( $this->orderDBO->getItems() as $itemDBO )
-      {
-	$this->session['itemids'][] = $itemDBO->getOrderItemID();
-      }
+    // Give the template access to the Order DBO
+    $this->session['orderdbo'] =& $this->get['order'];
+
+    // The accept list widgets and validators need knowledge of the Order
+    $this->forms['order']->getField( "accept" )->getWidget()->setOrder( $this->get['order'] );
+    $this->forms['order']->getField( "accept" )->getValidator()->setOrder( $this->get['order'] );
 
     // If this is an existing account order, make sure the template has access
     // to the account DBO
-    if( $this->orderDBO->getAccountType() == "Existing Account" )
+    if( $this->get['order']->getAccountType() == "Existing Account" )
       {
-	$this->session['accountdbo'] = $this->orderDBO->getAccount();
+	$this->session['accountdbo'] = $this->get['order']->getAccount();
       }
 
     // Set Nav vars
-    $this->setNavVar( "order_id", $this->orderDBO->getID() );
+    $this->setNavVar( "order_id", $this->get['order']->getID() );
   }
 
   /**
@@ -136,7 +129,7 @@ class ViewOrderPage extends Page
    */
   function populateItemTable()
   {
-    return $this->orderDBO->getItems();
+    return $this->get['order']->getItems();
   }
   
   /**
@@ -146,7 +139,7 @@ class ViewOrderPage extends Page
    */
   function populatePaymentTable()
   {
-    return $this->orderDBO->getPayments();
+    return $this->get['order']->getPayments();
   }
   
   /**
@@ -158,7 +151,7 @@ class ViewOrderPage extends Page
       {
 	// DB Error
 	fatal_error( "ViewOrderPage::save()",
-		     "Could not update Order. ID = " . $this->orderDBO->getID() );
+		     "Could not update Order. ID = " . $this->get['order']->getID() );
       }
 
     $this->setMessage( array( "type" => "ORDER_SAVED" ) );
@@ -173,57 +166,56 @@ class ViewOrderPage extends Page
    */
   function saveChanges()
   {
-    if( $this->orderDBO->getAccountType() == "New Account" )
+    if( $this->get['order']->getAccountType() == "New Account" )
       {
-	if( !isset( $this->session['order']['username'] ) )
+	if( !isset( $this->post['username'] ) )
 	  {
 	    $this->setError( array( "type" => "FIELD_MISSING",
 				    "args" => array( "username" ) ) );
-	    $this->goback( 1 );
+	    $this->reload();
 	  }
 
-	if( load_UserDBO( $this->session['order']['username'] ) != null )
+	if( load_UserDBO( $this->post['username'] ) != null )
 	  {
 	    $this->setError( array( "type" => "DB_USER_EXISTS",
-				    "args" => array( $this->session['order']['username'] ) ) );
-	    $this->goback( 1 );
+				    "args" => array( $this->post['username'] ) ) );
+	    $this->reload();
 	  }
 
-	$this->orderDBO->setUsername( $this->session['order']['username'] );
-	if( isset( $this->session['order']['password'] ) )
+	$this->get['order']->setUsername( $this->post['username'] );
+	if( isset( $this->post['password'] ) )
 	  {
-	    $this->orderDBO->setPassword( $this->session['order']['password'] );
+	    $this->get['order']->setPassword( $this->post['password'] );
 	  }
       }
 
     // Update OrderDBO
-    $this->orderDBO->setContactName( $this->session['order']['contactname'] );
-    $this->orderDBO->setContactEmail( $this->session['order']['contactemail'] );
-    $this->orderDBO->setAddress1( $this->session['order']['address1'] );
-    $this->orderDBO->setAddress2( $this->session['order']['address2'] );
-    $this->orderDBO->setCity( $this->session['order']['city'] );
-    $this->orderDBO->setState( $this->session['order']['state'] );
-    $this->orderDBO->setCountry( $this->session['order']['country'] );
-    $this->orderDBO->setPostalCode( $this->session['order']['postalcode'] );
-    $this->orderDBO->setPhone( $this->session['order']['phone'] );
-    $this->orderDBO->setMobilePhone( $this->session['order']['mobilephone'] );
-    $this->orderDBO->setFax( $this->session['order']['fax'] );
+    $this->get['order']->setContactName( $this->post['contactname'] );
+    $this->get['order']->setContactEmail( $this->post['contactemail'] );
+    $this->get['order']->setAddress1( $this->post['address1'] );
+    $this->get['order']->setAddress2( $this->post['address2'] );
+    $this->get['order']->setCity( $this->post['city'] );
+    $this->get['order']->setState( $this->post['state'] );
+    $this->get['order']->setCountry( $this->post['country'] );
+    $this->get['order']->setPostalCode( $this->post['postalcode'] );
+    $this->get['order']->setPhone( $this->post['phone'] );
+    $this->get['order']->setMobilePhone( $this->post['mobilephone'] );
+    $this->get['order']->setFax( $this->post['fax'] );
 
-    foreach( $this->orderDBO->getItems() as $itemDBO )
+    foreach( $this->get['order']->getItems() as $itemDBO )
       {
-	if( in_array( $itemDBO->getOrderItemID(), $this->session['order']['accepted'] ) )
+	if( in_array( $itemDBO, $this->post['accept'] ) )
 	  {
-	    $this->orderDBO->acceptItem( $itemDBO->getOrderItemID() );
+	    $this->get['order']->acceptItem( $itemDBO->getOrderItemID() );
 	  }
 	else
 	  {
-	    $this->orderDBO->rejectItem( $itemDBO->getOrderItemID() );
+	    $this->get['order']->rejectItem( $itemDBO->getOrderItemID() );
 	  }
       }
 
     // Save changes to database
-    return update_OrderDBO( $this->orderDBO );
+    return update_OrderDBO( $this->get['order'] );
   }
 }
-
 ?>

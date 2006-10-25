@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Order DBO
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 /**
  * DomainContactPage
@@ -22,7 +22,7 @@ require_once $base_path . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DomainContactPage extends Page
+class DomainContactPage extends SolidStatePage
 {
   /**
    * @var OrderDomainItem The domain we are collecting contact information for

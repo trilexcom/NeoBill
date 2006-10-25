@@ -11,13 +11,13 @@
  */
 
 // Include the Email class
-require_once $base_path ."solidworks/Email.class.php";
+require_once BASE_PATH ."solidworks/Email.class.php";
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Include the AccountDBO
-require_once $base_path . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
 
 /**
  * WelcomeEmailPage
@@ -31,42 +31,23 @@ require_once $base_path . "DBO/AccountDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class WelcomeEmailPage extends Page
+class WelcomeEmailPage extends SolidStatePage
 {
   /**
    * Initializes the Page
-   *
-   * Loads the DBO for the account ID provided as a GET paramenter
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve this Account from the database
-	$dbo = load_AccountDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['account_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "account", $this->get['account']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Account in the database
-	$this->setError( array( "type" => "DB_ACCOUNT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Account DBO in session
-	$this->session['account_dbo'] = $dbo;
-      }
+    // Store Account DBO in session
+    $this->session['account_dbo'] =& $this->get['account'];
 
     // Place values on the template
-    $this->smarty->assign( "email",      $dbo->getContactEmail() );
+    $this->smarty->assign( "email",      $this->get['account']->getContactEmail() );
     $this->smarty->assign( "subject",    $this->conf['welcome_subject'] );
     $this->smarty->assign( "email_body", $this->conf['welcome_email'] );
   }
@@ -81,9 +62,7 @@ class WelcomeEmailPage extends Page
   {
     switch( $action_name )
       {
-
       case "welcome_email":
-
 	if( isset( $this->session['welcome_email']['continue'] ) )
 	  {
 	    $this->send_email();
@@ -92,14 +71,11 @@ class WelcomeEmailPage extends Page
 	  {
 	    $this->cancel();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -110,7 +86,7 @@ class WelcomeEmailPage extends Page
   {
     $this->goto( "accounts_view_account",
 		 null,
-		 "id=" . $this->session['account_dbo']->getID() );
+		 "account=" . $this->get['account']->getID() );
   }
 
   /**
@@ -131,17 +107,14 @@ class WelcomeEmailPage extends Page
       {
 	// Error delivering invoice
 	$this->setError( array( "type" => "WELCOME_EMAIL_FAILED" ) );
-	$this->goto( "accounts_view_account",
-		     null,
-		     "id=" . $this->session['account_dbo']->getID() );
+	$this->reload();
       }
 
     // Return to view_account with a sucess message
     $this->setMessage( array( "type" => "WELCOME_SENT" ) );
     $this->goto( "accounts_view_account",
 		 null,
-		 "id=" . $this->session['account_dbo']->getID() );
+		 "account=" . $this->get['account']->getID() );
   }
 }
-
 ?>

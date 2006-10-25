@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
 
 /**
  * DeleteDomainServicePage
@@ -24,41 +24,20 @@ require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DeleteDomainServicePage extends AdminPage
+class DeleteDomainServicePage extends SolidStateAdminPage
 {
   /**
    * Initialize Delete Domain Service Page
-   *
-   * If the Domain Service ID (the TLD) is provided in the query string then load
-   * the DomainServiceDBO from the database and place it in the session.  Otherwise,
-   * use the DBO already there.
    */
   function init()
   {
-    $tld = $_GET['tld'];
+    parent::init();
 
-    if( isset( $tld ) )
-      {
-	// Retrieve the Domain Service from the database
-	$dbo = load_DomainServiceDBO( form_field_filter( null, $tld ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['domain_service_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "dservice", $this->get['dservice']->getTLD() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Domain Service
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_NOT_FOUND",
-				"args" => array( $tld ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['domain_service_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['domain_service_dbo'] =& $this->get['dservice'];
   }
 
   /**
@@ -73,25 +52,20 @@ class DeleteDomainServicePage extends AdminPage
   {
     switch( $action_name )
       {
-
       case "delete_domain_service":
-
-	if( isset( $this->session['delete_domain_service']['delete'] ) )
+	if( isset( $this->post['delete'] ) )
 	  {
 	    $this->delete_domain_service();
 	  }
-	elseif( isset( $this->session['delete_domain_service']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -100,9 +74,7 @@ class DeleteDomainServicePage extends AdminPage
    */
   function cancel()
   {
-    $this->goto( "services_view_domain_service",
-		 null,
-		 "tld=" . $this->session['domain_service_dbo']->getTLD() );
+    $this->goback();
   }
 
   /**
@@ -114,7 +86,7 @@ class DeleteDomainServicePage extends AdminPage
   {
     global $DB;
 
-    $tld = $DB->quote_smart( $this->session['domain_service_dbo']->getTLD() );
+    $tld = $DB->quote_smart( $this->get['dservice']->getTLD() );
     if( load_array_DomainServicePurchaseDBO( "tld=" . $tld ) != null )
       {
 	// Can not delete domain service if any purchases exist
@@ -123,7 +95,7 @@ class DeleteDomainServicePage extends AdminPage
       }
 
     // Delete Domain Service DBO
-    if( !delete_DomainServiceDBO( $this->session['domain_service_dbo'] ) )
+    if( !delete_DomainServiceDBO( $this->get['dservice'] ) )
       {
 	// Delete failed
 	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_DELETE_FAILED",
@@ -137,5 +109,4 @@ class DeleteDomainServicePage extends AdminPage
     $this->goto( "services_domain_services" );
   }
 }
-
 ?>

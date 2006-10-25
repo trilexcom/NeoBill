@@ -1,11 +1,11 @@
 {dbo_assign dbo="account_dbo" var="account_id" field="id"}
 
 <ul id="tabnav">
-  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=account_info"> {echo phrase="ACCOUNT_INFO"} </a> </li>
-  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=services"> {echo phrase="WEB_HOSTING_SERVICES"} </a> </li>
-  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=domains"> {echo phrase="DOMAINS"} </a> </li>
-  <li> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=products"> {echo phrase="OTHER_PRODUCTS_SERVICES"} </a> </li>
-  <li class="selected"> <a href="manager_content.php?page=accounts_view_account&id={$account_id}&action=billing"> {echo phrase="BILLING"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=account_info"> {echo phrase="ACCOUNT_INFO"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=services"> {echo phrase="WEB_HOSTING_SERVICES"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=domains"> {echo phrase="DOMAINS"} </a> </li>
+  <li> <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=products"> {echo phrase="OTHER_PRODUCTS_SERVICES"} </a> </li>
+  <li class="selected"> <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=billing"> {echo phrase="BILLING"} </a> </li>
 </ul>
 
 <div class="action">
@@ -44,7 +44,7 @@
              url="&action=billing"}
   
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a href="./manager_content.php?page=billing_view_invoice&id={dbo_echo dbo="invoicedbo_table" field="id"}">{dbo_echo dbo="invoicedbo_table" field="id"}</a>
+      <a href="./manager_content.php?page=billing_view_invoice&invoice={dbo_echo dbo="invoicedbo_table" field="id"}">{dbo_echo dbo="invoicedbo_table" field="id"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[INVOICE_DATE]" sort_field="date"}

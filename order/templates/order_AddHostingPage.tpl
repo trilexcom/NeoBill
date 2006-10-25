@@ -5,8 +5,8 @@
         <td colspan="2"> {echo phrase="SELECT_HOSTING_SERVICE"}: </td>
       </tr>
       <tr>
-        <td class="ident"> {form_description field="serviceid"}</td>
-        <td> {form_element field="serviceid" onchange="submit()"} </td>
+        <td class="ident"> {form_description field="service"}</td>
+        <td> {form_element field="service" onchange="submit()"} </td>
       </tr>
       <tr>
         <td class="ident"> {form_description field="term"}</td>

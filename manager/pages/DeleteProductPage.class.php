@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/ProductDBO.class.php";
-require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/ProductDBO.class.php";
+require_once BASE_PATH . "DBO/ProductPurchaseDBO.class.php";
 
 /**
  * DeleteProductPage
@@ -24,40 +24,20 @@ require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DeleteProductPage extends AdminPage
+class DeleteProductPage extends SolidStateAdminPage
 {
   /**
    * Initialize Delete Product Page
-   *
-   * If the Product ID is provided in the query string, load the ProductDBO from the
-   * database and place it in the session.  Otherwise, use the DBO already there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Product from the database
-	$dbo = load_ProductDBO( $id );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['product_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "product", $this->get['product']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Product
-	$this->setError( array( "type" => "DB_PRODUCT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['product_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['product_dbo'] =& $this->get['product'];
   }
 
   /**
@@ -72,36 +52,21 @@ class DeleteProductPage extends AdminPage
   {
     switch( $action_name )
       {
-
       case "delete_product":
-
-	if( isset( $this->session['delete_product']['delete'] ) )
+	if( isset( $this->post['delete'] ) )
 	  {
 	    $this->delete_product();
 	  }
-	elseif( isset( $this->session['delete_product']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
-	    $this->cancel();
+	    $this->goback();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
-  }
-
-  /**
-   * Cancel
-   */
-  function cancel()
-  {
-    $this->goto( "services_view_product",
-		 null,
-		 "id=" . $this->session['product_dbo']->getID() );
   }
 
   /**
@@ -111,21 +76,21 @@ class DeleteProductPage extends AdminPage
    */
   function delete_product()
   {
-    $id = $this->session['product_dbo']->getID();
+    $id = $this->get['product']->getID();
     if( load_array_ProductPurchaseDBO( "productid=" . $id ) != null )
       {
 	// Can not delete product if any purchases exist
 	$this->setError( array( "type" => "PURCHASES_EXIST" ) );
-	$this->cancel();
+	$this->goback();
       }
 
     // Delete Product DBO
-    if( !delete_ProductDBO( $this->session['product_dbo'] ) )
+    if( !delete_ProductDBO( $this->get['product'] ) )
       {
 	// Delete failed
 	$this->setError( array( "type" => "DB_PRODUCT_DELETE_FAILED",
 				"args" => array( $this->session['product_dbo']->getName() ) ) );
-	$this->cancel();
+	$this->goback();
       }
 
     // Success - go back to products page

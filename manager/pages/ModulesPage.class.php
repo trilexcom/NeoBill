@@ -10,9 +10,8 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "DBO/ModuleDBO.class.php";
-
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "DBO/ModuleDBO.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * ModulesPage
@@ -22,24 +21,8 @@ require_once $base_path . "solidworks/AdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ModulesPage extends AdminPage
+class ModulesPage extends SolidStateAdminPage
 {
-  /**
-   * Initialize Modules Page
-   */
-  function init()
-  {
-    // Store all the module names in the session for validation
-    $this->session['modulenames'] = array();
-    if( null != ($moduleDBOArray = load_array_ModuleDBO() ) )
-	{
-	  foreach( $moduleDBOArray as $moduleDBO )
-	  {
-	    $this->session['modulenames'][] = $moduleDBO->getName();
-	  }
-	}
-  }
-
   /**
    * Action
    *
@@ -52,7 +35,7 @@ class ModulesPage extends AdminPage
     switch( $action_name )
       {
       case "modules":
-	if( isset( $this->session['modules']['update'] ) )
+	if( isset( $this->post['update'] ) )
 	  {
 	    $this->updateModules();
 	  }
@@ -69,43 +52,40 @@ class ModulesPage extends AdminPage
    */
   function updateModules()
   {
-    if( !isset( $this->session['modules']['enabled'] ) )
+    global $conf;
+
+    if( !isset( $this->post['enabled'] ) )
       {
-	// Guard against a pesky foreach warning
-	$this->session['modules']['enabled'] = array();
+	$this->post['enabled'] = array();
       }
 
     // Enable all the Modules with checks, disable the ones without
-    $moduleDBOArray = load_array_ModuleDBO();
-    foreach( $moduleDBOArray as $moduleDBO )
+    foreach( $conf['modules'] as $module )
       {
-	if( !$moduleDBO->isEnabled() &&
-	    in_array( $moduleDBO->getName(),
-		      $this->session['modules']['enabled'] ) )
+	if( !$module->isEnabled() && in_array( $module, $this->post['enabled'] ) )
 	  {
 	    // Enable this module
+	    $moduleDBO = load_ModuleDBO( $module->getName() );
 	    $moduleDBO->setEnabled( "Yes" );
 	    if( !update_ModuleDBO( $moduleDBO ) )
 	      {
-		fatal_error( "ModulesPage::updateModule()",
-			     "Failed to enable module: " . $moduleDBO->getName() );
+		throw new SWException( "Failed to enable module: " . $moduleDBO->getName() );
 	      }
 	  }
-	elseif( $moduleDBO->isEnabled() &&
-	        !in_array( $moduleDBO->getName(),
-			   $this->session['modules']['enabled'] ) )
+	elseif( $module->isEnabled() && !in_array( $module, $this->post['enabled'] ) )
 	  {
 	    // Disable this module
+	    $moduleDBO = load_ModuleDBO( $module->getName() );
 	    $moduleDBO->setEnabled( "No" );
 	    if( !update_ModuleDBO( $moduleDBO ) )
 	      {
-		fatal_error( "ModulesPage::updateModule()",
-			     "Failed to enable module: " . $moduleDBO->getName() );
+		throw new SWException( "Failed to enable module: " . $moduleDBO->getName() );
 	      }
 	  }
       }
 
     $this->setMessage( array( "type" => "MODULES_UPDATED" ) );
+    $this->reload();
   }
 }
 ?>

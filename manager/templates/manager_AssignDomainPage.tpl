@@ -8,7 +8,7 @@
         <th> {form_description field="domainname"} </th>
         <td> 
           {form_element field="domainname"}
-          . {form_element field="servicetld"}
+          . {form_element field="tld"}
         </td>
       </tr>
       <tr>

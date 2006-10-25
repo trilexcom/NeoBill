@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 // Include UserDBO
-require_once $base_path . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * ConfigureEditUserPage
@@ -24,71 +24,8 @@ require_once $base_path . "DBO/UserDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ConfigureEditUserPage extends AdminPage
+class ConfigureEditUserPage extends SolidStateAdminPage
 {
-  /**
-   * Control Page Access
-   *
-   * This page is limited to either an Administrator or the user whose account
-   * is being edited.
-   *
-   * @return boolean True if access is granted
-   */
-  function control_access()
-  {
-    // Allow the user currently logged in to edit his own info, but no
-    // other Account Manager's
-
-    if( $_SESSION['client']['userdbo']->getType() == "Administrator" )
-      {
-	// Allow access to Administrator's
-	return true;
-      }
-
-    if( isset( $this->session['edit_user_dbo'] ) && 
-	$this->session['edit_user_dbo']->getUsername() == 
-	$_SESSION['client']['userdbo']->getUsername() )
-      {
-	// Allow the client access to his own data
-	return true;
-      }
-
-    // Deny access
-    return false;
-  }
-
-  /**
-   * Initialize Edit User Page
-   */
-  function init()
-  {
-    // Load UserDBO
-    $username = isset( $_GET['my_info'] ) ? 
-      $_SESSION['client']['userdbo']->getUsername() : 
-      form_field_filter( null, $_GET['username'] );
-
-    if( isset( $this->session['edit_user_dbo'] ) && !isset( $_GET['username'] ) )
-      {
-	// User already loaded
-	return;
-      }
-
-    // Retrieve the user from the database
-    $userdbo = load_userDBO( $username );
-
-    if( !isset( $userdbo ) )
-      {
-	// Could not find username
-	$this->setError( array( "type" => "DB_USER_NOT_FOUND",
-				"args" => array( $username ) ) );
-      }
-    else
-      {
-	// Store user DBO in session so it can be displayed in the edit form
-	$this->session['edit_user_dbo'] = $userdbo;
-      }
-  }
-
   /**
    * Action
    *
@@ -103,35 +40,26 @@ class ConfigureEditUserPage extends AdminPage
    */
   function action( $action_name )
   {
-    
     switch( $action_name )
       {
-
       case "edit_user":
-
 	// Update user information
 	$this->update_user();
-
 	break;
 
       case "edit_user_pass":
-	
 	// Update user's password
 	$this->update_password();
-
 	break;
 
       case "edit_user_action":
       case "delete":
-
 	// Confirm this user's removal
 	$this->confirm_delete_user();
-
 	break;
 
       case "delete_user_confirm":
-
-	if( isset( $this->session['delete_user_confirm']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Delete the user
 	    $this->delete_user();
@@ -141,15 +69,42 @@ class ConfigureEditUserPage extends AdminPage
 	    // Go back
 	    $this->goback();
 	  }
-
 	break;
 
       default:
-
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
+  }
+
+  /**
+   * Initialize Edit User Page
+   */
+  function init()
+  {
+    parent::init();
+
+    // Set URL Fields
+    $this->setURLField( "user", $this->get['user']->getUsername() );
+
+    // Store user DBO in session so it can be displayed in the edit form
+    $this->session['edit_user_dbo'] =& $this->get['user'];
+  }
+
+  /**
+   * Control Page Access
+   *
+   * This page is limited to either an Administrator or the user whose account
+   * is being edited.
+   *
+   * @return boolean True if access is granted
+   */
+  function control_access()
+  {
+    // Allow the user currently logged in to edit his own info, but no
+    // other Account Manager's
+    return ($_SESSION['client']['userdbo']->getType() == "Administrator") ||
+      ($this->get['user'] == $_SESSION['client']['userdbo']->getUsername());
   }
 
   /**
@@ -159,16 +114,8 @@ class ConfigureEditUserPage extends AdminPage
    */
   function delete_user()
   {
-    $user_dbo = $this->session['edit_user_dbo'];
-    if( !isset( $user_dbo ) )
-      {
-	// Missing a UserDBO to delete!
-	fatal_error( "ConfigureEditUserPage::delete_user()",
-		     "User to delete is not loaded" );
-      }
-
     // Remove DBO from the database
-    if( !delete_UserDBO( $user_dbo ) )
+    if( !delete_UserDBO( $this->get['user'] ) )
       {
 	// Failed to delete user
 	$this->setError( array( "type" => "DB_USER_DELETE_FAILED",
@@ -176,12 +123,10 @@ class ConfigureEditUserPage extends AdminPage
 	return;
       }
 
-    // Show receipt
-    // $this->setTemplate( "del_receipt" );
-
     // Jump to 'Users' page, pass confirmation message
-    $this->goto( 'config_users', array( array( "type" => "USER_DELETED",
-					       "args" => array( $user_dbo->getUsername() ) ) ) );
+    $this->goto( 'config_users', 
+		 array( array( "type" => "USER_DELETED",
+			       "args" => array( $user_dbo->getUsername() ) ) ) );
   }
 
   /**
@@ -191,15 +136,8 @@ class ConfigureEditUserPage extends AdminPage
    */
   function confirm_delete_user()
   {
-    $user_dbo = $this->session['edit_user_dbo'];
-    if( !isset( $user_dbo ) )
-      {
-	// Missing a UserDBO to delete!
-	fatal_error( "ConfigureEditUserPage::confirm_delete_user()",
-		     "User to delete is not loaded" );
-      }
-
-    if( $_SESSION['client']['userdbo']->getUsername() == $user_dbo->getUsername() )
+    if( $_SESSION['client']['userdbo']->getUsername() == 
+	$this->get['user']->getUsername() )
       {
 	// Can not delete self
 	$this->setError( array( "type" => "USER_SELF_DELETE" ) );
@@ -215,24 +153,12 @@ class ConfigureEditUserPage extends AdminPage
    */
   function update_user()
   {
-    // Pull form data from the session
-    $user_data = $this->session['edit_user'];
-
-    if( !isset( $user_data ) )
-      {
-	// Missing form data
-	fatal_error( "ConfigureEditUserPage::update_user()",
-		     "no form data received!" );
-      }
-
-    // Access UserDBO being edited
-    $user_dbo =& $this->session['edit_user_dbo'];
-
-    if( ($_SESSION['client']['userdbo']->getUsername() == $user_dbo->getUsername()) &&
-	$user_data['type'] != $user_dbo->getType() )
+    if( ($_SESSION['client']['userdbo']->getUsername() == 
+	 $this->get['user']->getUsername()) &&
+	$this->post['type'] != $this->get['user']->getType() )
       {
 	// Client can not change his own user type
-	$this->session['edit_user']['type'] = $user_dbo->getType();
+	$this->session['edit_user']['type'] = $this->get['user']->getType();
 	$this->setError( array( "type" => "USER_TYPE_CHANGE", 
 				"field_name" => "type" ) );
 
@@ -240,29 +166,30 @@ class ConfigureEditUserPage extends AdminPage
       }
 
     // Load form contents into DBO
-    $user_dbo->setFirstName( $user_data['firstname'] );
-    $user_dbo->setLastName( $user_data['lastname'] );
-    $user_dbo->setEmail( $user_data['email'] );
-    $user_dbo->setType( $user_data['type'] );
-    $user_dbo->setLanguage( $user_data['language'] );
+    $this->get['user']->setFirstName( $this->post['firstname'] );
+    $this->get['user']->setLastName( $this->post['lastname'] );
+    $this->get['user']->setEmail( $this->post['email'] );
+    $this->get['user']->setType( $this->post['type'] );
+    $this->get['user']->setLanguage( $this->post['language'] );
 
     // Commit changes
-    if( !update_UserDBO( $user_dbo ) )
+    if( !update_UserDBO( $this->get['user'] ) )
       {
 	// DB update failed
 	$this->setError( array( "type" => "DB_USER_UPDATE_FAILED",
-				"args" => array( $user_dbo->getUsername() ) ) );
+				"args" => array( $this->get['user']->getUsername() ) ) );
+	return;
       }
 
     // Success - Display message
     $this->setMessage( array( "type" => "USER_UPDATED", 
-			      "args" => array( $user_dbo->getUsername() ) ) );
+			      "args" => array( $this->get['user']->getUsername() ) ) );
 
     // Load language preference
-    $_SESSION['client']['userdbo'] = $user_dbo;
-    $this->conf['locale']['language'] = $user_dbo->getLanguage();
+    $_SESSION['client']['userdbo'] = $this->get['user'];
+    $this->conf['locale']['language'] = $this->get['user']->getLanguage();
     $_SESSION['jsFunction'] = "reloadMenu()";
-    $this->goto( "config_edit_user", null, "my_info=1" );
+    $this->goto( "config_edit_user", null, "user=" . $this->get['user']->getUsername() );
   }
 
   /**
@@ -270,20 +197,8 @@ class ConfigureEditUserPage extends AdminPage
    */
   function update_password()
   {
-    // Pull form data from the session
-    $user_data = $this->session['edit_user_pass'];
-
-    if( !isset( $user_data ) )
-      {
-	// Missing form data
-	fatal_error( "ConfigureEditUserPage::update_password()",
-		     "Error: no form data received!" );
-      }
-
-    $user_dbo =& $this->session['edit_user_dbo'];
-
-    if( !isset( $user_data['password'] ) || 
-	$user_data['password'] != $user_data['repassword'] )
+    if( !isset( $this->post['password'] ) || 
+	$this->post['password'] != $this->post['repassword'] )
       {
 	// Password not entered correctly
 	$this->setError( array( "type"       => "PASSWORD_MISMATCH",
@@ -294,40 +209,18 @@ class ConfigureEditUserPage extends AdminPage
       }
 
     // Set new password
-    $user_dbo->setPassword( $user_data['password'] );
+    $this->get['user']->setPassword( $this->post['password'] );
 
     // Commit changes
-    if( !update_UserDBO( $user_dbo ) )
+    if( !update_UserDBO( $this->get['user'] ) )
       {
 	// DB update failed
-	echo "Update failed";
+	throw new SWException( "Failed to update User record" );
       }
 
     // Display message
     $this->setMessage( array( "type" => "USER_PASS_UPDATED", 
-			      "args" => array( $user_dbo->getUsername() ) ) );
-  }
-
-  /**
-   * Populate the Language Preference Box
-   *
-   * @return array An array of languages
-   */
-  function populateLanguage()
-  {
-    global $translations;
-
-    $langauges = array();
-    foreach( $translations as $language => $phrases )
-      {
-	if( is_array( $phrases ) )
-	  {
-	    $languages[$language] = $language;
-	  }
-      }
-
-    return $languages;
+			      "args" => array( $this->get['user']->getUsername() ) ) );
   }
 }
-
 ?>

@@ -38,7 +38,7 @@
     {/dbo_table_column}
 
     {dbo_table_column header="[ACTION]"}
-      <a href="manager_content.php?page=taxes&action=remove&id={dbo_echo dbo="taxruledbo_table" field="id"}">{echo phrase="REMOVE"}</a>
+      <a href="manager_content.php?page=taxes&action=remove&taxrule={dbo_echo dbo="taxruledbo_table" field="id"}">{echo phrase="REMOVE"}</a>
     {/dbo_table_column}
 
   {/dbo_table}

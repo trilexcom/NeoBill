@@ -10,7 +10,7 @@
     {/dbo_table_column}
 
     {dbo_table_column header="[SERVER]"}
-      <a href="manager_content.php?page=services_view_server&id={dbo_echo dbo="ipaddressdbo_table" field="serverid"}">{dbo_echo dbo="ipaddressdbo_table" field="hostname"}</a>
+      <a href="manager_content.php?page=services_view_server&server={dbo_echo dbo="ipaddressdbo_table" field="serverid"}">{dbo_echo dbo="ipaddressdbo_table" field="hostname"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[ASSIGNED_TO]"}
@@ -18,7 +18,7 @@
       {if $accountid < 1}
         Available
       {else}
-        <a href="manager_content.php?page=accounts_view_account&id={$accountid}">{dbo_echo dbo="ipaddressdbo_table" field="accountname"}</a>
+        <a href="manager_content.php?page=accounts_view_account&account={$accountid}">{dbo_echo dbo="ipaddressdbo_table" field="accountname"}</a>
       {/if}
     {/dbo_table_column}
 
@@ -27,7 +27,7 @@
     {/dbo_table_column}
 
     {dbo_table_column header="[ACTION]"}
-      <a href="manager_content.php?page=services_ip_manager&action=remove_ip&ip={dbo_echo dbo="ipaddressdbo_table" field="ipstring"}">remove</a>
+      <a href="manager_content.php?page=services_ip_manager&action=remove_ip&ip={dbo_echo dbo="ipaddressdbo_table" field="ip"}">remove</a>
     {/dbo_table_column}
 
   {/dbo_table}

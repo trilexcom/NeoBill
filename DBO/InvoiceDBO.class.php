@@ -11,11 +11,11 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
-require_once $base_path . "DBO/AccountDBO.class.php";
-require_once $base_path . "DBO/InvoiceItemDBO.class.php";
-require_once $base_path . "DBO/PaymentDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceItemDBO.class.php";
+require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 
 /**
  * InvoiceDBO
@@ -76,6 +76,13 @@ class InvoiceDBO extends DBO
    * @var array Payments (PaymentDBO)
    */
   var $paymentdbo_array = array();
+
+  /**
+   * Convert to a String
+   *
+   * @return string Invoice ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Invoice ID
@@ -466,8 +473,7 @@ class InvoiceDBO extends DBO
 	$this->add_item( 1, 
 			 $purchaseDBO->getSetupFee(),
 			 $purchaseDBO->getTitle() .
-			 translate_string( $conf['locale']['language'],
-					   ": [SETUP_FEE]" ),
+			 ": [SETUP_FEE]",
 			 false );
       }
 

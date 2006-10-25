@@ -11,12 +11,12 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/NoteDBO.class.php";
-require_once $base_path . "DBO/HostingServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/NoteDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/ProductPurchaseDBO.class.php";
 
 /**
  * ViewAccountPage
@@ -26,45 +26,24 @@ require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewAccountPage extends Page
+class ViewAccountPage extends SolidStatePage
 {
   /**
    * Initialize View Account Page
-   *
-   * If the account ID is provided in the query string, use it to load the AccountDBO
-   * from the database, then store the DBO in the session.  Otherwise, use the DBO
-   * already there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Account from the database
-	$dbo = load_AccountDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['account_dbo'];
-      }
+    // Store Account DBO in session
+    $this->session['account_dbo'] =& $this->get['account'];
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Account
-	$this->setError( array( "type" => "DB_ACCOUNT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Account DBO in session
-	$this->session['account_dbo'] = $dbo;
+    // Set URL Fields
+    $this->setURLField( "account", $this->get['account']->getID() );
 
-	// Set this page's Nav Vars
-	$this->setNavVar( "account_id",   $dbo->getID() );
-	$this->setNavVar( "account_name", $dbo->getAccountName() );
-      }
+    // Set this page's Nav Vars
+    $this->setNavVar( "account_id",   $this->get['account']->getID() );
+    $this->setNavVar( "account_name", $this->get['account']->getAccountName() );
   }
 
   /**
@@ -127,97 +106,83 @@ class ViewAccountPage extends Page
 	break;
 
       case "view_account_action":
-
-	if( isset( $this->session['view_account_action']['edit'] ) )
+	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Account
 	    $this->goto( "accounts_edit_account",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-	elseif( isset( $this->session['view_account_action']['delete'] ) )
+	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Account
 	    $this->goto( "accounts_delete_account",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-
 	break;
 
       case "view_account_note":
-	if( isset( $this->session['view_account_note']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    $this->add_note();
 	  }
 	break;
 
       case "delete_note":
-
 	$this->delete_note();
-
 	break;
 
       case "view_account_hosting":
-
-	if( isset( $this->session['view_account_hosting']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    // Add a hosting service to this account
 	    $this->goto( "accounts_assign_hosting",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-
 	break;
 
       case "view_account_domains":
-
-	if( isset( $this->session['view_account_domains']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    // Add a domain to this account
 	    $this->goto( "accounts_assign_domain",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-
 	break;
 
       case "view_account_products":
-
-	if( isset( $this->session['view_account_products']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    // Add a product to this account
 	    $this->goto( "accounts_assign_product",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-
 	break;
 
       case "view_account_billing_action":
-
-	if( isset( $this->session['view_account_billing_action']['add_invoice'] ) )
+	if( isset( $this->post['add_invoice'] ) )
 	  {
 	    // Create a new invoice for this account
 	    $this->goto( "accounts_add_invoice",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-	elseif( isset( $this->session['view_account_billing_action']['add_payment'] ) )
+	elseif( isset( $this->post['add_payment'] ) )
 	  {
 	    // Enter a new payment for this account
 	    $this->goto( "accounts_add_payment",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -228,31 +193,24 @@ class ViewAccountPage extends Page
    */
   function deleteProduct()
   {
-    $id = intval( $_GET['purchase_id'] );
-
-    if( ($product_dbo = load_ProductPurchaseDBO( $id ) ) == null )
+    if( $this->get['ppurchase']->getAccountID() != $this->get['account']->getID() )
       {
-	fatal_error( "ViewAccountPage::deleteProduct()",
-		     "could not find product purchase DBO" );
+	throw new SWException( "The product you are trying to delete does not belong to this account" );
       }
 
-    if( $product_dbo->getAccountID() != $this->session['account_dbo']->getID() )
-      {
-	fatal_error( "ViewAccountPage::deleteProduct()",
-		     "invalid purchase DBO" );
-      }
-
-    if( !delete_ProductPurchaseDBO( $product_dbo ) )
+    if( !delete_ProductPurchaseDBO( $this->get['ppurchase'] ) )
       {
 	// Error
 	$this->setError( array( "type" => "DB_DELETE_PRODUCT_PURCHASE_FAILED",
-				"args" => array( $product_dbo->getProductName() ) ) );
+				"args" => array( $this->get['ppurchase']->getProductName() ) ) );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "PRODUCT_PURCHASE_DELETED",
-			      "args" => array( $product_dbo->getProductName() ) ) );
-    $this->setTemplate( "products" );
+			      "args" => array( $this->get['ppurchase']->getProductName() ) ) );
+    $this->setURLField( "action", "products" );
+    $this->reload();
   }
 
   /**
@@ -262,31 +220,24 @@ class ViewAccountPage extends Page
    */
   function deleteDomain()
   {
-    $id = intval( $_GET['purchase_id'] );
-
-    if( ($domain_dbo = load_DomainServicePurchaseDBO( $id ) ) == null )
+    if( $this->get['dpurchase']->getAccountID() != $this->get['account']->getID() )
       {
-	fatal_error( "ViewAccountPage::deleteDomain()",
-		     "could not find domain service purchase DBO" );
+	throw new SWException( "The domain purchase to be deleted does not match the account" );
       }
 
-    if( $domain_dbo->getAccountID() != $this->session['account_dbo']->getID() )
-      {
-	fatal_error( "ViewAccountPage::deleteDomain()",
-		     "invalid purchase DBO" );
-      }
-
-    if( !delete_DomainServicePurchaseDBO( $domain_dbo ) )
+    if( !delete_DomainServicePurchaseDBO( $this->get['dpurchase'] ) )
       {
 	// Error
 	$this->setError( array( "type" => "DB_DELETE_DOMAIN_PURCHASE_FAILED",
-				"args" => array( $domain_dbo->getFullDomainName() ) ) );
+				"args" => array( $this->get['dpurchase']->getFullDomainName() ) ) );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "DOMAIN_PURCHASE_DELETED",
-			      "args" => array( $domain_dbo->getFullDomainName() ) ) );
-    $this->setTemplate( "domains" );
+			      "args" => array( $this->get['dpurchase']->getFullDomainName() ) ) );
+    $this->setURLField( "action", "domains" );
+    $this->reload();
   }
 
   /**
@@ -296,31 +247,24 @@ class ViewAccountPage extends Page
    */
   function deleteHosting()
   {
-    $id = intval( $_GET['purchase_id'] );
-
-    if( ($hosting_dbo = load_HostingServicePurchaseDBO( $id ) ) == null )
+    if( $this->get['hpurchase']->getAccountID() != $this->get['account']->getID() )
       {
-	fatal_error( "ViewAccountPage::deleteHosting()",
-		     "error: could not find hosting service purchase DBO" );
+	throw new SWException( "Attempted to delete a hosting purchase that does not match this account." );
       }
 
-    if( $hosting_dbo->getAccountID() != $this->session['account_dbo']->getID() )
-      {
-	fatal_error( "ViewAccountPage::deleteHosting()",
-		     "invalid purchase DBO" );
-      }
-
-    if( !delete_HostingServicePurchaseDBO( $hosting_dbo ) )
+    if( !delete_HostingServicePurchaseDBO( $this->get['hpurchase'] ) )
       {
 	// Error
 	$this->setError( array( "type" => "DB_DELETE_HOSTING_PURCHASE_FAILED",
-				"args" => array( $hosting_dbo->getTitle() ) ) );
+				"args" => array( $this->get['hpurchase']->getTitle() ) ) );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "HOSTING_PURCHASE_DELETED",
-			      "args" => array( $hosting_dbo->getTitle() ) ) );
-    $this->setTemplate( "services" );
+			      "args" => array( $this->get['hpurchase']->getTitle() ) ) );
+    $this->setURLField( "action", "services" );
+    $this->reload();
   }
 
   /**
@@ -333,46 +277,31 @@ class ViewAccountPage extends Page
     // Extract UserDBO of client
     $user_dbo = $_SESSION['client']['userdbo'];
 
-    // Extract AccountDBO from the session
-    $account_dbo =& $this->session['account_dbo'];
-
-    // Get ID of note to be deleted
-    $note_id = intval( $_GET['note_id'] );
-
-    // Load note DBO
-    $note_dbo = load_NoteDBO( $note_id );
-    if( $note_dbo == null )
+    if( !isset( $this->get['note'] ) )
       {
 	// Note not found
-	fatal_error( "ViewAccountPage::delete_note()",
-		     "Unable to load note, id = " . $note_id );
-      }
-
-    if( $note_dbo->getAccountID() != $account_dbo->getID() )
-      {
-	// Note being deleted does not belong to this account
-	fatal_error( "ViewAccountPage::delete_note()",
-		     "Accout mismatch when trying to delete note, id = " . $note_id );
+	throw new SWException( "There is no note to delete!" );
       }
 
     if( $user_dbo->getType() != "Administrator" &&
-	$user_dbo->getUsername() != $note_dbo->getUsername() )
+	$user_dbo->getUsername() != $this->get['note']->getUsername() )
       {
 	// User does not have the authority to delete this note
 	$this->setError( array( "type" => "ACCESS_DENIED" ) );
-	return;
+	$this->reload();
       }
 
     // Delete the note
-    if( !delete_NoteDBO( $note_dbo ) )
+    if( !delete_NoteDBO( $this->get['note'] ) )
       {
 	// Error deleting note
 	$this->setError( array( "type" => "DB_NOTE_DELETE_FAILED" ) );
-	return;
+	$this->reload();
       }
 
     // Note deleted
     $this->setMessage( array( "type" => "NOTE_DELETED" ) );
+    $this->reload();
   }
   
   /**
@@ -385,39 +314,24 @@ class ViewAccountPage extends Page
     // Extract UserDBO of client
     $user_dbo = $_SESSION['client']['userdbo'];
 
-    // Extract AccountDBO from the session
-    $account_dbo =& $this->session['account_dbo'];
-
-    // Extract form data
-    $note_data = $this->session['view_account_note'];
-
-    if( !isset( $note_data ) )
-      {
-	// Missing form data 
-	fatal_error( "ViewAccountPage::add_note()",
-		     "Error: no form data received!" );
-      }
-
     // Create a new NoteDBO
     $note_dbo = new NoteDBO();
-    $note_dbo->setAccountID( $account_dbo->getID() );
+    $note_dbo->setAccountID( $this->get['account']->getID() );
     $note_dbo->setUsername( $user_dbo->getUsername() );
-    $note_dbo->setText( $note_data['text'] );
+    $note_dbo->setText( $this->post['text'] );
 
     // Add NoteDBO to database
     if( !add_NoteDBO( $note_dbo ) )
       {
 	// Unable to add note to database
 	$this->setError( array( "type" => "DB_NOTE_ADD_FAILED" ) );
+	$this->reload();
       }
-    else
-      {
-	// Account added - clear form data from session
-	unset( $this->session['view_account_note'] );
-	$this->setMessage( array( "type" => "NOTE_ADDED" ) );
-      }
+
+    // Account added - clear form data from session
+    unset( $this->session['view_account_note'] );
+    $this->setMessage( array( "type" => "NOTE_ADDED" ) );
+    $this->reload();
   }
-
 }
-
 ?>

@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * DomainServiceDBO
@@ -93,6 +93,13 @@ class DomainServiceDBO extends DBO
    * @var string Taxable flag
    */
   var $taxable;
+
+  /**
+   * Convert to a String
+   *
+   * @return string The TLD this service is for
+   */
+  function __toString() { return $this->getTLD(); }
 
   /**
    * Set Top Level Domain (key field)

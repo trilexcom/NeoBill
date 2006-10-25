@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 require_once "InvoiceDBO.class.php";
 
@@ -79,6 +79,13 @@ class PaymentDBO extends DBO
    * @var string Status message, usually provided by the payment module
    */
   var $statusMessage;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Payment ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Payment ID

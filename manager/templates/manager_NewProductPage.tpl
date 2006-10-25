@@ -17,7 +17,7 @@
       </tr>
       <tr>
         <th> {form_description field="taxable"} </th>
-        <td> {form_element dbo="product_dbo" field="taxable"} </td>
+        <td> {form_element field="taxable"} </td>
       </tr>
       <tr class="footer">
         <th colspan="2">

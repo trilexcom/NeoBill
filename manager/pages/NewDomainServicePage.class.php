@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 // Include the DomainServiceDBO class
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 
 /**
  * NewDomainServicePage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/DomainServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class NewDomainServicePage extends AdminPage
+class NewDomainServicePage extends SolidStateAdminPage
 {
   /**
    * Action
@@ -39,24 +39,20 @@ class NewDomainServicePage extends AdminPage
   {
     switch( $action_name )
       {
-
       case "new_domain_service":
-
-	if( isset( $this->session['new_domain_service']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Process new hosting service form
 	    $this->process_new_domain_service();
 	  }
-	elseif( isset( $this->session['new_domain_service']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Canceled
-	    $this->goto( "services_domain_services" );
+	    $this->goback();
 	  }
-
 	break;
 
       case "new_domain_service_confirm":
-
 	if( isset( $this->session['new_domain_service_confirm']['continue'] ) )
 	  {
 	    // Go ahead
@@ -67,14 +63,11 @@ class NewDomainServicePage extends AdminPage
 	    // Go back
 	    $this->setTemplate( "default" );
 	  }
-
 	break;
 
       default:
-
 	// No matching action - refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -86,32 +79,22 @@ class NewDomainServicePage extends AdminPage
    */
   function process_new_domain_service()
   {
-    // Pull data from session
-    $service_data = $this->session['new_domain_service'];
-
-    if( !isset( $service_data ) )
-      {
-	// Missing form data
-	fatal_error( "NewDomainServicePage::process_new_domain_service()",
-		     "no form data received!" );
-      }
-
     // Prepare DomainServiceDBO for database
     $service_dbo = new DomainServiceDBO();
-    $service_dbo->setTLD( $service_data['tld'] );
-    $service_dbo->setModuleName( $service_data['modulename'] );
-    $service_dbo->setDescription( $service_data['description'] );
-    $service_dbo->setPrice1yr( $service_data['price1yr'] );
-    $service_dbo->setPrice2yr( $service_data['price2yr'] );
-    $service_dbo->setPrice3yr( $service_data['price3yr'] );
-    $service_dbo->setPrice4yr( $service_data['price4yr'] );
-    $service_dbo->setPrice5yr( $service_data['price5yr'] );
-    $service_dbo->setPrice6yr( $service_data['price6yr'] );
-    $service_dbo->setPrice7yr( $service_data['price7yr'] );
-    $service_dbo->setPrice8yr( $service_data['price8yr'] );
-    $service_dbo->setPrice9yr( $service_data['price9yr'] );
-    $service_dbo->setPrice10yr( $service_data['price10yr'] );
-    $service_dbo->setTaxable( $service_data['taxable'] );
+    $service_dbo->setTLD( $this->post['tld'] );
+    $service_dbo->setModuleName( $this->post['modulename']->getName() );
+    $service_dbo->setDescription( $this->post['description'] );
+    $service_dbo->setPrice1yr( $this->post['price1yr'] );
+    $service_dbo->setPrice2yr( $this->post['price2yr'] );
+    $service_dbo->setPrice3yr( $this->post['price3yr'] );
+    $service_dbo->setPrice4yr( $this->post['price4yr'] );
+    $service_dbo->setPrice5yr( $this->post['price5yr'] );
+    $service_dbo->setPrice6yr( $this->post['price6yr'] );
+    $service_dbo->setPrice7yr( $this->post['price7yr'] );
+    $service_dbo->setPrice8yr( $this->post['price8yr'] );
+    $service_dbo->setPrice9yr( $this->post['price9yr'] );
+    $service_dbo->setPrice10yr( $this->post['price10yr'] );
+    $service_dbo->setTaxable( $this->post['taxable'] );
 
     // Place DBO in the session for the confirm & receipt pages
     $this->session['new_domain_service_dbo'] = $service_dbo;
@@ -143,40 +126,11 @@ class NewDomainServicePage extends AdminPage
     else
       {
 	// Hosting Service added
-	// Clear new_hosting_service data from the session
-	unset( $this->session['new_domain_service'] );
-
 	// Jump to View Domain Service page
 	$this->goto( "services_view_domain_service", 
 		     array( array( "type" => "DOMAIN_SERVICE_ADDED" ) ), 
-		     "tld=" . $service_dbo->getTLD() );
+		     "dservice=" . $service_dbo->getTLD() );
       }
-  }
-
-  /**
-   * Populate the Module Drop-down Menu
-   *
-   * @return array Array of module names
-   */
-  function populateModuleNames()
-  {
-    if( ($registrarModules = 
-	 load_array_ModuleDBO( "type='registrar' AND enabled='Yes'" ) ) != null )
-      {
-	foreach( $registrarModules as $moduleDBO )
-	  {
-	    // Add this module to the list
-	    $moduleNames[$moduleDBO->getName()] = $moduleDBO->getShortDescription();
-	  }
-      }
-    else
-      {
-	// No registrar modules found
-	$moduleNames[] = translate_string( $this->conf['locale']['language'],
-					   "[NO_REGISTRAR_MODULES]" );
-      }
-
-    return $moduleNames;
   }
 }
 ?>

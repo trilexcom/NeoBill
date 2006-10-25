@@ -42,7 +42,7 @@
              size="10"}
 
     {dbo_table_column header="[USERNAME]" sort_field="username"}
-      <a href="manager_content.php?page=config_edit_user&username={dbo_echo dbo="userdbo_table" field="username"}">{dbo_echo dbo="userdbo_table" field="username"}</a>
+      <a href="manager_content.php?page=config_edit_user&user={dbo_echo dbo="userdbo_table" field="username"}">{dbo_echo dbo="userdbo_table" field="username"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[TYPE]" sort_field="type"}

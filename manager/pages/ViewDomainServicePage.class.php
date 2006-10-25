@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 
 /**
  * ViewDomainServicePage
@@ -23,41 +23,20 @@ require_once $base_path . "DBO/DomainServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewDomainServicePage extends Page
+class ViewDomainServicePage extends SolidStatePage
 {
   /**
    * Initialize the View Domain Service Page
-   *
-   * If a domain service ID (the TLD) is provided in the query string, use that to
-   * load the DomainServiceDBO from the database, then place the DBO in the session.
-   * Otherwise, use the DBO that is already there
    */
   function init()
   {
-    $tld = $_GET['tld'];
+    parent::init();
 
-    if( isset( $tld ) )
-      {
-	// Retrieve the Domain Service from the database
-	$dbo = load_DomainServiceDBO( strip_tags( $tld ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['domain_service_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "dservice", $this->get['dservice']->getTLD() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Domain Service
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_NOT_FOUND",
-				"args" => array( $tld ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['domain_service_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['domain_service_dbo'] =& $this->get['dservice'];
   }
 
   /**
@@ -72,31 +51,26 @@ class ViewDomainServicePage extends Page
   {
     switch( $action_name )
       {
-
       case "view_domain_service_action":
-
-	if( isset( $this->session['view_domain_service_action']['edit'] ) )
+	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Domain Service
 	    $this->goto( "services_edit_domain_service",
 			 null,
-			 "tld=" . $this->session['domain_service_dbo']->getTLD() );
+			 "dservice=" . $this->get['dservice']->getTLD() );
 	  }
-	elseif( isset( $this->session['view_domain_service_action']['delete'] ) )
+	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Domain Service
 	    $this->goto( "services_delete_domain_service",
 			 null,
-			 "tld=" . $this->session['domain_service_dbo']->getTLD() );
+			 "dservice=" . $this->get['dservice']->getTLD() );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

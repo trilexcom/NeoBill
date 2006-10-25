@@ -64,7 +64,7 @@
     </tr>
     <tr>
       <th> {form_description field="country"} </th>
-      <td> {form_element field="country" size="20"} </td>
+      <td> {form_element field="country"} </td>
     </tr>
     <tr>
       <th> {form_description field="postalcode"} </th>

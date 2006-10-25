@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "DBO/PurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/PurchaseDBO.class.php";
 
 require_once "ProductDBO.class.php";
 require_once "AccountDBO.class.php";
@@ -55,6 +55,13 @@ class ProductPurchaseDBO extends PurchaseDBO
    * @var string Purchase note
    */
   var $note;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Product Purchase ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Purchase ID

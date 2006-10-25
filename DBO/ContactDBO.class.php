@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * ContactDBO
@@ -92,6 +92,13 @@ class ContactDBO extends DBO
    * @var string State
    */
   var $state;
+
+  /**
+   * Convert to a String
+   *
+   * @return string The contact ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Constructor

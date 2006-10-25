@@ -9,7 +9,7 @@
       </tr>
       <tr>
         <th> {form_description field="modulename"} </th>
-        <td> {form_element field="modulename"} </td>
+        <td> {form_element dbo="domain_service_dbo" field="modulename"} </td>
       </tr>
       <tr> 
         <th> Period </th>

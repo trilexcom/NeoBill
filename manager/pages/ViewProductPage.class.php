@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/ProductDBO.class.php";
+require_once BASE_PATH . "DBO/ProductDBO.class.php";
 
 /**
  * ViewProductPage
@@ -23,41 +23,20 @@ require_once $base_path . "DBO/ProductDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewProductPage extends Page
+class ViewProductPage extends SolidStatePage
 {
   /**
    * Initialize View Product Page
-   *
-   * If the Product ID is provided in the query string, use it to load the ProductDBO
-   * from the database, then store the DBO in the session.  Otherwise, use the DBO
-   * already there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Product from the database
-	$dbo = load_ProductDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['product_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "product", $this->get['product']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Domain Service
-	$this->setError( array( "type" => "DB_PRODUCT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['product_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['product_dbo'] =& $this->get['product'];
   }
 
   /**
@@ -72,31 +51,26 @@ class ViewProductPage extends Page
   {
     switch( $action_name )
       {
-
       case "view_product_action":
-
-	if( isset( $this->session['view_product_action']['edit'] ) )
+	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Domain Service
 	    $this->goto( "services_edit_product",
 			 null,
-			 "id=" . $this->session['product_dbo']->getID() );
+			 "product=" . $this->get['product']->getID() );
 	  }
-	elseif( isset( $this->session['view_product_action']['delete'] ) )
+	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Product
 	    $this->goto( "services_delete_product",
 			 null,
-			 "id=" . $this->session['product_dbo']->getID() );
+			 "product=" . $this->get['product']->getID() );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

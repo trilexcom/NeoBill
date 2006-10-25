@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * AAIMConfigPage
@@ -21,7 +21,7 @@ require_once $base_path . "solidworks/AdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AAIMConfigPage extends AdminPage
+class AAIMConfigPage extends SolidStateAdminPage
 {
   /**
    * @var AuthorizeAIM AuthorizeAIM module
@@ -40,7 +40,7 @@ class AAIMConfigPage extends AdminPage
     switch( $action_name )
       {
       case "aaim_config":
-	if( isset( $this->session['aaim_config']['save'] ) )
+	if( isset( $this->post['save'] ) )
 	  {
 	    $this->save();
 	  }
@@ -72,10 +72,10 @@ class AAIMConfigPage extends AdminPage
   function save()
   {
     // Update settings in DB
-    $this->aaimModule->setDelimiter( $this->session['aaim_config']['delimiter'] );
-    $this->aaimModule->setLoginID( $this->session['aaim_config']['loginid'] );
-    $this->aaimModule->setTransactionKey( $this->session['aaim_config']['transactionkey'] );
-    $this->aaimModule->setURL( $this->session['aaim_config']['transactionurl'] );
+    $this->aaimModule->setDelimiter( $this->post['delimiter'] );
+    $this->aaimModule->setLoginID( $this->post['loginid'] );
+    $this->aaimModule->setTransactionKey( $this->post['transactionkey'] );
+    $this->aaimModule->setURL( $this->post['transactionurl'] );
     $this->aaimModule->saveSettings();
 
     $this->setMessage( array( "type" => "AAIM_CONFIGURATION_SAVED" ) );

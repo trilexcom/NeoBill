@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * ConfigureUsersPage
@@ -21,7 +21,7 @@ require_once $base_path . "solidworks/AdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ConfigureUsersPage extends AdminPage
+class ConfigureUsersPage extends SolidStateAdminPage
 {
   /**
    * Action
@@ -35,24 +35,18 @@ class ConfigureUsersPage extends AdminPage
   {
     switch( $action_name )
       {
-
       case "users_action":
-
-	if( isset( $this->session['users_action']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    // Goto new user page
 	    $this->goto( "config_new_user" );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }
-
 ?>

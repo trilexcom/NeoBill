@@ -33,7 +33,7 @@
       </tr>
       <tr>
         <th> {form_description field="debug"} </th>
-        <td> {form_element field="debug" value="$debug"} </td>
+        <td> {form_element field="debug" option="true" value="$debug"} </td>
       </tr>
       <tr>
         <th> {form_description field="defaultcustomerpassword"} </th>

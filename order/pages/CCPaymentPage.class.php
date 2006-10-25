@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Order DBO
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 /**
  * CCPaymentPage
@@ -22,13 +22,8 @@ require_once $base_path . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class CCPaymentPage extends Page
+class CCPaymentPage extends SolidStatePage
 {
-  /**
-   * @var PaymentGatewayModule The payment gateway module that will process this card
-   */
-  var $pgModule;
-
   /**
    * Action
    *
@@ -41,15 +36,15 @@ class CCPaymentPage extends Page
     switch( $action_name )
       {
       case "creditcard":
-	if( isset( $this->session['creditcard']['authorize'] ) )
+	if( isset( $this->post['authorize'] ) )
 	  {
 	    $this->processCard();
 	  }
-	elseif( isset( $this->session['creditcard']['back'] ) )
+	elseif( isset( $this->post['back'] ) )
 	  {
 	    $this->back();
 	  }
-	elseif( isset( $this->session['creditcard']['startover'] ) )
+	elseif( isset( $this->post['startover'] ) )
 	  {
 	    $this->newOrder();
 	  }
@@ -71,17 +66,7 @@ class CCPaymentPage extends Page
    */
   function init()
   {
-    // Access the payment gateway module selected on the previous page
-    $this->pgModule =& $this->session['module'];
-    if( !isset( $this->pgModule ) )
-      {
-	if( !is_a( $_SESSION['module'], "PaymentGatewayModule" ) )
-	  {
-	    fatal_error( "CCPaymentPage::init()", "Invalid module or no module provided!" );
-	  }
-	$this->pgModule = $_SESSION['module'];
-	unset( $_SESSION['module'] );
-      }
+    parent::init();
 
     // Reference the order object from the local session so the template can see it
     $this->session['order'] =& $_SESSION['order'];
@@ -105,56 +90,42 @@ class CCPaymentPage extends Page
    */
   function processCard()
   {
-    // Validate the expiration date
-    $realExpireDate = mktime( 0,
-			      0,
-			      0,
-			      date( 'n', $this->session['creditcard']['cardexpire'] ) + 1,
-			      0,
-			      date( 'Y', $this->session['creditcard']['cardexpire'] ) );
-    if( time() > $realExpireDate )
-      {
-	$this->setError( array( "type" => "CREDIT_CARD_EXPIRED" ) );
-	return false;
-      }
-
     // Update contact information
-    $billingContact = new ContactDBO( $this->session['creditcard']['contactname'],
+    $billingContact = new ContactDBO( $this->post['contactname'],
 				      null,
 				      null,
-				      $this->session['creditcard']['address1'],
-				      $this->session['creditcard']['address2'],
-				      $this->session['creditcard']['city'],
-				      $this->session['creditcard']['state'],
-				      $this->session['creditcard']['postalcode'],
-				      $this->session['creditcard']['country'],
-				      $this->session['creditcard']['phone'],
+				      $this->post['address1'],
+				      $this->post['address2'],
+				      $this->post['city'],
+				      $this->post['state'],
+				      $this->post['postalcode'],
+				      $this->post['country'],
+				      $this->post['phone'],
 				      null,
 				      null );
     // Format the expire date
-    $expireDate = strftime( "%m%y", $this->session['creditcard']['cardexpire'] );
+    $expireDate = strftime( "%m%y", $this->post['cardexpire'] );
 
     // Create a new Payment DBO and process the payment
     $paymentDBO = new PaymentDBO();
     $paymentDBO->setType( "Module" );
-    $paymentDBO->setModule( $this->pgModule->getName() );
+    $paymentDBO->setModule( $_SESSION['module']->getName() );
     $paymentDBO->setOrderID( $this->session['order']->getID() );
     $paymentDBO->setAmount( $this->session['order']->getTotal() );
     if( !$paymentDBO->processCreditCard( $billingContact,
-					 $this->session['creditcard']['cardnumber'],
+					 $this->post['cardnumber'],
 					 $expireDate,
-					 $this->session['creditcard']['cardcode'],
+					 $this->post['cardcode'],
 					 $this->conf['payment_gateway']['order_method'] ) )
       {
 	$this->setError( array( "type" => "CC_PROCESSING_ERROR" ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Card processed, save the payment DBO
     if( !add_PaymentDBO( $paymentDBO ) )
       {
-	fatal_error( "CCPaymentPage::processCard()",
-		     "Failed to save Payment to database!" );
+	throw new SWException( "Failed to save Payment to database!" );
       }
 
     // Complete the order

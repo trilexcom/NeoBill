@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * UserDBO
@@ -62,6 +62,13 @@ class UserDBO extends DBO
    * @var string Language preference
    */
   var $language;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Username
+   */
+  function __toString() { return $this->getUsername(); }
 
   /**
    * Set Username

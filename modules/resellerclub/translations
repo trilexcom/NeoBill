@@ -19,12 +19,10 @@
     <phrase id="RC_CONFIGURATION_SAVED">Reseller Club configuration saved.</phrase>
     <phrase id="CREATE_RESELLER_CLUB_ACCOUNT">Or create a new Reseller Club customer account</phrase>
     <phrase id="DEFAULT_CUSTOMER_PASSWORD">Default Customer Password</phrase>
-    <phrase id="LANGUAGE_PREFERENCE">Language Preference</phrase>
     <phrase id="PARENT_ID">Parent ID</phrase>
     <phrase id="RC_CUSTOMER">Reseller Club Customer</phrase>
     <phrase id="RC_PASSWORD">Reseller Club Password</phrase>
     <phrase id="RC_USERNAME">Reseller Club Username</phrase>
-    <phrase id="REGISTER">Register</phrase>
     <phrase id="REGISTRATION_TERM">Registration Term</phrase>
     <phrase id="RESELLER_CLUB_CUSTOMER">Reseller Club Customer</phrase>
     <phrase id="RESELLER_CLUB_MODULE">Reseller Club Module</phrase>

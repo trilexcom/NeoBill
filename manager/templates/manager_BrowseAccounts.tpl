@@ -39,11 +39,11 @@
              size="10"}
 
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="accountdbo_table" field="id"}">{dbo_echo dbo="accountdbo_table" field="id"}</a>
+      <a target="content" href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo_table" field="id"}">{dbo_echo dbo="accountdbo_table" field="id"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[ACCOUNT_NAME]"}
-      <a target="content" href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="accountdbo_table" field="id"}">{dbo_echo dbo="accountdbo_table" field="accountname"}</a>
+      <a target="content" href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo_table" field="id"}">{dbo_echo dbo="accountdbo_table" field="accountname"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[TYPE]" sort_field="type"}

@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
 
 /**
  * ViewServerPage
@@ -23,50 +23,29 @@ require_once $base_path . "DBO/ServerDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewServerPage extends Page
+class ViewServerPage extends SolidStatePage
 {
   /**
    * Initialize View Server Page
-   *
-   * If the server ID is provided in the query string, use it to load the ServerDBO
-   * from the database, then store the DBO in the session.  Otherwise, use the DBO
-   * already there.
    */
   function init()
   {
+    parent::init();
+
+    // Set URL Field
+    $this->setURLField( "server", $this->get['server']->getID() );
+
     if( isset( $this->session['template'] ) )
       {
 	$this->setTemplate( $this->session['template'] );
       }
 
-    $id = $_GET['id'];
-
-    if( isset( $id ) )
-      {
-	// Retrieve the Server from the database
-	$dbo = load_ServerDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['server_dbo'];
-      }
-
-    if( !isset( $dbo ) )
-      {
-	// Could not find Server
-	$this->setError( array( "type" => "DB_SERVER_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Server DBO in session
-	$this->session['server_dbo'] = $dbo;
-
-	// Set this page's Nav Vars
-	$this->setNavVar( "id",   $dbo->getID() );
-	$this->setNavVar( "hostname", $dbo->getHostName() );
-      }
+    // Store Server DBO in session
+    $this->session['server_dbo'] =& $this->get['server'];
+    
+    // Set this page's Nav Vars
+    $this->setNavVar( "id",   $this->get['server']->getID() );
+    $this->setNavVar( "hostname", $this->get['server']->getHostName() );
   }
 
   /**
@@ -104,26 +83,26 @@ class ViewServerPage extends Page
 	break;
 
       case "view_server":
-	if( isset( $this->session['view_server']['edit'] ) )
+	if( isset( $this->post['edit'] ) )
 	  {
 	    $this->goto( "services_edit_server",
 			 null,
-			 "id=" . $this->session['server_dbo']->getID() );
+			 "server=" . $this->get['server']->getID() );
 	  }
-	elseif( isset( $this->session['view_server']['delete'] ) )
+	elseif( isset( $this->post['delete'] ) )
 	  {
 	    $this->goto( "services_delete_server",
 			 null,
-			 "id=" . $this->session['server_dbo']->getID() );
+			 "server=" . $this->get['server']->getID() );
 	  }
 	break;
 
       case "view_server_add_ip":
-	if( isset( $this->session['view_server_add_ip']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    $this->goto( "services_add_ip", 
 			 null, 
-			 "serverid=" . $this->session['server_dbo']->getID() );
+			 "server=" . $this->session['server_dbo']->getID() );
 	  }
 	break;
 
@@ -146,21 +125,8 @@ class ViewServerPage extends Page
 	return;
       }
 
-    // Verify the IP address and convert it to a long integer
-    if( !isset( $_GET['ip'] ) )
-      {
-	return;
-      }
-    $ip_string = form_field_filter( null, $_GET['ip'] );
-    $ip = ip2long( $ip_string );
-    if( ($ip_dbo = load_IPAddressDBO( $ip )) == null )
-      {
-	fatal_error( "ViewServerPage::deleteIP()",
-		     "that IP address does not exist: " . $ip_string );
-      }
-
     // Verify that this IP address is not being used
-    if( !$ip_dbo->isAvailable() )
+    if( !$this->get['ip']->isAvailable() )
       {
 	// Can not delete IP until it is free
 	$this->setError( array( "type" => "IP_NOT_FREE",
@@ -170,12 +136,12 @@ class ViewServerPage extends Page
       }
 
     // Remove the IP address from the database
-    if( !delete_IPAddressDBO( $ip_dbo ) )
+    if( !delete_IPAddressDBO( $this->get['ip'] ) )
       {
 	// Database error
 	$this->setError( array( "type" => "DB_DELETE_IP_FAILED",
 				"args" => array( $ip_string ) ) );
-	return;
+	$this->reload();
       }
 
     // Success
@@ -183,7 +149,6 @@ class ViewServerPage extends Page
 			      "args" => array( $ip_string ) ) );
     $this->setTemplate( "ips" );
   }
-
 }
 
 ?>

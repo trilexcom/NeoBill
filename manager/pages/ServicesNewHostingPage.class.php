@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 // Include ServiceHostingDBO
-require_once $base_path . "DBO/HostingServiceDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
 
 /**
  * ServicesNewHosting
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/HostingServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServicesNewHosting extends AdminPage
+class ServicesNewHosting extends SolidStateAdminPage
 {
   /**
    * Action
@@ -39,22 +39,18 @@ class ServicesNewHosting extends AdminPage
   {
     switch( $action_name )
       {
-
       case "new_hosting":
-
 	if( isset( $this->session['new_hosting']['cancel'] ) )
 	  {
 	    // Canceled
-	    $this->goto( "services_web_hosting" );
+	    $this->goback();
 	  }
 
 	// Process new hosting service form
 	$this->process_new_hosting();
-
 	break;
 
       case "new_hosting_confirm":
-
 	if( isset( $this->session['new_hosting_confirm']['continue'] ) )
 	  {
 	    // Go ahead
@@ -65,14 +61,11 @@ class ServicesNewHosting extends AdminPage
 	    // Go back
 	    $this->setTemplate( "default" );
 	  }
-
 	break;
 
       default:
-
 	// No matching action - refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -84,30 +77,20 @@ class ServicesNewHosting extends AdminPage
    */
   function process_new_hosting()
   {
-    // Pull form data from session
-    $service_data = $this->session['new_hosting'];
-   
-    if( !isset( $service_data ) )
-      {
-	// Missing form data
-	fatal_error( "ServicesNewHostingPage::process_new_hosting()",
-		     "no form data received!" );
-      }
-
     // Prepare HostingServiceDBO for database
     $service_dbo = new HostingServiceDBO();
-    $service_dbo->setTitle( $service_data['title'] );
-    $service_dbo->setDescription( $service_data['description'] );
-    $service_dbo->setUniqueIP( $service_data['uniqueip'] );
-    $service_dbo->setSetupPrice1mo( $service_data['setupprice1mo'] );
-    $service_dbo->setPrice1mo( $service_data['price1mo'] );
-    $service_dbo->setSetupPrice3mo( $service_data['setupprice3mo'] );
-    $service_dbo->setPrice3mo( $service_data['price3mo'] );
-    $service_dbo->setSetupPrice6mo( $service_data['setupprice6mo'] );
-    $service_dbo->setPrice6mo( $service_data['price6mo'] );
-    $service_dbo->setSetupPrice12mo( $service_data['setupprice12mo'] );
-    $service_dbo->setPrice12mo( $service_data['price12mo'] );
-    $service_dbo->setTaxable( $service_data['taxable'] );
+    $service_dbo->setTitle( $this->post['title'] );
+    $service_dbo->setDescription( $this->post['description'] );
+    $service_dbo->setUniqueIP( $this->post['uniqueip'] );
+    $service_dbo->setSetupPrice1mo( $this->post['setupprice1mo'] );
+    $service_dbo->setPrice1mo( $this->post['price1mo'] );
+    $service_dbo->setSetupPrice3mo( $this->post['setupprice3mo'] );
+    $service_dbo->setPrice3mo( $this->post['price3mo'] );
+    $service_dbo->setSetupPrice6mo( $this->post['setupprice6mo'] );
+    $service_dbo->setPrice6mo( $this->post['price6mo'] );
+    $service_dbo->setSetupPrice12mo( $this->post['setupprice12mo'] );
+    $service_dbo->setPrice12mo( $this->post['price12mo'] );
+    $service_dbo->setTaxable( $this->post['taxable'] );
 
     // Place DBO in the session for the confirm & receipt pages
     $this->session['new_hosting_dbo'] = $service_dbo;
@@ -135,18 +118,11 @@ class ServicesNewHosting extends AdminPage
 
 	// Return to form
 	$this->setTemplate( "default" );
+	$this->reload();
       }
-    else
-      {
-	// Hosting Service added
-	// Clear new_hosting_service data from the session
-	unset( $this->session['new_hosting'] );
 
-	// Jump to View Hosting Service page
-	$this->goto( "services_view_hosting_service",
-		     array( array( "type" => "HOSTING_SERVICE_ADDED" ) ),
-		     "id=" . $service_dbo->getID() );
-      }
+    // Done
+    $this->goback();
   }
 }
 ?>

@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "DBO/HostingServiceDBO.class.php";
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
-require_once $base_path . "DBO/ProductDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/ProductDBO.class.php";
 
 /**
  * Services Stats

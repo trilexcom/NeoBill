@@ -11,13 +11,13 @@
  */
 
 // Include the Email class
-require_once $base_path . "solidworks/Email.class.php";
+require_once BASE_PATH . "solidworks/Email.class.php";
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Include the InvoiceDBO
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * EmailInvoicePage
@@ -30,7 +30,7 @@ require_once $base_path . "DBO/InvoiceDBO.class.php";
  * @package Pages
  * @auther John Diamond <jdiamond@solid-state.org>
  */
-class EmailInvoicePage extends Page
+class EmailInvoicePage extends SolidStatePage
 {
   /**
    * Initializes the Page
@@ -42,51 +42,33 @@ class EmailInvoicePage extends Page
   {
     global $DB;
 
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve this Invoice from the database
-	$dbo = load_InvoiceDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['invoice_dbo'];
-      }
+    // Set URL Field values
+    $this->setURLField( "invoice", $this->get['invoice']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Invoice
-	$this->setError( array( "type" => "DB_INVOICE_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Invoice DBO in session
-	$this->session['invoice_dbo'] = $dbo;
+    // Set this page's Nav Vars
+    $this->setNavVar( "invoice_id", $this->get['invoice']->getID() );
 
-	// Set this page's Nav Vars
-	$this->setNavVar( "invoice_id", $dbo->getID() );
-      }
-
-    $account_dbo = $dbo->getAccountDBO();
+    // Retrieve the Account DBO for this invoice
+    $account_dbo = $this->get['invoice']->getAccountDBO();
 
     // Replace tokens in subject field
     $subject = $this->conf['invoice_subject'];
     $subject = str_replace( "{company_name}", $this->conf['company']['name'], $subject );
     $subject = str_replace( "{period_begin_date}",
 			    strftime( "%D", 
-				      $DB->datetime_to_unix( $dbo->getPeriodBegin() ) ),
+				      $DB->datetime_to_unix( $this->get['invoice']->getPeriodBegin() ) ),
 			    $subject );
     $subject = str_replace( "{period_end_date}",
 			    strftime( "%D", 
-				      $DB->datetime_to_unix( $dbo->getPeriodEnd() ) ),
+				      $DB->datetime_to_unix( $this->get['invoice']->getPeriodEnd() ) ),
 			    $subject );
 
     $this->smarty->assign( "email", $account_dbo->getContactEmail() );
     $this->smarty->assign( "subject", $subject );
-    $this->smarty->assign( "body",  $dbo->text( $this->conf['invoice_text'] ) );
+    $this->smarty->assign( "body",  
+			   $this->get['invoice']->text( $this->conf['invoice_text'] ) );
   }
 
   /**
@@ -101,25 +83,20 @@ class EmailInvoicePage extends Page
   {
     switch( $action_name )
       {
-
       case "email_invoice":
-
-	if( isset( $this->session['email_invoice']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->send_invoice();
 	  }
-	elseif( isset( $this->session['email_invoice']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -132,7 +109,7 @@ class EmailInvoicePage extends Page
   {
     $this->goto( "billing_view_invoice",
 		 null,
-		 "id=" . $this->session['invoice_dbo']->getID() );
+		 "invoice=" . $this->get['invoice']->getID() );
   }
 
   /**
@@ -146,26 +123,23 @@ class EmailInvoicePage extends Page
     $email = new Email();
     $email->setFrom( $this->conf['company']['email'],
 		     $this->conf['company']['name'] );
-    $email->addRecipient( $this->session['email_invoice']['email'] );
-    $email->setSubject( $this->session['email_invoice']['subject'] );
-    $email->setBody( $this->session['email_invoice']['invoice'] );
+    $email->addRecipient( $this->post['email'] );
+    $email->setSubject( $this->post['subject'] );
+    $email->setBody( $this->post['invoice'] );
 
     // Send the email
     if( !$email->send() )
       {
 	// Error delivering invoice
 	$this->setError( array( "type" => "INVOICE_EMAIL_FAILED" ) );
-	$this->goto( "billing_view_invoice",
-		     null,
-		     "id=" . $this->session['invoice_dbo']->getID() );
+	$this->reload();
       }
 
     // Return to view_invoice with a sucess message
     $this->setMessage( array( "type" => "INVOICE_SENT" ) );
     $this->goto( "billing_view_invoice",
 		 null,
-		 "id=" . $this->session['invoice_dbo']->getID() );
+		 "invoice=" . $this->get['invoice']->getID() );
   }
 }
-
 ?>

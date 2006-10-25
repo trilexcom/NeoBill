@@ -21,6 +21,22 @@
 class DBO
 {
   /**
+   * DBO Array to PHP Array
+   *
+   * Converts an array of DBO's (such as one returned by load_array_XyzDBO) to
+   * a standard PHP array.
+   *
+   * @param array $dboArray Array of DBO's
+   * @param string $keyField The name of the field to use as the key
+   * @param array $fields An array of fields in the DBO that are to be included in the array
+   * @return array New data array
+   */
+  public static function toArray( $dboArray, $keyField, $fields )
+  {
+
+  }
+
+  /**
    * Load DBO
    *
    * Takes an associative array and calls the 'getXxx' method for each key in

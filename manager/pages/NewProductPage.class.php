@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 // Include the ProductDBO class
-require_once $base_path . "DBO/ProductDBO.class.php";
+require_once BASE_PATH . "DBO/ProductDBO.class.php";
 
 /**
  * NewProductPage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/ProductDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class NewProductPage extends AdminPage
+class NewProductPage extends SolidStateAdminPage
 {
   /**
    * Action
@@ -39,25 +39,21 @@ class NewProductPage extends AdminPage
   {
     switch( $action_name )
       {
-
       case "new_product":
-	
-	if( isset( $this->session['new_product']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Process new product form
 	    $this->process_new_product();
 	  }
-	elseif( isset( $this->session['new_product']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Canceled
-	    $this->goto( "services_products" );
+	    $this->goback();
 	  }
-	
 	break;
 
       case "new_product_confirm":
-
-	if( isset( $this->session['new_product_confirm']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Go ahead
 	    $this->add_product();
@@ -67,14 +63,11 @@ class NewProductPage extends AdminPage
 	    // Go back
 	    $this->setTemplate( "default" );
 	  }
-
 	break;
 
       default:
-
 	// No matching action - refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -86,19 +79,9 @@ class NewProductPage extends AdminPage
    */
   function process_new_product()
   {
-    // Pull form data from session
-    $product_data = $this->session['new_product'];
-
-    if( !isset( $product_data ) )
-      {
-	// Missing form data
-	fatal_error( "NewProductPage::process_new_product()",
-		     "Error: no form data received!" );
-      }
-
     // Prepare ProductDBO for database
     $product_dbo = new ProductDBO();
-    $product_dbo->load( $product_data );
+    $product_dbo->load( $this->post );
 
     // Place DBO in the session for confirm
     $this->session['new_product_dbo'] = $product_dbo;
@@ -129,12 +112,9 @@ class NewProductPage extends AdminPage
       }
     else
       {
-	// Product added - clear new_product data from the session
-	unset( $this->session['new_product'] );
-
 	// Jump to View Product page
 	$this->setMessage( array( "type" => "PRODUCT_ADDED" ) );
-	$this->goto( "services_view_product", null, "id=" . $product_dbo->getID() );
+	$this->goto( "services_view_product", null, "product=" . $product_dbo->getID() );
       }
   }
 }

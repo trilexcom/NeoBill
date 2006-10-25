@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // InvoiceDBO class
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * BrowseInvoicesPage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/InvoiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class BrowseInvoicesPage extends Page
+class BrowseInvoicesPage extends SolidStatePage
 {
   /**
    * Action
@@ -38,17 +38,14 @@ class BrowseInvoicesPage extends Page
   {
     switch( $action_name )
       {
-
       case "browse_invoices_action":
 	// Create a new invoice
 	$this->goto( "accounts_add_invoice" );
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

@@ -3,7 +3,7 @@
 <div class="action">
   <p class="header">{echo phrase="ACTIONS"}</p>
   {form name="view_invoice_action"}
-    <input type="button" value="Print" onClick="window.open('manager_content.php?page=billing_print_invoice&id={$invoice_id}&no_headers=1','Print Invoice')"/>
+    <input type="button" value="Print" onClick="window.open('manager_content.php?page=billing_print_invoice&invoice={$invoice_id}&no_headers=1','Print Invoice')"/>
     {form_element field="email"}
     {form_element field="delete"}
     {form_element field="add_payment"}
@@ -29,7 +29,7 @@
           </tr>
           <tr>
             <th> {echo phrase="ACCOUNT"}: </th>
-            <td> <a href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="invoice_dbo" field="accountid"}">{dbo_echo dbo="invoice_dbo" field="accountname"}</a> (ID: {dbo_echo dbo="invoice_dbo" field="accountid"})</td>
+            <td> <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="invoice_dbo" field="accountid"}">{dbo_echo dbo="invoice_dbo" field="accountname"}</a> (ID: {dbo_echo dbo="invoice_dbo" field="accountid"})</td>
           </tr>
           <tr>
             <th> {echo phrase="NOTE_TO_CUSTOMER"}: </th>
@@ -95,7 +95,7 @@
     {/dbo_table_column}
 
     {dbo_table_column header="[ACTION]"}
-      <a href="manager_content.php?page=billing_view_invoice&action=delete_item&itemid={dbo_echo dbo="itemdbo_table" field="id"}">remove</a>
+      <a href="manager_content.php?page=billing_view_invoice&action=delete_item&invoice={$invoice_id}&item={dbo_echo dbo="itemdbo_table" field="id"}">remove</a>
     {/dbo_table_column}
 
   {/dbo_table}
@@ -130,7 +130,7 @@
              title="[PAYMENTS]"}
 
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a href="manager_content.php?page=edit_payment&id={dbo_echo dbo="paymentdbo_table" field="id"}">{dbo_echo dbo="paymentdbo_table" field="id"}</a>
+      <a href="manager_content.php?page=edit_payment&payment={dbo_echo dbo="paymentdbo_table" field="id"}">{dbo_echo dbo="paymentdbo_table" field="id"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[DATE_RECEIVED]" sort_field="date"}
@@ -146,7 +146,7 @@
     {/dbo_table_column}
 
     {dbo_table_column header="[ACTIONS]"}
-      <a href="manager_content.php?page=billing_view_invoice&action=delete_payment&paymentid={dbo_echo dbo="paymentdbo_table" field="id"}">remove</a>
+      <a href="manager_content.php?page=billing_view_invoice&invoice={$invoice_id}&action=delete_payment&payment={dbo_echo dbo="paymentdbo_table" field="id"}">remove</a>
     {/dbo_table_column}
 
   {/dbo_table}

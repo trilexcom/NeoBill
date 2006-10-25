@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
 
 /**
  * AddServerPage
@@ -22,16 +22,8 @@ require_once $base_path . "DBO/ServerDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddServerPage extends AdminPage
+class AddServerPage extends SolidStateAdminPage
 {
-  /**
-   * Initialize AddServer Page
-   */
-  function init()
-  {
-
-  }
-
   /**
    * Action
    *
@@ -44,13 +36,13 @@ class AddServerPage extends AdminPage
     switch( $action_name )
       {
       case "add_server":
-	if( isset( $this->session['add_server']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->add_server();
 	  }
-	elseif( isset( $this->session['add_server']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
-	    $this->cancel();
+	    $this->goback();
 	  }
 	break;
 
@@ -58,14 +50,6 @@ class AddServerPage extends AdminPage
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
-  }
-
-  /**
-   * Cancel
-   */
-  function cancel()
-  {
-    $this->goto( "services_servers" );
   }
 
   /**
@@ -77,23 +61,22 @@ class AddServerPage extends AdminPage
   {
     // Create a new Server DBO
     $server_dbo = new ServerDBO();
-    $server_dbo->setHostName( $this->session['add_server']['hostname'] );
-    $server_dbo->setLocation( $this->session['add_server']['location'] );
+    $server_dbo->setHostName( $this->post['hostname'] );
+    $server_dbo->setLocation( $this->post['location'] );
 
     // Add ServerDBO to database
     if( !add_ServerDBO( $server_dbo ) )
       {
 	// Error
 	$this->setError( array( "type" => "DB_ADD_SERVER_FAILED" ) );
-	$this->cancel();
+	$this->goback();
       }
 
     // Success
     $this->setMessage( array( "type" => "SERVER_ADDED" ) );
     $this->goto( "services_view_server",
 		 null,
-		 "id=" . $server_dbo->getID() );
+		 "server=" . $server_dbo->getID() );
   }
 }
-
 ?>

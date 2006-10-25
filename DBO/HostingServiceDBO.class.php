@@ -11,10 +11,10 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 // Tax Rule DBO
-require_once $base_path . "DBO/TaxRuleDBO.class.php";
+require_once BASE_PATH . "DBO/TaxRuleDBO.class.php";
 
 /**
  * HostingServiceDBO
@@ -90,6 +90,13 @@ class HostingServiceDBO extends DBO
    * @var string Taxable
    */
   var $taxable;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Hosting service ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Hosting Service ID

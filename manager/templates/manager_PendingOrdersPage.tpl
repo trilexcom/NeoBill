@@ -8,7 +8,7 @@
              size="10"}
 
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=view_order&id={dbo_echo dbo="orderdbo_table" field="id"}">{dbo_echo dbo="orderdbo_table" field="id"}</a>
+      <a target="content" href="manager_content.php?page=view_order&order={dbo_echo dbo="orderdbo_table" field="id"}">{dbo_echo dbo="orderdbo_table" field="id"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[ACCOUNT]"}

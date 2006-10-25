@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * DeleteInvoicePage
@@ -23,43 +23,23 @@ require_once $base_path . "DBO/InvoiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DeleteInvoicePage extends Page
+class DeleteInvoicePage extends SolidStatePage
 {
   /**
    * Initialize Delete Invoice Page
-   *
-   * If the Invoice ID is provided in the query string, load the InvoiceDBO from
-   * the database and place it in the session.  Otherwise, use the DBO already there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve this Invoice from the database
-	$dbo = load_InvoiceDBO( $id );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['invoice_dbo'];
-      }
+    // Provide the template with access to the Invoice DBO
+    $this->session['invoice_dbo'] =& $this->get['invoice'];
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Invoice
-	$this->setError( array( "type" => "DB_INVOICE_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Invoice DBO in session
-	$this->session['invoice_dbo'] = $dbo;
+    // Set URL Fields
+    $this->setURLField( "invoice", $this->get['invoice']->getID() );
 
-	// Set this page's Nav Vars
-	$this->setNavVar( "invoice_id", $dbo->getID() );
-      }
+    // Set this page's Nav Vars
+    $this->setNavVar( "invoice_id", $this->get['invoice']->getID() );
   }
 
   /**
@@ -74,24 +54,20 @@ class DeleteInvoicePage extends Page
   {
     switch( $action_name )
       {
-
       case "delete_invoice":
-
-	if( isset( $this->session['delete_invoice']['delete'] ) )
+	if( isset( $this->post['delete'] ) )
 	  {
 	    // Delete
 	    $this->delete_invoice();
 	  }
-	elseif( isset( $this->session['delete_invoice']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Cancel
-	    $this->goback( 2 );
+	    $this->goback();
 	  }
-
 	break;
 	
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
 	break;
@@ -106,12 +82,12 @@ class DeleteInvoicePage extends Page
   function delete_invoice()
   {
     // Delete Invoice DBO
-    if( !delete_InvoiceDBO( $this->session['invoice_dbo'] ) )
+    if( !delete_InvoiceDBO( $this->get['invoice'] ) )
       {
 	// Delete failed
 	$this->setError( array( "type" => "DB_INVOICE_DELETE_FAILED",
 				"args" => array( $this->session['invoice_dbo']->getID() ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Success - go back to products page

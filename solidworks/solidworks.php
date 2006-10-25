@@ -20,6 +20,9 @@ require_once "security.php";
 // Load Page object
 require_once "Page.class.php";
 
+// Load Exceptions
+require_once "SWException.class.php";
+
 /**
  * SolidWorks (entry point)
  *
@@ -44,7 +47,7 @@ function solidworks( &$conf, $smarty )
 
   // Make sure the client is logged in as a valid user before proceeding
   validate_client();
-
+  
   // Load the user's language preference
   $language = isset( $_SESSION['client']['userdbo'] ) ? 
     $_SESSION['client']['userdbo']->getLanguage() : null;
@@ -57,8 +60,9 @@ function solidworks( &$conf, $smarty )
     {
       $_SESSION['lastpage'] = $_SESSION['currentpage'];
     }
-
+  
   // Get a Page object for the page being requested
+  $page = null;
   $page = get_page_object( $conf, $smarty, $DB );
   if( $page == null )
     {
@@ -76,12 +80,6 @@ function solidworks( &$conf, $smarty )
       $page->setError( array( "type" => "ACCESS_DENIED" ) );
       $page->goback( 1 );
     }
-
-  if( $page->isDisabled() )
-    {
-      echo "This page has been disabled.";
-      exit();
-    }
   
   // Process any forms
   if( $_SERVER['REQUEST_METHOD'] == "POST" )
@@ -94,13 +92,13 @@ function solidworks( &$conf, $smarty )
     {
       $page->action( $_GET['action'] );
     }
-
+  
   // Display
   display_page( $page );
-
-  // Push URI onto the navigation stack
-  $_SESSION['navstack'][] = $_SERVER['REQUEST_URI'];
-  $_SESSION['currentpage'] = $page->getName();
+  
+  // Push page onto the navigation stack
+  $_SESSION['navstack'][] = array( "page" => $page->getName(),
+				   "url" => $page->getURL() );
 }
 
 function display_page( $page )
@@ -169,18 +167,11 @@ function handle_post_request()
   $form_name = $_GET['submit'];
   if( !isset( $form_name ) )
     {
-      fatal_error( "handle_post_request()",
-		   "POST received with no form name supplied!" );
+      throw new SWException( "POST received with no form name supplied." );
     }
   
-  // Verify this form name is configured for this Page
-  if( array_search( $form_name, $page->getForms() ) === false )
-    {
-      fatal_error( "handle_post_request", "Invalid form name and/or Page" );
-    }
-
   // Validate the form
-  if( $page->validate_form( $form_name ) )
+  if( $page->processForm( $form_name ) )
     {
       // Do not call action() for table search forms
       if( !$conf['forms'][$form_name]['dbo_table_search'] )
@@ -217,9 +208,8 @@ function &get_page_object( $conf, $smarty, $DB )
   // Verify the requested page was found
   if( $page_class == null )
     {
-      // Page not found, return null
-      echo "Could not find page: " . $requested_page_name;
-      return null;
+      throw new SWException( "Could not find the requested page name: " .
+			     $requested_page_name );
     }
 
   // Instantiate an object for the requested page and return as a reference
@@ -229,6 +219,11 @@ function &get_page_object( $conf, $smarty, $DB )
   $page_obj->class_name = $page_class;
   $page_obj->load( $conf, $smarty, $DB );
 
+  if( $page_obj->isDisabled() )
+    {
+      throw new SWException( "This page has been disabled" );
+    }
+  
   if( method_exists( $page_obj, 'init' ) )
     {
       // init() function takes on the role of a contructor for Page objects
@@ -246,51 +241,6 @@ function &get_page_object( $conf, $smarty, $DB )
     }
 
   return $page_obj;
-}
-
-/**
- * SolidWorks Error Handler
- *
- * @param integer $errno Error number
- * @param string $errstr Error message
- * @param string $errfile The source file where the error occured
- * @param integer $errline The line where the error occured
- */
-function SWErrorHandler( $errno, $errstr, $errfile, $errline )
-{
-  if( $errno == E_NOTICE || $errno == E_STRICT )
-    {
-      return;
-    }
-
-  echo "<h1>Error (number = " . $errno . ")</h1>\n\n";
-  echo "<pre>\n";
-  printf( "%s\n\nIn: %s, at line %d\n\nCall stack:\n\n",
-	  $errstr,
-	  $errfile,
-	  $errline );
-  echo "</pre>\n";
-
-  dumpCallStack();
-  
-  die();
-}
-
-/**
- * Dump the Call Stack
- */
-function dumpCallStack()
-{
-  echo "<pre>\n";
-  $backtrace = debug_backtrace();
-  foreach( $backtrace as $step )
-    {
-      printf( "File: %s at line: %d, function = %s\n", 
-	      $step['file'], 
-	      $step['line'], 
-	      $step['function'] );
-    }
-  echo "</pre>";
 }
 
 /**

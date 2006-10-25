@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
 
 /**
  * EditServerPage
@@ -23,45 +23,24 @@ require_once $base_path . "DBO/ServerDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditServerPage extends AdminPage
+class EditServerPage extends SolidStateAdminPage
 {
   /**
    * Initialize Edit Server Page
-   *
-   * If the server ID is provided in the query string, use it to load the ServerDBO
-   * from the database, then store the DBO in the session.  Otherwise, use the DBO
-   * already there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Server from the database
-	$dbo = load_ServerDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['server_dbo'];
-      }
+    // Set URL Field
+    $this->setURLField( "server", $this->get['server']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Server
-	$this->setError( array( "type" => "DB_SERVER_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Server DBO in session
-	$this->session['server_dbo'] = $dbo;
-
-	// Set this page's Nav Vars
-	$this->setNavVar( "id",   $dbo->getID() );
-	$this->setNavVar( "hostname", $dbo->getHostName() );
-      }
+    // Store Server DBO in session
+    $this->session['server_dbo'] =& $this->get['server'];
+    
+    // Set this page's Nav Vars
+    $this->setNavVar( "id",   $this->get['server']->getID() );
+    $this->setNavVar( "hostname", $this->get['server']->getHostName() );
   }
 
   /**
@@ -77,29 +56,19 @@ class EditServerPage extends AdminPage
     switch( $action_name )
       {
       case "edit_server":
-	if( isset( $this->session['edit_server']['save'] ) )
+	if( isset( $this->post['save'] ) )
 	  {
 	    $this->save();
 	  }
-	elseif( isset( $this->session['edit_server']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
-	    $this->cancel();
+	    $this->goback();
 	  }
 
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
-  }
-
-  /**
-   * Cancel
-   */
-  function cancel()
-  {
-    $this->goto( "services_view_server",
-		 null,
-		 "id=" . $this->session['server_dbo']->getID() );
   }
 
   /**
@@ -111,19 +80,19 @@ class EditServerPage extends AdminPage
   {
     // Update the ServerDBO
     $server_dbo = $this->session['server_dbo'];
-    $server_dbo->setLocation( $this->session['edit_server']['location'] );
-    $server_dbo->setHostName( $this->session['edit_server']['hostname'] );
+    $server_dbo->setLocation( $this->post['location'] );
+    $server_dbo->setHostName( $this->post['hostname'] );
 
     // Save changes in the database
     if( !update_ServerDBO( $server_dbo ) )
       {
 	$this->setError( array( "type" => "DB_SERVER_UPDATE_FAILED" ) );
-	$this->cancel();
+	$this->goback();
       }
 
     // Success
     $this->setMessage( array( "type" => "SERVER_UPDATED" ) );
-    $this->cancel();
+    $this->goback();
   }
 }
 

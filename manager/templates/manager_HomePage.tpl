@@ -43,30 +43,6 @@
   </div>
 
 <h2> {echo phrase="ACCOUNTS_SUMMARY"} </h2>
-<div class="search">
-  {form name="search_accountdbo_table"}
-    <table>
-      <tr>
-        <th> {echo phrase="SEARCH"} </th>
-        <td>
-          {form_description field="id"} <br/>
-          {form_element field="id" size="4"}
-        </td>
-        <td>
-          {form_description field="contactname"} <br/>
-          {form_element field="contactname" size="30"}
-        </td>
-        <td>
-          {form_description field="businessname"} <br/>
-          {form_element field="businessname" size="30"}
-        </td>
-        <td class="submit"> 
-          {form_element field="search"}
-        </td>
-      </tr>
-    </table>
-  {/form}
-</div>
 <p/>
 <div class="properties">
   <table style="width: 90%">

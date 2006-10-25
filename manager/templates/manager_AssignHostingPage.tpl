@@ -5,8 +5,8 @@
   <div class="form">
     <table style="width: 70%">
       <tr>
-        <th> {form_description field="serviceid"} </th>
-        <td> {form_element field="serviceid"} </td>
+        <th> {form_description field="service"} </th>
+        <td> {form_element field="service"} </td>
       </tr>
       <tr>
         <th> {form_description field="term"} </th>
@@ -18,11 +18,11 @@
       </tr>
       <tr>
         <th> {form_description field="server"} </th>
-        <td> {form_element field="server"} </td>
+        <td> {form_element field="server" nulloption="true"} </td>
       </tr>
       <tr>
         <th> {form_description field="ipaddress"} </th>
-        <td> {form_element field="ipaddress"} </td>
+        <td> {form_element field="ipaddress" nulloption="true"} </td>
       </tr>
       <tr class="footer">
         <th colspan="2">

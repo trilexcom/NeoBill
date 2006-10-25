@@ -10,10 +10,10 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
-require_once $base_path . "DBO/IPAddressDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
 
 /**
  * AddIPAddressPage
@@ -23,37 +23,20 @@ require_once $base_path . "DBO/IPAddressDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddIPAddressPage extends AdminPage
+class AddIPAddressPage extends SolidStateAdminPage
 {
   /**
    * Initialize AddIPAddress Page
    */
   function init()
   {
-    $id = $_GET['serverid'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Server from the database
-	$dbo = load_ServerDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['server_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "server", $this->get['server']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Server
-	$this->setError( array( "type" => "DB_SERVER_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Server DBO in session
-	$this->session['server_dbo'] = $dbo;
-      }
+    // Store Server DBO in session
+    $this->session['server_dbo'] =& $this->get['server'];
   }
 
   /**
@@ -70,26 +53,26 @@ class AddIPAddressPage extends AdminPage
     switch( $action_name )
       {
       case "add_ip_address":
-	if( isset( $this->session['add_ip_address']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Confirm step
 	    $this->confirm();
 	  }
 	else
 	  {
-	    $this->cancel();
+	    $this->goback();
 	  }
 	break;
 
       case "add_ip_confirm":
-	if( isset( $this->session['add_ip_confirm']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Add IP addresses
 	    $this->add_ip_addresses();
 	  }
 	else
 	  {
-	    $this->cancel();
+	    $this->goback();
 	  }
 	break;
 
@@ -100,18 +83,6 @@ class AddIPAddressPage extends AdminPage
   }
 
   /**
-   * Cancel
-   *
-   * Return to the IP Manager Page
-   */
-  function cancel()
-  {
-    $this->goto( "services_view_server",
-		 null,
-		 "id=" . $this->session['server_dbo']->getID() . "&action=ips");
-  }
-
-  /**
    * Confirm
    *
    * Verify that the IP's do not already exist in the pool, then confirm 
@@ -119,9 +90,9 @@ class AddIPAddressPage extends AdminPage
    */
   function confirm()
   {
-    $begin_ip = $this->session['add_ip_address']['begin_address'];
-    $end_ip = $this->session['add_ip_address']['end_address'];
- 
+    $begin_ip = ip2long( $this->post['begin_address'] );
+    $end_ip = ip2long( $this->post['end_address'] );
+
     if( $end_ip == 0 || $end_ip < $begin_ip )
       {
 	// If the beginning IP is not less than the ending IP, then only the
@@ -135,7 +106,7 @@ class AddIPAddressPage extends AdminPage
 	if( null != load_IPAddressDBO( $ip ) )
 	  {
 	    $this->setError( array( "type" => "DUPLICATE_IP" ) );
-	    return;
+	    $this->reload();
 	  }
       }
 
@@ -144,7 +115,7 @@ class AddIPAddressPage extends AdminPage
       {
 	$ip_dbo = new IPAddressDBO();
 	$ip_dbo->setIP( $ip );
-	$ip_dbo->setServerID( $this->session['server_dbo']->getID() );
+	$ip_dbo->setServerID( $this->get['server']->getID() );
 	$this->session['ip_dbo_array'][] = $ip_dbo;
       }
     $this->session['begin_ip'] = new IPAddressDBO();
@@ -169,13 +140,15 @@ class AddIPAddressPage extends AdminPage
 	if( !add_IPAddressDBO( $ip_dbo ) )
 	  {
 	    $this->setError( array( "type" => "DB_ADD_IP_FAILED" ) );
-	    $this->cancel();
+	    $this->goback();
 	  }
       }
 
     // Done
     $this->setMessage( array( "type" => "IP_ADDED" ) );
-    $this->cancel();
+    $this->goto( "services_view_server", 
+		 null,
+		 sprintf( "server=%d&action=ips", $this->get['server']->getID() ) );
   }
 }
 ?>

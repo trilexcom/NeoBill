@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/OrderDBO.class.php";
-require_once $base_path . "DBO/HostingServiceDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
 
 /**
  * AddHostingPage
@@ -22,7 +22,7 @@ require_once $base_path . "DBO/HostingServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddHostingPage extends Page
+class AddHostingPage extends SolidStatePage
 {
   /**
    * Action
@@ -36,15 +36,15 @@ class AddHostingPage extends Page
     switch( $action_name )
       {
       case "hostingservice":
-	if( isset( $this->session['hostingservice']['cancel'] ) )
+	if( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
-	elseif( isset( $this->session['hostingservice']['continue'] ) )
+	elseif( isset( $this->post['continue'] ) )
 	  {
 	    $this->process();
 	  }
-	elseif( isset( $this->session['hostingservice']['skip'] ) )
+	elseif( isset( $this->post['skip'] ) )
 	  {
 	    $_SESSION['order']->skipHosting( true );
 	    $this->done();
@@ -89,56 +89,21 @@ class AddHostingPage extends Page
 	$_SESSION['order'] = new OrderDBO();
       }
 
-    $this->smarty->assign( "show_cancel", $this->getLastPage() == "cart" );
-    $this->smarty->assign( "show_skip", 
-			   $this->getLastPage() == "adddomain" && !$_SESSION['order']->isEmpty() );
-  }
-
-  /**
-   * Populate the Service ID field with Hosting Services
-   *
-   * @return array Hosting services as id => description
-   */
-  function populateServiceIDField()
-  {
-    $data = array();
-    $services = load_array_HostingServiceDBO();
-
-    if( isset( $services ) )
+    // Show prices for the selected hosting package
+    $termWidget = $this->forms['hostingservice']->getField( "term" )->getWidget();
+    if( isset( $_POST['service'] ) )
       {
-	foreach( $services as $service_dbo )
-	  {
-	    $data[$service_dbo->getID()] = $service_dbo->getTitle();
-	  }
-      }
-
-    return $data;
-  }
-
-  /**
-   * Populate the Term field with terms and pricing for the
-   * selected hosting service.
-   *
-   * @return array Terms as term => description
-   */
-  function populateTermField()
-  {
-    $serviceid = $this->session['hostingservice']['serviceid'];
-    if( !isset( $serviceid ) )
-      {
-	$services = load_array_HostingServiceDBO();
-	$service_dbo = array_shift( $services );
+	$termWidget->setHostingService( load_HostingServiceDBO( intval( $_POST['service'] ) ) );
       }
     else
       {
-	$service_dbo = load_HostingServiceDBO( $serviceid );
+	$services = load_array_HostingServiceDBO();
+	$termWidget->setHostingService( array_shift( $services ) );
       }
 
-    $cs = $this->conf['locale']['currency_symbol'];
-    return( array( "1 month" => "[1_MONTH] (" . $cs . $service_dbo->getSetupPrice1mo() . " [SETUP], " . $cs . $service_dbo->getPrice1mo() . " [RECURRING])",
-		   "3 month" => "[3_MONTHS] (" . $cs . $service_dbo->getSetupPrice3mo() . " [SETUP], " . $cs . $service_dbo->getPrice3mo() . " [RECURRING])",
-		   "6 month" => "[6_MONTHS] (" . $cs . $service_dbo->getSetupPrice6mo() . " [SETUP], " . $cs . $service_dbo->getPrice6mo() . " [RECURRING])",
-		   "12 month" => "[12_MONTHS] (" . $cs . $service_dbo->getSetupPrice12mo() . " [SETUP], " . $cs . $service_dbo->getPrice12mo() . " [RECURRING])" ) );
+    $this->smarty->assign( "show_cancel", $this->getLastPage() == "cart" );
+    $this->smarty->assign( "show_skip", 
+			   $this->getLastPage() == "adddomain" && !$_SESSION['order']->isEmpty() );
   }
 
   /**
@@ -146,13 +111,10 @@ class AddHostingPage extends Page
    */
   function process()
   {
-    $servicedbo =
-      load_HostingServiceDBO( $this->session['hostingservice']['serviceid'] );
-
     // Create a Hosting Order Item
     $dbo = new OrderHostingDBO();
-    $dbo->setService( $servicedbo );
-    $dbo->setTerm( $this->session['hostingservice']['term'] );
+    $dbo->setService( $this->post['service'] );
+    $dbo->setTerm( $this->post['term'] );
 
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
@@ -160,5 +122,4 @@ class AddHostingPage extends Page
     $this->done();
   }
 }
-
 ?>

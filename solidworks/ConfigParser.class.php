@@ -138,6 +138,18 @@ class ConfigParser
 	$this->conf['pages'][$this->page_class_name]['templates'][$template_name] =
 	  $template_file;
 
+      case "URLFIELDS":
+	$this->conf['pages'][$this->page_class_name]['fields'] = array();
+	break;
+
+      case "URLFIELD":
+	$name = $attrs['NAME'];
+	$validator = $attrs['VALIDATOR'];
+	$required = (strtolower( $attrs['REQUIRED'] ) == "true");
+	$this->conf['pages'][$this->page_class_name]['fields'][$name]['validator'] = $validator;
+	$this->conf['pages'][$this->page_class_name]['fields'][$name]['required'] = $required;
+	break;
+
       case "FORMS":
 	$this->conf['forms'] = array();
 	break;
@@ -158,6 +170,8 @@ class ConfigParser
 	$this->form_field_name = $attrs['NAME'];
 	$field_data =& $this->conf['forms'][$this->form_name]['fields'][$this->form_field_name];
 	$field_data['type'] = $attrs['TYPE'];
+	$field_data['widget'] = $attrs['WIDGET'];
+	$field_data['validator'] = $attrs['VALIDATOR'];
 	$field_data['description'] = $attrs['DESCRIPTION'];
 	$field_data['validate'] = (strtolower( $attrs['VALIDATE'] ) == "true");
 	$field_data['required'] = (strtolower( $attrs['REQUIRED'] ) == "true");
@@ -173,6 +187,7 @@ class ConfigParser
 	$field_data['hash'] = $attrs['HASH'];
 	$field_data['md5'] = (strtolower( $attrs['MD5'] ) == "true");
 	$field_data['method_name'] = $attrs['METHOD_NAME'];
+	$field_data['cancel'] = (strtolower( $attrs['CANCEL'] ) == "true");
 	break;
 
       case "COLUMNS":

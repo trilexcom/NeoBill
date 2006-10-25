@@ -13,7 +13,7 @@
       </tr>
       <tr>
         <th> {form_description field="allstates"} </th>
-        <td> {form_element field="allstates"} </td>
+        <td> {form_element field="allstates" option="true"} </td>
         </td>
       </tr>
       <tr>

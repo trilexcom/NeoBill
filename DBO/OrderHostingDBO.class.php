@@ -11,9 +11,9 @@
  */
 
 // Parent class
-require_once $base_path . "DBO/OrderItemDBO.class.php";
+require_once BASE_PATH . "DBO/OrderItemDBO.class.php";
 
-require_once $base_path . "DBO/HostingServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServicePurchaseDBO.class.php";
 
 /**
  * OrderHostingDBO
@@ -128,9 +128,7 @@ class OrderHostingDBO extends OrderItemDBO
    */
   function getDescription()
   {
-    return translate_string( $this->conf['locale']['language'],
-			     "[WEB_HOSTING_PACKAGE]: " . 
-			     $this->servicedbo->getTitle() );
+    return "[WEB_HOSTING_PACKAGE]: " . $this->servicedbo->getTitle();
   }
 
   /**
@@ -238,6 +236,7 @@ class OrderHostingDBO extends OrderItemDBO
     parent::load( $data );
     $this->setID( $data['id'] );
     $this->setOrderID( $data['orderid'] );
+    $this->setOrderItemID( $data['orderitemid'] );
     $this->setServiceID( $data['serviceid'] );
     $this->setTerm( $data['term'] );
   }

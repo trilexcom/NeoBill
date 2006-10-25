@@ -11,12 +11,12 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
-require_once $base_path . "DBO/HostingServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/ProductPurchaseDBO.class.php";
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/ProductPurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * AccountDBO
@@ -126,6 +126,13 @@ class AccountDBO extends DBO
    * return integer Account ID
    */
   function getID() { return $this->id; }
+
+  /**
+   * Convert to a String
+   *
+   * @return string The account ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Account Type

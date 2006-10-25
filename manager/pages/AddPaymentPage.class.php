@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/PaymentDBO.class.php";
+require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 
 /**
  * AddPaymentPage
@@ -23,8 +23,18 @@ require_once $base_path . "DBO/PaymentDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddPaymentPage extends Page
+class AddPaymentPage extends SolidStatePage
 {
+  /**
+   * @var AccountDBO Account making the payment
+   */
+  protected $account;
+
+  /**
+   * @var InvoiceDBO Invoice to pay
+   */
+  protected $invoice;
+
   /**
    * Initialize Add Payment Page
    *
@@ -33,47 +43,24 @@ class AddPaymentPage extends Page
    */
   function init()
   {
-    $account_id = $_GET['id'];
-    $invoice_id = $_GET['invoiceid'];
+    parent::init();
 
-    if( isset( $invoice_id ) )
+    if( isset( $this->get['invoice'] ) )
       {
-	// Retrieve the Invoice from the database
-	if( ($invoice_dbo = load_InvoiceDBO( intval( $invoice_id ) )) == null )
-	  {
-	    fatal_error( "AddPaymentPage::init()",
-			 "could not load Invoice! id = " . $invoice_id );
-	  }
-	$account_id = $invoice_dbo->getAccountID();
-	$this->session['invoice_dbo'] = $invoice_dbo;
-	$this->smarty->assign( "invoice_id", $invoice_dbo->getID() );
+	$this->setURLField( "invoice", $this->get['invoice']->getID() );
+	$this->smarty->assign( "invoice_id", $this->get['invoice']->getID() );
+	$this->session['invoice_dbo'] =& $this->get['invoice'];
       }
 
-    if( isset( $account_id ) )
-      {
-	// Retrieve the Account from the database
-	$dbo = load_AccountDBO( intval( $account_id ) );
-	// Set this page's Nav Vars
-	$this->setNavVar( "account_id",   $dbo->getID() );
-	$this->setNavVar( "account_name", $dbo->getAccountName() );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['account_dbo'];
-      }
+    // Indicate to the InvoiceSelect widget that we only want to display 
+    // invoices for this account
+    $ISWidget =& $this->forms['new_payment']->getField( "invoice" )->getWidget();
+    $ISWidget->setAccountID( $this->get['account']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Account
-	$this->setError( array( "type" => "DB_ACCOUNT_NOT_FOUND",
-				"args" => array( $account_id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['account_dbo'] = $dbo;
-      }
+    $this->setURLField( "account", $this->get['account']->getID() );
+    $this->setNavVar( "account_id", $this->get['account']->getID() );
+    $this->setNavVar( "account_name", $this->get['account']->getAccountName() );
+    $this->session['account_dbo'] =& $this->get['account'];
   }
 
   /**
@@ -88,30 +75,22 @@ class AddPaymentPage extends Page
   {
     switch( $action_name )
       {
-
       case "new_payment":
-
-	if( isset( $this->session['new_payment']['cancel'] ) )
+	if( isset( $this->post['cancel'] ) )
 	  {
 	    // Cancel
-	    $this->goto( "accounts_view_account",
-			 null,
-			 "id=" . $this->session['account_dbo']->getID() .
-			 "&action=billing" );
+	    $this->goback();
 	  }
-	elseif( isset( $this->session['new_payment']['continue'] ) )
+	elseif( isset( $this->post['continue'] ) )
 	  {
 	    // Add Payment
 	    $this->add_payment();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -122,45 +101,32 @@ class AddPaymentPage extends Page
    */
   function add_payment()
   {
-    $invoice_id   = isset( $this->session['invoice_dbo'] ) ? $this->session['invoice_dbo']->getID() : $this->session['new_payment']['invoiceid'];
-    $payment_date = $this->session['new_payment']['date'];
-    $amount       = $this->session['new_payment']['amount'];
-    $type         = $this->session['new_payment']['type'];
-    $transaction1 = $this->session['new_payment']['transaction1'];
-    $transaction2 = $this->session['new_payment']['transaction2'];
-
-    // Validate the invoice ID
-    if( !isset( $this->session['invoice_dbo'] ) &&
-	load_InvoiceDBO( $invoice_id ) == null )
-      {
-	// Invalid Invoice ID
-	fatal_error( "AddPaymentPage.class.php::add_payment()",
-		     "could not load invoice! id = " . $invoice_id );
-      }
-
     // Create a new payment DBO
+    $invoice_id   = isset( $this->get['invoice'] ) ? 
+      $this->get['invoice']->getID() : 
+      $this->session['new_payment']['invoice']->getID();
     $payment_dbo = new PaymentDBO();
     $payment_dbo->setInvoiceID( $invoice_id );
-    $payment_dbo->setDate( $this->DB->format_datetime( $payment_date ) );
-    $payment_dbo->setAmount( $amount );
-    $payment_dbo->setType( $type );
+    $payment_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $payment_dbo->setAmount( $this->post['amount'] );
+    $payment_dbo->setType( $this->post['type'] );
     $payment_dbo->setStatus( "Completed" );
-    $payment_dbo->setTransaction1( $transaction1 );
-    $payment_dbo->setTransaction2( $transaction2 );
+    $payment_dbo->setTransaction1( $this->post['transaction1'] );
+    $payment_dbo->setTransaction2( $this->post['transaction2'] );
 
     // Insert Payment into database
     if( !add_PaymentDBO( $payment_dbo ) )
       {
 	// Add failed
 	$this->setError( array( "type" => "DB_ADD_PAYMENT_FAILED" ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "PAYMENT_ENTERED" ) );
     $this->goto( "billing_view_invoice",
 		 null,
-		 "id=" . $payment_dbo->getInvoiceID() );
+		 "invoice=" . $payment_dbo->getInvoiceID() );
   }
 }
 

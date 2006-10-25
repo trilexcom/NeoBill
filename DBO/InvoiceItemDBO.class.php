@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * InvoiceItemDBO
@@ -52,6 +52,13 @@ class InvoiceItemDBO extends DBO
    * @var string Tax item flag
    */
   var $taxItem = "No";
+
+  /**
+   * Convert to a String
+   *
+   * @return string Invoice Item ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Invoice Item ID

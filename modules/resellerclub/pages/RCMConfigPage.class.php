@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * RCMConfigPage
@@ -21,7 +21,7 @@ require_once $base_path . "solidworks/AdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RCMConfigPage extends AdminPage
+class RCMConfigPage extends SolidStateAdminPage
 {
   /**
    * @var ResellerClubModule Reseller Club Module object
@@ -40,7 +40,7 @@ class RCMConfigPage extends AdminPage
     switch( $action_name )
       {
       case "rcm_config":
-	if( isset( $this->session['rcm_config']['save'] ) )
+	if( isset( $this->post['save'] ) )
 	  {
 	    $this->save();
 	  }
@@ -78,18 +78,19 @@ class RCMConfigPage extends AdminPage
   function save()
   {
     // Update settings in DB
-    $this->rcModule->setUsername( $this->session['rcm_config']['username'] );
-    $this->rcModule->setPassword( $this->session['rcm_config']['password'] );
-    $this->rcModule->setResellerID( $this->session['rcm_config']['resellerid'] );
-    $this->rcModule->setParentID( $this->session['rcm_config']['parentid'] );
-    $this->rcModule->setRole( $this->session['rcm_config']['role'] );
-    $this->rcModule->setLangPref( $this->session['rcm_config']['langpref'] );
-    $this->rcModule->setServiceURL( $this->session['rcm_config']['serviceurl'] );
-    $this->rcModule->setDebug( $this->session['rcm_config']['debug'] );
-    $this->rcModule->setDefaultCustomerPassword( $this->session['rcm_config']['defaultcustomerpassword'] );
+    $this->rcModule->setUsername( $this->post['username'] );
+    $this->rcModule->setPassword( $this->post['password'] );
+    $this->rcModule->setResellerID( $this->post['resellerid'] );
+    $this->rcModule->setParentID( $this->post['parentid'] );
+    $this->rcModule->setRole( $this->post['role'] );
+    $this->rcModule->setLangPref( $this->post['langpref'] );
+    $this->rcModule->setServiceURL( $this->post['serviceurl'] );
+    $this->rcModule->setDebug( $this->post['debug'] );
+    $this->rcModule->setDefaultCustomerPassword( $this->post['defaultcustomerpassword'] );
     $this->rcModule->saveSettings();
 
     $this->setMessage( array( "type" => "RC_CONFIGURATION_SAVED" ) );
+    $this->reload();
   }
 }
 ?>

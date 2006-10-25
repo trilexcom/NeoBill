@@ -2,9 +2,9 @@
 
 <ul id="tabnav">
   {dbo_assign dbo="server_dbo" field="id" var="id"}
-  <li> <a href="manager_content.php?page=services_view_server&id={$id}&action=info"> {echo phrase="SERVER_INFO"} </a> </li>
-  <li class="selected"> <a href="manager_content.php?page=services_view_server&id={$id}&action=ips"> {echo phrase="IP_ADDRESSES"} </a> </li>
-  <li> <a href="manager_content.php?page=services_view_server&id={$id}&action=services"> {echo phrase="HOSTING_SERVICES"} </a> </li>
+  <li> <a href="manager_content.php?page=services_view_server&server={$id}&action=info"> {echo phrase="SERVER_INFO"} </a> </li>
+  <li class="selected"> <a href="manager_content.php?page=services_view_server&server={$id}&action=ips"> {echo phrase="IP_ADDRESSES"} </a> </li>
+  <li> <a href="manager_content.php?page=services_view_server&server={$id}&action=services"> {echo phrase="HOSTING_SERVICES"} </a> </li>
 </ul>
 
 <div class="action">
@@ -41,7 +41,7 @@
     {/dbo_table_column}
 
     {dbo_table_column header="[ACTION]"}
-      <a href="manager_content.php?page=services_view_server&action=delete_ip&ip={dbo_echo dbo="ipaddressdbo_table" field="ipstring"}">remove</a>
+      <a href="manager_content.php?page=services_view_server&server={$serverid}&action=delete_ip&ip={dbo_echo dbo="ipaddressdbo_table" field="ip"}">remove</a>
     {/dbo_table_column}
 
   {/dbo_table}

@@ -11,10 +11,10 @@
  */
 
 // Parent class
-require_once $base_path . "DBO/PurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/PurchaseDBO.class.php";
 
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
-require_once $base_path . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
 
 /**
  * DomainServicePurchaseDBO
@@ -61,6 +61,13 @@ class DomainServicePurchaseDBO extends PurchaseDBO
    * @var string Expiration date (MySQL DATETIME)
    */
   var $expiredate;
+
+  /**
+   * Convert to a String
+   *
+   * @return string The Domain Service Purchase ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set DomainServicePurchase ID

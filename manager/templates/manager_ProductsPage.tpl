@@ -38,7 +38,7 @@
              size="10"}
 
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=services_view_product&id={dbo_echo dbo="productdbo_table" field="id"}"> {dbo_echo dbo="productdbo_table" field="id"} </a>
+      <a target="content" href="manager_content.php?page=services_view_product&product={dbo_echo dbo="productdbo_table" field="id"}"> {dbo_echo dbo="productdbo_table" field="id"} </a>
     {/dbo_table_column}
 
     {dbo_table_column header="[PRODUCT_NAME]" sort_field="name"}

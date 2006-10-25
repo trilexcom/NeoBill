@@ -3,8 +3,8 @@
   <div class="form">
     <table>
       <tr>
-        <th> {form_description field="accountid"} </th>
-        <td> {form_element field="accountid"} </td>
+        <th> {form_description field="account"} </th>
+        <td> {form_element field="account"} </td>
       </tr>
       <tr>
         <th> {form_description field="term"} </th>

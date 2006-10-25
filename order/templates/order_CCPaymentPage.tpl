@@ -65,7 +65,7 @@
               </tr>
               <tr>
                 <th> {form_description field="cardexpire"} </th>
-                <td> {form_element field="cardexpire" size="4" noDayField="true"} </td>
+                <td> {form_element field="cardexpire" size="5"} (MM/YY) </td>
               </tr>            
               <tr>
                 <th> {form_description field="cardcode"} </th>

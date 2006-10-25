@@ -13,9 +13,9 @@
 
 require_once "log.php";
 require_once "ConfigParser.class.php";
-require_once "TranslationParser.class.php";
 require_once "DBConnection.class.php";
-require_once "language.php";
+require_once "Translator.class.php";
+require_once "TranslationParser.class.php";
 
 // Load Smarty
 require_once "smarty/Smarty.class.php";
@@ -29,8 +29,11 @@ $smarty->compile_dir  = "../solidworks/smarty/templates_c";
 $smarty->cache_dir    = "../solidworks/smarty/cache";
 $smarty->config_dir   = "../solidworks/smarty/configs";
 
-// Setup custom error handler
-// set_error_handler( "SWErrorHandler" );
+// Register the translator's smarty output filte
+$smarty->register_outputfilter( array( "Translator", "filter" ) );
+
+// Install our own top-level exception handler
+$oldHandler = set_exception_handler( "SWExceptionHandler" );
 
 // Turn off notices
 error_reporting( E_ALL ^ E_NOTICE );
@@ -39,7 +42,7 @@ error_reporting( E_ALL ^ E_NOTICE );
 $conf = load_config_file( "application.conf" );
 
 // Load the translations/language file
-$translations = load_translations_file( "translations" );
+$translations = TranslationParser::load( "translations" );
 
 // Setup database communication
 $conf['db'] = $db;
@@ -61,7 +64,7 @@ if( isset( $conf['pages'] ) )
       if( isset( $page_data['class_file'] ) &&
 	  $_GET['page'] == $page_data['name'] )
 	{
-	  require_once $base_path . $page_data['class_file'];
+	  require_once BASE_PATH . $page_data['class_file'];
 	}
     }
 }
@@ -99,41 +102,6 @@ function load_config_file( $file )
   xml_parser_free( $xml_parser );
 
   return $config_parser->getConfig();
-}
-
-/**
- * Load Translations
- *
- * Instantiates the TranslationParser to load the translations/language XML file.
- *
- * @param string $file Path to the translations file
- * @return array Configuration data
- */
-function load_translations_file( $file )
-{
-  $xml_parser = xml_parser_create();
-  $translation_parser = new TranslationParser();
-  xml_set_object( $xml_parser, $translation_parser );
-  xml_set_element_handler( $xml_parser, "startElement", "endElement" );
-  xml_set_character_data_handler( $xml_parser, "characterData" );
-
-  if( !($fp = @fopen( $file, "r" )) )
-    {
-      return null;
-    }
-
-  while( $data = fread( $fp, 4096 ) )
-    {
-      xml_parse( $xml_parser, $data, feof( $fp ) )
-	or die( sprintf( "<pre>There is an error in your translations file:\n %s at line %d</pre>",
-			 xml_error_string( xml_get_error_code( $xml_parser ) ),
-			 xml_get_current_line_number( $xml_parser ) ) );
-    }
-  fclose( $fp );
-
-  xml_parser_free( $xml_parser );
-
-  return $translation_parser->getTranslations();
 }
 
 /**
@@ -180,30 +148,22 @@ function &build_location_stack( $page_name )
 	    {
 	      $name = "{" . $name . "}";
 	      $page_data['title'] = 
-		str_replace( $name, $value, 
-			     translate_string( $conf['locale']['language'], 
-					       $page_data['title'] ) );
+		str_replace( $name, $value, $page_data['title'] );
 	      $page_data['url']   = str_replace( $name, $value, $page_data['url'] );
 	    }
 	}
 
       // Push page onto nav stack
-      array_push( $stack, 
-		  array( "name" => translate_string( $conf['locale']['language'],
-						     $page_data['title'] ),
-			 "url"  => $page_data['url'] )
-		  );
+      array_push( $stack, array( "name" => $page_data['title'],
+				 "url"  => $page_data['url'] ) );
 
       return $stack;
     }
   else
     {
       // No more - allocate the stack and push this page on the bottom (top for now)
-      $stack = array( 
-		     array( "name" => translate_string( $conf['locale']['language'],
-							$page_data['title'] ), 
-			    "url"  => $page_data['url'] )
-		     );
+      $stack = array( array( "name" => $page_data['title'], 
+			     "url"  => $page_data['url'] ) );
       return $stack;
     }
 }
@@ -240,11 +200,11 @@ function get_page_class( $name )
  */
 function loadModules()
 {
-  global $base_path, $conf, $translations;
+  global $conf, $translations;
 
   // Read the contents of the modules directory
   $modules = array();
-  $modulesDir = $base_path . "modules/";
+  $modulesDir = BASE_PATH . "modules/";
   if( !($dh = opendir( $modulesDir ) ) )
     {
       fatal_error( "loadModules()", "Could not access the modules directory." );
@@ -272,16 +232,7 @@ function loadModules()
 	  // Load the module's translation file
 	  if( file_exists( $moduleTransFile ) )
 	    {
-	      $modTranslations = load_translations_file( $moduleTransFile );
-	      foreach( $modTranslations as $language => $phrases )
-		{
-		  if( is_array( $phrases ) )
-		    {
-		      $translations[$language] = 
-			array_merge( isset( $translations[$language] ) ? $translations[$language] : array(), 
-				     $phrases );
-		    }
-		}
+	      TranslationParser::load( $moduleTransFile );
 	    }
 
 	  // Load the module's class file
@@ -299,4 +250,36 @@ function loadModules()
   
   closedir( $dh );
 }
+
+/**
+ * SolidWorks Exception Handler
+ *
+ * @param Exception $e Exception to handle
+ */
+function SWExceptionHandler( $e )
+{
+  $fileinfo = pathinfo( $e->getFile() );
+
+  echo "<h1>An uncaught " . get_class( $e ) . " has occured:</h1>";
+  echo "<p>\n";
+  echo "<b>Thrown from file:</b> " . $fileinfo['basename'];
+  echo" <b>at line</b> " . $e->getLine();
+  echo "<br/><br/><b>Message:</b> <pre>";
+  echo $e;
+  echo "</pre><br/><br/><b>Stack trace: </b></br>";
+  echo "</p>\n<pre>\n";
+
+  foreach( $e->getTrace() as $key => $trace )
+    {
+      $fileinfo = pathinfo( $trace['file'] );
+      printf( "#%d: %s at %d, function call: %s\n", 
+	      $key, 
+	      $fileinfo['basename'], 
+	      $trace['line'], 
+	      $trace['function'] );
+    }
+
+  echo "\n</pre>\n";
+}
+
 ?>

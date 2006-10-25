@@ -11,7 +11,7 @@
  */
 
 // Base class
-require_once $base_path . "modules/PaymentProcessorModule.class.php";
+require_once BASE_PATH . "modules/PaymentProcessorModule.class.php";
 
 /**
  * PaypalWPS
@@ -83,8 +83,6 @@ class PaypalWPS extends PaymentProcessorModule
    */
   function init()
   {
-    global $base_path;
-
     if( !parent::init() )
       {
 	return false;

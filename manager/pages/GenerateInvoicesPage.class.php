@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * GenerateInvoicesPage
@@ -23,7 +23,7 @@ require_once $base_path . "DBO/InvoiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class GenerateInvoicesPage extends Page
+class GenerateInvoicesPage extends SolidStatePage
 {
   /**
    * Action
@@ -37,22 +37,17 @@ class GenerateInvoicesPage extends Page
   {
     switch( $action_name )
       {
-
       case "generate_invoices":
-
-	if( isset( $this->session['generate_invoices']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Generate Invoice Batch
 	    $this->generate_invoices();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
 	break;
       }
   }
@@ -65,10 +60,10 @@ class GenerateInvoicesPage extends Page
    */
   function generate_invoices()
   {
-    $invoice_date = $this->session['generate_invoices']['date'];
-    $terms        = $this->session['generate_invoices']['terms'];
-    $period_begin = $this->session['generate_invoices']['periodbegin'];
-    $note         = $this->session['generate_invoices']['note'];
+    $invoice_date = $this->post['date'];
+    $terms        = $this->post['terms'];
+    $period_begin = $this->post['periodbegin'];
+    $note         = $this->post['note'];
 
     // Calculate the end of the invoice period by adding 1 month to the beginning
     $period_begin_arr = getdate( $period_begin );
@@ -85,6 +80,13 @@ class GenerateInvoicesPage extends Page
     // Generate an invoice for each account
     foreach( $accountdbo_array as $account )
       {
+	if( $account->getStatus() != "Active" ||
+	    $account->getBillingStatus() == "Do Not Bill" )
+	  {
+	    // Skip invalid, pending, and non-billable accounts
+	    continue;
+	  }
+
 	// Create a new Invoice
 	$invoice = new InvoiceDBO();
 	$invoice->setAccountID( $account->getID() );
@@ -109,7 +111,7 @@ class GenerateInvoicesPage extends Page
 	  {
 	    // Add failed
 	    $this->setError( array( "type" => "DB_INVOICE_BATCH_FAILED" ) );
-	    $this->goback( 1 );
+	    $this->reload();
 	  }
       }
 

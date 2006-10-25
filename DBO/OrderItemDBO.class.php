@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * OrderItemDBO
@@ -42,6 +42,13 @@ class OrderItemDBO extends DBO
    * @var string The status of this order item: Rejected, Pending, Accepted, or Fulfilled
    */
   var $status = "Pending";
+
+  /**
+   * Convert to a String
+   *
+   * @return string Order Item ID
+   */
+  function __toString() { return $this->getOrderItemID(); }
 
   /**
    * Set Order Item ID

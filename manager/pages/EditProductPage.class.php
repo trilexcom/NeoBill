@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/ProductDBO.class.php";
+require_once BASE_PATH . "DBO/ProductDBO.class.php";
 
 /**
  * EditProductPage
@@ -23,41 +23,20 @@ require_once $base_path . "DBO/ProductDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditProductPage extends AdminPage
+class EditProductPage extends SolidStateAdminPage
 {
   /**
    * Initialize Edit Product Page
-   *
-   * If the Product ID is provided in the query string, load the ProductDBO from the
-   * database and store it in the session.  Otherwise, use the DBO that is already
-   * there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Product from the database
-	$dbo = load_ProductDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['product_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "product", $this->get['product']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Product
-	$this->setError( array( "type" => "DB_PRODUCT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['product_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['product_dbo'] =& $this->get['product'];
   }
 
   /**
@@ -72,32 +51,22 @@ class EditProductPage extends AdminPage
   {
     switch( $action_name )
       {
-
       case "edit_product":
-
-	if( isset( $this->session['edit_product']['save'] ) )
+	if( isset( $this->post['save'] ) )
 	  {
 	    // Save changes
 	    $this->update_product();
-	    $this->goto( "services_view_product",
-			 array( array( "type" => "PRODUCT_UPDATED" ) ),
-			 "id=" . $this->session['product_dbo']->getID() );
 	  }
-	elseif( isset( $this->session['edit_product']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
-	    // Cancel (return to view page)
-	    $this->goto( "services_view_product",
-			 null,
-			 "id=" . $this->session['product_dbo']->getID() );
+	    // Cancel
+	    $this->goback();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -111,30 +80,21 @@ class EditProductPage extends AdminPage
     // Access DBO
     $product_dbo =& $this->session['product_dbo'];
 
-    // Pull form data from session
-    $product_data = $this->session['edit_product'];
-   
-    if( !isset( $product_data ) )
-      {
-	// Missing form data
-	fatal_error( "EditProductPage::update_product()", "no form data received!" );
-      }
-
     // Update DBO
-    $product_dbo->setName( $product_data['name'] );
-    $product_dbo->setDescription( $product_data['description'] );
-    $product_dbo->setPrice( $product_data['price'] );
-    $product_dbo->setTaxable( $product_data['taxable'] );
+    $product_dbo->setName( $this->post['name'] );
+    $product_dbo->setDescription( $this->post['description'] );
+    $product_dbo->setPrice( $this->post['price'] );
+    $product_dbo->setTaxable( $this->post['taxable'] );
     if( !update_ProductDBO( $product_dbo ) )
       {
 	// Error
 	$this->setError( array( "type" => "DB_PRODUCT_UPDATE_FAILED" ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Sucess!
     $this->setMessage( array( "type" => "PRODUCT_UPDATED" ) );
-    $this->goback( 2 );
+    $this->goback();
   }
 }
 

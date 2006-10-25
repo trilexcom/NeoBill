@@ -11,13 +11,13 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
-require_once $base_path . "solidworks/Email.class.php";
+require_once BASE_PATH . "solidworks/Email.class.php";
 
-require_once $base_path . "DBO/OrderDomainDBO.class.php";
-require_once $base_path . "DBO/OrderHostingDBO.class.php";
-require_once $base_path . "DBO/PaymentDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDomainDBO.class.php";
+require_once BASE_PATH . "DBO/OrderHostingDBO.class.php";
+require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 
 /**
  * OrderDBO
@@ -153,6 +153,13 @@ class OrderDBO extends DBO
    * @var array Array of order items (OrderItemDBO's) for this order
    */
   var $orderitems = array();
+
+  /**
+   * Convert to a String
+   *
+   * @return string Order ID
+   */
+  function __toString() { return $this->getOrderID(); }
 
   /**
    * Set Order ID
@@ -818,14 +825,38 @@ class OrderDBO extends DBO
   {
     foreach( $this->orderitems as $key => $orderItemDBO )
       {
-	if( $orderItemDBO->getOrderItemID() == $orderItemID )
+	if( $orderItemDBO->getOrderItemID() == intval( $orderItemID ) )
 	  {
 	    return $orderItemDBO;
 	  }
       }
 
     // Not found
-    return null;
+    throw new SWException( sprintf( "Order item does not exist:\n\tOrder ID: %d\n\tOrder Item ID: %d",
+				    $this->getID(),
+				    $orderItemID ) );
+  }
+
+  /**
+   * Get Existing Domain
+   *
+   * @param integer $orderItemID Order Item ID
+   * @return &OrderDomainDBO Order Domain DBO
+   */
+  function &getExistingDomain( $orderItemID )
+  {
+    foreach( $this->existingdomains as $key => $orderDomainDBO )
+      {
+	if( $orderDomainDBO->getOrderItemID() == intval( $orderItemID ) )
+	  {
+	    return $orderDomainDBO;
+	  }
+      }
+
+    // Not found
+    throw new SWException( sprintf( "Existing domain does not exist:\n\tOrder ID: %d\n\tOrder Item ID: %d",
+				    $this->getID(),
+				    $orderItemID ) );
   }
 
   /**
@@ -1003,15 +1034,12 @@ class OrderDBO extends DBO
       }
 
     // Notification e-mail
-    $body = 
-      $this->replaceTokens( translate_string( $conf['locale']['language'],
-					      $conf['order']['notification_email'] ) );
+    $body = $this->replaceTokens( $conf['order']['notification_email'] );
 
     $notifyEmail = new Email();
     $notifyEmail->addRecipient( $conf['company']['notification_email'] );
     $notifyEmail->setFrom( $conf['company']['email'], "SolidState" );
-    $notifyEmail->setSubject( translate_string( $conf['locale']['language'],
-						$conf['order']['notification_subject'] ) );
+    $notifyEmail->setSubject( $conf['order']['notification_subject'] );
     $notifyEmail->setBody( $body );
     if( !$notifyEmail->send() )
       {

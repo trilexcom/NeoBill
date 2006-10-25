@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 /**
  * AddDomainPage
@@ -22,7 +22,7 @@ require_once $base_path . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddDomainPage extends Page
+class AddDomainPage extends SolidStatePage
 {
   /**
    * Action
@@ -36,13 +36,13 @@ class AddDomainPage extends Page
     switch( $action_name )
       {
       case "domainoption":
-	if( isset( $this->session['domainoption']['cancel'] ) )
+	if( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
 	else
 	  {
-	    switch( $this->session['domainoption']['domainaction'] )
+	    switch( $this->post['domainaction'] )
 	      {
 	      case "Register Domain": $this->whois(); break;
 	      case "Transfer Domain": $this->transfer(); break;
@@ -52,32 +52,32 @@ class AddDomainPage extends Page
 	break;
 
       case "registerdomain":
-	if( isset( $this->session['registerdomain']['cancel'] ) )
+	if( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
-	elseif( isset( $this->session['registerdomain']['back'] ) )
+	elseif( isset( $this->post['back'] ) )
 	  {
 	    $this->setTemplate( "default" );
 	  }
-	elseif( isset( $this->session['registerdomain']['continue'] ) ||
-		isset( $this->session['registerdomain']['another'] ))
+	elseif( isset( $this->post['continue'] ) ||
+		isset( $this->post['another'] ))
 	  {
 	    $this->process_registration();
 	  }
 	break;
 
       case "transferdomain":
-	if( isset( $this->session['transferdomain']['cancel'] ) )
+	if( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
-	elseif( isset( $this->session['transferdomain']['back'] ) )
+	elseif( isset( $this->post['back'] ) )
 	  {
 	    $this->setTemplate( "default" );
 	  }
-	elseif( isset( $this->session['transferdomain']['continue'] ) ||
-		isset( $this->session['transferdomain']['another'] ) )
+	elseif( isset( $this->post['continue'] ) ||
+		isset( $this->post['another'] ) )
 	  {
 	    $this->process_transfer();
 	  }
@@ -138,41 +138,21 @@ class AddDomainPage extends Page
   }
 
   /**
-   * Populate the TLD drop-down menus
-   *
-   * @return array TLDs
-   */
-  function populateTLDs()
-  {
-    // Get all public DomainServiceDBO's
-    $domainservices = load_array_DomainServiceDBO();
-
-    // Populate the drop-downs
-    $tlds = array();
-    foreach( $domainservices as $domainservice )
-      {
-	$tlds[$domainservice->getTLD()] = $domainservice->getTLD();
-      }
-
-    return $tlds;
-  }
-
-  /**
    * Process an existing domain - no purchase
    */
   function process_existing()
   {
-    if( empty( $this->session['domainoption']['existingdomainname'] ) )
+    if( empty( $this->post['existingdomainname'] ) )
       {
 	$this->setError( array( "type" => "FIELD_MISSING",
 				"args" => array( "Domain Name" ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
     $dbo->setType( "Existing" );
-    $dbo->setDomainName( $this->session['domainoption']['existingdomainname'] );
+    $dbo->setDomainName( $this->post['existingdomainname'] );
 
     // Add domain to the order
     $_SESSION['order']->addExistingDomain( $dbo );
@@ -185,20 +165,17 @@ class AddDomainPage extends Page
    */
   function process_registration()
   {
-    $servicedbo = 
-      load_DomainServiceDBO( $this->session['domainoption']['registerdomaintld'] );
-
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
     $dbo->setType( "New" );
-    $dbo->setService( $servicedbo );
+    $dbo->setService( $this->session['domainoption']['registerdomaintld'] );
     $dbo->setDomainName( $this->session['domainoption']['registerdomainname'] );
-    $dbo->setTerm( $this->session['registerdomain']['period'] );
+    $dbo->setTerm( $this->post['period'] );
 
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
 
-    if( isset( $this->session['registerdomain']['another'] ) )
+    if( isset( $this->post['another'] ) )
       {
 	// Add Another Domain
 	unset( $this->session['domainoption'] );
@@ -216,21 +193,18 @@ class AddDomainPage extends Page
    */
   function process_transfer()
   {
-    $servicedbo = 
-      load_DomainServiceDBO( $this->session['domainoption']['transferdomaintld'] );
-    
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
     $dbo->setType( "Transfer" );
-    $dbo->setService( $servicedbo );
+    $dbo->setService( $this->session['domainoption']['transferdomaintld'] );
     $dbo->setDomainName( $this->session['domainoption']['transferdomainname'] );
-    $dbo->setTransferSecret( $this->session['transferdomain']['secret'] );
-    $dbo->setTerm( $this->session['transferdomain']['period'] );
+    $dbo->setTransferSecret( $this->post['secret'] );
+    $dbo->setTerm( $this->post['period'] );
 
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
 
-    if( isset( $this->session['transferdomain']['another'] ) )
+    if( isset( $this->post['another'] ) )
       {
 	// Add Another Domain
 	unset( $this->session['domainoption'] );
@@ -244,48 +218,23 @@ class AddDomainPage extends Page
   }
 
   /**
-   * Generate a list of Registration Periods and pricing for a drop-down menu
-   *
-   * @param string $tld TLD
-   */
-  function registration_periods( $tld )
-  {
-    // Generate the list of periods and their pricing
-    $ds_dbo = load_DomainServiceDBO( $tld );
-
-    unset( $this->session['periods'] );
-    $cs = $this->conf['locale']['currency_symbol'];
-    $this->session['periods']['1 year'] = "[1_YEAR] - " . $cs . $ds_dbo->getPrice1yr();
-    $this->session['periods']['2 year'] = "[2_YEARS] - " . $cs . $ds_dbo->getPrice2yr();
-    $this->session['periods']['3 year'] = "[3_YEARS] - " . $cs . $ds_dbo->getPrice3yr();
-    $this->session['periods']['4 year'] = "[4_YEARS] - " . $cs . $ds_dbo->getPrice4yr();
-    $this->session['periods']['5 year'] = "[5_YEARS] - " . $cs . $ds_dbo->getPrice5yr();
-    $this->session['periods']['6 year'] = "[6_YEARS] - " . $cs . $ds_dbo->getPrice6yr();
-    $this->session['periods']['7 year'] = "[7_YEARS] - " . $cs . $ds_dbo->getPrice7yr();
-    $this->session['periods']['8 year'] = "[8_YEARS] - " . $cs . $ds_dbo->getPrice8yr();
-    $this->session['periods']['9 year'] = "[9_YEARS] - " . $cs . $ds_dbo->getPrice9yr();
-    $this->session['periods']['10 year'] = "[10_YEARS] - " . $cs . $ds_dbo->getPrice10yr();
-  }
-
-  /**
    * Transfer a Domain
    */
   function transfer()
   {
-    $domain_name = $this->session['domainoption']['transferdomainname'];
-    $tld = $this->session['domainoption']['transferdomaintld'];
+    $domain_name = $this->post['transferdomainname'];
+    $tld = $this->post['transferdomaintld']->getTLD();
     $fqdn = $domain_name . "." . $tld;
 
     if( empty( $domain_name ) || empty( $tld ) )
       {
 	$this->setError( array( "type" => "FIELD_MISSING",
 				"args" => array( "Domain Name" ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Access the Registrar module
-    $serviceDBO = load_DomainServiceDBO( $tld );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+    $module = $this->conf['modules'][$this->post['transferdomaintld']->getModuleName()];
 
     // Check transfer eligibility
     if( !$module->isTransferable( $fqdn ) )
@@ -293,13 +242,12 @@ class AddDomainPage extends Page
 	// Domain must be registered
 	$this->setError( array( "type" => "ERROR_DOMAIN_TRANSFER_NO_DOMAIN",
 				"args" => array( $fqdn ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
-    // Populate the registration period drop-down menu
-    $this->registration_periods( $tld );
-
     // and show the transfer page
+    $termWidget = $this->forms['transferdomain']->getField( "period" )->getWidget();
+    $termWidget->setDomainService( $this->post['registerdomaintld'] );
     $this->smarty->assign( "domain_name", $domain_name );
     $this->smarty->assign( "domain_tld", $tld );
     $this->setTemplate( "transfer" );
@@ -310,37 +258,35 @@ class AddDomainPage extends Page
    */
   function whois()
   {
-    $domain_name = $this->session['domainoption']['registerdomainname'];
-    $tld = $this->session['domainoption']['registerdomaintld'];
+    $domain_name = $this->post['registerdomainname'];
+    $tld = $this->post['registerdomaintld']->getTLD();
     $fqdn = $domain_name . "." . $tld;
 
     if( empty( $domain_name ) || empty( $tld ) )
       {
 	$this->setError( array( "type" => "FIELD_MISSING",
 				"args" => array( "Domain Name" ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Access the Registrar module
-    $serviceDBO = load_DomainServiceDBO( $tld );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+    $module = $this->conf['modules'][$this->post['registerdomaintld']->getModuleName()];
 
     // Check WHOIS
     if( !$module->checkAvailability( $fqdn ) )
       {
 	// Domain is NOT available
 	$this->setError( array( "type" => "ERROR_DOMAIN_NOT_AVAILABLE" ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Place domain in the session
     $this->session['registerdomain']['domainname'] = $domain_name;
     $this->session['registerdomain']['tld'] = $tld;
 
-    // Populate the registration period drop-down menu
-    $this->registration_periods( $tld );
-
     // and show the registration page
+    $termWidget = $this->forms['registerdomain']->getField( "period" )->getWidget();
+    $termWidget->setDomainService( $this->post['registerdomaintld'] );
     $this->smarty->assign( "domain_name", $domain_name );
     $this->smarty->assign( "domain_tld", $tld );
     $this->setTemplate( "register_new_domain" );

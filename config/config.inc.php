@@ -25,7 +25,7 @@
 **/
 
 $this_pathinfo  = pathinfo( __FILE__ );
-$base_path      = ereg_replace("config", "", $this_pathinfo['dirname']) . "/";
+define( "BASE_PATH", ereg_replace("config", "", $this_pathinfo['dirname']) . "/" );
 
 /** 
  * ----------------------------------------------------------------------
@@ -36,15 +36,15 @@ $base_path      = ereg_replace("config", "", $this_pathinfo['dirname']) . "/";
 global $config;
 
 $config['installed']	= 0;
-$config['cache']	= 'cache';
-$config['compiled']	= 'templates_c';
+$config['cache'] = '/var/webs/dev.stalag13.net/htdocs/solidstate-0.4-81/solidworks/smarty/cache';
+$config['compiled'] = '/var/webs/dev.stalag13.net/htdocs/solidstate-0.4-81/solidworks/smarty/templates_c';
 $config['encoded']	= 1;
 
 global $db;
 
-$db['host'] 		= '';
-$db['user'] 		= '';
-$db['pass'] 		= '';
-$db['database'] 	= '';
+$db['host'] = 'localhost';
+$db['user'] = 'YXBhY2hl';
+$db['pass'] = 'cGFzc3dvcmQ=';
+$db['database'] = 'solidstate';
 $db['encoded']		= 1;
 ?>

@@ -5,8 +5,8 @@
   <div class="form">
     <table style="width: 70%">
       <tr>
-        <th> {form_description field="productid"} </th>
-        <td> {form_element field="productid"} </td>
+        <th> {form_description field="product"} </th>
+        <td> {form_element field="product"} </td>
       </tr>
       <tr>
         <th> {form_description field="date"} </th>

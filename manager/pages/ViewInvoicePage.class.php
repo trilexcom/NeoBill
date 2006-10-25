@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * ViewInvoicePage
@@ -23,7 +23,7 @@ require_once $base_path . "DBO/InvoiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewInvoicePage extends Page
+class ViewInvoicePage extends SolidStatePage
 {
   /**
    * Initialize View Invoice Page
@@ -34,33 +34,18 @@ class ViewInvoicePage extends Page
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve this Invoice from the database
-	$dbo = load_InvoiceDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['invoice_dbo'];
-      }
+    // Give the template acess to the invoice DBO
+    $this->session['invoice_dbo'] =& $this->get['invoice'];
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Invoice
-	$this->setError( array( "type" => "DB_INVOICE_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Invoice DBO in session
-	$this->session['invoice_dbo'] = $dbo;
+    // Set the invoice URL field
+    $this->setURLField( "invoice", $this->get['invoice']->getID() );
 
-	// Set this page's Nav Vars
-	$this->setNavVar( "invoice_id", $dbo->getID() );
-      }
+    // Set this page's Nav Vars
+    $this->setNavVar( "account_id", $this->get['invoice']->getAccountID() );
+    $this->setNavVar( "account_name", $this->get['invoice']->getAccountName() );
+    $this->setNavVar( "invoice_id", $this->get['invoice']->getID() );
   }
 
   /**
@@ -79,33 +64,35 @@ class ViewInvoicePage extends Page
     switch( $action_name )
       {
       case "view_invoice_action":
-	if( isset( $this->session['view_invoice_action']['add_payment'] ) )
+	if( isset( $this->post['add_payment'] ) )
 	  {
 	    // Jump to the Add Payment page
 	    $this->goto( "accounts_add_payment",
 			 null,
-			 "&invoiceid=" . $this->session['invoice_dbo']->getID() );
+			 sprintf( "&invoice=%d&account=%d",
+				  $this->get['invoice']->getID(),
+				  $this->get['invoice']->getAccountID() ) );
 	  }
-	elseif( isset( $this->session['view_invoice_action']['delete'] ) )
+	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Jump to the Delete Invoice page
 	    $this->goto( "billing_delete_invoice",
 			 null,
-			 "&id=" . $this->session['invoice_dbo']->getID() );
+			 "&invoice=" . $this->get['invoice']->getID() );
 	  }
-	elseif( isset( $this->session['view_invoice_action']['email'] ) )
+	elseif( isset( $this->post['email'] ) )
 	  {
 	    // Jump to the Email Invoice page
 	    $this->goto( "billing_email_invoice",
 			 null,
-			 "&id=" . $this->session['invoice_dbo']->getID() );
+			 "&invoice=" . $this->get['invoice']->getID() );
 	  }
-	elseif( isset( $this->session['view_invoice_action']['print'] ) )
+	elseif( isset( $this->post['print'] ) )
 	  {
 	    // Jump to the Print Invoice page
 	    $this->goto( "billing_print_invoice",
 			 null,
-			 "&id=" . $this->session['invoice_dbo']->getID() );
+			 "&invoice=" . $this->get['invoice']->getID() );
 	  }
 	break;
 	
@@ -134,29 +121,23 @@ class ViewInvoicePage extends Page
    */
   function delete_payment()
   {
-    $payment_id = intval( $_GET['paymentid'] );
-
-    // Verify Payment exists
-    if( ($payment_dbo = load_PaymentDBO( $payment_id ) ) == null )
+    // Verify that a payment was provided
+    if( !isset( $this->get['payment'] ) )
       {
-	// Payment not found
-	fatal_error( "ViewInvoicePage::delete_payment()",
-		     "could not retrieve PaymentDBO" );
+	throw new SWException( "There is no payment to delete!" );
       }
 
     // Delete PaymentDBO
-    if( !delete_PaymentDBO( $payment_dbo ) )
+    if( !delete_PaymentDBO( $this->get['payment'] ) )
       {
 	// Could not delete payment
 	$this->setError( array( "type" => "DB_DELETE_PAYMENT_FAILED" ) );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "PAYMENT_DELETED" ) );
-
-    // Reload InvoiceDBO
-    $this->session['invoice_dbo'] = 
-      load_InvoiceDBO( $this->session['invoice_dbo']->getID() );
+    $this->reload();
   }
 
   /**
@@ -166,31 +147,25 @@ class ViewInvoicePage extends Page
    */
   function delete_line_item()
   {
-    $item_id = intval( $_GET['itemid'] );
-
-    // Verify InvoiceItem exists
-    if( ($item_dbo = load_InvoiceItemDBO( $item_id ) ) == null )
+    // Verify that a line item was provided
+    if( !isset( $this->get['item'] ) )
       {
-	// Item not found
-	fatal_error( "ViewInvoicePage::delete_line_item()",
-		     "error: could not retrieve InvoiceItemDBO" );
+	throw new SWException( "There is no line item to delete!" );
       }
-
+    
     // Delete InvoiceItemDBO
-    if( !delete_InvoiceItemDBO( $item_dbo ) )
+    if( !delete_InvoiceItemDBO( $this->get['item'] ) )
       {
 	// Could not delete line item
 	$this->setError( array( "type" => "DB_DELETE_INVOICE_ITEM_FAILED",
 				"args" => array( $item_dbo->getText() ) ) );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "INVOICE_ITEM_DELETED",
-			      "args" => array( $item_dbo->getText() ) ) );
-
-    // Reload InvoiceDBO
-    $this->session['invoice_dbo'] = 
-      load_InvoiceDBO( $this->session['invoice_dbo']->getID() );
+			      "args" => array( $this->get['item']->getText() ) ) );
+    $this->reload();
   }
 
   /**
@@ -200,31 +175,22 @@ class ViewInvoicePage extends Page
    */
   function add_line_item()
   {
-    $text       = $this->session['new_line_item']['text'];
-    $unitamount = $this->session['new_line_item']['unitamount'];
-    $quantity   = $this->session['new_line_item']['quantity'];
-    $invoiceid  = $this->session['invoice_dbo']->getID();
-
     // Create new Line Item DBO
     $lineitem_dbo = new InvoiceItemDBO();
-    $lineitem_dbo->setText( $text );
-    $lineitem_dbo->setUnitAmount( $unitamount );
-    $lineitem_dbo->setQuantity( $quantity );
-    $lineitem_dbo->setInvoiceID( $invoiceid );
+    $lineitem_dbo->setText( $this->post['text'] );
+    $lineitem_dbo->setUnitAmount( $this->post['unitamount'] );
+    $lineitem_dbo->setQuantity( $this->post['quantity'] );
+    $lineitem_dbo->setInvoiceID( $this->get['invoice']->getID() );
 
     // Save Lineitem to database
     if( !add_InvoiceItemDBO( $lineitem_dbo ) )
       {
 	// Failed to save lineitem
 	$this->setError( array( "type" => "DB_ADD_INVOICE_ITEM_FAILED" ) );
-	$this->goback( 1 );
       }
 
     // Success
     $this->setMessage( array( "type" => "INVOICE_ITEM_CREATED" ) );
-    $this->goto( "billing_view_invoice",
-		 null,
-		 "id=" . $this->session['invoice_dbo']->getID() );
   }
 
   /**
@@ -234,7 +200,7 @@ class ViewInvoicePage extends Page
    */
   function populateOutstandingInvoices()
   {
-    return $this->session['invoice_dbo']->getOutstandingInvoices();
+    return $this->get['invoice']->getOutstandingInvoices();
   }
 }
 

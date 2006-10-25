@@ -37,11 +37,11 @@
              title="[WEB_HOSTING_SERVICES]"}
     
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=services_view_hosting_service&id={dbo_echo dbo="servicedbo_table" field="id"}">{dbo_echo dbo="servicedbo_table" field="id"}</a>
+      <a target="content" href="manager_content.php?page=services_view_hosting_service&hservice={dbo_echo dbo="servicedbo_table" field="id"}">{dbo_echo dbo="servicedbo_table" field="id"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[TITLE]" sort_field="title"}
-      <a target="content" href="manager_content.php?page=services_view_hosting_service&id={dbo_echo dbo="servicedbo_table" field="id"}">{dbo_echo dbo="servicedbo_table" field="title"}</a>
+      <a target="content" href="manager_content.php?page=services_view_hosting_service&hservice={dbo_echo dbo="servicedbo_table" field="id"}">{dbo_echo dbo="servicedbo_table" field="title"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[DESCRIPTION]"}

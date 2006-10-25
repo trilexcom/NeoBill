@@ -8,13 +8,8 @@
 
       {dbo_table_column header="[ENABLED]"}
         {dbo_assign dbo="moduledbo_table" field="name" var="module_name"}
-        {dbo_assign dbo="moduledbo_table" field="enabled" var="enabled"}
         <center>
-          {if $enabled == "Yes"}
-            {form_element field="enabled" value="$module_name" checked="true"}
-          {else}
-            {form_element field="enabled" value="$module_name"}
-          {/if}
+          {form_element field="enabled" option="$module_name" array="true"}
         </center>
       {/dbo_table_column}
 

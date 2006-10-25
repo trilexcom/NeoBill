@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/LogDBO.class.php";
+require_once BASE_PATH . "DBO/LogDBO.class.php";
 
 /**
  * LogPage
@@ -22,31 +22,7 @@ require_once $base_path . "DBO/LogDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class LogPage extends AdminPage
+class LogPage extends SolidStateAdminPage
 {
-  /**
-   * Initialize Log Page
-   */
-  function init()
-  {
-
-  }
-
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
 }
 ?>

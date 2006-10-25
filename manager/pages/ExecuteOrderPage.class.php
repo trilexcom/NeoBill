@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // OrderDBO class
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 /**
  * ExecuteOrderPage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ExecuteOrderPage extends Page
+class ExecuteOrderPage extends SolidStatePage
 {
   /**
    * @var OrderDBO The order
@@ -65,7 +65,7 @@ class ExecuteOrderPage extends Page
    */
   function cancel()
   {
-    $this->goto( "view_order", null, sprintf( "id=%d", $this->orderDBO->getID() ) );
+    $this->goback();
   }
 
   /**
@@ -74,36 +74,35 @@ class ExecuteOrderPage extends Page
   function execute()
   {
     // Execute the order
-    switch( $this->orderDBO->getAccountType() )
+    switch( $this->get['order']->getAccountType() )
       {
       case "New Account":
-	if( !$this->orderDBO->executeNewAccount( $this->session['execute_order']['type'],
-						 $this->session['execute_order']['status'],
-						 $this->session['execute_order']['billingstatus'],
-						 $this->session['execute_order']['billingday'] ) )
+	if( !$this->get['order']->executeNewAccount( $this->post['type'],
+						     $this->post['status'],
+						     $this->post['billingstatus'],
+						     $this->post['billingday'] ) )
 	  {
-	    fatal_error( "ExecuteOrderPage::execut()", 
-			 "Failed to execute Order.  ID=" . $this->orderDBO->getID() );
+	    throw new SWException( "Failed to execute Order.  ID=" . 
+				   $this->get['order']->getID() );
 	  }
 	break;
 
       case "Existing Account":
-	if( !$this->orderDBO->execute() )
+	if( !$this->get['order']->execute() )
 	  {
-	    fatal_error( "ExecuteOrderPage::execut()", 
-			 "Failed to execute Order.  ID=" . $this->orderDBO->getID() );
+	    throw new SWException( "Failed to execute Order.  ID=" . 
+				   $this->get['order']->getID() );
 	  }
 	break;
 
       default:
-	fatal_error( "ExecuteOrderPage::execute()",
-		     "Failed to execute order: invalid account type." );
+	throw new SWException( "Failed to execute order: invalid account type." );
       }
 	
     // Jump to the view account page
     $this->goto( "accounts_view_account", 
 		 null, 
-		 sprintf( "id=%d", $this->orderDBO->getAccountID() ) );
+		 sprintf( "account=%d", $this->get['order']->getAccountID() ) );
   }
 
   /**
@@ -111,25 +110,19 @@ class ExecuteOrderPage extends Page
    */
   function init()
   {
-    $this->orderDBO =& $this->session['orderdbo'];
-    if( isset( $_GET['id'] ) )
-      {
-	// Retrieve the Order from the database
-	$this->orderDBO = load_OrderDBO( intval( $_GET['id'] ) );
-      }
+    parent::init();
 
-    if( !isset( $this->orderDBO ) )
-      {
-	// Could not find Server
-	fatal_error( "ExecuteOrderPage::init()", 
-		     "Could not load Order.  ID = " . $_GET['id'] );
-      }
+    // Set URL Fields
+    $this->setURLField( "order", $this->get['order']->getID() );
+
+    // Give the template access to the Order DBO
+    $this->session['orderdbo'] =& $this->get['order'];
 
     // Set Nav vars
-    $this->setNavVar( "order_id", $this->orderDBO->getID() );
+    $this->setNavVar( "order_id", $this->get['order']->getID() );
 
     // Go ahead and execute if this is an existing customer
-    if( $this->orderDBO->getAccountType() == "Existing Account" )
+    if( $this->get['order']->getAccountType() == "Existing Account" )
       {
 	$this->execute();
       }
@@ -142,7 +135,7 @@ class ExecuteOrderPage extends Page
    */
   function populateItemTable()
   {
-    return $this->orderDBO->getAcceptedItems();
+    return $this->get['order']->getAcceptedItems();
   }
   
 }

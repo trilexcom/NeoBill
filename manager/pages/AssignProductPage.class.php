@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
 
 /**
  * AssignProductPage
@@ -23,42 +23,20 @@ require_once $base_path . "DBO/AccountDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AssignProductPage extends Page
+class AssignProductPage extends SolidStatePage
 {
-
   /**
    * Initialize Assign Product Page
-   *
-   * If an account ID is provided in the query string, load that AccountDBO and
-   * store it in the session.  Otherwise, continue using the DBO that is already
-   * there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Account from the database
-	$dbo = load_AccountDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['account_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "account", $this->get['account']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Domain Service
-	$this->setError( array( "type" => "DB_ACCOUNT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['account_dbo'] = $dbo;
-      }    
+    // Store service DBO in session
+    $this->session['account_dbo'] = $dbo;
   }
 
   /**
@@ -73,29 +51,22 @@ class AssignProductPage extends Page
   {
     switch( $action_name )
       {
-
       case "assign_product":
-
-	if( isset( $this->session['assign_product']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Add product to account
 	    $this->assign_product();
 	  }
-	elseif( isset( $this->session['assign_product']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Cancel
-	    $this->goto( "accounts_view_account",
-			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+	    $this->goback();
 	  }
-	
 	break;
 
       default:
-
 	// No matching action - refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -106,24 +77,12 @@ class AssignProductPage extends Page
    */
   function assign_product()
   {
-    $product_id = $this->session['assign_product']['productid'];
-    $note       = $this->session['assign_product']['note'];
-    $date       = $this->session['assign_product']['date'];
-
-    // Load ProductDBO
-    if( ( $product_dbo = load_ProductDBO( $product_id ) ) == null )
-      {
-	// Invalid product id
-	fatal_error( "AssignProductPage::assign_product()",
-		     "Invalid Product ID: " . $product_id );
-      }
-
     // Create new HostingServicePurchase DBO
     $purchase_dbo = new ProductPurchaseDBO();
-    $purchase_dbo->setAccountID( $this->session['account_dbo']->getID() );
-    $purchase_dbo->setProductID( $product_id );
-    $purchase_dbo->setDate( $this->DB->format_datetime( $date ) );
-    $purchase_dbo->setNote( $note );
+    $purchase_dbo->setAccountID( $this->get['account']->getID() );
+    $purchase_dbo->setProductID( $this->post['product']->getID() );
+    $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $purchase_dbo->setNote( $this->post['note'] );
 
     // Save purchase
     if( !add_ProductPurchaseDBO( $purchase_dbo ) )
@@ -131,13 +90,13 @@ class AssignProductPage extends Page
 	// Add failed
 	$this->setError( array( "type" => "DB_ASSIGN_PRODUCT_FAILED",
 				"args" => array( $service_dbo->getName() ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
     
     // Success
     $this->setMessage( array( "type" => "PRODUCT_ASSIGNED" ) );
     $this->goto( "accounts_view_account",
 		 null,
-		 "action=products&id=" . $this->session['account_dbo']->getID() );
+		 "action=products&account=" . $this->get['account']->getID() );
   }
 }

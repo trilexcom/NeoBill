@@ -9,11 +9,11 @@
       </tr>
       <tr>
         {if isset($invoice_id)}
-          <th> {form_description field="invoiceid"} </th>
+          <th> {form_description field="invoice"} </th>
           <td> {echo phrase="INVOICE"} #{$invoice_id} </td>
         {else}
-          <th> {form_description field="invoiceid"} </th>
-          <td> {form_element field="invoiceid"} </td>
+          <th> {form_description field="invoice"} </th>
+          <td> {form_element field="invoice"} </td>
         {/if}
       </tr>
       <tr>

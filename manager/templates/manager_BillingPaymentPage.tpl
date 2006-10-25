@@ -4,12 +4,12 @@
   <div class="form">
     <table stlye="width: 70%">
       <tr>
-        <th> {form_description field="invoiceid_select"} </th>
-        <td> {form_element field="invoiceid_select"} </td>
+        <th> {form_description field="invoiceselect"} </th>
+        <td> {form_element field="invoiceselect"} </td>
       </tr>
       <tr>
-        <th> &nbsp;&nbsp; or {form_description field="invoiceid_int"} </th>
-        <td> {form_element field="invoiceid_int" size="5"} </td>
+        <th> &nbsp;&nbsp; or {form_description field="invoiceint"} </th>
+        <td> {form_element field="invoiceint" size="5"} </td>
       </tr>
       <tr>
         <th> {form_description field="date"} </th>
@@ -25,7 +25,7 @@
       </tr>
       <tr>
         <th> {form_description field="status"} </th>
-        <td> {form_element field="status" size="7"} </td>
+        <td> {form_element field="status"} </td>
       </tr>
       <tr>
         <th> {form_description field="transaction1"} </th>

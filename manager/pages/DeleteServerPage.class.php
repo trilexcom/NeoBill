@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
 
 /**
  * DeleteServerPage
@@ -23,51 +23,30 @@ require_once $base_path . "DBO/ServerDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DeleteServerPage extends AdminPage
+class DeleteServerPage extends SolidStateAdminPage
 {
   /**
    * Initialize Delete Server Page
-   *
-   * If the server ID is provided in the query string, use it to load the ServerDBO
-   * from the database, then store the DBO in the session.  Otherwise, use the DBO
-   * already there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Server from the database
-	$dbo = load_ServerDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['server_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "server", $this->get['server']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Server
-	$this->setError( array( "type" => "DB_SERVER_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store Server DBO in session
-	$this->session['server_dbo'] = $dbo;
+    // Store Server DBO in session
+    $this->session['server_dbo'] =& $this->get['server'];
 
-	// Set this page's Nav Vars
-	$this->setNavVar( "id",   $dbo->getID() );
-	$this->setNavVar( "hostname", $dbo->getHostName() );
-      }
+    // Set this page's Nav Vars
+    $this->setNavVar( "id",   $this->get['server']->getID() );
+    $this->setNavVar( "hostname", $this->get['server']->getHostName() );
 
-    if( $this->session['server_dbo']->getPurchases() != null )
+    if( $this->get['server']->getPurchases() != null )
       {
 	// Can not delete Server until all purchases are removed
 	$this->setError( array( "type" => "SERVER_NOT_FREE" ) );
-	$this->cancel();
+	$this->goback();
       }
   }
 
@@ -84,13 +63,13 @@ class DeleteServerPage extends AdminPage
     switch( $action_name )
       {
       case "delete_server":
-	if( isset( $this->session['delete_server']['delete'] ) )
+	if( isset( $this->post['delete'] ) )
 	  {
 	    $this->deleteServer();
 	  }
 	else
 	  {
-	    $this->cancel();
+	    $this->goback();
 	  }
 	break;
 
@@ -107,15 +86,15 @@ class DeleteServerPage extends AdminPage
    */
   function deleteServer()
   {
-    if( $this->session['server_dbo']->getPurchases() != null )
+    if( $this->get['server']->getPurchases() != null )
       {
 	// Can not delete Server until all purchases are removed
 	$this->setError( array( "type" => "SERVER_NOT_FREE" ) );
-	$this->cancel();
+	$this->goback();
       }
 
     // Delete all IP Addresses
-    if( ($ip_dbo_array = $this->session['server_dbo']->getIPAddresses() ) != null )
+    if( ($ip_dbo_array = $this->get['server']->getIPAddresses() ) != null )
       {
 	foreach( $ip_dbo_array as $ip_dbo )
 	  {
@@ -123,16 +102,16 @@ class DeleteServerPage extends AdminPage
 	      {
 		$this->setError( array( "type" => "DB_DELETE_IP_FAILED",
 					"args" => array( $ip_dbo->getIPString() ) ) );
-		$this->cancel();
+		$this->goback();
 	      }
 	  }
       }
 
     // Delete Server
-    if( !delete_ServerDBO( $this->session['server_dbo'] ) )
+    if( !delete_ServerDBO( $this->get['server'] ) )
       {
 	$this->setError( array( "type" => "DB_DELETE_SERVER_FAILED" ) );
-	$this->cancel();
+	$this->goback();
       }
 
     // Success!
@@ -140,17 +119,5 @@ class DeleteServerPage extends AdminPage
 			      "args" => array( $this->session['server_dbo']->getHostName() ) ) );
     $this->goto( "services_servers" );
   }
-
-  /**
-   * Cancel
-   */
-  function cancel()
-  {
-    // Return to the view server page
-    $this->goto( "services_view_server",
-		 null,
-		 "id=" . $this->session['server_dbo']->getID() );
-  }
 }
-
 ?>

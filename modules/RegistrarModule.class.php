@@ -11,7 +11,7 @@
  */
 
 // Base class
-require_once $base_path . "modules/SolidStateModule.class.php";
+require_once BASE_PATH . "modules/SolidStateModule.class.php";
 
 /**
  * RegistrarModule

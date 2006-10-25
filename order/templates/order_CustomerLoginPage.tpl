@@ -9,8 +9,8 @@
           <div class="form">
             <table>
               <tr>
-                <th> {form_description field="username"} </th>
-                <td> {form_element field="username"} </td>
+                <th> {form_description field="user"} </th>
+                <td> {form_element field="user"} </td>
               </tr>
               <tr>
                 <th> {form_description field="password"} </th>

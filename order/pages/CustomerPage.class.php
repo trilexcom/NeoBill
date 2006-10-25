@@ -11,13 +11,13 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Order DBO
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 // User DBO
-require_once $base_path . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * CustomerPage
@@ -25,7 +25,7 @@ require_once $base_path . "DBO/UserDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class CustomerPage extends Page
+class CustomerPage extends SolidStatePage
 {
   /**
    * Action
@@ -39,30 +39,30 @@ class CustomerPage extends Page
     switch( $action_name )
       {
       case "customer_information":
-	if( isset( $this->session['customer_information']['back'] ) )
+	if( isset( $this->post['back'] ) )
 	  {
 	    $this->goto( "cart" );
 	  }
-	elseif( isset( $this->session['customer_information']['continue'] ) )
+	elseif( isset( $this->post['continue'] ) )
 	  {
 	    $this->process();
 	  }
-	elseif( isset( $this->session['customer_information']['startover'] ) )
+	elseif( isset( $this->post['startover'] ) )
 	  {
 	    $this->newOrder();
 	  }
 	break;
 
       case "repeat_customer":
-	if( isset( $this->session['repeat_customer']['back'] ) )
+	if( isset( $this->post['back'] ) )
 	  {
 	    $this->goto( "cart" );
 	  }
-	elseif( isset( $this->session['repeat_customer']['continue'] ) )
+	elseif( isset( $this->post['continue'] ) )
 	  {
 	    $this->process();
 	  }
-	elseif( isset( $this->session['repeat_customer']['startover'] ) )
+	elseif( isset( $this->post['startover'] ) )
 	  {
 	    $this->newOrder();
 	  }
@@ -145,23 +145,21 @@ class CustomerPage extends Page
     if( $this->session['order']->getAccountID() == null )
       {
 	// Verify password
-	if( $this->session['customer_information']['password'] !=
-	    $this->session['customer_information']['repassword'] )
+	if( $this->post['password'] != $this->post['repassword'] )
 	  {
 	    $this->setError( array( "type" => "PASSWORD_MISMATCH" ) );
 	    return;
 	  }
 
 	// Verify e-mail
-	if( $this->session['customer_information']['contactemail'] !=
-	    $this->session['customer_information']['verifyemail'] )
+	if( $this->post['contactemail'] != $this->post['verifyemail'] )
 	  {
 	    $this->setError( array( "type" => "EMAIL_MISMATCH" ) );
 	    return;
 	  }
 
 	// Check for a duplicate username
-	if( load_UserDBO( $this->session['customer_information']['username'] ) )
+	if( load_UserDBO( $this->post['username'] ) )
 	  {
 	    $this->setError( array( "type" => "USERNAME_EXISTS",
 				    "args" => array( $this->session['customer_information']['username'] ) ) );
@@ -169,21 +167,20 @@ class CustomerPage extends Page
 	  }
 
 	// Stuff the contact info into the order
-	$ci = $this->session['customer_information'];
-	$this->session['order']->setBusinessName( $ci['businessname'] );
-	$this->session['order']->setContactname( $ci['contactname'] );
-	$this->session['order']->setContactEmail( $ci['contactemail'] );
-	$this->session['order']->setAddress1( $ci['address1'] );
-	$this->session['order']->setAddress2( $ci['address2'] );
-	$this->session['order']->setCity( $ci['city'] );
-	$this->session['order']->setState( $ci['state'] );
-	$this->session['order']->setCountry( $ci['country'] );
-	$this->session['order']->setPostalCode( $ci['postalcode'] );
-	$this->session['order']->setPhone( $ci['phone'] );
-	$this->session['order']->setMobilePhone( $ci['mobilephone'] );
-	$this->session['order']->setFax( $ci['fax'] );
-	$this->session['order']->setUsername( $ci['username'] );
-	$this->session['order']->setPassword( $ci['password'] );
+	$this->session['order']->setBusinessName( $this->post['businessname'] );
+	$this->session['order']->setContactname( $this->post['contactname'] );
+	$this->session['order']->setContactEmail( $this->post['contactemail'] );
+	$this->session['order']->setAddress1( $this->post['address1'] );
+	$this->session['order']->setAddress2( $this->post['address2'] );
+	$this->session['order']->setCity( $this->post['city'] );
+	$this->session['order']->setState( $this->post['state'] );
+	$this->session['order']->setCountry( $this->post['country'] );
+	$this->session['order']->setPostalCode( $this->post['postalcode'] );
+	$this->session['order']->setPhone( $this->post['phone'] );
+	$this->session['order']->setMobilePhone( $this->post['mobilephone'] );
+	$this->session['order']->setFax( $this->post['fax'] );
+	$this->session['order']->setUsername( $this->post['username'] );
+	$this->session['order']->setPassword( $this->post['password'] );
       }
 
     if( null != ($domainItems = $this->session['order']->getDomainItems()) && 

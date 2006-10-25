@@ -11,10 +11,11 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/AccountDBO.class.php";
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+// DBO's
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * AddInvoicePage
@@ -24,31 +25,23 @@ require_once $base_path . "DBO/InvoiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddInvoicePage extends Page
+class AddInvoicePage extends SolidStatepage
 {
   /**
    * Initialize Add Invoice Page
-   *
-   * If an account ID is provided in the query string, then the Invoice will be
-   * created for that account.  Otherwise, the user must select the account via 
-   * the form
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
+    if( isset( $this->get['account'] ) )
       {
-	// Retrieve the Account from the database
-	$this->session['account_dbo'] = load_AccountDBO( intval( $id ) );
-      }
-
-    if( isset( $this->session['account_dbo'] ) )
-      {
+	$this->setURLField( "account", $this->get['account']->getID() );
+	$this->session['account_dbo'] =& $this->get['account'];
 	$this->smarty->assign( "account",
-			       $this->session['account_dbo']->getID() );
+			       $this->get['account']->getID() );
 	$this->smarty->assign( "account_name", 
-			       $this->session['account_dbo']->getAccountName() );
+			       $this->get['account']->getAccountName() );
       }
   }
 
@@ -64,27 +57,22 @@ class AddInvoicePage extends Page
   {
     switch( $action_name )
       {
-
       case "new_invoice":
-
-	if( isset( $this->session['new_invoice']['cancel'] ) )
+	if( isset( $this->post['cancel'] ) )
 	  {
 	    // Cancel
 	    $this->cancel();
 	  }
-	elseif( isset( $this->session['new_invoice']['continue'] ) )
+	elseif( isset( $this->post['continue'] ) )
 	  {
 	    // Generate Invoice
 	    $this->generate_invoice();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -93,17 +81,7 @@ class AddInvoicePage extends Page
    */
   function cancel()
   {
-    if( isset( $this->session['account_dbo'] ) )
-      {
-	$this->goto( "accounts_view_account",
-		     null,
-		     "id=" . $this->session['account_dbo']->getID() .
-		     "&action=billing" );
-      }
-    else
-      {
-	$this->goback();
-      }
+    $this->goback();
   }
 
   /**
@@ -113,24 +91,12 @@ class AddInvoicePage extends Page
    */
   function generate_invoice()
   {
-    if( isset( $this->session['account_dbo'] ) )
-      {
-	// Account ID provided as a page parameter
-	$account_id = $this->session['account_dbo']->getID();
-      }
-    else
-      {
-	// Account ID provided in form
-	$account_id = $this->session['new_invoice']['accountid'];
-      }
-
-    $invoice_date = $this->session['new_invoice']['date'];
-    $terms        = $this->session['new_invoice']['terms'];
-    $period_begin = $this->session['new_invoice']['periodbegin'];
-    $note         = $this->session['new_invoice']['note'];
+    // Determine the correct source of the account ID
+    $account_id = isset( $this->get['account'] ) ?
+      $this->get['account']->getID() : $this->post['account']->getID();
 
     // Calculate the end of the invoice period by adding 1 month to the beginning
-    $period_begin_arr = getdate( $period_begin );
+    $period_begin_arr = getdate( $this->post['periodbegin'] );
     $period_end = mktime( $period_begin_arr['hours'],
 			  $period_begin_arr['minutes'],
 			  $period_begin_arr['seconds'],
@@ -141,11 +107,11 @@ class AddInvoicePage extends Page
     // Create a new invoice DBO
     $invoice = new InvoiceDBO();
     $invoice->setAccountID( $account_id );
-    $invoice->setDate( $this->DB->format_datetime( $invoice_date ) );
-    $invoice->setPeriodBegin( $this->DB->format_datetime( $period_begin ) );
+    $invoice->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $invoice->setPeriodBegin( $this->DB->format_datetime( $this->post['periodbegin'] ) );
     $invoice->setPeriodEnd( $this->DB->format_datetime( $period_end ) );
-    $invoice->setNote( $note );
-    $invoice->setTerms( $terms );
+    $invoice->setNote( $this->post['note'] );
+    $invoice->setTerms( $this->post['terms'] );
 
     // Generate lineitems
     $invoice->generate();
@@ -155,14 +121,14 @@ class AddInvoicePage extends Page
       {
 	// Add failed
 	$this->setError( array( "type" => "DB_ADD_INVOICE_FAILED" ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "INVOICE_CREATED" ) );
     $this->goto( "billing_view_invoice",
 		 null,
-		 "id=" . $invoice->getID() );
+		 "invoice=" . $invoice->getID() );
   }
 
 }

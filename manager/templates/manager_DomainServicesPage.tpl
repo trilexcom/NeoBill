@@ -34,7 +34,7 @@
              size="10"}
 
     {dbo_table_column header="TLD" sort_field="tld"}
-      <a href="manager_content.php?page=services_view_domain_service&tld={dbo_echo dbo="domainservicedbo_table" field="tld"}"> .{dbo_echo dbo="domainservicedbo_table" field="tld"} </a>
+      <a href="manager_content.php?page=services_view_domain_service&dservice={dbo_echo dbo="domainservicedbo_table" field="tld"}"> .{dbo_echo dbo="domainservicedbo_table" field="tld"} </a>
     {/dbo_table_column}
 
     {dbo_table_column header="[DESCRIPTION]"}

@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/PaymentDBO.class.php";
+require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 
 /**
  * EditPaymentPage
@@ -23,34 +23,20 @@ require_once $base_path . "DBO/PaymentDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditPaymentPage extends Page
+class EditPaymentPage extends SolidStatePage
 {
   /**
-   * @var PaymentDBO The payment being worked on
-   */
-  var $paymentDBO = null;
-
-  /**
    * Initialize the Edit Payment Page
-   *
-   * If the Payment ID is provided in the query string, load the PaymentDBO from
-   * the database and store it in the session.  Otherwise, use the DBO that is already
-   * there.
    */
   function init()
   {
-    $this->paymentDBO =& $this->session['payment_dbo'];
-    if( isset( $_GET['id'] ) )
-      {
-	// Retrieve the Account from the database
-	$this->paymentDBO = load_PaymentDBO( intval( $_GET['id'] ) );
-      }
-    if( !isset( $this->paymentDBO ) )
-      {
-	// Could not find Account
-	$this->setError( array( "type" => "DB_PAYMENT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
+    parent::init();
+    
+    // Set URL Fields
+    $this->setURLField( "payment", $this->get['payment']->getID() );
+
+    // Give the template access to the Payment DBO
+    $this->session['payment_dbo'] =& $this->get['payment'];
   }
 
   /**
@@ -92,7 +78,6 @@ class EditPaymentPage extends Page
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
-
   }
 
   /**
@@ -100,9 +85,7 @@ class EditPaymentPage extends Page
    */
   function cancel()
   {
-    $this->goto( "billing_view_invoice",
-		 null,
-		 "id=" . $this->paymentDBO->getInvoiceID() );
+    $this->goback();
   }
 
   /**
@@ -111,28 +94,29 @@ class EditPaymentPage extends Page
   function capture()
   {
     // Capture payment
-    if( !$this->paymentDBO->capture() )
+    if( !$this->get['payment']->capture() )
       {
 	// There was an error processing the transaction
 	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
-	return;
+	$this->reload();
       }
 
     // Update the payment record
-    if( !update_PaymentDBO( $this->paymentDBO ) )
+    if( !update_PaymentDBO( $this->get['payment'] ) )
       {
 	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
       }
 
-    if( $paymentDBO->getStatus() == "Declined" )
+    if( $this->get['payment']->getStatus() == "Declined" )
       {
 	// Transaction was declined
 	$this->setError( array( "type" => "CC_CAPTURE_DECLINED" ) );
-	return;
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "CC_CAPTURED" ) );
+    $this->reload();
   }
 
   /**
@@ -141,28 +125,30 @@ class EditPaymentPage extends Page
   function refund()
   {
     // Capture payment
-    if( !$this->paymentDBO->refund() )
+    if( !$this->get['payment']->refund() )
       {
 	// There was an error processing the transaction
 	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
-	return;
+	$this->reload();
       }
 
-    if( $paymentDBO->getStatus() == "Declined" )
+    if( $this->get['payment']->getStatus() == "Declined" )
       {
 	// Transaction was declined
 	$this->setError( array( "type" => "CC_REFUND_DECLINED" ) );
-	return;
+	$this->reload();
       }
 
     // Update the payment record
-    if( !update_PaymentDBO( $this->paymentDBO ) )
+    if( !update_PaymentDBO( $this->get['payment'] ) )
       {
 	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "CC_REFUNDED" ) );
+    $this-reload();
   }
 
   /**
@@ -170,23 +156,23 @@ class EditPaymentPage extends Page
    */
   function save()
   {
-    $payment_data = $this->session['edit_payment'];
-
     // Update Payment DBO
-    $this->paymentDBO->setDate( $this->DB->format_datetime( $payment_data['date'] ) );
-    $this->paymentDBO->setAmount( $payment_data['amount'] );
-    $this->paymentDBO->setTransaction1( $payment_data['transaction1'] );
-    $this->paymentDBO->setTransaction2( $payment_data['transaction2'] );
-    $this->paymentDBO->setStatus( $payment_data['status'] );
-    $this->paymentDBO->setStatusMessage( $payment_data['statusmessage'] );
-    if( !update_PaymentDBO( $this->paymentDBO ) )
+    $this->get['payment']->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $this->get['payment']->setAmount( $this->post['amount'] );
+    $this->get['payment']->setTransaction1( $this->post['transaction1'] );
+    $this->get['payment']->setTransaction2( $this->post['transaction2'] );
+    $this->get['payment']->setStatus( $this->post['status'] );
+    $this->get['payment']->setStatusMessage( $this->post['statusmessage'] );
+    if( !update_PaymentDBO( $this->get['payment'] ) )
       {
 	// Update error
 	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
+	$this->reload();
       }
 
     // Success!
     $this->setMessage( array( "type" => "PAYMENT_UPDATED" ) );
+    $this->reload();
   }
 
   /**
@@ -194,28 +180,30 @@ class EditPaymentPage extends Page
    */
   function void()
   {
-    if( !$this->paymentDBO->void() )
+    if( !$this->get['payment']->void() )
       {
 	// There was an error processing the transaction
 	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
-	return;
+	$this->reload();
       }
 
-    if( $paymentDBO->getStatus() == "Declined" )
+    if( $this->get['payment']->getStatus() == "Declined" )
       {
 	// Transaction was declined
 	$this->setError( array( "type" => "CC_VOID_DECLINED" ) );
-	return;
+	$this->reload();
       }
 
     // Update the payment record
-    if( !update_PaymentDBO( $this->paymentDBO ) )
+    if( !update_PaymentDBO( $this->get['payment'] ) )
       {
 	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "CC_VOIDED" ) );
+    $this->reload();
   }
 }
 

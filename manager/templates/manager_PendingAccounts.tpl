@@ -1,6 +1,6 @@
 <div class="action">
   <p class="header">{echo phrase="ACTIONS"}</p>
-  {form name="browse_accounts_action"}
+  {form name="pending_accounts_action"}
     {form_element field="add"}
   {/form}
 </div>

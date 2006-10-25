@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 /**
  * PSOCheckoutPage
@@ -23,7 +23,7 @@ require_once $base_path . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PSOCheckoutPage extends Page
+class PSOCheckoutPage extends SolidStatePage
 {
   /**
    * @var Paypal Paypal Module object
@@ -42,11 +42,11 @@ class PSOCheckoutPage extends Page
     switch( $action_name )
       {
       case "pso_checkout":
-	if( isset( $this->session['pso_checkout']['back'] ) )
+	if( isset( $this->post['back'] ) )
 	  {
 	    $this->goto( "review" );
 	  }
-	elseif( isset( $this->session['pso_checkout']['startover'] ) )
+	elseif( isset( $this->post['startover'] ) )
 	  {
 	    $this->newOrder();
 	  }
@@ -81,7 +81,6 @@ class PSOCheckoutPage extends Page
 	  {
 	    // Charge a setup fee
 	    $desc = sprintf( "%s: [SETUP_FEE]", $orderItemDBO->getDescription() );
-	    $desc = translate_string( $this->conf['locale']['language'], $desc );
 	    $cart[] = array( "name" => $desc,
 			     "quantity" => 1,
 			     "amount" => $orderItemDBO->getSetupFee(),

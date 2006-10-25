@@ -11,13 +11,13 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Order DBO
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 // Payment DBO
-require_once $base_path . "DBO/PaymentDBO.class.php";
+require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 
 /**
  * ReviewPage
@@ -25,7 +25,7 @@ require_once $base_path . "DBO/PaymentDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ReviewPage extends Page
+class ReviewPage extends SolidStatePage
 {
   /**
    * Action
@@ -39,7 +39,7 @@ class ReviewPage extends Page
     switch( $action_name )
       {
       case "review":
-	if( isset( $this->session['review']['back'] ) )
+	if( isset( $this->post['back'] ) )
 	  {
 	    if( $this->session['order']->getAccountID() != null &&
 		$this->session['order']->getDomainItems() == null )
@@ -48,11 +48,11 @@ class ReviewPage extends Page
 	      }
 	    $this->goto( "customer" );
 	  }
-	elseif( isset( $this->session['review']['checkout'] ) )
+	elseif( isset( $this->post['checkout'] ) )
 	  {
 	    $this->checkout();
 	  }
-	elseif( isset( $this->session['review']['startover'] ) )
+	elseif( isset( $this->post['startover'] ) )
 	  {
 	    $this->newOrder();
 	  }
@@ -73,7 +73,7 @@ class ReviewPage extends Page
 
     // The module must have been picked if this is not an existing customer
     if( $this->session['order']->getAccountType() == "New Account" &&
-	!isset( $this->session['review']['module'] ) )
+	!isset( $this->post['module'] ) )
       {
 	$this->setError( array( "type" => "YOU_MUST_SELECT_PAYMENT" ) );
 	return;
@@ -117,10 +117,11 @@ class ReviewPage extends Page
       }
 
     // Collect Payment
-    $paymentModule = $this->conf['modules'][$this->session['review']['module']];
+    $paymentModule = $this->conf['modules'][$this->post['module']];
     $checkoutPage = $paymentModule->getType() == "payment_processor" ?
       $paymentModule->getOrderCheckoutPage() : "ccpayment";
 
+    // Redirect to the module's checkout page
     $_SESSION['module'] = $paymentModule;
     $this->goto( $checkoutPage );
   }
@@ -136,6 +137,9 @@ class ReviewPage extends Page
     // Calculate tax on the order
     $this->session['order']->calculateTaxes();
 
+    $cartWidget = $this->forms['review']->getField( "cart" )->getWidget();
+    $cartWidget->setOrder( $_SESSION['order'] );
+
     // Supress the login link
     $this->smarty->assign( "supressWelcome", true );
   }
@@ -148,41 +152,6 @@ class ReviewPage extends Page
     // Start a new order
     unset( $_SESSION['order'] );
     $this->goto( "cart" );
-  }
-
-  /**
-   * Populate the Payment Method drop-down
-   */
-  function populateMethodField()
-  {
-    // Place all payment processors and payment gateways in the drop-down
-    $values = array();
-    foreach( $this->conf['modules'] as $moduleDBO )
-      {
-	// Add each payment module to the list
-	if( (is_a( $moduleDBO, "PaymentProcessorModule" ) ||
-	     is_a( $moduleDBO, "PaymentGatewayModule" )) &&
-	    $moduleDBO->isEnabled() )
-	  {
-	    $values[$moduleDBO->getName()] = $moduleDBO->getShortDescription();
-	  }
-      }
-    if( $this->conf['order']['accept_checks'] )
-      {
-	// Add check or money order to the list
-	$values['Check'] = translate_string( $this->conf['locale']['language'],
-					     "[CHECK_OR_MONEY_ORDER]" );
-      }
-
-    return $values;
-  }
-
-  /**
-   * Populate the Order Table
-   */
-  function populateOrderTable()
-  {
-    return $this->session['order']->getItems();
   }
 }
 ?>

@@ -348,7 +348,6 @@
     <phrase id="USER">User</phrase>
     <phrase id="USERS">Users</phrase>
     <phrase id="USER_CREATED">User created</phrase>
-    <phrase id="USER_DELETED">User deleted</phrase>
     <phrase id="USERNAME">Username</phrase>
     <phrase id="USER_TYPE">User Type</phrase>
     <phrase id="VIEW">View</phrase>
@@ -449,6 +448,10 @@
     <phrase id="CC_REFUND_DECLINED">Your request to refund payment was declined by the gateway.</phrase>
     <phrase id="CC_VOID_DECLINED">Your request to void payment was declined by the gateway.</phrase>
     <phrase id="CC_TRANSACTION_FAILED">There was an error while processing your transaction.  The transaction has not been declined.  Please try again or contact your gateway account provider.  Refer to the log for more detail.</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_SHORTER_THAN">Please enter a value shorter than</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_LONGER_THAN">Please enter a value longer than</phrase>
+    <phrase id="CHARACTERS_FOR">characters for</phrase>
+    <phrase id="PLEASE_ENTER_A_VALUE_FOR">Please enter a value for the following field</phrase>
 
     <!-- Messages -->
 
@@ -505,6 +508,14 @@
     <phrase id="CC_VOIDED">Payment voided.</phrase>
 
   </translation>
+
+  <!-- ======== -->
+  <!-- Francais -->
+  <!-- ======== -->
+  <translation language="francais">
+    <phrase id="PLACEHOLDER">Manager translation has not been completed yet.</phrase>
+  </translation>
+
 
   <!-- ======= -->
   <!-- Italian -->
@@ -787,7 +798,6 @@
         <phrase id="USER">Utente</phrase>
         <phrase id="USERS">Utenti</phrase>
         <phrase id="USER_CREATED">Utente Creato</phrase>
-        <phrase id="USER_DELETED">Utente Cancellato</phrase>
         <phrase id="USERNAME">Nome Utente</phrase>
         <phrase id="USER_TYPE">Tipo Utente</phrase>
         <phrase id="VIEW">Visualizza</phrase>
@@ -802,7 +812,6 @@
         <phrase id="ZIP_CODE">CAP</phrase>
         <!-- Error Messaggios -->
         <phrase id="LOGIN_FAILED">Autenticazione Fallita</phrase>
-        <phrase id="ACCESS_DENIED">Accesso Negato</phrase>
         <phrase id="FIELD_MISSING">Campo richiesto vuoto: {0}</phrase>
         <phrase id="FIELD_TOO_BIG">Dimensione massima ({1}) superata per il campo: {0}</phrase>
         <phrase id="FIELD_TOO_SMALL">Dimensione minima ({1}) per il campo: {0} non raggiunta</phrase>
@@ -1207,7 +1216,6 @@
     <phrase id="USER">Utilizador</phrase>
     <phrase id="USERS">Utilizadores</phrase>
     <phrase id="USER_CREATED">Utilizador criado</phrase>
-    <phrase id="USER_DELETED">Utilziador eliminado</phrase>
     <phrase id="USERNAME">Username</phrase>
     <phrase id="USER_TYPE">Tipo de Utilizador</phrase>
     <phrase id="VIEW">Ver</phrase>
@@ -1223,7 +1231,6 @@
 
     <!-- Error Messages -->
     <phrase id="LOGIN_FAILED">Falha na Autentica&#231;&#227;o</phrase>
-    <phrase id="ACCESS_DENIED">Acesso Negado</phrase>
     <phrase id="FIELD_MISSING">Falta um campo requerido: {0}</phrase>
     <phrase id="FIELD_TOO_BIG">Tamanho limite ({1}) excedido no campo: {0}</phrase>
     <phrase id="FIELD_TOO_SMALL">Tamanho m&#237;nimo ({1}) para no campo: {0} n&#227;o encontrado</phrase>
@@ -1695,7 +1702,6 @@
     <phrase id="USER">Kullanýcý</phrase>
     <phrase id="USERS">Kullanýcýlar</phrase>
     <phrase id="USER_CREATED">Kullanýcý oluþturuldu</phrase>
-    <phrase id="USER_DELETED">Kullanýcý kaldýrýldý</phrase>
     <phrase id="USERNAME">Kullanýcý adý</phrase>
     <phrase id="USER_TYPE">Kullanýcý Türü</phrase>
     <phrase id="VIEW">Görüntüle</phrase>

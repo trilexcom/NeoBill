@@ -4,13 +4,13 @@
   <div class="form">
     <table style="width: 70%">
       <tr>
-        <th> {form_description field="accountid"} </th>
+        <th> {form_description field="account"} </th>
         <td> 
           {if isset($account_name)}
             {$account_name}
-            <input type="hidden" name="accountid" value="{$account}"/>
+            <input type="hidden" name="account" value="{$account}"/>
           {else}
-            {form_element field="accountid"}
+            {form_element field="account"}
           {/if}
         </td>
       </tr>

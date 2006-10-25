@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 
 /**
  * EditDomainServicePage
@@ -23,41 +23,20 @@ require_once $base_path . "DBO/DomainServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditDomainServicePage extends AdminPage
+class EditDomainServicePage extends SolidStateAdminPage
 {
   /**
    * Initialize the Edit Domain Serivce Page
-   *
-   * If the Domain Service ID is provided in the query string, load the
-   * DomainServiceDBO from the database and store it in the session.  Otherwise,
-   * use the DBO that is already there.
    */
   function init()
   {
-    $tld = $_GET['tld'];
+    parent::init();
 
-    if( isset( $tld ) )
-      {
-	// Retrieve the Domain Service from the database
-	$dbo = load_DomainServiceDBO( form_field_filter( null, $tld ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['domain_service_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "dservice", $this->get['dservice']->getTLD() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Domain Service
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_NOT_FOUND",
-				"args" => array( $tld ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['domain_service_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['domain_service_dbo'] =& $this->get['dservice'];
   }
 
   /**
@@ -72,27 +51,22 @@ class EditDomainServicePage extends AdminPage
   {
     switch( $action_name )
       {
-
       case "edit_domain_service":
-
-	if( isset( $this->session['edit_domain_service']['save'] ) )
+	if( isset( $this->post['save'] ) )
 	  {
 	    // Save changes
 	    $this->update_domain_service();
 	  }
-	elseif( isset( $this->session['edit_domain_service']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Cancel (return to view page)
-	    $this->goback( 2 );
+	    $this->goback();
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -103,72 +77,32 @@ class EditDomainServicePage extends AdminPage
    */
   function update_domain_service()
   {
-    // Access DBO
-    $service_dbo = $this->session['domain_service_dbo'];
-
-    // Pull form data from session
-    $service_data = $this->session['edit_domain_service'];
-
-    if( !isset( $service_data ) )
-      {
-	// Missing form data
-	fatal_error( "EditDomainServicePage::update_domain_service()",
-		     "no form data received!" );
-      }
-
     // Update DBO
-    $service_dbo->setDescription( $service_data['description'] );
-    $service_dbo->setModuleName( $service_data['modulename'] );
-    $service_dbo->setPrice1yr( $service_data['price1yr'] );
-    $service_dbo->setPrice2yr( $service_data['price2yr'] );
-    $service_dbo->setPrice3yr( $service_data['price3yr'] );
-    $service_dbo->setPrice4yr( $service_data['price4yr'] );
-    $service_dbo->setPrice5yr( $service_data['price5yr'] );
-    $service_dbo->setPrice6yr( $service_data['price6yr'] );
-    $service_dbo->setPrice7yr( $service_data['price7yr'] );
-    $service_dbo->setPrice8yr( $service_data['price8yr'] );
-    $service_dbo->setPrice9yr( $service_data['price9yr'] );
-    $service_dbo->setPrice10yr( $service_data['price10yr'] );
-    $service_dbo->setTaxable( $service_data['taxable'] );
-    if( !update_DomainServiceDBO( $service_dbo ) )
+    $this->get['dservice']->setDescription( $this->post['description'] );
+    $this->get['dservice']->setModuleName( $this->post['modulename']->getName() );
+    $this->get['dservice']->setPrice1yr( $this->post['price1yr'] );
+    $this->get['dservice']->setPrice2yr( $this->post['price2yr'] );
+    $this->get['dservice']->setPrice3yr( $this->post['price3yr'] );
+    $this->get['dservice']->setPrice4yr( $this->post['price4yr'] );
+    $this->get['dservice']->setPrice5yr( $this->post['price5yr'] );
+    $this->get['dservice']->setPrice6yr( $this->post['price6yr'] );
+    $this->get['dservice']->setPrice7yr( $this->post['price7yr'] );
+    $this->get['dservice']->setPrice8yr( $this->post['price8yr'] );
+    $this->get['dservice']->setPrice9yr( $this->post['price9yr'] );
+    $this->get['dservice']->setPrice10yr( $this->post['price10yr'] );
+    $this->get['dservice']->setTaxable( $this->post['taxable'] );
+    if( !update_DomainServiceDBO( $this->get['dservice'] ) )
       {
 	// Update error
 	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_UPDATE_FAILED" ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Sucess!
     $this->setMessage( array( "type" => "DOMAIN_SERVICE_UPDATED" ) );
     $this->goto( "services_view_domain_service",
 		 null,
-		 "tld=" . $service_dbo->getTLD() );
-  }
-
-  /**
-   * Populate the Module Drop-down Menu
-   *
-   * @return array Array of module names
-   */
-  function populateModuleNames()
-  {
-    if( ($registrarModules = 
-	 load_array_ModuleDBO( "type='registrar' AND enabled='Yes'" ) ) != null )
-      {
-	foreach( $registrarModules as $moduleDBO )
-	  {
-	    // Add this module to the list
-	    $moduleNames[$moduleDBO->getName()] = $moduleDBO->getShortDescription();
-	  }
-      }
-    else
-      {
-	// No registrar modules found
-	$moduleNames[] = translate_string( $this->conf['locale']['language'],
-					   "[NO_REGISTRAR_MODULES]" );
-      }
-
-    return $moduleNames;
+		 "dservice=" . $this->get['dservice']->getTLD() );
   }
 }
-
 ?>

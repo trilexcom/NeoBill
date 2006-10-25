@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * LogDBO
@@ -57,6 +57,13 @@ class LogDBO extends DBO
    * @var string Date of action (MySQL DATETIME)
    */
   var $date;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Log ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set ID

@@ -11,9 +11,9 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
 
 /**
  * IPAddressDBO
@@ -49,6 +49,13 @@ class IPAddressDBO extends DBO
    * @var HostingServicePurchaseDBO The hosting service purchase that this IP address is assigned to
    */
   var $purchasedbo;
+
+  /**
+   * Convert to a String
+   *
+   * @return string IP String
+   */
+  function __toString() { return $this->getIPString(); }
 
   /**
    * Set IP

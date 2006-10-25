@@ -8,7 +8,7 @@
              size="10"}
 
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=view_order&id={dbo_echo dbo="orderdbo_table" field="id"}">{dbo_echo dbo="orderdbo_table" field="id"}</a>
+      <a target="content" href="manager_content.php?page=view_order&order={dbo_echo dbo="orderdbo_table" field="id"}">{dbo_echo dbo="orderdbo_table" field="id"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[CUSTOMER]"}
@@ -16,9 +16,7 @@
     {/dbo_table_column}
 
     {dbo_table_column header="[ACCOUNT]"}
-      <a href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="orderdbo_table" field="accountid"}">{dbo_echo dbo="orderdbo_table" field="accountname"}</a>
-      <br/>
-      ({dbo_echo dbo="orderdbo_table" field="accounttype"})
+      <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="orderdbo_table" field="accountid"}">{dbo_echo dbo="orderdbo_table" field="accountname"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[ORDER_DATE]"}

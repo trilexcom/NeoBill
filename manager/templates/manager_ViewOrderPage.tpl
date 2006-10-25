@@ -73,7 +73,7 @@
         </tr>
         <tr>
           <th> {form_description field="country"} </th>
-          <td> {form_element dbo="orderdbo" field="country" size="20"} </td>
+          <td> {form_element dbo="orderdbo" field="country"} </td>
         </tr>
         <tr>
           <th> {form_description field="postalcode"} </th>
@@ -141,11 +141,7 @@
         {dbo_assign dbo="orderitemdbo_table" field="orderitemid" var="itemid"}
         {dbo_assign dbo="orderitemdbo_table" field="status" var="status"}
         <center>
-          {if $status == "Rejected"}
-            {form_element field="accepted" value="$itemid"}
-          {else}
-            {form_element field="accepted" value="$itemid" checked="true"}
-          {/if}
+          {form_element field="accept" option="$itemid" array="true"}
         </center>
       {/dbo_table_column}
 
@@ -179,7 +175,7 @@
                title="[PAYMENTS]"}
 
       {dbo_table_column header="[ID]" sort_field="id"}
-        <a href="manager_content.php?page=edit_payment&id={dbo_echo dbo="paymentdbo_table" field="id"}">{dbo_echo dbo="paymentdbo_table" field="id"}</a>
+        <a href="manager_content.php?page=edit_payment&payment={dbo_echo dbo="paymentdbo_table" field="id"}">{dbo_echo dbo="paymentdbo_table" field="id"}</a>
       {/dbo_table_column}
 
       {dbo_table_column header="[DATE_RECEIVED]" sort_field="date"}

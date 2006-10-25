@@ -17,8 +17,8 @@
           {form_element field="id" size="4"}
         </td>
         <td>
-          {form_description field="accountid"} <br/>
-          {form_element field="accountid" size="4"}
+          {form_description field="account"} <br/>
+          {form_element field="account"}
         </td>
         <td class="submit"> 
           {form_element field="search"}
@@ -35,7 +35,7 @@
              size="10"}
   
     {dbo_table_column header="[ID]" sort_field="id"}
-      <a href="./manager_content.php?page=billing_view_invoice&id={dbo_echo dbo="invoicedbo_table" field="id"}">{dbo_echo dbo="invoicedbo_table" field="id"}</a>
+      <a href="./manager_content.php?page=billing_view_invoice&invoice={dbo_echo dbo="invoicedbo_table" field="id"}">{dbo_echo dbo="invoicedbo_table" field="id"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[ACCOUNT]" sort_field="accountid"}

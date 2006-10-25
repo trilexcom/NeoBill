@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
 // AccountDBO class
-require_once $base_path . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
 
 /**
  * InactiveAccountsPage
@@ -38,22 +38,17 @@ class InactiveAccountsPage extends Page
   {
     switch( $action_name )
       {
-
-      case "browse_accounts_action":
-
-	if( isset( $this->session['browse_accounts_action']['add'] ) )
+      case "inactive_accounts_action":
+	if( isset( $this->session['inactive_accounts_action']['add'] ) )
 	  {
 	    // Goto new account page
 	    $this->goto( "accounts_new_account" );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

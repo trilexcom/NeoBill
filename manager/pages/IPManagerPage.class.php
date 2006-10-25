@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/IPAddressDBO.class.php";
+require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
 
 /**
  * IPManagerPage
@@ -22,16 +22,8 @@ require_once $base_path . "DBO/IPAddressDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class IPManagerPage extends Page
+class IPManagerPage extends SolidStatePage
 {
-  /**
-   * Initialize IPManager Page
-   */
-  function init()
-  {
-
-  }
-
   /**
    * Action
    *
@@ -64,39 +56,30 @@ class IPManagerPage extends Page
     if( $_SESSION['client']['userdbo']->getType() != "Administrator" )
       {
 	$this->setError( array( "type" => "ACCESS_DENIED" ) );
-	return;
+	$this->reload();
       }
 
-    // Verify the IP address and convert it to a long integer
-    if( !isset( $_GET['ip'] ) )
+    if( !isset( $this->get['ip'] ) )
       {
-	return;
-      }
-    $ip_string = form_field_filter( null, $_GET['ip'] );
-    $ip = ip2long( $ip_string );
-    if( ($ip_dbo = load_IPAddressDBO( $ip )) == null )
-      {
-	fatal_error( "IPManagerPage::deleteIP()", 
-		     "error, that IP address does not exist: " . $ip_string );
+	$this->reload();
       }
 
     // Verify that this IP address is not being used
-    if( !$ip_dbo->isAvailable() )
+    if( !$this->get['ip']->isAvailable() )
       {
 	// Can not delete IP until it is free
 	$this->setError( array( "type" => "IP_NOT_FREE",
 				"args" => array( $ip_string ) ) );
-	$this->setTemplate( "ips" );
-	return;
+	$this->reload();
       }
 
     // Remove the IP address from the database
-    if( !delete_IPAddressDBO( $ip_dbo ) )
+    if( !delete_IPAddressDBO( $this->get['ip'] ) )
       {
 	// Database error
 	$this->setError( array( "type" => "DB_DELETE_IP_FAILED",
 				"args" => array( $ip_string ) ) );
-	return;
+	$this->reload();
       }
 
     // Success

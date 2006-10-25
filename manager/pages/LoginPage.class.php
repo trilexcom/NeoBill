@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
-require_once $base_path . "DBO/UserDBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * LoginPage
@@ -54,9 +54,9 @@ class LoginPage extends Page
    */
   function login()
   {
-    $user_dbo = load_UserDBO( $this->session['login']['username'] );
+    $user_dbo = load_UserDBO( $this->post['username'] );
     if( $user_dbo != null &&
-	$user_dbo->getPassword() == $this->session['login']['password'] &&
+	$user_dbo->getPassword() == $this->post['password'] &&
 	($user_dbo->getType() == "Administrator" || 
 	 $user_dbo->getType() == "Account Manager") )
       {
@@ -68,7 +68,7 @@ class LoginPage extends Page
       }
     // Login failure
     log_security( "Login", 
-		  "Login failed for " . $this->session['login']['username'] );
+		  "Login failed for " . $this->post['username'] );
     $this->setError( array( "type" => "LOGIN_FAILED" ) );
   }
 }

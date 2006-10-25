@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
 
 /**
  * EditAccountPage
@@ -23,7 +23,7 @@ require_once $base_path . "DBO/AccountDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditAccountPage extends Page
+class EditAccountPage extends SolidStatePage
 {
   /**
    * Initialize the Edit Account Page
@@ -34,30 +34,13 @@ class EditAccountPage extends Page
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Account from the database
-	$dbo = load_AccountDBO( $id );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['account_dbo'];
-      }
+    // Set URL fields
+    $this->setURLField( "account", $this->get['account']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Account
-	$this->setError( array( "type" => "DB_ACCOUNT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['account_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['account_dbo'] = $this->get['account'];
   }
 
   /**
@@ -72,32 +55,27 @@ class EditAccountPage extends Page
   {
     switch( $action_name )
       {
-
       case "edit_account":
-
 	if( isset( $this->session['edit_account']['save'] ) )
 	  {
 	    // Save changes
 	    $this->update_account();
 	    $this->goto( "accounts_view_account",
 			 array( array( "type" => "ACCOUNT_UPDATED" ) ),
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
 	elseif( isset( $this->session['edit_account']['cancel'] ) )
 	  {
 	    // Cancel (return to view page)
 	    $this->goto( "accounts_view_account",
 			 null,
-			 "id=" . $this->session['account_dbo']->getID() );
+			 "account=" . $this->get['account']->getID() );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -110,7 +88,7 @@ class EditAccountPage extends Page
   function update_account()
   {
     // Access DBO
-    $account_dbo =& $this->session['account_dbo'];
+    $account_dbo =& $this->get['account'];
 
     // Pull form data from session
     $account_data = $this->session['edit_account'];
@@ -143,7 +121,7 @@ class EditAccountPage extends Page
       {
 	// Error
 	$this->setError( array( "type" => "DB_ACCOUNT_UPDATE_FAILED" ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Sucess!

@@ -11,12 +11,12 @@
  */
 
 // Parent class
-require_once $base_path . "DBO/OrderItemDBO.class.php";
+require_once BASE_PATH . "DBO/OrderItemDBO.class.php";
 
 // Contact DBO
-require_once $base_path . "DBO/ContactDBO.class.php";
+require_once BASE_PATH . "DBO/ContactDBO.class.php";
 
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 
 /**
  * OrderDomainDBO
@@ -303,8 +303,7 @@ class OrderDomainDBO extends OrderItemDBO
       case "New": $desc = "[DOMAIN_REGISTRATION]: "; break;
       case "Transfer": $desc = "[DOMAIN_TRANSFER]: "; break;
       }
-    $desc .= $this->getFullDomainName();
-    return translate_string( $this->conf['locale']['language'], $desc );
+    return $desc . $this->getFullDomainName();
   }
 
   /**
@@ -355,7 +354,7 @@ class OrderDomainDBO extends OrderItemDBO
    */
   function getSetupFeeString()
   {
-    return translate_string( $this->conf['locale']['language'], "[NA]" );
+    return "[NA]";
   }
 
   /**
@@ -524,6 +523,7 @@ class OrderDomainDBO extends OrderItemDBO
     parent::load( $data );
     $this->setID( $data['id'] );
     $this->setOrderID( $data['orderid'] );
+    $this->setOrderItemID( $data['orderitemid'] );
     $this->setType( $data['type'] );
     $this->setTLD( $data['tld'] );
     $this->setDomainName( $data['domainname'] );

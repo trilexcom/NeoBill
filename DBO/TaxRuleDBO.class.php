@@ -11,10 +11,10 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 // Country Codes
-require_once $base_path . "solidworks/cc.php";
+require_once BASE_PATH . "solidworks/cc.php";
 
 /**
  * TaxRuleDBO
@@ -50,6 +50,13 @@ class TaxRuleDBO extends DBO
    * @var string Description
    */
   var $description;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Tax Rule ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Tax Rule ID

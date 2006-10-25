@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * OrderItemDBO
@@ -182,32 +182,35 @@ class PurchaseDBO extends DBO
 
     // These truths help determine if the purchases recurs during the invoice period
 
-    $purchasedSameMonthButBeforePeriodBegins = 
+    $purchasedSameMonthButBeforePeriodBegins =
       ($monthDiff1 == 0) && (date( 'j', $purchaseTS ) < date( 'j', $periodBeginTS ));
 
     $recursAfterPeriodBegins = 
       (($monthDiff1 % $this->getTermMonths() == 0) &&
        (date( 'j', $purchaseTS ) >= date( 'j', $periodBeginTS ))) ||
-      (($monthDiff1 % $this->getTermMonths() == $monthDiff1) &&
+      (($monthDiff1 % $this->getTermMonths() == 0 ||
+	$monthDiff2 % $this->getTermMonths() == 0 ||
+	$monthDiff1 % $this->getTermMonths() == $monthDiff1) &&
        (date( 'j', $purchaseTS ) < date( 'j', $periodBeginTS )));
 
     $recursBeforePeriodEnds =
       (($monthDiff2 % $this->getTermMonths() == 0) && 
        (date( 'j', $purchaseTS ) < date( 'j', $periodEndTS ))) ||
-      (($monthDiff2 % $this->getTermMonths() == 1) &&
+      (($monthDiff2 % $this->getTermMonths() == 0 ||
+	$monthDiff2 % $this->getTermMonths() == 1) &&
        (date( 'j', $purchaseTS ) >= date( 'j', $periodEndTS )));
 
     // Usefull for debugging
     /*
     echo $this->getTitle() . ": " .
-      !$purchasedSameMonthButBeforePeriodBegins . "/" .
+      !($purchasedSameMonthButBeforePeriodBegins && !$recursBeforePeriodEnds) . "/" .
       $recursAfterPeriodBegins . "/" .
-      $recursBeforePeriodEnds . " monthDiff1: " . $monthDiff2 . "\n";
+      $recursBeforePeriodEnds . " monthDiff2: " . $monthDiff2 % $this->getTermMonths() . "\n";
     */
 
     // Test if this purchase recurs during the invoice period using the truths
     // calculated above
-    return (!$purchasedSameMonthButBeforePeriodBegins) && 
+    return !($purchasedSameMonthButBeforePeriodBegins && !$recursBeforePeriodEnds) && 
       ($recursAfterPeriodBegins && $recursBeforePeriodEnds);
   }
 

@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * NRConfigPage
@@ -21,7 +21,7 @@ require_once $base_path . "solidworks/AdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class NRConfigPage extends AdminPage
+class NRConfigPage extends SolidStateAdminPage
 {
   /**
    * @var NullRegistrarModule NullRegistrar Module object

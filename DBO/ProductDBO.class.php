@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * ProductDBO
@@ -47,6 +47,13 @@ class ProductDBO extends DBO
    * @var string Taxable flag
    */
   var $taxable;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Product ID
+   */
+  function __toString() { return $this->getID(); }
 
   /**
    * Set Product ID

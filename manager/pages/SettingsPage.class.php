@@ -10,7 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * SettingsPage
@@ -20,14 +20,14 @@ require_once $base_path . "solidworks/AdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class SettingsPage extends AdminPage
+class SettingsPage extends SolidStateAdminPage
 {
   /**
    * Initialize Settings Page
    */
   function init()
   {
-    global $translations;
+    parent::init();
 
     $this->smarty->assign( "company_name", $this->conf['company']['name'] );
     $this->smarty->assign( "company_email", $this->conf['company']['email'] );
@@ -61,18 +61,8 @@ class SettingsPage extends AdminPage
 
     $this->smarty->assign( "order_accept_checks", $this->conf['order']['accept_checks'] );
 
-    // Place the supported languages into a drop-down select
-    $this->session['languages'] = array();
-    foreach( array_keys( $translations ) as $language )
-      {
-	if( $language != "default_language" )
-	  {
-	    $this->session['languages'][$language] = $language;
-	  }
-      }
-
     // This flag indicates if any payment_gateway modules are enabled
-    $modules = $this->populateDefaultModule();
+    $modules = $this->forms['settings_payment_gateway']->getField( "default_module" )->getWidget()->getData();
     $this->smarty->assign( "gatewaysAreEnabled", !empty( $modules ) );
   }
 
@@ -158,32 +148,13 @@ class SettingsPage extends AdminPage
   }
 
   /**
-   * Populate the Payment Gateway drop-down
-   *
-   * @return array All payment gateway modules install in the system
-   */
-  function populateDefaultModule()
-  {
-    $modules = array();
-    foreach( $this->conf['modules'] as $modulename => $module )
-      {
-	if( $module->isEnabled() && $module->getType() == "payment_gateway" )
-	  {
-	    $modules[$modulename] = $modulename;
-	  }
-      }
-    return $modules;
-  }
-
-  /**
    * Update Company Settings
    */
   function update_company()
   {
-    $this->conf['company']['name'] = $this->session['settings_company']['name'];
-    $this->conf['company']['email'] = $this->session['settings_company']['email'];
-    $this->conf['company']['notification_email'] = 
-      $this->session['settings_company']['notification_email'];
+    $this->conf['company']['name'] = $this->post['name'];
+    $this->conf['company']['email'] = $this->post['email'];
+    $this->conf['company']['notification_email'] = $this->post['notification_email'];
     $this->save();
   }
 
@@ -192,8 +163,8 @@ class SettingsPage extends AdminPage
    */
   function update_welcome()
   {
-    $this->conf['welcome_subject'] = $this->session['settings_welcome']['subject'];
-    $this->conf['welcome_email'] = $this->session['settings_welcome']['email'];
+    $this->conf['welcome_subject'] = $this->post['subject'];
+    $this->conf['welcome_email'] = $this->post['email'];
     $this->save();
   }
 
@@ -202,17 +173,14 @@ class SettingsPage extends AdminPage
    */
   function updateOrderConfirmation()
   {
-    $this->conf['order']['confirmation_subject'] = 
-      $this->session['settings_confirmation']['subject'];
-    $this->conf['order']['confirmation_email'] = 
-      $this->session['settings_confirmation']['email'];
+    $this->conf['order']['confirmation_subject'] = $this->post['subject'];
+    $this->conf['order']['confirmation_email'] = $this->post['email'];
     $this->save();
   }
 
   function updateOrderInterfacePayments()
   {
-    $this->conf['order']['accept_checks'] =
-      $this->session['settings_order_interface']['accept_checks'];
+    $this->conf['order']['accept_checks'] = $this->post['accept_checks'];
     $this->save();
     $this->setTemplate( "payment_gateway" );
   }
@@ -222,10 +190,8 @@ class SettingsPage extends AdminPage
    */
   function updateOrderNotification()
   {
-    $this->conf['order']['notification_subject'] = 
-      $this->session['settings_notification']['subject'];
-    $this->conf['order']['notification_email'] = 
-      $this->session['settings_notification']['email'];
+    $this->conf['order']['notification_subject'] = $this->post['subject'];
+    $this->conf['order']['notification_email'] = $this->post['email'];
     $this->save();
   }
 
@@ -235,10 +201,10 @@ class SettingsPage extends AdminPage
   function update_nameservers()
   {
     $this->conf['dns']['nameservers'] =
-      array( $this->session['settings_nameservers']['nameservers_ns1'],
-	     $this->session['settings_nameservers']['nameservers_ns2'],
-	     $this->session['settings_nameservers']['nameservers_ns3'],
-	     $this->session['settings_nameservers']['nameservers_ns4'] );
+      array( $this->post['nameservers_ns1'],
+	     $this->post['nameservers_ns2'],
+	     $this->post['nameservers_ns3'],
+	     $this->post['nameservers_ns4'] );
     $this->save();
     $this->setTemplate( "dns" );
   }
@@ -248,8 +214,8 @@ class SettingsPage extends AdminPage
    */
   function update_invoice()
   {
-    $this->conf['invoice_text'] = $this->session['settings_invoice']['text'];
-    $this->conf['invoice_subject'] = $this->session['settings_invoice']['subject'];
+    $this->conf['invoice_text'] = $this->post['text'];
+    $this->conf['invoice_subject'] = $this->post['subject'];
     $this->save();
     $this->setTemplate( "billing" );
   }
@@ -259,8 +225,8 @@ class SettingsPage extends AdminPage
    */
   function update_locale()
   {
-    $this->conf['locale']['currency_symbol'] = $this->session['settings_locale']['currency'];
-    $this->conf['locale']['language'] = $this->session['settings_locale']['language'];
+    $this->conf['locale']['currency_symbol'] = $this->post['currency'];
+    $this->conf['locale']['language'] = $this->post['language'];
     $this->save();
     $_SESSION['jsFunction'] = "reloadMenu()";
     $this->goto( "settings", null, "action=locale" );
@@ -272,9 +238,8 @@ class SettingsPage extends AdminPage
   function update_payment_gateway()
   {
     $this->conf['payment_gateway']['default_module'] = 
-      $this->session['settings_payment_gateway']['default_module'];
-    $this->conf['payment_gateway']['order_method'] =
-      $this->session['settings_payment_gateway']['order_method'];
+      $this->post['default_module']->getName();
+    $this->conf['payment_gateway']['order_method'] = $this->post['order_method'];
     $this->save();
     $this->setTemplate( "payment_gateway" );
   }

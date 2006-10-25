@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Include the InvoiceDBO
-require_once $base_path . "DBO/InvoiceDBO.class.php";
+require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 
 /**
  * PrintInvoicePage
@@ -26,7 +26,7 @@ require_once $base_path . "DBO/InvoiceDBO.class.php";
  * @package Pages
  * @auther John Diamond <jdiamond@solid-state.org>
  */
-class PrintInvoicePage extends Page
+class PrintInvoicePage extends SolidStatePage
 {
   /**
    * Initializes the Page
@@ -36,29 +36,9 @@ class PrintInvoicePage extends Page
    */
   function init()
   {
-    $id = $_GET['id'];
-
-    if( isset( $id ) )
-      {
-	// Retrieve this Invoice from the database
-	$dbo = load_InvoiceDBO( intval( $id ) );
-      }
-    else
-      {
-	echo "Error: Invoice ID not provided!";
-	exit();
-      }
-
-    if( !isset( $dbo ) )
-      {
-	// Could not find Invoice
-	$this->setError( array( "type" => "DB_INVOICE_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-
-    $account_dbo = $dbo->getAccountDBO();
-
-    $this->smarty->assign( "body",  $dbo->text( $this->conf['invoice_text'] ) );
+    parent::init();
+    $this->smarty->assign( "body",  
+			   $this->get['invoice']->text( $this->conf['invoice_text'] ) );
   }
 }
 ?>

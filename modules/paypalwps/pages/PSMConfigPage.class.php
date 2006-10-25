@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * PPMConfigPage
@@ -21,7 +21,7 @@ require_once $base_path . "solidworks/AdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PSMConfigPage extends AdminPage
+class PSMConfigPage extends SolidStateAdminPage
 {
   /**
    * @var Paypal Paypal Module object
@@ -40,7 +40,7 @@ class PSMConfigPage extends AdminPage
     switch( $action_name )
       {
       case "psm_config":
-	if( isset( $this->session['psm_config']['save'] ) )
+	if( isset( $this->post['save'] ) )
 	  {
 	    $this->save();
 	  }
@@ -72,10 +72,10 @@ class PSMConfigPage extends AdminPage
   function save()
   {
     // Update settings in DB
-    $this->ppModule->setAccount( $this->session['psm_config']['account'] );
-    $this->ppModule->setCartURL( $this->session['psm_config']['carturl'] );
-    $this->ppModule->setIdToken( $this->session['psm_config']['idtoken'] );
-    $this->ppModule->setCurrencyCode( $this->session['psm_config']['currency'] );
+    $this->ppModule->setAccount( $this->post['account'] );
+    $this->ppModule->setCartURL( $this->post['carturl'] );
+    $this->ppModule->setIdToken( $this->post['idtoken'] );
+    $this->ppModule->setCurrencyCode( $this->post['currency'] );
     $this->ppModule->saveSettings();
 
     $this->setMessage( array( "type" => "PS_CONFIGURATION_SAVED" ) );

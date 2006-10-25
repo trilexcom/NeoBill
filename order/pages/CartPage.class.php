@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Order DBO
-require_once $base_path . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "DBO/OrderDBO.class.php";
 
 /**
  * CartPage
@@ -22,7 +22,7 @@ require_once $base_path . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class CartPage extends Page
+class CartPage extends SolidStatePage
 {
   /**
    * Action
@@ -36,33 +36,33 @@ class CartPage extends Page
     switch( $action_name )
       {
       case "cart_mod":
-	if( isset( $this->session['cart_mod']['remove'] ) )
+	if( isset( $this->post['remove'] ) )
 	  {
-	    $this->removeCartItems( $this->session['cart_mod']['carttable'] );
+	    $this->removeCartItems( $this->post['cart'] );
 	  }
-	elseif( isset( $this->session['cart_mod']['adddomain'] ) )
+	elseif( isset( $this->post['adddomain'] ) )
 	  {
 	    $this->goto( "adddomain" );
 	  }
-	elseif( isset( $this->session['cart_mod']['addhosting'] ) )
+	elseif( isset( $this->post['addhosting'] ) )
 	  {
 	    $this->goto( "addhosting" );
 	  }
 	break;
 
       case "cart_domains":
-	if( isset( $this->session['cart_domains']['removedomain'] ) )
+	if( isset( $this->post['removedomain'] ) )
 	  {
-	    $this->removeExistingDomains( $this->session['cart_domains']['domaintable'] );
+	    $this->removeExistingDomains( $this->post['domaintable'] );
 	  }
 	break;
 
       case "cart_nav":
-	if( isset( $this->session['cart_nav']['startover'] ) )
+	if( isset( $this->post['startover'] ) )
 	  {
 	    $this->newOrder();
 	  }
-	elseif( isset( $this->session['cart_nav']['checkout'] ) )
+	elseif( isset( $this->post['checkout'] ) )
 	  {
 	    $this->goto( "customer" );
 	  }
@@ -82,11 +82,9 @@ class CartPage extends Page
   function init()
   {
     // Make sure we have things to sell
-    if( (load_array_DomainServiceDBO() == null) &&
-	(load_array_HostingServiceDBO() == null) )
+    if( (load_array_DomainServiceDBO() == null) && (load_array_HostingServiceDBO() == null) )
       {
-	fatal_error( "CartPage::init()", 
-		     "There are no services configured.  The HSP must configure some services before the order interface can be used" );
+	throw new SWException( "There are no services configured.  The HSP must configure some services before the order interface can be used" );
       }
 
     // Make sure we have a way to collect payment
@@ -116,6 +114,11 @@ class CartPage extends Page
       }
     else
       {
+	$this->forms['cart_mod']->getField( "cart" )->getValidator()->setOrder( $_SESSION['order'] );
+	$this->forms['cart_domains']->getField( "domaintable" )->getValidator()->setOrder( $_SESSION['order'] );
+	$this->forms['cart_mod']->getField( "cart" )->getWidget()->setOrder( $_SESSION['order'] );
+	$this->forms['cart_domains']->getField( "domaintable" )->getWidget()->setOrder( $_SESSION['order'] );
+
 	$this->smarty->assign( "recurring_total", 
 			       $_SESSION['order']->getRecurringTotal() );
 	$this->smarty->assign( "nonrecurring_total",
@@ -137,35 +140,15 @@ class CartPage extends Page
   }
 
   /**
-   * Populate the Cart Table
-   *
-   * @return array OrderItemDBO's
-   */
-  function populateCart()
-  {
-    // Return the order items
-    return $_SESSION['order']->getItems();
-  }
-
-  /**
-   * Populate the Domain Table
-   */
-  function populateDomainTable()
-  {
-    // Return the existing domain items
-    return $_SESSION['order']->getExistingDomains();
-  }
-
-  /**
    * Remove Items from Cart
    *
    * @param array $orderitemids Array of Order Item IDs to be removed
    */
-  function removeCartItems( $orderitemids = array() )
+  function removeCartItems( $orderitems = array() )
   {
-    foreach( $orderitemids as $orderitemid )
+    foreach( $orderitems as $orderitemdbo )
       {
-	$_SESSION['order']->removeItem( $orderitemid );
+	$_SESSION['order']->removeItem( $orderitemdbo->getOrderItemID() );
       }
 
     // Reload (to reset the display domains flag, if necessary )
@@ -177,11 +160,11 @@ class CartPage extends Page
    *
    * @param array $orderitemids Array of domain names to be removed
    */
-  function removeExistingDomains( $orderitemids = array() )
+  function removeExistingDomains( $orderitems = array() )
   {
-    foreach( $orderitemids as $orderitemid )
+    foreach( $orderitems as $orderitemdbo )
       {
-	$_SESSION['order']->removeExistingDomain( $orderitemid );
+	$_SESSION['order']->removeExistingDomain( $orderitemdbo->getOrderItemID() );
       }
 
     // Reload (to reset the display domains flag, if necessary )
@@ -189,5 +172,4 @@ class CartPage extends Page
   }
 
 }
-
 ?>

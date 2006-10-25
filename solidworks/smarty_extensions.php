@@ -11,6 +11,7 @@
  */
 
 require_once "smarty_widgets.php";
+require_once "WidgetFactory.class.php";
 
 // Keeps track of the {form} ... {/form} block(s) we are in
 $form_stack = array();
@@ -148,9 +149,8 @@ function smarty_modifier_datetime( $value, $show_part = null )
  */
 function smarty_echo( $params, &$smarty )
 {
-  global $conf, $translations;
-
-  return translate( $conf['locale']['language'], $params['phrase'] );
+  global $conf;
+  return "[". $params['phrase'] . "]";
 }
 
 /**
@@ -168,7 +168,7 @@ function smarty_dbo_table_column( $params, $content, &$smarty, &$repeat )
 {
   global $dbo_table_print_headers, $dbo_table_name, $dbo_table_cols, $page, $dbo_table_url, $conf;
 
-  $header     = translate_string( $conf['locale']['language'], $params['header'] );
+  $header     = $params['header'];
   $sort_field = $params['sort_field'];
   $style      = $params['style'];
 
@@ -241,7 +241,7 @@ function smarty_dbo_table( $params, $content, &$smarty, &$repeat )
 
   // Grab parameters
   $dbo_table_name = $params['name'];
-  $title          = translate_string( $conf['locale']['language'], $params['title'] );
+  $title          = $params['title'];
   $dbo_class      = $params['dbo_class'];
   $method_name    = $params['method_name'];
   $size           = $params['size'];
@@ -512,7 +512,7 @@ function smarty_dbo_assign( $params, &$smarty )
   if( !isset( $session[$dbo_var_name] ) )
     {
       // DBO not found
-      return;
+      return null;
     }
 
   $dbo = $session[$dbo_var_name];
@@ -582,7 +582,7 @@ function smarty_dbo_echo( $params, &$smarty )
  */
 function smarty_form( $params, $content, &$smarty, &$repeat )
 {
-  global $conf, $form_stack;
+  global $conf, $form_stack, $page;
 
   $form_name = $params['name'];
 
@@ -619,10 +619,12 @@ function smarty_form( $params, $content, &$smarty, &$repeat )
 	  // No page name provided
 	  fatal_error( "smarty_form()", "Form page is not configured!" );
 	}
-      $action = $conf['controller'] . "?page=" . $page_name . "&submit=" . $form_name;
+
+      // Compose the form action field
+      $action = $page->getURL() . "&submit=" . $form_name;
 
       // Output the content enclosed within the form tags
-      return "<form method=\"" . $form_method . 
+      return "<form name=\"" . $form_name . "\" method=\"" . $form_method . 
 	"\" action=\"" . $action . "\">" . 
 	$content . 
 	"</form>";
@@ -662,13 +664,12 @@ function smarty_page_messages( $params, &$smarty )
   foreach( $messages as $message_data )
     {
       // Insert arguments into error message
-      $message = translate( $conf['locale']['language'], $message_data['type'] );
+      $message = $message_data['type'];
       if( isset( $message_data['args'] ) )
 	{
 	  foreach( $message_data['args'] as $i => $arg )
 	    {
-	      $s = translate_string( $conf['locale']['language'], $arg );
-	      $message = str_replace( "{" . $i . "}", $s, $message );
+	      $message = str_replace( "{" . $i . "}", $arg, $message );
 	    }
 	}
       $html .= $message . "<br/>\n";
@@ -699,7 +700,7 @@ function smarty_page_errors( $params, &$smarty )
 
   $errors = $_SESSION['errors'];
 
-  if( !isset( $errors ) )
+  if( !isset( $errors ) && !isset( $_SESSION['exceptions'] ) )
     {
       // No errors to display
       return null;
@@ -709,25 +710,37 @@ function smarty_page_errors( $params, &$smarty )
   $html = "<p class=\"error\">\n";
 
   // Write all the error errors currently in the session
-  foreach( $errors as $error_data )
+  if( isset( $errors ) )
     {
-      // Insert arguments into error errors
-      $error = translate( $conf['locale']['language'], $error_data['type'] );
-      if( isset( $error_data['args'] ) )
+      foreach( $errors as $error_data )
 	{
-	  foreach( $error_data['args'] as $i => $arg )
+	  // Insert arguments into error errors
+	  $error = $error_data['type'];
+	  if( isset( $error_data['args'] ) )
 	    {
-	      $s = translate_string( $conf['locale']['language'], $arg );
-	      $error = str_replace( "{" . $i . "}", $s, $error );
+	      foreach( $error_data['args'] as $i => $arg )
+		{
+		  $error = str_replace( "{" . $i . "}", $arg, $error );
+		}
 	    }
+	  $html .= $error . "<br/>\n";
 	}
-      $html .= $error . "<br/>\n";
     }
-      
+
+  // Write all the exceptions currently in the session
+  if( isset( $_SESSION['exceptions'] ) )
+    {
+      foreach( $_SESSION['exceptions'] as $message )
+	{
+	  $html .= $message . "<br/>\n";
+	}
+    }
+
   $html .= "</p>\n";
 
   // Remove errors from session
   unset( $_SESSION['errors'] );
+  unset( $_SESSION['exceptions'] );
 
   return $html;
 }
@@ -769,16 +782,10 @@ function smarty_form_element( $params, &$smarty )
       return "Form (" . $form_name . ") is not valid!";
     }
 
-  // Verify the field exists
-  $field_data = $form_data['fields'][$form_field];
-  if( !isset( $field_data ) )
-    {
-      // Field description is not configured
-      return "Form field (" . 
-	$form_field_description .
-	") is not configured!";
-    }
+  // Create the widget HTML
+  $html = $page->getForm($form_name)->getFieldHTML( $form_field, $params );
 
+  /*
   if( isset( $dbo_var_name ) )
     {
       // Access DBO if provided
@@ -924,6 +931,7 @@ function smarty_form_element( $params, &$smarty )
       return "Field type (" . $field_data['type'] . ") not recognized!";
 
     }
+  */
 
   return $html;
 }
@@ -1048,8 +1056,7 @@ function smarty_form_description( $params, &$smarty )
 
   // Verify the field exists
   $field_data = $form_data['fields'][$form_field];
-  $form_field_description = translate_string( $conf['locale']['language'],
-					      $field_data['description'] );
+  $form_field_description = $field_data['description'];
   if( !isset( $form_field_description ) )
     {
       // Field description is not configured

@@ -1,7 +1,7 @@
 <b> {echo phrase="YOUR_ORDER"}: </b>
 {form name="cart_mod"}
   <div class="cart">
-    {form_element field="carttable"}
+    {form_element field="cart"}
 
     {form_element field="adddomain"}
     {form_element field="addhosting"}

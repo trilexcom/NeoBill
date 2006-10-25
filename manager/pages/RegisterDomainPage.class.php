@@ -11,13 +11,13 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Include DBO's
-require_once $base_path . "DBO/AccountDBO.class.php";
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/ContactDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/ContactDBO.class.php";
 
 /**
  * RegisterDomainPage
@@ -28,7 +28,7 @@ require_once $base_path . "DBO/ContactDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RegisterDomainPage extends Page
+class RegisterDomainPage extends SolidStatePage
 {
   /**
    * @var AccountDBO Account this domain will be registered for
@@ -57,31 +57,31 @@ class RegisterDomainPage extends Page
     switch( $action_name )
       {
       case "register_domain":
-	if( isset( $this->session['register_domain']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->checkAvailability();
 	  }
 	break;
 
       case "register_domain_service":
-	if( isset( $this->session['register_domain_service']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Proceed to confirm the domain registration
 	    $this->confirm();
 	  }
-	elseif( isset( $this->session['register_domain_service']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
 	break;
 
       case "register_domain_confirm":
-	if( isset( $this->session['register_domain_confirm']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Execute registration
 	    $this->executeRegistration();
 	  }
-	elseif( isset( $this->session['register_domain_confirm']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
@@ -91,7 +91,6 @@ class RegisterDomainPage extends Page
 
 	// No matching action - refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -113,25 +112,27 @@ class RegisterDomainPage extends Page
    */
   function checkAvailability()
   {
-    $serviceDBO = 
-      load_DomainServiceDBO( $this->session['register_domain']['servicetld'] );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+    $module = $this->conf['modules'][$this->post['servicetld']->getModuleName()];
 
-    $fqdn = sprintf( "%s.%s",
-		     $this->session['register_domain']['domainname'],
-		     $this->session['register_domain']['servicetld'] );
+    $fqdn = sprintf( "%s.%s", 
+		     $this->post['domainname'], 
+		     $this->post['servicetld']->getTLD() );
     if( !$module->checkAvailability( $fqdn ) )
       {
 	// Domain is NOT available
 	$this->setError( array( "type" => "DOMAIN_NOT_AVAILABLE",
 				"args" => array( $fqdn ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Domain is avaialble
+    $termField = $this->forms['register_domain_service']->getField( "term" );
+    $termField->getWidget()->setDomainService( $this->post['servicetld'] );
+
     $this->purchaseDBO = new DomainServicePurchaseDBO();
-    $this->purchaseDBO->setTLD( $this->session['register_domain']['servicetld'] );
-    $this->purchaseDBO->setDomainName( $this->session['register_domain']['domainname'] );
+    $this->purchaseDBO->setTLD( $this->post['servicetld']->getTLD() );
+    $this->purchaseDBO->setDomainName( $this->post['domainname'] );
+
     $this->setMessage( array( "type" => "DOMAIN_IS_AVAILABLE",
 			      "args" => array( $fqdn ) ) );
     $this->setTemplate( "whois_results" );
@@ -142,16 +143,10 @@ class RegisterDomainPage extends Page
    */
   function confirm()
   {
-    // Load the account DBO
-    if( !($this->accountDBO = 
-	  load_AccountDBO( $this->session['register_domain_service']['accountid'] )) )
-      {
-	fatal_error( "RegisterDomainPage::confirm()","Failed to load Account!" );
-      }
-
     // Fill in the purchase DBO with the account id and purchase terms
+    $this->accountDBO = $this->post['account'];
     $this->purchaseDBO->setAccountID( $this->accountDBO->getID() );
-    $this->purchaseDBO->setTerm( $this->session['register_domain_service']['term'] );
+    $this->purchaseDBO->setTerm( $this->post['term'] );
 
     // Provide the template with the name servers
     $this->smarty->assign( "nameservers", $this->conf['dns']['nameservers'] );
@@ -166,8 +161,8 @@ class RegisterDomainPage extends Page
   function executeRegistration()
   {
     // Load the registrar module and verify that it is enabled
-    $serviceDBO = load_DomainServiceDBO( $this->purchaseDBO->getTLD() );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+    $this->serviceDBO = load_DomainServiceDBO( $this->purchaseDBO->getTLD() );
+    $module = $this->conf['modules'][$this->purchaseDBO->getModuleName()];
 
     // Set the time of purchase
     $this->purchaseDBO->setDate( $this->DB->format_datetime( time() ) );
@@ -221,42 +216,10 @@ class RegisterDomainPage extends Page
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
+
     $this->purchaseDBO =& $this->session['dspdbo'];
     $this->accountDBO =& $this->session['accountdbo'];
-
-    if( isset( $id ) )
-      {
-	// Retrieve the Account from the database
-	if( !($this->accountDBO = load_AccountDBO( intval( $id ) )) )
-	  {
-	    fatal_error( "RegisterDomainPage::init()", "Could not load account." );
-	  }
-      }
-  }
-
-  /**
-   * Populate the Registration Term drop-down menu
-   *
-   * @return array Term => Description + price
-   */
-  function populateTermField()
-  {
-    global $cs;
-
-    $cs = $this->conf['locale']['currency_symbol'];
-    $dsDBO = load_DomainServiceDBO( $this->session['dspdbo']->getTLD() );
-    $return['1 year'] = "[1_YEAR] - " . $cs . $dsDBO->getPrice1yr();
-    $return['2 year'] = "[2_YEARS] - " . $cs . $dsDBO->getPrice2yr();
-    $return['3 year'] = "[3_YEARS] - " . $cs . $dsDBO->getPrice3yr();
-    $return['4 year'] = "[4_YEARS] - " . $cs . $dsDBO->getPrice4yr();
-    $return['5 year'] = "[5_YEARS] - " . $cs . $dsDBO->getPrice5yr();
-    $return['6 year'] = "[6_YEARS] - " . $cs . $dsDBO->getPrice6yr();
-    $return['7 year'] = "[7_YEARS] - " . $cs . $dsDBO->getPrice7yr();
-    $return['8 year'] = "[8_YEARS] - " . $cs . $dsDBO->getPrice8yr();
-    $return['9 year'] = "[9_YEARS] - " . $cs . $dsDBO->getPrice9yr();
-    $return['10 year'] = "[10_YEARS] - " . $cs . $dsDBO->getPrice10yr();
-    return $return;
   }
 }
 

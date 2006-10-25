@@ -14,10 +14,10 @@
 require_once "../config/config.inc.php";
 
 // Load SolidWorks
-require_once $base_path . "solidworks/solidworks.php";
+require_once BASE_PATH . "solidworks/solidworks.php";
 
 // Load settings from database
-require_once $base_path . "util/settings.php";
+require_once BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
 // Load the user's language preference
@@ -28,6 +28,11 @@ if( isset( $translations[$language] ) )
   {
     $conf['locale']['language'] = $language;
   }
+
+// Populate the username field
+$smarty->assign( "username", isset( $_SESSION['client']['userdbo'] ) ?
+				    $_SESSION['client']['userdbo']->getUsername() :
+				    null );
 
 // Change the charset to UTF-8
 header( "Content-type: text/html; charset=utf-8" );

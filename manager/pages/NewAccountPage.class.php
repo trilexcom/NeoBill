@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "solidworks/Page.class.php";
 
 // Include the AccountDBO class
-require_once $base_path . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
 
 /**
  * NewAccountPage
@@ -39,25 +39,21 @@ class NewAccountPage extends Page
   {
     switch( $action_name )
       {
-
       case "new_account":
-
-	if( isset( $this->session['new_account']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Process new account form
 	    $this->process_new_account();
 	  }
-	elseif( isset( $this->session['new_account']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Canceled
 	    $this->goto( "accounts_browse" );
 	  }
-
 	break;
 
       case "new_account_confirm":
-
-	if( isset( $this->session['new_account_confirm']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    // Go ahead
 	    $this->add_account();
@@ -67,14 +63,11 @@ class NewAccountPage extends Page
 	    // Go back
 	    $this->setTemplate( "default" );
 	  }
-
 	break;
 
       default:
-
 	// No matching action - refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -85,19 +78,9 @@ class NewAccountPage extends Page
    */
   function process_new_account()
   {
-    // Pull data from session
-    $account_data = $this->session['new_account'];
-
-    if( !isset( $account_data ) )
-      {
-	// Missing form data 
-	fatal_error( "NewAccountPage::process_new_account()",
-		     "no form data received!" );
-      }
-
     // Prepare AccountDBO
     $account_dbo = new AccountDBO();
-    $account_dbo->load( $account_data );
+    $account_dbo->load( $this->post );
 
     // Place DBO in the session for confirm page
     $this->session['new_account_dbo'] = $account_dbo;
@@ -128,13 +111,9 @@ class NewAccountPage extends Page
       }
     else
       {
-	// Account added - clear new_account data from session
-	unset( $this->session['new_account'] );
-
 	// Jump to View Account page
 	$this->setMessage( array( "type" => "ACCOUNT_ADDED" ) );
-	// $this->goto( "accounts_browse" );
-	$this->goto( "accounts_view_account", null, "id=" . $account_dbo->getID() );
+	$this->goto( "accounts_view_account", null, "account=" . $account_dbo->getID() );
       }
   }
 }

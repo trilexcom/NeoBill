@@ -10,6 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+// Translator Class
+require_once BASE_PATH . "solidworks/Translator.class.php";
+
 /**
  * TranslationParser
  *
@@ -22,24 +25,69 @@
 class TranslationParser
 {
   /**
-   * @var array Translations
+   * @var Translator The translator object
    */
-  var $translations;
+  private $translator;
 
   /**
    * @var array A stack of tags being processed
    */
-  var $tag_stack;
-
-  /**
-   * @var string The language being processed
-   */
-  var $language;
+  private $tag_stack;
 
   /**
    * @var string The Phrase being processed
    */
-  var $phrase_id;
+  private $phrase_id;
+
+  /**
+   * @var string Translation data
+   */
+  private $data = null;
+
+  /**
+   * Load Translation File
+   *
+   * Loads and parses a translation file
+   *
+   * @param string $file Path to the translations file
+   * @return array Configuration data
+   */
+  public static function load( $file )
+  {
+    $xml_parser = xml_parser_create();
+    $translation_parser = new TranslationParser();
+    xml_set_object( $xml_parser, $translation_parser );
+    xml_set_element_handler( $xml_parser, "startElement", "endElement" );
+    xml_set_character_data_handler( $xml_parser, "characterData" );
+    
+    if( !($fp = @fopen( $file, "r" )) )
+      {
+	throw new SWException( "Could not load translation file: " . $file );
+      }
+    
+    while( $data = fread( $fp, 4096 ) )
+      {
+	if( !xml_parse( $xml_parser, $data, feof( $fp ) ) )
+	  {
+	    throw new SWException( sprintf( "<pre>There is an error in your translations file:\n %s at line %d</pre>",
+					    xml_error_string( xml_get_error_code( $xml_parser ) ),
+					    xml_get_current_line_number( $xml_parser ) ) );
+	  }
+      }
+    fclose( $fp );
+    
+    xml_parser_free( $xml_parser );
+  }
+
+
+  /**
+   * Translation Parser Constructor
+   */
+  public function __construct()
+  {
+    // Get access to the Translator
+    $this->translator = Translator::getTranslator();
+  }
 
   /**
    * Start element
@@ -50,24 +98,25 @@ class TranslationParser
    * @param string $tagName The name of the tag being processed
    * @param array $attrs An array of attributes provided for the tag
    */
-  function startElement( $parser, $tagName, $attrs )
+  public function startElement( $parser, $tagName, $attrs )
   {
     $this->tag_stack[] = $tagName;
     switch( $tagName )
       {
       case "TRANSLATIONS":
-	$this->translations = array();
-	$this->translations['default_language'] = $attrs['DEFAULT_LANGUAGE'];
+	if( isset( $attrs['DEFAULT_LANGUAGE'] ) )
+	  {
+	    $this->translator->setDefaultLanguage( $attrs['DEFAULT_LANGUAGE'] );
+	  }
 	break;
 
       case "TRANSLATION":
-	$this->language = $attrs['LANGUAGE'];
-	$this->translations[$this->language] = array();
+	$this->translator->setActiveLanguage( $attrs['LANGUAGE'] );
 	break;
 
       case "PHRASE":
 	$this->phrase_id = $attrs['ID'];
-	$this->translation[$this->language][$this->phrase_id] = "";
+	$this->data = null;
 	break;
 
       default:
@@ -94,6 +143,7 @@ class TranslationParser
 	break;
 
       case "PHRASE":
+	$this->translator->registerTranslation( $this->phrase_id, $this->data );
 	unset( $this->phrase_id );
 	break;
       }
@@ -113,18 +163,9 @@ class TranslationParser
     switch( $tag_name )
       {
       case "PHRASE":
-	$this->translations[$this->language][$this->phrase_id] .= $data;
+	$this->data .= $data;
 	break;
       }
   }
-
-  /**
-   * Get Translations
-   *
-   * Returns a copy of the translations array
-   *
-   * @return array Translations
-   */
-  function getTranslations() { return $this->translations; }
 }
 ?>

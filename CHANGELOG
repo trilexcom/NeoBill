@@ -1,3 +1,17 @@
+10/24/2006 - jdiamond
+=====================
+
+ * This changeset includes a major revision to the form processing and widget
+   generating engines that form the core of the SolidWorks framework.  All of the
+   old validation code in Page::validate() and validate.php has been replaced by a
+   more dynamic and object oriented approach.  The same goes for all the old form
+   rendering code that was in smarty_extensions.php and smarty_widgets.php.
+ * (trac #81) Made the date widget a single field and integrated a popup calendar
+              using javascript from: http://www.mojavelinux.com/projects/popupcalendar
+ * (trac #117) Developed a PHP exceptions based error handeling framework to
+               replace the existing system based on fatal_error()
+ * (trac #76) The {form_element} tag can now have an arbitrary list of parameters
+
 9/12/2006 - jdiamond
 ====================
 

@@ -1,8 +1,8 @@
 <ul id="tabnav">
   {dbo_assign dbo="server_dbo" field="id" var="id"}
-  <li class="selected"> <a href="manager_content.php?page=services_view_server&id={$id}&action=info"> {echo phrase="SERVER_INFO"} </a> </li>
-  <li> <a href="manager_content.php?page=services_view_server&id={$id}&action=ips"> {echo phrase="IP_ADDRESSES"} </a> </li>
-  <li> <a href="manager_content.php?page=services_view_server&id={$id}&action=services"> {echo phrase="HOSTING_SERVICES"} </a> </li>
+  <li class="selected"> <a href="manager_content.php?page=services_view_server&server={$id}&action=info"> {echo phrase="SERVER_INFO"} </a> </li>
+  <li> <a href="manager_content.php?page=services_view_server&server={$id}&action=ips"> {echo phrase="IP_ADDRESSES"} </a> </li>
+  <li> <a href="manager_content.php?page=services_view_server&server={$id}&action=services"> {echo phrase="HOSTING_SERVICES"} </a> </li>
 </ul>
 
 <h2> {echo phrase="SERVER_INFORMATION"} </h2>

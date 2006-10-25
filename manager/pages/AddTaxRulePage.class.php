@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 // TaxRuleDBO class
-require_once $base_path . "DBO/TaxRuleDBO.class.php";
+require_once BASE_PATH . "DBO/TaxRuleDBO.class.php";
 
 /**
  * AddTaxRulePage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/TaxRuleDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddTaxRulePage extends AdminPage
+class AddTaxRulePage extends SolidStateAdminPage
 {
   /**
    * Action
@@ -39,7 +39,7 @@ class AddTaxRulePage extends AdminPage
     switch( $action_name )
       {
       case "new_tax_rule":
-	if( isset( $this->session['new_tax_rule']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->addTaxRule();
 	  }
@@ -61,7 +61,7 @@ class AddTaxRulePage extends AdminPage
    */
   function cancel()
   {
-    $this->goto( "taxes" );
+    $this->goback();
   }
 
   /**
@@ -69,30 +69,28 @@ class AddTaxRulePage extends AdminPage
    */
   function addTaxRule()
   {
-    if( $this->session['new_tax_rule']['allstates'] )
+    if( $this->post['allstates'] == "true" )
       {
-	$this->session['new_tax_rule']['allstates'] = "Yes";
-	$this->session['new_tax_rule']['state'] = null;
+	$this->post['state'] = null;
       }
     else
       {
-	if( !isset( $this->session['new_tax_rule']['state'] ) )
+	if( !isset( $this->post['state'] ) )
 	  {
 	    // A specific state was not provided
 	    $this->setError( array( "type" => "FIELD_MISSING",
 				    "args" => array( "[STATE]" ) ) );
-	    $this->goback(1);
+	    $this->reload();
 	  }
       }
 
     // Create a new Tax Rule DBO
     $taxrule_dbo = new TaxRuleDBO();
-    $taxrule_dbo->setCountry( $this->session['new_tax_rule']['country'] );
-    $taxrule_dbo->setState( $this->session['new_tax_rule']['state'] );
-    $taxrule_dbo->setRate( $this->session['new_tax_rule']['rate'] );
-    $taxrule_dbo->setAllStates( $this->session['new_tax_rule']['allstates'] ? 
-				"Yes" : "Specific"  );
-    $taxrule_dbo->setDescription( $this->session['new_tax_rule']['description'] );
+    $taxrule_dbo->setCountry( $this->post['country'] );
+    $taxrule_dbo->setState( $this->post['state'] );
+    $taxrule_dbo->setRate( $this->post['rate'] );
+    $taxrule_dbo->setAllStates( $this->post['allstates'] == "true" ? "Yes" : "Specific"  );
+    $taxrule_dbo->setDescription( $this->post['description'] );
 
     // Insert Tax Rule into database
     if( !add_TaxRuleDBO( $taxrule_dbo ) )

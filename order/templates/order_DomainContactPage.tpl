@@ -70,7 +70,7 @@
       <tr class="reverse">
         <td> 
           {echo phrase="BILLING_CONTACT"} 
-          &nbsp;(<input name="billingcopy" type="checkbox" onClick="javascript:adminToBilling( this.form );"> {echo phrase="USE_ADMIN_CONTACT"})
+          &nbsp;(<input name="billingcopy" value="true" type="checkbox" onClick="javascript:adminToBilling( this.form );"> {echo phrase="USE_ADMIN_CONTACT"})
         </td>
       </tr>
       <tr>
@@ -136,7 +136,7 @@
       <tr class="reverse">
         <td> 
           {echo phrase="TECHNICAL_CONTACT"} 
-          &nbsp;(<input name="techcopy" type="checkbox" onClick="javascript:billingToTech( this.form );"> {echo phrase="USE_BILLING_CONTACT"})
+          &nbsp;(<input name="techcopy" value="true" type="checkbox" onClick="javascript:billingToTech( this.form );"> {echo phrase="USE_BILLING_CONTACT"})
         </td>
       </tr>
       <tr>

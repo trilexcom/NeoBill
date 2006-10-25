@@ -10,9 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/ServerDBO.class.php";
+require_once BASE_PATH . "DBO/ServerDBO.class.php";
 
 /**
  * ServersPage
@@ -22,15 +22,8 @@ require_once $base_path . "DBO/ServerDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServersPage extends Page
+class ServersPage extends SolidStatePage
 {
-  /**
-   * Initialize Servers Page
-   */
-  function init()
-  {
-  }
-
   /**
    * Action
    *
@@ -43,7 +36,7 @@ class ServersPage extends Page
     switch( $action_name )
       {
       case "servers_action":
-	if( isset( $this->session['servers_action']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    $this->goto( "services_add_server" );
 	  }

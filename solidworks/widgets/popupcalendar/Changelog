@@ -1,0 +1,31 @@
+Popup Calendar: Javascript Popup Calendar and Date Selector
+
+version 2.0.6 (2003/01/16):
+        * screen placement setting
+
+version 2.0.5 (2002/11/21):
+        * added code to check for existing calendar window...and bringing to front
+        * option to use today as first date highlighted in calendar rather than date from field
+        * fixed bug when 1st was on Sunday and Monday was start of the week
+
+version 2.0.4
+        * wasn't parsing language date format properly when passing date to calendar from form
+        * localization is an option for calendar by passing language array from opener
+
+version 2.0.3
+        * calendar can now be set to start on monday
+        * date format reduced to just arranging 'm' 'd' 'y' in any order
+        * fixed padding when date is passed down for days and months < 10 (padded with zero)
+        * pulled out weekdays into an array so that the next step is localization
+
+version 2.0.2
+        * Improvements for Netscape 4 compatibility
+        * More code clean-up and consistent design
+        * bug fixes 
+
+version 2.0.1
+        * Lot's of code cleanup
+        * colors are now configured in an associative array for things like templates
+        * Slightly more compacted design
+        * speed enhancements and more efficient code
+        * an inkling of documentation 

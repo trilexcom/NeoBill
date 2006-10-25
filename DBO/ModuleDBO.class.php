@@ -11,7 +11,7 @@
  */
 
 // Parent class
-require_once $base_path . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
 
 /**
  * ModuleDBO
@@ -47,6 +47,13 @@ class ModuleDBO extends DBO
    * @var string Description
    */
   var $description;
+
+  /**
+   * Convert to a String
+   *
+   * @return string Module name
+   */
+  function __toString() { return $this->getName(); }
 
   /**
    * Set the Module Name

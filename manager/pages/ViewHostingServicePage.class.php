@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/HostingServiceDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
 
 /**
  * ViewHostingServicePage
@@ -23,41 +23,20 @@ require_once $base_path . "DBO/HostingServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewHostingServicePage extends Page
+class ViewHostingServicePage extends SolidStatePage
 {
   /**
    * Initialize View Hosting Service Page
-   *
-   * If a hosting service ID is provided in the query string, use it to load the
-   * HostingServiceDBO from the database, then place the DBO in the session.
-   * Otherwise, use the DBO that is already there.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Hosting Service from the database
-	$dbo = load_HostingServiceDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['hosting_dbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "hservice", $this->get['hservice']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Hosting Service
-	$this->setError( array( "type" => "DB_HOSTING_SERVICE_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['hosting_dbo'] = $dbo;
-      }
+    // Store service DBO in session
+    $this->session['hosting_dbo'] =& $this->get['hservice'];
   }
 
   /**
@@ -72,33 +51,27 @@ class ViewHostingServicePage extends Page
   {
     switch( $action_name )
       {
-
       case "view_hosting_action":
-
-	if( isset( $this->session['view_hosting_action']['edit'] ) )
+	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Hosting Service
 	    $this->goto( "services_edit_hosting",
 			 null,
-			 "id=" . $this->session['hosting_dbo']->getID() );
+			 "hservice=" . $this->get['hservice']->getID() );
 	  }
-	elseif( isset( $this->session['view_hosting_action']['delete'] ) )
+	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Hosting Service
 	    $this->goto( "services_delete_hosting",
 			 null,
-			 "id=" . $this->session['hosting_dbo']->getID() );
+			 "hservice=" . $this->get['hservice']->getID() );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }
-
 ?>

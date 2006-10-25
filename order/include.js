@@ -12,11 +12,7 @@ function adminToBilling( form )
       form.bcity.value = form.acity.value;
       form.bstate.value = form.astate.value;
       form.bpostalcode.value = form.apostalcode.value;
-      form.bphone_cc.value = form.aphone_cc.value;
-      form.bphone_area.value = form.aphone_area.value;
       form.bphone.value = form.aphone.value;
-      form.bfax_cc.value = form.afax_cc.value;
-      form.bfax_area.value = form.afax_area.value;
       form.bfax.value = form.afax.value;
     }
   else
@@ -31,11 +27,7 @@ function adminToBilling( form )
       form.bcity.value = "";
       form.bstate.value = "";
       form.bpostalcode.value = "";
-      form.bphone_cc.value = "";
-      form.bphone_area.value = "";
       form.bphone.value = "";
-      form.bfax_cc.value = "";
-      form.bfax_area.value = "";
       form.bfax.value = "";
     }
 }
@@ -54,11 +46,7 @@ function billingToTech( form )
       form.tcity.value = form.bcity.value;
       form.tstate.value = form.bstate.value;
       form.tpostalcode.value = form.bpostalcode.value;
-      form.tphone_cc.value = form.bphone_cc.value;
-      form.tphone_area.value = form.bphone_area.value;
       form.tphone.value = form.bphone.value;
-      form.tfax_cc.value = form.bfax_cc.value;
-      form.tfax_area.value = form.bfax_area.value;
       form.tfax.value = form.bfax.value;
     }
   else
@@ -73,11 +61,7 @@ function billingToTech( form )
       form.tcity.value = "";
       form.tstate.value = "";
       form.tpostalcode.value = "";
-      form.tphone_cc.value = "";
-      form.tphone_area.value = "";
       form.tphone.value = "";
-      form.tfax_cc.value = "";
-      form.tfax_area.value = "";
       form.tfax.value = "";
     }
 }

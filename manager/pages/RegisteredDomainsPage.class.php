@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // InvoiceDBO class
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
 
 /**
  * RegisteredDomainsPage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RegisteredDomainsPage extends Page
+class RegisteredDomainsPage extends SolidStatePage
 {
   /**
    * Initialize Registered Domains Page
@@ -50,12 +50,9 @@ class RegisteredDomainsPage extends Page
   {
     switch( $action_name )
       {
-
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

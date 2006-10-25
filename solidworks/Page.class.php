@@ -12,6 +12,7 @@
 
 // Validation functions
 require_once "validate.php";
+require_once "Form.class.php";
 
 // Country Code list is this field's enum
 require_once "cc.php";
@@ -69,11 +70,6 @@ class Page
   var $location_stack = array();
 
   /**
-   * @var hash Forms handled by this page
-   */
-  var $forms = array();
-
-  /**
    * @var hash Reference to this Page's session data
    */
   var $session;
@@ -99,11 +95,109 @@ class Page
   var $conf;
 
   /**
+   * @var array URL Field/Value pairs
+   */
+  protected $urlFields = array();
+
+  /**
+   * @var array Processed GET fields
+   */
+  protected $get = array();
+
+  /**
+   * @var array Processed POST fields
+   */
+  protected $post = array();
+
+  /**
+   * @var Form A form representing fields passed through the URL
+   */
+  protected $urlForm = null;
+
+  /**
+   * @var array An array of Forms configured for this page
+   */
+  protected $forms = null;
+
+  /**
+   * @var array Widget vars
+   */
+  protected $widgetVars = array();
+
+  /**
    * Constructor
    */
-  function Page( )
+  public function __construct()
   {
   }
+
+  /**
+   * Init
+   *
+   * Initialize the page.  Validate the GET fields.
+   */
+  function init()
+  {
+    // Remove control fields from the query
+    $getData = $_GET;
+    unset( $getData['page'] );
+    unset( $getData['submit'] );
+    unset( $getData['action'] );
+    unset( $getData['no_headers'] );
+
+    // Process the query string
+    $this->get = $this->urlForm->process( $getData );
+  }
+
+  /**
+   * Set Widget Var
+   *
+   * Widgets vars are used for communication between the Page object and
+   * form widgets.
+   *
+   * @param string $var Name of the variable to set
+   * @param mixed $value Variable value
+   */
+  function setWidgetVar( $var, $value ) { $this->widgetVars[$var] = $value; }
+
+  /**
+   * Get Widget Var
+   *
+   * Widgets vars are used for communication between the Page object and
+   * form widgets.
+   *
+   * @param string $var Name of the variable to read
+   */
+  function getWidgetVar( $var ) { return $this->widgetVars[$var]; }
+
+  /**
+   * Get URL Fields and Values
+   *
+   * Returns the URL field names and values
+   *
+   * @return array URL Fields and data as fieldName => value
+   */
+  public function getURLFieldData() { return $this->urlFields; }
+
+  /**
+   * Set a URL Field
+   *
+   * Set a field and a value to be included in the URL query for this page
+   *
+   * @param string $fieldName The name of the URL field
+   * @param string $value Value
+   */
+  function setURLField( $fieldName, $value )
+  {
+    $this->urlFields[$fieldName] = $value;
+  }
+
+  /**
+   * Clear a URL Field
+   *
+   * @param string $fieldName Field to be cleared
+   */
+  function clearURLField( $fieldName ) { unset( $this->urlFields[$fieldName] ); }
 
   /**
    * Load
@@ -138,13 +232,16 @@ class Page
 	    $this->disable();
 	  }
 
+	// Configure the URL form
+	$this->urlForm = new Form( "url", $page_data );
+
 	// Load any forms configured for this Page
 	foreach( $conf['forms'] as $form_name => $form_data )
 	  {
 	    if( $form_data['page'] == $this->getName() )
 	      {
 		// Add this form
-		$this->addForm( $form_name );
+		$this->addForm( new Form( $form_name, $form_data ) );
 	      }
 	  }
 
@@ -167,6 +264,16 @@ class Page
   function disable() { $this->disabled = true; }
 
   /**
+   * Display Exception
+   *
+   * @param SWException $e Exception to be passed to the presentation layer
+   */
+  function exception( $e )
+  {
+    $_SESSION['exceptions'][] = $e->__toString();
+  }
+
+  /**
    * Is Disabled
    *
    * Returns true if this page is disabled
@@ -174,7 +281,23 @@ class Page
   function isDisabled() { return ($this->disabled == true); }
 
   /**
-   * Validate Form
+   * Get Form
+   *
+   * @param string $formName The name of the form
+   * @return Form A reference to the named form object
+   */
+  public function &getForm( $formName )
+  {
+    if( !isset( $this->forms[$formName] ) )
+      {
+	throw new SWException( "Form not found: " . $formName );
+      }
+
+    return $this->forms[$formName];
+  }
+
+  /**
+   * Process Form
    *
    * Validate each field on the form according to the validation parameters
    * set in the config file.  If a field is invalid, set an error and return false.
@@ -183,31 +306,43 @@ class Page
    * @param string $form_name Form name
    * @return boolean True if form validated OK
    */
-  function validate_form( $form_name )
+  function processForm( $form_name )
   {
-    global $cc;
-    $conf =& $this->conf;
-
     // Initialize errors
     $errors = array();
 
     // Clear form data from session
     unset( $this->session[$form_name] );
 
-    // Access form fields configuration
-    $fields = $conf['forms'][$form_name]['fields'];
-
-    // Stop if a 'cancel' field is in the posted data
-    foreach( $fields as $field_name => $field_data )
+    // Proccess POST data
+    try
       {
-	if( $field_data['type'] == "cancel" && isset( $_POST[$field_name] ) )
+	if( !isset( $this->forms[$form_name] ) )
 	  {
-	    // Form canceled
-	    $this->session[$form_name][$field_name] = $_POST[$field_name];
-	    return true;
+	    throw new SWException( "Invalid form name: " . $form_name );
 	  }
+
+	$this->post =& $this->session[$form_name];
+	$this->session[$form_name] = $this->forms[$form_name]->process( $_POST );
+      }
+    catch( InvalidFormException $e )
+      {
+	// Create a page error for each invalid field
+	foreach( $e->getFieldExceptions() as $fieldException )
+	  {
+	    $this->exception( $fieldException );
+	  }
+
+	// Store form data in the session
+	$this->session[$form_name] = $e->getFormData();
+
+	return false;
       }
 
+    // Return true if no errors in page
+    return true;
+
+    /*
     // Validate each field in this form
     foreach( $fields as $field_name => $field_data )
       {
@@ -417,34 +552,26 @@ class Page
 	$this->session[$form_name][$field_name] = 
 	  $field_data['md5'] ? md5( $posted_data ) : $posted_data;
       }
-
-    // Return true if no errors in page
-    return !$this->hasErrors();
+    */
   }
 
   /**
    * Jump Back
-   *
-   * Jump $steps number of pages backwards on the navigation stack.  The default
-   * is to step back 2 pages.  When you submit a form, you have already moved
-   * forward 1 page on the navigation stack, therefor stepping back 2 pages will
-   * place you on the page you were at before the form was submitted.  If you wish
-   * to go back to the form, pass 1.
-   *
-   * @param integer $steps Number of pages to jump back
    */
-  function goback( $steps = 2 )
+  function goback()
   {
-    for( $i = 0; $i < $steps; $i++ )
+    // Pop off this page's entries on the navstack
+    $lastPage = array_pop( $_SESSION['navstack'] );
+    while( $lastPage['page'] == $this->getName() )
       {
-	// Pop off this page's entry on the navstack
-	$url = array_pop( $_SESSION['navstack'] );
+	$lastPage = array_pop( $_SESSION['navstack'] );
       }
 
-    if( isset( $url ) )
+    if( isset( $lastPage ) )
       {
 	// Jump back
-	header( "Location: " . $url );
+	header( "Location: " . $lastPage['url'] );
+	exit();
       }
 
     // Nav stack is empty
@@ -452,26 +579,14 @@ class Page
   }
 
   /**
-   * Push URL
+   * Reload the Current Page
    *
-   * Push this page's URL onto the stack
+   * Reloads the current page
    */
-  function pushURL()
+  protected function reload()
   {
-    $_SESSION['url_stack'][] = $_SERVER['REQUEST_URI'];
-  }
-
-  /**
-   * Pop URL
-   *
-   * Pop a URL off the stack
-   *
-   * @return string URL from the top of the stack
-   */
-  function popURL()
-  {
-    $url = array_pop( $_SESSION['url_stack'] );
-    header( "Location: " . $url );
+    header( "Location: " . $this->getURL() );
+    exit();
   }
 
   /**
@@ -499,6 +614,10 @@ class Page
 		// Hand messages over to new page
 		$_SESSION[$page_data['name']]['messages'] = $messages;
 	      }
+
+	    // Push the current location onto the navstack
+	    $_SESSION['navstack'][] = array( "page" => $this->getName(), 
+					     "url" => $this->getURL() );
 
 	    // Redirect client
 	    $url = $page_data['url'];
@@ -573,14 +692,12 @@ class Page
     $_SESSION['messages'][] = $message;
 
     // Insert arguments into message
-    $text = translate( $this->conf['locale']['language'], $message['type'] );
+    $text = $message['type'];
     if( isset( $message['args'] ) )
       {
 	foreach( $message['args'] as $i => $arg )
 	  {
-	    $text = str_replace( "{" . $i . "}", 
-				 translate_string( $this->conf['locale']['language'], $arg ),
-				 $text );
+	    $text = str_replace( "{" . $i . "}", $arg, $text );
 	  }
       }
     log_notice( $this->getClassName(), $text );
@@ -598,15 +715,12 @@ class Page
     $_SESSION['errors'][] = $error;
 
     // Insert arguments into message
-    $text = translate( $this->conf['locale']['language'], $error['type'] );
+    $text = $error['type'];
     if( isset( $error['args'] ) )
       {
 	foreach( $error['args'] as $i => $arg )
 	  {
-	    $s = translate_string( $this->conf['locale']['language'], $arg );
-	    $text = str_replace( "{" . $i . "}", 
-				 $s,
-				 $text );
+	    $text = str_replace( "{" . $i . "}", $arg, $text );
 	  }
       }
     log_error( $this->getClassName(), $text );
@@ -695,12 +809,9 @@ class Page
   /**
    * Registers a form to be handled by this Page
    *
-   * @param string $form_name
+   * @param Form A Form object
    */
-  function addForm( $form_name )
-  {
-    array_push( $this->forms, $form_name );
-  }
+  function addForm( $form ) { $this->forms[$form->getName()] = $form; }
 
   /**
    * Get Location Stack
@@ -761,7 +872,7 @@ class Page
    */
   function setTitle( $title )
   {
-    $this->title = translate_string( $this->conf['locale']['language'], $title );
+    $this->title = $title;
   }
 
   /**
@@ -771,8 +882,15 @@ class Page
    */
   function getUrl()
   {
-    $url = $this->url;
+    // Build the basic URL
+    $url = sprintf( "%s?page=%s", $this->conf['controller'], $this->getName() );
 
+    // Add any URL fields
+    foreach( $this->getURLFieldData() as $key => $value )
+      {
+	$url .= sprintf( "&%s=%s", $key, $value );
+      }
+    
     // Replace Nav Vars with their values
     if( $_SESSION['nav_vars'] != null )
       {

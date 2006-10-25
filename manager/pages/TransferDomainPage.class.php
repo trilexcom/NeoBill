@@ -11,13 +11,13 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // Include DBO's
-require_once $base_path . "DBO/AccountDBO.class.php";
-require_once $base_path . "DBO/DomainServiceDBO.class.php";
-require_once $base_path . "DBO/DomainServicePurchaseDBO.class.php";
-require_once $base_path . "DBO/ContactDBO.class.php";
+require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
+require_once BASE_PATH . "DBO/ContactDBO.class.php";
 
 /**
  * TransferDomainPage
@@ -25,7 +25,7 @@ require_once $base_path . "DBO/ContactDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class TransferDomainPage extends Page
+class TransferDomainPage extends SolidStatePage
 {
   /**
    * @var AccountDBO Account this domain will be registered for
@@ -49,29 +49,29 @@ class TransferDomainPage extends Page
     switch( $action_name )
       {
       case "transfer_domain":
-	if( isset( $this->session['transfer_domain']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->verifyTransferEligible();
 	  }
 	break;
 
       case "transfer_domain_service":
-	if( isset( $this->session['transfer_domain_service']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->confirm();
 	  }
-	elseif( isset( $this->session['transfer_domain_service']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
 	break;
 
       case "transfer_domain_confirm":
-	if( isset( $this->session['transfer_domain_confirm']['continue'] ) )
+	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->executeTransfer();
 	  }
-	elseif( isset( $this->session['transfer_domain_confirm']['cancel'] ) )
+	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    $this->cancel();
 	  }
@@ -102,16 +102,11 @@ class TransferDomainPage extends Page
    */
   function confirm()
   {
-    // Load the account DBO
-    if( !($this->accountDBO = 
-	  load_AccountDBO( $this->session['transfer_domain_service']['accountid'] )) )
-      {
-	fatal_error( "RegisterDomainPage::confirm()","Failed to load Account!" );
-      }
+    $this->accountDBO = $this->post['account'];
 
     // Fill in the purchase DBO with the account id and purchase terms
     $this->purchaseDBO->setAccountID( $this->accountDBO->getID() );
-    $this->purchaseDBO->setTerm( $this->session['transfer_domain_service']['term'] );
+    $this->purchaseDBO->setTerm( $this->post['term'] );
 
     // Provide the template with the name servers
     $this->smarty->assign( "nameservers", $this->conf['dns']['nameservers'] );
@@ -153,7 +148,7 @@ class TransferDomainPage extends Page
     if( !$module->transferDomain( $this->purchaseDBO->getDomainName(),
 				  $this->purchaseDBO->getTLD(),
 				  $this->purchaseDBO->getTermInt(),
-				  $this->session['transfer_domain']['secret'],
+				  $this->post['secret'],
 				  $contacts,
 				  $this->accountDBO ) )
       {
@@ -182,42 +177,10 @@ class TransferDomainPage extends Page
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
+
     $this->purchaseDBO =& $this->session['dspdbo'];
     $this->accountDBO =& $this->session['accountdbo'];
-
-    if( isset( $id ) )
-      {
-	// Retrieve the Account from the database
-	if( !($this->accountDBO = load_AccountDBO( intval( $id ) )) )
-	  {
-	    fatal_error( "RegisterDomainPage::init()", "Could not load account." );
-	  }
-      }
-  }
-
-  /**
-   * Populate the Registration Term drop-down menu
-   *
-   * @return array Term => Description + price
-   */
-  function populateTermField()
-  {
-    global $cs;
-
-    $cs = $this->conf['locale']['currency_symbol'];
-    $dsDBO = load_DomainServiceDBO( $this->session['dspdbo']->getTLD() );
-    $return['1 year'] = "[1_YEAR] - " . $cs . $dsDBO->getPrice1yr();
-    $return['2 year'] = "[2_YEARS] - " . $cs . $dsDBO->getPrice2yr();
-    $return['3 year'] = "[3_YEARS] - " . $cs . $dsDBO->getPrice3yr();
-    $return['4 year'] = "[4_YEARS] - " . $cs . $dsDBO->getPrice4yr();
-    $return['5 year'] = "[5_YEARS] - " . $cs . $dsDBO->getPrice5yr();
-    $return['6 year'] = "[6_YEARS] - " . $cs . $dsDBO->getPrice6yr();
-    $return['7 year'] = "[7_YEARS] - " . $cs . $dsDBO->getPrice7yr();
-    $return['8 year'] = "[8_YEARS] - " . $cs . $dsDBO->getPrice8yr();
-    $return['9 year'] = "[9_YEARS] - " . $cs . $dsDBO->getPrice9yr();
-    $return['10 year'] = "[10_YEARS] - " . $cs . $dsDBO->getPrice10yr();
-    return $return;
   }
 
   /**
@@ -225,29 +188,26 @@ class TransferDomainPage extends Page
    */
   function verifyTransferEligible()
   {
-    $serviceDBO = 
-      load_DomainServiceDBO( $this->session['transfer_domain']['servicetld'] );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+    $module = $this->conf['modules'][$this->post['servicetld']->getModuleName()];
 
     $fqdn = sprintf( "%s.%s", 
-		     $this->session['transfer_domain']['domainname'],
-		     $this->session['transfer_domain']['servicetld'] );
+		     $this->post['domainname'], 
+		     $this->post['servicetld']->getTLD() );
     if( !$module->isTransferable( $fqdn ) )
       {
 	// Domain is not eligible for transfer
 	$this->setError( array( "type" => "DOMAIN_NOT_TRANSFERABLE",
 				"args" => array( $fqdn ) ) );
-	$this->goback( 1 );
+	$this->reload();
       }
 
     // Domain can be transfered
     $this->purchaseDBO = new DomainServicePurchaseDBO();
-    $this->purchaseDBO->setTLD( $this->session['transfer_domain']['servicetld'] );
-    $this->purchaseDBO->setDomainName( $this->session['transfer_domain']['domainname'] );
+    $this->purchaseDBO->setTLD( $this->post['servicetld']->getTLD() );
+    $this->purchaseDBO->setDomainName( $this->post['domainname'] );
     $this->setMessage( array( "type" => "DOMAIN_IS_ELIGIBLE",
 			      "args" => array( $fqdn ) ) );
     $this->setTemplate( "transfer" );
   }
 }
-
 ?>

@@ -28,11 +28,11 @@
              size="10"}
 
     {dbo_table_column header="[DOMAIN_NAME]" sort_field="domainname"}
-      <a href="manager_content.php?page=domains_edit_domain&id={dbo_echo dbo="domaindbo_table" field="id"}">{dbo_echo dbo="domaindbo_table" field="fulldomainname"}</a>
+      <a href="manager_content.php?page=domains_edit_domain&dpurchase={dbo_echo dbo="domaindbo_table" field="id"}">{dbo_echo dbo="domaindbo_table" field="fulldomainname"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[ACCOUNT]" sort_field="accountname"}
-      <a href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="domaindbo_table" field="accountid"}">{dbo_echo dbo="domaindbo_table" field="accountname"}</a>
+      <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="domaindbo_table" field="accountid"}">{dbo_echo dbo="domaindbo_table" field="accountname"}</a>
     {/dbo_table_column}
 
     {dbo_table_column header="[REGISTRATION_DATE]" sort_field="date"}

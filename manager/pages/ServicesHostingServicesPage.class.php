@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once $base_path . "DBO/HostingServiceDBO.class.php";
+require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
 
 /**
  * ServicesHostingServicesPage
@@ -23,7 +23,7 @@ require_once $base_path . "DBO/HostingServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServicesHostingServicesPage extends Page
+class ServicesHostingServicesPage extends SolidStatePage
 {
   /**
    * Action
@@ -37,22 +37,17 @@ class ServicesHostingServicesPage extends Page
   {
     switch( $action_name )
       {
-
       case "web_hosting_action":
-
-	if( isset( $this->session['web_hosting_action']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    // Goto new user page
 	    $this->goto( "services_new_hosting" );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

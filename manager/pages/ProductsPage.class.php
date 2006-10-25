@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // ProductDBO class
-require_once $base_path . "DBO/ProductDBO.class.php";
+require_once BASE_PATH . "DBO/ProductDBO.class.php";
 
 /**
  * ProductsPage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/ProductDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ProductsPage extends Page
+class ProductsPage extends SolidStatePage
 {
   /**
    * Action
@@ -38,22 +38,17 @@ class ProductsPage extends Page
   {
     switch( $action_name )
       {
-
       case "products_action":
-
-	if( isset( $this->session['products_action']['add'] ) )
+	if( isset( $this->post['add'] ) )
 	  {
 	    // Goto new user page
 	    $this->goto( "services_new_product" );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }

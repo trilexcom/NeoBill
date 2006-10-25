@@ -98,37 +98,9 @@
 
 </div>
 
-<div class="cart">
-  {dbo_table dbo_class="OrderItemDBO"
-             name="orderTable"
-             method_name="populateOrderTable"
-             title="[YOUR_CART]"
-             noFooter="true"}
-
-    {dbo_table_column header="[ITEM]"}
-      {dbo_echo dbo="orderTable" field="description"}
-    {/dbo_table_column}
-
-    {dbo_table_column header="[TERM]"}
-      {dbo_echo dbo="orderTable" field="term"}
-    {/dbo_table_column}
-
-    {dbo_table_column header="[PRICE]"}
-      {dbo_echo|currency dbo="orderTable" field="price"}
-    {/dbo_table_column}
-
-    {dbo_table_column header="[SETUP_FEE]"}
-      {dbo_echo|currency dbo="orderTable" field="setupfee"}
-    {/dbo_table_column}
-
-    {dbo_table_column header="[TAX]"}
-      {dbo_echo|currency dbo="orderTable" field="taxamount"}
-    {/dbo_table_column}
-
-  {/dbo_table}
-</div>
-
 {form name="review"}
+  {form_element field="cart"}
+
   {dbo_assign dbo="order" field="accounttype" var="accounttype"}
   {if $accounttype == "New Account"}
     <div class="cart_total">

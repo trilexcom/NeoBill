@@ -11,10 +11,10 @@
  */
 
 // Include the parent class
-require_once $base_path . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // TaxRuleDBO class
-require_once $base_path . "DBO/TaxRuleDBO.class.php";
+require_once BASE_PATH . "DBO/TaxRuleDBO.class.php";
 
 /**
  * TaxesPage
@@ -24,7 +24,7 @@ require_once $base_path . "DBO/TaxRuleDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class TaxesPage extends Page
+class TaxesPage extends SolidStatePage
 {
   /**
    * Action
@@ -64,23 +64,17 @@ class TaxesPage extends Page
 	return;
       }
 
-    // Access the Tax Rule DBO
-    $id = intval( form_field_filter( null, $_GET['id'] ) );
-    if( ($taxrule_dbo = load_TaxRuleDBO( $id )) == null )
-      {
-	fatal_error( "TaxesPage::remove()", "That tax rule does not exist: " . $id );
-      }
-
     // Remove the Tax Rule from the database
-    if( !delete_TaxRuleDBO( $taxrule_dbo ) )
+    if( !delete_TaxRuleDBO( $this->get['taxrule'] ) )
       {
 	$this->setError( array( "type" => "DB_DELETE_TAX_RULE_FAILED",
 				"args" => array( $id ) ) );
-	return;
+	$this->reload();
       }
 
     // Success
     $this->setMessage( array( "type" => "TAX_RULE_DELETED" ) );
+    $this->reload();
   }
 }
 

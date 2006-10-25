@@ -63,7 +63,9 @@ function load_settings( &$conf )
 	case "invoice_text": $conf['invoice_text'] = $val; break;
 	case "invoice_subject": $conf['invoice_subject'] = $val; break;
 
-	case "locale_language": $conf['locale']['language'] = $val; break;
+	case "locale_language": 
+	  Translator::getTranslator()->setActiveLanguage( $val ); 
+	  break;
 	case "locale_currency_symbol": $conf['locale']['currency_symbol'] = $val; break;
 
 	case "payment_gateway_default_module": 
