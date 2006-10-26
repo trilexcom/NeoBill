@@ -3,7 +3,7 @@
 <div class="action">
   <p class="header">{echo phrase="ACTIONS"}</p>
   {form name="view_invoice_action"}
-    <input type="button" value="Print" onClick="window.open('manager_content.php?page=billing_print_invoice&id={$invoice_id}&no_headers=1','Print Invoice')"/>
+    <input type="button" value="Print" onClick="window.open('manager_content.php?page=billing_print_invoice&id={$invoice_id}&no_headers=1')"/>
     {form_element field="email"}
     {form_element field="delete"}
     {form_element field="add_payment"}
