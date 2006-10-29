@@ -122,15 +122,16 @@ function smarty_modifier_datetime( $value, $show_part = null )
   switch( $show_part )
     {
     case "date":
-      return strftime( "%m/%d/%Y", $time );
+      return strftime( "%m/%d/%y", $time );
       break;
 
     case "time":
-      return strftime( "%r", $time );
+      return strftime( "%H:%M:%S", $time );
       break;
 
     default:
-      return strftime( "%m/%e/%Y, %r", $time );
+      //return strftime( "%m/%e/%Y, %r", $time ); -- Not Windows compatible
+      return strftime( "%m/%d/%y, %H:%M:%S", $time );
 
     }
 }
