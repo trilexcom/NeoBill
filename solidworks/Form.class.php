@@ -67,7 +67,7 @@ class Form
    *
    * @param FormField $formField FormField object to add
    */
-  public function addFormField( $formField )
+  public function addFormField( FormField $formField )
   {
     if( isset( $this->fields[$formField->getName()] ) )
       {

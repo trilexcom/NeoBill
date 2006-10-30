@@ -145,6 +145,45 @@ class Page
     unset( $getData['action'] );
     unset( $getData['no_headers'] );
 
+    // Add some control fields to the parameter list
+
+    // Table name
+    $this->urlForm->addFormField( new FormField( "url",
+						 "swtablename",
+						 null,
+						 "text",
+						 null ) );
+
+    // Table form name
+    $this->urlForm->addFormField( new FormField( "url",
+						 "swtableform",
+						 null,
+						 "text",
+						 null ) );
+
+    // Table sort direction
+    $SWTableSortDir = new FormField( "url",
+				     "swtablesortdir",
+				     null,
+				     "choice",
+				     array( "enum" => array( "ASC" => "Ascending",
+							     "DESC" => "Descending" ) ) );
+    $this->urlForm->addFormField( $SWTableSortDir );
+    
+    // Table sort column
+    $this->urlForm->addFormField( new FormField( "url",
+						 "swtablesortcol",
+						 null,
+						 "text",
+						 null ) );
+
+    // Table start position
+    $this->urlForm->addFormField( new FormField( "url",
+						 "swtablestart",
+						 null,
+						 "int",
+						 array( "min_value" => 0 ) ) );
+    
     // Process the query string
     $this->get = $this->urlForm->process( $getData );
   }
@@ -294,265 +333,6 @@ class Page
       }
 
     return $this->forms[$formName];
-  }
-
-  /**
-   * Process Form
-   *
-   * Validate each field on the form according to the validation parameters
-   * set in the config file.  If a field is invalid, set an error and return false.
-   * Only forms explicity configured for this page are allowed to be submitted.
-   *
-   * @param string $form_name Form name
-   * @return boolean True if form validated OK
-   */
-  function processForm( $form_name )
-  {
-    // Initialize errors
-    $errors = array();
-
-    // Clear form data from session
-    unset( $this->session[$form_name] );
-
-    // Proccess POST data
-    try
-      {
-	if( !isset( $this->forms[$form_name] ) )
-	  {
-	    throw new SWException( "Invalid form name: " . $form_name );
-	  }
-
-	$this->post =& $this->session[$form_name];
-	$this->session[$form_name] = $this->forms[$form_name]->process( $_POST );
-      }
-    catch( InvalidFormException $e )
-      {
-	// Create a page error for each invalid field
-	foreach( $e->getFieldExceptions() as $fieldException )
-	  {
-	    $this->exception( $fieldException );
-	  }
-
-	// Store form data in the session
-	$this->session[$form_name] = $e->getFormData();
-
-	return false;
-      }
-
-    // Return true if no errors in page
-    return true;
-
-    /*
-    // Validate each field in this form
-    foreach( $fields as $field_name => $field_data )
-      {
-	$field_data['name'] = $field_name;
-	if( is_array( $_POST[$field_name] ) )
-	  {
-	    foreach( $_POST[$field_name] as $key => $value )
-	      {
-		$_POST[$field_name][$key] = form_field_filter( $field_data, 
-							       $value );
-	      }
-	    $posted_data = $_POST[$field_name];
-	  }
-	else
-	  {
-	    $posted_data = form_field_filter( $field_data, $_POST[$field_name] );
-	  }
-
-	if( strlen( $posted_data ) == 0 && !$field_data['required'] )
-	  {
-	    if( $field_data['type'] == "checkbox" )
-	      {
-		$this->session[$form_name][$field_name] = false;
-	      }
-
-	    // Validation not required
-	    continue;
-	  }
-
-	if( $field_data['required'] && strlen( $posted_data ) == 0 )
-	  {
-	    // Required field is missing
-	    $this->setError( array( "type"       => "FIELD_MISSING",
-				    "field_name" => $field_name,
-				    "args"       => array( $field_data['description'] ) ) );
-	    continue;
-	  }
-
-	if( $field_data['validate'] )
-	  {
-	    // Validate this field
-	    switch( $field_data['type'] )
-	      {
-	      case "checkarray":
-		if( isset( $field_data['hash'] ) )
-		  {
-		    $field_data['enum'] = $this->session[$field_data['hash']];
-		  }
-		if( ($error = validate_checkarray( $field_data, $posted_data ) ) )
-		  {
-		    $this->setError( $error );
-		    continue;
-		  }
-		break;
-
-	      case "table":
-		$field_data['enum'] = $this->session[$field_name]['values'];
-		if( ($error = validate_table( $field_data, $posted_data ) ) )
-		  {
-		    $this->setError( $error );
-		    continue;
-		  }
-		break;
-
-	      case "ipaddress":
-		// Parts go left to right
-		$ip_parts[0] = intval( $posted_data );
-		$ip_parts[1] = intval( $_POST[$field_name . "_2"] );
-		$ip_parts[2] = intval( $_POST[$field_name . "_3"] );
-		$ip_parts[3] = intval( $_POST[$field_name . "_4"] );
-		$posted_data = 0;
-		if( ($error = validate_ipaddress( $field_data, $ip_parts )) != null )
-		  {
-		    $this->setError( $error );
-		    continue;
-		  }
-		$posted_data = 
-		  ($ip_parts[0] << 24) |
-		  ($ip_parts[1] << 16) |
-		  ($ip_parts[2] << 8) |
-		  ($ip_parts[3]);
-		break;
-
-	      case "telephone":
-		$phone['cc'] = $_POST[$field_name . "_cc"];
-		$phone['area'] = $_POST[$field_name . "_area"];
-		$phone['number'] = str_replace( "-", "", $posted_data );
-		if( ($error = validate_phone( $field_data, $phone )) != null )
-		  {
-		    // Invalid phone number
-		    $this->setError( $error );
-		    $posted_data = "1-555-5555";
-		    continue;
-		  }
-		$posted_data = format_phone_number( $phone );
-		break;
-
-	      case "date":
-		$date['month'] = intval($posted_data) + 1;
-		$date['day'] = intval( $_POST[$field_name . "_day"] );
-		$date['year'] = intval( $_POST[$field_name . "_year"] );
-		if( ($error = validate_date( $field_data, $date )) != null )
-		{
-		  // Invalid date
-		  $this->setError( $error );
-
-		  // Reset field to now
-		  $posted_data = time();
-		  continue;
-		}
-
-		// Store date as a timestamp
-		$posted_data = mktime( 0, 0, 1, 
-				       $date['month'], 
-				       $date['day'], 
-				       $date['year'] );
-		break;
-
-	      case "db_select":
-		if( ($error = validate_db_select( $field_data, $posted_data )) != null )
-		  {
-		    // Value received was not found in the database
-		    $this->setError( $error );
-		    continue;
-		  }
-		break;
-
-	      case "country":
-		$field_data['enum'] = $cc;
-
-	      case "radio":
-	      case "select":
-		// Determine the correct location of accepted values
-		if( isset( $field_data['hash'] ) )
-		  {
-		    $field_data['enum'] = $this->session[$field_data['hash']];
-		  }
-		if( isset( $field_data['method_name'] ) )
-		  {
-		    $field_data['enum'] = 
-		      call_user_func( array( $this, 
-					     $field_data['method_name'] ) );
- 		  }
-
-		if( ($error = validate_select( $field_data, $posted_data )) != null )
-		  {
-		    // Value received is not a valid select option
-		    $this->setError( $error );
-		    continue;
-		  }
-		break;
-
-	      case "checkbox":
-		$posted_data = true;
-		break;
-
-	      case "int":
-		// Force an integer value
-		$posted_data = intval( $posted_data );
-
-	      case "float":
-	      case "dollar":
-		if( ($error = validate_number( $field_data, $posted_data )) != null )
-		  {
-		    // Bad number
-		    $this->setError( $error );
-		    continue;
-		  }
-		break;
-
-	      case "email":
-		if( ($error = validate_length( $field_data, $posted_data )) != null )
-		  {
-		    // Bad length
-		    $this->setError( $error );
-		    continue;
-		  }
-		if( ($error = validate_email( $field_data, $posted_data )) != null )
-		  {
-		    // Not an email address
-		    $this->setError( $error );
-		    continue;
-		  }
-		break;
-
-	      case "password":
-	      case "textarea":
-	      case "text":
-		if( ($error = validate_length( $field_data, $posted_data )) != null )
-		  {
-		    // Bad length
-		    $this->setError( $error );
-		    continue;
-		  }
-		break;
-
-	      default:
-
-		// Field type not recognized
-		fatal_error( $this->getClassName(),
-			     "Invalid field type: " . $field_data['type'] );
-	      }
-	  }
-
-	// Store field contents in session
-	// If it's a password field, md5 it
-	$this->session[$form_name][$field_name] = 
-	  $field_data['md5'] ? md5( $posted_data ) : $posted_data;
-      }
-    */
   }
 
   /**
@@ -769,6 +549,20 @@ class Page
   {
     switch( $action_name )
       {
+      case "swtablesort":
+	$this->session['tables']['sortform'] = $this->get['swtableform'];
+	$this->session['tables']['sorttable'] = $this->get['swtablename'];
+	$widget = $this->forms[$this->get['swtableform']]->getField( $this->get['swtablename'] )->getWidget();
+	$widget->setSortCol( $this->get['swtablesortcol'] );
+	$widget->setSortDir( $this->get['swtablesortdir'] );
+	$widget->setStartIndex( 0 );
+	break;
+
+      case "swtablescroll":
+	$widget = $this->forms[$this->get['swtableform']]->getField( $this->get['swtablename'] )->getWidget();
+	$widget->setStartIndex( $this->get['swtablestart'] );
+	break;
+
       case "logout":
 	// Log the client out by redirecting to the default URL
 	header( "Location: manager_content.php" );
