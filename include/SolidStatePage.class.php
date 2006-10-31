@@ -63,6 +63,7 @@ require_once BASE_PATH . "validators/ModuleValidator.class.php";
 require_once BASE_PATH . "validators/ModuleArrayValidator.class.php";
 require_once BASE_PATH . "validators/UserValidator.class.php";
 require_once BASE_PATH . "validators/PaymentMethodValidator.class.php";
+require_once BASE_PATH . "validators/IPAddressDBArrayValidator.class.php";
 
 /**
  * SolidStatePage
@@ -131,5 +132,6 @@ class SolidStatePage extends Page
     $vf->registerFieldValidator( "orderexistingdomain", "OrderExistingDomainValidator" );
     $vf->registerFieldValidator( "orderexistingdomainarray", "OrderExistingDomainArrayValidator" );
     $vf->registerFieldValidator( "paymentmethod", "PaymentMethodValidator" );
+    $vf->registerFieldValidator( "ipaddressdbarray", "IPAddressDBArrayValidator" );
   }
 }

@@ -36,6 +36,7 @@ $smarty->register_function( "page_errors",      "smarty_page_errors" );
 $smarty->register_block(    "form_table",       "smarty_form_table" );
 $smarty->register_block(    "form_table_column","smarty_form_table_column" );
 $smarty->register_block(    "form_table_footer","smarty_form_table_footer" );
+$smarty->register_function( "form_table_checkbox", "smarty_form_table_checkbox" );
 
 // Register these custom modifiers with Smarty
 $smarty->register_modifier( "password",         "smarty_modifier_password" );
@@ -976,7 +977,7 @@ function smarty_form_table( $params, $content, &$smarty, &$repeat )
 	    }
 	  else
 	    {
-	      echo "\t</tr>\n\t<tr>\n" . $tableWidget->getKeyCheckboxHTML() . $content;
+	      echo "\t</tr>\n\t<tr>\n" . $content;
 	    }
 
 	  // ... and loop
@@ -986,7 +987,7 @@ function smarty_form_table( $params, $content, &$smarty, &$repeat )
 	{
 	  // No more records, stop looping
 	  $repeat = false;
-	  echo "\t</tr>\n\t<tr>\n" . $tableWidget->getKeyCheckboxHTML() . $content;
+	  echo "\t</tr>\n\t<tr>\n" . $content;
 	  echo $tableWidget->getTableFooterHTML();
 	}
     }
@@ -1052,5 +1053,22 @@ function smarty_form_table_footer( $params, $content, &$smarty, &$repeat )
     {
       $tableWidget->setFooterContent( $content );
     }
+}
+
+/**
+ * Smarty Form Table Checkbox
+ *
+ * Displays the form table's checkbox field
+ *
+ * @param array $params Tag parameters
+ * @param string $content Content of tags
+ * @param object &$smarty Reference to the Smarty template
+ * @param boolean &$repeat Repeat flag
+ * @returns string Table HTML
+ */
+function smarty_form_table_checkbox( $params, &$smarty )
+{
+  global $tableWidget;
+  echo $tableWidget->getCheckboxHTML( $params['option'] );
 }
 ?>

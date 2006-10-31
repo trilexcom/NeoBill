@@ -132,16 +132,17 @@ class TableWidget extends HTMLWidget
   }
 
   /**
-   * Get Key Checkbox HTML
+   * Get Checkbox HTML
    *
+   * @param mixed $value The value for the checkbox widget
    * @return string HTML for the key checkbox column
    */
-  public function getKeyCheckboxHTML()
+  public function getCheckboxHTML( $value )
   {
     // Checkbox column
-    return sprintf( "\t\t<td><input type=\"checkbox\" name=\"%s[]\" value=\"%d\"/></td>\n",
+    return sprintf( "<input type=\"checkbox\" name=\"%s[]\" value=\"%d\"/>",
 		    $this->fieldName,
-		    $this->currentRow['ROW_KEY'] );
+		    $value );
   }
 
   /**
@@ -205,7 +206,6 @@ class TableWidget extends HTMLWidget
       sprintf("<p>%s ([EMPTY])</p>\n", $this->fieldConfig['description'] );
     $html .= sprintf( "\n<table %s>\n\t<tr>\n", 
 		      $this->buildParams( $this->params, $myParams ) );
-    $html .= "\t\t<th></th>\n"; // This is for the checkbox column
 
     return $html;
   }

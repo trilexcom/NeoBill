@@ -3,6 +3,10 @@
   {form name="ippool"}
     {form_table field="ipaddresses" size="20"}
 
+      {form_table_column columnid=""}
+	{form_table_checkbox option=$ipaddresses.ipaddress}
+      {/form_table_column}
+
       {form_table_column columnid="ipaddress" header="[IP_ADDRESS]"}
         {$ipaddresses.ipaddressstring}
       {/form_table_column}
