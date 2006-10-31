@@ -10,7 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once "smarty_widgets.php";
 require_once "WidgetFactory.class.php";
 
 // Keeps track of the {form} ... {/form} block(s) we are in
@@ -34,6 +33,9 @@ $smarty->register_block(    "dbo_table",        "smarty_dbo_table" );
 $smarty->register_block(    "dbo_table_column", "smarty_dbo_table_column" );
 $smarty->register_function( "page_messages",    "smarty_page_messages" );
 $smarty->register_function( "page_errors",      "smarty_page_errors" );
+$smarty->register_block(    "form_table",       "smarty_form_table" );
+$smarty->register_block(    "form_table_column","smarty_form_table_column" );
+$smarty->register_block(    "form_table_footer","smarty_form_table_footer" );
 
 // Register these custom modifiers with Smarty
 $smarty->register_modifier( "password",         "smarty_modifier_password" );
@@ -784,155 +786,6 @@ function smarty_form_element( $params, &$smarty )
 
   // Create the widget HTML
   $html = $page->getForm($form_name)->getFieldHTML( $form_field, $params );
-
-  /*
-  if( isset( $dbo_var_name ) )
-    {
-      // Access DBO if provided
-      $dbo = $session[$dbo_var_name];
-    }
-
-  if( isset( $field_data['hash'] ) )
-    {
-      // Option values are supplied in the session
-      if( !isset( $session[$field_data['hash']] ) )
-	{
-	  echo "the hash specified for select element is not in the session!";
-	}
-      $field_data['enum'] = $session[$field_data['hash']];
-    }
-
-  // The following chain of if's determine the field's value (if any)
-  if( !isset( $value ) && isset( $field_data['default_value'] ) )
-    {
-      // Value parameter takes precedence over the default value
-      $value = $field_data['default_value'];
-    }
-  if( isset( $dbo ) )
-    {
-      // Get value for this field from the DBO
-      if( !is_callable( array( $dbo, "get" . $form_field ) ) )
-	{
-	  // DBO Accessor does not exist
-	  fatal_error( "smarty_form_element",
-		       "Error: could not get field: " . $form_field . " from " .$dbo_var_name );
-	}
-      
-      // Call "getFieldName" on this DBO to get the field value
-      $value = call_user_func( array( $dbo, "get" . $form_field ) );
-    }
-  if( $field_data['type'] != "checkarray" &&
-      isset( $session[$form_name][$form_field] ) )
-    {
-      // Get the value for this field from the session
-      $value = $session[$form_name][$form_field];
-    }
-
-  // Set field parameters to be used by the widget functions
-  $field_data['name'] = $params['field'];
-  $field_data['form_name'] = $form_name;
-  $field_data['value'] = $value;
-  $field_data['error'] = field_has_error( $field_data['name'] );
-  $field_data['read_only'] = $readonly;
-  $field_data['size'] = $field_size;
-  $field_data['option'] = $option;
-  $field_data['hide_value'] = $hide_value;
-  $field_data['cols'] = isset( $params['cols'] ) ? $params['cols'] : 30;
-  $field_data['rows'] = isset( $params['rows'] ) ? $params['rows'] : 2;
-  $field_data['onchange'] = $params['onchange'];
-  $field_data['onclick'] = $params['onclick'];
-  $field_data['checked'] = $params['checked'];
-  $field_data['noDayField'] = $params['noDayField'];
-
-  // Build HTML
-  switch( $field_data['type'] )
-    {
-
-    case "table":
-      $html = widget_table( $field_data );
-      break;
-
-    case "date":
-      $html = widget_date( $field_data );
-      break;
-
-    case "textarea":
-      $html = widget_textarea( $field_data );
-      break;
-
-    case "radio":
-      $html = widget_radio( $field_data );
-      break;
-
-    case "checkbox":
-      $html = widget_checkbox( $field_data );
-      break;
-
-    case "checkarray":
-      $html = widget_checkarray( $field_data );
-      break;
-
-    case "db_select":
-      // Retrieve options from the database
-      $dbo_array = call_user_func( "load_array_" . $field_data['dbo'],
-				   $field_data['filter'] );
-
-      // And place them in the field's select options
-      if( isset( $dbo_array ) )
-	{
-	  foreach( $dbo_array as $dbo )
-	    {
-	      $key = call_user_func( array( $dbo, "get" . $field_data['valuefield'] ) );
-	      $value = call_user_func( array( $dbo, "get" . $field_data['displayfield'] ) );
-	      $field_data['enum'][$key] = $value;
-	    }
-	}
-
-      $html = widget_select( $field_data );
-      break;
-
-    case "select":
-      $html = widget_select( $field_data );
-      break;
-
-    case "cancel":
-    case "submit":
-      $html = widget_button( $field_data );
-      break;
-
-    case "password":
-      $html = widget_password( $field_data );
-      break;
-
-    case "float":
-    case "int":
-    case "email":
-    case "text":
-      $html = widget_text( $field_data );
-      break;
-
-    case "dollar":
-      $html = widget_dollar( $field_data );
-      break;
-
-    case "telephone":
-      $html = widget_telephone( $field_data );
-      break;
-
-    case "country":
-      $html = widget_country( $field_data );
-      break;
-
-    case "ipaddress":
-      $html = widget_ipaddress( $field_data );
-      break;
-
-    default:
-      return "Field type (" . $field_data['type'] . ") not recognized!";
-
-    }
-  */
-
   return $html;
 }
 
@@ -1079,5 +932,125 @@ function smarty_form_description( $params, &$smarty )
 
   // Output the field description
   return $form_field_description;
+}
+
+/**
+ * Smarty Form Table
+ *
+ * Displays a TableWidget
+ *
+ * @param array $params Tag parameters
+ * @param string $content Content of tags
+ * @param object &$smarty Reference to the Smarty template
+ * @param boolean &$repeat Repeat flag
+ * @returns string Table HTML
+ */
+function smarty_form_table( $params, $content, &$smarty, &$repeat )
+{
+  global $form_stack, $page, $tableWidget;
+
+  // Access the TableWidget
+  $tableWidget = $page->getForm( end( $form_stack ) )->getField( $params['field'] )->getWidget();
+  if( !($tableWidget instanceof TableWidget) )
+    {
+      // The widget is not a TableWidget object
+      throw new SWException( sprintf( "Field is not a TableWidget:\n\tForm: %s\n\tField: %s\n",
+				      end( $form_stack ),
+				      $params['field'] ) );
+    }
+
+  // Output something
+  if( isset( $content ) )
+    {
+      // {/form_table} - End of the block
+      try
+	{
+	  // Advance the table to the next row...
+	  $row = $tableWidget->next();
+	  $smarty->assign( $params['field'], $row );
+	  
+	  if( $tableWidget->showHeaders() )
+	    {
+	      $tableWidget->doNotShowHeaders();
+	      echo $content;
+	    }
+	  else
+	    {
+	      echo "\t</tr>\n\t<tr>\n" . $tableWidget->getKeyCheckboxHTML() . $content;
+	    }
+
+	  // ... and loop
+	  $repeat = true;
+	}
+      catch( EndOfTableException $e )
+	{
+	  // No more records, stop looping
+	  $repeat = false;
+	  echo "\t</tr>\n\t<tr>\n" . $tableWidget->getKeyCheckboxHTML() . $content;
+	  echo $tableWidget->getTableFooterHTML();
+	}
+    }
+  else
+    {
+      // {form_table} - Beginning of the block
+      $tableWidget->init( $params );
+      echo $tableWidget->getTableHeaderHTML();
+    }
+}
+
+/**
+ * Smarty Form Table Column
+ *
+ * Handles the form_table_column tag.
+ *
+ * @param array $params Tag parameters
+ * @param string $content Content of tags
+ * @param object &$smarty Reference to the Smarty template
+ * @param boolean &$repeat Repeat flag
+ * @returns string Table HTML
+ */
+function smarty_form_table_column( $params, $content, &$smarty, &$repeat )
+{
+  global $tableWidget;
+
+  if( isset( $content ) )
+    {
+      // {/form_table_column} - End of the block
+      if( $tableWidget->showHeaders() )
+	{
+	  // Display column header on the first loop through
+	  echo $tableWidget->getColumnHeaderHTML( $params['columnid'],
+						  $params['header'] );
+	}
+      else
+	{
+	  // Create a td tag and evaluate the contents
+	  echo sprintf( "<td> %s </td>\n", $content );
+	}
+    }
+
+  // {form_table_column} - Beginning of the block
+  return ;
+}
+
+/**
+ * Smarty Form Table Footer
+ *
+ * Handles the form_table_footer tag.
+ *
+ * @param array $params Tag parameters
+ * @param string $content Content of tags
+ * @param object &$smarty Reference to the Smarty template
+ * @param boolean &$repeat Repeat flag
+ * @returns string Table HTML
+ */
+function smarty_form_table_footer( $params, $content, &$smarty, &$repeat )
+{
+  global $tableWidget;
+
+  if( isset( $content ) )
+    {
+      $tableWidget->setFooterContent( $content );
+    }
 }
 ?>

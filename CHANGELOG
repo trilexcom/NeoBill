@@ -1,3 +1,8 @@
+10/30/2006 - jdiamond
+=====================
+
+ * (trac #78) Replaced {dbo_table} with the more extensible: {form_table}
+
 10/24/2006 - jdiamond
 =====================
 
