@@ -188,6 +188,53 @@ class Page
     $this->get = $this->urlForm->process( $getData );
   }
 
+  /** 
+   * Process Form 
+   * 
+   * Validate each field on the form according to the validation parameters 
+   * set in the config file.  If a field is invalid, set an error and return false. 
+   * Only forms explicity configured for this page are allowed to be submitted. 
+   * 
+   * @param string $form_name Form name 
+   * @return boolean True if form validated OK 
+   */ 
+  function processForm( $form_name ) 
+  { 
+    // Initialize errors 
+    $errors = array(); 
+    
+    // Clear form data from session 
+    unset( $this->session[$form_name] ); 
+    
+    // Proccess POST data 
+    try 
+      { 
+	if( !isset( $this->forms[$form_name] ) ) 
+	  { 
+	    throw new SWException( "Invalid form name: " . $form_name ); 
+	  } 
+	
+	$this->post =& $this->session[$form_name]; 
+	$this->session[$form_name] = $this->forms[$form_name]->process( $_POST ); 
+      } 
+    catch( InvalidFormException $e ) 
+      { 
+	// Create a page error for each invalid field 
+	foreach( $e->getFieldExceptions() as $fieldException ) 
+	  { 
+	    $this->exception( $fieldException ); 
+	  } 
+	
+	// Store form data in the session 
+	$this->session[$form_name] = $e->getFormData(); 
+	
+	return false; 
+      } 
+    
+    // Return true if no errors in page 
+    return true; 
+  }
+  
   /**
    * Set Widget Var
    *

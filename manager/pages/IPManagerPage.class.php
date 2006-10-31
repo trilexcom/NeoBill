@@ -37,6 +37,7 @@ class IPManagerPage extends SolidStatePage
     WidgetFactory::getWidgetFactory()->registerWidget( "ippooltable", 
 						       "IPPoolTableWidget" );
   }
+
   /**
    * Action
    *
@@ -49,8 +50,11 @@ class IPManagerPage extends SolidStatePage
   {
     switch( $action_name )
       {
-      case "remove_ip":
-	$this->deleteIP();
+      case "ippool":
+	if( isset( $this->post['remove'] ) )
+	  {
+	    $this->deleteIP();
+	  }
 	break;
 
       default:
@@ -72,32 +76,30 @@ class IPManagerPage extends SolidStatePage
 	$this->reload();
       }
 
-    if( !isset( $this->get['ip'] ) )
+    foreach( $this->post['ipaddresses'] as $IPDBO )
       {
-	$this->reload();
+	// Verify that this IP address is not being used
+	if( !$IPDBO->isAvailable() )
+	  {
+	    // Can not delete IP until it is free
+	    $this->setError( array( "type" => "IP_NOT_FREE",
+				    "args" => array( $IPDBO->getIPString() ) ) );
+	    $this->reload();
+	  }
+	
+	// Remove the IP address from the database
+	if( !delete_IPAddressDBO( $IPDBO ) )
+	  {
+	    // Database error
+	    $this->setError( array( "type" => "DB_DELETE_IP_FAILED",
+				    "args" => array( $IPDBO->getIPString() ) ) );
+	    $this->reload();
+	  }
+	
+	// Success
+	$this->setMessage( array( "type" => "IP_DELETED",
+				  "args" => array( $IPDBO->getIPString() ) ) );
       }
-
-    // Verify that this IP address is not being used
-    if( !$this->get['ip']->isAvailable() )
-      {
-	// Can not delete IP until it is free
-	$this->setError( array( "type" => "IP_NOT_FREE",
-				"args" => array( $ip_string ) ) );
-	$this->reload();
-      }
-
-    // Remove the IP address from the database
-    if( !delete_IPAddressDBO( $this->get['ip'] ) )
-      {
-	// Database error
-	$this->setError( array( "type" => "DB_DELETE_IP_FAILED",
-				"args" => array( $ip_string ) ) );
-	$this->reload();
-      }
-
-    // Success
-    $this->setMessage( array( "type" => "IP_DELETED",
-			      "args" => array( $ip_string ) ) );
   }
 }
 ?>
