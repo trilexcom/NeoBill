@@ -1,0 +1,97 @@
+// Country domains
+
+ag		nic.ag
+at		nic.at
+au		telstra.com.au
+be		nic.be
+br		registro.br
+ca		cira.ca
+ch		creart.ch blaueskreuz.ch
+cn		cnnic.net.cn
+cz		nic.cz
+de		4ever.de
+fm		dot.fm
+hu		nic.hu
+ie		domainregistry.ie
+is		isnic.is
+li		nic.li
+lu		dns.lu
+lt		domreg.lt
+mx		nic.mx
+nl		domain-registry.nl
+nu		nunames.nu
+nz		dnc.org.nz
+pl		nic.pl
+sc		admin.sc
+se		nic-se.se
+uk		olsns.co.uk
+us		neustar.us
+ws		samoanic.ws
+
+// .com/.net/.tv
+
+alldomains	alldomains.com
+ascio		ascio.com
+chdom		naturebox.com
+bulkr		bulkregister.com
+buydomains	buydomains.com
+contender	domaincontender.com
+core		corenic.com
+cronon		antiquea.com
+directi		directi.com
+directnic	directnic.com
+domainbank	domainbank.com
+dotregistrar    dotregistrar.com
+dotster		dotster.com
+enom		enom.com adultlaw.com
+godaddy		godaddy.com
+iana		example.com
+innerwise	sexido.com
+interdomain	interdominio.com
+inwwcom		inww.com
+joker		joker.com
+moniker		moniker.com
+namejuice	namejuice.com
+ndirect		namesdirect.com
+netsol		networksolutions.com
+nicline		nicline.com
+nominalia	nominalia.com
+opensrsnet	tucows.com
+registercom	register.com
+schlund		schlund.com
+srsplus		olsns.com
+stargate	stargate.com
+tvcorp		sex.tv
+
+// Other
+
+aero	nic.aero
+biz		neulevel.biz
+cat		dominis.cat
+coop	sex.coop nic.coop
+edu		berkeley.edu
+info	afilias.info
+int		who.int
+mobi	mtld.mobi
+museum	nic.museum
+name	peter.morgan.name
+org		example.org
+pro		registrypro.pro
+travel	whois.travel
+
+// IP whois
+
+afrinic		66.18.70.6
+apnic		218.165.121.114
+arin            207.217.120.54
+arin+rwhois     70.84.47.210
+bripw		200.165.206.74
+krnic		210.178.148.129
+lacnic		200.44.33.31
+ripe            62.97.102.115
+
+// ASN
+
+arin		AS220
+
+

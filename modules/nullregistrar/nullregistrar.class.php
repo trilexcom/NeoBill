@@ -13,6 +13,9 @@
 // Base class
 require_once BASE_PATH . "modules/RegistrarModule.class.php";
 
+// This module uses the phpwhois project (www.phpwhois.org) to perform lookups
+require_once BASE_PATH . "modules/nullregistrar/phpwhois/whois.main.php";
+
 /**
  * NullRegistrar
  *
@@ -50,6 +53,11 @@ class NullRegistrar extends RegistrarModule
   var $version = 1;
 
   /**
+   * @var Whois The PHPWhois object
+   */
+  private $whois = null;
+
+  /**
    * Check Domain Availability
    *
    * @return boolean True for all requests
@@ -57,7 +65,8 @@ class NullRegistrar extends RegistrarModule
   function checkAvailability( $fqdn )
   {
     $this->checkEnabled();
-    return true;
+    $result = $this->whois->Lookup( $fqdn );
+    return $result['regrinfo']['registered'] == "no";
   }
 
   /**
@@ -74,6 +83,10 @@ class NullRegistrar extends RegistrarModule
       {
 	return false;
       }
+
+    // Instantiate a PHPWhois object and turn off deep whois results
+    $this->whois = new Whois();
+    $this->whois->deep_whois = false;
 
     return true;
   }
@@ -105,7 +118,7 @@ class NullRegistrar extends RegistrarModule
   function isTransferable( $fqdn )
   {
     $this->checkEnabled();
-    return true;
+    return $this->checkAvailability( $fqdn );
   }
 
   /**

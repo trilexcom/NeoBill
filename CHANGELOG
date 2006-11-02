@@ -1,3 +1,9 @@
+11/2/2006 - jdiamond
+=====================
+
+ * (trac #114) Added whois support to the NullRegistrar module using the Whois class 
+               from the phpWhois project (http://www.phpwhois.org)
+
 10/30/2006 - jdiamond
 =====================
 
