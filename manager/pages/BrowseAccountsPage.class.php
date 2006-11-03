@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
-
-// AccountDBO class
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * BrowseAccountsPage
@@ -24,7 +21,7 @@ require_once BASE_PATH . "DBO/AccountDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class BrowseAccountsPage extends Page
+class BrowseAccountsPage extends SolidStatePage
 {
   /**
    * Action
@@ -51,6 +48,17 @@ class BrowseAccountsPage extends Page
 	parent::action( $action_name );
       }
   }
-}
 
+  /**
+   * Initialize Browse Accounts Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Tell the accounts table widget to only show "active" accounts
+    $widget = $this->forms['active_accounts']->getField( "accounts" )->getWidget();
+    $widget->setStatus( "Active" );
+  }
+}
 ?>

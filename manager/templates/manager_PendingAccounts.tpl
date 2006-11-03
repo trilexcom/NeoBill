@@ -32,27 +32,29 @@
 </div>
 
 <div class="table">
-  {dbo_table dbo_class="AccountDBO" 
-             name="pending_accountdbo_table" 
-             filter="status='Pending'" 
-             title="[ACCOUNTS]"
-             size="10"}
+  {form name="pending_accounts"}
+    {form_table field="accounts" size="10"}
 
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="pending_accountdbo_table" field="id"}">{dbo_echo dbo="pending_accountdbo_table" field="id"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a target="content" href="manager_content.php?page=accounts_view_account&account={$accounts.id}">{$accounts.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[ACCOUNT_NAME]"}
-      <a target="content" href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="pending_accountdbo_table" field="id"}">{dbo_echo dbo="pending_accountdbo_table" field="accountname"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
+        <a target="content" href="manager_content.php?page=accounts_view_account&account={$accounts.id}">{$accounts.accountname}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[BALANCE]"}
-      {dbo_echo|currency dbo="pending_accountdbo_table" field="balance"}
-    {/dbo_table_column}
+      {form_table_column columnid="type" header="[TYPE]"}
+        {$accounts.type}
+      {/form_table_column}
 
-    {dbo_table_column header="[STATUS]" sort_field="status"}
-      {dbo_echo dbo="pending_accountdbo_table" field="status"}
-    {/dbo_table_column}
+      {form_table_column columnid="billingstatus" header="[BILL]"}
+        {$accounts.billingstatus}
+      {/form_table_column}
 
-  {/dbo_table}
+      {form_table_column columnid="balance" header="[BALANCE]"}
+        {$accounts.balance|currency}
+      {/form_table_column}
+
+    {/form_table}
+  {/form}
 </div>

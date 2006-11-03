@@ -32,31 +32,29 @@
 </div>
 
 <div class="table">
-  {dbo_table dbo_class="AccountDBO" 
-             name="accountdbo_table"
-             filter="status='Active'"
-             title="[ACCOUNTS]"
-             size="10"}
+  {form name="active_accounts"}
+    {form_table field="accounts" size="10"}
 
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo_table" field="id"}">{dbo_echo dbo="accountdbo_table" field="id"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a target="content" href="manager_content.php?page=accounts_view_account&account={$accounts.id}">{$accounts.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[ACCOUNT_NAME]"}
-      <a target="content" href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo_table" field="id"}">{dbo_echo dbo="accountdbo_table" field="accountname"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="accountname" header="[ACCOUNT_NAME]"}
+        <a target="content" href="manager_content.php?page=accounts_view_account&account={$accounts.id}">{$accounts.accountname}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[TYPE]" sort_field="type"}
-      {dbo_echo dbo="accountdbo_table" field="type"}
-    {/dbo_table_column}
+      {form_table_column columnid="type" header="[TYPE]"}
+        {$accounts.type}
+      {/form_table_column}
 
-    {dbo_table_column header="[BILL]" sort_field="billingstatus"}
-      {dbo_echo dbo="accountdbo_table" field="billingstatus"}
-    {/dbo_table_column}
+      {form_table_column columnid="billingstatus" header="[BILL]"}
+        {$accounts.billingstatus}
+      {/form_table_column}
 
-    {dbo_table_column header="[BALANCE]"}
-      {dbo_echo|currency dbo="accountdbo_table" field="balance"}
-    {/dbo_table_column}
+      {form_table_column columnid="balance" header="[BALANCE]"}
+        {$accounts.balance|currency}
+      {/form_table_column}
 
-  {/dbo_table}
+    {/form_table}
+  {/form}
 </div>

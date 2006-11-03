@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // AccountDBO class
 require_once BASE_PATH . "DBO/AccountDBO.class.php";
@@ -24,7 +24,7 @@ require_once BASE_PATH . "DBO/AccountDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PendingAccountsPage extends Page
+class PendingAccountsPage extends SolidStatePage
 {
   /**
    * Action
@@ -50,6 +50,18 @@ class PendingAccountsPage extends Page
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
+  }
+
+  /**
+   * Initialize Pending Accounts Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Tell the accounts table widget to only show "pending" accounts
+    $widget = $this->forms['pending_accounts']->getField( "accounts" )->getWidget();
+    $widget->setStatus( "Pending" );
   }
 }
 ?>
