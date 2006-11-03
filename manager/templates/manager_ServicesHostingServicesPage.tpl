@@ -32,43 +32,43 @@
 </div>
 
 <div class="table">
-  {dbo_table dbo_class="HostingServiceDBO" 
-             name="servicedbo_table" 
-             title="[WEB_HOSTING_SERVICES]"}
-    
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=services_view_hosting_service&hservice={dbo_echo dbo="servicedbo_table" field="id"}">{dbo_echo dbo="servicedbo_table" field="id"}</a>
-    {/dbo_table_column}
+  {form name="hosting_services"}
+    {form_table field="hosting_services"}
 
-    {dbo_table_column header="[TITLE]" sort_field="title"}
-      <a target="content" href="manager_content.php?page=services_view_hosting_service&hservice={dbo_echo dbo="servicedbo_table" field="id"}">{dbo_echo dbo="servicedbo_table" field="title"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a target="content" href="manager_content.php?page=services_view_hosting_service&hservice={$hosting_services.id}">{$hosting_services.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[DESCRIPTION]"}
-      {dbo_echo|truncate:40:"..." dbo="servicedbo_table" field="description"}
-    {/dbo_table_column}
+      {form_table_column columnid="title" header="[TITLE]"}
+        <a target="content" href="manager_content.php?page=services_view_hosting_service&hservice={$hosting_services.id}">{$hosting_services.title}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[UNIQUE_IP_ADDRESS]"}
-      {dbo_echo dbo="servicedbo_table" field="uniqueip"}
-    {/dbo_table_column}
+      {form_table_column columnid="description" header="DESCRIPTION"}
+        {$hosting_services.description|truncate:40:"..."}
+      {/form_table_column}
 
-    {dbo_table_column header="[SETUP_PRICE]" sort_field="setupprice1mo"}
-      {dbo_echo|currency dbo="servicedbo_table" field="setupprice1mo"} (1 {echo phrase="MONTH"})<br/>
-      {dbo_echo|currency dbo="servicedbo_table" field="setupprice3mo"} (3 {echo phrase="MONTHS"})<br/>
-      {dbo_echo|currency dbo="servicedbo_table" field="setupprice6mo"} (6 {echo phrase="MONTHS"})<br/>
-      {dbo_echo|currency dbo="servicedbo_table" field="setupprice12mo"} (12 {echo phrase="MONTHS"})
-    {/dbo_table_column}
+      {form_table_column columnid="uniqueip" header="[UNIQUE_IP_ADDRESS]"}
+        {$hosting_services.uniqueip}
+      {/form_table_column}
 
-    {dbo_table_column header="[RECURRING_PRICE]" sort_field="price1mo"}
-      {dbo_echo|currency dbo="servicedbo_table" field="price1mo"} (1 {echo phrase="MONTH"})<br/>
-      {dbo_echo|currency dbo="servicedbo_table" field="price3mo"} (3 {echo phrase="MONTHS"})<br/>
-      {dbo_echo|currency dbo="servicedbo_table" field="price6mo"} (6 {echo phrase="MONTHS"})<br/>
-      {dbo_echo|currency dbo="servicedbo_table" field="price12mo"} (12 {echo phrase="MONTHS"})
-    {/dbo_table_column}
+      {form_table_column columnid="setupprice1mo" header="[SETUP_PRICE]"}
+        {$hosting_services.setupprice1mo|currency} (1 [MONTH]) <br/>
+        {$hosting_services.setupprice3mo|currency} (3 [MONTH]) <br/>
+        {$hosting_services.setupprice6mo|currency} (6 [MONTH]) <br/>
+        {$hosting_services.setupprice12mo|currency} (12 [MONTH])
+      {/form_table_column}
 
-    {dbo_table_column header="[TAXABLE]" sort_field="taxable"}
-      {dbo_echo dbo="servicedbo_table" field="taxable"}
-    {/dbo_table_column}
+      {form_table_column columnid="price1mo" header="[RECURRING_PRICE]"}
+        {$hosting_services.price1mo|currency} (1 [MONTH]) <br/>
+        {$hosting_services.price3mo|currency} (3 [MONTH]) <br/>
+        {$hosting_services.price6mo|currency} (6 [MONTH]) <br/>
+        {$hosting_services.price12mo|currency} (12 [MONTH])
+      {/form_table_column}
 
-  {/dbo_table}
+      {form_table_column columnid="taxable" header="[TAXABLE]"}
+        {$hosting_services.taxable}
+      {/form_table_column}
+
+    {/form_table}
+  {/form}
 </div>

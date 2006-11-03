@@ -36,6 +36,7 @@ require_once BASE_PATH . "widgets/AccountTableWidget.class.php";
 require_once BASE_PATH . "widgets/OrderTableWidget.class.php";
 require_once BASE_PATH . "widgets/InvoiceTableWidget.class.php";
 require_once BASE_PATH . "widgets/TaxRuleTableWidget.class.php";
+require_once BASE_PATH . "widgets/HostingServiceTableWidget.class.php";
 
 // SolidState Validators
 require_once BASE_PATH . "solidworks/FieldValidatorFactory.class.php";
@@ -110,6 +111,7 @@ class SolidStatePage extends Page
     $wf->registerWidget( "ordertable", "OrderTableWidget" );
     $wf->registerWidget( "invoicetable", "InvoiceTableWidget" );
     $wf->registerWidget( "taxruletable", "TaxRuleTableWidget" );
+    $wf->registerWidget( "hostingservicetable", "HostingServiceTableWidget" );
     
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();
