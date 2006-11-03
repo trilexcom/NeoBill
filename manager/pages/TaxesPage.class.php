@@ -43,8 +43,11 @@ class TaxesPage extends SolidStatePage
 	$this->goto( "add_tax_rule" );
 	break;
 
-      case "remove":
-	$this->remove();
+      case "tax_rules":
+	if( isset( $this->post['remove'] ) )
+	  {
+	    $this->remove();
+	  }
 	break;
 
       default:
@@ -64,16 +67,19 @@ class TaxesPage extends SolidStatePage
 	return;
       }
 
-    // Remove the Tax Rule from the database
-    if( !delete_TaxRuleDBO( $this->get['taxrule'] ) )
+    // Remove the Tax Rule(s) from the database
+    foreach( $this->post['rules'] as $dbo )
       {
-	$this->setError( array( "type" => "DB_DELETE_TAX_RULE_FAILED",
-				"args" => array( $id ) ) );
-	$this->reload();
+	if( !delete_TaxRuleDBO( $dbo ) )
+	  {
+	    $this->setError( array( "type" => "DB_DELETE_TAX_RULE_FAILED",
+				    "args" => array( $id ) ) );
+	    $this->reload();
+	  }
       }
 
     // Success
-    $this->setMessage( array( "type" => "TAX_RULE_DELETED" ) );
+    $this->setMessage( array( "type" => "TAX_RULES_DELETED" ) );
     $this->reload();
   }
 }
