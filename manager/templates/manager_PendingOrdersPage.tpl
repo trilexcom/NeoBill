@@ -1,35 +1,33 @@
 <h2>{echo phrase="PENDING_ORDERS"}</h2>
 
 <div class="table">
-  {dbo_table dbo_class="OrderDBO" 
-             name="orderdbo_table"
-             filter="status='Pending'"
-             title="[PENDING_ORDERS]"
-             size="10"}
+  {form name="pending_orders"}
+    {form_table field="orders" size="10"}
 
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=view_order&order={dbo_echo dbo="orderdbo_table" field="id"}">{dbo_echo dbo="orderdbo_table" field="id"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a target="content" href="manager_content.php?page=view_order&order={$orders.id}">{$orders.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[ACCOUNT]"}
-      {dbo_echo dbo="orderdbo_table" field="accounttype"}
-    {/dbo_table_column}
+      {form_table_column columnid="accounttype" header="[ACCOUNT]"}
+        {$orders.accounttype}
+      {/form_table_column}
 
-    {dbo_table_column header="[ORDER_DATE]"}
-      {dbo_echo|datetime dbo="orderdbo_table" field="datecompleted"}
-    {/dbo_table_column}
+      {form_table_column columnid="datecompleted" header="[ORDER_DATE]"}
+        {$orders.datecompleted|datetime}
+      {/form_table_column}
 
-    {dbo_table_column header="[CUSTOMER]"}
-      {dbo_echo dbo="orderdbo_table" field="contactname"}
-    {/dbo_table_column}
+      {form_table_column columnid="contactname" header="[CUSTOMER]"}
+        {$orders.contactname}
+      {/form_table_column}
 
-    {dbo_table_column header="[ORDER_IP]"}
-      {dbo_echo dbo="orderdbo_table" field="remoteipstring"}
-    {/dbo_table_column}
+      {form_table_column columnid="remoteip" header="[ORDER_IP]"}
+        {$orders.remoteipstring}
+      {/form_table_column}
 
-    {dbo_table_column header="[ORDER_TOTAL]"}
-      {dbo_echo|currency dbo="orderdbo_table" field="total"}
-    {/dbo_table_column}
+      {form_table_column columnid="total" header="[ORDER_TOTAL]"}
+        {$orders.total|currency}
+      {/form_table_column}
 
-  {/dbo_table}
+    {/form_table}
+  {/form}
 </div>

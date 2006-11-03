@@ -29,39 +29,37 @@
 </div>
 
 <div class="table">
-  {dbo_table dbo_class="InvoiceDBO" 
-             name="invoicedbo_table" 
-             title="[INVOICES]" 
-             size="10"}
-  
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a href="./manager_content.php?page=billing_view_invoice&invoice={dbo_echo dbo="invoicedbo_table" field="id"}">{dbo_echo dbo="invoicedbo_table" field="id"}</a>
-    {/dbo_table_column}
+  {form name="browse_invoices"}
+    {form_table field="invoices" size="10"}
 
-    {dbo_table_column header="[ACCOUNT]" sort_field="accountid"}
-      <a href="./manager_content.php?page=accounts_view_account&id={dbo_echo dbo="invoicedbo_table" field="accountid"}">{dbo_echo dbo="invoicedbo_table" field="accountname"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a href="./manager_content.php?page=billing_view_invoice&invoice={$invoices.id}">{$invoices.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[INVOICE_DATE]" sort_field="date"}
-      {dbo_echo|datetime:date dbo="invoicedbo_table" field="date"}
-    {/dbo_table_column}
+      {form_table_column columnid="accountname" header="[ACCOUNT]"}
+        <a href="./manager_content.php?page=accounts_view_account&account={$invoices.id}">{$invoices.accountname}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[BILLING_PERIOD]" sort_field="periodbegin"}
-      {dbo_echo|datetime:date dbo="invoicedbo_table" field="periodbegin"} -
-      {dbo_echo|datetime:date dbo="invoicedbo_table" field="periodend"}
-    {/dbo_table_column}
+      {form_table_column columnid="date" header="[INVOICE_DATE]"}
+        {$invoices.date|datetime:date}
+      {/form_table_column}
 
-    {dbo_table_column header="[INVOICE_TOTAL]"}
-      {dbo_echo|currency dbo="invoicedbo_table" field="total"}
-    {/dbo_table_column}
+      {form_table_column columnid="periodbegin" header="[BILLING_PERIOD]"}
+        {$invoices.periodbegin|datetime:date} - {$invoices.periodend|datetime:date}
+      {/form_table_column}
 
-    {dbo_table_column header="[AMOUNT_PAID]"}
-      {dbo_echo|currency dbo="invoicedbo_table" field="totalpayments"}
-    {/dbo_table_column}
+      {form_table_column columnid="total" header="[INVOICE_TOTAL]"}
+        {$invoices.total|currency}
+      {/form_table_column}
 
-    {dbo_table_column header="[AMOUNT_DUE]"}
-      {dbo_echo|currency dbo="invoicedbo_table" field="balance"}
-    {/dbo_table_column}
+      {form_table_column columnid="totalpayments" header="[AMOUNT_PAID]"}
+        {$invoices.totalpayments|currency}
+      {/form_table_column}
 
-  {/dbo_table}
+      {form_table_column columnid="balance" header="[AMOUNT_DUE]"}
+        {$invoices.balance|currency}
+      {/form_table_column}
+
+    {/form_table}
+  {/form}
 </div>

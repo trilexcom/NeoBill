@@ -48,6 +48,17 @@ class OutstandingInvoicesPage extends SolidStatePage
 	parent::action( $action_name );
       }
   }
-}
 
+  /**
+   * Initialize Outstanding Invoices Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Tell the orders table widget to only show "pending" orders
+    $widget = $this->forms['outstanding_invoices']->getField( "invoices" )->getWidget();
+    $widget->setOutstanding( "Yes" );
+  }
+}
 ?>

@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
-
-// OrderDBO class
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * FulfilledOrdersPage
@@ -24,7 +21,7 @@ require_once BASE_PATH . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class FulfilledOrdersPage extends Page
+class FulfilledOrdersPage extends SolidStatePage
 {
   /**
    * Action
@@ -43,6 +40,17 @@ class FulfilledOrdersPage extends Page
 	parent::action( $action_name );
       }
   }
-}
 
+  /**
+   * Initialize Fulfilled Orders Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Tell the orders table widget to only show "pending" orders
+    $widget = $this->forms['fulfilled_orders']->getField( "orders" )->getWidget();
+    $widget->setStatus( "Fulfilled" );
+  }
+}
 ?>
