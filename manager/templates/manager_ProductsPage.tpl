@@ -32,30 +32,25 @@
 </div>
 
 <div class="table">
-  {dbo_table dbo_class="ProductDBO" 
-             name="productdbo_table" 
-             title="[PRODUCTS]" 
-             size="10"}
+  {form name="products"}
+    {form_table field="products" size="10"}
 
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a target="content" href="manager_content.php?page=services_view_product&product={dbo_echo dbo="productdbo_table" field="id"}"> {dbo_echo dbo="productdbo_table" field="id"} </a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a target="content" href="manager_content.php?page=services_view_product&product={$products.id}"> {$products.id} </a>
+      {/form_table_column}
 
-    {dbo_table_column header="[PRODUCT_NAME]" sort_field="name"}
-      <a target="content" href="manager_content.php?page=services_view_product&id={dbo_echo dbo="productdbo_table" field="id"}"> {dbo_echo dbo="productdbo_table" field="name"} </a>
-    {/dbo_table_column}
+      {form_table_column columnid="name" header="[PRODUCT_NAME]"}
+        <a target="content" href="manager_content.php?page=services_view_product&product={$products.id}"> {$products.name} </a>
+      {/form_table_column}
 
-    {dbo_table_column header="[DESCRIPTION]"}
-      {dbo_echo|truncate:40:"..." dbo="productdbo_table" field="description"}
-    {/dbo_table_column}
+      {form_table_column columnid="price" header="[PRICE]"}
+        {$products.price|currency}
+      {/form_table_column}
 
-    {dbo_table_column header="[PRICE]" sort_field="price"}
-      {dbo_echo|currency dbo="productdbo_table" field="price"}
-    {/dbo_table_column}
-
-    {dbo_table_column header="[TAXABLE]" sort_field="taxable"}
-      {dbo_echo dbo="productdbo_table" field="taxable"}
-    {/dbo_table_column}
-
-  {/dbo_table}
+      {form_table_column columnid="taxable" header="[TAXABLE]"}
+        {$products.taxable}
+      {/form_table_column}
+    
+    {/form_table}
+  {/form}
 </div>
