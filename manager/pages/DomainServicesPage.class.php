@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 
@@ -23,7 +23,7 @@ require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DomainServicesPage extends Page
+class DomainServicesPage extends SolidStatePage
 {
   /**
    * Action
@@ -37,22 +37,17 @@ class DomainServicesPage extends Page
   {
     switch( $action_name )
       {
-
       case "domain_services_action":
-
 	if( isset( $this->session['domain_services_action']['add'] ) )
 	  {
 	    // Goto new user page
 	    $this->goto( "services_new_domain_service" );
 	  }
-
 	break;
 
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }
