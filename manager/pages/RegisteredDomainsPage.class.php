@@ -34,8 +34,7 @@ class RegisteredDomainsPage extends SolidStatePage
   function init()
   {
     // Filter out expired domains
-    $this->session['domaindbo_table_properties']['filter'] = 
-      "UNIX_TIMESTAMP(expiredate) > UNIX_TIMESTAMP(NOW())";
+    $this->forms['registered_domains']->getField( "domains" )->getWidget()->showActiveDomainsOnly();
   }
 
   /**

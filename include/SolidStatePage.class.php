@@ -28,7 +28,6 @@ require_once BASE_PATH . "widgets/DomainTermSelectWidget.class.php";
 require_once BASE_PATH . "widgets/HostingTermSelectWidget.class.php";
 require_once BASE_PATH . "widgets/LanguageSelectWidget.class.php";
 require_once BASE_PATH . "widgets/PaymentModuleSelectWidget.class.php";
-require_once BASE_PATH . "widgets/ModuleCheckListWidget.class.php";
 require_once BASE_PATH . "widgets/CartWidget.class.php";
 require_once BASE_PATH . "widgets/CartDomainTableWidget.class.php";
 require_once BASE_PATH . "widgets/PaymentMethodSelectWidget.class.php";
@@ -39,6 +38,9 @@ require_once BASE_PATH . "widgets/TaxRuleTableWidget.class.php";
 require_once BASE_PATH . "widgets/HostingServiceTableWidget.class.php";
 require_once BASE_PATH . "widgets/DomainServiceTableWidget.class.php";
 require_once BASE_PATH . "widgets/ProductTableWidget.class.php";
+require_once BASE_PATH . "widgets/ServerTableWidget.class.php";
+require_once BASE_PATH . "widgets/DomainTableWidget.class.php";
+require_once BASE_PATH . "widgets/ModuleTableWidget.class.php";
 
 // SolidState Validators
 require_once BASE_PATH . "solidworks/FieldValidatorFactory.class.php";
@@ -105,7 +107,6 @@ class SolidStatePage extends Page
     $wf->registerWidget( "hostingtermselect", "HostingTermSelectWidget" );
     $wf->registerWidget( "languageselect", "LanguageSelectWidget" );
     $wf->registerWidget( "paymentmoduleselect", "PaymentModuleSelectWidget" );
-    $wf->registerWidget( "modulechecklist", "ModuleCheckListWidget" );
     $wf->registerWidget( "cart", "CartWidget" );
     $wf->registerWidget( "cartdomaintable", "CartDomainTableWidget" );
     $wf->registerWidget( "paymentmethodselect", "PaymentMethodSelectWidget" );
@@ -116,6 +117,9 @@ class SolidStatePage extends Page
     $wf->registerWidget( "hostingservicetable", "HostingServiceTableWidget" );
     $wf->registerWidget( "domainservicetable", "DomainServiceTableWidget" );
     $wf->registerWidget( "producttable", "ProductTableWidget" );
+    $wf->registerWidget( "servertable", "ServerTableWidget" );
+    $wf->registerWidget( "domaintable", "DomainTableWidget" );
+    $wf->registerWidget( "moduletable", "ModuleTableWidget" );
     
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();

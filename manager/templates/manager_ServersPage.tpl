@@ -7,22 +7,21 @@
 
 <h2> {echo phrase="SERVERS"} </h2>
 <div class="table">
-  {dbo_table dbo_class="ServerDBO"
-             name="serverdbo_table"
-             title="[SERVERS]"
-             size="10"}
+  {form name="servers"}
+    {form_table field="servers"}
 
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a href="manager_content.php?page=services_view_server&server={dbo_echo dbo="serverdbo_table" field="id"}">{dbo_echo dbo="serverdbo_table" field="id"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a href="manager_content.php?page=services_view_server&server={$servers.id}">{$servers.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[HOSTNAME]"}
-      <a href="manager_content.php?page=services_view_server&server={dbo_echo dbo="serverdbo_table" field="id"}">{dbo_echo dbo="serverdbo_table" field="hostname"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="hostname" header="[HOSTNAME]"}
+        <a href="manager_content.php?page=services_view_server&server={$servers.id}">{$servers.hostname}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[LOCATION]"}
-      {dbo_echo dbo="serverdbo_table" field="location"}
-    {/dbo_table_column}
+      {form_table_column columnid="location" header="[LOCATION]"}
+        {$servers.location}
+      {/form_table_column}
 
-  {/dbo_table}
+    {/form_table}
+  {/form}
 </div>

@@ -139,10 +139,13 @@ class TableWidget extends HTMLWidget
    */
   public function getCheckboxHTML( $value )
   {
-    // Checkbox column
-    return sprintf( "<input type=\"checkbox\" name=\"%s[]\" value=\"%d\"/>",
+    $checked = $this->determineValue( array( "option" => $value ) ) == $value ?
+      "checked" : null;
+
+    return sprintf( "<input type=\"checkbox\" name=\"%s[]\" value=\"%s\" %s/>",
 		    $this->fieldName,
-		    $value );
+		    $value,
+		    $checked );
   }
 
   /**
@@ -283,7 +286,7 @@ class TableWidget extends HTMLWidget
     $this->rowCount = 0;
     $this->data = array();
     $this->params = $params;
-    $this->size = $params['size'];
+    $this->size = isset( $params['size'] ) ? intval( $params['size'] ) : 20;
     $this->showHeadersFlag = true;
   }
 

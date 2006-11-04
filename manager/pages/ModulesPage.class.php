@@ -54,15 +54,15 @@ class ModulesPage extends SolidStateAdminPage
   {
     global $conf;
 
-    if( !isset( $this->post['enabled'] ) )
+    if( !isset( $this->post['modules'] ) )
       {
-	$this->post['enabled'] = array();
+	$this->post['modules'] = array();
       }
 
     // Enable all the Modules with checks, disable the ones without
     foreach( $conf['modules'] as $module )
       {
-	if( !$module->isEnabled() && in_array( $module, $this->post['enabled'] ) )
+	if( !$module->isEnabled() && in_array( $module, $this->post['modules'] ) )
 	  {
 	    // Enable this module
 	    $moduleDBO = load_ModuleDBO( $module->getName() );
@@ -72,7 +72,7 @@ class ModulesPage extends SolidStateAdminPage
 		throw new SWException( "Failed to enable module: " . $moduleDBO->getName() );
 	      }
 	  }
-	elseif( $module->isEnabled() && !in_array( $module, $this->post['enabled'] ) )
+	elseif( $module->isEnabled() && !in_array( $module, $this->post['modules'] ) )
 	  {
 	    // Disable this module
 	    $moduleDBO = load_ModuleDBO( $module->getName() );

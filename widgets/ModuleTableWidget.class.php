@@ -1,8 +1,8 @@
 <?php
 /**
- * ModuleCheckListWidget.class.php
+ * ModuleTableWidget.class.php
  *
- * This file contains the definition of the ModuleCheckListWidget class.  
+ * This file contains the definition of the ModuleTableWidget class.  
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -11,15 +11,15 @@
  */
 
 // Base class
-require_once BASE_PATH . "solidworks/widgets/CheckBoxWidget.class.php";
+require_once BASE_PATH . "solidworks/widgets/TableWidget.class.php";
 
 /**
- * ModuleCheckListWidget
+ * ModuleTableWidget
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ModuleCheckListWidget extends CheckBoxWidget
+class ModuleTableWidget extends TableWidget
 {
   /**
    * Determine Widget Value
@@ -34,15 +34,12 @@ class ModuleCheckListWidget extends CheckBoxWidget
    */
   protected function determineValue( $params )
   {
-    global $page, $conf;
+    global $conf;
 
     if( null == ($module = $conf['modules'][$params['option']]) )
       {
 	return null;
       }
-
-    // Access the session
-    $session =& $page->getPageSession();
 
     // 2. No value
     $value = null;
@@ -53,5 +50,27 @@ class ModuleCheckListWidget extends CheckBoxWidget
 
     return $value;
   }
+
+  /**
+   * Initialize the Table
+   *
+   * @param array $params Parameters from the {form_table} tag
+   */
+  public function init( $params ) 
+  { 
+    global $conf;
+
+    parent::init( $params );
+
+    // Build the table
+    foreach( $conf['modules'] as $modulename => $module )
+      {
+	// Put the row into the table
+	$this->data[] = 
+	  array( "name" => $modulename,
+                 "configpage" => $module->getConfigPage(),
+		 "type" => $module->getType(),
+		 "description" => $module->getDescription() );
+      }
+  }
 }
-?>

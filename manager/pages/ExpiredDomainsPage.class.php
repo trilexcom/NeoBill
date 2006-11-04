@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 // InvoiceDBO class
 require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
@@ -24,7 +24,7 @@ require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ExpiredDomainsPage extends Page
+class ExpiredDomainsPage extends SolidStatePage
 {
   /**
    * Initialize Expired Domains Page
@@ -34,8 +34,7 @@ class ExpiredDomainsPage extends Page
   function init()
   {
     // Only show expired domains
-    $this->session['domaindbo_table_properties']['filter'] = 
-      "UNIX_TIMESTAMP(expiredate) < UNIX_TIMESTAMP(NOW())";
+    $this->forms['expired_domains']->getField( "domains" )->getWidget()->showExpiredDomainsOnly();
   }
 
   /**
@@ -50,14 +49,10 @@ class ExpiredDomainsPage extends Page
   {
     switch( $action_name )
       {
-
       default:
-	
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 }
-
 ?>

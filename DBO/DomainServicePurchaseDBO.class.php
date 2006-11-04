@@ -324,6 +324,17 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   function isRecurring() { return false; }
 
   /**
+   * Is Expired
+   *
+   * @return boolean True if this domain is expired
+   */
+  public function isExpired()
+  {
+    global $DB;
+    return $DB->datetime_to_unix( $this->getExpireDate() ) > time();
+  }
+
+  /**
    * Load member data from an array
    *
    * @param array $data Data to load
