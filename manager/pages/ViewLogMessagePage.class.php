@@ -10,7 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once BASE_PATH . "solidworks/AdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 require_once BASE_PATH . "DBO/LogDBO.class.php";
 
@@ -22,40 +22,23 @@ require_once BASE_PATH . "DBO/LogDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewLogMessagePage extends AdminPage
+class ViewLogMessagePage extends SolidStateAdminPage
 {
   /**
    * Initialize ViewLogMessage Page
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Log Message from the database
-	$dbo = load_LogDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['logdbo'];
-      }
+    // Set URL Fields
+    $this->setURLField( "log", $this->get['log']->getID() );
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Account
-	$this->setError( array( "type" => "DB_LOG_MESSAGE_NOT_FOUND",
-				"args" => array( intval( $id ) ) ) );
-      }
-    else
-      {
-	// Store Account DBO in session
-	$this->session['logdbo'] = $dbo;
-
-	// Set this page's Nav Vars
-	$this->setNavVar( "id",   $dbo->getID() );
-      }
+    // Store Account DBO in session
+    $this->session['logdbo'] =& $this->get['log'];
+    
+    // Set this page's Nav Vars
+    $this->setNavVar( "id",   $this->get['log']->getID() );
   }
 
   /**
@@ -72,9 +55,7 @@ class ViewLogMessagePage extends AdminPage
       case "view_log_message":
 	if( isset( $this->session['view_log_message']['back'] ) )
 	  {
-	    $this->goto( "log",
-			 null,
-			 "table=logdbo_table&sortby=date&sortdir=DESC" );
+	    $this->goback();
 	  }
 
       default:

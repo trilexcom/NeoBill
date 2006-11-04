@@ -64,7 +64,7 @@
           <li> <a href="manager_content.php?page=modules" target="content">{echo phrase="MODULES"}</a> </li>
           <li> <a href="manager_content.php?page=config_edit_user&user={$username}" target="content">{echo phrase="MY_INFO"}</a> </li>
           <li> <a href="manager_content.php?page=config_users" target="content">{echo phrase="USERS"}</a> </li>
-          <li> <a href="manager_content.php?page=log&table=logdbo_table&sortby=date&sortdir=DESC" target="content">{echo phrase="LOG"}</a> </li>
+          <li> <a href="manager_content.php?page=log&action=swtablesort&swtablename=log&swtableform=log&swtablesortcol=date&swtablesortdir=DESC" target="content">{echo phrase="LOG"}</a> </li>
         </ul>
 
       </div>

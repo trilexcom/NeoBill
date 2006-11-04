@@ -41,6 +41,8 @@ require_once BASE_PATH . "widgets/ProductTableWidget.class.php";
 require_once BASE_PATH . "widgets/ServerTableWidget.class.php";
 require_once BASE_PATH . "widgets/DomainTableWidget.class.php";
 require_once BASE_PATH . "widgets/ModuleTableWidget.class.php";
+require_once BASE_PATH . "widgets/UserTableWidget.class.php";
+require_once BASE_PATH . "widgets/LogTableWidget.class.php";
 
 // SolidState Validators
 require_once BASE_PATH . "solidworks/FieldValidatorFactory.class.php";
@@ -74,6 +76,7 @@ require_once BASE_PATH . "validators/ModuleArrayValidator.class.php";
 require_once BASE_PATH . "validators/UserValidator.class.php";
 require_once BASE_PATH . "validators/PaymentMethodValidator.class.php";
 require_once BASE_PATH . "validators/IPAddressDBArrayValidator.class.php";
+require_once BASE_PATH . "validators/LogValidator.class.php";
 
 /**
  * SolidStatePage
@@ -120,6 +123,8 @@ class SolidStatePage extends Page
     $wf->registerWidget( "servertable", "ServerTableWidget" );
     $wf->registerWidget( "domaintable", "DomainTableWidget" );
     $wf->registerWidget( "moduletable", "ModuleTableWidget" );
+    $wf->registerWidget( "usertable", "UserTableWidget" );
+    $wf->registerWidget( "logtable", "LogTableWidget" );
     
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();
@@ -153,5 +158,6 @@ class SolidStatePage extends Page
     $vf->registerFieldValidator( "paymentmethod", "PaymentMethodValidator" );
     $vf->registerFieldValidator( "ipaddressdbarray", "IPAddressDBArrayValidator" );
     $vf->registerFieldValidator( "taxrulearray", "TaxRuleArrayValidator" );
+    $vf->registerFieldValidator( "log", "LogValidator" );
   }
 }

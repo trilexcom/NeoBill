@@ -5,7 +5,7 @@
   {/form}
 </div>
 
-<h2> {echo field="USERS"} </h2>
+<h2> [USERS] </h2>
 <div class="search">
   {form name="search_userdbo_table"}
     <table>
@@ -36,27 +36,25 @@
 </div>
 
 <div class="table">
-  {dbo_table dbo_class="UserDBO" 
-             name="userdbo_table" 
-             title="[USERS]" 
-             size="10"}
+  {form name="users"}
+    {form_table field="users"}
 
-    {dbo_table_column header="[USERNAME]" sort_field="username"}
-      <a href="manager_content.php?page=config_edit_user&user={dbo_echo dbo="userdbo_table" field="username"}">{dbo_echo dbo="userdbo_table" field="username"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="username" header="[USERNAME]"}
+        <a href="manager_content.php?page=config_edit_user&user={$users.username}">{$users.username}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[TYPE]" sort_field="type"}
-      {dbo_echo dbo="userdbo_table" field="type"}
-    {/dbo_table_column}
+      {form_table_column columnid="type" header="[TYPE]"}
+        {$users.type}
+      {/form_table_column}
 
-    {dbo_table_column header="[NAME]" sort_field="lastname"}
-      {dbo_echo dbo="userdbo_table" field="firstname"}
-      {dbo_echo dbo="userdbo_table" field="lastname"}
-    {/dbo_table_column}
+      {form_table_column columnid="lastname" header="[NAME]"}
+        {$users.firstname} {$users.lastname}
+      {/form_table_column}
 
-    {dbo_table_column header="[EMAIL]" sort_field="email"}
-      {dbo_echo|mailto dbo="userdbo_table" field="email"}
-    {/dbo_table_column}
+      {form_table_column columnid="email" header="[EMAIL]"}
+        {$users.email|mailto}
+      {/form_table_column}
 
-  {/dbo_table}
+    {/form_table}
+  {/form}
 </div>
