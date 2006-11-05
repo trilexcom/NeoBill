@@ -35,6 +35,11 @@ class InvoiceTableWidget extends TableWidget
   protected $outstandingFilter = null;
 
   /**
+   * @var InvoiceDBO When set, show only outstanding invoices prior to this one
+   */
+  protected $priorToInvoice = null;
+
+  /**
    * Initialize the Table
    *
    * @param array $params Parameters from the {form_table} tag
@@ -48,6 +53,14 @@ class InvoiceTableWidget extends TableWidget
       sprintf( "outstanding='%s' ", $this->outstandingFilter ) : null;
     $where .= isset( $this->accountID ) ?
       sprintf( "accountid='%d' ", $this->accountID ) : null;
+
+    // If a prior-to invoice is given, just go with this clause:
+    $where = isset( $this->priorToInvoice ) ?
+      sprintf( "id <> %d AND accountid=%d AND outstanding='%s' AND `date` < '%s'",
+	       $this->priorToInvoice->getID(),
+	       $this->priorToInvoice->getAccountID(),
+	       "yes",
+	       $this->priorToInvoice->getPeriodBegin() ) : $where;
 
     // Load the Invoice Table
     if( null != ($invoices = load_array_InvoiceDBO( $where )) )
@@ -88,5 +101,15 @@ class InvoiceTableWidget extends TableWidget
   public function setOutstanding( $outstanding )
   {
     $this->outstandingFilter = $outstanding;
+  }
+
+  /**
+   * Set Priot To Invoice
+   *
+   * @param InvoiceDBO $invoice Invoice
+   */
+  public function setPriorToInvoice( InvoiceDBO $invoice )
+  {
+    $this->priorToInvoice = $invoice;
   }
 }

@@ -37,7 +37,7 @@
       {/form_table_column}
 
       {form_table_column columnid="accountname" header="[ACCOUNT]"}
-        <a href="./manager_content.php?page=accounts_view_account&account={$invoices.id}">{$invoices.accountname}</a>
+        <a href="./manager_content.php?page=accounts_view_account&account={$invoices.accountid}">{$invoices.accountname}</a>
       {/form_table_column}
 
       {form_table_column columnid="date" header="[INVOICE_DATE]"}

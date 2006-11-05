@@ -71,34 +71,35 @@
   <tr>
 </table>
 <div class="table">
-  {dbo_table dbo_class="InvoiceItemDBO" 
-             filter="invoiceid=$invoice_id" 
-             name="itemdbo_table" 
-             sortby="id"
-             sortdir="ASEC"
-             title="[LINE_ITEMS]"}
+  {form name="view_invoice_items"}
+    {form_table field="items"}
 
-    {dbo_table_column header="[ITEM]" sort_field="text"}
-      {dbo_echo dbo="itemdbo_table" field="text"}
-    {/dbo_table_column}
+      {form_table_column columnid=""}
+        <center> {form_table_checkbox option=$items.id} </center>
+      {/form_table_column}
 
-    {dbo_table_column header="[UNIT_PRICE]" sort_field="unitamount"}
-      {dbo_echo|currency dbo="itemdbo_table" field="unitamount"}
-    {/dbo_table_column}
+      {form_table_column columnid="text" header="[ITEM]"}
+        {$items.text}
+      {/form_table_column}
 
-    {dbo_table_column header="[QUANTITY]" sort_field="quantity"}
-      {dbo_echo dbo="itemdbo_table" field="quantity"}
-    {/dbo_table_column}
+      {form_table_column columnid="unitamount" header="[UNIT_PRICE]"}
+        {$items.unitamount|currency}
+      {/form_table_column}
 
-    {dbo_table_column header="[TOTAL]"}
-      {dbo_echo|currency dbo="itemdbo_table" field="amount"}
-    {/dbo_table_column}
+      {form_table_column columnid="quantity" header="[QUANTITY]"}
+        {$items.quantity}
+      {/form_table_column}
 
-    {dbo_table_column header="[ACTION]"}
-      <a href="manager_content.php?page=billing_view_invoice&action=delete_item&invoice={$invoice_id}&item={dbo_echo dbo="itemdbo_table" field="id"}">remove</a>
-    {/dbo_table_column}
+      {form_table_column columnid="amount" header="[TOTAL]"}
+        {$items.amount|currency}
+      {/form_table_column}
 
-  {/dbo_table}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
+
+    {/form_table}
+  {/form}
 </div>
 
 <div class="form">
@@ -122,68 +123,67 @@
 </div>
 
 <h2> Payments </h2>
-
 <div class="table">
-  {dbo_table dbo_class="PaymentDBO" 
-             filter="invoiceid=$invoice_id" 
-             name="paymentdbo_table" 
-             title="[PAYMENTS]"}
+  {form name="view_invoice_payments"}
+    {form_table field="payments"}
 
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a href="manager_content.php?page=edit_payment&payment={dbo_echo dbo="paymentdbo_table" field="id"}">{dbo_echo dbo="paymentdbo_table" field="id"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid=""}
+        <center> {form_table_checkbox option=$payments.id} </center>
+      {/form_table_column}
 
-    {dbo_table_column header="[DATE_RECEIVED]" sort_field="date"}
-      {dbo_echo|datetime:date dbo="paymentdbo_table" field="date"}
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a href="manager_content.php?page=edit_payment&payment={$payments.id}">{$payments.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[AMOUNT]" sort_field="amount"}
-      {dbo_echo|currency dbo="paymentdbo_table" field="amount"}
-    {/dbo_table_column}
+      {form_table_column columnid="date" header="[DATE_RECEIVED]"}
+        {$payments.date|datetime:date}
+      {/form_table_column}
 
-    {dbo_table_column header="[PAYMENT_TYPE]" sort_field="type"}
-      {dbo_echo dbo="paymentdbo_table" field="type"}
-    {/dbo_table_column}
+      {form_table_column columnid="amount" header="[AMOUNT]"}
+        {$payments.amount|currency}
+      {/form_table_column}
 
-    {dbo_table_column header="[ACTIONS]"}
-      <a href="manager_content.php?page=billing_view_invoice&invoice={$invoice_id}&action=delete_payment&payment={dbo_echo dbo="paymentdbo_table" field="id"}">remove</a>
-    {/dbo_table_column}
+      {form_table_column columnid="type" header="[PAYMENT_TYPE]"}
+        {$payments.type}
+      {/form_table_column}
 
-  {/dbo_table}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
+    
+    {/form_table}
+  {/form}
 </div>
 
 <h2> {echo phrase="OUTSTANDING_INVOICES"} </h2>
-
 <div class="table">
-  {dbo_table dbo_class="InvoiceDBO"
-             method_name="populateOutstandingInvoices"
-             name="oinvoicedbo_table"
-             title="[OUTSTANDING_INVOICES]"}
+  {form name="view_invoice_outstanding_invoices"}
+    {form_table field="invoices"}
 
-    {dbo_table_column header="[ID]" sort_field="id"}
-      <a href="./manager_content.php?page=billing_view_invoice&id={dbo_echo dbo="oinvoicedbo_table" field="id"}">{dbo_echo dbo="oinvoicedbo_table" field="id"}</a>
-    {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a href="./manager_content.php?page=billing_view_invoice&invoice={$invoices.id}">{$invoices.id}</a>
+      {/form_table_column}
 
-    {dbo_table_column header="[INVOICE_DATE]" sort_field="date"}
-      {dbo_echo|datetime:date dbo="oinvoicedbo_table" field="date"}
-    {/dbo_table_column}
+      {form_table_column columnid="date" header="[INVOICE_DATE]"}
+        {$invoices.date|datetime:date}
+      {/form_table_column}
 
-    {dbo_table_column header="[BILLING_PERIOD]" sort_field="periodbegin"}
-      {dbo_echo|datetime:date dbo="oinvoicedbo_table" field="periodbegin"} -
-      {dbo_echo|datetime:date dbo="oinvoicedbo_table" field="periodend"}
-    {/dbo_table_column}
+      {form_table_column columnid="periodbegin" header="[BILLING_PERIOD]"}
+        {$invoices.periodbegin|datetime:date} - {$invoices.periodend|datetime:date}
+      {/form_table_column}
 
-    {dbo_table_column header="[INVOICE_TOTAL]"}
-      {dbo_echo|currency dbo="oinvoicedbo_table" field="total"}
-    {/dbo_table_column}
+      {form_table_column columnid="total" header="[INVOICE_TOTAL]"}
+        {$invoices.total|currency}
+      {/form_table_column}
 
-    {dbo_table_column header="[AMOUNT_PAID]"}
-      {dbo_echo|currency dbo="oinvoicedbo_table" field="totalpayments"}
-    {/dbo_table_column}
+      {form_table_column columnid="totalpayments" header="[AMOUNT_PAID]"}
+        {$invoices.totalpayments|currency}
+      {/form_table_column}
 
-    {dbo_table_column header="[AMOUNT_DUE]"}
-      {dbo_echo|currency dbo="oinvoicedbo_table" field="balance"}
-    {/dbo_table_column}
+      {form_table_column columnid="balance" header="[AMOUNT_DUE]"}
+        {$invoices.balance|currency}
+      {/form_table_column}
 
-  {/dbo_table}
+    {/form_table}
+  {/form}
 </div>

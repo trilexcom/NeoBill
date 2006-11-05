@@ -28,6 +28,18 @@ require_once BASE_PATH . "DBO/InvoiceItemDBO.class.php";
 class InvoiceItemValidator extends FieldValidator
 {
   /**
+   * @var integer Invoice ID
+   */
+  protected $invoiceID = null;
+
+  /**
+   * Set Invoice ID
+   *
+   * @param integer $id Invoice ID
+   */
+  public function setInvoiceID( $id ) { $this->invoiceID = $id; }
+
+  /**
    * Validate an InvoiceItem ID
    *
    * Verifies that the invoice exists.
@@ -43,6 +55,12 @@ class InvoiceItemValidator extends FieldValidator
     if( null == ($itemDBO = load_InvoiceItemDBO( intval( $data ) )) )
       {
 	throw new RecordNotFoundException( "InvoiceItem" );
+      }
+
+    // Verify that this item belongs to the invocie specified
+    if( isset( $this->invoiceID ) && $itemDBO->getInvoiceID() != $this->invoiceID )
+      {
+	throw new FieldException( "Invoice/Invoice Item mismatch" );
       }
 
     return $itemDBO;

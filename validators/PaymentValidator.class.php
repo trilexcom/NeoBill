@@ -28,6 +28,18 @@ require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 class PaymentValidator extends FieldValidator
 {
   /**
+   * @var integer Invoice ID
+   */
+  protected $invoiceID = null;
+
+  /**
+   * Set Invoice ID
+   *
+   * @param integer $id Invoice ID
+   */
+  public function setInvoiceID( $id ) { $this->invoiceID = $id; }
+
+  /**
    * Validate a Payment ID
    *
    * Verifies that the payment exists.
@@ -43,6 +55,12 @@ class PaymentValidator extends FieldValidator
     if( null == ($paymentDBO = load_PaymentDBO( intval( $data ) )) )
       {
 	throw new RecordNotFoundException( "Payment" );
+      }
+
+    // Verify that this payment belongs to the invocie specified
+    if( isset( $this->invoiceID ) && $paymentDBO->getInvoiceID() != $this->invoiceID )
+      {
+	throw new FieldException( "Invoice/Payment mismatch" );
       }
 
     return $paymentDBO;
