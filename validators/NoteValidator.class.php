@@ -28,6 +28,18 @@ require_once BASE_PATH . "DBO/NoteDBO.class.php";
 class NoteValidator extends FieldValidator
 {
   /**
+   * @var integer Account ID
+   */
+  protected $accountID = null;
+
+  /**
+   * Set Account ID
+   *
+   * @param integer $id Account ID
+   */
+  public function setAccountID( $id ) { $this->accountID = $id; }
+
+  /**
    * Validate a Note ID
    *
    * Verifies that the note exists.
@@ -43,6 +55,12 @@ class NoteValidator extends FieldValidator
     if( null == ($noteDBO = load_NoteDBO( intval( $data ) )) )
       {
 	throw new RecordNotFoundException( "Note" );
+      }
+
+    // Verify that this note is for a specific account
+    if( isset( $this->accountID ) && $noteDBO->getAccountID() != $this->accountID )
+      {
+	throw new FieldException( "Note/Account mismatch" );
       }
 
     return $noteDBO;

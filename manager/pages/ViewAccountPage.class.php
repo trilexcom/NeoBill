@@ -38,12 +38,38 @@ class ViewAccountPage extends SolidStatePage
     // Store Account DBO in session
     $this->session['account_dbo'] =& $this->get['account'];
 
+    $accountID = $this->get['account']->getID();
+
     // Set URL Fields
-    $this->setURLField( "account", $this->get['account']->getID() );
+    $this->setURLField( "account", $accountID );
 
     // Set this page's Nav Vars
-    $this->setNavVar( "account_id",   $this->get['account']->getID() );
+    $this->setNavVar( "account_id",   $accountID );
     $this->setNavVar( "account_name", $this->get['account']->getAccountName() );
+
+    // Setup the note table
+    $nField = $this->forms['view_account_note']->getField( "notes" );
+    $nField->getWidget()->setAccountID( $accountID );
+    $nField->getValidator()->setAccountID( $accountID );
+
+    // Setup the hosting service table
+    $hsField = $this->forms['hosting_purchases']->getField( "services" );
+    $hsField->getWidget()->setAccountID( $accountID );
+    $hsField->getValidator()->setAccountID( $accountID );
+
+    // Setup the domain service table
+    $dsField = $this->forms['domain_purchases']->getField( "domains" );
+    $dsField->getWidget()->setAccountID( $accountID );
+    $dsField->getValidator()->setAccountID( $accountID );
+
+    // Setup the product purchase table
+    $ppField = $this->forms['product_purchases']->getField( "products" );
+    $ppField->getWidget()->setAccountID( $accountID );
+    $ppField->getValidator()->setAccountID( $accountID );
+
+    // Setup the invoice table
+    $inField = $this->forms['view_account_invoices']->getField( "invoices" );
+    $inField->getWidget()->setAccountID( $accountID );
   }
 
   /**
@@ -93,16 +119,25 @@ class ViewAccountPage extends SolidStatePage
 	$this->setTemplate( "billing" );
 	break;
 
-      case "delete_product":
-	$this->deleteProduct();
+      case "product_purchases":
+	if( isset( $this->post['remove'] ) )
+	  {
+	    $this->deleteProduct();
+	  }
 	break;
 
-      case "delete_domain":
-	$this->deleteDomain();
+      case "domain_purchases":
+	if( isset( $this->post['remove'] ) )
+	  {
+	    $this->deleteDomain();
+	  }
 	break;
 
-      case "delete_hosting":
-	$this->deleteHosting();
+      case "hosting_purchases":
+	if( isset( $this->post['remove'] ) )
+	  {
+	    $this->deleteHosting();
+	  }
 	break;
 
       case "view_account_action":
@@ -122,15 +157,18 @@ class ViewAccountPage extends SolidStatePage
 	  }
 	break;
 
-      case "view_account_note":
+      case "view_account_add_note":
 	if( isset( $this->post['add'] ) )
 	  {
 	    $this->add_note();
 	  }
 	break;
-
-      case "delete_note":
-	$this->delete_note();
+	
+      case "view_account_note":
+	if( isset( $this->post['remove'] ) )
+	  {
+	    $this->delete_note();
+	  }
 	break;
 
       case "view_account_hosting":
@@ -193,22 +231,20 @@ class ViewAccountPage extends SolidStatePage
    */
   function deleteProduct()
   {
-    if( $this->get['ppurchase']->getAccountID() != $this->get['account']->getID() )
+    // Delete the product purchases
+    foreach( $this->post['products'] as $dbo )
       {
-	throw new SWException( "The product you are trying to delete does not belong to this account" );
-      }
-
-    if( !delete_ProductPurchaseDBO( $this->get['ppurchase'] ) )
-      {
-	// Error
-	$this->setError( array( "type" => "DB_DELETE_PRODUCT_PURCHASE_FAILED",
-				"args" => array( $this->get['ppurchase']->getProductName() ) ) );
-	$this->reload();
+	if( !delete_ProductPurchaseDBO( $dbo ) )
+	  {
+	    // Error
+	    $this->setError( array( "type" => "DB_DELETE_PRODUCT_PURCHASE_FAILED",
+				    "args" => array( $dbo->getProductName() ) ) );
+	    $this->reload();
+	  }
       }
 
     // Success
-    $this->setMessage( array( "type" => "PRODUCT_PURCHASE_DELETED",
-			      "args" => array( $this->get['ppurchase']->getProductName() ) ) );
+    $this->setMessage( array( "type" => "PRODUCT_PURCHASE_DELETED" ) );
     $this->setURLField( "action", "products" );
     $this->reload();
   }
@@ -220,22 +256,20 @@ class ViewAccountPage extends SolidStatePage
    */
   function deleteDomain()
   {
-    if( $this->get['dpurchase']->getAccountID() != $this->get['account']->getID() )
+    // Delete the domain purchases
+    foreach( $this->post['domains'] as $dbo )
       {
-	throw new SWException( "The domain purchase to be deleted does not match the account" );
-      }
-
-    if( !delete_DomainServicePurchaseDBO( $this->get['dpurchase'] ) )
-      {
-	// Error
-	$this->setError( array( "type" => "DB_DELETE_DOMAIN_PURCHASE_FAILED",
-				"args" => array( $this->get['dpurchase']->getFullDomainName() ) ) );
-	$this->reload();
+	if( !delete_DomainServicePurchaseDBO( $dbo ) )
+	  {
+	    // Error
+	    $this->setError( array( "type" => "DB_DELETE_DOMAIN_PURCHASE_FAILED",
+				    "args" => array( $dbo->getFullDomainName() ) ) );
+	    $this->reload();
+	  }
       }
 
     // Success
-    $this->setMessage( array( "type" => "DOMAIN_PURCHASE_DELETED",
-			      "args" => array( $this->get['dpurchase']->getFullDomainName() ) ) );
+    $this->setMessage( array( "type" => "DOMAIN_PURCHASE_DELETED" ) );
     $this->setURLField( "action", "domains" );
     $this->reload();
   }
@@ -247,22 +281,20 @@ class ViewAccountPage extends SolidStatePage
    */
   function deleteHosting()
   {
-    if( $this->get['hpurchase']->getAccountID() != $this->get['account']->getID() )
+    // Delete the service purchases
+    foreach( $this->post['services'] as $dbo )
       {
-	throw new SWException( "Attempted to delete a hosting purchase that does not match this account." );
-      }
-
-    if( !delete_HostingServicePurchaseDBO( $this->get['hpurchase'] ) )
-      {
-	// Error
-	$this->setError( array( "type" => "DB_DELETE_HOSTING_PURCHASE_FAILED",
-				"args" => array( $this->get['hpurchase']->getTitle() ) ) );
-	$this->reload();
+	if( !delete_HostingServicePurchaseDBO( $dbo ) )
+	  {
+	    // Error
+	    $this->setError( array( "type" => "DB_DELETE_HOSTING_PURCHASE_FAILED",
+				    "args" => array( $dbo->getTitle() ) ) );
+	    $this->reload();
+	  }
       }
 
     // Success
-    $this->setMessage( array( "type" => "HOSTING_PURCHASE_DELETED",
-			      "args" => array( $this->get['hpurchase']->getTitle() ) ) );
+    $this->setMessage( array( "type" => "HOSTING_PURCHASES_DELETED" ) );
     $this->setURLField( "action", "services" );
     $this->reload();
   }
@@ -277,26 +309,24 @@ class ViewAccountPage extends SolidStatePage
     // Extract UserDBO of client
     $user_dbo = $_SESSION['client']['userdbo'];
 
-    if( !isset( $this->get['note'] ) )
+    // Delete the notes
+    foreach( $this->post['notes'] as $noteDBO )
       {
-	// Note not found
-	throw new SWException( "There is no note to delete!" );
-      }
+	if( $user_dbo->getType() != "Administrator" &&
+	    $user_dbo->getUsername() != $noteDBO->getUsername() )
+	  {
+	    // User does not have the authority to delete this note
+	    $this->setError( array( "type" => "ACCESS_DENIED" ) );
+	    $this->reload();
+	  }
 
-    if( $user_dbo->getType() != "Administrator" &&
-	$user_dbo->getUsername() != $this->get['note']->getUsername() )
-      {
-	// User does not have the authority to delete this note
-	$this->setError( array( "type" => "ACCESS_DENIED" ) );
-	$this->reload();
-      }
-
-    // Delete the note
-    if( !delete_NoteDBO( $this->get['note'] ) )
-      {
-	// Error deleting note
-	$this->setError( array( "type" => "DB_NOTE_DELETE_FAILED" ) );
-	$this->reload();
+	// Delete the note
+	if( !delete_NoteDBO( $noteDBO ) )
+	  {
+	    // Error deleting note
+	    $this->setError( array( "type" => "DB_NOTE_DELETE_FAILED" ) );
+	    $this->reload();
+	  }
       }
 
     // Note deleted

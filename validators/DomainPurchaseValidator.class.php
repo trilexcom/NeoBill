@@ -28,6 +28,18 @@ require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
 class DomainPurchaseValidator extends FieldValidator
 {
   /**
+   * @var integer Account ID
+   */
+  protected $accountID = null;
+
+  /**
+   * Set Account ID
+   *
+   * @param integer $id Account ID
+   */
+  public function setAccountID( $id ) { $this->accountID = $id; }
+
+  /**
    * Validate a Domain Service Purchase ID
    *
    * Verifies that the server exists.
@@ -43,6 +55,12 @@ class DomainPurchaseValidator extends FieldValidator
     if( null == ($purchaseDBO = load_DomainServicePurchaseDBO( intval( $data ) )) )
       {
 	throw new RecordNotFoundException( "DomainPurchase" );
+      }
+
+    // Verify that this purchase is for a specific account
+    if( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID )
+      {
+	throw new FieldException( "Purchase/Account mismatch" );
       }
 
     return $purchaseDBO;

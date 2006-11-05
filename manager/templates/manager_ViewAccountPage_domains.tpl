@@ -15,34 +15,35 @@
   {/form}
 </div>
 
-  <h2> {echo phrase="DOMAINS"} </h2>
-  <div class="table">
-    {dbo_table dbo_class="DomainServicePurchaseDBO" 
-               filter="accountid=$account_id" 
-               name="domainservicedbo_table" 
-               title="[DOMAINS]" 
-               size="10"}
+<h2> {echo phrase="DOMAINS"} </h2>
+<div class="table">
+  {form name="domain_purchases"}
+    {form_table field="domains"}
 
-      {dbo_table_column header="[DOMAIN_NAME]"}
-        <a href="manager_content.php?page=domains_edit_domain&id={dbo_echo dbo="domainservicedbo_table" field="id"}">{dbo_echo dbo="domainservicedbo_table" field="fulldomainname"}</a>
-      {/dbo_table_column}
+      {form_table_column columnid=""}
+        <center> {form_table_checkbox option=$domains.id} </center>
+      {/form_table_column}
 
-      {dbo_table_column header="[TERM]"}
-        {dbo_echo dbo="domainservicedbo_table" field="term"}
-      {/dbo_table_column}
+      {form_table_column columnid="fulldomainname" header="[DOMAIN_NAME]"}
+        <a href="manager_content.php?page=domains_edit_domain&domain={$domains.id}">{$domains.fulldomainname}</a>
+      {/form_table_column}
 
-      {dbo_table_column header="[PURCHASED]"}
-        {dbo_echo|datetime:date dbo="domainservicedbo_table" field="date"}
-      {/dbo_table_column}
+      {form_table_column columnid="term" header="[TERM]"}
+        {$domains.term}
+      {/form_table_column}
 
-      {dbo_table_column header="[EXPIRES]"}
-        {dbo_echo|datetime:date dbo="domainservicedbo_table" field="expiredate"}
-      {/dbo_table_column}
+      {form_table_column columnid="date" header="[PURCHASED]"}
+        {$domains.date|datetime:date}
+      {/form_table_column}
 
-      {dbo_table_column header="[ACTION]"}
-        <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=delete_domain&dpurchase={dbo_echo dbo="domainservicedbo_table" field="id"}">remove</a>
-      {/dbo_table_column}
+      {form_table_column columnid="expiredate" header="[EXPIRES]"}
+        {$domains.expiredate|datetime:date}
+      {/form_table_column}
 
-    {/dbo_table}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
 
-  </div>
+    {/form_table}
+  {/form}
+</div>

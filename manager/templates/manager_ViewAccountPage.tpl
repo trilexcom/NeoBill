@@ -93,25 +93,30 @@
 {form name="view_account_note"}
   <h2> {echo phrase="NOTES"} </h2>
   <div class="table">
-    {dbo_table dbo_class="NoteDBO" 
-               filter="accountid=$account_id" 
-               name="notedbo_table" 
-               title="[NOTES]"}
+    {form_table field="notes"}
+
+      {form_table_column columnid=""}
+        <center> {form_table_checkbox option=$notes.id} </center>
+      {/form_table_column}
+
+      {form_table_column columnid="updated" header="[POSTED]"}
+        [BY]: {$notes.username} <br/>
+        {$notes.updated|datetime}
+      {/form_table_column}
+
+      {form_table_column columnid="text" header="[NOTE]"}
+        {$notes.text}
+      {/form_table_column}
+
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
       
-      {dbo_table_column header="[POSTED]" sort_field="updated" style="width: 200px"}
-        {echo phrase="BY"}: {dbo_echo dbo="notedbo_table" field="username"} 
-        <br/>
-        {dbo_echo|datetime dbo="notedbo_table" field="updated"}
-      {/dbo_table_column}
+    {/form_table}
+  </div>
+{/form}
 
-      {dbo_table_column header="[NOTE]"}
-        {dbo_echo dbo="notedbo_table" field="text"}
-        <a target="content" href="manager_content.php?page=accounts_view_account&account={$account_id}&action=delete_note&note={dbo_echo dbo="notedbo_table" field="id"}">delete</a>
-      {/dbo_table_column}
-
-    {/dbo_table}
-
-  </div>  
+{form name="view_account_add_note"}
 
     <div class="form">
     <table style="width: 500px">

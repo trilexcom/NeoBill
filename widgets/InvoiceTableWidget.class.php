@@ -25,9 +25,14 @@ require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
 class InvoiceTableWidget extends TableWidget
 {
   /**
+   * @var integer Account ID
+   */
+  protected $accountID = null;
+
+  /**
    * @var string Oustanding invoice filter
    */
-  private $outstandingFilter = null;
+  protected $outstandingFilter = null;
 
   /**
    * Initialize the Table
@@ -40,7 +45,9 @@ class InvoiceTableWidget extends TableWidget
 
     // Build an invoice filter
     $where = isset( $this->outstandingFilter ) ?
-      sprintf( "outstanding='%s'", $this->outstandingFilter ) : null;
+      sprintf( "outstanding='%s' ", $this->outstandingFilter ) : null;
+    $where .= isset( $this->accountID ) ?
+      sprintf( "accountid='%d' ", $this->accountID ) : null;
 
     // Load the Invoice Table
     if( null != ($invoices = load_array_InvoiceDBO( $where )) )
@@ -65,6 +72,13 @@ class InvoiceTableWidget extends TableWidget
 	  }
       }
   }
+
+  /**
+   * Set Account ID
+   *
+   * @param integer $id Account ID
+   */
+  public function setAccountID( $id ) { $this->accountID = $id; }
 
   /**
    * Set Outstanding Filter

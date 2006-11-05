@@ -16,7 +16,7 @@
       {/form_table_column}
 
       {form_table_column columnid="user" header="[USER]"}
-        {$log.username}
+        {$log.user}
       {/form_table_column}
 
       {form_table_column columnid="ip" header="[IP]"}

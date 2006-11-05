@@ -28,6 +28,18 @@ require_once BASE_PATH . "DBO/ProductPurchaseDBO.class.php";
 class ProductPurchaseValidator extends FieldValidator
 {
   /**
+   * @var integer Account ID
+   */
+  protected $accountID = null;
+
+  /**
+   * Set Account ID
+   *
+   * @param integer $id Account ID
+   */
+  public function setAccountID( $id ) { $this->accountID = $id; }
+
+  /**
    * Validate a Product  Purchase ID
    *
    * Verifies that the server exists.
@@ -43,6 +55,12 @@ class ProductPurchaseValidator extends FieldValidator
     if( null == ($purchaseDBO = load_ProductPurchaseDBO( intval( $data ) )) )
       {
 	throw new RecordNotFoundException( "ProductPurchase" );
+      }
+
+    // Verify that this purchase is for a specific account
+    if( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID )
+      {
+	throw new FieldException( "Purchase/Account mismatch" );
       }
 
     return $purchaseDBO;

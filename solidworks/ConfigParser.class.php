@@ -169,11 +169,9 @@ class ConfigParser
       case "FIELD":
 	$this->form_field_name = $attrs['NAME'];
 	$field_data =& $this->conf['forms'][$this->form_name]['fields'][$this->form_field_name];
-	$field_data['type'] = $attrs['TYPE'];
 	$field_data['widget'] = $attrs['WIDGET'];
 	$field_data['validator'] = $attrs['VALIDATOR'];
 	$field_data['description'] = $attrs['DESCRIPTION'];
-	$field_data['validate'] = (strtolower( $attrs['VALIDATE'] ) == "true");
 	$field_data['required'] = (strtolower( $attrs['REQUIRED'] ) == "true");
 	$field_data['max_length'] = $attrs['MAX_LENGTH'];
 	$field_data['min_length'] = $attrs['MIN_LENGTH'];
@@ -188,6 +186,7 @@ class ConfigParser
 	$field_data['md5'] = (strtolower( $attrs['MD5'] ) == "true");
 	$field_data['method_name'] = $attrs['METHOD_NAME'];
 	$field_data['cancel'] = (strtolower( $attrs['CANCEL'] ) == "true");
+	$field_data['array'] = (strtolower( $attrs['ARRAY'] ) == "true");
 	break;
 
       case "COLUMNS":

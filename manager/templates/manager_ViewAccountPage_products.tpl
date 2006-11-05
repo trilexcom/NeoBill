@@ -15,30 +15,31 @@
   {/form}
 </div>
 
-  <h2> {echo phrase="OTHER_PRODUCTS"} </h2>
-  <div class="table">
-    {dbo_table dbo_class="ProductPurchaseDBO" 
-               filter="accountid=$account_id" 
-               name="productdbo_table" 
-               title="[OTHER_PRODUCTS]" 
-               size="10"}
+<h2> {echo phrase="OTHER_PRODUCTS"} </h2>
+<div class="table">
+  {form name="product_purchases"}
+    {form_table field="products"}
+    
+      {form_table_column columnid=""}
+        <center> {form_table_checkbox option=$products.id} </center>
+      {/form_table_column}
 
-      {dbo_table_column header="[PRODUCT_NAME]"}
-        {dbo_echo dbo="productdbo_table" field="productname"}
-      {/dbo_table_column}
+      {form_table_column columnid="productname" header="[PRODUCT_NAME]"}
+        {$products.productname}
+      {/form_table_column}
 
-      {dbo_table_column header="[NOTE]"}
-        {dbo_echo dbo="productdbo_table" field="note"}
-      {/dbo_table_column}
+      {form_table_column columnid="note" header="[NOTE]"}
+        {$products.note}
+      {/form_table_column}
 
-      {dbo_table_column header="[PURCHASED]"}
-        {dbo_echo|datetime:date dbo="productdbo_table" field="date"}
-      {/dbo_table_column}
+      {form_table_column columnid="date" header="[DATE]"}
+        {$products.date|datetime:date}
+      {/form_table_column}
 
-      {dbo_table_column header="[ACTION]"}
-        <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=delete_product&ppurchase={dbo_echo dbo="productdbo_table" field="id"}">remove</a>
-      {/dbo_table_column}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
 
-    {/dbo_table}
-
-  </div>
+    {/form_table}
+  {/form}
+</div>

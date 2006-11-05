@@ -15,43 +15,43 @@
   {/form}
 </div>
 
-  <h2> {echo phrase="WEB_HOSTING_SERVICES"} </h2>
-  <div class="table">
-    {dbo_table dbo_class="HostingServicePurchaseDBO" 
-               filter="accountid=$account_id" 
-               name="hostingdbo_table" 
-               title="[WEB_HOSTING_SERVICES]" 
-               size="10"}
+<h2> {echo phrase="WEB_HOSTING_SERVICES"} </h2>
+<div class="table">
+  {form name="hosting_purchases"}
+    {form_table field="services"}
 
-      {dbo_table_column header="[SERVICE_NAME]"}
-        {dbo_echo dbo="hostingdbo_table" field="title"}
-      {/dbo_table_column}
+      {form_table_column columnid=""}
+        <center> {form_table_checkbox option=$services.id} </center>
+      {/form_table_column}
 
-      {dbo_table_column header="[TERM]"}
-        {dbo_echo dbo="hostingdbo_table" field="term"}
-      {/dbo_table_column}
+      {form_table_column columnid="title" header="[SERVICE_NAME]"}
+        {$services.title}
+      {/form_table_column}
 
-      {dbo_table_column header="[SERVER]"}
-        {dbo_assign dbo="hostingdbo_table" var="serverid" field="serverid"}
-        {if $serverid < 1}
-          {dbo_echo dbo="hostingdbo_table" field="hostname"}
+      {form_table_column columnid="term" header="[TERM]"}
+        {$services.term}
+      {/form_table_column}
+
+      {form_table_column columnid="hostname" header="[SERVER]"}
+        {if $services.serverid < 1}
+          {$services.hostname}
         {else}
-          <a href="manager_content.php?page=services_view_server&server={dbo_echo dbo="hostingdbo_table" field="serverid"}">{dbo_echo dbo="hostingdbo_table" field="hostname"}</a>
+          <a href="manager_content.php?page=services_view_server&server={$services.serverid}">{$services.hostname}</a>
         {/if}
-      {/dbo_table_column}
+      {/form_table_column}
 
-      {dbo_table_column header="[PRICE]"}
-        {dbo_echo|currency dbo="hostingdbo_table" field="price"}
-      {/dbo_table_column}
+      {form_table_column columnid="price" header="[PRICE]"}
+        {$services.price|currency}
+      {/form_table_column}
 
-      {dbo_table_column header="[PURCHASED]"}
-        {dbo_echo|datetime:date dbo="hostingdbo_table" field="date"}
-      {/dbo_table_column}
+      {form_table_column columnid="date" header="[PURCHASED]"}
+        {$services.date|datetime:date}
+      {/form_table_column}
 
-      {dbo_table_column header="[ACTION]"}
-        <a href="manager_content.php?page=accounts_view_account&account={$account_id}&action=delete_hosting&hpurchase={dbo_echo dbo="hostingdbo_table" field="id"}">remove</a>
-      {/dbo_table_column}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
 
-    {/dbo_table}
-
-  </div>
+    {/form_table}
+  {/form}
+</div>

@@ -200,6 +200,25 @@ class FormField
 
     // Validate the data and store the result in value
     $this->rawValue = $data;
-    $this->value = $this->validator->validate( $data );
+    if( is_array( $data ) )
+      {
+	// Handle an array submission
+	if( !$this->config['array'] )
+	  {
+	    throw new FieldException( "Array Values Not Allowed" );
+	  }
+
+	$this->value = array();
+	foreach( $data as $dataItem )
+	  {
+	    $this->value[] = $this->validator->validate( $dataItem );
+	  }
+      }
+    else
+      {
+	$this->value = $this->config['array'] ?
+	  array( $this->validator->validate( $data ) ) :
+	  $this->validator->validate( $data );
+      }
   }
 }
