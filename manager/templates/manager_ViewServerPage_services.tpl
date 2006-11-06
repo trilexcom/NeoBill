@@ -10,28 +10,25 @@
 <h2> {echo phrase="HOSTING_SERVICES_ASSIGNED"} {dbo_echo dbo="server_dbo" field="hostname"} </h2>
 
 <div class="table">
-  {dbo_table dbo_class="HostingServicePurchaseDBO"
-             name="servicedbo_table"
-             title="[HOSTING_SERVICES]"
-             filter="serverid=$serverid"
-             size="25"}
+  {form name="view_server_services"}
+    {form_table field="services"}
 
-      {dbo_table_column header="[SERVICE_NAME]"}
-        {dbo_echo dbo="servicedbo_table" field="title"}
-      {/dbo_table_column}
+      {form_table_column columnid="title" header="[SERVICE_NAME]"}
+        {$services.title}
+      {/form_table_column}
 
-      {dbo_table_column header="[ACCOUNT]"}
-        <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="servicedbo_table" field="accountid"}">{dbo_echo dbo="servicedbo_table" field="accountname"}</a>
-      {/dbo_table_column}
+      {form_table_column columnid="accountname" header="[ACCOUNT]"}
+        <a href="manager_content.php?page=accounts_view_account&account={$services.accountid}">{$services.accountname}</a>
+      {/form_table_column}
 
-      {dbo_table_column header="[TERM]"}
-        {dbo_echo dbo="servicedbo_table" field="term"}
-      {/dbo_table_column}
+      {form_table_column columnid="term" header="[TERM]"}
+        {$services.term}
+      {/form_table_column}
 
-      {dbo_table_column header="[PURCHASED]"}
-        {dbo_echo|datetime:date dbo="servicedbo_table" field="date"}
-      {/dbo_table_column}
+      {form_table_column columnid="date" header="[PURCHASED]"}
+        {$services.date|datetime:date}
+      {/form_table_column}
 
-  {/dbo_table}
-
+    {/form_table}
+  {/form}
 </div>

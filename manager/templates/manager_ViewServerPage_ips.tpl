@@ -17,33 +17,33 @@
 <h2> {echo phrase="IP_ADDRESSES_FOR"} {dbo_echo dbo="server_dbo" field="hostname"} </h2>
 
 <div class="table">
-  {dbo_table dbo_class="IPAddressDBO"
-             name="ipaddressdbo_table"
-             title="[IP_ADDRESSES]"
-             filter="serverid=$serverid"
-             size="25"}
+  {form name="view_server_ips"}
+    {form_table field="ips"}
 
-    {dbo_table_column header="[IP_ADDRESS]" sort_field="ip"}
-      {dbo_echo dbo="ipaddressdbo_table" field="ipstring"}
-    {/dbo_table_column}
+      {form_table_column columnid=""}
+        {form_table_checkbox option=$ips.ipaddress}
+      {/form_table_column}
 
-    {dbo_table_column header="[ASSIGNED_TO]"}
-      {dbo_assign dbo="ipaddressdbo_table" var="accountid" field="accountid"}
-      {if $accountid < 1}
-        Available
-      {else}
-        <a href="manager_content.php?page=accounts_view_account&id={$accountid}">{dbo_echo dbo="ipaddressdbo_table" field="accountname"}</a>
-      {/if}
-    {/dbo_table_column}
+      {form_table_column columnid="ipaddressstring" header="[IP_ADDRESS]"}
+        {$ips.ipaddressstring}
+      {/form_table_column}
 
-    {dbo_table_column header="[SERVICE]"}
-      {dbo_echo dbo="ipaddressdbo_table" field="servicetitle"}
-    {/dbo_table_column}
+      {form_table_column columnid="accountname" header="[ASSIGNED_TO]"}
+        {if $ips.accountid < 1}
+          [AVAILABLE]
+        {else}
+          <a href="manager_content.php?page=accounts_view_account&account={$ips.accountid}">{$ips.accountname}</a>
+        {/if}
+      {/form_table_column}
 
-    {dbo_table_column header="[ACTION]"}
-      <a href="manager_content.php?page=services_view_server&server={$serverid}&action=delete_ip&ip={dbo_echo dbo="ipaddressdbo_table" field="ip"}">remove</a>
-    {/dbo_table_column}
+      {form_table_column columnid="service" header="[SERVICE]"}
+        {$ips.service}
+      {/form_table_column}
 
-  {/dbo_table}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
 
+    {/form_table}
+  {/form}
 </div>

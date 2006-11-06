@@ -27,7 +27,12 @@ class HostingPurchaseTableWidget extends TableWidget
   /**
    * @var integer Account ID
    */
-  private $accountID = null;
+  protected $accountID = null;
+
+  /**
+   * @var integer Server ID
+   */
+  protected $serverID = null;
 
   /**
    * Initialize the Table
@@ -41,6 +46,8 @@ class HostingPurchaseTableWidget extends TableWidget
     // Build an HostingPurchase filter
     $where = isset( $this->accountID ) ? 
       sprintf( "accountid='%d'", $this->accountID ) : null;
+    $where = isset( $this->serverID ) ?
+      sprintf( "serverid='%d'", $this->serverID ) : $where;
 
     // Load the HostingPurchase Table
     if( null != ($purchases = load_array_HostingServicePurchaseDBO( $where )) )
@@ -56,7 +63,8 @@ class HostingPurchaseTableWidget extends TableWidget
 		     "serverid" => $dbo->getServerID(),
 		     "hostname" => $dbo->getHostName(),
 		     "price" => $dbo->getPrice(),
-		     "date" => $dbo->getDate() );
+		     "date" => $dbo->getDate(),
+		     "accountname" => $dbo->getAccountName() );
 	  }
       }
   }
@@ -67,4 +75,11 @@ class HostingPurchaseTableWidget extends TableWidget
    * @param integer $id Account ID
    */
   public function setAccountID( $id ) { $this->accountID = $id; }
+
+  /**
+   * Set Server ID
+   *
+   * @param integer $id Server ID
+   */
+  public function setServerID( $id ) { $this->serverID = $id; }
 }

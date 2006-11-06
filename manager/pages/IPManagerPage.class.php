@@ -14,8 +14,6 @@ require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
 
-require_once BASE_PATH . "widgets/IPPoolTableWidget.class.php";
-
 /**
  * IPManagerPage
  *
@@ -26,18 +24,6 @@ require_once BASE_PATH . "widgets/IPPoolTableWidget.class.php";
  */
 class IPManagerPage extends SolidStatePage
 {
-  /**
-   * Constructor
-   */
-  function __construct()
-  {
-    parent::__construct();
-
-    // Register the IP Pool table as a widget
-    WidgetFactory::getWidgetFactory()->registerWidget( "ippooltable", 
-						       "IPPoolTableWidget" );
-  }
-
   /**
    * Action
    *

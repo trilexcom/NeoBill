@@ -46,6 +46,14 @@ class ViewServerPage extends SolidStatePage
     // Set this page's Nav Vars
     $this->setNavVar( "id",   $this->get['server']->getID() );
     $this->setNavVar( "hostname", $this->get['server']->getHostName() );
+
+    // Setup the IP table
+    $ipField = $this->forms['view_server_ips']->getField( "ips" );
+    $ipField->getWidget()->setServerID( $this->get['server']->getID() );
+
+    // Setup the Services table
+    $hsField = $this->forms['view_server_services']->getField( "services" );
+    $hsField->getWidget()->setServerID( $this->get['server']->getID() );
   }
 
   /**
@@ -78,8 +86,11 @@ class ViewServerPage extends SolidStatePage
 	$this->setTemplate( "services" );
 	break;
 
-      case "delete_ip":
-	$this->deleteIP();
+      case "view_server_ips":
+	if( isset( $this->post['remove'] ) )
+	  {
+	    $this->deleteIP();
+	  }
 	break;
 
       case "view_server":
@@ -125,28 +136,32 @@ class ViewServerPage extends SolidStatePage
 	return;
       }
 
-    // Verify that this IP address is not being used
-    if( !$this->get['ip']->isAvailable() )
+    foreach( $this->post['ips'] as $ipdbo )
       {
-	// Can not delete IP until it is free
-	$this->setError( array( "type" => "IP_NOT_FREE",
-				"args" => array( $ip_string ) ) );
-	$this->setTemplate( "ips" );
-	return;
-      }
+	// Verify that this IP address is not being used
+	if( !$ipdbo->isAvailable() )
+	  {
+	    // Can not delete IP until it is free
+	    $this->setError( array( "type" => "IP_NOT_FREE",
+				    "args" => array( $ipdbo->getIPString() ) ) );
+	    $this->setTemplate( "ips" );
+	    $this->reload();
+	  }
+	
+	// Remove the IP address from the database
+	if( !delete_IPAddressDBO( $ipdbo ) )
+	  {
+	    // Database error
+	    $this->setError( array( "type" => "DB_DELETE_IP_FAILED",
+				    "args" => array( $ipdbo->getIPString() ) ) );
+	    $this->reload();
+	  }
 
-    // Remove the IP address from the database
-    if( !delete_IPAddressDBO( $this->get['ip'] ) )
-      {
-	// Database error
-	$this->setError( array( "type" => "DB_DELETE_IP_FAILED",
-				"args" => array( $ip_string ) ) );
-	$this->reload();
+	$this->setMessage( array( "type" => "IP_DELETED",
+				  "args" => array( $ipdbo->getIPString() ) ) );
       }
 
     // Success
-    $this->setMessage( array( "type" => "IP_DELETED",
-			      "args" => array( $ip_string ) ) );
     $this->setTemplate( "ips" );
   }
 }

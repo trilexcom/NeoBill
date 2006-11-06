@@ -25,6 +25,11 @@ require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
 class IPPoolTableWidget extends TableWidget
 {
   /**
+   * @var integer Server ID to filter by
+   */
+  protected $serverID = null;
+
+  /**
    * Initialize the Table
    *
    * @param array $params Parameters from the {form_table} tag
@@ -33,21 +38,33 @@ class IPPoolTableWidget extends TableWidget
   { 
     parent::init( $params );
 
-    // Load the IP Address pool
-    $IPAddresses = load_array_IPAddressDBO();
+    // Build a where clause
+    $where = isset( $this->serverID ) ?
+      sprintf( "serverid='%d'", $this->serverID ) : null;
 
-    // Build the table
-    foreach( $IPAddresses as $dbo )
+    // Load the IP Address pool
+    if( null != ($IPAddresses = load_array_IPAddressDBO( $where )) )
       {
-	// Put the row into the table
-	$this->data[] = 
-	  array( "ipaddress" => $dbo->getIP(),
+	// Build the table
+	foreach( $IPAddresses as $dbo )
+	  {
+	    // Put the row into the table
+	    $this->data[] = 
+	      array( "ipaddress" => $dbo->getIP(),
                  "ipaddressstring" => $dbo->getIPString(),
-		 "server" => $dbo->getServerID(),
-                 "hostname" => $dbo->getHostName(),
-                 "isAvailable" => $dbo->isAvailable(),
-		 "accountname" => $dbo->getAccountName(),
-		 "service" => $dbo->getServiceTitle() );
+		     "server" => $dbo->getServerID(),
+		     "hostname" => $dbo->getHostName(),
+		     "isAvailable" => $dbo->isAvailable(),
+		     "accountname" => $dbo->getAccountName(),
+		     "service" => $dbo->getServiceTitle() );
+	  }
       }
   }
+
+  /**
+   * Set Server ID
+   *
+   * @param interger $id Server ID to filter by
+   */
+  public function setServerID( $id ) { $this->serverID = $id; }
 }
