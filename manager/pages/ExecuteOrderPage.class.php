@@ -121,22 +121,16 @@ class ExecuteOrderPage extends SolidStatePage
     // Set Nav vars
     $this->setNavVar( "order_id", $this->get['order']->getID() );
 
+    // Setup the Order Items table
+    $oiField = $this->forms['execute_order']->getField( "items" );
+    $oiField->getWidget()->setOrder( $this->get['order'] );
+    $oiField->getWidget()->showAcceptedItemsOnly();
+    $oiField->getValidator()->setOrder( $this->get['order'] );
+
     // Go ahead and execute if this is an existing customer
     if( $this->get['order']->getAccountType() == "Existing Account" )
       {
 	$this->execute();
       }
   }
-
-  /**
-   * Populate the Order Item's Table
-   *
-   * @return array An array of all OrderItemDBO's for this Order
-   */
-  function populateItemTable()
-  {
-    return $this->get['order']->getAcceptedItems();
-  }
-  
-}
 ?>

@@ -27,7 +27,12 @@ class PaymentTableWidget extends TableWidget
   /**
    * @var integer Invoice ID
    */
-  private $invoiceID = null;
+  protected $invoiceID = null;
+
+  /**
+   * @var integer Order ID
+   */
+  protected $orderID = null;
 
   /**
    * Initialize the Table
@@ -41,6 +46,8 @@ class PaymentTableWidget extends TableWidget
     // Build an Payment filter
     $where = isset( $this->invoiceID ) ? 
       sprintf( "invoiceid='%d'", $this->invoiceID ) : null;
+    $where = isset( $this->orderID ) ?
+      sprintf( "orderid='%d'", $this->orderID ) : null;
 
     // Load the Payment Table
     if( null != ($items = load_array_PaymentDBO( $where )) )
@@ -53,7 +60,9 @@ class PaymentTableWidget extends TableWidget
 	      array( "id" => $dbo->getID(),
 		     "date"=> $dbo->getDate(),
 		     "amount" => $dbo->getAmount(),
-		     "type" => $dbo->getType() );
+		     "type" => $dbo->getType(),
+		     "module" => $dbo->getModule(),
+		     "status" => $dbo->getStatus() );
 	  }
       }
   }
@@ -64,4 +73,11 @@ class PaymentTableWidget extends TableWidget
    * @param integer $id Invoice ID
    */
   public function setInvoiceID( $id ) { $this->invoiceID = $id; }
+
+  /**
+   * Set Order ID
+   *
+   * @param integer $id Order ID
+   */
+  public function setOrderID( $id ) { $this->orderID = $id; }
 }

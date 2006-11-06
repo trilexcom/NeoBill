@@ -22,7 +22,6 @@ require_once BASE_PATH . "widgets/IPSelectWidget.class.php";
 require_once BASE_PATH . "widgets/TLDSelectWidget.class.php";
 require_once BASE_PATH . "widgets/ProductSelectWidget.class.php";
 require_once BASE_PATH . "widgets/InvoiceSelectWidget.class.php";
-require_once BASE_PATH . "widgets/OrderItemAcceptCheckListWidget.class.php";
 require_once BASE_PATH . "widgets/RegistrarModuleSelectWidget.class.php";
 require_once BASE_PATH . "widgets/DomainTermSelectWidget.class.php";
 require_once BASE_PATH . "widgets/HostingTermSelectWidget.class.php";
@@ -49,6 +48,7 @@ require_once BASE_PATH . "widgets/DomainPurchaseTableWidget.class.php";
 require_once BASE_PATH . "widgets/ProductPurchaseTableWidget.class.php";
 require_once BASE_PATH . "widgets/InvoiceItemTableWidget.class.php";
 require_once BASE_PATH . "widgets/PaymentTableWidget.class.php";
+require_once BASE_PATH . "widgets/OrderItemTableWidget.class.php";
 
 // SolidState Validators
 require_once BASE_PATH . "solidworks/FieldValidatorFactory.class.php";
@@ -66,7 +66,6 @@ require_once BASE_PATH . "validators/ProductValidator.class.php";
 require_once BASE_PATH . "validators/ProductPurchaseValidator.class.php";
 require_once BASE_PATH . "validators/OrderValidator.class.php";
 require_once BASE_PATH . "validators/OrderItemValidator.class.php";
-require_once BASE_PATH . "validators/OrderItemArrayValidator.class.php";
 require_once BASE_PATH . "validators/OrderExistingDomainValidator.class.php";
 require_once BASE_PATH . "validators/OrderExistingDomainArrayValidator.class.php";
 require_once BASE_PATH . "validators/TaxRuleValidator.class.php";
@@ -110,7 +109,6 @@ class SolidStatePage extends Page
     $wf->registerWidget( "tldselect", "TLDSelectWidget" );
     $wf->registerWidget( "productselect", "ProductSelectWidget" );
     $wf->registerWidget( "invoiceselect", "InvoiceSelectWidget" );
-    $wf->registerWidget( "orderitemacceptchecklist", "OrderItemAcceptCheckListWidget" );
     $wf->registerWidget( "registrarmoduleselect", "RegistrarModuleSelectWidget" );
     $wf->registerWidget( "domaintermselect", "DomainTermSelectWidget" );
     $wf->registerWidget( "hostingtermselect", "HostingTermSelectWidget" );
@@ -137,6 +135,7 @@ class SolidStatePage extends Page
     $wf->registerWidget( "productpurchasetable", "ProductPurchaseTableWidget" );
     $wf->registerWidget( "invoiceitemtable", "InvoiceItemTableWidget" );
     $wf->registerWidget( "paymenttable", "PaymentTableWidget" );
+    $wf->registerWidget( "orderitemtable", "OrderItemTableWidget" );
     
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();
@@ -154,7 +153,6 @@ class SolidStatePage extends Page
     $vf->registerFieldValidator( "productpurchase", "ProductPurchaseValidator" );
     $vf->registerFieldValidator( "order", "OrderValidator" );
     $vf->registerFieldValidator( "orderitem", "OrderItemValidator" );
-    $vf->registerFieldValidator( "orderitemarray", "OrderItemArrayValidator" );
     $vf->registerFieldValidator( "taxrule", "TaxRuleValidator" );
     $vf->registerFieldValidator( "registrarmodule", "RegistrarModuleValidator" );
     $vf->registerFieldValidator( "server", "ServerValidator" );

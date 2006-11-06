@@ -832,9 +832,7 @@ class OrderDBO extends DBO
       }
 
     // Not found
-    throw new SWException( sprintf( "Order item does not exist:\n\tOrder ID: %d\n\tOrder Item ID: %d",
-				    $this->getID(),
-				    $orderItemID ) );
+    return null;
   }
 
   /**

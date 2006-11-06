@@ -87,31 +87,28 @@
 
   <h2> {echo phrase="ORDER_ITEMS"} </h2>
   <div class="table">
-    {dbo_table dbo_class="OrderItemDBO"
-               name="orderitemdbo_table"
-               method_name="populateItemTable"
-               title="[ORDER_ITEMS]"}
+    {form_table field="items"}
+  
+        {form_table_column columnid="description" header="[ITEM]"}
+          {$items.description}
+        {/form_table_column}
 
-      {dbo_table_column header="[ITEM]"}
-        {dbo_echo dbo="orderitemdbo_table" field="description"}
-      {/dbo_table_column}
+        {form_table_column columnid="term" header="[TERM]"}
+          {$items.term}
+        {/form_table_column}
 
-      {dbo_table_column header="[TERM]"}
-        {dbo_echo dbo="orderitemdbo_table" field="term"}
-      {/dbo_table_column}
+        {form_table_column columnid="setupfee" header="[SETUP_PRICE]"}
+          {$items.setupfee|currency}
+        {/form_table_column}
+  
+        {form_table_column columnid="price" header="[RECURRING_PRICE]"}
+          {$items.price|currency}
+        {/form_table_column}
 
-      {dbo_table_column header="[SETUP_PRICE]"}
-        {dbo_echo|currency dbo="orderitemdbo_table" field="setupfee"}
-      {/dbo_table_column}
+    {/form_table}
 
-      {dbo_table_column header="[RECURRING_PRICE]"}
-        {dbo_echo|currency dbo="orderitemdbo_table" field="price"}
-      {/dbo_table_column}
-
-    {/dbo_table}
-
-   {form_element field="continue"}
-   {form_element field="cancel"}
+    {form_element field="continue"}
+    {form_element field="cancel"}
   </div>
 
 {/form}

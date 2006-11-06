@@ -107,9 +107,14 @@ class ViewOrderPage extends SolidStatePage
     // Give the template access to the Order DBO
     $this->session['orderdbo'] =& $this->get['order'];
 
-    // The accept list widgets and validators need knowledge of the Order
-    $this->forms['order']->getField( "accept" )->getWidget()->setOrder( $this->get['order'] );
-    $this->forms['order']->getField( "accept" )->getValidator()->setOrder( $this->get['order'] );
+    // Setup the Order Items table
+    $oiField = $this->forms['order']->getField( "items" );
+    $oiField->getWidget()->setOrder( $this->get['order'] );
+    $oiField->getValidator()->setOrder( $this->get['order'] );
+
+    // Setup the payment table
+    $payField = $this->forms['order']->getField( "payments" );
+    $payField->getWidget()->setOrderID( $this->get['order']->getID() );
 
     // If this is an existing account order, make sure the template has access
     // to the account DBO
@@ -202,9 +207,11 @@ class ViewOrderPage extends SolidStatePage
     $this->get['order']->setMobilePhone( $this->post['mobilephone'] );
     $this->get['order']->setFax( $this->post['fax'] );
 
+    $acceptedItems = is_array( $this->post['items'] ) ?
+      $this->post['items'] : array();
     foreach( $this->get['order']->getItems() as $itemDBO )
       {
-	if( in_array( $itemDBO, $this->post['accept'] ) )
+	if( in_array( $itemDBO, $acceptedItems ) )
 	  {
 	    $this->get['order']->acceptItem( $itemDBO->getOrderItemID() );
 	  }

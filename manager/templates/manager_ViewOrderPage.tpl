@@ -130,74 +130,66 @@
   {/if}
 
   <h2> {echo phrase="ORDER_ITEMS"} </h2>
-
   <div class="table">
-    {dbo_table dbo_class="OrderItemDBO"
-               name="orderitemdbo_table"
-               method_name="populateItemTable"
-               title="[ORDER_ITEMS]"}
+    {form_table field="items"}
 
-      {dbo_table_column header="[ACCEPT]"}
-        {dbo_assign dbo="orderitemdbo_table" field="orderitemid" var="itemid"}
-        {dbo_assign dbo="orderitemdbo_table" field="status" var="status"}
-        <center>
-          {form_element field="accept" option="$itemid" array="true"}
+      {form_table_column columnid="" header="[ACCEPT]"}
+        <center> 
+          {form_table_checkbox option=$items.orderitemid}
         </center>
-      {/dbo_table_column}
+      {/form_table_column}
 
-      {dbo_table_column header="[ITEM]"}
-        {dbo_echo dbo="orderitemdbo_table" field="description"}
-      {/dbo_table_column}
+      {form_table_column columnid="description" header="[ITEM]"}
+        {$items.description}
+      {/form_table_column}
 
-      {dbo_table_column header="[TERM]"}
-        {dbo_echo dbo="orderitemdbo_table" field="term"}
-      {/dbo_table_column}
+      {form_table_column columnid="term" header="[TERM]"}
+        {$items.term}
+      {/form_table_column}
 
-      {dbo_table_column header="[SETUP_PRICE]"}
-        {dbo_echo|currency dbo="orderitemdbo_table" field="setupfee"}
-      {/dbo_table_column}
+      {form_table_column columnid="setupfee" header="[SETUP_PRICE]"}
+        {$items.setupfee|currency}
+      {/form_table_column}
 
-      {dbo_table_column header="[RECURRING_PRICE]"}
-        {dbo_echo|currency dbo="orderitemdbo_table" field="price"}
-      {/dbo_table_column}
+      {form_table_column columnid="price" header="[RECURRING_PRICE]"}
+        {$items.price|currency}
+      {/form_table_column}
 
-    {/dbo_table}
+      {form_table_footer}
+        {form_element field="save"}
+      {/form_table_footer}
 
-    {form_element field="save"}
+    {/form_table}
   </div>
 
   <h2> {echo phrase="PAYMENTS"} </h2>
-
   <div class="table">
-    {dbo_table dbo_class="PaymentDBO" 
-               name="paymentdbo_table" 
-               method_name="populatePaymentTable"
-               title="[PAYMENTS]"}
+    {form_table field="payments"}
 
-      {dbo_table_column header="[ID]" sort_field="id"}
-        <a href="manager_content.php?page=edit_payment&payment={dbo_echo dbo="paymentdbo_table" field="id"}">{dbo_echo dbo="paymentdbo_table" field="id"}</a>
-      {/dbo_table_column}
+      {form_table_column columnid="id" header="[ID]"}
+        <a href="manager_content.php?page=edit_payment&payment={$payments.id}">{$payments.id}</a>
+      {/form_table_column}
 
-      {dbo_table_column header="[DATE_RECEIVED]" sort_field="date"}
-        {dbo_echo|datetime:date dbo="paymentdbo_table" field="date"}
-      {/dbo_table_column}
+      {form_table_column columnid="date" header="[DATE_RECEIVED]"}
+        {$payments.date|datetime:date}
+      {/form_table_column}
 
-      {dbo_table_column header="[AMOUNT]" sort_field="amount"}
-        {dbo_echo|currency dbo="paymentdbo_table" field="amount"}
-      {/dbo_table_column}
+      {form_table_column columnid="amount" header="[AMOUNT]"}
+        {$payments.amount|currency}
+      {/form_table_column}
 
-      {dbo_table_column header="[PAYMENT_TYPE]" sort_field="type"}
-        {dbo_echo dbo="paymentdbo_table" field="type"}
-      {/dbo_table_column}
+      {form_table_column columnid="type" header="[PAYMENT_TYPE]"}
+        {$payments.type}
+      {/form_table_column}
 
-      {dbo_table_column header="[MODULE]" sort_field="module"}
-        {dbo_echo dbo="paymentdbo_table" field="module"}
-      {/dbo_table_column}
+      {form_table_column columnid="module" header="[MODULE]"}
+        {$payments.module}
+      {/form_table_column}
 
-      {dbo_table_column header="[PAYMENT_STATUS]" sort_field="status"}
-        {dbo_echo dbo="paymentdbo_table" field="status"}
-      {/dbo_table_column}
-
-    {/dbo_table}
-
+      {form_table_column columnid="status" header="[PAYMENT_STATUS]"}
+        {$payments.status}
+      {/form_table_column}
+    
+    {/form_table}
+  </div>
 {/form}
