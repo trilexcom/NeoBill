@@ -67,9 +67,7 @@ require_once BASE_PATH . "validators/ProductPurchaseValidator.class.php";
 require_once BASE_PATH . "validators/OrderValidator.class.php";
 require_once BASE_PATH . "validators/OrderItemValidator.class.php";
 require_once BASE_PATH . "validators/OrderExistingDomainValidator.class.php";
-require_once BASE_PATH . "validators/OrderExistingDomainArrayValidator.class.php";
 require_once BASE_PATH . "validators/TaxRuleValidator.class.php";
-require_once BASE_PATH . "validators/TaxRuleArrayValidator.class.php";
 require_once BASE_PATH . "validators/RegistrarModuleValidator.class.php";
 require_once BASE_PATH . "validators/ServerValidator.class.php";
 require_once BASE_PATH . "validators/IPAddressDBValidator.class.php";
@@ -77,10 +75,8 @@ require_once BASE_PATH . "validators/LanguageValidator.class.php";
 require_once BASE_PATH . "validators/PaymentModuleValidator.class.php";
 require_once BASE_PATH . "validators/PaymentGatewayModuleValidator.class.php";
 require_once BASE_PATH . "validators/ModuleValidator.class.php";
-require_once BASE_PATH . "validators/ModuleArrayValidator.class.php";
 require_once BASE_PATH . "validators/UserValidator.class.php";
 require_once BASE_PATH . "validators/PaymentMethodValidator.class.php";
-require_once BASE_PATH . "validators/IPAddressDBArrayValidator.class.php";
 require_once BASE_PATH . "validators/LogValidator.class.php";
 
 /**
@@ -161,13 +157,9 @@ class SolidStatePage extends Page
     $vf->registerFieldValidator( "paymentmodule", "PaymentModuleValidator" );
     $vf->registerFieldValidator( "paymentgatewaymodule", "PaymentGatewayModuleValidator" );
     $vf->registerFieldValidator( "module", "ModuleValidator" );
-    $vf->registerFieldValidator( "modulearray", "ModuleArrayValidator" );
     $vf->registerFieldValidator( "user", "UserValidator" );
     $vf->registerFieldValidator( "orderexistingdomain", "OrderExistingDomainValidator" );
-    $vf->registerFieldValidator( "orderexistingdomainarray", "OrderExistingDomainArrayValidator" );
     $vf->registerFieldValidator( "paymentmethod", "PaymentMethodValidator" );
-    $vf->registerFieldValidator( "ipaddressdbarray", "IPAddressDBArrayValidator" );
-    $vf->registerFieldValidator( "taxrulearray", "TaxRuleArrayValidator" );
     $vf->registerFieldValidator( "log", "LogValidator" );
   }
 }
