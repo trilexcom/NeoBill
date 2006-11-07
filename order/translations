@@ -14,7 +14,7 @@
     <phrase id="ADD_HOSTING">Add Web Hosting Package</phrase>
     <phrase id="ADDRESS">Address</phrase>
     <phrase id="ADMINISTRATIVE_CONTACT">Administrative Contact</phrase>
-    <phrase id="APPLY_TO_THESE_DOMAINS">Apply the above contact information to the following domains as well</phrase>
+    <phrase id="APPLY_TO_THESE_DOMAINS">Apply the above contact information to the following domains:</phrase>
     <phrase id="AUTHORIZE">Authorize</phrase>
     <phrase id="BACK">Back</phrase>
     <phrase id="BILLING_CONTACT">Billing Contact</phrase>  
@@ -44,7 +44,6 @@
     <phrase id="CREDIT_CARD_INFORMATION">Credit Card Information</phrase>
     <phrase id="CUSTOMER_LOGIN">Customer Login</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION">Domain Contact Info (WHOIS database)</phrase>
-    <phrase id="DOMAIN_CONTACT_INFORMATION_FOR">Domain Contact Information for</phrase>
     <phrase id="DOMAIN_CONTACT_INFORMATION_TEXT">Your domain contact information will be publicly available through the WHOIS database.  You may use the contaction information entered above, or enter new contact information for each of your domains.</phrase>
     <phrase id="DOMAIN_NAME">Domain Name</phrase>
     <phrase id="DOMAIN_REGISTRATION">Domain Registration</phrase>
@@ -52,6 +51,7 @@
     <phrase id="DOES_NOT_INCLUDE_TAXES">Does not include taxes</phrase>
     <phrase id="EMAIL">E-Mail</phrase>
     <phrase id="EMAIL_TEXT">Please provide us with an e-mail address where we can send you information regarding your account.</phrase>
+    <phrase id="ENTER_DOMAIN_CONTACT_INFORMATION">Enter Domain Contact Information</phrase>
     <phrase id="ERROR_DOMAIN_NOT_AVAILABLE">Sorry, the domain you have entered is not available.</phrase>
     <phrase id="ERROR_DOMAIN_TRANSFER_NO_DOMAIN">The domain name you entered: {0}, is not eligible for transfer.  If you wish to register a domain that does not exist already, select "Register a new domain."</phrase>
     <phrase id="EXISTING_DOMAIN_LIST">The following are domains that you already own and are to be hosted with your purchase</phrase>

@@ -137,6 +137,7 @@ class ReviewPage extends SolidStatePage
     // Calculate tax on the order
     $this->session['order']->calculateTaxes();
 
+    // Setup the cart table
     $cartWidget = $this->forms['review']->getField( "cart" )->getWidget();
     $cartWidget->setOrder( $_SESSION['order'] );
 

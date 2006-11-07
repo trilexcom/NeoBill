@@ -118,7 +118,7 @@ class NullRegistrar extends RegistrarModule
   function isTransferable( $fqdn )
   {
     $this->checkEnabled();
-    return $this->checkAvailability( $fqdn );
+    return !$this->checkAvailability( $fqdn );
   }
 
   /**

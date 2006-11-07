@@ -1,11 +1,35 @@
 <b> {echo phrase="YOUR_ORDER"}: </b>
 {form name="cart_mod"}
   <div class="cart">
-    {form_element field="cart"}
+    {form_table field="cart"}
 
-    {form_element field="adddomain"}
-    {form_element field="addhosting"}
-    {form_element field="remove"}
+      {form_table_column columnid=""}
+        <center> {form_table_checkbox option=$cart.orderitemid} </center>
+      {/form_table_column}
+
+      {form_table_column columnid="description" header="[ITEM]"}
+        {$cart.description}
+      {/form_table_column}
+
+      {form_table_column columnid="term" header="[TERM]"}
+        {$cart.term}
+      {/form_table_column}
+
+      {form_table_column columnid="setupfee" header="[SETUP_FEE]"}
+        {$cart.setupfee|currency}
+      {/form_table_column}
+
+      {form_table_column columnid="price" header="[PRICE]"}
+        {$cart.price|currency}
+      {/form_table_column}
+
+      {form_table_footer}
+        {form_element field="adddomain"}
+        {form_element field="addhosting"}
+        {form_element field="remove"}
+      {/form_table_footer}
+    
+    {/form_table}
   </div>
 
   <div class="cart_total">
@@ -34,8 +58,21 @@
       <hr/>
       <p> {echo phrase="EXISTING_DOMAIN_LIST"}: </p>
       <div class="domains">
-        {form_element field="domaintable"}
-        {form_element field="removedomain"}
+        {form_table field="domaintable"}
+
+          {form_table_column columnid=""}
+            <center> {form_table_checkbox option=$domaintable.orderitemid} </center>
+          {/form_table_column}
+
+          {form_table_column columnid="domainname" header="[DOMAIN_NAME]"}
+            {$domaintable.domainname}
+          {/form_table_column}
+
+          {form_table_footer}
+            {form_element field="removedomain"}
+          {/form_table_footer}
+
+        {/form_table}
       </div>
       <p> {echo phrase="EXISTING_DOMAIN_CART_TEXT"} </p>
     {/if}

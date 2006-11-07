@@ -1,7 +1,7 @@
 <script type="text/javascript" src="./include.js"></script>
 
 {form name="domain_contact"}
-  <h2> {echo phrase="DOMAIN_CONTACT_INFORMATION_FOR"}: {$fqdn} </h2>
+  <h2> {echo phrase="ENTER_DOMAIN_CONTACT_INFORMATION"}: {$fqdn} </h2>
   <div class="domainoption">
     <table>
       <tr class="reverse">
@@ -198,15 +198,18 @@
     </table>
   </div>
 
-  <div class="domainoption">
-    <table>
-      <tr class="reverse">
-        <td> {echo phrase="APPLY_TO_THESE_DOMAINS"}: </td>
-      </tr>
-      <tr>
-        <td> {form_element field="domains"} </td>
-      </tr>
-    </table>
+  <div class="cart">
+        {form_table field="domains"}
+
+          {form_table_column columnid=""}
+            <center> {form_table_checkbox option=$domains.orderitemid} </center>
+          {/form_table_column}
+
+          {form_table_column columnid="domainname" header="[DOMAIN_NAME]"}
+            {$domains.domainname}
+          {/form_table_column}
+
+        {/form_table}
   </div>
 
   <div class="buttoncontainer">

@@ -22,22 +22,51 @@ require_once BASE_PATH . "solidworks/widgets/TableWidget.class.php";
 class CartDomainTableWidget extends TableWidget
 {
   /**
-   * @var array Column headers (column id => description)
+   * @var boolean When true, show "existing domains" only
    */
-  protected $columnHeaders = array( "domainname" => "[DOMAIN_NAME]" );
+  protected $existingDomainsFlag = false;
+
+  /**
+   * @var OrderDBO The order
+   */
+  protected $order = null;
+
+  /**
+   * Initialize the Table
+   *
+   * @param array $params Parameters from the {form_table} tag
+   */
+  public function init( $params ) 
+  { 
+    parent::init( $params );
+
+    if( !isset( $this->order ) || 
+	null == ($domains = $this->existingDomainsFlag ? 
+		 $this->order->getExistingDomains() : $this->order->getDomainItems() ) )
+      {
+	// Nothing to do
+	return ;
+      }
+
+    // Build the table
+    foreach( $domains as $dbo )
+      {
+	// Put the row into the table
+	$this->data[] = 
+	  array( "orderitemid" => $dbo->getOrderItemID(),
+		 "domainname" => $dbo->getFullDomainName() );
+      }
+  }
 
   /**
    * Set Order
    *
    * @param OrderDBO $order The order to be displayed
    */
-  function setOrder( $order ) 
-  { 
-    // Copy the order's item data into the table data array
-    foreach( $order->getExistingDomains() as $orderItemDBO )
-      {
-	$key = $orderItemDBO->getOrderItemID();
-	$this->data[$key] = array( "domainname" => $orderItemDBO->getDescription() );
-      }
-  }
+  function setOrder( OrderDBO $order ) { $this->order = $order; }
+
+  /**
+   * Show Existing Domains
+   */
+  public function showExistingDomains() { $this->existingDomainsFlag = true; }
 }

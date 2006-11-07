@@ -99,7 +99,27 @@
 </div>
 
 {form name="review"}
-  {form_element field="cart"}
+  <div class="cart">
+    {form_table field="cart"}
+
+      {form_table_column columnid="description" header="[ITEM]"}
+        {$cart.description}
+      {/form_table_column}
+
+      {form_table_column columnid="term" header="[TERM]"}
+        {$cart.term}
+      {/form_table_column}
+
+      {form_table_column columnid="setupfee" header="[SETUP_FEE]"}
+        {$cart.setupfee|currency}
+      {/form_table_column}
+
+      {form_table_column columnid="price" header="[PRICE]"}
+        {$cart.price|currency}
+      {/form_table_column}
+
+    {/form_table}
+  </div>
 
   {dbo_assign dbo="order" field="accounttype" var="accounttype"}
   {if $accounttype == "New Account"}

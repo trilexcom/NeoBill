@@ -114,10 +114,16 @@ class CartPage extends SolidStatePage
       }
     else
       {
-	$this->forms['cart_mod']->getField( "cart" )->getValidator()->setOrder( $_SESSION['order'] );
-	$this->forms['cart_domains']->getField( "domaintable" )->getValidator()->setOrder( $_SESSION['order'] );
-	$this->forms['cart_mod']->getField( "cart" )->getWidget()->setOrder( $_SESSION['order'] );
-	$this->forms['cart_domains']->getField( "domaintable" )->getWidget()->setOrder( $_SESSION['order'] );
+	// Setup the cart table
+	$cField = $this->forms['cart_mod']->getField( "cart" );
+	$cField->getWidget()->setOrder( $_SESSION['order'] );
+	$cField->getValidator()->setOrder( $_SESSION['order'] );
+
+	// Setup the existing domains table
+	$dField = $this->forms['cart_domains']->getField( "domaintable" );
+	$dField->getWidget()->setOrder( $_SESSION['order'] );
+	$dField->getWidget()->showExistingDomains();
+	$dField->getValidator()->setOrder( $_SESSION['order'] );
 
 	$this->smarty->assign( "recurring_total", 
 			       $_SESSION['order']->getRecurringTotal() );

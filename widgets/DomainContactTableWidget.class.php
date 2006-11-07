@@ -1,8 +1,8 @@
 <?php
 /**
- * CartWidget.class.php
+ * DomainContactTableWidget.class.php
  *
- * This file contains the definition of the CartWidget class.  
+ * This file contains the definition of the DomainContactTableWidget class.  
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -14,17 +14,24 @@
 require_once BASE_PATH . "solidworks/widgets/TableWidget.class.php";
 
 /**
- * CartWidget
+ * DomainContactTableWidget
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class CartWidget extends TableWidget
+class DomainContactTableWidget extends TableWidget
 {
   /**
    * @var OrderDBO The order
    */
   protected $order = null;
+
+  /**
+   * Determine Value
+   *
+   * Note: all elements in this table are checked by default
+   */
+  public function determineValue( $params ) { return $params['option']; }
 
   /**
    * Initialize the Table
@@ -35,22 +42,26 @@ class CartWidget extends TableWidget
   { 
     parent::init( $params );
 
-    if( !isset( $this->order ) )
+    if( !isset( $this->order ) || 
+	null == ($domains = $this->order->getDomainItems() ) )
       {
 	// Nothing to do
 	return ;
       }
 
     // Build the table
-    foreach( $this->order->getItems() as $dbo )
+    foreach( $domains as $dbo )
       {
+	if( $dbo->hasContactInformation() )
+	  {
+	    // Skip this domain
+	    continue;
+	  }
+
 	// Put the row into the table
 	$this->data[] = 
 	  array( "orderitemid" => $dbo->getOrderItemID(),
-		 "description" => $dbo->getDescription(),
-		 "term" => $dbo->getTerm(),
-		 "setupfee" => $dbo->getSetupFee(),
-		 "price" => $dbo->getPrice() );
+		 "domainname" => $dbo->getFullDomainName() );
       }
   }
 

@@ -25,11 +25,6 @@ require_once BASE_PATH . "DBO/OrderDBO.class.php";
 class DomainContactPage extends SolidStatePage
 {
   /**
-   * @var OrderDomainItem The domain we are collecting contact information for
-   */
-  var $domainItem;
-
-  /**
    * @var array Array of Order Domain Item's that still need contact info
    */
   var $domainsNeedContact = array();
@@ -122,10 +117,10 @@ class DomainContactPage extends SolidStatePage
 	$this->done();
       }
 
-    // We will collect contact information for the item on the top of the list
-    $this->domainItem = $this->domainsNeedContact[0];
-
-    $this->smarty->assign( "fqdn", $this->domainItem->getfullDomainName() );
+    // Setup the domain table
+    $dtField = $this->forms['domain_contact']->getField( "domains" );
+    $dtField->getWidget()->setOrder( $_SESSION['order'] );
+    $dtField->getValidator()->setOrder( $_SESSION['order'] );
   }
 
   /**
@@ -136,20 +131,6 @@ class DomainContactPage extends SolidStatePage
     // Start a new order
     unset( $_SESSION['order'] );
     $this->goto( "cart" );
-  }
-
-  /**
-   * Populate Domains Table
-   *
-   * @return array Array of OrderDomainDBO's that still need contact info
-   */
-  function populateDomainTable()
-  {
-    // Return a list of domain that need contact information, except for the one
-    // that is being collected right now.
-    $domains = $this->domainsNeedContact;
-    array_shift( $domains );
-    return $domains;
   }
 
   /**
@@ -201,17 +182,11 @@ class DomainContactPage extends SolidStatePage
 		      $this->session['domain_contact']['tfax'] );
 
     // Copy the form contents into the domain we are collecting for
-    $this->session['order']->setDomainContact( $this->domainItem->getOrderItemID(),
-					       $adminContactDBO,
-					       $billingContactDBO,
-					       $techContactDBO );
-
-    // And all the other domains selected from the table
     if( isset( $this->session['domain_contact']['domains'] ) )
       {
-	foreach( $this->session['domain_contact']['domains'] as $itemID )
+	foreach( $this->session['domain_contact']['domains'] as $item )
 	  {
-	    $this->session['order']->setDomainContact( $itemID,
+	    $this->session['order']->setDomainContact( $item->getOrderItemID(),
 						       $adminContactDBO,
 						       $billingContactDBO,
 						       $techContactDBO );
