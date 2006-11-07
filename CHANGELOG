@@ -1,3 +1,9 @@
+11/6/2006 - jdiamond
+=====================
+
+ * (trac #147) Revamped and replaced the {dbo_table} with a new Table widget class.  Tables are now more
+               flexable and can be sorted on all columns.
+
 11/2/2006 - jdiamond
 =====================
 
