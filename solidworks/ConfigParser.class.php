@@ -249,29 +249,6 @@ class ConfigParser
   }
 
   /**
-   * Start Setting Tag
-   *
-   * Process the start of a 'setting' tag
-   *
-   * @param string $name Name of setting
-   * @param string $value Value to apply to setting
-   */
-  function startSetting( $name, $value )
-  {
-    $last_tag = $this->tag_stack[count( $this->tag_stack ) - 2];
-    switch( $last_tag )
-      {
-      case "MODULE":
-	$this->conf['modules'][$this->module_name][$name] = $value;
-	break;
-
-      default:
-	echo "SETTING not valid in this context: " . $last_tag;
-	break;
-      }
-  }
-
-  /**
    * End Element
    *
    * Process the end of an element.

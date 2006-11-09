@@ -10,6 +10,12 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+// Uncomment to enabled profiling with APD
+// If your PHP install is reporting an error with the line below, just comment it
+// out.  If you're interested in profiling SS, then you need to install the APD
+// package (find it on PECL)
+apd_set_pprof_trace();
+
 // Load config file
 require_once "../config/config.inc.php";
 
@@ -26,5 +32,4 @@ removeMissingModules();
 
 // Hand off to SolidWorks
 solidworks( $conf, $smarty );
-
 ?>
