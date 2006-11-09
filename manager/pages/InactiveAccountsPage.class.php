@@ -46,6 +46,10 @@ class InactiveAccountsPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_inactive_accounts":
+	$this->searchTable( "inactive_accounts", "accounts", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

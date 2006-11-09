@@ -49,6 +49,10 @@ class ExpiredDomainsPage extends SolidStatePage
   {
     switch( $action_name )
       {
+      case "search_expired_domains":
+	$this->searchTable( "expired_domains", "domains", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

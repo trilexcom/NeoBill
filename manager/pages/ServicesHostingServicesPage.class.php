@@ -45,6 +45,10 @@ class ServicesHostingServicesPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_hosting_services":
+	$this->searchTable( "hosting_services", "hosting_services", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

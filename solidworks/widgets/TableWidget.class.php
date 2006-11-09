@@ -128,7 +128,7 @@ class TableWidget extends HTMLWidget
    */
   public function getHTML( $params ) 
   {
-    return $html;
+    return "You must use {form_table} to render this widget.";
   }
 
   /**
@@ -146,6 +146,19 @@ class TableWidget extends HTMLWidget
 		    $this->fieldName,
 		    $value,
 		    $checked );
+  }
+
+  /**
+   * Get Search Criteria
+   *
+   * @return array An array of columns to search and the values to search for
+   */
+  public function getSearchCriteria()
+  {
+    global $page;
+    $session =& $page->getPageSession();
+
+    return $session['tables'][$this->formName][$this->fieldName]['search'];
   }
 
   /**
@@ -320,6 +333,9 @@ class TableWidget extends HTMLWidget
 	    throw new EndOfTableException();
 	  }
 
+	// Search the table if necessary
+	$this->search();
+
 	// Sort the table if necessary
 	$this->sort();
 
@@ -357,6 +373,47 @@ class TableWidget extends HTMLWidget
   }
 
   /**
+   * Search the Table
+   */
+  public function search()
+  {
+    $filteredTable = array();
+    $criteria = $this->getSearchCriteria();
+    foreach( $this->data as $row )
+      {
+	foreach( $row as $columnid => $value )
+	  {
+	    // Should we filter this column?
+	    if( isset( $criteria[$columnid] ) )
+	      {
+		// Strings and numbers are handled differently
+		if( is_numeric( $value ) )
+		  {
+		    if( $value != $criteria[$columnid] )
+		      {
+			// Skip this row
+			continue( 2 );
+		      }
+		  }
+		else
+		  {
+		    if( stristr( $value, (string)$criteria[$columnid] ) == false )
+		      {
+			// Skip this row
+			continue( 2 );
+		      }
+		  }
+	      }
+	  }
+
+	// Row matches the search criteria
+	$filteredTable[] = $row;
+      }
+
+    $this->data = $filteredTable;
+  }
+
+  /**
    * Set Footer Content
    *
    * @param string $footerContent Footer content
@@ -377,6 +434,22 @@ class TableWidget extends HTMLWidget
     $session =& $page->getPageSession();
 
     $session['tables'][$this->formName][$this->fieldName]['col'] = $columnName;
+  }
+
+  /**
+   * Set Search Criteria
+   *
+   * Sets up a search criteria on a specified column
+   *
+   * @param string $columnid The column to match in
+   * @param string $search The string to math
+   */
+  public function setSearchCriteria( $columnid, $search )
+  {
+    global $page;
+    $session =& $page->getPageSession();
+
+    $session['tables'][$this->formName][$this->fieldName]['search'][$columnid] = $search;
   }
 
   /**

@@ -46,6 +46,10 @@ class PendingAccountsPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_pending_accounts":
+	$this->searchTable( "pending_accounts", "accounts", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

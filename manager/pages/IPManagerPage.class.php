@@ -43,6 +43,10 @@ class IPManagerPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_ips":
+	$this->searchTable( "ippool", "ipaddresses", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

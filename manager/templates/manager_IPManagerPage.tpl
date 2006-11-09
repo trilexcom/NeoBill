@@ -1,4 +1,33 @@
 <h2>{echo phrase="IP_ADDRESS_POOL"}</h2>
+<div class="search">
+  {form name="search_ips"}
+    <table>
+      <tr>
+        <th> {echo phrase="SEARCH"} </th>
+        <td>
+          {form_description field="ipaddressstring"} <br/>
+          {form_element field="ipaddressstring" size="15"}
+        </td>
+        <td>
+          {form_description field="hostname"} <br/>
+          {form_element field="hostname" size="20"}
+        </td>
+        <td>
+          {form_description field="accountname"} <br/>
+          {form_element field="accountname" size="20"}
+        </td>
+        <td>
+          {form_description field="service"} <br/>
+          {form_element field="service" size="20"}
+        </td>
+        <td class="submit"> 
+          {form_element field="search"}
+        </td>
+      </tr>
+    </table>
+  {/form}
+</div>
+
 <div class="table">
   {form name="ippool"}
     {form_table field="ipaddresses" size="20"}

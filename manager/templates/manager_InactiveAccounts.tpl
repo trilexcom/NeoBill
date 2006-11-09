@@ -7,21 +7,17 @@
 
 <h2> {echo phrase="INACTIVE_ACCOUNTS"} </h2>
 <div class="search">
-  {form name="search_inactive_accountdbo_table"}
+  {form name="search_inactive_accounts"}
     <table>
       <tr>
         <th> {echo phrase="SEARCH"} </th>
         <td>
-          {form_description field="id"} <br/>
-          {form_element field="id" size="4"}
+          {form_description field="accountname"} <br/>
+          {form_element field="accountname" size="30"}
         </td>
         <td>
-          {form_description field="contactname"} <br/>
-          {form_element field="contactname" size="30"}
-        </td>
-        <td>
-          {form_description field="businessname"} <br/>
-          {form_element field="businessname" size="30"}
+          {form_description field="balance"} <br/>
+          {form_element field="balance" size="6"}
         </td>
         <td class="submit"> 
           {form_element field="search"}

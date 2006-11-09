@@ -133,4 +133,5 @@ class ExecuteOrderPage extends SolidStatePage
 	$this->execute();
       }
   }
+}
 ?>

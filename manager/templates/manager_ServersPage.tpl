@@ -6,6 +6,27 @@
 </div>
 
 <h2> {echo phrase="SERVERS"} </h2>
+<div class="search">
+  {form name="search_servers"}
+    <table>
+      <tr>
+        <th> {echo phrase="SEARCH"} </th>
+        <td>
+          {form_description field="hostname"} <br/>
+          {form_element field="hostname" size="40"}
+        </td>
+        <td>
+          {form_description field="location"} <br/>
+          {form_element field="location" size="40"}
+        </td>
+        <td class="submit"> 
+          {form_element field="search"}
+        </td>
+      </tr>
+    </table>
+  {/form}
+</div>
+
 <div class="table">
   {form name="servers"}
     {form_table field="servers"}

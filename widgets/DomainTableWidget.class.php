@@ -54,8 +54,10 @@ class DomainTableWidget extends TableWidget
 	    // Put the row into the table
 	    $this->data[] = 
 	      array( "id" => $dbo->getID(),
+                     "tld" => $dbo->getTLD(),
 		     "accountid" => $dbo->getAccountID(),
 		     "domainname" => $dbo->getDomainName(),
+		     "fulldomainname" => $dbo->getFullDomainName(),
 		     "accountname" => $dbo->getAccountName(),
 		     "date" => $dbo->getDate(),
 		     "term" => $dbo->getTerm(),

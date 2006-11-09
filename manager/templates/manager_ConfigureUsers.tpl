@@ -7,7 +7,7 @@
 
 <h2> [USERS] </h2>
 <div class="search">
-  {form name="search_userdbo_table"}
+  {form name="search_users"}
     <table>
       <tr>
         <th> {echo phrase="SEARCH"} </th>
@@ -24,8 +24,8 @@
           {form_element field="lastname" size="20"}
         </td>
         <td>
-          {form_description field="type"} <br/>
-          {form_element field="type"}
+          {form_description field="email"} <br/>
+          {form_element field="email"}
         </td>
         <td class="submit"> 
           {form_element field="search"}

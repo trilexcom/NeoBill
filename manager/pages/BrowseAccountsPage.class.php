@@ -43,6 +43,10 @@ class BrowseAccountsPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_accounts":
+	$this->searchTable( "active_accounts", "accounts", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

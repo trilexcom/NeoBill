@@ -42,6 +42,10 @@ class ServersPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_servers":
+	$this->searchTable( "servers", "servers", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

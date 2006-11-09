@@ -46,11 +46,14 @@ class ProductsPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_products":
+	$this->searchTable( "products", "products", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
   }
 }
-
 ?>

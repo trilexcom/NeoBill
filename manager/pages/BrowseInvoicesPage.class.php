@@ -43,6 +43,10 @@ class BrowseInvoicesPage extends SolidStatePage
 	$this->goto( "accounts_add_invoice" );
 	break;
 
+      case "search_invoices":
+	$this->searchTable( "browse_invoices", "invoices", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

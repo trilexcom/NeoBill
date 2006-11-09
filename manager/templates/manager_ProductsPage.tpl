@@ -7,21 +7,13 @@
 
 <h2> {echo phrase="PRODUCTS"} </h2>
 <div class="search">
-  {form name="search_productdbo_table"}
+  {form name="search_products"}
     <table>
       <tr>
         <th> {echo phrase="SEARCH"} </th>
         <td>
-          {form_description field="id"} <br/>
-          {form_element field="id" size="4"}
-        </td>
-        <td>
           {form_description field="name"} <br/>
           {form_element field="name" size="30"}
-        </td>
-        <td>
-          {form_description field="description"} <br/>
-          {form_element field="description" size="30"}
         </td>
         <td class="submit"> 
           {form_element field="search"}

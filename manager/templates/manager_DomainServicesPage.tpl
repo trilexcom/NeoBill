@@ -7,17 +7,13 @@
 
 <h2> {echo phrase="DOMAIN_SERVICES"} </h2>
 <div class="search">
-  {form name="search_domainservicedbo_table"}
+  {form name="search_domain_services"}
     <table>
       <tr>
         <th> {echo phrase="SEARCH"} </th>
         <td>
           {form_description field="tld"} <br/>
-          {form_element field="tld" size="4"}
-        </td>
-        <td>
-          {form_description field="description"} <br/>
-          {form_element field="description" size="30"}
+          {form_element field="tld" size="6"}
         </td>
         <td class="submit"> 
           {form_element field="search"}

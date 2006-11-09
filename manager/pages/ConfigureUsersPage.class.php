@@ -43,6 +43,10 @@ class ConfigureUsersPage extends SolidStateAdminPage
 	  }
 	break;
 
+      case "search_users":
+	$this->searchTable( "users", "users", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

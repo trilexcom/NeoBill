@@ -45,6 +45,10 @@ class DomainServicesPage extends SolidStatePage
 	  }
 	break;
 
+      case "search_domain_services":
+	$this->searchTable( "domain_services", "services", $this->post );
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );

@@ -234,6 +234,27 @@ class Page
     // Return true if no errors in page 
     return true; 
   }
+
+  /**
+   * Search Table
+   *
+   * Set the search criteria (provided in $this->post) on a TableWidget
+   *
+   * @param string $formName The form containing the table to search
+   * @param string $tableField The name of the table field
+   * @param array $criteria An array of search criteria: columnid => search value
+   */
+  protected function searchTable( $formName, $tableField, $criteria )
+  {
+    // Access the table widget
+    $widget = $this->forms[$formName]->getField( $tableField )->getWidget();
+
+    // Setup the search criteria
+    foreach( $criteria as $columnid => $searchval )
+      {
+	$widget->setSearchCriteria( $columnid, $searchval );
+      }
+  }
   
   /**
    * Set Widget Var

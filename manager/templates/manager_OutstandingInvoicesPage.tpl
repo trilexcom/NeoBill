@@ -8,17 +8,13 @@
 <h2> {echo phrase="OUTSTANDING_INVOICES"} </h2>
 
 <div class="search">
-  {form name="search_outstanding_invoicedbo_table"}
+  {form name="search_outstanding_invoices"}
     <table>
       <tr>
         <th> {echo phrase="SEARCH"} </th>
         <td>
-          {form_description field="id"} <br/>
-          {form_element field="id" size="4"}
-        </td>
-        <td>
-          {form_description field="account"} <br/>
-          {form_element field="account" nulloption="true"}
+          {form_description field="accountname"} <br/>
+          {form_element field="accountname" size="30"}
         </td>
         <td class="submit"> 
           {form_element field="search"}
