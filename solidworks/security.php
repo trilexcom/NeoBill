@@ -9,7 +9,6 @@
  * @copyright John Diamond <jdiamond@solid-state.org>
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
-require_once BASE_PATH . "DBO/UserDBO.class.php";
 
 /**
  * Validate client

@@ -11,7 +11,7 @@
  */
 
 // Exceptions
-require_once BASE_PATH . "solidworks/exceptions/DuplicateTranslationException.class.php";
+require BASE_PATH . "solidworks/exceptions/DuplicateTranslationException.class.php";
 
 /**
  * Translator

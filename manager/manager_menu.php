@@ -11,13 +11,13 @@
  */
 
 // Load config file
-require_once "../config/config.inc.php";
+require "../config/config.inc.php";
 
 // Load SolidWorks
-require_once BASE_PATH . "solidworks/solidworks.php";
+require BASE_PATH . "solidworks/solidworks.php";
 
 // Load settings from database
-require_once BASE_PATH . "util/settings.php";
+require BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
 // Load the user's language preference

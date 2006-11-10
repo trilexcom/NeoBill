@@ -10,8 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once "WidgetFactory.class.php";
-
 // Keeps track of the {form} ... {/form} block(s) we are in
 $form_stack = array();
 

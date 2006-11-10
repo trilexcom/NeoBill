@@ -11,26 +11,26 @@
  */
 
 // Exceptions
-require_once BASE_PATH . "solidworks/exceptions/FieldException.class.php";
-require_once BASE_PATH . "solidworks/exceptions/UndefinedFieldException.class.php";
-require_once BASE_PATH . "solidworks/exceptions/FieldMissingException.class.php";
-require_once BASE_PATH . "solidworks/exceptions/InvalidFormException.class.php";
+require BASE_PATH . "solidworks/exceptions/FieldException.class.php";
+require BASE_PATH . "solidworks/exceptions/UndefinedFieldException.class.php";
+require BASE_PATH . "solidworks/exceptions/FieldMissingException.class.php";
+require BASE_PATH . "solidworks/exceptions/InvalidFormException.class.php";
 
 // Validators
-require_once BASE_PATH . "solidworks/validators/FieldValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/TextValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/PasswordValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/EmailValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/NumberValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/IntValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/ChoiceValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/CountryValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/TelephoneValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/DateValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/IPAddressValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/BooleanValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/CCNumberValidator.class.php";
-require_once BASE_PATH . "solidworks/validators/CCExpireValidator.class.php";
+require BASE_PATH . "solidworks/validators/FieldValidator.class.php";
+require BASE_PATH . "solidworks/validators/TextValidator.class.php";
+require BASE_PATH . "solidworks/validators/PasswordValidator.class.php";
+require BASE_PATH . "solidworks/validators/EmailValidator.class.php";
+require BASE_PATH . "solidworks/validators/NumberValidator.class.php";
+require BASE_PATH . "solidworks/validators/IntValidator.class.php";
+require BASE_PATH . "solidworks/validators/ChoiceValidator.class.php";
+require BASE_PATH . "solidworks/validators/CountryValidator.class.php";
+require BASE_PATH . "solidworks/validators/TelephoneValidator.class.php";
+require BASE_PATH . "solidworks/validators/DateValidator.class.php";
+require BASE_PATH . "solidworks/validators/IPAddressValidator.class.php";
+require BASE_PATH . "solidworks/validators/BooleanValidator.class.php";
+require BASE_PATH . "solidworks/validators/CCNumberValidator.class.php";
+require BASE_PATH . "solidworks/validators/CCExpireValidator.class.php";
 
 /**
  * FieldValidatorFactory

@@ -11,11 +11,7 @@
  */
 
 // Validation functions
-require_once "validate.php";
-require_once "Form.class.php";
-
-// Country Code list is this field's enum
-require_once "cc.php";
+require "Form.class.php";
 
 /**
  * Page

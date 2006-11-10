@@ -11,17 +11,11 @@
  */
 
 // Load the application configuration (including Page definitions)
-require_once "configuration.php";
+require "configuration.php";
 
 // Load support libraries
-require_once "smarty_extensions.php";
-require_once "security.php";
-
-// Load Page object
-require_once "Page.class.php";
-
-// Load Exceptions
-require_once "SWException.class.php";
+require "smarty_extensions.php";
+require "security.php";
 
 /**
  * SolidWorks (entry point)

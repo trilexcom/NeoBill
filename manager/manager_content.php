@@ -14,16 +14,16 @@
 // If your PHP install is reporting an error with the line below, just comment it
 // out.  If you're interested in profiling SS, then you need to install the APD
 // package (find it on PECL)
-apd_set_pprof_trace();
+// apd_set_pprof_trace();
 
 // Load config file
-require_once "../config/config.inc.php";
+require "../config/config.inc.php";
 
 // Load SolidWorks
-require_once BASE_PATH . "solidworks/solidworks.php";
+require BASE_PATH . "solidworks/solidworks.php";
 
 // Load settings from database
-require_once BASE_PATH . "util/settings.php";
+require BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
 // Remove any uninstalled modules from the database

@@ -10,9 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Exceptions
-require_once BASE_PATH . "solidworks/exceptions/FieldMissingException.class.php";
-
 /**
  * FormField
  *

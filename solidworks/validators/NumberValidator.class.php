@@ -10,12 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/validators/FieldValidator.class.php";
-
 // Exceptions
-require_once BASE_PATH . "solidworks/exceptions/FieldNotNumericalException.class.php";
-require_once BASE_PATH . "solidworks/exceptions/FieldBoundsException.class.php";
+require BASE_PATH . "solidworks/exceptions/FieldNotNumericalException.class.php";
+require BASE_PATH . "solidworks/exceptions/FieldBoundsException.class.php";
 
 /**
  * NumberValidator

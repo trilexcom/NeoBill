@@ -10,20 +10,18 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Exceptions
-require_once BASE_PATH . "solidworks/SWException.class.php";
-
 //Widgets
-require_once BASE_PATH . "solidworks/widgets/TextWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/PasswordWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/SubmitWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/RadioButtonWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/SelectWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/CountrySelectWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/TextAreaWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/DateWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/CurrencyWidget.class.php";
-require_once BASE_PATH . "solidworks/widgets/CheckBoxWidget.class.php";
+require BASE_PATH . "solidworks/widgets/HTMLWidget.class.php";
+require BASE_PATH . "solidworks/widgets/TextWidget.class.php";
+require BASE_PATH . "solidworks/widgets/PasswordWidget.class.php";
+require BASE_PATH . "solidworks/widgets/SubmitWidget.class.php";
+require BASE_PATH . "solidworks/widgets/RadioButtonWidget.class.php";
+require BASE_PATH . "solidworks/widgets/SelectWidget.class.php";
+require BASE_PATH . "solidworks/widgets/CountrySelectWidget.class.php";
+require BASE_PATH . "solidworks/widgets/TextAreaWidget.class.php";
+require BASE_PATH . "solidworks/widgets/DateWidget.class.php";
+require BASE_PATH . "solidworks/widgets/CurrencyWidget.class.php";
+require BASE_PATH . "solidworks/widgets/CheckBoxWidget.class.php";
 
 /**
  * WidgetFactory

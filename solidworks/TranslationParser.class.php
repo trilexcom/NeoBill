@@ -10,9 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Translator Class
-require_once BASE_PATH . "solidworks/Translator.class.php";
-
 /**
  * TranslationParser
  *
@@ -27,22 +24,27 @@ class TranslationParser
   /**
    * @var Translator The translator object
    */
-  private $translator;
+  protected $translator;
 
   /**
    * @var array A stack of tags being processed
    */
-  private $tag_stack;
+  protected $tag_stack;
+
+  /**
+   * @var integer The size of the tag stack
+   */
+  protected $tagStackSize = 0;
 
   /**
    * @var string The Phrase being processed
    */
-  private $phrase_id;
+  protected $phrase_id;
 
   /**
    * @var string Translation data
    */
-  private $data = null;
+  protected $data = null;
 
   /**
    * Load Translation File
@@ -101,6 +103,7 @@ class TranslationParser
   public function startElement( $parser, $tagName, $attrs )
   {
     $this->tag_stack[] = $tagName;
+    $this->tagStackSize++;
     switch( $tagName )
       {
       case "TRANSLATIONS":
@@ -136,6 +139,7 @@ class TranslationParser
   function endElement( $parser, $tagName )
   {
     array_pop( $this->tag_stack );
+    $this->tagStackSize--;
     switch( $tagName )
       {
       case "TRANSLATION":
@@ -159,13 +163,16 @@ class TranslationParser
    */
   function characterData( $parser, $data )
   {
-    $tag_name = $this->tag_stack[count( $this->tag_stack ) - 1];
-    switch( $tag_name )
+    /*
+    switch( $this->tag_stack[$this->tagStackSize - 1] )
       {
       case "PHRASE":
 	$this->data .= $data;
 	break;
+      
       }
+    */
+    $this->data .= $data; // Assume "PHRASE"
   }
 }
 ?>

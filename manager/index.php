@@ -13,10 +13,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Load config file
-require_once "../config/config.inc.php";
+require "../config/config.inc.php";
 
-require_once BASE_PATH . "solidworks/configuration.php";
+require BASE_PATH . "solidworks/configuration.php";
 
 // Display menu
 $smarty->display( "manager_frames.tpl" );

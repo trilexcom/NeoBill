@@ -11,10 +11,10 @@
  */
 
 // Base class
-require_once BASE_PATH . "solidworks/Module.class.php";
+require BASE_PATH . "solidworks/Module.class.php";
 
 // Module DBO
-require_once BASE_PATH . "DBO/ModuleDBO.class.php";
+require BASE_PATH . "DBO/ModuleDBO.class.php";
 
 /**
  * SolidStateModule

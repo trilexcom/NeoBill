@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/widgets/TextWidget.class.php";
-
-// Exceptions
-require_once BASE_PATH . "solidworks/widgets/InvalidDateInputFormatException.class.php";
-
 /**
  * DateWidget
  *

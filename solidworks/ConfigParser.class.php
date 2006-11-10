@@ -32,6 +32,11 @@ class ConfigParser
   var $tag_stack;
 
   /**
+   * @var integer The size of the tag stack
+   */
+  protected $tagStackSize = 0;
+
+  /**
    * @var string Name of the <module> tag currently being processed
    */
   var $module_name;
@@ -81,6 +86,7 @@ class ConfigParser
   function startElement( $parser, $tagName, $attrs )
   {
     $this->tag_stack[] = $tagName;
+    $this->tagStackSize++;
     switch( $tagName )
       {
       case "APPLICATION":
@@ -259,6 +265,7 @@ class ConfigParser
   function endElement( $parser, $tagName )
   {
     array_pop( $this->tag_stack );
+    $this->tagStackSize--;
     switch( $tagName )
       {
       case "MODULE":
@@ -297,7 +304,7 @@ class ConfigParser
    */
   function characterData( $parser, $data )
   {
-    $tag_name = $this->tag_stack[count( $this->tag_stack ) - 1];
+    $tag_name = $this->tag_stack[$this->tagStackSize - 1];
     switch( $tag_name )
       {
       case "ERROR":

@@ -10,11 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/Page.class.php";
-
 // SolidState Widgets
-require_once BASE_PATH . "solidworks/WidgetFactory.class.php";
 require BASE_PATH . "widgets/AccountSelectWidget.class.php";
 require BASE_PATH . "widgets/HostingSelectWidget.class.php";
 require BASE_PATH . "widgets/ServerSelectWidget.class.php";
@@ -53,7 +49,6 @@ require BASE_PATH . "widgets/IPPoolTableWidget.class.php";
 require BASE_PATH . "widgets/DomainContactTableWidget.class.php";
 
 // SolidState Validators
-require_once BASE_PATH . "solidworks/FieldValidatorFactory.class.php";
 require BASE_PATH . "validators/AccountValidator.class.php";
 require BASE_PATH . "validators/InvoiceValidator.class.php";
 require BASE_PATH . "validators/InvoiceItemValidator.class.php";

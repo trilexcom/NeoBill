@@ -10,7 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once BASE_PATH . "DBO/LogDBO.class.php";
+require BASE_PATH . "DBO/LogDBO.class.php";
 
 /**
  * Log Message
