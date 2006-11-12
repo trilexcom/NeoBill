@@ -1038,7 +1038,7 @@ class OrderDBO extends DBO
     if( !$notifyEmail->send() )
       {
 	log_error( "OrderDBO::complete()", 
-		   "Failed to send notification e-mail to: " . $notifyEmail->getTo() );
+		   "Failed to send notification e-mail." );
       }
 
     // Confirmation e-mail
@@ -1052,7 +1052,7 @@ class OrderDBO extends DBO
     if( !$confirmEmail->send() )
       {
 	log_error( "OrderDBO::complete()",
-		   "Failed to send confirmation e-mail to: " . $confirmEmail->getTo() );
+		   "Failed to send confirmation e-mail." );
       }
   }
 
