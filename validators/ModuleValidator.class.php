@@ -10,15 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/validators/FieldValidator.class.php";
-
-// Exceptions
-require_once BASE_PATH . "exceptions/RecordNotFoundException.class.php";
-
-// Module DBO
-require_once BASE_PATH . "DBO/ModuleDBO.class.php";
-
 /**
  * ModuleValidator
  *
@@ -42,13 +33,16 @@ class ModuleValidator extends FieldValidator
 
     $data = parent::validate( $data );
 
-    if( !isset( $conf['modules'][$data] ) )
+    try 
       {
-	// Order Item does not exist
+	$module = ModuleRegistry::getModuleRegistry()->getModule( $data );
+      }
+    catch( ModuleDoesNotExistException $e )
+      {
 	throw new RecordNotFoundException( "Module" );
       }
 
-    return $conf['modules'][$data];
+    return $module;
   }
 }
 ?>

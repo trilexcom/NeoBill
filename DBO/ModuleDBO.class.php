@@ -10,9 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "solidworks/DBO.class.php";
-
 /**
  * ModuleDBO
  *
@@ -150,8 +147,8 @@ class ModuleDBO extends DBO
    */
   function getConfigPage() 
   { 
-    global $conf;
-    return $conf['modules'][$this->getName()]->getConfigPage(); 
+    $registry = ModuleRegistry::getModuleRegistry();
+    return $registry->getModule( $this->getName() )->getConfigPage();
   }
 
   /**

@@ -41,6 +41,13 @@ class Module
   var $version = 1;
 
   /**
+   * Convert the Module to a String (using the module name)
+   *
+   * @return string Module name
+   */
+  public function __toString() { return $this->getName(); }
+
+  /**
    * Get Module Long Description
    *
    * @return string Long Description

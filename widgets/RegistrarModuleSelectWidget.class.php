@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/widgets/SelectWidget.class.php";
-
-// Module DBO
-require_once BASE_PATH . "DBO/ModuleDBO.class.php";
-
 /**
  * RegistrarModuleSelectWidget
  *
@@ -32,23 +26,18 @@ class RegistrarModuleSelectWidget extends SelectWidget
    */
   function getData()
   {
+    $registry = ModuleRegistry::getModuleRegistry();
+    $modules = $registry->getModulesByType( "registrar" );
     $moduleNames = array();
-    if( ($registrarModules = 
-	 load_array_ModuleDBO( "type='registrar' AND enabled='Yes'" ) ) != null )
+    foreach( $modules as $modulename => $module )
       {
-	foreach( $registrarModules as $moduleDBO )
+	if( $module->isEnabled() )
 	  {
-	    // Add this module to the list
-	    $moduleNames[$moduleDBO->getName()] = $moduleDBO->getShortDescription();
+	    $moduleNames[$modulename] = $module->getShortDescription();
 	  }
       }
-    else
-      {
-	// No registrar modules found
-	$moduleNames[] = "[NO_REGISTRAR_MODULES]";
-      }
 
-    return $moduleNames;
+    return empty( $moduleNames ) ? array( "[NO_REGISTRAR_MODULES]" ) : $moduleNames;
   }
 }
 ?>

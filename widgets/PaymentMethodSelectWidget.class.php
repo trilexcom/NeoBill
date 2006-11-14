@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/widgets/SelectWidget.class.php";
-
-// DOMAINTERM Service DBO
-require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
-
 /**
  * PaymentMethodSelectWidget
  *
@@ -34,12 +28,14 @@ class PaymentMethodSelectWidget extends SelectWidget
   {
     global $conf;
 
+    $registry = ModuleRegistry::getModuleRegistry();
+    $modules = array_merge( $registry->getModulesByType( "payment_gateway" ),
+			    $registry->getModulesByType( "payment_processor" ) );
+
     $methods = array();
-    foreach( $conf['modules'] as $modulename => $module )
+    foreach( $modules as $modulename => $module )
       {
-	if( $module->isEnabled() && 
-	    ($module->getType() == "payment_gateway" || 
-	     $module->getType() == "payment_processor") )
+	if( $module->isEnabled() )
 	  {
 	    $methods[$modulename] = $module->getShortDescription();
 	  }

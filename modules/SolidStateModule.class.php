@@ -158,12 +158,13 @@ function removeMissingModules()
 {
   global $conf;
 
+  $modules = ModuleRegistry::getModuleRegistry()->getAllModules();
   if( null != ($moduleDBOArray = load_array_ModuleDBO()) )
     {
       foreach( load_array_ModuleDBO() as $moduleDBO )
 	{
 	  // Remove from the database any modules that are not installed anymore
-	  if( !array_key_exists( $moduleDBO->getName(), $conf['modules'] ) )
+	  if( !array_key_exists( $moduleDBO->getName(), $modules ) )
 	    {
 	      if( !delete_ModuleDBO( $moduleDBO ) )
 		{

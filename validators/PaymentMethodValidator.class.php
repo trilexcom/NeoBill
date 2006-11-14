@@ -10,9 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/validators/ChoiceValidator.class.php";
-
 /**
  * PaymentMethodValidator
  *
@@ -32,8 +29,6 @@ class PaymentMethodValidator extends FieldValidator
    */
   public function validate( $data )
   {
-    global $conf;
-
     // Check is the only native option
     if( $data == "Check" )
       {
@@ -41,12 +36,12 @@ class PaymentMethodValidator extends FieldValidator
       }
 
     // Search payment modules
-    foreach( $conf['modules'] as $moduleName => $module )
+    $registry = ModuleRegistry::getModuleRegistry();
+    $modules = array_merge( $registry->getModulesByType( "payment_gateway" ),
+			    $registry->getModulesByType( "payment_processor" ) );
+    foreach( $modules as $moduleName => $module )
       {
-	if( $data == $moduleName && 
-	    $module->isEnabled() &&
-	    ($module->getType() == "payment_gateway" || 
-	     $module->getType() == "payment_processor") )
+	if( $data == $moduleName && $module->isEnabled() )
 	  {
 	    return $data;
 	  }

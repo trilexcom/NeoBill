@@ -22,6 +22,7 @@ require BASE_PATH . "solidworks/widgets/TextAreaWidget.class.php";
 require BASE_PATH . "solidworks/widgets/DateWidget.class.php";
 require BASE_PATH . "solidworks/widgets/CurrencyWidget.class.php";
 require BASE_PATH . "solidworks/widgets/CheckBoxWidget.class.php";
+require BASE_PATH . "solidworks/widgets/TableWidget.class.php";
 
 /**
  * WidgetFactory

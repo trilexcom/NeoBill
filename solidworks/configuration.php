@@ -20,6 +20,7 @@ require "ConfigParser.class.php";
 require "DBConnection.class.php";
 require "Translator.class.php";
 require "TranslationParser.class.php";
+require "ModuleRegistry.class.php";
 
 // Load Smarty
 require "smarty/Smarty.class.php";
@@ -55,8 +56,9 @@ $translations = TranslationParser::load( "translations" );
 $conf['db'] = $db;
 $DB = new DBConnection;
 
-// Load the installed modules
-loadModules();
+// Create the module registry
+ModuleRegistry::createModuleRegistry( BASE_PATH . "modules/" );
+
 
 // Load page classes
 if( isset( $conf['pages'] ) )
@@ -196,66 +198,6 @@ function get_page_class( $name )
 
   // Class not found
   return null;
-}
-
-/**
- * Scan for and Load Modules
- *
- * Scans the modules directory for installed modules
- *
- * @return array An array of installed modules
- */
-function loadModules()
-{
-  global $conf, $translations;
-
-  // Read the contents of the modules directory
-  $modules = array();
-  $modulesDir = BASE_PATH . "modules/";
-  if( !($dh = opendir( $modulesDir ) ) )
-    {
-      fatal_error( "loadModules()", "Could not access the modules directory." );
-    }
-  
-  while( $file = readdir( $dh ) )
-    {
-      $moduleName = $file;
-      $moduleDir = sprintf( "%s%s", $modulesDir, $moduleName );
-      $moduleConfFile = sprintf( "%s/module.conf", $moduleDir );
-      $moduleClassFile = sprintf( "%s/%s.class.php", $moduleDir, $moduleName );
-      $moduleTransFile = sprintf( "%s/translations", $moduleDir );
-
-      if( is_dir( $moduleDir ) && 
-	  (isset( $file ) && $file != "." && $file != ".." && $file != "CVS" ) &&
-	  file_exists( $moduleConfFile ) &&
-	  file_exists( $moduleClassFile ) )
-	{
-	  // Load the module's config file
-	  $modConf = load_config_file( $moduleConfFile );
-	  $conf['pages'] = array_merge( $conf['pages'], $modConf['pages'] );
-	  $conf['forms'] = array_merge( $conf['forms'], $modConf['forms'] );
-	  $conf['hooks'] = array_merge( $conf['hooks'], $modConf['hooks'] );
-
-	  // Load the module's translation file
-	  if( file_exists( $moduleTransFile ) )
-	    {
-	      TranslationParser::load( $moduleTransFile );
-	    }
-
-	  // Load the module's class file
-	  require_once $moduleClassFile;
-
-	  // Initialize module
-	  $conf['modules'][$moduleName] = new $moduleName;
-	  if( !$conf['modules'][$moduleName]->init() )
-	    {
-	      fatal_error( "loadModules()",
-			   "Failed to initialize module: " . $moduleName );
-	    }
-	}
-    }
-  
-  closedir( $dh );
 }
 
 /**

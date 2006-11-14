@@ -56,7 +56,8 @@ class AAIMConfigPage extends SolidStateAdminPage
   function init()
   {
     // Load the form values with Module settings
-    $this->aaimModule = $this->conf['modules']['authorizeaim'];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $this->aaimModule = $registry->getModule( "authorizeaim" );
     $this->smarty->assign( "delimiter", $this->aaimModule->getDelimiter() );
     $this->smarty->assign( "loginid",  $this->aaimModule->getLoginID() );
     $this->smarty->assign( "transactionkey", $this->aaimModule->getTransactionKey() );

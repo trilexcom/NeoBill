@@ -59,7 +59,8 @@ class PSMConfigPage extends SolidStateAdminPage
   function init()
   {
     // Load the form values with Module settings
-    $this->ppModule = $this->conf['modules']['paypalwps'];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $this->ppModule = $registry->getModule( 'paypalwps' );
     $this->smarty->assign( "account", $this->ppModule->getAccount() );
     $this->smarty->assign( "cartURL", $this->ppModule->getCartURL() );
     $this->smarty->assign( "idToken", $this->ppModule->getIdToken() );

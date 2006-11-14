@@ -456,7 +456,9 @@ class OrderDomainDBO extends OrderItemDBO
 
     // Verify that the registrar module is enabled
     $serviceDBO = load_DomainServiceDBO( $this->getTLD() );
-    $module = $conf['modules'][$serviceDBO->getModuleName()];
+
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry->getModule( $serviceDBO->getModuleName() );
 
     // Make sure the domain is available
     if( !$module->checkAvailability( $this->getFullDomainName() ) )

@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 require_once BASE_PATH . "DBO/PaymentDBO.class.php";
 
@@ -23,7 +23,7 @@ require_once BASE_PATH . "DBO/PaymentDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PSIPNPage extends Page
+class PSIPNPage extends SolidStatePage
 {
   /**
    * @var PaymentDBO Payment DBO
@@ -87,7 +87,8 @@ class PSIPNPage extends Page
    */
   function init()
   {
-    $this->ppModule = $this->conf['modules']['paypalwps'];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $this->ppModule = $registry->getModule( 'paypalwps' );
   }
 
   /**

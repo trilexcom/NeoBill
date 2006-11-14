@@ -10,9 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/widgets/TableWidget.class.php";
-
 /**
  * ModuleTableWidget
  *
@@ -34,12 +31,12 @@ class ModuleTableWidget extends TableWidget
    */
   protected function determineValue( $params )
   {
-    global $conf;
-
-    if( null == ($module = $conf['modules'][$params['option']]) )
-      {
-	return null;
+    $registry = ModuleRegistry::getModuleRegistry();
+    try 
+      { 
+	$module = $registry->getModule( $params['option'] ); 
       }
+    catch( ModuleDoesNotExistException $e ) { return null; }
 
     // 2. No value
     $value = null;
@@ -63,7 +60,8 @@ class ModuleTableWidget extends TableWidget
     parent::init( $params );
 
     // Build the table
-    foreach( $conf['modules'] as $modulename => $module )
+    $registry = ModuleRegistry::getModuleRegistry();
+    foreach( $registry->getAllModules() as $modulename => $module )
       {
 	// Put the row into the table
 	$this->data[] = 

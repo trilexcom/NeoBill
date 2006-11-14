@@ -10,15 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/validators/FieldValidator.class.php";
-
-// Exceptions
-require_once BASE_PATH . "exceptions/RecordNotFoundException.class.php";
-
-// Product DBO
-require_once BASE_PATH . "DBO/ProductDBO.class.php";
-
 /**
  * ProductValidator
  *

@@ -95,7 +95,8 @@ class PSOCheckoutPage extends SolidStatePage
    */
   function init()
   {
-    $this->ppModule = $this->conf['modules']['paypalwps'];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $this->ppModule = $registry->getModule( 'paypalwps' );
 
     $this->smarty->assign( "account", $this->ppModule->getAccount() );
     $this->smarty->assign( "cartURL", $this->ppModule->getCartURL() );

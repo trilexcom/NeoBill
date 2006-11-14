@@ -234,7 +234,8 @@ class AddDomainPage extends SolidStatePage
       }
 
     // Access the Registrar module
-    $module = $this->conf['modules'][$this->post['transferdomaintld']->getModuleName()];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry( $this->post['transferdomaintld']->getModuleName() );
 
     // Check transfer eligibility
     if( !$module->isTransferable( $fqdn ) )
@@ -270,7 +271,8 @@ class AddDomainPage extends SolidStatePage
       }
 
     // Access the Registrar module
-    $module = $this->conf['modules'][$this->post['registerdomaintld']->getModuleName()];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry->getModule( $this->post['registerdomaintld']->getModuleName() );
 
     // Check WHOIS
     if( !$module->checkAvailability( $fqdn ) )

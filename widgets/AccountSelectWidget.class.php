@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/widgets/SelectWidget.class.php";
-
-// Account DBO
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
-
 /**
  * AccountSelectWidget
  *

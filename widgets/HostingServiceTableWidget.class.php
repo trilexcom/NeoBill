@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/widgets/TableWidget.class.php";
-
-// HostingServiceDBO
-require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
-
 /**
  * HostingServiceTableWidget
  *

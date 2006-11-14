@@ -10,9 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "solidworks/DBO.class.php";
-
 require_once "InvoiceDBO.class.php";
 
 /**
@@ -230,10 +227,9 @@ class PaymentDBO extends DBO
    */
   function getModuleType()
   {
-    global $conf;
-
+    $registry = ModuleRegistry::getModuleRegistry();
     return $this->getModule() == null ?
-      null : $conf['modules'][$this->getModule()]->getType();
+      null : $registry->getModule( $this->getModule() )->getType();
   }
 
   /**
@@ -315,8 +311,8 @@ class PaymentDBO extends DBO
 			      $cardCode,
 			      $method )
   {
-    global $conf;
-    if( !($module = $conf['modules'][$this->getModule()] ) )
+    $registry = ModuleRegistry::getModuleRegistry();
+    if( !($module = $registry->getModule( $this->getModule() )) )
       {
 	log_error( "PaymentDBO::processCreditCard()", 
 		   "Could not access a payment gateway module! " );
@@ -368,7 +364,8 @@ class PaymentDBO extends DBO
 	return false;
       }
 
-    $module = $conf['modules'][$this->getModule()];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry->getModule( $this->getModule() );
     return $module->capture( $this );
   }
 
@@ -392,7 +389,8 @@ class PaymentDBO extends DBO
 	return false;
       }
 
-    $module = $conf['modules'][$this->getModule()];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry->getModule( $this->getModule() );
     return $module->refund( $this );
   }
 
@@ -416,7 +414,8 @@ class PaymentDBO extends DBO
 	return false;
       }
 
-    $module = $conf['modules'][$this->getModule()];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry->getModule( $this->getModule() );
     return $module->void( $this );
   }
 

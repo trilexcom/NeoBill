@@ -88,16 +88,11 @@ class CartPage extends SolidStatePage
       }
 
     // Make sure we have a way to collect payment
-    $paymentMethods = 0;
-    foreach( $this->conf['modules'] as $moduleDBO )
-      {
-	if( (is_a( $moduleDBO, "PaymentProcessorModule" ) ||
-	     is_a( $moduleDBO, "PaymentGatewayModule" )) &&
-	    $moduleDBO->isEnabled() )
-	  {
-	    $paymentMethods++;
-	  }
-      }
+    $registry = ModuleRegistry::getModuleRegistry(); 
+    $paymentModules = 
+      array_merge( $registry->getModulesByType( "payment_processor", true ),
+		   $registry->getModulesByType( "payment_gateway", true ) );
+    $paymentMethods = count( $paymentModules );
     if( $this->conf['order']['accept_checks'] )
       {
 	$paymentMethods++;

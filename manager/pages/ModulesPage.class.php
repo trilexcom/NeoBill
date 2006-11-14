@@ -52,15 +52,14 @@ class ModulesPage extends SolidStateAdminPage
    */
   function updateModules()
   {
-    global $conf;
-
     if( !isset( $this->post['modules'] ) )
       {
 	$this->post['modules'] = array();
       }
 
     // Enable all the Modules with checks, disable the ones without
-    foreach( $conf['modules'] as $module )
+    $modules = ModuleRegistry::getModuleRegistry()->getAllModules();
+    foreach( $modules as $module )
       {
 	if( !$module->isEnabled() && in_array( $module, $this->post['modules'] ) )
 	  {

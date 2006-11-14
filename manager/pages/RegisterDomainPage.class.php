@@ -112,7 +112,8 @@ class RegisterDomainPage extends SolidStatePage
    */
   function checkAvailability()
   {
-    $module = $this->conf['modules'][$this->post['servicetld']->getModuleName()];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry( $this->post['servicetld']->getModuleName() );
 
     $fqdn = sprintf( "%s.%s", 
 		     $this->post['domainname'], 
@@ -162,7 +163,9 @@ class RegisterDomainPage extends SolidStatePage
   {
     // Load the registrar module and verify that it is enabled
     $this->serviceDBO = load_DomainServiceDBO( $this->purchaseDBO->getTLD() );
-    $module = $this->conf['modules'][$this->purchaseDBO->getModuleName()];
+
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry( $this->purchaseDBO->getModuleName() );
 
     // Set the time of purchase
     $this->purchaseDBO->setDate( $this->DB->format_datetime( time() ) );

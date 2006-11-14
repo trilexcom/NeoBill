@@ -52,7 +52,8 @@ class NRConfigPage extends SolidStateAdminPage
   function init()
   {
     // Load the form values with Module settings
-    $this->rcModule = $this->conf['modules']['nullregistrar'];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $this->rcModule = $registry->getModule( 'nullregistrar' );
   }
 
   /**

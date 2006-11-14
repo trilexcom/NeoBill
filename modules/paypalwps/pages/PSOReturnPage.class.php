@@ -60,7 +60,8 @@ class PSOReturnPage extends Page
 		     "Missing TX value.  Make sure PDT is turned on for the store's Paypal account." );
       }
 
-    $this->ppModule = $this->conf['modules']['paypalwps'];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $this->ppModule = $registry->getModule( 'paypalwps' );
 
     // Process the PDT
     $pdtData = $this->ppModule->processPDT( $_GET['tx'] );

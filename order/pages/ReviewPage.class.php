@@ -117,7 +117,8 @@ class ReviewPage extends SolidStatePage
       }
 
     // Collect Payment
-    $paymentModule = $this->conf['modules'][$this->post['module']];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $paymentModule = $registry->getModule( $this->post['module'] );
     $checkoutPage = $paymentModule->getType() == "payment_processor" ?
       $paymentModule->getOrderCheckoutPage() : "ccpayment";
 

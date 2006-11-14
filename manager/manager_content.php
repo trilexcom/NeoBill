@@ -14,7 +14,7 @@
 // If your PHP install is reporting an error with the line below, just comment it
 // out.  If you're interested in profiling SS, then you need to install the APD
 // package (find it on PECL)
-// apd_set_pprof_trace();
+//apd_set_pprof_trace();
 
 // Load config file
 require "../config/config.inc.php";

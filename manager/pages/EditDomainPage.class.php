@@ -110,9 +110,8 @@ class EditDomainPage extends SolidStatePage
    */
   function renew_domain()
   {
-    global $conf;
-
-    if( !($module = $conf['modules'][$this->get['dpurchase']->getModuleName()]) )
+    $registry = ModuleRegistry::getModuleRegistry();
+    if( !($registry->getModule( $this->get['dpurchase']->getModuleName() )) )
       {
 	throw new SWException( "Failed to load registrar module: " .
 			       $this->get['dpurchase']->getModuleName() );

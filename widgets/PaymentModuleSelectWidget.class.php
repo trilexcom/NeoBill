@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "solidworks/widgets/SelectWidget.class.php";
-
-// DOMAINTERM Service DBO
-require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
-
 /**
  * PaymentModuleSelectWidget
  *
@@ -32,18 +26,18 @@ class PaymentModuleSelectWidget extends SelectWidget
    */
   public function getData()
   {
-    global $conf;
-
-    $modules = array();
-    foreach( $conf['modules'] as $modulename => $module )
+    $registry = ModuleRegistry::getModuleRegistry();
+    $modules = $registry->getModulesByType( "payment_gateway" );
+    $paymentModules = array();
+    foreach( $modules as $modulename => $module )
       {
-	if( $module->isEnabled() && $module->getType() == "payment_gateway" )
+	if( $module->isEnabled() )
 	  {
-	    $modules[$modulename] = $modulename;
+	    $paymentModules[$modulename] = $modulename;
 	  }
       }
 
-    return $modules;
+    return $paymentModules;
   }
 }
 ?>

@@ -122,7 +122,9 @@ class TransferDomainPage extends SolidStatePage
   {
     // Load the registrar module and verify that it is enabled
     $serviceDBO = load_DomainServiceDBO( $this->purchaseDBO->getTLD() );
-    $module = $this->conf['modules'][$serviceDBO->getModuleName()];
+
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry->getModule( $serviceDBO->getModuleName() );
 
     // Set the time of purchase
     $this->purchaseDBO->setDate( $this->DB->format_datetime( time() ) );
@@ -188,7 +190,8 @@ class TransferDomainPage extends SolidStatePage
    */
   function verifyTransferEligible()
   {
-    $module = $this->conf['modules'][$this->post['servicetld']->getModuleName()];
+    $registry = ModuleRegistry::getModuleRegistry();
+    $module = $registry->getModule( $this->post['servicetld']->getModuleName() );
 
     $fqdn = sprintf( "%s.%s", 
 		     $this->post['domainname'], 

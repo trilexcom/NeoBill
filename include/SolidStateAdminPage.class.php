@@ -10,8 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * AdminPage
