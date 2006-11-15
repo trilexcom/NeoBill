@@ -10,16 +10,19 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+// The Module class
+require BASE_PATH . "solidworks/Module.class.php";
+
 // Exceptions
-class ModuleNameConflictException extends SWException 
+class ModuleNameConflictException extends SWModuleException 
 {
   public function __construct( $name = "NULL" ) { $this->message = "Conflicting module name: " . $name; }
 }
-class ModuleDoesNotExistException extends SWException
+class ModuleDoesNotExistException extends SWModuleException
 {
   public function __construct( $name = "NULL" ) { $this->message = "Module does not exist: " . $name; }
 }
-class ModuleRegistryDoesNotExistException extends SWException 
+class ModuleRegistryDoesNotExistException extends SWModuleException 
 {
   public function __construct() { $this->message = "Module Registry Does Not Exist (you must call ModuleRegistry::createModuleRegistry first)"; }
 }

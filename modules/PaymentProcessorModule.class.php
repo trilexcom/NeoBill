@@ -20,17 +20,17 @@ require_once BASE_PATH . "modules/SolidStateModule.class.php";
  * @package modules
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PaymentProcessorModule extends SolidStateModule
+abstract class PaymentProcessorModule extends SolidStateModule
 {
   /**
    * @var string Module type is payment_processor
    */
-  var $type = "payment_processor";
+  protected $type = "payment_processor";
 
   /**
    * @var string Order Checkout page
    */
-  var $orderCheckoutPage = null;
+  protected $orderCheckoutPage = null;
 
   /**
    * Get the Order Checkout Page

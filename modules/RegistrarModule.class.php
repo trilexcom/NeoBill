@@ -20,17 +20,17 @@ require_once BASE_PATH . "modules/SolidStateModule.class.php";
  * @package modules
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RegistrarModule extends SolidStateModule
+abstract class RegistrarModule extends SolidStateModule
 {
   /**
    * @var string This is the name of the page that is called when the user wants to register a new page from the Manager.  It must be provided by the module programmer.
    */
-  var $managerRegisterDomainPage = null;
+  protected $managerRegisterDomainPage = null;
 
   /**
    * @var string Module type is registrar
    */
-  var $type = "registrar";
+  protected $type = "registrar";
 
   /**
    * Check Domain Availability
@@ -38,11 +38,7 @@ class RegistrarModule extends SolidStateModule
    * @param string $fqdn Domain name
    * @return boolean True if the domain is available to be registered
    */
-  function checkAvailability( $fqdn )
-  {
-    echo "checkAvailability() not implemented!";
-    return false;
-  }
+  abstract public function checkAvailability( $fqdn );
 
   /**
    * Verify Domain is Transfer Eligible
@@ -50,11 +46,7 @@ class RegistrarModule extends SolidStateModule
    * @param string $fqdn Domain name
    * @return boolean True if the domain is transfer eligible
    */
-  function isTransferable( $fqdn )
-  {
-    echo "RegistrarModule::isTransferable() has not been implemented!";
-    return false;
-  }
+  abstract public function isTransferable( $fqdn );
 
   /**
    * Register a New Domain
@@ -66,11 +58,7 @@ class RegistrarModule extends SolidStateModule
    * @param AccountDBO $accountDBO The account that is registering this domain
    * @return boolean True for success
    */
-  function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
-  {
-    echo "RegistrarModule::registerDomain() has not been implemented!";
-    return false;
-  }
+  abstract public function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO );
 
   /**
    * Renew a Domain
@@ -79,11 +67,7 @@ class RegistrarModule extends SolidStateModule
    * @param integer $renewTerms Number of years to renew for
    * @return boolean True for success
    */
-  function renewDomain( $purchaseDBO, $renewTerms )
-  {
-    echo "RegistrarModule::renewDomain() has not been implemented!";
-    return false;
-  }
+  abstract public function renewDomain( $purchaseDBO, $renewTerms );
 
   /**
    * Transfer a Domain
@@ -96,10 +80,6 @@ class RegistrarModule extends SolidStateModule
    * @param AccountDBO $accountDBO The account that is transferring this domain
    * @return boolean True for success
    */
-  function transferDomain( $domainName, $TLD, $term, $secret, $contacts, $accountDBO )
-  {
-    echo "RegistrarModule::transferDomain() has not been implemented!";
-    return false;
-  }
+  abstract public function transferDomain( $domainName, $TLD, $term, $secret, $contacts, $accountDBO );
 }
 ?>

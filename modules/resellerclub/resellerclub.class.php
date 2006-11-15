@@ -14,9 +14,9 @@
 require_once BASE_PATH . "modules/RegistrarModule.class.php";
 
 // Reseller Club API
-require_once BASE_PATH . "modules/resellerclub/lib/domorder.class.php";
-require_once BASE_PATH . "modules/resellerclub/lib/customer.class.php";
-require_once BASE_PATH . "modules/resellerclub/lib/domcontact.class.php";
+require BASE_PATH . "modules/resellerclub/lib/domorder.class.php";
+require BASE_PATH . "modules/resellerclub/lib/customer.class.php";
+require BASE_PATH . "modules/resellerclub/lib/domcontact.class.php";
 
 /**
  * ResellerClub
@@ -398,15 +398,10 @@ class ResellerClub extends RegistrarModule
    *
    * Invoked when the module is loaded.  Call the parent method first, then
    * load settings.
-   *
-   * @return boolean True for success
    */
   function init()
   {
-    if( !parent::init() )
-      {
-	return false;
-      }
+    parent::init();
 
     // Load settings
     $this->setDebug( $this->moduleDBO->loadSetting( "debug" ) );
@@ -425,8 +420,6 @@ class ResellerClub extends RegistrarModule
       new Customer( BASE_PATH . "modules/resellerclub/lib/wsdl/customer.wsdl" );
     $this->domContact = 
       new DomContact( BASE_PATH . "modules/resellerclub/lib/wsdl/domaincontact.wsdl" );
-
-    return true;
   }
 
   /**
@@ -437,14 +430,8 @@ class ResellerClub extends RegistrarModule
    */
   function install()
   {
-    if( !parent::install() )
-      {
-	return false;
-      }
-    
+    parent::install();
     $this->saveSettings();
-
-    return true;
   }
 
   /**

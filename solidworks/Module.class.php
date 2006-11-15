@@ -10,6 +10,15 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+// Module Exceptions
+class SWModuleException extends SWException
+{
+}
+class ModuleInitFailedException extends SWModuleException
+{
+  public function __construct( $name = "unkown module" ) { $this->message = "Failed to initialize module: " . $name; }
+}
+
 /**
  * Module
  *
@@ -18,27 +27,27 @@
  * @pacakge solidworks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class Module
+abstract class Module
 {
   /**
    * @var string Module name
    */
-  var $name = "module";
+  protected $name = "module";
 
   /**
    * @var string Module description (short)
    */
-  var $sDescription = "default module";
+  protected $sDescription = "default module";
 
   /**
    * @var string Module description (long)
    */
-  var $description = "default module";
+  protected $description = "default module";
 
   /**
    * @var integer Module version
    */
-  var $version = 1;
+  protected $version = 1;
 
   /**
    * Convert the Module to a String (using the module name)
@@ -52,39 +61,36 @@ class Module
    *
    * @return string Long Description
    */
-  function getDescription() { return $this->description; }
+  public function getDescription() { return $this->description; }
 
   /**
    * Get Module Name
    *
    * @return string Module name
    */
-  function getName() { return $this->name; }
+  public function getName() { return $this->name; }
 
   /**
    * Get Module Short Description
    *
    * @return string Short description
    */
-  function getShortDescription() { return $this->sDescription; }
+  public function getShortDescription() { return $this->sDescription; }
 
   /**
    * Get Module Version
    *
    * @return integer Module version
    */
-  function getVersion() { return $this->version(); }
+  public function getVersion() { return $this->version(); }
 
   /**
    * Initialize Module
    *
    * This method is called when a module is loaded by SolidWorks.
-   *
-   * @return boolean True for success
    */
-  function init()
+  public function init()
   {
-    return true;
   }
 }
 ?>

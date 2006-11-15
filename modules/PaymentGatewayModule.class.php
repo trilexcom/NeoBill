@@ -20,12 +20,12 @@ require_once BASE_PATH . "modules/SolidStateModule.class.php";
  * @package modules
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PaymentGatewayModule extends SolidStateModule
+abstract class PaymentGatewayModule extends SolidStateModule
 {
   /**
    * @var string Module type is payment_gateway
    */
-  var $type = "payment_gateway";
+  protected $type = "payment_gateway";
 
   /**
    * Authorize a Credit Card Transaction
@@ -37,11 +37,7 @@ class PaymentGatewayModule extends SolidStateModule
    * @param PaymentDBO $paymentDBO Payment DBO for this transaction
    * @return boolean False when there is an error processing the transaction
    */
-  function authorize( $contactDBO, $cardNumber, $expireDate, $cvv, &$paymentDBO )
-  {
-    echo "PaymentGatewayModule::authorize() has not been implemented!";
-    return false;
-  }
+  abstract public function authorize( $contactDBO, $cardNumber, $expireDate, $cvv, &$paymentDBO );
 
   /**
    * Authorize and Capture a Credit Card Transaction
@@ -53,11 +49,7 @@ class PaymentGatewayModule extends SolidStateModule
    * @param PaymentDBO $paymentDBO Payment DBO for this transaction
    * @return boolean False when there is an error processing the transaction
    */
-  function authorizeAndCapture( $contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO )
-  {
-    echo "PaymentGatewayModule::authorizeAndCapture() has not been implemented!";
-    return false;
-  }
+  abstract public function authorizeAndCapture( $contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO );
 
   /**
    * Capture a Previously Authorized Transaction
@@ -65,11 +57,7 @@ class PaymentGatewayModule extends SolidStateModule
    * @param PaymentDBO $paymentDBO Previously authorized payment DBO
    * @return boolean False on a processing error
    */
-  function capture( &$paymentDBO )
-  {
-    echo "PaymentGatewayModule::capture() has not been implemented!";
-    return false;
-  }
+  abstract public function capture( &$paymentDBO );
 
   /**
    * Refund the Customer
@@ -77,11 +65,7 @@ class PaymentGatewayModule extends SolidStateModule
    * @param PaymentDBO $paymentDBO Previously authorized & captured payment DBO
    * @return boolean False on a processing error
    */
-  function refund( &$paymentDBO )
-  {
-    echo "PaymentGatewayModule::refund() has not been implemented!";
-    return false;
-  }
+  abstract public function refund( &$paymentDBO );
 
   /**
    * Void an Authorized Transaction
@@ -89,10 +73,6 @@ class PaymentGatewayModule extends SolidStateModule
    * @param PaymentDBO $paymentDBO Previously authorized payment DBO
    * @return boolean False on a processing error
    */
-  function void( &$paymentDBO )
-  {
-    echo "PaymentGatewayModule::credit() has not been implemented!";
-    return false;
-  }
+  abstract public function void( &$paymentDBO );
 }
 ?>
