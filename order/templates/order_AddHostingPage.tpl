@@ -2,7 +2,7 @@
   <div class="domainoption">
     <table>
       <tr class="reverse">
-        <td colspan="2"> {echo phrase="SELECT_HOSTING_SERVICE"}: </td>
+        <th colspan="2"> {echo phrase="SELECT_HOSTING_SERVICE"}: </th>
       </tr>
       <tr>
         <td class="ident"> {form_description field="service"}</td>

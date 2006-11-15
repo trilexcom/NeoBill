@@ -3,7 +3,7 @@
   <div class="domainoption">
     <table>
       <tr class="reverse">
-        <td> E-Mail </td>
+        <th> E-Mail </th>
       </tr>
       <tr> <td> {echo phrase="EMAIL_TEXT"} </td> </tr>
       <tr>
@@ -11,11 +11,11 @@
           <div class="form">
             <table>
               <tr>
-                <th> {form_description field="contactemail"} </th>
+                <td> {form_description field="contactemail"} </td>
                 <td> {form_element dbo="order" field="contactemail" size="50"} </td>
               </tr>
               <tr>
-                <th> {form_description field="verifyemail"} </th>
+                <td> {form_description field="verifyemail"} </td>
                 <td> {form_element field="verifyemail" size="50"} </td>
               </tr>
             </table>
@@ -28,54 +28,54 @@
   <div class="domainoption">
     <table>
       <tr class="reverse">
-        <td> {echo phrase="CONTACT_INFORMATION"} </td>
+        <th> {echo phrase="CONTACT_INFORMATION"} </th>
       </tr>
       <tr>
         <td>
           <div class="form">
             <table>
               <tr>
-                <th> {form_description field="businessname"} </th>
+                <td> {form_description field="businessname"} </td>
                 <td> {form_element dbo="order" field="businessname" size="50"} </td>
               </tr>
               <tr>
-                <th> {form_description field="contactname"} </th>
+                <td> {form_description field="contactname"} </td>
                 <td> {form_element dbo="order" field="contactname" size="50"} </td>
               </tr>
               <tr>
-                <th> {form_description field="address1"} </th>
+                <td> {form_description field="address1"} </td>
                 <td> {form_element dbo="order" field="address1" size="50"} </td>
               </tr>
               <tr>
-                <th> </th>
+                <td> </td>
                 <td> {form_element dbo="order" field="address2" size="50"} </td>
               </tr>
               <tr>
-                <th> {form_description field="country"} </th>
+                <td> {form_description field="country"} </td>
                 <td> {form_element dbo="order" field="country"} </td>
               </tr>
               <tr>
-                <th> {form_description field="city"} </th>
+                <td> {form_description field="city"} </td>
                 <td> {form_element dbo="order" field="city" size="30"} </td>
               </tr>
               <tr>
-                <th> {form_description field="state"} </th>
+                <td> {form_description field="state"} </td>
                 <td> {form_element dbo="order" field="state" size="30"} </td>
               </tr>
               <tr>
-                <th> {form_description field="postalcode"} </th>
+                <td> {form_description field="postalcode"} </td>
                 <td> {form_element dbo="order" field="postalcode" size="10"} </td>
               </tr>
               <tr>
-                <th> {form_description field="phone"} </th>
+                <td> {form_description field="phone"} </td>
                 <td> {form_element dbo="order" field="phone"} </td>
               </tr>
               <tr>
-                <th> {form_description field="mobilephone"} </th>
+                <td> {form_description field="mobilephone"} </td>
                 <td> {form_element dbo="order" field="mobilephone"} </td>
               </tr>
               <tr>
-                <th> {form_description field="fax"} </th>
+                <td> {form_description field="fax"} </td>
                 <td> {form_element dbo="order" field="fax"} </td>
               </tr>
             </table>
@@ -89,7 +89,7 @@
     <div class="domainoption">
       <table>
         <tr class="reverse">
-          <td> {echo phrase="DOMAIN_CONTACT_INFORMATION"} </td>
+          <th> {echo phrase="DOMAIN_CONTACT_INFORMATION"} </th>
         </tr>
         <tr>
           <td>
@@ -111,7 +111,7 @@
   <div class="domainoption">
     <table>
       <tr class="reverse">
-        <td>Login</td>
+        <th>Login</th> <!-- hardcoded in english -->
       </tr>
       <tr> <td> {echo phrase="LOGIN_TEXT"} </td> </tr>
       <tr>
@@ -119,15 +119,15 @@
           <div class="form">
             <table>
               <tr>
-                <th> {form_description field="username"} </th>
+                <td> {form_description field="username"} </td>
                 <td> {form_element dbo="order" field="username"} </td>
               </tr>
               <tr>
-                <th> {form_description field="password"} </th>
+                <td> {form_description field="password"} </td>
                 <td> {form_element field="password"} </td>
               </tr>
               <tr>
-                <th> {form_description field="repassword"} </th>
+                <td> {form_description field="repassword"} </td>
                 <td> {form_element field="repassword"} </td>
               </tr>
             </table>

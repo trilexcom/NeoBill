@@ -2,13 +2,13 @@
 
 <div class="domainoption">
   <table>
-    <tr class="reverse"> <td> {echo phrase="CONTACT_EMAIL"} </td> </tr>
+    <tr class="reverse"> <th> {echo phrase="CONTACT_EMAIL"} </th> </tr>
     <tr>
       <td>
         <div class="form">
           <table>
             <tr>
-              <th> {echo phrase="EMAIL"}: </th>
+              <td> {echo phrase="EMAIL"}: </td>
               <td> {dbo_echo dbo="order" field="contactemail"} </td>
             </tr>
           </table>
@@ -18,53 +18,53 @@
   </table>
 
   <table>
-    <tr class="reverse"> <td> Account Information </td> </tr>
+    <tr class="reverse"> <th> Account Information </th> </tr> <!-- hardcoded english -->
     <tr>
       <td>
         <div class="form">
           <table>
             <tr>
-              <th> {echo phrase="BUSINESS_NAME"}: </th>
+              <td> {echo phrase="BUSINESS_NAME"}: </td>
               <td> {dbo_echo dbo="order" field="businessname"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="CONTACT_NAME"}: </th>
+              <td> {echo phrase="CONTACT_NAME"}: </td>
               <td> {dbo_echo dbo="order" field="contactname"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="ADDRESS"}: </th>
+              <td> {echo phrase="ADDRESS"}: </td>
               <td> {dbo_echo dbo="order" field="address1"} </td>
             </tr>
             <tr>
-              <th> </th>
+              <td> </td>
               <td> {dbo_echo dbo="order" field="address2"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="CITY"}: </th>
+              <td> {echo phrase="CITY"}: </td>
               <td> {dbo_echo dbo="order" field="city"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="STATE"}: </th>
+              <td> {echo phrase="STATE"}: </td>
               <td> {dbo_echo dbo="order" field="state"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="COUNTRY"}: </th>
+              <td> {echo phrase="COUNTRY"}: </td>
               <td> {dbo_echo|country dbo="order" field="country"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="POSTALCODE"}: </th>
+              <td> {echo phrase="POSTALCODE"}: </td>
               <td> {dbo_echo dbo="order" field="postalcode"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="PHONE"}: </th>
+              <td> {echo phrase="PHONE"}: </td>
               <td> {dbo_echo dbo="order" field="phone"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="MOBILE_PHONE"}: </th>
+              <td> {echo phrase="MOBILE_PHONE"}: </td>
               <td> {dbo_echo dbo="order" field="mobilephone"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="FAX"}: </th>
+              <td> {echo phrase="FAX"}: </td>
               <td> {dbo_echo dbo="order" field="fax"} </td>
             </tr>
           </table>
@@ -77,17 +77,17 @@
 
 <div class="domainoption">
   <table>
-    <tr class="reverse"> <td> {echo phrase="LOGIN_INFORMATION"} </td> </tr>
+    <tr class="reverse"> <th> {echo phrase="LOGIN_INFORMATION"} </th> </tr>
     <tr>
       <td>
         <div class="form">
           <table>
             <tr>
-              <th> {echo phrase="USERNAME"}: </th>
+              <td> {echo phrase="USERNAME"}: </td>
               <td> {dbo_echo dbo="order" field="username"} </td>
             </tr>
             <tr>
-              <th> {echo phrase="PASSWORD"}: </th>
+              <td> {echo phrase="PASSWORD"}: </td>
               <td> <i>{echo phrase="NOT_SHOWN"}</i> </td>
             </tr>
           </table>

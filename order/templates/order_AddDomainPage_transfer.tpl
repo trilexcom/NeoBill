@@ -2,9 +2,9 @@
   <div class="domainoption">
     <table>
       <tr class="reverse">
-        <td colspan="2"> 
+        <th colspan="2"> 
           {echo phrase="TRANSFER_TERMS"}
-        </td>
+        </th>
       </tr>
       <tr> 
         <td style="width: 30%"> {echo phrase="DOMAIN_NAME"}: </td>
