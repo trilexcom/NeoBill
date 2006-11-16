@@ -10,8 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once "InvoiceDBO.class.php";
-
 /**
  * PaymentDBO
  *

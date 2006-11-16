@@ -14,6 +14,7 @@
 // Load Exceptions
 require "SWException.class.php";
 
+require BASE_PATH . "solidworks/DBO.class.php";
 require BASE_PATH . "DBO/UserDBO.class.php";
 require "log.php";
 require "ConfigParser.class.php";
@@ -214,7 +215,7 @@ function SWExceptionHandler( $e )
   echo "<b>Thrown from file:</b> " . $fileinfo['basename'];
   echo" <b>at line</b> " . $e->getLine();
   echo "<br/><br/><b>Message:</b> <pre>";
-  echo $e;
+  echo Translator::getTranslator()->translateString( $e->__toString() );
   echo "</pre><br/><br/><b>Stack trace: </b></br>";
   echo "</p>\n<pre>\n";
 

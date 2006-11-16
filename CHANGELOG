@@ -1,3 +1,10 @@
+11/15/2006 - jdiamond
+=====================
+
+ * (trac #143) Applied Eminos' CSS patch to the order interface templates
+ * (trac #151) Coded a module for the Enom registrar API
+ * Added exceptions-based error handeling for the modules implementation
+
 11/9/2006 - jdiamond
 =====================
 

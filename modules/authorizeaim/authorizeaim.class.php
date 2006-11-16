@@ -371,18 +371,13 @@ class AuthorizeAIM extends PaymentGatewayModule
    */
   function init()
   {
-    if( !parent::init() )
-      {
-	return false;
-      }
+    parent::init();
 
     // Load settings
     $this->setDelimiter( $this->moduleDBO->loadSetting( "delimiter" ) );
     $this->setLoginID( $this->moduleDBO->loadSetting( "loginid" ) );
     $this->setTransactionKey( $this->moduleDBO->loadSetting( "transactionkey" ) );
     $this->setURL( $this->moduleDBO->loadSetting( "url" ) );
-
-    return true;
   }
 
   /**
@@ -393,21 +388,16 @@ class AuthorizeAIM extends PaymentGatewayModule
    */
   function install()
   {
-    if( !parent::install() )
-      {
-	return false;
-      }
-    
+    parent::install();
+
     if( !$this->createTables() )
       {
-	fatal_error( "AuthorizeAIM::instal()", 
-		     "Failed to create database tables for AuthorizeAIM module:" .
-		     mysql_error() );
+	throw new ModuleInstallFailedException( "authorizeaim",
+						"Failed to create database tables for AuthorizeAIM module:" .
+						mysql_error() );
       }
 
     $this->saveSettings();
-
-    return true;
   }
 
   /**

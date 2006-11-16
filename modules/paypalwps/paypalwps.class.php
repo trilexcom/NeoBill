@@ -83,18 +83,13 @@ class PaypalWPS extends PaymentProcessorModule
    */
   function init()
   {
-    if( !parent::init() )
-      {
-	return false;
-      }
+    parent::init();
 
     // Load settings
     $this->setAccount( $this->moduleDBO->loadSetting( "account" ) );
     $this->setCartURL( $this->moduleDBO->loadSetting( "carturl" ) );
     $this->setIdToken( $this->moduleDBO->loadSetting( "idtoken" ) );
     $this->setCurrencyCode( $this->moduleDBO->loadSetting( "paypalcurrencycode" ) );
-
-    return true;
   }
 
   /**
@@ -105,14 +100,8 @@ class PaypalWPS extends PaymentProcessorModule
    */
   function install()
   {
-    if( !parent::install() )
-      {
-	return false;
-      }
-    
+    parent::install();
     $this->saveSettings();
-
-    return true;
   }
 
   /**

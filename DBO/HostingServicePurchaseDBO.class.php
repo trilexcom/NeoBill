@@ -10,13 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "DBO/PurchaseDBO.class.php";
-
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
-require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
-require_once BASE_PATH . "DBO/ServerDBO.class.php";
-
 /**
  * HostingServicePurchaseDBO
  *

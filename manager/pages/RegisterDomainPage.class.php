@@ -188,16 +188,20 @@ class RegisterDomainPage extends SolidStatePage
     $contacts['billing'] = $contacts['admin'];
 
     // Execute the registration at the Registrar
-    if( !$module->registerNewDomain( $this->purchaseDBO->getDomainName(),
-				     $this->purchaseDBO->getTLD(),
-				     $this->purchaseDBO->getTermInt(),
-				     $contacts,
-				     $this->accountDBO ) )
+    try
       {
-	$this->setError( array( "type" => "DOMAIN_REGISTER_FAILED_REGISTRAR" ) );
+	$module->registerNewDomain( $this->purchaseDBO->getDomainName(),
+				    $this->purchaseDBO->getTLD(),
+				    $this->purchaseDBO->getTermInt(),
+				    $contacts,
+				    $this->accountDBO );
+      }
+    catch( RegistrarException $e )
+      {
+	$this->setError( array( "type" => $e->getMessage() ) );
 	$this->cancel();
       }
-    
+
     // Store the purchase in database
     if( !add_DomainServicePurchaseDBO( $this->purchaseDBO ) )
       {

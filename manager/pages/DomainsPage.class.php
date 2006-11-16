@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once BASE_PATH . "util/domains.php";
+require BASE_PATH . "util/domains.php";
 
 /**
  * Domains Summary Page
@@ -23,7 +23,7 @@ require_once BASE_PATH . "util/domains.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DomainsPage extends Page
+class DomainsPage extends SolidStatePage
 {
   /**
    * Provides statistics to the template

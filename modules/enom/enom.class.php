@@ -89,6 +89,7 @@ class Enom extends RegistrarModule
     $this->enom->AddParam( "tld", $domainParts[1] );
     $this->enom->AddParam( "command", "Check" );
     $this->enom->DoTransaction();
+    $this->handleAnyErrors();
 
     return $this->enom->Values['RRPCode'] == "210";
   }
@@ -113,6 +114,27 @@ class Enom extends RegistrarModule
    * @return string Enom API Username
    */
   public function getUsername() { return $this->username; }
+
+  /**
+   * Handle Any Enom API Errors
+   *
+   * Examines EnomInterface->Values for any error codes and if they exist, stuffs
+   * them into a RegistrarException
+   */
+  protected function handleAnyErrors()
+  {
+    $errCount = intval( $this->enom->Values['ErrCount'] );
+    if( $errCount > 0 )
+      {
+	$message = "[ENOM_THE_FOLLOWING_ERRORS_WERE]: ";
+	for( $i = 1; $i <= $errCount; $i++ )
+	  {
+	    $message .= $this->enom->Values["Err" . $i] . ". ";
+	  }
+
+	throw new RegistrarException( $message );
+      }
+  }
 
   /**
    * Initialize Enom Module
@@ -165,6 +187,7 @@ class Enom extends RegistrarModule
     $this->enom->AddParam( "tld", $domainParts[1] );
     $this->enom->AddParam( "command", "Check" );
     $this->enom->DoTransaction();
+    $this->handleAnyErrors();
 
     return $this->enom->Values['RRPCode'] == "211";
   }
@@ -177,7 +200,6 @@ class Enom extends RegistrarModule
    * @param integer $term Number of years to register the domain for
    * @param array $contacts Admin, billing, and technical contacts
    * @param AccountDBO $accountDBO The account that is registering this domain
-   * @return boolean True for success
    */
   public function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
   {
@@ -273,8 +295,7 @@ class Enom extends RegistrarModule
     // Run the enom "Purchase" command
     $this->enom->AddParam( "command", "Purchase" );
     $this->enom->DoTransaction();
-
-    return intval( $this->enom->Values['ErrCount'] ) == 0;
+    $this->handleAnyErrors();
   }
 
   /**
@@ -282,10 +303,27 @@ class Enom extends RegistrarModule
    *
    * @param DomainServicePurchaseDBO $purchseDBO The domain to be renewed
    * @param integer $renewTerms Number of years to renew for
-   * @return boolean True for success
    */
   public function renewDomain( $purchaseDBO, $renewTerms )
   {
+    // Begin a new enom API request
+    $this->enom->NewRequest();
+
+    // Set the login information
+    $this->enom->AddParam( "uid", $this->getUsername() );
+    $this->enom->AddParam( "pw", $this->getPassword() );
+
+    // Set the number of years to renew for
+    $this->enom->AddParam( "NumYears", $renewTerms );
+
+    // Set the domain to be renewed
+    $this->enom->AddParam( "tld", $purchaseDBO->getTLD() );
+    $this->enom->AddParam( "sld", $purchaseDBO->getDomainName() );
+
+    // Execute the Enom API "Extend" command
+    $this->enom->AddParam( "command", "Purchase" );
+    $this->enom->DoTransaction();
+    $this->handleAnyErrors();
   }
 
   /**
@@ -332,6 +370,34 @@ class Enom extends RegistrarModule
    */
   public function transferDomain( $domainName, $TLD, $term, $secret, $contacts, $accountDBO )
   {
+    // Begin a new enom API request
+    $this->enom->NewRequest();
+
+    // Set the login information
+    $this->enom->AddParam( "uid", $this->getUsername() );
+    $this->enom->AddParam( "pw", $this->getPassword() );
+
+    // Transfering 1 domain
+    $this->enom->AddParam( "DomainCount", "1" );
+    $this->enom->AddParam( "SLD1", $domainName );
+    $this->enom->AddParam( "TLD1", $TLD );
+
+    // Set Order Type to "auto" (as opposed to fax)
+    $this->enom->AddParam( "OrderType", "Autoverification" );
+
+    // Supply domain secret if there is one
+    if( isset( $secret ) )
+      {
+	$this->enom->AddParam( "AuthInfo1", $secret );
+      }
+
+    // Use existing contact info
+    $this->enom->AddParam( "UseContacts", "1" );
+
+    // Execute the Enom API "TP_CreateOrder" command
+    $this->enom->AddParam( "command", "TP_CreateOrder" );
+    $this->enom->DoTransaction();
+    $this->handleAnyErrors();
   }
 }
 ?>

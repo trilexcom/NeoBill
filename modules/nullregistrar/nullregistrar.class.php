@@ -10,11 +10,8 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Base class
-require_once BASE_PATH . "modules/RegistrarModule.class.php";
-
 // This module uses the phpwhois project (www.phpwhois.org) to perform lookups
-require_once BASE_PATH . "modules/nullregistrar/phpwhois/whois.main.php";
+require BASE_PATH . "modules/nullregistrar/phpwhois/whois.main.php";
 
 /**
  * NullRegistrar
@@ -30,32 +27,32 @@ class NullRegistrar extends RegistrarModule
   /**
    * @var string Configuration page
    */
-  var $configPage = "nr_config";
+  protected $configPage = "nr_config";
 
   /**
    * @var string Long description
    */
-  var $description = "Null Registrar Module";
+  protected $description = "Null Registrar Module";
 
   /**
    * @var string Module name
    */
-  var $name = "nullregistrar";
+  protected $name = "nullregistrar";
 
   /**
    * @var string Short Description
    */
-  var $sDescription = "Null Registrar";
+  protected $sDescription = "Null Registrar";
 
   /**
    * @var integer Version
    */
-  var $version = 1;
+  protected $version = 2;
 
   /**
    * @var Whois The PHPWhois object
    */
-  private $whois = null;
+  protected $whois = null;
 
   /**
    * Check Domain Availability
@@ -79,16 +76,11 @@ class NullRegistrar extends RegistrarModule
    */
   function init()
   {
-    if( !parent::init() )
-      {
-	return false;
-      }
+    parent::init();
 
     // Instantiate a PHPWhois object and turn off deep whois results
     $this->whois = new Whois();
     $this->whois->deep_whois = false;
-
-    return true;
   }
 
   /**
@@ -99,14 +91,8 @@ class NullRegistrar extends RegistrarModule
    */
   function install()
   {
-    if( !parent::install() )
-      {
-	return false;
-      }
-    
+    parent::install();
     $this->saveSettings();
-
-    return true;
   }
 
   /**

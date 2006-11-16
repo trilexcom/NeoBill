@@ -10,14 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "DBO/OrderItemDBO.class.php";
-
-// Contact DBO
-require_once BASE_PATH . "DBO/ContactDBO.class.php";
-
-require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
-
 /**
  * OrderDomainDBO
  *
@@ -474,11 +466,13 @@ class OrderDomainDBO extends OrderItemDBO
     $contacts['tech'] = $this->getTechContact();
 
     // Register the domain
-    return $module->registerNewDomain( $this->getDomainName(),
-				       $this->getTLD(),
-				       $this->getTermInt(),
-				       $contacts,
-				       $accountDBO );
+    $module->registerNewDomain( $this->getDomainName(),
+				$this->getTLD(),
+				$this->getTermInt(),
+				$contacts,
+				$accountDBO );
+
+    return true;
   }
 
   /**
@@ -509,12 +503,14 @@ class OrderDomainDBO extends OrderItemDBO
     $contacts['tech'] = $this->getTechContact();
 
     // Transfer the domain
-    return $module->transferDomain( $this->getDomainName(),
-				    $this->getTLD(),
-				    $this->getTermInt(),
-				    $this->getTransferSecret(),
-				    $contacts,
-				    $accountDBO );
+    $module->transferDomain( $this->getDomainName(),
+			     $this->getTLD(),
+			     $this->getTermInt(),
+			     $this->getTransferSecret(),
+			     $contacts,
+			     $accountDBO );
+
+    return true;
   }
 
   /**

@@ -10,15 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "solidworks/DBO.class.php";
-
-require_once BASE_PATH . "solidworks/Email.class.php";
-
-require_once BASE_PATH . "DBO/OrderDomainDBO.class.php";
-require_once BASE_PATH . "DBO/OrderHostingDBO.class.php";
-require_once BASE_PATH . "DBO/PaymentDBO.class.php";
-
 /**
  * OrderDBO
  *

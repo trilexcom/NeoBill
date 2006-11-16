@@ -111,7 +111,7 @@ class EditDomainPage extends SolidStatePage
   function renew_domain()
   {
     $registry = ModuleRegistry::getModuleRegistry();
-    if( !($registry->getModule( $this->get['dpurchase']->getModuleName() )) )
+    if( !($module = $registry->getModule( $this->get['dpurchase']->getModuleName() )) )
       {
 	throw new SWException( "Failed to load registrar module: " .
 			       $this->get['dpurchase']->getModuleName() );
@@ -128,15 +128,19 @@ class EditDomainPage extends SolidStatePage
       }
 
     // Update Registrar (but only if the "contact registrar" box was checked)
-    if( $this->post['registrar'] &&
-	!$module->renewDomain( $this->get['dpurchase'], 
-			       $this->get['dpurchase']->getTermInt() ) )
+    if( $this->post['registrar'] )
       {
-	// Renew error
-	$this->setError( array( "type" => "DOMAIN_REGISTRAR_RENEW_FAILED",
-				"args" => array( $this->get['dpurchase']->getFullDomainName(),
-						 $module->getShortDescription() ) ) );
-	$this->goback();
+	try
+	  {
+	    $module->renewDomain( $this->get['dpurchase'], 
+				  $this->get['dpurchase']->getTermInt() );
+	  }
+	catch( RegistrarException $e )
+	  {
+	    // Renew error
+	    $this->setError( array( "type" => $e->getMessage() ) );
+	    $this->goback();
+	  }
       }
 
     // Success!

@@ -323,8 +323,7 @@ class ResellerClub extends RegistrarModule
 
     if( !isset( $result[$fqdn] ) )
       {
-	fatal_error( "ResellerClub::checkAvailability",
-		     "No data returned from Reseller Club API, turn on debugging and try again" );
+	throw new RegistrarException( "[RESELLER_CLUB_NO_DATA_RETURNED]." );
       }
 
     return $result[$fqdn]['status'] == "available";
@@ -455,8 +454,7 @@ class ResellerClub extends RegistrarModule
 
     if( !isset( $result[$fqdn] ) )
       {
-	fatal_error( "ResellerClub::checkAvailability",
-		     "No data returned from Reseller Club API, turn on debugging and try again" );
+	throw new RegistrarException( "[RESELLER_CLUB_NO_DATA_RETURNED]." );
       }
 
     // Transferable rules:
@@ -546,7 +544,6 @@ class ResellerClub extends RegistrarModule
    * @param integer $term Number of years to register the domain for
    * @param array $contacts Admin, billing, and technical contact DBOs
    * @param AccountDBO $accountDBO The account that is registering this domain
-   * @return boolean True for success
    */
   function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
   {
@@ -577,14 +574,9 @@ class ResellerClub extends RegistrarModule
     if( $results[$fqdn]['status'] != "Success" )
       {
 	// Error
-	log_error( "ResellerClub::registerNewDomain",
-		   "Failed to register domain at Reseller Club: " . 
-		   var_export( $results ) );
-	return false;
+	throw new RegistrarException( "[RESELLER_CLUB_FAILED_TO_REGISTER]: " . 
+				      var_export( $results ) );
       }
-
-    // Success!
-    return true;
   }
 
   /**
@@ -592,7 +584,6 @@ class ResellerClub extends RegistrarModule
    *
    * @param DomainServicePurchaseDBO $purchseDBO The domain to be renewed
    * @param integer $renewTerms Number of years to renew for
-   * @return boolean True for success
    */
   function renewDomain( $purchaseDBO, $renewTerms )
   {
@@ -618,20 +609,14 @@ class ResellerClub extends RegistrarModule
 						  $request,
 						  "NoInvoice" ) ) )
       {
-	fatal_error( "ResellerClub::renewDomain()",
-		     "Unexpected return value from DomOrder::renewDomain()!" );
+	throw new RegistrarException( "Unexpected return value from DomOrder::renewDomain()!" );
       }
     if( !$result[$fqdn]['actionstatus'] == "Success" )
       {
 	// Error
-	log_error( "ResellerClub::renewDomain()",
-		   "Failed to renew domain at ResellerClub: " .
-		   $result['actionstatusdesc'] );
-	return false;
+	throw new RegistrarException( "[RESELLER_CLUB_FAILED_TO_RENEW]: " . 
+				      $result['actionstatusdesc'] );
       }
-
-    // Success
-    return true;
   }
 
   /**
@@ -863,14 +848,9 @@ class ResellerClub extends RegistrarModule
     if( $result[$fqdn]['status'] != "Success" )
       {
 	// Error
-	log_error( "ResellerClub::registerNewDomain",
-		   "Failed to transfer domain at Reseller Club: " . 
-		   $result[$fqdn]['actionstatusdesc'] );
-	return false;
+	throw new RegistrarException( "[RESELLER_CLUB_FAILED_TO_TRANSFER]: " . 
+				      $result[$fqdn]['actionstatusdesc'] );
       }
-
-    // Success!
-    return true;
   }
 }
 ?>

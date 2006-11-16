@@ -147,14 +147,18 @@ class TransferDomainPage extends SolidStatePage
     $contacts['billing'] = $contacts['admin'];
 
     // Execute the registration at the Registrar
-    if( !$module->transferDomain( $this->purchaseDBO->getDomainName(),
-				  $this->purchaseDBO->getTLD(),
-				  $this->purchaseDBO->getTermInt(),
-				  $this->post['secret'],
-				  $contacts,
-				  $this->accountDBO ) )
+    try
       {
-	$this->setError( array( "type" => "DOMAIN_TRANSFER_FAILED_REGISTRAR" ) );
+	$module->transferDomain( $this->purchaseDBO->getDomainName(),
+				 $this->purchaseDBO->getTLD(),
+				 $this->purchaseDBO->getTermInt(),
+				 $this->purchaseDBO->getSecret(),
+				 $contacts,
+				 $this->accountDBO );
+      }
+    catch( RegistrarException $e )
+      {
+	$this->setError( array( "type" => $e->getMessage() ) );
 	$this->cancel();
       }
     
@@ -208,6 +212,7 @@ class TransferDomainPage extends SolidStatePage
     $this->purchaseDBO = new DomainServicePurchaseDBO();
     $this->purchaseDBO->setTLD( $this->post['servicetld']->getTLD() );
     $this->purchaseDBO->setDomainName( $this->post['domainname'] );
+    $this->purchaseDBO->setSecret( $this->post['secret'] );
     $this->setMessage( array( "type" => "DOMAIN_IS_ELIGIBLE",
 			      "args" => array( $fqdn ) ) );
     $this->setTemplate( "transfer" );

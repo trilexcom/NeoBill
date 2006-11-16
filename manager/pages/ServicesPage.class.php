@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once BASE_PATH . "util/services.php";
+require BASE_PATH . "util/services.php";
 
 /**
  * ServicesPage.class.php
@@ -23,7 +23,7 @@ require_once BASE_PATH . "util/services.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServicesPage extends Page
+class ServicesPage extends SolidStatePage
 {
   /**
    * Initialize the Services Page

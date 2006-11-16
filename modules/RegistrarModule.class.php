@@ -12,6 +12,15 @@
 
 require_once BASE_PATH . "modules/SolidStateModule.class.php";
 
+// Exceptions
+class RegistrarException extends SWException 
+{
+  public function __construct( $message )
+  {
+    $this->message = "[REGISTRAR_TRANSACTION_FAILED]. " . $message;
+  }
+}
+
 /**
  * RegistrarModule
  *
@@ -38,7 +47,10 @@ abstract class RegistrarModule extends SolidStateModule
    * @param string $fqdn Domain name
    * @return boolean True if the domain is available to be registered
    */
-  abstract public function checkAvailability( $fqdn );
+  public function checkAvailability( $fqdn )
+  {
+    throw new ModuleOperationNotSupported( "checkAvailability" );
+  }
 
   /**
    * Verify Domain is Transfer Eligible
@@ -46,7 +58,10 @@ abstract class RegistrarModule extends SolidStateModule
    * @param string $fqdn Domain name
    * @return boolean True if the domain is transfer eligible
    */
-  abstract public function isTransferable( $fqdn );
+  public function isTransferable( $fqdn )
+  {
+    throw new ModuleOperationNotSupported( "isTransferable" );
+  }
 
   /**
    * Register a New Domain
@@ -58,7 +73,10 @@ abstract class RegistrarModule extends SolidStateModule
    * @param AccountDBO $accountDBO The account that is registering this domain
    * @return boolean True for success
    */
-  abstract public function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO );
+  public function registerNewDomain( $domainName, $TLD, $term, $contacts, $accountDBO )
+  {
+    throw new ModuleOperationNotSupported( "registerNewDomain" );
+  }  
 
   /**
    * Renew a Domain
@@ -67,7 +85,10 @@ abstract class RegistrarModule extends SolidStateModule
    * @param integer $renewTerms Number of years to renew for
    * @return boolean True for success
    */
-  abstract public function renewDomain( $purchaseDBO, $renewTerms );
+  public function renewDomain( $purchaseDBO, $renewTerms )
+  {
+    throw new ModuleOperationNotSupported( "renewDomain" );
+  }
 
   /**
    * Transfer a Domain
@@ -80,6 +101,9 @@ abstract class RegistrarModule extends SolidStateModule
    * @param AccountDBO $accountDBO The account that is transferring this domain
    * @return boolean True for success
    */
-  abstract public function transferDomain( $domainName, $TLD, $term, $secret, $contacts, $accountDBO );
+  public function transferDomain( $domainName, $TLD, $term, $secret, $contacts, $accountDBO )
+  {
+    throw new ModuleOperationNotSupported( "transferDomain" );
+  }
 }
 ?>

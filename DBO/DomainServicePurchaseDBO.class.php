@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "DBO/PurchaseDBO.class.php";
-
-require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
-
 /**
  * DomainServicePurchaseDBO
  *
@@ -30,37 +24,42 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   /**
    * @var integer DomainServicePurchase ID
    */
-  var $id;
+  protected $id;
 
   /**
    * @var integer Account ID
    */
-  var $accountid;
+  protected $accountid;
 
   /**
    * @var AccountDBO Account that purchased this domain registration
    */
-  var $accountdbo;
+  protected $accountdbo;
 
   /**
    * @var string TLD
    */
-  var $tld;
+  protected $tld;
 
   /**
    * @var DomainServiceDBO Domain registration service purchased
    */
-  var $domainservicedbo;
+  protected $domainservicedbo;
 
   /**
    * @var string Domain name (minus tld)
    */
-  var $domainname;
+  protected $domainname;
 
   /**
    * @var string Expiration date (MySQL DATETIME)
    */
-  var $expiredate;
+  protected $expiredate;
+
+  /**
+   * @var string Domain secret (For transfer purchases)
+   */
+  protected $secret;
 
   /**
    * Convert to a String
@@ -317,6 +316,20 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   function getTitle() { return $this->getFullDomainName(); }
 
   /**
+   * Set Domain Secret (for transfer purchases)
+   *
+   * @param string $secret Domain secret
+   */
+  public function setSecret( $secret ) { $this->secret = $secret; }
+
+  /**
+   * Get Domain Secret (for transfer purchases)
+   *
+   * @return string Domain secret
+   */
+  public function getSecret() { return $this->secret; }
+
+  /**
    * Domain Service's do not automatically recur
    *
    * @return boolean Always false
@@ -348,6 +361,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
     $this->setDomainName( $data['domainname'] );
     $this->setDate( $data['date'] );
     $this->setExpireDate( $data['expiredate'] );
+    $this->setSecret( $data['secret'] );
   }
 }
 
@@ -369,7 +383,8 @@ function add_DomainServicePurchaseDBO( &$dbo )
 				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "expiredate" => $dbo->getExpireDate(),
-				       "accountname" => $dbo->getAccountName() ) );
+				       "accountname" => $dbo->getAccountName(),
+				       "secret" => $dbo->getSecret() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -417,7 +432,8 @@ function update_DomainServicePurchaseDBO( &$dbo )
 				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "expiredate" => $dbo->getExpireDate(),
-				       "accountname" => $dbo->getAccountName() ) );
+				       "accountname" => $dbo->getAccountName(),
+				       "secret" => $dbo->getSecret() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

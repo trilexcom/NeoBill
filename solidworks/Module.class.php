@@ -14,9 +14,15 @@
 class SWModuleException extends SWException
 {
 }
+
+class ModuleOperatinNotSupported extends SWException
+{
+  public function __construct( $operation = "unknown" ) { $this->message = "The requested operation is not supported by this module: " . $operation; }
+}
+
 class ModuleInitFailedException extends SWModuleException
 {
-  public function __construct( $name = "unkown module" ) { $this->message = "Failed to initialize module: " . $name; }
+  public function __construct( $name = "unknown module" ) { $this->message = "Failed to initialize module: " . $name; }
 }
 
 /**

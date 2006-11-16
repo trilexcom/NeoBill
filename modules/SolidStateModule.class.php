@@ -16,7 +16,12 @@ require BASE_PATH . "DBO/ModuleDBO.class.php";
 // Exceptions
 class ModuleInstallFailedException extends SWModuleException
 {
-  public function __construct( $name = "unkown module" ) { $this->message = "Unabled to install module: " . $name; }
+  public function __construct( $name = "unknown module", $message = "Unkown reason" ) 
+  { 
+    $this->message = sprintf( "Failed to install module: %s. (%s).",
+			      $name,
+			      $message );
+  }
 }
 
 /**

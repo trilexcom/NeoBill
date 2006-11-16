@@ -10,6 +10,31 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+// SolidState DBO's
+require BASE_PATH . "DBO/ContactDBO.class.php";
+require BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require BASE_PATH . "DBO/HostingServiceDBO.class.php";
+require BASE_PATH . "DBO/AccountDBO.class.php";
+require BASE_PATH . "DBO/PurchaseDBO.class.php";
+require BASE_PATH . "DBO/HostingServicePurchaseDBO.class.php";
+require BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
+require BASE_PATH . "DBO/InvoiceDBO.class.php";
+require BASE_PATH . "DBO/InvoiceItemDBO.class.php";
+require BASE_PATH . "DBO/IPAddressDBO.class.php";
+// require BASE_PATH . "DBO/LogDBO.class.php";
+// require BASE_PATH . "DBO/ModuleDBO.class.php";
+require BASE_PATH . "DBO/NoteDBO.class.php";
+require BASE_PATH . "DBO/OrderDBO.class.php";
+require BASE_PATH . "DBO/OrderItemDBO.class.php";
+require BASE_PATH . "DBO/OrderDomainDBO.class.php";
+require BASE_PATH . "DBO/OrderHostingDBO.class.php";
+require BASE_PATH . "DBO/PaymentDBO.class.php";
+require BASE_PATH . "DBO/ProductDBO.class.php";
+require BASE_PATH . "DBO/ProductPurchaseDBO.class.php";
+require BASE_PATH . "DBO/ServerDBO.class.php";
+require BASE_PATH . "DBO/TaxRuleDBO.class.php";
+// require BASE_PATH . "DBO/UserDBO.class.php";
+
 // SolidState Widgets
 require BASE_PATH . "widgets/AccountSelectWidget.class.php";
 require BASE_PATH . "widgets/HostingSelectWidget.class.php";

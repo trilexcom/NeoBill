@@ -11,9 +11,9 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once BASE_PATH . "util/billing.php";
+require BASE_PATH . "util/billing.php";
 
 /**
  * HomePage

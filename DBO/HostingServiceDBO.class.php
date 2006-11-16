@@ -10,12 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "solidworks/DBO.class.php";
-
-// Tax Rule DBO
-require_once BASE_PATH . "DBO/TaxRuleDBO.class.php";
-
 /**
  * HostingServiceDBO
  * 

@@ -10,6 +10,7 @@
     <phrase id="ENOM_LIVE_URL">Live URL (reseller.enom.com)</phrase>
     <phrase id="ENOM_PASSWORD">enom Password</phrase>
     <phrase id="ENOM_TEST_URL">Test URL (resellertest.enom.com)</phrase>
+    <phrase id="ENOM_THE_FOLLOWING_ERRORS_WERE">The following error(s) were encountered when contacting Enom</phrase>
     <phrase id="ENOM_USERNAME">enom Username</phrase>
   </translation>
 
