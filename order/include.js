@@ -65,12 +65,3 @@ function billingToTech( form )
       form.tfax.value = "";
     }
 }
-
-function clearDomainOptions( form )
-{
-  form.registerdomainname.value = "";
-  form.registerdomaintld.value = "";
-  form.transferdomainname.value = "";
-  form.transferdomaintld.value = "";
-  form.existingdomainname.value = "";
-}
