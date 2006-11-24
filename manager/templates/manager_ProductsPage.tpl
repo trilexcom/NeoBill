@@ -27,21 +27,21 @@
   {form name="products"}
     {form_table field="products" size="10"}
 
-      {form_table_column columnid="id" header="[ID]"}
-        <a target="content" href="manager_content.php?page=services_view_product&product={$products.id}"> {$products.id} </a>
+      {form_table_column columnid="id" header=""}
+        <center> {form_table_checkbox option=$products.id} </center>
       {/form_table_column}
 
       {form_table_column columnid="name" header="[PRODUCT_NAME]"}
-        <a target="content" href="manager_content.php?page=services_view_product&product={$products.id}"> {$products.name} </a>
+        <a target="content" href="manager_content.php?page=services_edit_product&product={$products.id}"> {$products.name} </a>
       {/form_table_column}
 
-      {form_table_column columnid="price" header="[PRICE]"}
-        {$products.price|currency}
+      {form_table_column columnid="price" header="[PRICING]"}
+        {$products.pricing}
       {/form_table_column}
 
-      {form_table_column columnid="taxable" header="[TAXABLE]"}
-        {$products.taxable}
-      {/form_table_column}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
     
     {/form_table}
   {/form}

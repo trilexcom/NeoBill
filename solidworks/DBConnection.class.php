@@ -84,6 +84,19 @@ class DBConnection
   }
 
   /**
+   * Format DATE
+   *
+   * Convert a UNIX timestamp into a MySQL DATE
+   *
+   * @param integer $timestamp UNIX timestamp
+   * @return string MySQL DATE
+   */
+  function format_date( $timestamp )
+  {
+    return date( "Y-m-d", $timestamp );
+  }
+
+  /**
    * Format DATETIME
    *
    * Convert a UNIX timestamp into a MySQL DATETIME
@@ -95,6 +108,25 @@ class DBConnection
   {
     return date( "Y-m-d H:i:s",
 		 $timestamp );
+  }
+
+  /**
+   * MySQL DATE to UNIX timestamp
+   *
+   * Convert a MySQL DATE into a UNIX timestamp
+   *
+   * @param string $datetime MySQL DATE
+   * @return integer UNIX timestamp
+   */
+  function date_to_unix( $datetime )
+  {
+    // Parse the datetime
+    $year   = intval( substr( $datetime, 0, 4 ) );
+    $month  = intval( substr( $datetime, 5, 2 ) );
+    $day    = intval( substr( $datetime, 8, 2 ) );
+
+    // Convert to a timestamp a la Unix
+    return mktime( 0, 0, 1, $month, $day, $year );
   }
 
   /**

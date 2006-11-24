@@ -19,68 +19,184 @@
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PurchaseDBO extends DBO
+abstract class PurchaseDBO extends DBO
 {
+  /**
+   * @var integer Account ID
+   */
+  protected $accountid;
+
+  /**
+   * @var AccountDBO Account
+   */
+  protected $accountdbo;
+
   /**
    * @var string Purchase date (MySQL datetime)
    */
-  var $date = null;
+  protected $date = null;
 
   /**
-   * @var string Purchase term ("1 month", "3 month", ..., "10 year")
+   * @var string The next day that this purchase will be billed on
    */
-  var $term = null;
+  protected $nextBillingDate = null;
 
   /**
-   * Calculate Tax
-   *
-   * Given a Tax Rule, determine the amount of tax on this purchase
-   *
-   * @param TaxRuleDBO $taxruledbo Tax rule
-   * @return float Amount of tax
+   * @var integer ID of the last invoice this purchase was billed on
    */
-  function calculateTax( $taxruledbo )
+  protected $prevInvoiceID = null;
+
+  /**
+   * @var PurchasableDBO The purchased item
+   */
+  protected $purchasable = null;
+
+  /**
+   * @var string Purchase term length (in months)
+   */
+  protected $term = null;
+
+  /**
+   * Constructor
+   */
+  public function __construct()
   {
-    return $this->getPrice() * ($taxruledbo->getRate() / 100.00);
+    global $DB;
+
+    // Initialize the next payment date to today
+    $this->setNextBillingDate( $DB->format_date( time() ) );
   }
+
+  /**
+   * Get Account ID
+   *
+   * @return integer Account ID
+   */
+  public function getAccountID() { return $this->accountid; }
+
+  /**
+   * Get Account Name
+   *
+   * @return string Account Name
+   */
+  public function getAccountName() { return $this->accountdbo->getAccountName(); }
 
   /**
    * Get Purchase Date
    *
    * @return string Purchase date (MySQL datetime)
    */
-  function getDate()
+  public function getDate()
   {
     return $this->date;
   }
 
   /**
-   * Get Price
+   * Get Next Billing Date
    *
-   * @return float Price of this purchase
+   * @return string The next billing date for this purchase (MySQL DATETIME)
    */
-  function getPrice() { return 0; }
+  public function getNextBillingDate() { return $this->nextBillingDate; }
 
   /**
-   * Get Setup Fee
+   * Get Previous Invoice ID
    *
-   * @return float Setup fee
+   * @return integer The ID of the invoice this purchase last appeared on
    */
-  function getSetupFee() { return 0; }
+  public function getPrevInvoiceID() { return $this->prevInvoiceID; }
 
   /**
-   * Get Taxes
+   * Get Onetime price
+   *
+   * @return float Onetime price or null if none exists
+   */
+  public function getOnetimePrice()
+  {
+    $prices = $this->purchasable->getPricing( "Onetime" );
+    if( empty( $prices ) )
+      {
+	return null;
+      }
+
+    return $prices[0]->getPrice();
+  }
+
+  /**
+   * Get Taxes on Onetime Price
+   *
+   * @return float Total amount due for taxes on the onetime price
+   */
+  public function getOnetimeTaxes()
+  {
+    $priceDBO = array_shift( $this->purchasable->getPricing( "Onetime" ) );
+    if( $priceDBO == null || !$priceDBO->isTaxable() )
+      {
+	return 0;
+      }
+
+    $taxes = 0.00;
+    foreach( $this->getTaxRules() as $taxRuleDBO )
+      {
+	$taxes += $this->getOnetimePrice() * ($taxRuleDBO->getRate() / 100.00);
+      }
+
+    return $taxes;
+  }
+
+  /**
+   * Get Purchasable
+   *
+   * @return PurchasableDBO Returns the purchasable
+   */
+  public function getPurchasable() { return $this->purchasable; }
+
+  /**
+   * Get Recurring Price
+   *
+   * @return float Recurring price of this purchase or null if none exists
+   */
+  public function getRecurringPrice()
+  {
+    $prices = $this->purchasable->getPricing( "Recurring", $this->getTerm() );
+    if( empty( $prices ) )
+      {
+	return null;
+      }
+
+    return $prices[0]->getPrice();
+  }
+
+  /**
+   * Get Taxes on Recurring Price
+   *
+   * @return float Total amount due for taxes on the recurring price
+   */
+  public function getRecurringTaxes()
+  {
+    $priceDBO = array_shift( $this->purchasable->getPricing( "Recurring", 
+							     $this->getTerm() ) );
+    if( $priceDBO == null || !$priceDBO->isTaxable() )
+      {
+	return 0;
+      }
+
+    $taxes = 0.00;
+    foreach( $this->getTaxRules() as $taxRuleDBO )
+      {
+	$taxes += $this->getRecurringPrice() * ($taxRuleDBO->getRate() / 100.00);
+      }
+
+    return $taxes;
+  }
+
+  /**
+   * Get Tax Rules
    *
    * @return array An array of tax rules that apply to this purchase
    */
-  function getTaxes() 
+  protected function getTaxRules() 
   { 
     global $DB;
-
-    if( !$this->isTaxable() )
-      {
-	return array(); 
-      }
 
     $filter = 
       "country=" . $DB->quote_smart( $this->accountdbo->getCountry() ) . " AND (" .
@@ -94,168 +210,69 @@ class PurchaseDBO extends DBO
   /**
    * Get Purchase Term
    *
-   * @return string Purchase term (as string: "1 month", "3 month", etc.)
+   * @return integer Purchase term length (in months)
    */
-  function getTerm() { return $this->term; }
-
-  /**
-   * Get Purchase Term (in months)
-   *
-   * Gives the length of the purchase terms in months.
-   *
-   * @return integer Length of the purchase term in months
-   */
-  function getTermMonths()
-  {
-    switch( $this->getTerm() )
-      {
-      case "1 month": return 1;
-      case "3 month": return 3;
-      case "6 month": return 6;
-      case "12 month":
-      case "1 year": return 12;
-      case "2 year": return 24;
-      case "3 year": return 36;
-      case "4 year": return 48;
-      case "5 year": return 60;
-      case "6 year": return 72;
-      case "7 year": return 84;
-      case "8 year": return 96;
-      case "9 year": return 108;
-      case "10 year": return 120;
-      default: return 0;
-      }
-  }
+  public function getTerm() { return $this->term; }
 
   /**
    * Get Product/Service Title
    *
    * @return string Product/Service title
    */
-  function getTitle() { return null; }
+  abstract function getTitle();
 
   /**
-   * Is Billable This Term
+   * Set Account ID
    *
-   * Takes two timestamps: the beginning of an invoice term and the end of an
-   * invoice term.  If this purchase is billable during the period, return true.
-   *
-   * @param integer $periodBeginTS The beginning of the billing period (timestamp)
-   * @param integer $periodEndTS The end of the billing period (timestamp)
-   * @return boolean True if this purchase should be billed
+   * @param integer $id Account ID
    */
-  function isBillable( $periodBeginTS, $periodEndTS )
+  public function setAccountID( $id )
   {
-    global $DB;
-
-    $purchaseTS = $DB->datetime_to_unix( $this->getDate() );
-
-    if( $periodEndTS < $purchaseTS )
+    $this->accountid = $id;
+    if( ($this->accountdbo = load_AccountDBO( $id )) == null )
       {
-	// This invoice bills before this purchases existed
-	return false;
+	fatal_error( "ProductPurchaseDBO::setAccountID()",
+		     "could not load AccountDBO for AccountPurchaseDBO, id = " . $id );
       }
-    if( $this->isNewThisTerm( $periodBeginTS, $periodEndTS ) )
-      {
-	// This purchase is new this billing term
-	return true;
-      }
-
-    if( !$this->isRecurring() )
-      {
-	// Only recurring purchases are tested beyond this point
-	return false;
-      }
-
-    // Calcuate the distance (in months) between the purchase date and the beginning
-    // (and end) of the invoice period
-    $yearDiff1 = date('y', $periodBeginTS) - date('y', $purchaseTS) ;
-    $monthDiff1 = date('m', $periodBeginTS) - date('m', $purchaseTS) + ($yearDiff * 12);
-    $monthDiff1 = $monthDiff1 < 0 ? $monthDiff1 + 12 : $monthDiff1;
-
-    $yearDiff2 = date('y', $periodEndTS) - date('y', $purchaseTS) ;
-    $monthDiff2 = date('m', $periodEndTS) - date('m', $purchaseTS) + ($yearDiff * 12);
-    $monthDiff2 = $monthDiff2 < 0 ? $monthDiff2 + 12 : $monthDiff2;
-
-    // These truths help determine if the purchases recurs during the invoice period
-
-    $purchasedSameMonthButBeforePeriodBegins =
-      ($monthDiff1 == 0) && (date( 'j', $purchaseTS ) < date( 'j', $periodBeginTS ));
-
-    $recursAfterPeriodBegins = 
-      (($monthDiff1 % $this->getTermMonths() == 0) &&
-       (date( 'j', $purchaseTS ) >= date( 'j', $periodBeginTS ))) ||
-      (($monthDiff1 % $this->getTermMonths() == 0 ||
-	$monthDiff2 % $this->getTermMonths() == 0 ||
-	$monthDiff1 % $this->getTermMonths() == $monthDiff1) &&
-       (date( 'j', $purchaseTS ) < date( 'j', $periodBeginTS )));
-
-    $recursBeforePeriodEnds =
-      (($monthDiff2 % $this->getTermMonths() == 0) && 
-       (date( 'j', $purchaseTS ) < date( 'j', $periodEndTS ))) ||
-      (($monthDiff2 % $this->getTermMonths() == 0 ||
-	$monthDiff2 % $this->getTermMonths() == 1) &&
-       (date( 'j', $purchaseTS ) >= date( 'j', $periodEndTS )));
-
-    // Usefull for debugging
-    /*
-    echo $this->getTitle() . ": " .
-      !($purchasedSameMonthButBeforePeriodBegins && !$recursBeforePeriodEnds) . "/" .
-      $recursAfterPeriodBegins . "/" .
-      $recursBeforePeriodEnds . " monthDiff2: " . $monthDiff2 % $this->getTermMonths() . "\n";
-    */
-
-    // Test if this purchase recurs during the invoice period using the truths
-    // calculated above
-    return !($purchasedSameMonthButBeforePeriodBegins && !$recursBeforePeriodEnds) && 
-      ($recursAfterPeriodBegins && $recursBeforePeriodEnds);
   }
-
-  /**
-   * Is New Purchase This Term
-   *
-   * Takes two timestamps: the beginning of an invoice term and then end of an
-   * invoice term.  If this purchase was made during the period, return true.
-   *
-   * @param integer $periodBeginTS The beginning of the billing period (timestamp)
-   * @param integer $periodEndTS The end of the billing period (timestamp)
-   * @return boolean True if this purchase should be billed
-   */
-  function isNewThisTerm( $periodBeginTS, $periodEndTS )
-  {
-    global $DB;
-
-    $purchaseTS = $DB->datetime_to_unix( $this->getDate() );
-    return ($purchaseTS >= $periodBeginTS) && ($purchaseTS < $periodEndTS);
-  }
-
-  /**
-   * Is Recurring
-   *
-   * @return boolean True if this purchase is a recurring purchase
-   */
-  function isRecurring() { return $this->getTermMonths() > 0; }
-
-  /**
-   * Is Taxable
-   *
-   * @return boolean True if this purchase is taxable
-   */
-  function isTaxable() { return false; }
 
   /**
    * Set Purchase Date
    *
    * @param string $date Purchase date (MySQL datetime)
    */
-  function setDate( $date ) { $this->date = $date; }
+  public function setDate( $date ) { $this->date = $date; }
+
+  /**
+   * Set Next Billing Date
+   *
+   * @param string The next billing date for this purchase (MySQL DATETIME)
+   */
+  public function setNextBillingDate( $date ) { $this->nextBillingDate = $date; }
+
+  /**
+   * Set Previous Invoice ID
+   *
+   * @param integer The ID of the Invoice this purchase last appeared on
+   */
+  public function setPrevInvoiceID( $id ) { $this->prevInvoiceID = $id; }
+
+  /**
+   * Set Purchasable
+   *
+   * @param PurchasableDBO The purchased item
+   */
+  public function setPurchasable( PurchasableDBO $purchasable )
+  {
+    $this->purchasable = $purchasable;
+  }
 
   /**
    * Set Purchase Term
    *
-   * @param string $term Purchase term ("1 year", "2 year" ... "10 year")
+   * @param integer $term Purchase term (in months)
    */
-  function setTerm( $term ) { $this->term = $term; }
+  public function setTerm( $term ) { $this->term = $term; }
 }
 
 ?>

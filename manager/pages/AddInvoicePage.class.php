@@ -11,11 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// DBO's
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
-require_once BASE_PATH . "DBO/InvoiceDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * AddInvoicePage
@@ -95,21 +91,12 @@ class AddInvoicePage extends SolidStatepage
     $account_id = isset( $this->get['account'] ) ?
       $this->get['account']->getID() : $this->post['account']->getID();
 
-    // Calculate the end of the invoice period by adding 1 month to the beginning
-    $period_begin_arr = getdate( $this->post['periodbegin'] );
-    $period_end = mktime( $period_begin_arr['hours'],
-			  $period_begin_arr['minutes'],
-			  $period_begin_arr['seconds'],
-			  $period_begin_arr['mon'] + 1 > 12 ? 1 : $period_begin_arr['mon'] + 1,
-			  $period_begin_arr['mday'],
-			  $period_begin_arr['mon'] + 1 > 12 ? $period_begin_arr['year'] + 1 : $period_begin_arr['year'] );
-
     // Create a new invoice DBO
     $invoice = new InvoiceDBO();
     $invoice->setAccountID( $account_id );
     $invoice->setDate( $this->DB->format_datetime( $this->post['date'] ) );
     $invoice->setPeriodBegin( $this->DB->format_datetime( $this->post['periodbegin'] ) );
-    $invoice->setPeriodEnd( $this->DB->format_datetime( $period_end ) );
+    $invoice->setPeriodEnd( $this->DB->format_datetime( $this->post['periodend'] ) );
     $invoice->setNote( $this->post['note'] );
     $invoice->setTerms( $this->post['terms'] );
 

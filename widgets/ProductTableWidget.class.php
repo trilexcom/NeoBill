@@ -25,6 +25,8 @@ class ProductTableWidget extends TableWidget
    */
   public function init( $params ) 
   { 
+    global $conf;
+
     parent::init( $params );
 
     // Load the Product Table
@@ -33,13 +35,25 @@ class ProductTableWidget extends TableWidget
 	// Build the table
 	foreach( $products as $dbo )
 	  {
+	    // Format the pricing for this hosting service
+	    $priceString = "";
+	    $prices = array_merge( $dbo->getPricing( "Onetime" ),
+				   $dbo->getPricing( "Recurring" ) );
+	    foreach( $prices as $priceDBO )
+	      {
+		$price = sprintf( "%s%01.2f", $conf['locale']['currency_symbol'],
+				  $priceDBO->getPrice() );
+		$priceString .= $priceDBO->getType() == "Onetime" ? 
+		  sprintf( "[ONETIME]: %s<br/>", $price ) :
+		  sprintf( "%d [MONTHS]: %s<br/>", $priceDBO->getTermLength(), $price );
+	      }
+
 	    // Put the row into the table
 	    $this->data[] = 
 	      array( "id" => $dbo->getID(),
 		     "name" => $dbo->getName(),
 		     "description" => $dbo->getDescription(),
-		     "price" => $dbo->getPrice(),
-		     "taxable" => $dbo->getTaxable() );
+		     "pricing" => $priceString );
 	  }
       }
   }

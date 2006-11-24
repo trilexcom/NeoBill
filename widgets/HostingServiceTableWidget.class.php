@@ -25,6 +25,8 @@ class HostingServiceTableWidget extends TableWidget
    */
   public function init( $params ) 
   { 
+    global $conf;
+
     parent::init( $params );
 
     // Load the HostingService Table
@@ -33,21 +35,26 @@ class HostingServiceTableWidget extends TableWidget
 	// Build the table
 	foreach( $services as $dbo )
 	  {
+	    // Format the pricing for this hosting service
+	    $priceString = "";
+	    $prices = array_merge( $dbo->getPricing( "Onetime" ),
+				   $dbo->getPricing( "Recurring" ) );
+	    foreach( $prices as $priceDBO )
+	      {
+		$price = sprintf( "%s%01.2f", $conf['locale']['currency_symbol'],
+				  $priceDBO->getPrice() );
+		$priceString .= $priceDBO->getType() == "Onetime" ? 
+		  sprintf( "[ONETIME]: %s<br/>", $price ) :
+		  sprintf( "%d [MONTHS]: %s<br/>", $priceDBO->getTermLength(), $price );
+	      }
+
 	    // Put the row into the table
 	    $this->data[] = 
 	      array( "id" => $dbo->getID(),
 		     "title" => $dbo->getTitle(),
 		     "description" => $dbo->getDescription(),
 		     "uniqueip" => $dbo->getUniqueIP(),
-		     "setupprice1mo" => $dbo->getSetupPrice1mo(),
-		     "setupprice3mo" =>  $dbo->getSetupPrice3mo(),
-		     "setupprice6mo" => $dbo->getSetupPrice6mo(),
-		     "setupprice12mo" => $dbo->getSetupPrice12mo(),
-		     "price1mo" => $dbo->getPrice1mo(),
-		     "price3mo" => $dbo->getPrice3mo(),
-		     "price6mo" => $dbo->getPrice6mo(),
-		     "price12mo" => $dbo->getPrice12mo(),
-		     "taxable" => $dbo->getTaxable() );
+		     "pricing" => $priceString );
 	  }
       }
   }

@@ -37,6 +37,7 @@
     <phrase id="ADD_LINE_ITEM">Add Line Item</phrase>
     <phrase id="ADD_NEW_USER">Add New User</phrase>
     <phrase id="ADD_NOTE">Add Note</phrase>
+    <phrase id="ADD_OR_UPDATE_PRICE">Add / Update Price</phrase>
     <phrase id="ADD_PRODUCT">Add Product</phrase>
     <phrase id="ADD_SERVER">Add Server</phrase>
     <phrase id="ADD_SERVER_PAGE">Add Server Page</phrase>
@@ -136,6 +137,7 @@
     <phrase id="DOMAIN_SERVICE">Domain Service</phrase>
     <phrase id="DOMAIN_TRANSFER">Domain Transfer</phrase>
     <phrase id="DOMAIN_SERVICES">Domain Services</phrase>
+    <phrase id="DOMAIN_SERVICES_DELETED">Domain Service(s) Deleted</phrase>
     <phrase id="DOMAINS_SUMMARTY">Domains Summary</phrase>
     <phrase id="DO_NOT_BILL">Do Not Bill</phrase>
     <phrase id="EDIT">Edit</phrase>
@@ -154,6 +156,7 @@
     <phrase id="ENABLED">Enabled</phrase>
     <phrase id="END_ADDRESS">End Address</phrase>
     <phrase id="ENDING_ADDRESS">End Address</phrase>
+    <phrase id="END_OF_INVOICE_PERIOD">End of Invoice Period</phrase>
     <phrase id="ENTER_PAYMENT">Enter Payment</phrase>
     <phrase id="EXECUTE">Execute</phrase>
     <phrase id="EXECUTE_ORDER">Execute Order</phrase>
@@ -182,6 +185,7 @@
     <phrase id="INVOICE_BALANCE">Invoice Balance</phrase>
     <phrase id="INVOICE_DATE">Invoice Date</phrase>
     <phrase id="INVOICE_EMAIL_SUBJECT">Invoice E-mail Subject</phrase>
+    <phrase id="INVOICE_PERIOD">Invoice Period</phrase>
     <phrase id="INVOICE_TEXT">Invoice Text</phrase>
     <phrase id="INVOICE_TO_PAY">Invoice to Pay</phrase>
     <phrase id="INVOICE_TOTAL">Invoice Total</phrase>
@@ -230,6 +234,8 @@
     <phrase id="NOTIFICATION_EMAIL">Notification E-mail</phrase>
     <phrase id="NOT_REQUIRED">Not Required</phrase>
     <phrase id="ON">on</phrase>
+    <phrase id="ONETIME">Onetime</phrase>
+    <phrase id="ONETIME_PRICE">Onetime Price</phrase>
     <phrase id="ONLY_SUPPLY_A_PASSWORD">Only supply a password if you want to overide the password provided by the customer.</phrase>
     <phrase id="ORDER">Order</phrase>
     <phrase id="ORDER_CONFIRMATION_EMAIL">Order Confirmation E-Mail</phrase>
@@ -267,16 +273,22 @@
     <phrase id="PHONE">Phone</phrase>
     <phrase id="POSTED">Posted</phrase>
     <phrase id="PRICE">Price</phrase>
+    <phrase id="PRICE_ADDED">Price Added</phrase>
+    <phrase id="PRICE_DELETED">Price(s) Deleted</phrase>
+    <phrase id="PRICE_UPDATED">Price Updated</phrase>
+    <phrase id="PRICING">Pricing</phrase>
     <phrase id="PRICING_FOR">Pricing for</phrase>
     <phrase id="PRINT">Print</phrase>
     <phrase id="PRODUCT">Product</phrase>
     <phrase id="PRODUCTS">Products</phrase>
+    <phrase id="PRODUCTS_DELETED">Product(s) Deleted</phrase>
     <phrase id="PRODUCT_NAME">Product Name</phrase>
     <phrase id="PRODUCTS_SERVICES">Products &amp; Services</phrase>
     <phrase id="PRODUCTS_SERVICES_SUMMARY">Products &amp; Services Summary</phrase>
     <phrase id="PURCHASED">Purchased</phrase>
     <phrase id="QUANTITY">Quantity</phrase>
     <phrase id="RECEIVE_PAYMENT">Receive Payment</phrase>
+    <phrase id="RECURRING">Recurring</phrase>
     <phrase id="RECURRING_PRICE">Recurring Price</phrase>
     <phrase id="REENTER_PASSWORD">Re-enter Password</phrase>
     <phrase id="REFUND_PAYMENT">Refund Payment</phrase>
@@ -329,8 +341,11 @@
     <phrase id="TAX_RATE">Tax Rate</phrase>
     <phrase id="TAX_RULES">Tax Rules</phrase>
     <phrase id="TERM">Term</phrase>
+    <phrase id="TERM_LENGTH">Term Length</phrase>
+    <phrase id="TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO">The term length for a onetime price must be zero</phrase>
     <phrase id="TERMS_DAYS">Terms (days)</phrase>
     <phrase id="THERE_ARE_NO_GATEWAY_MODULES">There are no payment gateway modules enabled.</phrase>
+    <phrase id="THERE_ARE_NO_HOSTING_SERVICES">There are no hosting services configured.</phrase>
     <phrase id="TITLE">Title</phrase>
     <phrase id="TOTAL">Total</phrase>
     <phrase id="TOTAL_OUTSTANDING_INVOICES">Total outstanding invoices</phrase>
@@ -463,7 +478,7 @@
     <phrase id="DOMAIN_SERVICE_UPDATED">Changes saved to Domain Service</phrase>
     <phrase id="HOSTING_SERVICE_ADDED">Created new Hosting Service</phrase>
     <phrase id="HOSTING_SERVICE_UPDATED">Changes saved to Hosting Service</phrase>
-    <phrase id="HOSTING_SERVICE_DELETED">Deleted Hosting Service: {0}</phrase>
+    <phrase id="HOSTING_SERVICES_DELETED">Deleted Hosting Service(s)</phrase>
     <phrase id="PRODUCT_ADDED">Created new Product</phrase>
     <phrase id="PRODUCT_UPDATED">Changes saved to Product</phrase>
     <phrase id="PRODUCT_DELETED">Product Deleted: {0}</phrase>

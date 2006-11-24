@@ -19,309 +19,85 @@
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DomainServiceDBO extends DBO
+class DomainServiceDBO extends PurchasableDBO
 {
   /**
    * @var string Top Level Domain
    */
-  var $tld;
+  protected $tld;
 
   /**
    * @var string Name of the domain_registrar module that handles this TLD
    */
-  var $modulename;
+  protected $modulename;
 
   /**
    * @var string Service description
    */
-  var $description;
-
-  /**
-   * @var double Price for 1 year registration
-   */
-  var $price1yr;
-
-  /**
-   * @var double Price for 2 year registration
-   */
-  var $price2yr;
-
-  /**
-   * @var double Price for 3 year registration
-   */
-  var $price3yr;
-
-  /**
-   * @var double Price for 4 year registration
-   */
-  var $price4yr;
-
-  /**
-   * @var double Price for 5 year registration
-   */
-  var $price5yr;
-
-  /**
-   * @var double Price for 6 year registration
-   */
-  var $price6yr;
-
-  /**
-   * @var double Price for 7 year registration
-   */
-  var $price7yr;
-
-  /**
-   * @var double Price for 8 year registration
-   */
-  var $price8yr;
-
-  /**
-   * @var double Price for 9 year registration
-   */
-  var $price9yr;
-
-  /**
-   * @var double Price for 10 year registration
-   */
-  var $price10yr;
-
-  /**
-   * @var string Taxable flag
-   */
-  var $taxable;
+  protected $description;
 
   /**
    * Convert to a String
    *
    * @return string The TLD this service is for
    */
-  function __toString() { return $this->getTLD(); }
+  public function __toString() { return $this->getTLD(); }
 
   /**
    * Set Top Level Domain (key field)
    *
    * @param string $tld Top Level Domain
    */
-  function setTLD( $tld ) { $this->tld = $tld; }
+  public function setTLD( $tld ) { $this->tld = $tld; }
 
   /**
    * Get Top Level Domain (key field)
    *
    * @return string Top Level Domain
    */
-  function getTLD() { return $this->tld; }
+  public function getTLD() { return $this->tld; }
   
   /**
    * Set Module Name
    *
    * @param string $module Module name
    */
-  function setModuleName( $modulename ) { $this->modulename = $modulename; }
+  public function setModuleName( $modulename ) { $this->modulename = $modulename; }
 
   /**
    * Get Module Name
    *
    * @return string Module name
    */
-  function getModuleName() { return $this->modulename; }
+  public function getModuleName() { return $this->modulename; }
 
   /**
    * Set Description
    *
    * @param string $description Description
    */
-  function setDescription( $description ) { $this->description = $description; }
+  public function setDescription( $description ) { $this->description = $description; }
 
   /**
    * Get Description
    *
    * @return string Description
    */
-  function getDescription() { return $this->description; }
-
-  /**
-   * Set Price (1 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice1yr( $price ) { $this->price1yr = $price; }
-
-  /**
-   * Get Price (1 year term)
-   *
-   * @return double Price
-   */
-  function getPrice1yr() { return $this->price1yr; }
-
-  /**
-   * Set Price (2 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice2yr( $price ) { $this->price2yr = $price; }
-
-  /**
-   * Get Price (2 year term)
-   *
-   * @return double Price
-   */
-  function getPrice2yr() { return $this->price2yr; }
-
-  /**
-   * Set Price (3 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice3yr( $price ) { $this->price3yr = $price; }
-
-  /**
-   * Get Price (3 year term)
-   *
-   * @return double Price
-   */
-  function getPrice3yr() { return $this->price3yr; }
-
-  /**
-   * Set Price (4 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice4yr( $price ) { $this->price4yr = $price; }
-
-  /**
-   * Get Price (4 year term)
-   *
-   * @return double Price
-   */
-  function getPrice4yr() { return $this->price4yr; }
-
-  /**
-   * Set Price (5 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice5yr( $price ) { $this->price5yr = $price; }
-
-  /**
-   * Get Price (5 year term)
-   *
-   * @return double Price
-   */
-  function getPrice5yr() { return $this->price5yr; }
-
-  /**
-   * Set Price (6 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice6yr( $price ) { $this->price6yr = $price; }
-
-  /**
-   * Get Price (6 year term)
-   *
-   * @return double Price
-   */
-  function getPrice6yr() { return $this->price6yr; }
-
-  /**
-   * Set Price (7 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice7yr( $price ) { $this->price7yr = $price; }
-
-  /**
-   * Get Price (7 year term)
-   *
-   * @return double Price
-   */
-  function getPrice7yr() { return $this->price7yr; }
-
-  /**
-   * Set Price (8 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice8yr( $price ) { $this->price8yr = $price; }
-
-  /**
-   * Get Price (8 year term)
-   *
-   * @return double Price
-   */
-  function getPrice8yr() { return $this->price8yr; }
-
-  /**
-   * Set Price (9 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice9yr( $price ) { $this->price9yr = $price; }
-
-  /**
-   * Get Price (9 year term)
-   *
-   * @return double Price
-   */
-  function getPrice9yr() { return $this->price9yr; }
-
-  /**
-   * Set Price (10 year term)
-   *
-   * @param double $price Price
-   */
-  function setPrice10yr( $price ) { $this->price10yr = $price; }
-
-  /**
-   * Get Price (10 year term)
-   *
-   * @return double Price
-   */
-  function getPrice10yr() { return $this->price10yr; }
-
-  /**
-   * Set Taxable Flag
-   * 
-   * @param string $taxable Taxable flag (Yes or No)
-   */
-  function setTaxable( $taxable )
-  {
-    if( !($taxable == "Yes" || $taxable == "No" ) )
-      {
-	fatal_error( "DomainServiceDBO::setTaxable", "Invalid value: " . $taxable );
-      }
-    $this->taxable = $taxable;
-  }
-
-  /**
-   * Get Taxable Flag
-   *
-   * @return string Taxable flag (Yes or No)
-   */
-  function getTaxable() { return $this->taxable; }
+  public function getDescription() { return $this->description; }
 
   /**
    * Load member data from an array
    *
    * @param array $data Data to load
    */
-  function load( $data )
+  public function load( $data )
   {
-    $this->setTLD( $data['tld'] );
-    $this->setModuleName( $data['modulename'] );
-    $this->setDescription( $data['description'] );
-    $this->setPrice1yr( $data['price1yr'] );
-    $this->setPrice2yr( $data['price2yr'] );
-    $this->setPrice3yr( $data['price3yr'] );
-    $this->setPrice4yr( $data['price4yr'] );
-    $this->setPrice5yr( $data['price5yr'] );
-    $this->setPrice6yr( $data['price6yr'] );
-    $this->setPrice7yr( $data['price7yr'] );
-    $this->setPrice8yr( $data['price8yr'] );
-    $this->setPrice9yr( $data['price9yr'] );
-    $this->setPrice10yr( $data['price10yr'] );
-    $this->setTaxable( $data['taxable'] );
+    // Load the record date
+    parent::load( $data );
+
+    // Load service pricing
+    $this->prices = load_array_DomainServicePriceDBO( sprintf( "tld='%s'", 
+							       $this->getTLD() ) );
   }
 }
 
@@ -339,21 +115,25 @@ function add_DomainServiceDBO( &$dbo )
   $sql = $DB->build_insert_sql( "domainservice",
 				array( "tld" => $dbo->getTLD(),
 				       "modulename" => $dbo->getModuleName(),
-				       "description" => $dbo->getDescription(),
-				       "price1yr" => $dbo->getPrice1yr(),
-				       "price2yr" => $dbo->getPrice2yr(),
-				       "price3yr" => $dbo->getPrice3yr(),
-				       "price4yr" => $dbo->getPrice4yr(),
-				       "price5yr" => $dbo->getPrice5yr(),
-				       "price6yr" => $dbo->getPrice6yr(),
-				       "price7yr" => $dbo->getPrice7yr(),
-				       "price8yr" => $dbo->getPrice8yr(),
-				       "price9yr" => $dbo->getPrice9yr(),
-				       "price10yr" => $dbo->getPrice10yr(),
-				       "taxable" => $dbo->getTaxable() ) );
+				       "description" => $dbo->getDescription() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      return false;
+    }
+
+  // Add all the PriceDBO's for this object
+  foreach( $dbo->getPricing() as $price )
+    {
+      if( !add_DomainServicePriceDBO( $price ) )
+	{
+	  throw new SWException( "Failed to add price DBO to database: " . 
+				 mysql_error() );
+	}
+    }
+
+  return true;
 }
 
 /**
@@ -370,18 +150,7 @@ function update_DomainServiceDBO( &$dbo )
   $sql = $DB->build_update_sql( "domainservice",
 				"tld = " . $DB->quote_smart( $dbo->getTLD() ),
 				array( "modulename" => $dbo->getModuleName(),
-				       "description" => $dbo->getDescription(),
-				       "price1yr" => $dbo->getPrice1yr(),
-				       "price2yr" => $dbo->getPrice2yr(),
-				       "price3yr" => $dbo->getPrice3yr(),
-				       "price4yr" => $dbo->getPrice4yr(),
-				       "price5yr" => $dbo->getPrice5yr(),
-				       "price6yr" => $dbo->getPrice6yr(),
-				       "price7yr" => $dbo->getPrice7yr(),
-				       "price8yr" => $dbo->getPrice8yr(),
-				       "price9yr" => $dbo->getPrice9yr(),
-				       "price10yr" => $dbo->getPrice10yr(),
-				       "taxable" => $dbo->getTaxable() ) );
+				       "description" => $dbo->getDescription() ) );
 				
   // Run query
   return mysql_query( $sql, $DB->handle() );
@@ -478,7 +247,7 @@ function &load_array_DomainServiceDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_DomainServiceDBO", "SELECT failure" );
+      fatal_error( "load_array_DomainServiceDBO", "Domain Service SELECT failure" );
     }
 
   if( mysql_num_rows( $result ) == 0 )

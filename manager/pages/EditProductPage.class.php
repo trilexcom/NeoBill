@@ -37,6 +37,10 @@ class EditProductPage extends SolidStateAdminPage
 
     // Store service DBO in session
     $this->session['product_dbo'] =& $this->get['product'];
+
+    // Setup the pricing table
+    $ptw = $this->forms['edit_product_pricing']->getField( "prices" )->getWidget();
+    $ptw->setPrices( $this->get['product']->getPricing() );
   }
 
   /**
@@ -64,10 +68,76 @@ class EditProductPage extends SolidStateAdminPage
 	  }
 	break;
 
+      case "edit_product_pricing":
+	if( isset( $this->post['delete'] ) )
+	  {
+	    $this->deletePrice();
+	  }
+
+      case "edit_product_add_price":
+	if( isset( $this->post['add'] ) )
+	  {
+	    $this->addPrice();
+	  }
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
+  }
+
+  /**
+   * Add Price
+   */
+  protected function addPrice()
+  {
+    if( $this->post['type'] == "Onetime" && $this->post['termlength'] != 0 )
+      {
+	throw new SWUserException( "[TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO]" );
+      }
+    if( $this->post['type'] == "Recurring" && $this->post['termlength'] == 0 )
+      {
+	throw new SWUserException( "[TERMLENGTH_FOR_RECURRING_MUST_NOT_BE_ZERO]" );
+      }
+    $priceDBO = new ProductPriceDBO();
+    $priceDBO->setProductID( $this->get['product']->getID() );
+    $priceDBO->setType( $this->post['type'] );
+    $priceDBO->setTermLength( $this->post['termlength'] );
+    $priceDBO->setPrice( $this->post['price'] );
+    $priceDBO->setTaxable( $this->post['taxable'] );
+
+    try
+      {
+	$this->get['product']->addPrice( $priceDBO );
+	if( !add_ProductPriceDBO( $priceDBO ) )
+	  {
+	    throw new SWException( "Failed to add price to database: " . 
+				   mysql_error() );
+	  }
+	$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
+      }
+    catch( DuplicatePriceException $e )
+      {
+	update_ProductPriceDBO( $priceDBO );
+	$this->setMessage( array( "type" => "[PRICE_UPDATED]" ) );
+      }
+
+    $this->reload();
+  }
+
+  /**
+   * Delete Price
+   */
+  protected function deletePrice()
+  {
+    foreach( $this->post['prices'] as $price )
+      {
+	delete_ProductPriceDBO( $price );
+      }
+
+    $this->setMessage( array( "type" => "[PRICES_DELETED]" ) );
+    $this->reload();
   }
 
   /**
@@ -83,8 +153,6 @@ class EditProductPage extends SolidStateAdminPage
     // Update DBO
     $product_dbo->setName( $this->post['name'] );
     $product_dbo->setDescription( $this->post['description'] );
-    $product_dbo->setPrice( $this->post['price'] );
-    $product_dbo->setTaxable( $this->post['taxable'] );
     if( !update_ProductDBO( $product_dbo ) )
       {
 	// Error

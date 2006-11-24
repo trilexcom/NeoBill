@@ -20,8 +20,11 @@
         <td> {form_element field="date"} </td>
       </tr>
       <tr>
-        <th> {form_description field="periodbegin"} </th>
-        <td> {form_element field="periodbegin"} </td>
+        <th> [INVOICE_PERIOD] </th>
+        <td> 
+          {form_element field="periodbegin"} to
+          {form_element field="periodend"}
+        </td>
       </tr>
       <tr>
         <th> {form_description field="terms"} </th>

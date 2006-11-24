@@ -106,7 +106,7 @@ class TransferDomainPage extends SolidStatePage
 
     // Fill in the purchase DBO with the account id and purchase terms
     $this->purchaseDBO->setAccountID( $this->accountDBO->getID() );
-    $this->purchaseDBO->setTerm( $this->post['term'] );
+    $this->purchaseDBO->setTerm( $this->post['term']->getTermLength() );
 
     // Provide the template with the name servers
     $this->smarty->assign( "nameservers", $this->conf['dns']['nameservers'] );
@@ -151,7 +151,7 @@ class TransferDomainPage extends SolidStatePage
       {
 	$module->transferDomain( $this->purchaseDBO->getDomainName(),
 				 $this->purchaseDBO->getTLD(),
-				 $this->purchaseDBO->getTermInt(),
+				 $this->purchaseDBO->getTerm(),
 				 $this->purchaseDBO->getSecret(),
 				 $contacts,
 				 $this->accountDBO );
@@ -187,6 +187,12 @@ class TransferDomainPage extends SolidStatePage
 
     $this->purchaseDBO =& $this->session['dspdbo'];
     $this->accountDBO =& $this->session['accountdbo'];
+
+    if( isset( $this->purchaseDBO ) )
+      {
+	$widget = $this->forms['transfer_domain_service']->getField( "term" )->getWidget();
+	$widget->setPurchasable( $this->purchaseDBO->getPurchasable() );
+      }
   }
 
   /**
@@ -210,7 +216,7 @@ class TransferDomainPage extends SolidStatePage
 
     // Domain can be transfered
     $this->purchaseDBO = new DomainServicePurchaseDBO();
-    $this->purchaseDBO->setTLD( $this->post['servicetld']->getTLD() );
+    $this->purchaseDBO->setPurchasable( $this->post['servicetld'] );
     $this->purchaseDBO->setDomainName( $this->post['domainname'] );
     $this->purchaseDBO->setSecret( $this->post['secret'] );
     $this->setMessage( array( "type" => "DOMAIN_IS_ELIGIBLE",

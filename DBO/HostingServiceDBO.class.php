@@ -18,79 +18,34 @@
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class HostingServiceDBO extends DBO
+class HostingServiceDBO extends PurchasableDBO
 {
-  /**
-   * @var integer HostingService ID
-   */
-  var $id;
-  
-  /**
-   * @var string Hosting service title
-   */
-  var $title;
-
   /** 
    * @var string Hosting service description
    */
-  var $description;
+  protected $description;
 
   /**
-   * @var double Setup price for 1 month term
+   * @var integer HostingService ID
    */
-  var $setupprice1mo;
+  protected $id;
 
   /**
-   * @var double Setup price for 3 month term
+   * @var string Hosting service title
    */
-  var $setupprice3mo;
-
-  /**
-   * @var double Setup price for 6 month term
-   */
-  var $setupprice6mo;
-
-  /**
-   * @var double Setup price for 12 month term
-   */
-  var $setupprice12mo;
-
-  /**
-   * @var double Recurring price for 1 month term
-   */
-  var $price1mo;
-
-  /**
-   * @var double Recurring price for 3 month term
-   */
-  var $price3mo;
-
-  /**
-   * @var double Recurring price for 6 month term
-   */
-  var $price6mo;
-
-  /**
-   * @var double Recurring price for 12 month term
-   */
-  var $price12mo;
+  protected $title;
 
   /**
    * @var string Unique IP Requirement
    */
-  var $uniqueip;
-
-  /**
-   * @var string Taxable
-   */
-  var $taxable;
+  protected $uniqueip;
 
   /**
    * Convert to a String
    *
    * @return string Hosting service ID
    */
-  function __toString() { return $this->getID(); }
+  public function __toString() { return $this->getID(); }
 
   /**
    * Set Hosting Service ID
@@ -135,118 +90,6 @@ class HostingServiceDBO extends DBO
   function getDescription() { return $this->description; }
 
   /**
-   * Set Setup Price for 1 month Term
-   *
-   * @param double Price
-   */
-  function setSetupPrice1mo( $setup_price ) { $this->setupprice1mo = $setup_price; }
-
-  /**
-   * Get Setup Price for 1 Month Term
-   *
-   * @return double Price
-   */
-  function getSetupPrice1mo() { return $this->setupprice1mo; }
-
-  /**
-   * Set Setup Price for 3 month Term
-   *
-   * @param double Price
-   */
-  function setSetupPrice3mo( $setup_price ) { $this->setupprice3mo = $setup_price; }
-
-  /**
-   * Get Setup Price for 3 Month Term
-   *
-   * @return double Price
-   */
-  function getSetupPrice3mo() { return $this->setupprice3mo; }
-
-  /**
-   * Set Setup Price for 6 month Term
-   *
-   * @param double Price
-   */
-  function setSetupPrice6mo( $setup_price ) { $this->setupprice6mo = $setup_price; }
-
-  /**
-   * Get Setup Price for 6 Month Term
-   *
-   * @return double Price
-   */
-  function getSetupPrice6mo() { return $this->setupprice6mo; }
-
-  /**
-   * Set Setup Price for 12 month Term
-   *
-   * @param double Price
-   */
-  function setSetupPrice12mo( $setup_price ) { $this->setupprice12mo = $setup_price; }
-
-  /**
-   * Get Setup Price for 12 Month Term
-   *
-   * @return double Price
-   */
-  function getSetupPrice12mo() { return $this->setupprice12mo; }
-
-  /**
-   * Set Recurring Price for 1 Month Term
-   *
-   * @param double $price Price
-   */
-  function setPrice1mo( $price ) { $this->price1mo = $price; }
-
-  /**
-   * Get Recurring Price for 1 Month Term
-   *
-   * @param double Price
-   */
-  function getPrice1mo() { return $this->price1mo; }
-
-  /**
-   * Set Recurring Price for 3 Month Term
-   *
-   * @param double $price Price
-   */
-  function setPrice3mo( $price ) { $this->price3mo = $price; }
-
-  /**
-   * Get Recurring Price for 3 Month Term
-   *
-   * @param double Price
-   */
-  function getPrice3mo() { return $this->price3mo; }
-
-  /**
-   * Set Recurring Price for 6 Month Term
-   *
-   * @param double $price Price
-   */
-  function setPrice6mo( $price ) { $this->price6mo = $price; }
-
-  /**
-   * Get Recurring Price for 6 Month Term
-   *
-   * @param double Price
-   */
-  function getPrice6mo() { return $this->price6mo; }
-
-  /**
-   * Set Recurring Price for 12 Month Term
-   *
-   * @param double $price Price
-   */
-  function setPrice12mo( $price ) { $this->price12mo = $price; }
-
-  /**
-   * Get Recurring Price for 12 Month Term
-   *
-   * @param double Price
-   */
-  function getPrice12mo() { return $this->price12mo; }
-
-  /**
    * Set Unique IP Requirement
    *
    * @param string $required 'Required' or 'Not Required'
@@ -269,46 +112,17 @@ class HostingServiceDBO extends DBO
   function getUniqueIP() { return $this->uniqueip; }
 
   /**
-   * Set Taxable Flag
-   * 
-   * @param string $taxable Taxable flag (Yes or No)
-   */
-  function setTaxable( $taxable )
-  {
-    if( !($taxable == "Yes" || $taxable == "No" ) )
-      {
-	fatal_error( "HostingServiceDBO::setTaxable", "Invalid value: " . $taxable );
-      }
-    $this->taxable = $taxable;
-  }
-
-  /**
-   * Get Taxable Flag
-   *
-   * @return string Taxable flag (Yes or No)
-   */
-  function getTaxable() { return $this->taxable; }
-
-  /**
    * Load member data from an array
    *
    * @param array $data Data to load
    */
-  function load( $data )
+  public function load( $data )
   {
-    $this->setID( $data['id'] );
-    $this->setTitle( $data['title'] );
-    $this->setDescription( $data['description'] );
-    $this->setSetupPrice1mo( $data['setupprice1mo'] );
-    $this->setSetupPrice3mo( $data['setupprice3mo'] );
-    $this->setSetupPrice6mo( $data['setupprice6mo'] );
-    $this->setSetupPrice12mo( $data['setupprice12mo'] );
-    $this->setPrice1mo( $data['price1mo'] );
-    $this->setPrice3mo( $data['price3mo'] );
-    $this->setPrice6mo( $data['price6mo'] );
-    $this->setPrice12mo( $data['price12mo'] );
-    $this->setUniqueIP( $data['uniqueip'] );
-    $this->setTaxable( $data['taxable'] );
+    // Load the record data
+    parent::load( $data );
+
+    // Load service pricing
+    $this->prices = load_array_HostingServicePriceDBO( "serviceid=" . $this->getID() );
   }
 }
 
@@ -326,16 +140,7 @@ function add_HostingServiceDBO( &$dbo )
   $sql = $DB->build_insert_sql( "hostingservice",
 				array( "title" => $dbo->getTitle(),
 				       "description" => $dbo->getDescription(),
-				       "uniqueip" => $dbo->getUniqueIP(),
-				       "setupprice1mo" => $dbo->getSetupPrice1mo(),
-				       "setupprice3mo" => $dbo->getSetupPrice3mo(),
-				       "setupprice6mo" => $dbo->getSetupPrice6mo(),
-				       "setupprice12mo" => $dbo->getSetupPrice12mo(),
-				       "price1mo" => $dbo->getPrice1mo(),
-				       "price3mo" => $dbo->getPrice3mo(),
-				       "price6mo" => $dbo->getPrice6mo(),
-				       "price12mo" => $dbo->getPrice12mo(),
-				       "taxable" => $dbo->getTaxable() ) );
+				       "uniqueip" => $dbo->getUniqueIP() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -363,6 +168,16 @@ function add_HostingServiceDBO( &$dbo )
   // Store ID in DBO
   $dbo->setID( $id );
 
+  // Add all the PriceDBO's for this object
+  foreach( $dbo->getPricing() as $price )
+    {
+      if( !add_HostingServicePriceDBO( $price ) )
+	{
+	  throw new SWException( "Failed to add price DBO to database: " . 
+				 mysql_error() );
+	}
+    }
+
   return true;
 }
 
@@ -381,16 +196,7 @@ function update_HostingServiceDBO( &$dbo )
 				"id = " . $dbo->getID(),
 				array( "title" => $dbo->getTitle(),
 				       "description" => $dbo->getDescription(),
-				       "uniqueip" => $dbo->getUniqueIP(),
-				       "setupprice1mo" => $dbo->getSetupPrice1mo(),
-				       "setupprice3mo" => $dbo->getSetupPrice3mo(),
-				       "setupprice6mo" => $dbo->getSetupPrice6mo(),
-				       "setupprice12mo" => $dbo->getSetupPrice12mo(),
-				       "price1mo" => $dbo->getPrice1mo(),
-				       "price3mo" => $dbo->getPrice3mo(),
-				       "price6mo" => $dbo->getPrice6mo(),
-				       "price12mo" => $dbo->getPrice12mo(),
-				       "taxable" => $dbo->getTaxable() ) );
+				       "uniqueip" => $dbo->getUniqueIP() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

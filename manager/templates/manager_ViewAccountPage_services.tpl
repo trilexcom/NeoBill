@@ -29,7 +29,7 @@
       {/form_table_column}
 
       {form_table_column columnid="term" header="[TERM]"}
-        {$services.term}
+        {$services.term} [MONTHS]
       {/form_table_column}
 
       {form_table_column columnid="hostname" header="[SERVER]"}
@@ -38,10 +38,6 @@
         {else}
           <a href="manager_content.php?page=services_view_server&server={$services.serverid}">{$services.hostname}</a>
         {/if}
-      {/form_table_column}
-
-      {form_table_column columnid="price" header="[PRICE]"}
-        {$services.price|currency}
       {/form_table_column}
 
       {form_table_column columnid="date" header="[PURCHASED]"}

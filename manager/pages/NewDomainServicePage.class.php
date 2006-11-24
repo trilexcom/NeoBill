@@ -35,7 +35,7 @@ class NewDomainServicePage extends SolidStateAdminPage
    *
    * @param string $action_name Action
    */
-  function action( $action_name )
+  public function action( $action_name )
   {
     switch( $action_name )
       {
@@ -43,25 +43,12 @@ class NewDomainServicePage extends SolidStateAdminPage
 	if( isset( $this->post['continue'] ) )
 	  {
 	    // Process new hosting service form
-	    $this->process_new_domain_service();
+	    $this->add_domain_service();
 	  }
 	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Canceled
 	    $this->goback();
-	  }
-	break;
-
-      case "new_domain_service_confirm":
-	if( isset( $this->session['new_domain_service_confirm']['continue'] ) )
-	  {
-	    // Go ahead
-	    $this->add_domain_service();
-	  }
-	else
-	  {
-	    // Go back
-	    $this->setTemplate( "default" );
 	  }
 	break;
 
@@ -72,46 +59,17 @@ class NewDomainServicePage extends SolidStateAdminPage
   }
 
   /**
-   * Process New Domain Service
+   * Add Domain Service
    *
-   * Create a new DomainServiceDBO using data from the form, then prompt the client
-   * to confirm the new Domain Service.
+   * Add the DomainServiceDBO to the database
    */
-  function process_new_domain_service()
+  protected function add_domain_service()
   {
     // Prepare DomainServiceDBO for database
     $service_dbo = new DomainServiceDBO();
     $service_dbo->setTLD( $this->post['tld'] );
     $service_dbo->setModuleName( $this->post['modulename']->getName() );
     $service_dbo->setDescription( $this->post['description'] );
-    $service_dbo->setPrice1yr( $this->post['price1yr'] );
-    $service_dbo->setPrice2yr( $this->post['price2yr'] );
-    $service_dbo->setPrice3yr( $this->post['price3yr'] );
-    $service_dbo->setPrice4yr( $this->post['price4yr'] );
-    $service_dbo->setPrice5yr( $this->post['price5yr'] );
-    $service_dbo->setPrice6yr( $this->post['price6yr'] );
-    $service_dbo->setPrice7yr( $this->post['price7yr'] );
-    $service_dbo->setPrice8yr( $this->post['price8yr'] );
-    $service_dbo->setPrice9yr( $this->post['price9yr'] );
-    $service_dbo->setPrice10yr( $this->post['price10yr'] );
-    $service_dbo->setTaxable( $this->post['taxable'] );
-
-    // Place DBO in the session for the confirm & receipt pages
-    $this->session['new_domain_service_dbo'] = $service_dbo;
-
-    // Ask client to confirm
-    $this->setTemplate( "confirm" );
-  }
-
-  /**
-   * Add Domain Service
-   *
-   * Add the DomainServiceDBO to the database
-   */
-  function add_domain_service()
-  {
-    // Extract domain service DBO from the session
-    $service_dbo =& $this->session['new_domain_service_dbo'];
 
     // Insert DomainServiceDBO into database
     if( !add_DomainServiceDBO( $service_dbo ) )
@@ -127,7 +85,7 @@ class NewDomainServicePage extends SolidStateAdminPage
       {
 	// Hosting Service added
 	// Jump to View Domain Service page
-	$this->goto( "services_view_domain_service", 
+	$this->goto( "services_edit_domain_service", 
 		     array( array( "type" => "DOMAIN_SERVICE_ADDED" ) ), 
 		     "dservice=" . $service_dbo->getTLD() );
       }

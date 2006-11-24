@@ -29,7 +29,7 @@
       {/form_table_column}
 
       {form_table_column columnid="term" header="[TERM]"}
-        {$domains.term}
+        {$domains.term} [MONTHS]
       {/form_table_column}
 
       {form_table_column columnid="date" header="[PURCHASED]"}

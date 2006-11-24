@@ -20,7 +20,7 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class FieldException extends SWException
+class FieldException extends SWUserException
 {
   const MESSAGE = 'The %s field is invalid (contents: %s).';
 

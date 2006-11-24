@@ -6,7 +6,11 @@
     <table style="width: 70%">
       <tr>
         <th> {form_description field="product"} </th>
-        <td> {form_element field="product"} </td>
+        <td> {form_element field="product" onChange="submit()"} </td>
+      </tr>
+      <tr>
+        <th> {form_description field="term"} </th>
+        <td> {form_element field="term"} </td>
       </tr>
       <tr>
         <th> {form_description field="date"} </th>

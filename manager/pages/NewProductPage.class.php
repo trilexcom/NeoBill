@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
-
-// Include the ProductDBO class
-require_once BASE_PATH . "DBO/ProductDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * NewProductPage
@@ -35,7 +32,7 @@ class NewProductPage extends SolidStateAdminPage
    *
    * @param string $action_name Action
    */
-  function action( $action_name )
+  public function action( $action_name )
   {
     switch( $action_name )
       {
@@ -43,25 +40,12 @@ class NewProductPage extends SolidStateAdminPage
 	if( isset( $this->post['continue'] ) )
 	  {
 	    // Process new product form
-	    $this->process_new_product();
+	    $this->add_product();
 	  }
 	elseif( isset( $this->post['cancel'] ) )
 	  {
 	    // Canceled
 	    $this->goback();
-	  }
-	break;
-
-      case "new_product_confirm":
-	if( isset( $this->post['continue'] ) )
-	  {
-	    // Go ahead
-	    $this->add_product();
-	  }
-	else
-	  {
-	    // Go back
-	    $this->setTemplate( "default" );
 	  }
 	break;
 
@@ -72,33 +56,16 @@ class NewProductPage extends SolidStateAdminPage
   }
 
   /**
-   * Process New Product
-   *
-   * Place the new product data from the form into a new ProductDBO, then ask
-   * the client to confirm the new Product.
-   */
-  function process_new_product()
-  {
-    // Prepare ProductDBO for database
-    $product_dbo = new ProductDBO();
-    $product_dbo->load( $this->post );
-
-    // Place DBO in the session for confirm
-    $this->session['new_product_dbo'] = $product_dbo;
-
-    // Ask client to confirm
-    $this->setTemplate( "confirm" );
-  }
-
-  /**
    * Add Product
    *
    * Add the ProductDBO to the database.
    */
-  function add_product()
+  protected function add_product()
   {
-    // Extract product DBO from the session
-    $product_dbo =& $this->session['new_product_dbo'];
+    // Prepare ProductDBO for database
+    $product_dbo = new ProductDBO();
+    $product_dbo->setName( $this->post['name'] );
+    $product_dbo->setDescription( $this->post['description'] );
 
     // Insert ProductDBO into database
     if( !add_ProductDBO( $product_dbo ) )
@@ -109,14 +76,11 @@ class NewProductPage extends SolidStateAdminPage
 
 	// Redisplay form
 	$this->setTemplate( "default" );
+	$this->reload();
       }
-    else
-      {
-	// Jump to View Product page
-	$this->setMessage( array( "type" => "PRODUCT_ADDED" ) );
-	$this->goto( "services_view_product", null, "product=" . $product_dbo->getID() );
-      }
+    // Jump to View Product page
+    $this->setMessage( array( "type" => "PRODUCT_ADDED" ) );
+    $this->goto( "services_edit_product", null, "product=" . $product_dbo->getID() );
   }
 }
-
 ?>

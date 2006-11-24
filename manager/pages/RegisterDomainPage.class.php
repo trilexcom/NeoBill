@@ -11,13 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// Include DBO's
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
-require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
-require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
-require_once BASE_PATH . "DBO/ContactDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * RegisterDomainPage
@@ -60,6 +54,10 @@ class RegisterDomainPage extends SolidStatePage
 	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->checkAvailability();
+	  }
+	elseif( isset( $this->post['tld'] ) )
+	  {
+	    $this->updatePrices( $this->post['tld'] );
 	  }
 	break;
 
@@ -128,10 +126,10 @@ class RegisterDomainPage extends SolidStatePage
 
     // Domain is avaialble
     $termField = $this->forms['register_domain_service']->getField( "term" );
-    $termField->getWidget()->setDomainService( $this->post['servicetld'] );
+    $termField->getWidget()->setPurchasable( $this->post['servicetld'] );
 
     $this->purchaseDBO = new DomainServicePurchaseDBO();
-    $this->purchaseDBO->setTLD( $this->post['servicetld']->getTLD() );
+    $this->purchaseDBO->setPurchasable( $this->post['servicetld'] );
     $this->purchaseDBO->setDomainName( $this->post['domainname'] );
 
     $this->setMessage( array( "type" => "DOMAIN_IS_AVAILABLE",
@@ -147,7 +145,7 @@ class RegisterDomainPage extends SolidStatePage
     // Fill in the purchase DBO with the account id and purchase terms
     $this->accountDBO = $this->post['account'];
     $this->purchaseDBO->setAccountID( $this->accountDBO->getID() );
-    $this->purchaseDBO->setTerm( $this->post['term'] );
+    $this->purchaseDBO->setTerm( $this->post['term']->getTermLength() );
 
     // Provide the template with the name servers
     $this->smarty->assign( "nameservers", $this->conf['dns']['nameservers'] );
@@ -192,7 +190,7 @@ class RegisterDomainPage extends SolidStatePage
       {
 	$module->registerNewDomain( $this->purchaseDBO->getDomainName(),
 				    $this->purchaseDBO->getTLD(),
-				    $this->purchaseDBO->getTermInt(),
+				    $this->purchaseDBO->getTerm(),
 				    $contacts,
 				    $this->accountDBO );
       }
@@ -227,7 +225,12 @@ class RegisterDomainPage extends SolidStatePage
 
     $this->purchaseDBO =& $this->session['dspdbo'];
     $this->accountDBO =& $this->session['accountdbo'];
+
+    if( isset( $this->purchaseDBO ) )
+      {
+	$widget = $this->forms['register_domain_service']->getField( "term" )->getWidget();
+	$widget->setPurchasable( $this->purchaseDBO->getPurchasable() );
+      }
   }
 }
-
 ?>

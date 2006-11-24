@@ -33,21 +33,25 @@ class DomainServiceTableWidget extends TableWidget
 	// Build the table
 	foreach( $services as $dbo )
 	  {
+	    // Format the pricing for this hosting service
+	    $priceString = "";
+	    $prices = array_merge( $dbo->getPricing( "Onetime" ),
+				   $dbo->getPricing( "Recurring" ) );
+	    foreach( $prices as $priceDBO )
+	      {
+		$price = sprintf( "%s%01.2f", $conf['locale']['currency_symbol'],
+				  $priceDBO->getPrice() );
+		$priceString .= $priceDBO->getType() == "Onetime" ? 
+		  sprintf( "[ONETIME]: %s<br/>", $price ) :
+		  sprintf( "%d [MONTHS]: %s<br/>", $priceDBO->getTermLength(), $price );
+	      }
+
 	    // Put the row into the table
 	    $this->data[] = 
 	      array( "tld" => $dbo->getTLD(),
 		     "description" => $dbo->getDescription(),
-		     "price1yr" => $dbo->getPrice1yr(),
-		     "price2yr" => $dbo->getPrice2yr(),
-		     "price3yr" => $dbo->getPrice3yr(),
-		     "price4yr" => $dbo->getPrice4yr(),
-		     "price5yr" => $dbo->getPrice5yr(),
-		     "price6yr" => $dbo->getPrice6yr(),
-		     "price7yr" => $dbo->getPrice7yr(),
-		     "price8yr" => $dbo->getPrice8yr(),
-		     "price9yr" => $dbo->getPrice9yr(),
-		     "price10yr" => $dbo->getPrice10yr(),
-		     "taxable" => $dbo->getTaxable() );
+		     "pricing" => $priceString,
+		     "module" => $dbo->getModuleName() );
 	  }
       }
   }

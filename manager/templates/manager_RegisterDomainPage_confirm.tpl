@@ -14,11 +14,7 @@
       </tr>
       <tr>
         <th> {echo phrase="REGISTRATION_TERMS"}: </th>
-        <td> {dbo_echo dbo="dspdbo" field="termint"} year(s) </td>
-      </tr>
-      <tr>
-        <th> {echo phrase="PRICE"}: </th>
-        <td> {dbo_echo|currency dbo="dspdbo" field="price"} </td>
+        <td> {dbo_echo dbo="dspdbo" field="term"} [MONTHS] </td>
       </tr>
       <tr>
         <th> {echo phrase="NAME_SERVERS"}: </th>

@@ -26,20 +26,6 @@ require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
 class EditDomainServicePage extends SolidStateAdminPage
 {
   /**
-   * Initialize the Edit Domain Serivce Page
-   */
-  function init()
-  {
-    parent::init();
-
-    // Set URL Fields
-    $this->setURLField( "dservice", $this->get['dservice']->getTLD() );
-
-    // Store service DBO in session
-    $this->session['domain_service_dbo'] =& $this->get['dservice'];
-  }
-
-  /**
    * Action
    *
    * Actions handled by this page:
@@ -47,7 +33,7 @@ class EditDomainServicePage extends SolidStateAdminPage
    *
    * @param string $action_name Action
    */
-  function action( $action_name )
+  public function action( $action_name )
   {
     switch( $action_name )
       {
@@ -64,6 +50,20 @@ class EditDomainServicePage extends SolidStateAdminPage
 	  }
 	break;
 
+      case "edit_domain_pricing":
+	if( isset( $this->post['delete'] ) )
+	  {
+	    $this->deletePrice();
+	  }
+	break;
+
+      case "edit_domain_add_price":
+	if( isset( $this->post['add'] ) )
+	  {
+	    $this->addPrice();
+	  }
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );
@@ -71,26 +71,86 @@ class EditDomainServicePage extends SolidStateAdminPage
   }
 
   /**
+   * Add Price
+   */
+  protected function addPrice()
+  {
+    if( $this->post['type'] == "Onetime" && $this->post['termlength'] != 0 )
+      {
+	throw new SWUserException( "[TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO]" );
+      }
+    if( $this->post['type'] == "Recurring" && $this->post['termlength'] == 0 )
+      {
+	throw new SWUserException( "[TERMLENGTH_FOR_RECURRING_MUST_NOT_BE_ZERO]" );
+      }
+    $priceDBO = new DomainServicePriceDBO();
+    $priceDBO->setTLD( $this->get['dservice']->getTLD() );
+    $priceDBO->setType( $this->post['type'] );
+    $priceDBO->setTermLength( $this->post['termlength'] );
+    $priceDBO->setPrice( $this->post['price'] );
+    $priceDBO->setTaxable( $this->post['taxable'] );
+
+    try
+      {
+	$this->get['dservice']->addPrice( $priceDBO );
+	if( !add_DomainServicePriceDBO( $priceDBO ) )
+	  {
+	    throw new SWException( "Failed to add price to database: " . 
+				   mysql_error() );
+	  }
+	$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
+      }
+    catch( DuplicatePriceException $e )
+      {
+	update_DomainServicePriceDBO( $priceDBO );
+	$this->setMessage( array( "type" => "[PRICE_UPDATED]" ) );
+      }
+
+    $this->reload();
+  }
+
+  /**
+   * Delete Price
+   */
+  protected function deletePrice()
+  {
+    foreach( $this->post['prices'] as $price )
+      {
+	delete_DomainServicePriceDBO( $price );
+      }
+
+    $this->setMessage( array( "type" => "[PRICES_DELETED]" ) );
+    $this->reload();
+  }
+
+  /**
+   * Initialize the Edit Domain Serivce Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Set URL Fields
+    $this->setURLField( "dservice", $this->get['dservice']->getTLD() );
+
+    // Store service DBO in session
+    $this->session['domain_service_dbo'] =& $this->get['dservice'];
+
+    // Setup the pricing table
+    $ptw = $this->forms['edit_domain_pricing']->getField( "prices" )->getWidget();
+    $ptw->setPrices( $this->get['dservice']->getPricing() );
+  }
+
+  /**
    * Update Domain Service
    *
    * Place the changes made in the form into the DBO and update the database.
    */
-  function update_domain_service()
+  public function update_domain_service()
   {
     // Update DBO
     $this->get['dservice']->setDescription( $this->post['description'] );
     $this->get['dservice']->setModuleName( $this->post['modulename']->getName() );
-    $this->get['dservice']->setPrice1yr( $this->post['price1yr'] );
-    $this->get['dservice']->setPrice2yr( $this->post['price2yr'] );
-    $this->get['dservice']->setPrice3yr( $this->post['price3yr'] );
-    $this->get['dservice']->setPrice4yr( $this->post['price4yr'] );
-    $this->get['dservice']->setPrice5yr( $this->post['price5yr'] );
-    $this->get['dservice']->setPrice6yr( $this->post['price6yr'] );
-    $this->get['dservice']->setPrice7yr( $this->post['price7yr'] );
-    $this->get['dservice']->setPrice8yr( $this->post['price8yr'] );
-    $this->get['dservice']->setPrice9yr( $this->post['price9yr'] );
-    $this->get['dservice']->setPrice10yr( $this->post['price10yr'] );
-    $this->get['dservice']->setTaxable( $this->post['taxable'] );
     if( !update_DomainServiceDBO( $this->get['dservice'] ) )
       {
 	// Update error
@@ -100,9 +160,7 @@ class EditDomainServicePage extends SolidStateAdminPage
 
     // Sucess!
     $this->setMessage( array( "type" => "DOMAIN_SERVICE_UPDATED" ) );
-    $this->goto( "services_view_domain_service",
-		 null,
-		 "dservice=" . $this->get['dservice']->getTLD() );
+    $this->reload();
   }
 }
 ?>

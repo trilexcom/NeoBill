@@ -13,28 +13,22 @@
 /**
  * DBO
  *
- * Base object for Database Objects (DBOs)
+ * Abstract base class for Database Objects (DBOs)
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DBO
+abstract class DBO
 {
   /**
-   * DBO Array to PHP Array
+   * To String
    *
-   * Converts an array of DBO's (such as one returned by load_array_XyzDBO) to
-   * a standard PHP array.
+   * Every DBO must implement toString() to provide a unique indentifier for the
+   * DBO (such as a database primary key).
    *
-   * @param array $dboArray Array of DBO's
-   * @param string $keyField The name of the field to use as the key
-   * @param array $fields An array of fields in the DBO that are to be included in the array
-   * @return array New data array
+   * @return string DBO identifier
    */
-  public static function toArray( $dboArray, $keyField, $fields )
-  {
-
-  }
+  abstract public function __toString();
 
   /**
    * Load DBO
@@ -44,7 +38,7 @@ class DBO
    *
    * @param array $data Data to load
    */
-  function load( $data )
+  public function load( $data )
   {
     foreach( $data as $key => $value )
       {

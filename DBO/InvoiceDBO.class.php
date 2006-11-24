@@ -23,59 +23,64 @@ class InvoiceDBO extends DBO
   /**
    * @var integer Invoice ID
    */
-  var $id;
+  protected $id;
 
   /**
    * @var integer Account ID
    */
-  var $accountid;
+  protected $accountid;
 
   /**
    * @var AccountDBO The Account this Invoice is assigned to
    */
-  var $accountDBO;
+  protected $accountDBO;
 
   /**
    * @var string Invoice date (MySQL DATETIME)
    */
-  var $date;
+  protected $date;
 
   /**
    * @var string Beginning of invoice period (MySQL DATETIME)
    */
-  var $periodbegin;
+  protected $periodbegin;
 
   /**
    * @var string End of invoice period (MySQL DATETIME)
    */
-  var $periodend;
+  protected $periodend;
 
   /**
    * @var string Note to customer
    */
-  var $note;
+  protected $note;
 
   /**
    * @var integer Invoice terms (number of days)
    */
-  var $terms;
+  protected $terms;
 
   /**
    * @var array Invoice items (InvoiceItemDBO)
    */
-  var $invoiceitemdbo_array = array();
+  protected $invoiceitemdbo_array = array();
 
   /**
    * @var array Payments (PaymentDBO)
    */
-  var $paymentdbo_array = array();
+  protected $paymentdbo_array = array();
+
+  /**
+   * @var array PurchaseDBO's that must be updated when the Invoice is added
+   */
+  protected $updatePurchases = array();
 
   /**
    * Convert to a String
    *
    * @return string Invoice ID
    */
-  function __toString() { return $this->getID(); }
+  public function __toString() { return $this->getID(); }
 
   /**
    * Set Invoice ID
@@ -406,6 +411,16 @@ class InvoiceDBO extends DBO
   }
 
   /**
+   * Get Update Purchases
+   *
+   * @return array An array of PurchaseDBO's that should be updated when the invoices is added to the database
+   */
+  public function getUpdatePurchases()
+  {
+    return $this->updatePurchases;
+  }
+
+  /**
    * Generate Invoice
    *
    * Given an Account to generate the invoice for and a period for which to bill,
@@ -414,14 +429,13 @@ class InvoiceDBO extends DBO
    *
    * @return boolean True on success
    */
-  function generate()
+  public function generate()
   {
     global $DB;
 
     if( !( $this->getAccountID() || $this->getPeriodBegin() || $this->getPeriodEnd() ) )
       {
-	fatal_error( "InvoiceDBO::generate()",
-		     "Missing necessary information to generate this invoice" );
+	throw new SWException( "Missing necessary information to generate this invoice" );
       }
 
     $periodBeginTS = $DB->datetime_to_unix( $this->getPeriodBegin() );
@@ -430,72 +444,74 @@ class InvoiceDBO extends DBO
     // Bill all applicable purchases for the account
     foreach( $this->accountDBO->getPurchases() as $purchaseDBO )
       {
-	if( $purchaseDBO->isBillable( $periodBeginTS, $periodEndTS ) )
+	// Bill the purchase as many times as necessary during the period
+	$nextBillingDateTS = $DB->date_to_unix( $purchaseDBO->getNextBillingDate() );
+	while( $nextBillingDateTS >= $periodBeginTS && 
+	       $nextBillingDateTS < $periodEndTS )
 	  {
-	    // This item is billable during the period
-	    $this->addPurchaseItem( $purchaseDBO, 
-				    $purchaseDBO->isNewThisTerm( $periodBeginTS, 
-								 $periodEndTS ) );
+	    $taxes = 0;
+
+	    // Bill the recurring price (if exists)
+	    if( $purchaseDBO->getRecurringPrice() > 0 )
+	      {
+		$taxes += $purchaseDBO->getRecurringTaxes();
+		$this->add_item( 1, 
+				 $purchaseDBO->getRecurringPrice(),
+				 $purchaseDBO->getTitle(),
+				 false );
+	      }
+
+	    // Bill onetime price if necessary
+	    if( $purchaseDBO->getPrevInvoiceID() == 0 )
+	      {
+		$taxes += $purchaseDBO->getOnetimeTaxes();
+		$this->add_item( 1, 
+				 $purchaseDBO->getOnetimePrice(),
+				 $purchaseDBO->getTitle() .
+				 " ([ONETIME])",
+				 false );
+	      }
+
+	    // Charge taxes
+	    if( $taxes > 0 )
+	      {
+		$this->add_item( 1, 
+				 $taxes,
+				 $purchaseDBO->getTitle() . ": [TAX]",
+				 true );
+	      }
+
+	    // Calculate the "new next" billing date for this purchase
+	    if( $purchaseDBO->getTerm() == 0 )
+	      {
+		// Do not bill again
+		$nextBillingDateTS = null;
+	      }
+	    else
+	      {
+		// Increment the next billing date by term
+		$oldBillingDate = getdate( $nextBillingDateTS );
+		$nextBillingDateTS = 
+		  mktime( 0, 0, 1,
+			  $oldBillingDate['mon'] + $purchaseDBO->getTerm(),
+			  $oldBillingDate['mday'],
+			  $oldBillingDate['year'] );
+	      }
+
+	    // Update the purchase DBO
+	    $purchaseDBO->setNextBillingDate( $DB->format_date( $nextBillingDateTS ) );
+
+	    // The -1 will be replaced by the invoice ID in add_InvoiceDBO
+	    $purchaseDBO->setPrevInvoiceID( -1 );
+
+	    // Add this purchase to the list of purchase DBO's to update when
+	    // the invoice is added to the database
+	    $this->updatePurchases[] = $purchaseDBO;
 	  }
       }
 
     // Done
     return true;
-  }
-
-  /**
-   * Add Purchase Item
-   *
-   * Given a PurchaseDBO, this method adds a line item to the invoice.  If
-   * $chargeSetupFee is true, then the setup fee (if any) is added as a line item
-   * as well.  Also, any taxes related to the purchase will be added as line items.
-   *
-   * @param PurchaseDBO $purchaseDBO The purchase to add to the inoice
-   * @param boolean Set to false to suppress the setup fee
-   */
-  function addPurchaseItem( $purchaseDBO, $chargeSetupFee = false  )
-  {
-    global $conf;
-
-    // Add line item to invoice
-    $this->add_item( 1, $purchaseDBO->getPrice(), $purchaseDBO->getTitle(), false );
-
-    // Setup fee?
-    if( $chargeSetupFee && ($purchaseDBO->getSetupFee() > 0) )
-      {
-	$this->add_item( 1, 
-			 $purchaseDBO->getSetupFee(),
-			 $purchaseDBO->getTitle() .
-			 ": [SETUP_FEE]",
-			 false );
-      }
-
-    // Charge taxes
-    foreach( $purchaseDBO->getTaxes() as $taxRuleDBO )
-      {
-	$this->add_item( 1, 
-			 $purchaseDBO->calculateTax( $taxRuleDBO ),
-			 $purchaseDBO->getTitle() .
-			 ": " . $taxRuleDBO->getDescription() .
-			 " @ " . $taxRuleDBO->getRate() . "%",
-			 true );
-      }
-  }
-
-  /**
-   * Load member data from an array
-   *
-   * @param array $data Data to load
-   */
-  function load( $data )
-  {
-    $this->setID( $data['id'] );
-    $this->setAccountID( $data['accountid'] );
-    $this->setDate( $data['date'] );
-    $this->setPeriodBegin( $data['periodbegin'] );
-    $this->setPeriodEnd( $data['periodend'] );
-    $this->setNote( $data['note'] );
-    $this->setTerms( $data['terms'] );
   }
 
   /**
@@ -667,6 +683,29 @@ function add_InvoiceDBO( &$dbo )
 	    {
 	      fatal_error( "add_InvoiceDBO", "Failed to add line item to invoice!" );
 	    }
+	}
+    }
+
+  // Update Purchase DBO's with a prev invoice id set to -1
+  foreach( $dbo->getUpdatePurchases() as $purchaseDBO )
+    {
+      $purchaseDBO->setPrevInvoiceID( $id );
+      
+      switch( get_class( $purchaseDBO ) )
+	{
+	case "DomainServicePurchaseDBO":
+	  $ret = update_DomainServicePurchaseDBO( $purchaseDBO );
+	  break;
+	case "HostingServicePurchaseDBO":
+	  $ret = update_HostingServicePurchaseDBO( $purchaseDBO );
+	  break;
+	case "ProductPurchaseDBO":
+	  $ret = update_ProductPurchaseDBO( $purchaseDBO );
+	  break;
+	}
+      if( !$ret )
+	{
+	  throw new SWException( "Failed to update purchase DBO!" );
 	}
     }
 

@@ -13,8 +13,6 @@
 // Include the parent class
 require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
-
 /**
  * AssignDomainPage
  *
@@ -25,24 +23,6 @@ require_once BASE_PATH . "DBO/AccountDBO.class.php";
  */
 class AssignDomainPage extends SolidStatePage
 {
-  /**
-   * Initialize Assign Domain Page
-   *
-   * If an Account ID is provided in the query string, load that AccountDBO
-   * and store it in the session.  Otherwise, continue using the DBO that is
-   * already there.
-   */
-  function init()
-  {
-    parent::init();
-
-    // Set URL Fields
-    $this->setURLField( "account", $this->get['account']->getID() );
-
-    // Store account DBO in session
-    $this->session['account_dbo'] =& $this->get['account'];
-  }
-
   /**
    * Actions
    *
@@ -66,6 +46,10 @@ class AssignDomainPage extends SolidStatePage
 	    // Cancel
 	    $this->goback();
 	  }
+	elseif( isset( $this->post['tld'] ) )
+	  {
+	    $this->updatePrices( $this->post['tld'] );
+	  }
 	break;
 
       default:
@@ -79,13 +63,23 @@ class AssignDomainPage extends SolidStatePage
    *
    * Create a DomainServicePurchaseDBO and add it to the database
    */
-  function assign_service()
+  public function assign_service()
   {
+    // The domain name is required but not configured as such.  This is to allow the 
+    // page to update the price dynamically
+    if( !isset( $this->post['domainname'] ) )
+      {
+	$e = new FieldMissingException();
+	$e->setField( "domainname" );
+	throw $e;
+      }
+
     // Create new DomainServicePurchase DBO
     $purchase_dbo = new DomainServicePurchaseDBO();
     $purchase_dbo->setAccountID( $this->get['account']->getID() );
     $purchase_dbo->setTLD( $this->post['tld']->getTLD() );
-    $purchase_dbo->setTerm( $this->post['term'] );
+    $purchase_dbo->setTerm( $this->post['term'] ?
+			    $this->post['term']->getTermLength() : null );
     $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
     $purchase_dbo->setDomainName( $this->post['domainname'] );
 
@@ -103,5 +97,46 @@ class AssignDomainPage extends SolidStatePage
     $this->goto( "accounts_view_account",
 		 null,
 		 "action=domains&account=" . $this->get['account']->getID() );
+  }
+
+  /**
+   * Initialize Assign Domain Page
+   *
+   * If an Account ID is provided in the query string, load that AccountDBO
+   * and store it in the session.  Otherwise, continue using the DBO that is
+   * already there.
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Set URL Fields
+    $this->setURLField( "account", $this->get['account']->getID() );
+
+    // Store account DBO in session
+    $this->session['account_dbo'] =& $this->get['account'];
+
+    if( null == ($services = load_array_DomainServiceDBO()) )
+      {
+	$this->setError( array( "type" => "[THERE_ARE_NO_DOMAIN_SERVICES]" ) );
+	$this->goback();
+      }
+
+    if( !isset( $this->post['tld'] ) )
+      {
+	$this->updatePrices( array_shift( $services ) );
+      }
+  }
+
+  /**
+   * Update Prices Box
+   *
+   * @param DomainServiceDBO The domain service to show prices for
+   */
+  protected function updatePrices( DomainServiceDBO $serviceDBO )
+  {
+    // Update the service terms box
+    $widget = $this->forms['assign_domain']->getField( "term" )->getWidget();
+    $widget->setPurchasable( $serviceDBO );
   }
 }

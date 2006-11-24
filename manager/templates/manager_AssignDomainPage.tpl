@@ -8,7 +8,7 @@
         <th> {form_description field="domainname"} </th>
         <td> 
           {form_element field="domainname"}
-          . {form_element field="tld"}
+          . {form_element field="tld" onChange="submit()"}
         </td>
       </tr>
       <tr>

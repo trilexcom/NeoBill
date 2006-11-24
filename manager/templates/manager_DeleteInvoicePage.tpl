@@ -46,27 +46,26 @@
   </div>
 {/form}
 
-<div class="table">
-  {dbo_table dbo_class="InvoiceItemDBO" 
-             filter="invoiceid=$invoice_id" 
-             name="itemdbo_table" 
-             title="[LINE_ITEMS]"}
+{form name="delete_invoice_items"}
+  <div class="table">
+    {form_table field="items"}
 
-    {dbo_table_column header="[ITEM]" sort_field="text"}
-      {dbo_echo dbo="itemdbo_table" field="text"}
-    {/dbo_table_column}
+      {form_table_column columnid="text" header="[ITEM]"}
+        {$items.text}
+      {/form_table_column}
 
-    {dbo_table_column header="[UNIT_PRICE]" sort_field="unitamount"}
-      {dbo_echo|currency dbo="itemdbo_table" field="unitamount"}
-    {/dbo_table_column}
+      {form_table_column columnid="unitamount" header="[UNIT_PRICE]"}
+        {$items.unitamount|currency}
+      {/form_table_column}
 
-    {dbo_table_column header="[QUANTITY]" sort_field="quantity"}
-      {dbo_echo dbo="itemdbo_table" field="quantity"}
-    {/dbo_table_column}
+      {form_table_column columnid="quantity" header="[QUANTITY]"}
+        {$items.quantity}
+      {/form_table_column}
 
-    {dbo_table_column header="[TOTAL]"}
-      {dbo_echo|currency dbo="itemdbo_table" field="amount"}
-    {/dbo_table_column}
+      {form_table_column columnid="total" header="[TOTAL]"}
+        {$items.amount|currency}
+      {/form_table_column}
 
-  {/dbo_table}
-</div>
+    {/form_table}
+  </div>
+{/form}

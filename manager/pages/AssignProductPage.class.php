@@ -26,20 +26,6 @@ require_once BASE_PATH . "DBO/AccountDBO.class.php";
 class AssignProductPage extends SolidStatePage
 {
   /**
-   * Initialize Assign Product Page
-   */
-  function init()
-  {
-    parent::init();
-
-    // Set URL Fields
-    $this->setURLField( "account", $this->get['account']->getID() );
-
-    // Store service DBO in session
-    $this->session['account_dbo'] = $dbo;
-  }
-
-  /**
    * Action
    *
    * Actions handled by this page:
@@ -62,11 +48,40 @@ class AssignProductPage extends SolidStatePage
 	    // Cancel
 	    $this->goback();
 	  }
+	elseif( isset( $this->post['product'] ) )
+	  {
+	    $this->updatePrices( $this->post['product'] );
+	  }
 	break;
 
       default:
 	// No matching action - refer to base class
 	parent::action( $action_name );
+      }
+  }
+
+  /**
+   * Initialize Assign Product Page
+   */
+  function init()
+  {
+    parent::init();
+
+    // Set URL Fields
+    $this->setURLField( "account", $this->get['account']->getID() );
+
+    // Store service DBO in session
+    $this->session['account_dbo'] = $dbo;
+
+    if( null == ($products = load_array_ProductDBO()) )
+      {
+	$this->setError( array( "type" => "[THERE_ARE_NO_PRODUCTS]" ) );
+	$this->goback();
+      }
+
+    if( !isset( $this->post['product'] ) )
+      {
+	$this->updatePrices( array_shift( $products ) );
       }
   }
 
@@ -77,10 +92,11 @@ class AssignProductPage extends SolidStatePage
    */
   function assign_product()
   {
-    // Create new HostingServicePurchase DBO
+    // Create new ProductPurchase DBO
     $purchase_dbo = new ProductPurchaseDBO();
     $purchase_dbo->setAccountID( $this->get['account']->getID() );
     $purchase_dbo->setProductID( $this->post['product']->getID() );
+    $purchase_dbo->setTerm( $this->post['term']->getProductID() );
     $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
     $purchase_dbo->setNote( $this->post['note'] );
 
@@ -98,5 +114,17 @@ class AssignProductPage extends SolidStatePage
     $this->goto( "accounts_view_account",
 		 null,
 		 "action=products&account=" . $this->get['account']->getID() );
+  }
+
+  /**
+   * Update Prices Box
+   *
+   * @param ProductDBO The product to show prices for
+   */
+  protected function updatePrices( ProductDBO $productDBO )
+  {
+    // Update the service terms box
+    $widget = $this->forms['assign_product']->getField( "term" )->getWidget();
+    $widget->setPurchasable( $productDBO );
   }
 }

@@ -25,55 +25,27 @@
 
 <div class="table">
   {form name="domain_services"}
-    {form_table field="services" size="10"}
+    {form_table field="services" size="10" style="width: 67%"}
+
+      {form_table_column columnid="tld" header=""}
+        <center> {form_table_checkbox option=$services.tld} </center>
+      {/form_table_column}
 
       {form_table_column columnid="tld" header="[TLD]"}
-        <a href="manager_content.php?page=services_view_domain_service&dservice={$services.tld}"> .{$services.tld} </a>
+        <a href="manager_content.php?page=services_edit_domain_service&dservice={$services.tld}"> .{$services.tld} </a>
       {/form_table_column}
 
-      {form_table_column columnid="price1yr" header="1 yr"}
-        {$services.price1yr|currency}
+      {form_table_column columnid="module" header="[MODULE]"}
+        {$services.module}
       {/form_table_column}
 
-      {form_table_column columnid="price2yr" header="2 yr"}
-        {$services.price2yr|currency}
+      {form_table_column columnid="pricing" header="[PRICING]"}
+        {$services.pricing}
       {/form_table_column}
 
-      {form_table_column columnid="price3yr" header="3 yr"}
-        {$services.price3yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="price4yr" header="4 yr"}
-        {$services.price4yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="price5yr" header="5 yr"}
-        {$services.price5yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="price6yr" header="6 yr"}
-        {$services.price6yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="price7yr" header="7 yr"}
-        {$services.price7yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="price8yr" header="8 yr"}
-        {$services.price8yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="price9yr" header="9 yr"}
-        {$services.price9yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="price10yr" header="10 yr"}
-        {$services.price10yr|currency}
-      {/form_table_column}
-
-      {form_table_column columnid="taxable" header="[TAXABLE]"}
-        {$services.taxable}
-      {/form_table_column}
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
 
     {/form_table}
   {/form}

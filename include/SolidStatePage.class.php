@@ -12,8 +12,12 @@
 
 // SolidState DBO's
 require BASE_PATH . "DBO/ContactDBO.class.php";
+require BASE_PATH . "DBO/PriceDBO.class.php";
+require BASE_PATH . "DBO/PurchasableDBO.class.php";
 require BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require BASE_PATH . "DBO/DomainServicePriceDBO.class.php";
 require BASE_PATH . "DBO/HostingServiceDBO.class.php";
+require BASE_PATH . "DBO/HostingServicePriceDBO.class.php";
 require BASE_PATH . "DBO/AccountDBO.class.php";
 require BASE_PATH . "DBO/PurchaseDBO.class.php";
 require BASE_PATH . "DBO/HostingServicePurchaseDBO.class.php";
@@ -30,6 +34,7 @@ require BASE_PATH . "DBO/OrderDomainDBO.class.php";
 require BASE_PATH . "DBO/OrderHostingDBO.class.php";
 require BASE_PATH . "DBO/PaymentDBO.class.php";
 require BASE_PATH . "DBO/ProductDBO.class.php";
+require BASE_PATH . "DBO/ProductPriceDBO.class.php";
 require BASE_PATH . "DBO/ProductPurchaseDBO.class.php";
 require BASE_PATH . "DBO/ServerDBO.class.php";
 require BASE_PATH . "DBO/TaxRuleDBO.class.php";
@@ -44,8 +49,6 @@ require BASE_PATH . "widgets/TLDSelectWidget.class.php";
 require BASE_PATH . "widgets/ProductSelectWidget.class.php";
 require BASE_PATH . "widgets/InvoiceSelectWidget.class.php";
 require BASE_PATH . "widgets/RegistrarModuleSelectWidget.class.php";
-require BASE_PATH . "widgets/DomainTermSelectWidget.class.php";
-require BASE_PATH . "widgets/HostingTermSelectWidget.class.php";
 require BASE_PATH . "widgets/LanguageSelectWidget.class.php";
 require BASE_PATH . "widgets/PaymentModuleSelectWidget.class.php";
 require BASE_PATH . "widgets/CartWidget.class.php";
@@ -72,6 +75,8 @@ require BASE_PATH . "widgets/PaymentTableWidget.class.php";
 require BASE_PATH . "widgets/OrderItemTableWidget.class.php";
 require BASE_PATH . "widgets/IPPoolTableWidget.class.php";
 require BASE_PATH . "widgets/DomainContactTableWidget.class.php";
+require BASE_PATH . "widgets/PriceTableWidget.class.php";
+require BASE_PATH . "widgets/PurchasableTermSelectWidget.class.php";
 
 // SolidState Validators
 require BASE_PATH . "validators/AccountValidator.class.php";
@@ -99,6 +104,9 @@ require BASE_PATH . "validators/PaymentGatewayModuleValidator.class.php";
 require BASE_PATH . "validators/UserValidator.class.php";
 require BASE_PATH . "validators/PaymentMethodValidator.class.php";
 require BASE_PATH . "validators/LogValidator.class.php";
+require BASE_PATH . "validators/HostingServicePriceValidator.class.php";
+require BASE_PATH . "validators/DomainServicePriceValidator.class.php";
+require BASE_PATH . "validators/ProductPriceValidator.class.php";
 
 /**
  * SolidStatePage
@@ -127,8 +135,6 @@ class SolidStatePage extends Page
     $wf->registerWidget( "productselect", "ProductSelectWidget" );
     $wf->registerWidget( "invoiceselect", "InvoiceSelectWidget" );
     $wf->registerWidget( "registrarmoduleselect", "RegistrarModuleSelectWidget" );
-    $wf->registerWidget( "domaintermselect", "DomainTermSelectWidget" );
-    $wf->registerWidget( "hostingtermselect", "HostingTermSelectWidget" );
     $wf->registerWidget( "languageselect", "LanguageSelectWidget" );
     $wf->registerWidget( "paymentmoduleselect", "PaymentModuleSelectWidget" );
     $wf->registerWidget( "cart", "CartWidget" );
@@ -155,6 +161,8 @@ class SolidStatePage extends Page
     $wf->registerWidget( "orderitemtable", "OrderItemTableWidget" );
     $wf->registerWidget( "ippooltable", "IPPoolTableWidget" );
     $wf->registerWidget( "domaincontacttable", "DomainContactTableWidget" );
+    $wf->registerWidget( "pricetable", "PriceTableWidget" );
+    $wf->registerWidget( "purchasabletermselect", "PurchasableTermSelectWidget" );
 
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();
@@ -184,5 +192,8 @@ class SolidStatePage extends Page
     $vf->registerFieldValidator( "orderexistingdomain", "OrderExistingDomainValidator" );
     $vf->registerFieldValidator( "paymentmethod", "PaymentMethodValidator" );
     $vf->registerFieldValidator( "log", "LogValidator" );
+    $vf->registerFieldValidator( "hostingserviceprice", "HostingServicePriceValidator" );
+    $vf->registerFieldValidator( "domainserviceprice", "DomainServicePriceValidator" );
+    $vf->registerFieldValidator( "productprice", "ProductPriceValidator" );
   }
 }

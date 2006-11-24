@@ -449,7 +449,7 @@ class AccountDBO extends DBO
    *
    * return array Arroy of PurchaseDBO's for this account
    */
-  function getPurchases()
+  public function getPurchases()
   {
     $hosting = $this->getHostingServices();
     $domain = $this->getDomainServices();

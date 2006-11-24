@@ -402,7 +402,7 @@ class Page
   /**
    * Jump Back
    */
-  function goback()
+  public function goback()
   {
     // Pop off this page's entries on the navstack
     $lastPage = array_pop( $_SESSION['navstack'] );
@@ -427,7 +427,7 @@ class Page
    *
    * Reloads the current page
    */
-  protected function reload()
+  public function reload()
   {
     header( "Location: " . $this->getURL() );
     exit();

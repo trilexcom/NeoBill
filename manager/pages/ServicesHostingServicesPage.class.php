@@ -33,7 +33,7 @@ class ServicesHostingServicesPage extends SolidStatePage
    *
    * @param string $action_name Action
    */
-  function action( $action_name )
+  public function action( $action_name )
   {
     switch( $action_name )
       {
@@ -49,10 +49,43 @@ class ServicesHostingServicesPage extends SolidStatePage
 	$this->searchTable( "hosting_services", "hosting_services", $this->post );
 	break;
 
+      case "hosting_services":
+	if( $this->post['remove'] )
+	  {
+	    $this->deleteService();
+	  }
+	break;
+
       default:
 	// No matching action, refer to base class
 	parent::action( $action_name );
       }
+  }
+
+  /**
+   * Delete Hosting Service
+   */
+  protected function deleteService()
+  {
+    foreach( $this->post['hosting_services'] as $serviceDBO )
+      {
+	$id = $serviceDBO->getID();
+	if( load_array_HostingServicePurchaseDBO( "hostingserviceid=" . $id ) != null )
+	  {
+	    throw new SWUserException( "[PURCHASES_EXIST]" );
+	  }
+
+	if( !delete_HostingServiceDBO( $serviceDBO ) )
+	  {
+	    // Delete failed
+	    $this->setError( array( "type" => "DB_HOSTING_DELETE_FAILED",
+				    "args" => array( $this->session['hosting_dbo']->getTitle() ) ) );
+	    $this->cancel();
+	  }
+      }
+
+    $this->setMessage( array( "type" => "[HOSTING_SERVICES_DELETED]" ) );
+    $this->reload();
   }
 }
 

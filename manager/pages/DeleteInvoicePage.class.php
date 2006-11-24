@@ -40,6 +40,10 @@ class DeleteInvoicePage extends SolidStatePage
 
     // Set this page's Nav Vars
     $this->setNavVar( "invoice_id", $this->get['invoice']->getID() );
+
+    // Setup the item table
+    $widget = $this->forms['delete_invoice_items']->getField( "items" )->getWidget();
+    $widget->setInvoiceID( $this->get['invoice']->getID() );
   }
 
   /**

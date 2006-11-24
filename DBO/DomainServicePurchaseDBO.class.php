@@ -27,16 +27,6 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   protected $id;
 
   /**
-   * @var integer Account ID
-   */
-  protected $accountid;
-
-  /**
-   * @var AccountDBO Account that purchased this domain registration
-   */
-  protected $accountdbo;
-
-  /**
    * @var string TLD
    */
   protected $tld;
@@ -83,47 +73,13 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   function getID() { return $this->id; }
 
   /**
-   * Set Account ID
-   *
-   * @var integer $id Account ID
-   */
-  function setAccountID( $id )
-  {
-    $this->accountid = $id;
-    if( ($this->accountdbo = load_AccountDBO( $id )) == null )
-      {
-	fatal_error( "DomainServicePurchaseDBO::setAccountID()",
-		     "could not load AccountDBO for DomainServicePurchaseDBO, id = " . $id );
-      }
-  }
-
-  /**
-   * Get Account ID
-   *
-   * @return integer Account ID
-   */
-  function getAccountID() { return $this->accountid; }
-
-  /**
-   * Get Account Name
-   *
-   * @return string Account Name
-   */
-  function getAccountName() { return $this->accountdbo->getAccountName(); }
-
-  /**
    * Set Top Level Domain
    *
    * @param string $tld Top Level Domain that this domain is being registered under
    */
   function setTLD( $tld )
   {
-    $this->tld = $tld;
-    if( ($this->domainservicedbo = load_DomainServiceDBO( $tld )) == null )
-      {
-	fatal_error( "DomainServicePurchaseDBO::setTLD()",
-		     "could not load DomainServiceDBO for DomainServicePurchaseDBO, tld = " .$tld );
-      }
+    $this->setPurchasable( load_DomainServiceDBO( $tld ) );
   }
 
   /**
@@ -131,31 +87,17 @@ class DomainServicePurchaseDBO extends PurchaseDBO
    *
    * @return string Top Level Domain
    */
-  function getTLD() { return $this->tld; }
+  function getTLD() { return $this->purchasable->getTLD(); }
 
   /**
-   * Set Registration Term
+   * Set Purchasable
    *
-   * @param string $term Registration term ("1 year", "2 year" ... "10 year")
+   * @param DomainServiceDBO The domain service that is/was purchased
    */
-  function setTerm( $term )
+  public function setPurchasable( DomainServiceDBO $serviceDBO )
   {
-    if( $term != "1 year" &&
-	$term != "2 year" &&
-	$term != "3 year" &&
-	$term != "4 year" &&
-	$term != "5 year" &&
-	$term != "6 year" &&
-	$term != "7 year" &&
-	$term != "8 year" &&
-	$term != "9 year" &&
-	$term != "10 year" )
-      {
-	echo "Invalid term: " . $term;
-	exit();
-      }
-    parent::setTerm( $term );
-    $this->generateExpireDate();
+    // This function is meant to force purchasable to be a DomainServiceDBO
+    parent::setPurchasable( $serviceDBO );
   }
 
   /**
@@ -177,7 +119,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
    *
    * @return string Full domain name (with TLD)
    */
-  function getFullDomainName() { return $this->domainname . "." . $this->tld; }
+  function getFullDomainName() { return $this->domainname . "." . $this->getTLD(); }
 
   /**
    * Set Registration Date
@@ -212,7 +154,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
 			   $start_date['seconds'], 
 			   $start_date['mon'], 
 			   $start_date['mday'], 
-			   $start_date['year'] + $this->getTermInt() );
+			   $start_date['year'] + ($this->getTerm() / 12) );
 
     // Convert back to a datetime
     $this->setExpireDate( $DB->format_datetime( $expire_date ) );
@@ -244,69 +186,11 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   }
 
   /**
-   * Get Price
-   *
-   * According to the registration term, retrieves the price of this domain
-   * service.
-   *
-   * @return double Price
-   */
-  function getPrice()
-  {
-    switch( $this->getTerm() )
-      {
-      case "1 year": return $this->domainservicedbo->getPrice1yr(); break;
-      case "2 year": return $this->domainservicedbo->getPrice2yr(); break;
-      case "3 year": return $this->domainservicedbo->getPrice3yr(); break;
-      case "4 year": return $this->domainservicedbo->getPrice4yr(); break;
-      case "5 year": return $this->domainservicedbo->getPrice5yr(); break;
-      case "6 year": return $this->domainservicedbo->getPrice6yr(); break;
-      case "7 year": return $this->domainservicedbo->getPrice7yr(); break;
-      case "8 year": return $this->domainservicedbo->getPrice8yr(); break;
-      case "9 year": return $this->domainservicedbo->getPrice9yr(); break;
-      case "10 year": return $this->domainservicedbo->getPrice10yr(); break;
-
-      default: 
-	return 0; 
-	break;
-      }
-  }
-
-  /**
-   * Get Registration Term as Number of Years
-   *
-   * @return integer Registration term (years)
-   */
-  function getTermInt()
-  {
-    switch( $this->getTerm() )
-      {
-      case "1 year": return 1; break;
-      case "2 year": return 2; break;
-      case "3 year": return 3; break;
-      case "4 year": return 4; break;
-      case "5 year": return 5; break;
-      case "6 year": return 6; break;
-      case "7 year": return 7; break;
-      case "8 year": return 8; break;
-      case "9 year": return 9; break;
-      case "10 year": return 10; break;
-      }
-  }
-
-  /**
-   * Is Taxable
-   *
-   * @return boolean True if this purchase is taxable
-   */
-  function isTaxable() { return $this->domainservicedbo->getTaxable() == "Yes"; }
-
-  /**
    * Get Module Name
    *
    * @return string Name of module that registered this domain name
    */
-  function getModuleName() { return $this->domainservicedbo->getModuleName(); }
+  function getModuleName() { return $this->purchasable->getModuleName(); }
 
   /**
    * Get Domain Service Title
@@ -346,23 +230,6 @@ class DomainServicePurchaseDBO extends PurchaseDBO
     global $DB;
     return $DB->datetime_to_unix( $this->getExpireDate() ) > time();
   }
-
-  /**
-   * Load member data from an array
-   *
-   * @param array $data Data to load
-   */
-  function load( $data )
-  {
-    $this->setID( $data['id'] );
-    $this->setAccountID( $data['accountid'] );
-    $this->setTLD( $data['tld'] );
-    $this->setTerm( $data['term'] );
-    $this->setDomainName( $data['domainname'] );
-    $this->setDate( $data['date'] );
-    $this->setExpireDate( $data['expiredate'] );
-    $this->setSecret( $data['secret'] );
-  }
 }
 
 /**
@@ -383,8 +250,9 @@ function add_DomainServicePurchaseDBO( &$dbo )
 				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "expiredate" => $dbo->getExpireDate(),
-				       "accountname" => $dbo->getAccountName(),
-				       "secret" => $dbo->getSecret() ) );
+				       "secret" => $dbo->getSecret(),
+				       "nextbillingdate" => $dbo->getNextBillingDate(),
+				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -432,8 +300,9 @@ function update_DomainServicePurchaseDBO( &$dbo )
 				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "expiredate" => $dbo->getExpireDate(),
-				       "accountname" => $dbo->getAccountName(),
-				       "secret" => $dbo->getSecret() ) );
+				       "secret" => $dbo->getSecret(),
+				       "nextbillingdate" => $dbo->getNextBillingDate(),
+				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

@@ -44,10 +44,15 @@ class PaymentTableWidget extends TableWidget
     parent::init( $params );
 
     // Build an Payment filter
-    $where = isset( $this->invoiceID ) ? 
-      sprintf( "invoiceid='%d'", $this->invoiceID ) : null;
-    $where = isset( $this->orderID ) ?
-      sprintf( "orderid='%d'", $this->orderID ) : null;
+    $where = "";
+    if( isset( $this->invoiceID ) )
+      {
+	$where = sprintf( "invoiceid='%d'", $this->invoiceID );
+      }
+    if( isset( $this->orderID ) )
+      {
+	$where = sprintf( "orderid='%d'", $this->orderID );
+      }
 
     // Load the Payment Table
     if( null != ($items = load_array_PaymentDBO( $where )) )

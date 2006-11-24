@@ -11,12 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
-require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
-require_once BASE_PATH . "DBO/ServerDBO.class.php";
-require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * AssignHostingPage
@@ -28,20 +23,6 @@ require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
  */
 class AssignHostingPage extends SolidStatePage
 {
-  /**
-   * Initialize Assign Hosting Page
-   */
-  function init()
-  {
-    parent::init();
-
-    // Set URL Fields
-    $this->setURLField( "account", $this->get['account']->getID() );
-
-    // Store service DBO in session
-    $this->session['account_dbo'] =& $this->get['account'];
-  }
-
   /**
    * Action
    *
@@ -65,6 +46,10 @@ class AssignHostingPage extends SolidStatePage
 	    // Cancel
 	    $this->goback();
 	  }
+	elseif( isset( $this->post['service'] ) )
+	  {
+	    $this->updatePrices( $this->post['service'] );
+	  }
 	break;
 
       default:
@@ -84,8 +69,7 @@ class AssignHostingPage extends SolidStatePage
     if( $this->post['service']->getUniqueIP() == "Required" && 
 	!isset( $this->post['ipaddress'] ) )
       {
-	$this->setError( array( "type" => "SELECT_IP" ) );
-	$this->reload();
+	throw new SWUserException( "[SELECT_IP]" );
       }
 
     // Create new HostingServicePurchase DBO
@@ -93,8 +77,9 @@ class AssignHostingPage extends SolidStatePage
 
     $purchase_dbo = new HostingServicePurchaseDBO();
     $purchase_dbo->setAccountID( $this->get['account']->getID() );
-    $purchase_dbo->setHostingServiceID( $this->post['service']->getID() );
-    $purchase_dbo->setTerm( $this->post['term'] );
+    $purchase_dbo->setPurchasable( $this->post['service'] );
+    $purchase_dbo->setTerm( isset( $this->post['term'] ) ? 
+			    $this->post['term']->getTermLength() : null );
     $purchase_dbo->setServerID( $serverID );
     $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
 
@@ -102,9 +87,7 @@ class AssignHostingPage extends SolidStatePage
     if( !add_HostingServicePurchaseDBO( $purchase_dbo ) )
       {
 	// Add failed
-	$this->setError( array( "type" => "DB_ASSIGN_HOSTING_FAILED",
-				"args" => array( $service_dbo->getTitle() ) ) );
-	$this->reload();
+	throw new SWException( "Failed to add hostingservicepurchase record!" );
       }
 
     // If an IP address was selected, assign that IP address to this purchase
@@ -139,5 +122,42 @@ class AssignHostingPage extends SolidStatePage
     $this->goto( "accounts_view_account",
 		 null,
 		 "action=services&account=" . $this->get['account']->getID() );
+  }
+
+  /**
+   * Initialize Assign Hosting Page
+   */
+  function init()
+  {
+    parent::init();
+
+    // Set URL Fields
+    $this->setURLField( "account", $this->get['account']->getID() );
+
+    // Store service DBO in session
+    $this->session['account_dbo'] =& $this->get['account'];
+
+    if( null == ($services = load_array_HostingServiceDBO()) )
+      {
+	$this->setError( array( "type" => "[THERE_ARE_NO_HOSTING_SERVICES]" ) );
+	$this->goback();
+      }
+
+    if( !isset( $this->post['service'] ) )
+      {
+	$this->updatePrices( array_shift( $services ) );
+      }
+  }
+
+  /**
+   * Update Prices Box
+   *
+   * @param HostingServiceDBO The hosting service to show prices for
+   */
+  protected function updatePrices( HostingServiceDBO $serviceDBO )
+  {
+    // Update the service terms box
+    $widget = $this->forms['assign_hosting']->getField( "term" )->getWidget();
+    $widget->setPurchasable( $serviceDBO );
   }
 }

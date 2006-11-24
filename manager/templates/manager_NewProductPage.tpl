@@ -11,14 +11,6 @@
         <th> {form_description field="description"} </th>
         <td> {form_element field="description" cols="40" rows="3"} </td>
       </tr>
-      <tr>
-        <th> {form_description field="price"} </th>
-        <td> {form_element field="price" size="7"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="taxable"} </th>
-        <td> {form_element field="taxable"} </td>
-      </tr>
       <tr class="footer">
         <th colspan="2">
           {form_element field="continue"}

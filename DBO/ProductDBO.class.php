@@ -18,129 +18,84 @@
  * @pacakge DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ProductDBO extends DBO
+class ProductDBO extends PurchasableDBO
 {
+  /**
+   * @var string Product description
+   */
+  protected $description;
+
   /**
    * @var integer Product ID
    */
-  var $id;
+  protected $id;
 
   /**
    * @var string Product name
    */
-  var $name;
-
-  /**
-   * @var string Product description
-   */
-  var $description;
-
-  /**
-   * @var double Product price
-   */
-  var $price;
-
-  /**
-   * @var string Taxable flag
-   */
-  var $taxable;
+  protected $name;
 
   /**
    * Convert to a String
    *
    * @return string Product ID
    */
-  function __toString() { return $this->getID(); }
+  public function __toString() { return $this->getID(); }
 
   /**
    * Set Product ID
    *
    * @param integer $id Product ID
    */
-  function setID( $id ) { $this->id = $id; }
+  public function setID( $id ) { $this->id = $id; }
 
   /**
    * Get Product ID
    *
    * @return integer Product ID
    */
-  function getID() { return $this->id; }
+  public function getID() { return $this->id; }
 
   /**
    * Set Product Name
    *
    * @param string $name Product name
    */
-  function setName( $name ) { $this->name = $name; }
+  public function setName( $name ) { $this->name = $name; }
 
   /**
    * Get Product Name
    *
    * @return string Product name
    */
-  function getName() { return $this->name; }
+  public function getName() { return $this->name; }
 
   /**
    * Set Product Description
    *
    * @var string $description Product description
    */
-  function setDescription( $description ) { $this->description = $description; }
+  public function setDescription( $description ) { $this->description = $description; }
 
   /**
    * Get Product Description
    *
    * @return string Product description
    */
-  function getDescription() { return $this->description; }
+  public function getDescription() { return $this->description; }
 
   /**
-   * Set Product Price
+   * Load member data from an array
    *
-   * @param double $price Product price
+   * @param array $data Data to load
    */
-  function setPrice( $price ) { $this->price = $price; }
-
-  /**
-   * Get Product Price
-   *
-   * @return double Product price
-   */
-  function getPrice() { return $this->price; }
-
-  /**
-   * Set Taxable Flag
-   * 
-   * @param string $taxable Taxable flag (Yes or No)
-   */
-  function setTaxable( $taxable )
+  public function load( $data )
   {
-    if( !($taxable == "Yes" || $taxable == "No" ) )
-      {
-	fatal_error( "ProductDBO::setTaxable", "Invalid value: " . $taxable );
-      }
-    $this->taxable = $taxable;
-  }
+    // Load the record data
+    parent::load( $data );
 
-  /**
-   * Get Taxable Flag
-   *
-   * @return string Taxable flag (Yes or No)
-   */
-  function getTaxable() { return $this->taxable; }
-
-  /**
-   * Load Member Data from Array
-   *
-   * @param array $date Data to load
-   */
-  function load( $data )
-  {
-    $this->setID( $data['id'] );
-    $this->setName( $data['name'] );
-    $this->setDescription( $data['description'] );
-    $this->setPrice( $data['price'] );
-    $this->setTaxable( $data['taxable'] );
+    // Load pricing
+    $this->prices = load_array_ProductPriceDBO( "productid=" . $this->getID() );
   }
 }
 
@@ -157,9 +112,7 @@ function add_ProductDBO( &$dbo )
   // Build SQL
   $sql = $DB->build_insert_sql( "product",
 				array( "name" => $dbo->getName(),
-				       "description" => $dbo->getDescription(),
-				       "price" => $dbo->getPrice(),
-				       "taxable" => $dbo->getTaxable() ) );
+				       "description" => $dbo->getDescription() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -203,9 +156,7 @@ function update_ProductDBO( &$dbo )
   $sql = $DB->build_update_sql( "product",
 				"id = " . intval( $dbo->getID() ),
 				array( "name" => $dbo->getName(),
-				       "description" => $dbo->getDescription(),
-				       "price" => $dbo->getPrice(),
-				       "taxable" => $dbo->getTaxable() ) );
+				       "description" => $dbo->getDescription() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

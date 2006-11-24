@@ -46,4 +46,8 @@ class SWException extends Exception
    */
   function __toString() { return $this->message; }
 }
+
+class SWUserException extends SWException
+{
+}
 ?>

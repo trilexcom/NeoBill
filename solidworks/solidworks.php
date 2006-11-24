@@ -167,11 +167,16 @@ function handle_post_request()
   // Validate the form
   if( $page->processForm( $form_name ) )
     {
-      // Do not call action() for table search forms
-      if( !$conf['forms'][$form_name]['dbo_table_search'] )
+      // No errors in form - go ahead and process
+      try
 	{
-	  // No errors in form - go ahead and process
 	  $page->action( $form_name );
+	}
+      catch( SWUserException $e )
+	{
+	  // User Exceptions are meant to be displayed on the page
+	  $page->exception( $e );
+	  $page->reload();
 	}
     }
 }

@@ -10,10 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Include the parent class
-require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
-
-require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * EditHostingServicePage
@@ -28,7 +25,7 @@ class EditHostingServicePage extends SolidStateAdminPage
   /**
    * Initialize the Edit Hosting Service Page
    */
-  function init()
+  public function init()
   {
     parent::init();
 
@@ -37,6 +34,10 @@ class EditHostingServicePage extends SolidStateAdminPage
 
     // Store service DBO in session
     $this->session['hosting_dbo'] =& $this->get['hservice'];
+
+    // Setup the pricing table
+    $ptw = $this->forms['edit_hosting_pricing']->getField( "prices" )->getWidget();
+    $ptw->setPrices( $this->get['hservice']->getPricing() );
   }
 
   /**
@@ -47,7 +48,7 @@ class EditHostingServicePage extends SolidStateAdminPage
    *
    * @param string $action_name Action
    */
-  function action( $action_name )
+  public function action( $action_name )
   {
     switch( $action_name )
       {
@@ -63,7 +64,19 @@ class EditHostingServicePage extends SolidStateAdminPage
 	    // Cancel (return to view page)
 	    $this->goback();
 	  }
+	break;
 
+      case "edit_hosting_pricing":
+	if( isset( $this->post['delete'] ) )
+	  {
+	    $this->deletePrice();
+	  }
+
+      case "edit_hosting_add_price":
+	if( isset( $this->post['add'] ) )
+	  {
+	    $this->addPrice();
+	  }
 	break;
 
       default:
@@ -73,25 +86,69 @@ class EditHostingServicePage extends SolidStateAdminPage
   }
 
   /**
+   * Add Price
+   */
+  protected function addPrice()
+  {
+    if( $this->post['type'] == "Onetime" && $this->post['termlength'] != 0 )
+      {
+	throw new SWUserException( "[TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO]" );
+      }
+    if( $this->post['type'] == "Recurring" && $this->post['termlength'] == 0 )
+      {
+	throw new SWUserException( "[TERMLENGTH_FOR_RECURRING_MUST_NOT_BE_ZERO]" );
+      }
+    $priceDBO = new HostingServicePriceDBO();
+    $priceDBO->setServiceID( $this->get['hservice']->getID() );
+    $priceDBO->setType( $this->post['type'] );
+    $priceDBO->setTermLength( $this->post['termlength'] );
+    $priceDBO->setPrice( $this->post['price'] );
+    $priceDBO->setTaxable( $this->post['taxable'] );
+
+    try
+      {
+	$this->get['hservice']->addPrice( $priceDBO );
+	if( !add_HostingServicePriceDBO( $priceDBO ) )
+	  {
+	    throw new SWException( "Failed to add price to database: " . 
+				   mysql_error() );
+	  }
+	$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
+      }
+    catch( DuplicatePriceException $e )
+      {
+	update_HostingServicePriceDBO( $priceDBO );
+	$this->setMessage( array( "type" => "[PRICE_UPDATED]" ) );
+      }
+
+    $this->reload();
+  }
+
+  /**
+   * Delete Price
+   */
+  protected function deletePrice()
+  {
+    foreach( $this->post['prices'] as $price )
+      {
+	delete_HostingServicePriceDBO( $price );
+      }
+
+    $this->setMessage( array( "type" => "[PRICES_DELETED]" ) );
+    $this->reload();
+  }
+
+  /**
    * Update Hosting Service
    *
    * Place the changes from the form into the HostingServiceDBO and update the database.
    */
-  function update_hosting_service()
+  protected function update_hosting_service()
   {
     // Update DBO
     $this->get['hservice']->setTitle( $this->post['title'] );
     $this->get['hservice']->setDescription( $this->post['description'] );
     $this->get['hservice']->setUniqueIP( $this->post['uniqueip'] );
-    $this->get['hservice']->setSetupPrice1mo( $this->post['setupprice1mo'] );
-    $this->get['hservice']->setPrice1mo( $this->post['price1mo'] );
-    $this->get['hservice']->setSetupPrice3mo( $this->post['setupprice3mo'] );
-    $this->get['hservice']->setPrice3mo( $this->post['price3mo'] );
-    $this->get['hservice']->setSetupPrice6mo( $this->post['setupprice6mo'] );
-    $this->get['hservice']->setPrice6mo( $this->post['price6mo'] );
-    $this->get['hservice']->setSetupPrice12mo( $this->post['setupprice12mo'] );
-    $this->get['hservice']->setPrice12mo( $this->post['price12mo'] );
-    $this->get['hservice']->setTaxable( $this->post['taxable'] );
     if( !update_HostingServiceDBO( $this->get['hservice'] ) )
       {
 	// Error

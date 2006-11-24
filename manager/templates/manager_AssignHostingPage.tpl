@@ -6,7 +6,7 @@
     <table style="width: 70%">
       <tr>
         <th> {form_description field="service"} </th>
-        <td> {form_element field="service"} </td>
+        <td> {form_element field="service" onChange="submit()"} </td>
       </tr>
       <tr>
         <th> {form_description field="term"} </th>
@@ -32,5 +32,4 @@
       </tr>
     </table>
   </div>
-
 {/form}

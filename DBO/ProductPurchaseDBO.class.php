@@ -23,32 +23,17 @@ class ProductPurchaseDBO extends PurchaseDBO
   /**
    * @var integer Product Purchase ID
    */
-  var $id;
+  protected $id;
 
   /**
    * @var integer Product ID
    */
-  var $productid;
-
-  /**
-   * @var ProductDBO Product
-   */
-  var $productdbo;
-
-  /**
-   * @var integer Account ID
-   */
-  var $accountid;
-
-  /**
-   * @var AccountDBO Account
-   */
-  var $accountdbo;
+  protected $productid;
 
   /**
    * @var string Purchase note
    */
-  var $note;
+  protected $note;
 
   /**
    * Convert to a String
@@ -78,12 +63,7 @@ class ProductPurchaseDBO extends PurchaseDBO
    */
   function setProductID( $id )
   {
-    $this->productid = $id;
-    if( ($this->productdbo = load_ProductDBO( $id )) == null )
-      {
-	fatal_error( "ProductPurchaseDBO::setProductID()",
-		     "could not load ProductDBO for ProductPurchaseDBO, id = " . $id );
-      }
+    $this->setPurchasable( load_ProductDBO( $id ) );
   }
 
   /**
@@ -91,29 +71,18 @@ class ProductPurchaseDBO extends PurchaseDBO
    *
    * @return integer Product ID
    */
-  function getProductID() { return $this->productid; }
+  function getProductID() { return $this->purchasable->getID(); }
 
   /**
-   * Set Account ID
+   * Set Purchasable
    *
-   * @param integer $id Account ID
+   * @param ProductDBO The product that is/was purchased
    */
-  function setAccountID( $id )
+  public function setPurchasable( ProductDBO $productDBO )
   {
-    $this->accountid = $id;
-    if( ($this->accountdbo = load_AccountDBO( $id )) == null )
-      {
-	fatal_error( "ProductPurchaseDBO::setAccountID()",
-		     "could not load AccountDBO for AccountPurchaseDBO, id = " . $id );
-      }
+    // This function is meant to force purchasable to be a ProductDBO
+    parent::setPurchasable( $productDBO );
   }
-
-  /**
-   * Get Account ID
-   *
-   * @return integer Account ID
-   */
-  function getAccountID() { return $this->accountid; }
 
   /**
    * Set Purchase Note
@@ -134,21 +103,7 @@ class ProductPurchaseDBO extends PurchaseDBO
    *
    * @return string Product name
    */
-  function getProductName() { return $this->productdbo->getName(); }
-
-  /**
-   * Get Product Price
-   *
-   * @return double Product price
-   */
-  function getPrice() { return $this->productdbo->getPrice(); }
-
-  /**
-   * Is Taxable
-   *
-   * @return boolean True if this service is taxable
-   */
-  function isTaxable() { return $this->productdbo->getTaxable() == "Yes"; }
+  function getProductName() { return $this->purchasable->getName(); }
 
   /**
    * Get Domain Service Title
@@ -156,20 +111,6 @@ class ProductPurchaseDBO extends PurchaseDBO
    * @return string Product name
    */
   function getTitle() { return $this->getProductName(); }
-
-  /**
-   * Load Member Data from Array
-   *
-   * @param array $data Data to load
-   */
-  function load( $data )
-  {
-    $this->setID( $data['id'] );
-    $this->setProductID( $data['productid'] );
-    $this->setAccountID( $data['accountid'] );
-    $this->setDate( $data['date'] );
-    $this->setNote( $data['note'] );
-  }
 }
 
 /**
@@ -186,8 +127,11 @@ function add_ProductPurchaseDBO( &$dbo )
   $sql = $DB->build_insert_sql( "productpurchase",
 				array( "productid" => intval( $dbo->getProductID() ),
 				       "accountid" => intval( $dbo->getAccountID() ),
+				       "term" => intval( $dbo->getTerm() ),
 				       "date" => $dbo->getDate(),
-				       "note" => $dbo->getNote() ) );
+				       "note" => $dbo->getNote(),
+				       "nextbillingdate" => $dbo->getNextBillingDate(),
+				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -232,7 +176,8 @@ function update_ProductPurchaseDBO( &$dbo )
   $sql = $DB->build_update_sql( "productpurchase",
 				"id = " . intval( $dbo->getID() ),
 				array( "note" => $dbo->getNote(),
-				       "date" => $dbo->getDate() ) );
+				       "date" => $dbo->getDate(),
+				       "term" => $dbo->getTerm() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

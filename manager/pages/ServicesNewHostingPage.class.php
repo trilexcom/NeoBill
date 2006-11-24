@@ -47,20 +47,7 @@ class ServicesNewHosting extends SolidStateAdminPage
 	  }
 
 	// Process new hosting service form
-	$this->process_new_hosting();
-	break;
-
-      case "new_hosting_confirm":
-	if( isset( $this->session['new_hosting_confirm']['continue'] ) )
-	  {
-	    // Go ahead
-	    $this->add_hosting();
-	  }
-	else
-	  {
-	    // Go back
-	    $this->setTemplate( "default" );
-	  }
+	$this->add_hosting();
 	break;
 
       default:
@@ -70,44 +57,17 @@ class ServicesNewHosting extends SolidStateAdminPage
   }
 
   /**
-   * Process New Hosting
-   *
-   * Place the form data in a new HostingServiceDBO, then prompt the client to
-   * confirm the new hosting service
-   */
-  function process_new_hosting()
-  {
-    // Prepare HostingServiceDBO for database
-    $service_dbo = new HostingServiceDBO();
-    $service_dbo->setTitle( $this->post['title'] );
-    $service_dbo->setDescription( $this->post['description'] );
-    $service_dbo->setUniqueIP( $this->post['uniqueip'] );
-    $service_dbo->setSetupPrice1mo( $this->post['setupprice1mo'] );
-    $service_dbo->setPrice1mo( $this->post['price1mo'] );
-    $service_dbo->setSetupPrice3mo( $this->post['setupprice3mo'] );
-    $service_dbo->setPrice3mo( $this->post['price3mo'] );
-    $service_dbo->setSetupPrice6mo( $this->post['setupprice6mo'] );
-    $service_dbo->setPrice6mo( $this->post['price6mo'] );
-    $service_dbo->setSetupPrice12mo( $this->post['setupprice12mo'] );
-    $service_dbo->setPrice12mo( $this->post['price12mo'] );
-    $service_dbo->setTaxable( $this->post['taxable'] );
-
-    // Place DBO in the session for the confirm & receipt pages
-    $this->session['new_hosting_dbo'] = $service_dbo;
-
-    // Ask client to confirm
-    $this->setTemplate( "confirm" );
-  }
-
-  /**
    * Add Hosting
    *
    * Add the HostingServiceDBO to the database
    */
   function add_hosting()
   {
-    // Extract service DBO from the session
-    $service_dbo =& $this->session['new_hosting_dbo'];
+    // Prepare HostingServiceDBO for database
+    $service_dbo = new HostingServiceDBO();
+    $service_dbo->setTitle( $this->post['title'] );
+    $service_dbo->setDescription( $this->post['description'] );
+    $service_dbo->setUniqueIP( $this->post['uniqueip'] );
 
     // Insert HostingServiceDBO into database
     if( !add_HostingServiceDBO( $service_dbo ) )
@@ -122,7 +82,9 @@ class ServicesNewHosting extends SolidStateAdminPage
       }
 
     // Done
-    $this->goback();
+    $this->goto( "services_edit_hosting",
+		 null,
+		 "hservice=" . $service_dbo->getID() );
   }
 }
 ?>

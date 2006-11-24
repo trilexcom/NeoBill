@@ -24,65 +24,60 @@ class HostingServicePurchaseDBO extends PurchaseDBO
   /**
    * @var integer HostingServicePurchase ID
    */
-  var $id;
+  protected $id;
 
   /**
    * @var integer Account ID
    */
-  var $accountid;
+  protected $accountid;
 
   /**
    * @var AccountDBO Account that purchased this hosting service
    */
-  var $accountdbo;
+  protected $accountdbo;
 
   /**
    * @var integer Hosting service ID
    */
-  var $hostingserviceid;
-
-  /**
-   * @var HostingServiceDBO Hosting service purchased
-   */
-  var $hostingservicedbo;
+  protected $hostingserviceid;
 
   /**
    * @var integer Server ID
    */
-  var $serverid;
+  protected $serverid;
 
   /**
    * @var ServerDBO Server this hosting service purchase is assigned to
    */
-  var $serverdbo;
+  protected $serverdbo;
 
   /**
    * Convert to a String
    *
    * @return string Hosting service ID
    */
-  function __toString() { return $this->getID(); }
+  public function __toString() { return $this->getID(); }
 
   /**
    * Set Hosting Service Purchase ID
    *
    * @param integer $id Hosting service purchase ID
    */
-  function setID( $id ) { $this->id = $id; }
+  public function setID( $id ) { $this->id = $id; }
 
   /**
    * Get Hosting Service Purchase ID
    *
    * @return integer Hosting service purchase ID
    */
-  function getID() { return $this->id; }
+  public function getID() { return $this->id; }
 
   /**
    * Set Account ID
    *
    * @param integer $id Account ID
    */
-  function setAccountID( $id )
+  public function setAccountID( $id )
   {
     $this->accountid = $id;
     if( ($this->accountdbo = load_AccountDBO( $id )) == null )
@@ -97,21 +92,27 @@ class HostingServicePurchaseDBO extends PurchaseDBO
    *
    * @return integer Account ID
    */
-  function getAccountID() { return $this->accountid; }
+  public function getAccountID() { return $this->accountid; }
+
+  /**
+   * Set Purchasable
+   *
+   * @param HostingServiceDBO The hosting service that is/was purchased
+   */
+  public function setPurchasable( HostingServiceDBO $serviceDBO )
+  {
+    // This function is meant to force purchasable to be a HostingServiceDBO
+    parent::setPurchasable( $serviceDBO );
+  }
 
   /**
    * Set Hosting Service ID
    *
    * @param integer $id Hosting Service ID
    */
-  function setHostingServiceID( $id )
+  public function setHostingServiceID( $id )
   {
-    $this->hostingserviceid = $id;
-    if( ($this->hostingservicedbo = load_HostingServiceDBO( $id )) == null )
-      {
-	fatal_error( "HostingServicePurchaseDBO::setHostingServiceID()",
-		     "could not load HostingServiceDBO for HostingServicePurchaseDBO, id = " . $id );
-      }
+    $this->setPurchasable( load_HostingServiceDBO( $id ) );
   }
 
   /**
@@ -119,14 +120,17 @@ class HostingServicePurchaseDBO extends PurchaseDBO
    *
    * @return integer Hosting service ID
    */
-  function getHostingServiceID() { return $this->hostingserviceid; }
+  public function getHostingServiceID() 
+  { 
+    return $this->purchasable->getID(); 
+  }
 
   /**
    * Set Server ID
    *
    * @param integer $id Server ID
    */
-  function setServerID( $id )
+  public function setServerID( $id )
   {
     $id = intval( $id );
     if( $id < 1 )
@@ -150,14 +154,14 @@ class HostingServicePurchaseDBO extends PurchaseDBO
    *
    * @return integer Server ID
    */
-  function getServerID() { return $this->serverid; }
+  public function getServerID() { return $this->serverid; }
 
   /**
    * Get Server Hostname
    *
    * @return string Server hostname, or "Not Assigned" if there is no assigned server
    */
-  function getHostName()
+  public function getHostName()
   {
     if( !isset( $this->serverdbo ) )
       {
@@ -167,108 +171,11 @@ class HostingServicePurchaseDBO extends PurchaseDBO
   }
 
   /**
-   * Set Purchase Term
-   *
-   * @param string $term Purchase term ("1 month", "3 month", "6 month", "12 month")
-   */
-  function setTerm( $term )
-  {
-    if( $term != "1 month" &&
-	$term != "3 month" && 
-	$term != "6 month" &&
-	$term != "12 month" )
-      {
-	fatal_error( "HostingServicePurchaseDBO::setTerm()",
-		     "Invalid term: " . $term );
-      }
-    parent::setTerm( $term );
-  }
-
-  /**
    * Get Hosting Service Title
    *
    * @return string Hosting service title
    */
-  function getTitle() { return $this->hostingservicedbo->getTitle(); }
-
-  /**
-   * Get Price
-   *
-   * @return double Price
-   */
-  function getPrice()
-  {
-    switch( $this->getTerm() )
-      {
-
-      case "1 month":
-	return $this->hostingservicedbo->getPrice1mo();
-	break;
-
-      case "3 month":
-	return $this->hostingservicedbo->getPrice3mo();
-	break;
-
-      case "6 month":
-	return $this->hostingservicedbo->getPrice6mo();
-	break;
-
-      case "12 month":
-	return $this->hostingservicedbo->getPrice12mo();
-	break;
-
-      default:
-	return 0;
-	break;
-
-      }
-  }
-
-  /**
-   * Get Setup Fee
-   *
-   * @return float Setup fee
-   */
-  function getSetupFee() 
-  { 
-    switch( $this->getTerm() )
-      {
-      case "1 month": return $this->hostingservicedbo->getSetupPrice1mo();
-      case "3 month": return $this->hostingservicedbo->getSetupPrice3mo();
-      case "6 month": return $this->hostingservicedbo->getSetupPrice6mo();
-      case "12 month": return $this->hostingservicedbo->getSetupPrice12mo();
-      default: return 0;
-      }
-  }
-
-  /**
-   * Is Taxable
-   *
-   * @return boolean True if this service is taxable
-   */
-  function isTaxable() { return $this->hostingservicedbo->getTaxable() == "Yes"; }
-
-  /**
-   * Get Account Name
-   *
-   * @return string Name of Account that this purchase belongs to
-   */
-  function getAccountName() { return $this->accountdbo->getAccountName(); }
-
-  /**
-   * Load member data from an array
-   *
-   * @param array $data Date to load
-   */
-  function load( $data )
-  {
-    $this->setID( $data['id'] );
-    $this->setAccountID( $data['accountid'] );
-    $this->setHostingServiceID( $data['hostingserviceid'] );
-    $this->setServerID( $data['serverid'] );
-    $this->setTerm( $data['term'] );
-    $this->setDate( $data['date'] );
-  }
+  public function getTitle() { return $this->purchasable->getTitle(); }
 }
 
 /**
@@ -287,7 +194,9 @@ function add_HostingServicePurchaseDBO( &$dbo )
 				       "hostingserviceid" => intval( $dbo->getHostingServiceID() ),
 				       "serverid" => intval( $dbo->getServerID() ),
 				       "term" => $dbo->getTerm(),
-				       "date" => $dbo->getDate() ) );
+				       "date" => $dbo->getDate(),
+				       "nextbillingdate" => $dbo->getNextBillingDate(),
+				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -333,7 +242,9 @@ function update_HostingServicePurchaseDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ),
 				array( "term" => $dbo->getTerm(),
                                        "serverid" => intval( $dbo->getServerID() ),
-				       "date" => $dbo->getDate() ) );
+				       "date" => $dbo->getDate(),
+				       "nextbillingdate" => $dbo->getNextBillingDate(),
+				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );
