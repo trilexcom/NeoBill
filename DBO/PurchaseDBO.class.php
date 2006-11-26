@@ -95,7 +95,7 @@ abstract class PurchaseDBO extends SaleDBO
   /**
    * Get Previous Invoice ID
    *
-   * @return integer The ID of the invoice this purchase last appeared on
+   * @return integer The ID of the invoice this purchase last appeared on or -1 if last charged to an order
    */
   public function getPrevInvoiceID() { return $this->prevInvoiceID; }
 
@@ -123,6 +123,25 @@ abstract class PurchaseDBO extends SaleDBO
    * @return string Product/Service title
    */
   abstract function getTitle();
+
+  /**
+   * Increment Next Billing Date
+   */
+  public function incrementNextBillingDate()
+  {
+    global $DB;
+
+    $nextBillingDateTS = $DB->date_to_unix( $this->getNextBillingDate() );
+    $oldBillingDate = getdate( $nextBillingDateTS );
+    $nextBillingDate = 
+      $DB->format_date( mktime( 0, 0, 1,
+				 $oldBillingDate['mon'] + $this->getTerm(),
+				 $oldBillingDate['mday'],
+				 $oldBillingDate['year'] ) );
+
+    $this->setNextBillingDate( $nextBillingDate );
+    return $nextBillingDate;
+  }
 
   /**
    * Set Account ID

@@ -10,14 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// Order DBO
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
-
-// Payment DBO
-require_once BASE_PATH . "DBO/PaymentDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * ReviewPage

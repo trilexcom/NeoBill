@@ -63,16 +63,8 @@ class GenerateInvoicesPage extends SolidStatePage
     $invoice_date = $this->post['date'];
     $terms        = $this->post['terms'];
     $period_begin = $this->post['periodbegin'];
+    $period_end   = $this->post['periodend'];
     $note         = $this->post['note'];
-
-    // Calculate the end of the invoice period by adding 1 month to the beginning
-    $period_begin_arr = getdate( $period_begin );
-    $period_end = mktime( $period_begin_arr['hours'],
-			  $period_begin_arr['minutes'],
-			  $period_begin_arr['seconds'],
-			  $period_begin_arr['mon'] + 1 > 12 ? 1 : $period_begin_arr['mon'] + 1,
-			  $period_begin_arr['mday'],
-			  $period_begin_arr['mon'] + 1 > 12 ? $period_begin_arr['year'] + 1 : $period_begin_arr['year'] );
 
     // Get all accounts
     $accountdbo_array = load_array_AccountDBO();
@@ -119,6 +111,23 @@ class GenerateInvoicesPage extends SolidStatePage
     $this->setMessage( array( "type" => "INVOICE_BATCH_CREATED" ) );
     $this->goto( "billing_invoices" );
   }
-}
 
+  /**
+   * Initialize Generate Invoice Page
+   */
+  function init()
+  {
+    parent::init();
+
+    global $DB;
+
+    if( !isset( $this->post['periodend'] ) )
+      {
+	// Set the end of the invoice period to be 1 month ahead of today
+	$today = getdate( time() );
+	$newDate = $DB->format_datetime( mktime( null, null, null, $today['mon']+1 ) );
+	$this->smarty->assign( "nextMonth", $newDate );
+      }
+  }
+}
 ?>

@@ -272,6 +272,8 @@ class OrderDomainDBO extends OrderItemDBO
     $purchaseDBO->setTerm( $this->getTerm() );
     $purchaseDBO->setDomainName( $this->getDomainName() );
     $purchaseDBO->setDate( $DB->format_datetime( time() ) );
+    $purchaseDBO->setPrevInvoiceID( -1 );
+    $purchaseDBO->incrementNextBillingDate();
     if( !add_DomainServicePurchaseDBO( $purchaseDBO ) )
       {
 	log_error( "OrderDomainDBO::execute()",

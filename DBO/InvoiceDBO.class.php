@@ -469,6 +469,7 @@ class InvoiceDBO extends DBO
 	      {
 		// Do not bill again
 		$nextBillingDateTS = null;
+		$purchaseDBO->setNextBillingDate( null );
 	      }
 	    else
 	      {
@@ -476,16 +477,9 @@ class InvoiceDBO extends DBO
 		$recurCount++;
 
 		// Increment the next billing date by term
-		$oldBillingDate = getdate( $nextBillingDateTS );
 		$nextBillingDateTS = 
-		  mktime( 0, 0, 1,
-			  $oldBillingDate['mon'] + $purchaseDBO->getTerm(),
-			  $oldBillingDate['mday'],
-			  $oldBillingDate['year'] );
+		  $DB->date_to_unix( $purchaseDBO->incrementNextBillingDate() );
 	      }
-
-	    // Update the purchase DBO
-	    $purchaseDBO->setNextBillingDate( $DB->format_date( $nextBillingDateTS ) );
 
 	    // The -1 will be replaced by the invoice ID in add_InvoiceDBO
 	    $purchaseDBO->setPrevInvoiceID( -1 );

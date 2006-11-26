@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
-
-// Order DBO
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * ReceiptPage
@@ -22,7 +19,7 @@ require_once BASE_PATH . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ReceiptPage extends Page
+class ReceiptPage extends SolidStatePage
 {
   /**
    * Action
