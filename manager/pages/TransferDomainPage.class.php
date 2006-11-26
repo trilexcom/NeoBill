@@ -151,7 +151,7 @@ class TransferDomainPage extends SolidStatePage
       {
 	$module->transferDomain( $this->purchaseDBO->getDomainName(),
 				 $this->purchaseDBO->getTLD(),
-				 $this->purchaseDBO->getTerm(),
+				 intval( $this->purchaseDBO->getTerm() / 12 ),
 				 $this->purchaseDBO->getSecret(),
 				 $contacts,
 				 $this->accountDBO );

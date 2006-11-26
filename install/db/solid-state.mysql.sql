@@ -44,53 +44,53 @@ CREATE TABLE `domainservice` (
   `tld` varchar(255) NOT NULL default '',
   `modulename` varchar(255) default NULL,
   `description` blob,
-  `price1yr` decimal(10,2) NOT NULL default '0.00',
-  `price2yr` decimal(10,2) NOT NULL default '0.00',
-  `price3yr` decimal(10,2) NOT NULL default '0.00',
-  `price4yr` decimal(10,2) NOT NULL default '0.00',
-  `price5yr` decimal(10,2) NOT NULL default '0.00',
-  `price6yr` decimal(10,2) NOT NULL default '0.00',
-  `price7yr` decimal(10,2) NOT NULL default '0.00',
-  `price8yr` decimal(10,2) NOT NULL default '0.00',
-  `price9yr` decimal(10,2) NOT NULL default '0.00',
-  `price10yr` decimal(10,2) NOT NULL default '0.00',
-  `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`tld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE `domainserviceprice` (
+  `tld` varchar(255) NOT NULL,
+  `type` enum('Onetime','Recurring') NOT NULL default 'Onetime',
+  `termlength` int(10) unsigned NOT NULL default '0',
+  `price` decimal(20,2) NOT NULL,
+  `taxable` enum('Yes','No') NOT NULL default 'No',
+  PRIMARY KEY  (`tld`,`type`,`termlength`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `domainservicepurchase` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
   `tld` varchar(255) NOT NULL default '',
-  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') NOT NULL default '1 year',
+  `term` int(11) default '0',
+  `nextbillingdate` date default NULL,
+  `previnvoiceid` int(11) default NULL,
   `domainname` varchar(255) NOT NULL default '',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `expiredate` datetime NOT NULL default '0000-00-00 00:00:00',
-  `accountname` varchar(255) default NULL,
+  `secret` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `hostingservice` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `description` blob,
-  `setupprice1mo` decimal(10,2) NOT NULL default '0.00',
-  `price1mo` decimal(10,2) NOT NULL default '0.00',
-  `setupprice3mo` decimal(10,2) NOT NULL default '0.00',
-  `price3mo` decimal(10,2) NOT NULL default '0.00',
-  `setupprice6mo` decimal(10,2) NOT NULL default '0.00',
-  `price6mo` decimal(10,2) NOT NULL default '0.00',
-  `setupprice12mo` decimal(10,2) NOT NULL default '0.00',
-  `price12mo` decimal(10,2) NOT NULL default '0.00',
   `uniqueip` enum('Required','Not Required') NOT NULL default 'Not Required',
-  `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE `hostingserviceprice` (
+  `serviceid` int(10) unsigned NOT NULL,
+  `type` enum('Onetime','Recurring') NOT NULL default 'Onetime',
+  `termlength` int(10) unsigned NOT NULL default '0',
+  `price` decimal(20,2) NOT NULL,
+  `taxable` enum('Yes','No') NOT NULL default 'No',
+  PRIMARY KEY  (`serviceid`,`type`,`termlength`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `hostingservicepurchase` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
   `hostingserviceid` int(11) NOT NULL default '0',
   `serverid` int(11) default NULL,
-  `term` enum('1 month','3 month','6 month','12 month') NOT NULL default '1 month',
+  `term` int(11) default NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `nextbillingdate` date default NULL,
+  `previnvoiceid` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `invoice` (
@@ -149,7 +149,7 @@ CREATE TABLE `note` (
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `updated` datetime NOT NULL default '0000-00-00 00:00:00',
   `accountid` int(11) NOT NULL default '0',
-  `username` varchar(10) NOT NULL default '',
+  `username` varchar(32) NOT NULL,
   `text` blob NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -185,7 +185,7 @@ CREATE TABLE `orderdomain` (
   `status` enum('Rejected','Pending','Accepted','Fulfilled') NOT NULL default 'Pending',
   `tld` varchar(255) default NULL,
   `domainname` varchar(255) NOT NULL default '',
-  `term` enum('1 year','2 year','3 year','4 year','5 year','6 year','7 year','8 year','9 year','10 year') default '1 year',
+  `term` int(11) default NULL,
   `transfersecret` varchar(255) default NULL,
   `admincontactid` int(10) unsigned NOT NULL,
   `billingcontactid` int(10) unsigned NOT NULL,
@@ -198,7 +198,7 @@ CREATE TABLE `orderhosting` (
   `orderitemid` int(10) unsigned NOT NULL default '0',
   `status` enum('Rejected','Pending','Accepted','Fulfilled') NOT NULL default 'Pending',
   `serviceid` int(10) unsigned NOT NULL default '0',
-  `term` enum('1 month','3 month','6 month','12 month') NOT NULL default '1 month',
+  `term` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `payment` (
@@ -219,15 +219,24 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `description` blob,
-  `price` decimal(10,2) NOT NULL default '0.00',
-  `taxable` enum('Yes','No') NOT NULL default 'No',
   PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+CREATE TABLE `productprice` (
+  `productid` int(10) unsigned NOT NULL,
+  `type` enum('Onetime','Recurring') NOT NULL default 'Onetime',
+  `termlength` int(10) unsigned NOT NULL default '0',
+  `price` decimal(20,2) NOT NULL,
+  `taxable` enum('Yes','No') NOT NULL default 'No',
+  PRIMARY KEY  (`productid`,`type`,`termlength`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `productpurchase` (
   `id` int(11) NOT NULL auto_increment,
   `productid` int(11) NOT NULL default '0',
   `accountid` int(11) NOT NULL default '0',
+  `term` int(11) NOT NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `nextbillingdate` date default NULL,
+  `previnvoiceid` int(11) default NULL,
   `note` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -256,9 +265,9 @@ CREATE TABLE `user` (
   `accountid` int(10) unsigned default NULL,
   `password` varchar(32) NOT NULL default '',
   `type` enum('Account Manager','Administrator','Client') NOT NULL default 'Client',
-  `firstname` varchar(30) default NULL,
-  `lastname` varchar(30) default NULL,
-  `email` varchar(30) default NULL,
+  `firstname` varchar(255) default NULL,
+  `lastname` varchar(255) default NULL,
+  `email` varchar(255) default NULL,
   `language` varchar(255) default NULL,
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

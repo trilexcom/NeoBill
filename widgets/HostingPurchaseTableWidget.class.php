@@ -59,7 +59,8 @@ class HostingPurchaseTableWidget extends TableWidget
 		     "recurringprice" => $dbo->getRecurringPrice(),
 		     "onetimeprice" => $dbo->getOnetimePrice(),
 		     "date" => $dbo->getDate(),
-		     "accountname" => $dbo->getAccountName() );
+		     "accountname" => $dbo->getAccountName(),
+		     "nextbillingdate" => $dbo->getNextBillingDate() );
 	  }
       }
   }

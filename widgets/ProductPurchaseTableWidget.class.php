@@ -47,7 +47,8 @@ class ProductPurchaseTableWidget extends TableWidget
 	      array( "id" => $dbo->getID(),
 		     "productname" => $dbo->getProductName(),
 		     "note" => $dbo->getNote(),
-		     "date" => $dbo->getDate() );
+		     "date" => $dbo->getDate(),
+		     "nextbillingdate" => $dbo->getNextBillingDate() );
 	  }
       }
   }

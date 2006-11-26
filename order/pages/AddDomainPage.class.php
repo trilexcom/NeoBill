@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * AddDomainPage
@@ -168,9 +165,9 @@ class AddDomainPage extends SolidStatePage
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
     $dbo->setType( "New" );
-    $dbo->setService( $this->session['domainoption']['registerdomaintld'] );
+    $dbo->setPurchasable( $this->session['domainoption']['registerdomaintld'] );
     $dbo->setDomainName( $this->session['domainoption']['registerdomainname'] );
-    $dbo->setTerm( $this->post['period'] );
+    $dbo->setTerm( $this->post['period']->getTermLength() );
 
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
@@ -196,10 +193,10 @@ class AddDomainPage extends SolidStatePage
     // Create a Domain Order Item
     $dbo = new OrderDomainDBO();
     $dbo->setType( "Transfer" );
-    $dbo->setService( $this->session['domainoption']['transferdomaintld'] );
+    $dbo->setPurchasable( $this->session['domainoption']['transferdomaintld'] );
     $dbo->setDomainName( $this->session['domainoption']['transferdomainname'] );
     $dbo->setTransferSecret( $this->post['secret'] );
-    $dbo->setTerm( $this->post['period'] );
+    $dbo->setTerm( $this->post['period']->getTermLength() );
 
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
@@ -248,7 +245,7 @@ class AddDomainPage extends SolidStatePage
 
     // and show the transfer page
     $termWidget = $this->forms['transferdomain']->getField( "period" )->getWidget();
-    $termWidget->setDomainService( $this->post['registerdomaintld'] );
+    $termWidget->setPurchasable( $this->post['registerdomaintld'] );
     $this->smarty->assign( "domain_name", $domain_name );
     $this->smarty->assign( "domain_tld", $tld );
     $this->setTemplate( "transfer" );
@@ -288,7 +285,7 @@ class AddDomainPage extends SolidStatePage
 
     // and show the registration page
     $termWidget = $this->forms['registerdomain']->getField( "period" )->getWidget();
-    $termWidget->setDomainService( $this->post['registerdomaintld'] );
+    $termWidget->setPurchasable( $this->post['registerdomaintld'] );
     $this->smarty->assign( "domain_name", $domain_name );
     $this->smarty->assign( "domain_tld", $tld );
     $this->setTemplate( "register_new_domain" );

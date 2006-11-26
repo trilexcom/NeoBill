@@ -60,6 +60,12 @@
 	padding-right: 0.5em;
 }
 
+.domainoption th {
+	font-weight: normal;
+	text-align: left;
+	padding-left: 0.5em;
+}
+
 .cart {
 	width: 650px;
 }

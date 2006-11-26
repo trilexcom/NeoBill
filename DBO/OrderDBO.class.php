@@ -10,6 +10,17 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require_once BASE_PATH . "solidworks/Email.class.php";
+
+// Exceptions
+class OrderFailedException extends SWUserException
+{
+  public function __construct( $message = "unkown" )
+  {
+    $this->message = sprintf( "[FAILED_TO_COMPLETE_ORDER]: %s.", $message );
+  }
+}
+
 /**
  * OrderDBO
  *
@@ -678,7 +689,7 @@ class OrderDBO extends DBO
       {
 	if( $orderitemdbo->getStatus != "Rejected" )
 	  {
-	    $total += $orderitemdbo->getSetupFee();
+	    $total += $orderitemdbo->getOnetimePrice();
 	  }
       }
     return $total;
@@ -696,7 +707,7 @@ class OrderDBO extends DBO
       {
 	if( $orderitemdbo->getStatus() != "Rejected" )
 	  {
-	    $total += $orderitemdbo->getPrice();
+	    $total += $orderitemdbo->getRecurringPrice();
 	  }
       }
     return $total;
@@ -724,7 +735,8 @@ class OrderDBO extends DBO
       {
 	if( $orderitemdbo->getStatus() != "Rejected" )
 	  {
-	    $total += $orderitemdbo->getTaxAmount();
+	    $total += ($orderitemdbo->getOnetimeTaxes() + 
+		       $orderitemdbo->getRecurringTaxes());
 	  }
       }
     return $total;
@@ -786,23 +798,7 @@ class OrderDBO extends DBO
     
     foreach( $this->orderitems as $orderItemDBO )
       {
-	if( !$orderItemDBO->isTaxable() )
-	  {
-	    // This item is not taxable
-	    continue;
-	  }
-
-	$taxAmount = 0.00;
-	foreach( $taxRuleDBOArray as $taxRuleDBO )
-	  {
-	    $rate = $taxRuleDBO->getRate() / 100.00;
-	    $taxAmount += 
-	      ($orderItemDBO->getPrice() * $rate) + 
-	      ($orderItemDBO->getSetupFee() * $rate);
-	  }
-
-	// Assign the order item it's tax amount
-	$orderItemDBO->setTaxAmount( $taxAmount );
+	$orderItemDBO->setTaxRules( $taxRuleDBOArray );
       }
   }
 
@@ -921,8 +917,7 @@ class OrderDBO extends DBO
     // Verify that the username is not in use already
     if( load_UserDBO( $this->getUsername() ) != null )
       {
-	log_error( "OrderDBO::executeNewAccount()", "User already exists!" );
-	return false;
+	throw new OrderFailedException( "[USER_ALREADY_EXISTS]" );
       }
 
     // Create the account
@@ -945,7 +940,7 @@ class OrderDBO extends DBO
     $accountDBO->setFax( $this->getFax() );
     if( !add_AccountDBO( $accountDBO ) )
       {
-	fatal_error( "OrderDBO::executeNewAccount()", "Could not create account!" );
+	throw new OrderFailedException( "[FAILED_TO_CREATE_NEW_ACCOUNT]" );
       }
 
     // Create user
@@ -956,8 +951,7 @@ class OrderDBO extends DBO
     $userDBO->setType( "Client" );
     if( !add_UserDBO( $userDBO ) )
       {
-	fatal_error( "OrderDBO::executeNewOrder()", 
-		     "Could not create new user: " . $this->getUsername() );
+	throw new OrderFailedException( "[FAILED_TO_CREATE_NEW_USER]" );
       }
 
     $this->setAccountID( $accountDBO->getID() );

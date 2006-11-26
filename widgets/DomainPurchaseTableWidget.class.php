@@ -48,7 +48,8 @@ class DomainPurchaseTableWidget extends TableWidget
 		     "fulldomainname" => $dbo->getFullDomainName(),
 		     "term" => $dbo->getTerm(),
 		     "date" => $dbo->getDate(),
-		     "expiredate" => $dbo->getExpireDate() );
+		     "expiredate" => $dbo->getExpireDate(),
+		     "nextbillingdate" => $dbo->getNextBillingDate() );
 	  }
       }
   }

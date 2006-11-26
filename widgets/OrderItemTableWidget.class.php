@@ -89,8 +89,8 @@ class OrderItemTableWidget extends TableWidget
 		 "orderitemid" => $dbo->getOrderItemID(),
 		 "description" => $dbo->getDescription(),
 		 "term" => $dbo->getTerm(),
-		 "setupfee" => $dbo->getSetupFee(),
-		 "price" => $dbo->getPrice() );
+		 "setupfee" => $dbo->getOnetimePrice(),
+		 "price" => $dbo->getRecurringPrice() );
       }
   }
 

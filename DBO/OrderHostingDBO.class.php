@@ -23,50 +23,31 @@ class OrderHostingDBO extends OrderItemDBO
   /**
    * @var integer OrderHosting ID
    */
-  var $id;
-
-  /**
-   * @var integer Service ID
-   */
-  var $serviceid;
-
-  /**
-   * @var HostingServiceDBO Hosting service that is being ordered
-   */
-  var $servicedbo;
-
-  /**
-   * @var string Term
-   */
-  var $term;
+  protected $id;
 
   /**
    * Set OrderHosting ID
    *
    * @param integer $id OrderHosting ID
    */
-  function setID( $id ) { $this->id = $id; }
+  public function setID( $id ) { $this->id = $id; }
 
   /**
    * Get OrderHosting ID
    *
    * @return integer OrderHosting ID
    */
-  function getID() { return $this->id; }
+  public function getID() { return $this->id; }
 
   /**
-   * Set Service
+   * Set Purchasable
    *
-   * @param HostingServiceDBO $dbo Hosting Service DBO
+   * @param HostingServiceDBO The hosting service to be purchased
    */
-  function setService( $dbo ) 
+  public function setPurchasable( HostingServiceDBO $purchasable )
   {
-    if( !is_a( $dbo, "HostingServiceDBO" ) )
-      {
-	fatal_error( "OrderHostingDBO::setService", "DBO is not a HostingServiceDBO" );
-      }
-    $this->servicedbo = $dbo;
-    $this->serviceid = $dbo->getID(); 
+    // The purpose of this function is to forc the purchasable to be a HostingServiceDBO
+    parent::setPurchasable( $purchasable );
   }
 
   /**
@@ -74,14 +55,9 @@ class OrderHostingDBO extends OrderItemDBO
    *
    * @param integer $id Hosting Service ID
    */
-  function setServiceID( $id ) 
+  public function setServiceID( $id ) 
   { 
-    if( ($this->servicedbo = load_HostingServiceDBO( $id )) == null )
-      {
-	fatal_error( "OrderHostingDBO::setServiceID()",
-		     "Unable to load HostingServiceDBO with id = " . $id );
-      }
-    $this->serviceid = $id; 
+    $this->setPurchasable( load_HostingServiceDBO( $id ) );
   }
 
   /**
@@ -89,101 +65,17 @@ class OrderHostingDBO extends OrderItemDBO
    *
    * @return integer Hosting Service ID
    */
-  function getServiceID() { return $this->serviceid; }
-
-  /**
-   * Set Term
-   *
-   * @param string $term Hosting term ("1 month" ... "12 months")
-   */
-  function setTerm( $term )
-  {
-    if( !( $term == null ||
-	   $term == "1 month" ||
-	   $term == "3 month" ||
-	   $term == "6 month" ||
-	   $term == "12 month"  ) )
-      {
-	fatal_error( "OrderHostingDBO::setTerm()", "Invalid term: " . $term );
-      }
-    $this->term = $term;
-  }
-
-  /**
-   * Get Term
-   *
-   * @return string Hosting term ("1 month" ... "12 months")
-   */
-  function getTerm() { return $this->term; }
+  public function getServiceID() { return $this->purchasable->getID(); }
 
   /**
    * Get Description
    *
    * @return string Description of this order item
    */
-  function getDescription()
+  public function getDescription()
   {
-    return "[WEB_HOSTING_PACKAGE]: " . $this->servicedbo->getTitle();
+    return "[WEB_HOSTING_PACKAGE]: " . $this->purchasable->getTitle();
   }
-
-  /**
-   * Get Price
-   *
-   * @return double Price of this order item
-   */
-  function getPrice()
-  {
-    switch( $this->getTerm() )
-      {
-      case "1 month": return $this->servicedbo->getPrice1mo();
-      case "3 month": return $this->servicedbo->getPrice3mo();
-      case "6 month": return $this->servicedbo->getPrice6mo();
-      case "12 month": return $this->servicedbo->getPrice12mo();
-      }
-  }
-
-  /**
-   * Get Price String
-   *
-   * @return string Price formatted with currency symbol
-   */
-  function getPriceString()
-  {
-    return smarty_modifier_currency( $this->getPrice() );
-  }
-
-  /**
-   * Get Setup Fee
-   *
-   * @return double Setup fee for this order item
-   */
-  function getSetupFee()
-  {
-    switch( $this->getTerm() )
-      {
-      case "1 month": return $this->servicedbo->getSetupPrice1mo();
-      case "3 month": return $this->servicedbo->getSetupPrice3mo();
-      case "6 month": return $this->servicedbo->getSetupPrice6mo();
-      case "12 month": return $this->servicedbo->getSetupPrice12mo();
-      }
-  }
-
-  /**
-   * Get Setup Fee String
-   *
-   * @return string Setup fee formatted with currency symbol
-   */
-  function getSetupFeeString()
-  {
-    return smarty_modifier_currency( $this->getSetupFee() );
-  }
-
-  /**
-   * Is Taxable
-   *
-   * @return boolean True if this item is taxable
-   */
-  function isTaxable() { return $this->servicedbo->getTaxable() == "Yes"; }
 
   /**
    * Execute Hosting Service Order
@@ -193,7 +85,7 @@ class OrderHostingDBO extends OrderItemDBO
    * @param AccountDBO $accountDBO Account object
    * @return boolean True for success
    */
-  function execute( $accountDBO )
+  public function execute( $accountDBO )
   {
     global $DB;
 
@@ -222,20 +114,6 @@ class OrderHostingDBO extends OrderItemDBO
     // Success
     return true;
   }
-
-  /**
-   * Load Member Data from Array
-   */
-  function load( $data )
-  {
-    parent::load( $data );
-    $this->setID( $data['id'] );
-    $this->setOrderID( $data['orderid'] );
-    $this->setOrderItemID( $data['orderitemid'] );
-    $this->setServiceID( $data['serviceid'] );
-    $this->setTerm( $data['term'] );
-  }
-
 }
 
 /**

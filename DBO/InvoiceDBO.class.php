@@ -444,43 +444,26 @@ class InvoiceDBO extends DBO
     // Bill all applicable purchases for the account
     foreach( $this->accountDBO->getPurchases() as $purchaseDBO )
       {
+	$taxes = 0;
+
+	// Bill onetime price if necessary
+	if( $purchaseDBO->getPrevInvoiceID() == 0 && 
+	    $purchaseDBO->getOnetimePrice() > 0 )
+	  {
+	    $taxes += $purchaseDBO->getOnetimeTaxes();
+	    $this->add_item( 1, 
+			     $purchaseDBO->getOnetimePrice(),
+			     $purchaseDBO->getTitle() .
+			     " ([ONETIME])",
+			     false );
+	  }
+
 	// Bill the purchase as many times as necessary during the period
 	$nextBillingDateTS = $DB->date_to_unix( $purchaseDBO->getNextBillingDate() );
+	$recurCount = 0;
 	while( $nextBillingDateTS >= $periodBeginTS && 
 	       $nextBillingDateTS < $periodEndTS )
 	  {
-	    $taxes = 0;
-
-	    // Bill the recurring price (if exists)
-	    if( $purchaseDBO->getRecurringPrice() > 0 )
-	      {
-		$taxes += $purchaseDBO->getRecurringTaxes();
-		$this->add_item( 1, 
-				 $purchaseDBO->getRecurringPrice(),
-				 $purchaseDBO->getTitle(),
-				 false );
-	      }
-
-	    // Bill onetime price if necessary
-	    if( $purchaseDBO->getPrevInvoiceID() == 0 )
-	      {
-		$taxes += $purchaseDBO->getOnetimeTaxes();
-		$this->add_item( 1, 
-				 $purchaseDBO->getOnetimePrice(),
-				 $purchaseDBO->getTitle() .
-				 " ([ONETIME])",
-				 false );
-	      }
-
-	    // Charge taxes
-	    if( $taxes > 0 )
-	      {
-		$this->add_item( 1, 
-				 $taxes,
-				 $purchaseDBO->getTitle() . ": [TAX]",
-				 true );
-	      }
-
 	    // Calculate the "new next" billing date for this purchase
 	    if( $purchaseDBO->getTerm() == 0 )
 	      {
@@ -489,6 +472,9 @@ class InvoiceDBO extends DBO
 	      }
 	    else
 	      {
+		// Increment the recurring count
+		$recurCount++;
+
 		// Increment the next billing date by term
 		$oldBillingDate = getdate( $nextBillingDateTS );
 		$nextBillingDateTS = 
@@ -508,6 +494,26 @@ class InvoiceDBO extends DBO
 	    // the invoice is added to the database
 	    $this->updatePurchases[] = $purchaseDBO;
 	  }
+
+	// Bill the recurring price (if exists)
+	if( $recurCount > 0 && $purchaseDBO->getRecurringPrice() > 0 )
+	  {
+	    $taxes += ($purchaseDBO->getRecurringTaxes() * $recurCount);
+	    $this->add_item( $recurCount, 
+			     $purchaseDBO->getRecurringPrice(),
+			     $purchaseDBO->getTitle(),
+			     false );
+	  }
+
+	// Charge taxes
+	if( $taxes > 0 )
+	  {
+	    $this->add_item( 1, 
+			     $taxes,
+			     $purchaseDBO->getTitle() . ": [TAX]",
+			     true );
+	  }
+
       }
 
     // Done

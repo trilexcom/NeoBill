@@ -177,7 +177,9 @@ function update_ProductPurchaseDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ),
 				array( "note" => $dbo->getNote(),
 				       "date" => $dbo->getDate(),
-				       "term" => $dbo->getTerm() ) );
+				       "term" => $dbo->getTerm(),
+				       "nextbillingdate" => $dbo->getNextBillingDate(),
+				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

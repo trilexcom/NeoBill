@@ -10,9 +10,6 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Parent class
-require_once BASE_PATH . "solidworks/DBO.class.php";
-
 /**
  * OrderItemDBO
  *
@@ -21,139 +18,83 @@ require_once BASE_PATH . "solidworks/DBO.class.php";
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class OrderItemDBO extends DBO
+abstract class OrderItemDBO extends SaleDBO
 {
   /**
    * @var integer OrderItem ID
    */
-  var $orderitemid = null;
+  protected $orderitemid = null;
 
   /**
    * @var integer Order ID
    */
-  var $orderid = null;
-
-  /**
-   * @var double Tax amount for this item
-   */
-  var $taxAmount = 0;
+  protected $orderid = null;
 
   /**
    * @var string The status of this order item: Rejected, Pending, Accepted, or Fulfilled
    */
-  var $status = "Pending";
+  protected $status = "Pending";
+
+  /**
+   * @var array An array of tax rules that apply to this item
+   */
+  protected $taxRules = array();
 
   /**
    * Convert to a String
    *
    * @return string Order Item ID
    */
-  function __toString() { return $this->getOrderItemID(); }
+  public function __toString() { return $this->getOrderItemID(); }
 
   /**
    * Set Order Item ID
    *
    * @param integer $id Order Item ID
    */
-  function setOrderItemID( $id ) { $this->orderitemid = $id; }
+  public function setOrderItemID( $id ) { $this->orderitemid = $id; }
 
   /**
    * Get Order Item ID
    *
    * @return integer Order Item ID
    */
-  function getOrderItemID() { return $this->orderitemid; }
+  public function getOrderItemID() { return $this->orderitemid; }
 
   /**
    * Set Order ID
    *
    * @param integer $id Order ID
    */
-  function setOrderID( $id ) { $this->orderid = $id; }
+  public function setOrderID( $id ) { $this->orderid = $id; }
 
   /**
    * Get Order ID
    *
    * @return integer Order ID
    */
-  function getOrderID() { return $this->orderid; }
+  public function getOrderID() { return $this->orderid; }
 
   /**
    * Get Order DBO
    *
    * @return OrderDBO The OrderDBO this item belongs to
    */
-  function getOrderDBO() { return load_OrderDBO( $this->getOrderID() ); }
+  public function getOrderDBO() { return load_OrderDBO( $this->getOrderID() ); }
 
   /**
    * Get Description (stub)
    *
    * @return string Description of order item
    */
-  function getDescription() { return "getDescription() Not Implemented"; }
-
-  /**
-   * Get Term (stub)
-   *
-   * @return string Term of order item
-   */
-  function getTerm() { return "getTerm() Not Implemented"; }
-
-  /**
-   * Get Price
-   *
-   * @return double Price of this order item
-   */
-  function getPrice() { return 0.00; }
-
-  /**
-   * Get Price String (stub)
-   *
-   * @return string Price of order item formatted with currency symbol
-   */
-  function getPriceString() { return "getPriceString() Not Implemented"; }
-
-  /**
-   * Get Setup Fee
-   *
-   * @return double Setup fee for this order item
-   */
-  function getSetupFee() { 0.00; }
-
-  /**
-   * Get Setup Fee String (stub)
-   *
-   * @return string Setup fee for order item formatted with currency symbol
-   */
-  function getSetupFeeString() { return "getSetupFeeString() Not Implemented"; }
-
-  /**
-   * Is Taxable
-   *
-   * @return boolean True if this item is taxable
-   */
-  function isTaxable() { return "isTaxable() Not Implemented"; }
-
-  /**
-   * Get Tax Amount
-   *
-   * @return double Total amount of taxes
-   */
-  function getTaxAmount() { return $this->taxAmount; }
-
-  /**
-   * Set Tax Amount
-   *
-   * @param double Tax to be charged for this item
-   */
-  function setTaxAmount( $taxAmount ) { $this->taxAmount = $taxAmount; }
+  abstract public function getDescription();
 
   /**
    * Set Status
    *
    * @param string $status Status is Rejected, Pending, Accepted, or Fulfilled
    */
-  function setStatus( $status )
+  public function setStatus( $status )
   {
     if( !( $status == "Rejected" || 
 	   $status == "Pending" || 
@@ -171,7 +112,21 @@ class OrderItemDBO extends DBO
    *
    * @return string Rejected, Pending, Accepted, or Fulfilled
    */
-  function getStatus() { return $this->status; }
+  public function getStatus() { return $this->status; }
+
+  /**
+   * Set Tax Rules
+   *
+   * @param array An array of tax rules that apply to this item
+   */
+  public function setTaxRules( $taxRules ) { $this->taxRules = $taxRules; }
+
+  /**
+   * Get Tax Rules
+   *
+   * @return array An array of tax rules that apply to this item
+   */
+  public function getTaxRules() { return $this->taxRules; }
 
   /**
    * Execute Order Item
@@ -179,21 +134,7 @@ class OrderItemDBO extends DBO
    * @param AccountDBO $accountDBO Account this order belongs to
    * @return boolean True for success
    */
-  function execute( $accountDBO )
-  {
-    fatal_error( "OrderItemDBO::execute()", "execute() not implemented!" );
-  }
-
-  /**
-   * Load Member Data from Array
-   *
-   * @param array $data Data to be loaded
-   */
-  function load( $data )
-  {
-    $this->setOrderItemID( $data['orderitemid'] );
-    $this->setStatus( $data['status'] );
-  }
+  abstract function execute( $accountDBO );
 }
 
 ?>

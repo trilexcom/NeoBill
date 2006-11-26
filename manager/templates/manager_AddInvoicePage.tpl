@@ -23,7 +23,7 @@
         <th> [INVOICE_PERIOD] </th>
         <td> 
           {form_element field="periodbegin"} to
-          {form_element field="periodend"}
+          {form_element field="periodend" value=$nextMonth}
         </td>
       </tr>
       <tr>

@@ -23,52 +23,48 @@ class OrderDomainDBO extends OrderItemDBO
   /**
    * @var ContactDBO Admin contact
    */
-  var $adminContactDBO = null;
+  protected $adminContactDBO = null;
 
   /**
    * @var ContactDBO Billing contact
    */
-  var $billingContactDBO = null;
+  protected $billingContactDBO = null;
 
   /**
    * @var string Domain Name (without TLD)
    */
-  var $domainname;
+  protected $domainname;
 
   /**
    * @var integer OrderDomain ID
    */
-  var $id;
-
-  /**
-   * @var DomainServiceDBO Domain service this is being ordered
-   */
-  var $servicedbo;
+  protected $id;
 
   /**
    * @var ContactDBO Technical contact
    */
-  var $techContactDBO = null;
-
-  /**
-   * @var string Term
-   */
-  var $term;
-
-  /**
-   * @var string TLD
-   */
-  var $tld;
+  protected $techContactDBO = null;
 
   /**
    * @var string Transfer secret
    */
-  var $transferSecret;
+  protected $transferSecret;
 
   /**
    * @var string Domain order type (New, Transfer, or Existing)
    */
-  var $type;
+  protected $type;
+
+  /**
+   * Set Purchasable
+   *
+   * @param DomainServiceDBO The domain service to be purchased
+   */
+  public function setPurchasable( DomainServiceDBO $purchasable )
+  {
+    // The purpose of this function is to forc the purchasable to be a DomainServiceDBO
+    parent::setPurchasable( $purchasable );
+  }
 
   /**
    * Set Admin Contact
@@ -163,40 +159,13 @@ class OrderDomainDBO extends OrderItemDBO
   function getType() { return $this->type; }
 
   /**
-   * Set Domain Service
-   *
-   * @param DomainServiceDBO $dbo Domain service being ordered
-   */
-  function setService( $dbo )
-  {
-    if( !isset( $dbo ) )
-    {
-      // Reset the TLD and Domain Service
-      $this->servicedbo = null;
-      $this->tld = null;
-      return;
-    }
-    if( !is_a( $dbo, "DomainServiceDBO" ) )
-      {
-	fatal_error( "ORderDomainDBO::setService()", "DBO is not a DomainServiceDBO" );
-      }
-    $this->servicedbo = $dbo;
-    $this->tld = $dbo->getTLD();
-  }
-
-  /**
    * Set TLD
    *
    * @param string $tld Domain TLD
    */
   function setTLD( $tld ) 
   { 
-    if( ($this->servicedbo = load_DomainServiceDBO( $tld )) == null )
-      {
-	fatal_error( "OrderDomainDBO::setTLD()",
-		     "Unable to load DomainServiceDBO with tld = " . $tld );
-      }
-    $this->tld = $tld; 
+    $this->setPurchasable( load_DomainServiceDBO( $tld ) );
   }
 
   /**
@@ -204,7 +173,7 @@ class OrderDomainDBO extends OrderItemDBO
    *
    * @return string TLD
    */
-  function getTLD() { return $this->tld; }
+  function getTLD() { return $this->purchasable->getTLD(); }
 
   /**
    * Set Domain Name
@@ -228,61 +197,6 @@ class OrderDomainDBO extends OrderItemDBO
   function getFullDomainName() { return $this->domainname . "." . $this->getTLD(); }
 
   /**
-   * Set Registration Term
-   *
-   * @param string $term Registration term ("1 year", "2 year" ... "10 year")
-   */
-  function setTerm( $term )
-  {
-    if( !( $term == null ||
-	   $term == "1 year" ||
-	   $term == "2 year" ||
-	   $term == "3 year" ||
-	   $term == "4 year" ||
-	   $term == "5 year" ||
-	   $term == "6 year" ||
-	   $term == "7 year" ||
-	   $term == "8 year" ||
-	   $term == "9 year" ||
-	   $term == "10 year" ) )
-      {
-	fatal_error( "OrderDomainDBO::setTerm()", "Invalid term: " . $term );
-      }
-    $this->term = $term;
-  }
-
-  /**
-   * Get Registration Term
-   *
-   * @return string Registration term ("1 year", "2 year" ... "10 year"")
-   */
-  function getTerm() { return $this->term; }
-
-  /**
-   * Get Registration Term as Integer
-   *
-   * @return integer Registration term (in years)
-   */
-  function getTermInt()
-  {
-    switch( $this->getTerm() )
-      {
-      case "1 year": return 1; break;
-      case "2 year": return 2; break;
-      case "3 year": return 3; break;
-      case "4 year": return 4; break;
-      case "5 year": return 5; break;
-      case "6 year": return 6; break;
-      case "7 year": return 7; break;
-      case "8 year": return 8; break;
-      case "9 year": return 9; break;
-      case "10 year": return 10; break;
-      }
-
-    return 0;
-  }
-
-  /**
    * Get Description
    *
    * @return string Description of this order item
@@ -299,57 +213,6 @@ class OrderDomainDBO extends OrderItemDBO
   }
 
   /**
-   * Get Price
-   *
-   * @return double Price of this order item
-   */
-  function getPrice()
-  {
-    switch( $this->getTerm() )
-      {
-      case "1 year": return $this->servicedbo->getPrice1yr(); break;
-      case "2 year": return $this->servicedbo->getPrice2yr(); break;
-      case "3 year": return $this->servicedbo->getPrice3yr(); break;
-      case "4 year": return $this->servicedbo->getPrice4yr(); break;
-      case "5 year": return $this->servicedbo->getPrice5yr(); break;
-      case "6 year": return $this->servicedbo->getPrice6yr(); break;
-      case "7 year": return $this->servicedbo->getPrice7yr(); break;
-      case "8 year": return $this->servicedbo->getPrice8yr(); break;
-      case "9 year": return $this->servicedbo->getPrice9yr(); break;
-      case "10 year": return $this->servicedbo->getPrice10yr(); break;
-      }
-
-    return 0;
-  }
-
-  /**
-   * Get Price String
-   *
-   * @return string Price formatted with currency symbol
-   */
-  function getPriceString()
-  {
-    return smarty_modifier_currency( $this->getPrice() );
-  }
-
-  /**
-   * Get Setup Fee
-   *
-   * @return double Always zero for a domain iem
-   */
-  function getSetupFee() { return 0.00; }
-
-  /**
-   * Get Setup Fee String
-   *
-   * @return string "-"
-   */
-  function getSetupFeeString()
-  {
-    return "[NA]";
-  }
-
-  /**
    * Set Transfer Secret
    *
    * @param string $secret Transfer secret
@@ -362,13 +225,6 @@ class OrderDomainDBO extends OrderItemDBO
    * @return string Transfer secret
    */
   function getTransferSecret() { return $this->transferSecret; }
-
-  /**
-   * Is Taxable
-   *
-   * @return boolean True if this item is taxable
-   */
-  function isTaxable() { return $this->servicedbo->getTaxable() == "Yes"; }
 
   /**
    * Execute Domain Order
@@ -468,7 +324,7 @@ class OrderDomainDBO extends OrderItemDBO
     // Register the domain
     $module->registerNewDomain( $this->getDomainName(),
 				$this->getTLD(),
-				$this->getTermInt(),
+				intval( $this->getTerm() / 12 ),
 				$contacts,
 				$accountDBO );
 
@@ -505,7 +361,7 @@ class OrderDomainDBO extends OrderItemDBO
     // Transfer the domain
     $module->transferDomain( $this->getDomainName(),
 			     $this->getTLD(),
-			     $this->getTermInt(),
+			     intval( $this->getTerm() / 12 ),
 			     $this->getTransferSecret(),
 			     $contacts,
 			     $accountDBO );

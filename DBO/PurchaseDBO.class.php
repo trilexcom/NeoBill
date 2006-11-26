@@ -11,15 +11,17 @@
  */
 
 /**
- * OrderItemDBO
+ * PurchaseDBO
  *
  * Represent a Purchase.  This class is abstract, it is implemented by the
  * DomainServicePurchase, HostingServicePurchase, and ProductPurchase classes.
+ * A PurchaseDBO is still abstract, but it is more concrete than SaleDBO.  A
+ * "Purchase" attaches a product or service to a specific account.
  *
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-abstract class PurchaseDBO extends DBO
+abstract class PurchaseDBO extends SaleDBO
 {
   /**
    * @var integer Account ID
@@ -47,20 +49,12 @@ abstract class PurchaseDBO extends DBO
   protected $prevInvoiceID = null;
 
   /**
-   * @var PurchasableDBO The purchased item
-   */
-  protected $purchasable = null;
-
-  /**
-   * @var string Purchase term length (in months)
-   */
-  protected $term = null;
-
-  /**
    * Constructor
    */
   public function __construct()
   {
+    parent::__construct();
+
     global $DB;
 
     // Initialize the next payment date to today
@@ -106,90 +100,6 @@ abstract class PurchaseDBO extends DBO
   public function getPrevInvoiceID() { return $this->prevInvoiceID; }
 
   /**
-   * Get Onetime price
-   *
-   * @return float Onetime price or null if none exists
-   */
-  public function getOnetimePrice()
-  {
-    $prices = $this->purchasable->getPricing( "Onetime" );
-    if( empty( $prices ) )
-      {
-	return null;
-      }
-
-    return $prices[0]->getPrice();
-  }
-
-  /**
-   * Get Taxes on Onetime Price
-   *
-   * @return float Total amount due for taxes on the onetime price
-   */
-  public function getOnetimeTaxes()
-  {
-    $priceDBO = array_shift( $this->purchasable->getPricing( "Onetime" ) );
-    if( $priceDBO == null || !$priceDBO->isTaxable() )
-      {
-	return 0;
-      }
-
-    $taxes = 0.00;
-    foreach( $this->getTaxRules() as $taxRuleDBO )
-      {
-	$taxes += $this->getOnetimePrice() * ($taxRuleDBO->getRate() / 100.00);
-      }
-
-    return $taxes;
-  }
-
-  /**
-   * Get Purchasable
-   *
-   * @return PurchasableDBO Returns the purchasable
-   */
-  public function getPurchasable() { return $this->purchasable; }
-
-  /**
-   * Get Recurring Price
-   *
-   * @return float Recurring price of this purchase or null if none exists
-   */
-  public function getRecurringPrice()
-  {
-    $prices = $this->purchasable->getPricing( "Recurring", $this->getTerm() );
-    if( empty( $prices ) )
-      {
-	return null;
-      }
-
-    return $prices[0]->getPrice();
-  }
-
-  /**
-   * Get Taxes on Recurring Price
-   *
-   * @return float Total amount due for taxes on the recurring price
-   */
-  public function getRecurringTaxes()
-  {
-    $priceDBO = array_shift( $this->purchasable->getPricing( "Recurring", 
-							     $this->getTerm() ) );
-    if( $priceDBO == null || !$priceDBO->isTaxable() )
-      {
-	return 0;
-      }
-
-    $taxes = 0.00;
-    foreach( $this->getTaxRules() as $taxRuleDBO )
-      {
-	$taxes += $this->getRecurringPrice() * ($taxRuleDBO->getRate() / 100.00);
-      }
-
-    return $taxes;
-  }
-
-  /**
    * Get Tax Rules
    *
    * @return array An array of tax rules that apply to this purchase
@@ -206,13 +116,6 @@ abstract class PurchaseDBO extends DBO
 
     return $taxes == null ? array() : $taxes;
   }
-
-  /**
-   * Get Purchase Term
-   *
-   * @return integer Purchase term length (in months)
-   */
-  public function getTerm() { return $this->term; }
 
   /**
    * Get Product/Service Title
@@ -256,23 +159,6 @@ abstract class PurchaseDBO extends DBO
    * @param integer The ID of the Invoice this purchase last appeared on
    */
   public function setPrevInvoiceID( $id ) { $this->prevInvoiceID = $id; }
-
-  /**
-   * Set Purchasable
-   *
-   * @param PurchasableDBO The purchased item
-   */
-  public function setPurchasable( PurchasableDBO $purchasable )
-  {
-    $this->purchasable = $purchasable;
-  }
-
-  /**
-   * Set Purchase Term
-   *
-   * @param integer $term Purchase term (in months)
-   */
-  public function setTerm( $term ) { $this->term = $term; }
 }
 
 ?>

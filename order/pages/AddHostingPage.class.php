@@ -93,12 +93,12 @@ class AddHostingPage extends SolidStatePage
     $termWidget = $this->forms['hostingservice']->getField( "term" )->getWidget();
     if( isset( $_POST['service'] ) )
       {
-	$termWidget->setHostingService( load_HostingServiceDBO( intval( $_POST['service'] ) ) );
+	$termWidget->setPurchasable( load_HostingServiceDBO( intval( $_POST['service'] ) ) );
       }
     else
       {
 	$services = load_array_HostingServiceDBO();
-	$termWidget->setHostingService( array_shift( $services ) );
+	$termWidget->setPurchasable( array_shift( $services ) );
       }
 
     $this->smarty->assign( "show_cancel", $this->getLastPage() == "cart" );
@@ -113,8 +113,8 @@ class AddHostingPage extends SolidStatePage
   {
     // Create a Hosting Order Item
     $dbo = new OrderHostingDBO();
-    $dbo->setService( $this->post['service'] );
-    $dbo->setTerm( $this->post['term'] );
+    $dbo->setPurchasable( $this->post['service'] );
+    $dbo->setTerm( $this->post['term']->getTermLength() );
 
     // Add the item to the order
     $_SESSION['order']->addItem( $dbo );
