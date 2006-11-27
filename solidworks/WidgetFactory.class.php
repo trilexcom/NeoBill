@@ -62,7 +62,7 @@ class WidgetFactory
     if( self::$instance == null )
       {
 	self::$instance = new WidgetFactory();
-	self::$instance->registerWidget( "text", "TextWidget" );
+	self::$instance->registerWidget( "text", "TextWidget"  );
 	self::$instance->registerWidget( "password", "PasswordWidget" );
 	self::$instance->registerWidget( "submit", "SubmitWidget" );
 	self::$instance->registerWidget( "radio", "RadioButtonWidget" );
@@ -101,9 +101,17 @@ class WidgetFactory
 					$formName,
 					$fieldName ) );
       }
+    
+    // If a filename was registered and has not been loaded yet, load it
+    if( $this->widgets[$widgetName]['file'] != null &&
+	!$this->widgets[$widgetName]['loaded'] )
+      {
+	require $this->widgets[$widgetName]['file'];
+	$this->widgets[$widgetName]['loaded'] = true;
+      }
 
     // Instantiate a widget and return
-    return new $this->widgets[$widgetName]( $formName, $fieldName, $fieldConfig );
+    return new $this->widgets[$widgetName]['class']( $formName, $fieldName, $fieldConfig );
   }
 
   /**
@@ -112,8 +120,10 @@ class WidgetFactory
    * @param string $widgetName The name of the widget used by the config file
    * @param string $className The name of the class that implements this widget
    */
-  public function registerWidget( $widgetName, $className )
+  public function registerWidget( $widgetName, $className, $fileName = null )
   {
-    $this->widgets[$widgetName] = $className;
+    $this->widgets[$widgetName]['class'] = $className;
+    $this->widgets[$widgetName]['file'] = $fileName;
+    $this->widgets[$widgetName]['loaded'] = false;
   }
 }

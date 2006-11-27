@@ -102,18 +102,28 @@ class FieldValidatorFactory
 					$fieldName ) );
       }
 
+    // If a filename was registered and has not been loaded yet, load it
+    if( $this->validators[$type]['file'] != null &&
+	!$this->validators[$type]['loaded'] )
+      {
+	require $this->validators[$type]['file'];
+	$this->validators[$type]['loaded'] = true;
+      }
+
     // Instantiate a field validator and return
-    return new $this->validators[$type]( $formName, $fieldName, $fieldConfig );
+    return new $this->validators[$type]['class']( $formName, $fieldName, $fieldConfig );
   }
 
   /**
    * Register Field Validator
    *
    * @param string $typeName The name of the field type used by the config file
-   * @param FieldValidator $validator FieldValidator object for this field type
+   * @param FieldValidator $validator FieldValidator class for this field type
    */
-  public function registerFieldValidator( $typeName, $validator )
+  public function registerFieldValidator( $typeName, $validator, $fileName = null )
   {
-    $this->validators[$typeName] = $validator;
+    $this->validators[$typeName]['class'] = $validator;
+    $this->validators[$typeName]['file'] = $fileName;
+    $this->validators[$typeName]['loaded'] = false;
   }
 }
