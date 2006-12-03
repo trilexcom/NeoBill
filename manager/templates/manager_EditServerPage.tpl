@@ -10,6 +10,11 @@
         <th> {form_description field="location"} </th>
         <td> {form_element dbo="server_dbo" field="location" size="30"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="cpmodule"} </th>
+        <td> 
+          {form_element dbo="server_dbo" field="cpmodule"}
+        </td>
       <tr class="footer">
         <td colspan="2">
           {form_element field="save"}

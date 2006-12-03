@@ -11,9 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
-
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * DeleteAccountPage
@@ -23,41 +21,20 @@ require_once BASE_PATH . "DBO/AccountDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DeleteAccountPage extends Page
+class DeleteAccountPage extends SolidStatePage
 {
   /**
    * Initialize Delete Account Page
-   *
-   * If Account ID is provided in the query string, use that to load the AccountDBO
-   * from the database, then stick it in the session.  Otherwise, use the DBO already
-   * in the session.
    */
   function init()
   {
-    $id = $_GET['id'];
+    parent::init();
 
-    if( isset( $id ) )
-      {
-	// Retrieve the Account from the database
-	$dbo = load_AccountDBO( intval( $id ) );
-      }
-    else
-      {
-	// Retrieve DBO from session
-	$dbo = $this->session['account_dbo'];
-      }
+    // Store account DBO in session
+    $this->session['account_dbo'] =& $this->get['account'];
 
-    if( !isset( $dbo ) )
-      {
-	// Could not find Account
-	$this->setError( array( "type" => "DB_ACCOUNT_NOT_FOUND",
-				"args" => array( $id ) ) );
-      }
-    else
-      {
-	// Store service DBO in session
-	$this->session['account_dbo'] = $dbo;
-      }
+    // Set URL Fields
+    $this->setURLField( "account", $this->get['account']->getID() );
   }
 
   /**

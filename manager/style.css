@@ -477,6 +477,16 @@ body.login {
 	width: 6em;
 }
 
+.action p.header_long {
+	font: bold ;
+	color: #000000;
+	background-color: #ffffff;
+	margin-top: -17px;
+	margin-left: -5px;
+	padding-left: 2px;
+	width: 24em;
+}
+
 .action form {
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;

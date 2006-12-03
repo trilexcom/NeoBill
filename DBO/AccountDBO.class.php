@@ -106,6 +106,11 @@ class AccountDBO extends DBO
   var $fax;
 
   /**
+   * @var UserDBO The account's primary user object
+   */
+  protected $userDBO = null;
+
+  /**
    * Set Account ID
    *
    * @param integer $id New Account ID
@@ -125,6 +130,30 @@ class AccountDBO extends DBO
    * @return string The account ID
    */
   function __toString() { return $this->getID(); }
+
+  /**
+   * Set Username
+   *
+   * @param string $username User ID
+   */
+  public function setUsername( $username )
+  {
+    $this->userDBO = load_UserDBO( $username );
+  }
+
+  /**
+   * Get Username
+   *
+   * @return string Username
+   */
+  public function getUsername() { return $this->userDBO->getUsername(); }
+
+  /**
+   * Get UserDBO
+   *
+   * @return UserDBO The account's primary user
+   */
+  public function getUserDBO() { return $this->userDBO; }
 
   /**
    * Set Account Type
@@ -459,32 +488,6 @@ class AccountDBO extends DBO
 			$domain == null ? array() : $domain,
 			$product == null ? array() : $product );
   }
-
-  /**
-   * Load member data from an array
-   *
-   * @param array $data Data to load
-   */
-  function load( $data )
-  {
-    $this->setID( $data['id'] );
-    $this->setType( $data['type'] );
-    $this->setStatus( $data['status'] );
-    $this->setBillingStatus( $data['billingstatus'] );
-    $this->setBillingDay( $data['billingday'] );
-    $this->setBusinessName( $data['businessname'] );
-    $this->setContactName( $data['contactname'] );
-    $this->setContactEmail( $data['contactemail'] );
-    $this->setAddress1( $data['address1'] );
-    $this->setAddress2( $data['address2'] );
-    $this->setCity( $data['city'] );
-    $this->setState( $data['state'] );
-    $this->setCountry( $data['country'] );
-    $this->setPostalCode( $data['postalcode'] );
-    $this->setPhone( $data['phone'] );
-    $this->setMobilePhone( $data['mobilephone'] );
-    $this->setFax( $data['fax'] );
-  }
 }
 
 /**
@@ -514,7 +517,8 @@ function add_AccountDBO( &$dbo )
 				       "postalcode" => $dbo->getPostalCode(),
 				       "phone" => $dbo->getPhone(),
 				       "mobilephone" => $dbo->getMobilePhone(),
-				       "fax" => $dbo->getFax() ) );
+				       "fax" => $dbo->getFax(),
+				       "username" => $dbo->getUsername() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -572,7 +576,8 @@ function update_AccountDBO( &$dbo )
 				       "postalcode" => $dbo->getPostalCode(),
 				       "phone" => $dbo->getPhone(),
 				       "mobilephone" => $dbo->getMobilePhone(),
-				       "fax" => $dbo->getFax() ) );
+				       "fax" => $dbo->getFax(),
+				       "username" => $dbo->getUsername() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );
@@ -643,6 +648,12 @@ function delete_AccountDBO( &$dbo )
 	      fatal_error( "AccountDBO.class.php", "Could not delete Invoice" );
 	    }
 	}
+    }
+
+  // Delete the account's user
+  if( !delete_UserDBO( $dbo->getUserDBO() ) )
+    {
+      throw new SWException( "Failed to delete account user!" );
     }
 
   // Build SQL

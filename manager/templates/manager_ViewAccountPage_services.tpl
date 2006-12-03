@@ -24,8 +24,18 @@
         <center> {form_table_checkbox option=$services.id} </center>
       {/form_table_column}
 
+      {form_table_column columnid="id" header="[ID]"}
+        <center>
+          <a href="manager_content.php?page=edit_hosting_purchase&hspurchase={$services.id}">{$services.id}</a>
+        </center>
+      {/form_table_column}
+
       {form_table_column columnid="title" header="[SERVICE_NAME]"}
         {$services.title}
+      {/form_table_column}
+
+      {form_table_column columnid="domainname" header="[DOMAIN]"}
+        {$services.domainname}
       {/form_table_column}
 
       {form_table_column columnid="term" header="[TERM]"}

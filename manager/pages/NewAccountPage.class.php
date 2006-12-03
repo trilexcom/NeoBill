@@ -78,12 +78,26 @@ class NewAccountPage extends Page
    */
   function process_new_account()
   {
+    // Make sure the username is available
+    if( load_UserDBO( $this->post['username'] ) != null )
+      {
+	throw new SWUserException( "[DB_USER_EXISTS]" );
+      }
+
     // Prepare AccountDBO
     $account_dbo = new AccountDBO();
     $account_dbo->load( $this->post );
 
+    $user_dbo = new UserDBO();
+    $user_dbo->setUsername( $this->post['username'] );
+    $user_dbo->setPassword( $this->post['password'] );
+    $user_dbo->setEmail( $this->post['contactemail'] );
+    $user_dbo->setContactName( $this->post['contactname'] );
+    $user_dbo->setType( "Client" );
+
     // Place DBO in the session for confirm page
     $this->session['new_account_dbo'] = $account_dbo;
+    $this->session['user_dbo'] = $user_dbo;
 
     // Ask client to confirm
     $this->setTemplate( "confirm" );
@@ -99,10 +113,18 @@ class NewAccountPage extends Page
     // Extract AccountDBO from the session
     $account_dbo =& $this->session['new_account_dbo'];
 
+    // Insert UserBO into database
+    if( !add_UserDBO( $this->session['user_dbo'] ) )
+      {
+	throw new SWUserException( "[DB_USER_ADD_FAILED]" );
+      }
+    
     // Insert AccountDBO into database
+    $account_dbo->setUsername( $this->session['user_dbo']->getUsername() );
     if( !add_AccountDBO( $account_dbo ) )
       {
 	// Unable to add product to database
+	delete_UserDBO( $this->session['user_dbo'] );
 	$this->setError( array( "type" => "DB_ACCOUNT_ADD_FAILED",
 				"args" => array( $account_dbo->getAccountName() ) ) );
 
@@ -111,6 +133,7 @@ class NewAccountPage extends Page
       }
     else
       {
+	
 	// Jump to View Account page
 	$this->setMessage( array( "type" => "ACCOUNT_ADDED" ) );
 	$this->goto( "accounts_view_account", null, "account=" . $account_dbo->getID() );

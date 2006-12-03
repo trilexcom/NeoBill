@@ -1,0 +1,24 @@
+<translations>
+
+  <!-- ======= -->
+  <!-- English -->
+  <!-- ======= -->
+  <translation language="english">
+    <phrase id="CPANEL_ACCOUNT_DOES_NOT_EXIST">cPanel Module Error: The account does not exist</phrase>
+    <phrase id="CPANEL_ACCOUNT_HAS_ALREADY_BEEN_SUSPENDED">This account has already been suspended</phrase>
+    <phrase id="CPANEL_CONFIG_SAVED">cPanel Configuration Saved</phrase>
+    <phrase id="CPANEL_CONFIGURATION">cPanel Configuration</phrase>
+    <phrase id="CPANEL_FAILED_TO_ADD_OR_UPDATE">Failed to add or update cPanel Server Configuration</phrase>
+    <phrase id="CPANEL_FAILED_TO_CREATE_ACCOUNT">cPanel Module Error: Failed to create cPanel Account</phrase>
+    <phrase id="CPANEL_FAILED_TO_SUSPEND_ACCOUNT">cPanel Module Error: Failed to suspend Account</phrase>
+    <phrase id="CPANEL_FAILED_TO_TERMINATE_ACCOUNT">cPanel Module Error: Failed to terminate Account</phrase>
+    <phrase id="CPANEL_FAILED_TO_UNSUSPEND_ACCOUNT">cPanel Module Error: Failed to un-suspend Account</phrase>
+    <phrase id="CPANEL_INVALID_SERVER_CONFIGURATION">cPanel Module Error: Invalid or no server configuration</phrase>
+    <phrase id="CPANEL_LIBRARY_PATH">cPanel Library Path (to Accounting.php.inc)</phrase>
+    <phrase id="CPANEL_SERVER_CONFIG_SAVED">cPanel Server Configuration Saved</phrase>
+    <phrase id="CPANEL_SERVER_CONFIGURATION">cPanel Server Configuration</phrase>
+    <phrase id="CPANEL_WHM_ACCESS_HASH">WHM Access Hash</phrase>
+    <phrase id="CPANEL_WHM_USERNAME">WHM Username</phrase>
+  </translation>
+
+</translations>

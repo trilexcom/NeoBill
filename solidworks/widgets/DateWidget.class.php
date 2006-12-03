@@ -60,7 +60,15 @@ class DateWidget extends TextWidget
   {
     global $DB;
     $value = parent::determineValue( $params );
-    $tsValue = is_string( $value ) ? $DB->datetime_to_unix( $value ) : $value;
+    if( is_string( $value ) )
+      {
+	$tsValue = strlen( $value ) > 10 ? 
+	  $DB->datetime_to_unix( $value ) : $DB->date_to_unix( $value );
+      }
+    else
+      {
+	$tsValue = $value;
+      }
 
     return $this->TS2Date( $tsValue == null ? time() : $tsValue );
   }

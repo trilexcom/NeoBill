@@ -62,6 +62,7 @@
     <phrase id="AUTHORIZED">Authorized</phrase>
     <phrase id="BALANCE">Balance</phrase>
     <phrase id="BALANCE_DUE">Balance Due</phrase>
+    <phrase id="BEGIN">Begin</phrase>
     <phrase id="BEGINNING_ADDRESS">Beginning Address</phrase>
     <phrase id="BEGINNING_OF_INVOICE_PERIOD">Beginning of Invoice Period</phrase>
     <phrase id="BILL">Bill</phrase>
@@ -78,6 +79,7 @@
     <phrase id="CANCEL">Cancel</phrase>
     <phrase id="CAPTURE_PAYMENT">Capture Payment</phrase>
     <phrase id="CASH">Cash</phrase>
+    <phrase id="CHANGES_SAVED">Changes saved</phrase>
     <phrase id="CHECK">Check</phrase>
     <phrase id="CHECK_WHOIS">Check WHOIS</phrase>
     <phrase id="CITY">City</phrase>
@@ -85,6 +87,7 @@
     <phrase id="COMPANY">Company</phrase>
     <phrase id="COMPANY_NAME">Company Name</phrase>
     <phrase id="COMPLETED">Completed</phrase>
+    <phrase id="CONFIGURE">Configure</phrase>
     <phrase id="CONFIRM_DOMAIN_SERVICE">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
     <phrase id="CONFIRM_HOSTING">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
     <phrase id="CONFIRM_IP">Confirm New IP Addresses for</phrase>
@@ -94,6 +97,11 @@
     <phrase id="CONTACT_NAME">Contact Name</phrase>
     <phrase id="CONTACT_REGISTRAR_TO_RENEW">Contact the Registrar to renew this domain</phrase>
     <phrase id="CONTINUE">Continue</phrase>
+    <phrase id="CONTROL_PANEL_ACCOUNT_SUCCESSFULLY_CREATED">Control panel account successfully created</phrase>
+    <phrase id="CONTROL_PANEL_ACCOUNT_TERMINATED">Control panel account terminated</phrase>
+    <phrase id="CONTROL_PANEL_ACCOUNT_SUSPENDED">Control panel account suspended</phrase>
+    <phrase id="CONTROL_PANEL_ACCOUNT_UNSUSPENDED">Control panel account has been un-suspended</phrase>
+    <phrase id="CONTROL_PANEL_MODULE">Control Panel Module</phrase>
     <phrase id="COUNTRY">Country</phrase>
     <phrase id="CREATE_ACCOUNT">Create Account</phrase>
     <phrase id="CREATE_ACCOUNT_CONTINUE">Create Account and Continue</phrase>
@@ -128,6 +136,7 @@
     <phrase id="DELETE_USER">Delete User</phrase>
     <phrase id="DESCRIPTION">Description</phrase>
     <phrase id="DNS">DNS</phrase>
+    <phrase id="DOMAIN">Domain</phrase>
     <phrase id="DOMAIN_IS_AVAILABLE">{0} is available!</phrase>
     <phrase id="DOMAIN_IS_ELIGIBLE">{0} is eligible for transfer.</phrase>
     <phrase id="DOMAIN_NOT_AVAILABLE">Sorry, the domain: {0} is not avaiable.  Please try again.</phrase>
@@ -144,6 +153,7 @@
     <phrase id="EDIT_ACCOUNT">Edit Account</phrase>
     <phrase id="EDIT_DOMAIN">Edit Domain</phrase>
     <phrase id="EDIT_HOSTING_SERVICE">Edit Hosting Service</phrase>
+    <phrase id="EDIT_HOSTING_SERVICE_PURCHASE">Edit Hosting Service Purchase</phrase>
     <phrase id="EDIT_PAYMENT">Edit Payment</phrase>
     <phrase id="EDIT_PRODUCT">Edit Product</phrase>
     <phrase id="EDIT_SERVER">Edit Server</phrase>
@@ -152,8 +162,10 @@
     <phrase id="EMAIL_BODY">E-Mail Body</phrase>
     <phrase id="EMAIL_BODY_INVOICE">E-Mail Body w/ Invoice</phrase>
     <phrase id="EMAIL_INVOICE">E-Mail Invoice to Customer</phrase>
+    <phrase id="EMPTY">Empty</phrase>
     <phrase id="ENABLE_CHECK_MO_PAYMENTS">Enable Check/Money Order Payments</phrase>
     <phrase id="ENABLED">Enabled</phrase>
+    <phrase id="END">End</phrase>
     <phrase id="END_ADDRESS">End Address</phrase>
     <phrase id="ENDING_ADDRESS">End Address</phrase>
     <phrase id="END_OF_INVOICE_PERIOD">End of Invoice Period</phrase>
@@ -172,6 +184,7 @@
     <phrase id="GO_BACK">Go Back</phrase>
     <phrase id="HOME">Home</phrase>
     <phrase id="HOSTING_SERVICE">Hosting Service</phrase>
+    <phrase id="HOSTING_SERVICE_PURCHASE_UPDATE_FAILED">Hosting Service Purchase update failed</phrase>
     <phrase id="HOSTING_SERVICES">Hosting Services</phrase>
     <phrase id="HOSTING_SERVICES_ASSIGNED">Hosting Services Assigned to</phrase>
     <phrase id="HOSTNAME">Hostname</phrase>
@@ -195,6 +208,7 @@
     <phrase id="IP_ADDRESS_MANAGER">IP Address Manager</phrase>
     <phrase id="IP_ADDRESS_POOL">IP Address Pool</phrase>
     <phrase id="ITEM">Item</phrase>
+    <phrase id="KILL_ACCOUNT">Kill Account</phrase>
     <phrase id="LINE_ITEMS">Line Items</phrase>
     <phrase id="LAST_NAME">Last Name</phrase>
     <phrase id="LANGUAGE">Language</phrase>
@@ -226,8 +240,10 @@
     <phrase id="NEW_PRODUCT_CONFIRM">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
     <phrase id="NEW_TAX_RULE">New Tax Rule</phrase>
     <phrase id="NEW_USER">New User</phrase>
+    <phrase id="NEXT">Next</phrase>
     <phrase id="NEXT_BILLING_DATE">Next Billing Date</phrase>
     <phrase id="NO">No</phrase>
+    <phrase id="NONE">None</phrase>
     <phrase id="NO_REGISTRAR_MODULES">No Registrar modules installed</phrase>
     <phrase id="NOTE">Note</phrase>
     <phrase id="NOTES">Notes</phrase>
@@ -272,7 +288,9 @@
     <phrase id="PENDING_ORDERS">Pending Orders</phrase>
     <phrase id="PERIOD">Period</phrase>
     <phrase id="PHONE">Phone</phrase>
+    <phrase id="PLEASE_PROVIDE_A_DOMAIN_NAME">Please provide a domain name</phrase>
     <phrase id="POSTED">Posted</phrase>
+    <phrase id="PREV">Prev</phrase>
     <phrase id="PRICE">Price</phrase>
     <phrase id="PRICE_ADDED">Price Added</phrase>
     <phrase id="PRICE_DELETED">Price(s) Deleted</phrase>
@@ -286,6 +304,7 @@
     <phrase id="PRODUCT_NAME">Product Name</phrase>
     <phrase id="PRODUCTS_SERVICES">Products &amp; Services</phrase>
     <phrase id="PRODUCTS_SERVICES_SUMMARY">Products &amp; Services Summary</phrase>
+    <phrase id="PROVISION_NEW_ACCOUNT_ON_THE_SERVER_ABOVE">Provision a new account on the server above</phrase>
     <phrase id="PURCHASED">Purchased</phrase>
     <phrase id="QUANTITY">Quantity</phrase>
     <phrase id="RECEIVE_PAYMENT">Receive Payment</phrase>
@@ -304,7 +323,7 @@
     <phrase id="REGISTRATION_PERIOD">Registration Period</phrase>
     <phrase id="REGISTRATION_TERMS">Registration Terms</phrase>
     <phrase id="REMOTE_IP_ADDRESS">Remote IP Address</phrase>
-    <phrase id="REMOVE">remove</phrase>
+    <phrase id="REMOVE">Remove</phrase>
     <phrase id="REMOVE_USER">Remove User</phrase>
     <phrase id="REMOVE_USER_NOTICE">You are about to remove the following user from Solid-State</phrase>
     <phrase id="RENEW">Renew</phrase>
@@ -321,6 +340,7 @@
     <phrase id="SEND_WELCOME_EMAIL">Send a Welcome E-Mail</phrase>
     <phrase id="SEND_WELCOME_EMAIL_CUSTOMER">Send E-Mail Welcome to Customer</phrase>
     <phrase id="SERVER">Server</phrase>
+    <phrase id="SERVER_CONTROL_PANEL_ACTIONS">Server / Control Panel Module Actions</phrase>
     <phrase id="SERVER_INFO">Server Info</phrase>
     <phrase id="SERVER_INFORMATION">Server Information</phrase>
     <phrase id="SERVERS">Servers</phrase>
@@ -337,16 +357,20 @@
     <phrase id="STATUS">Status</phrase>
     <phrase id="SUBJECT">Subject</phrase>
     <phrase id="SUB_TOTAL">Sub-total</phrase>
+    <phrase id="SUSPEND_ACCOUNT">Suspend Account</phrase>
     <phrase id="TAXABLE">Taxable</phrase>
     <phrase id="TAXES">Taxes</phrase>
     <phrase id="TAX_RATE">Tax Rate</phrase>
     <phrase id="TAX_RULES">Tax Rules</phrase>
+    <phrase id="TEMPORARY_PASSWORD">Temporary password</phrase>
     <phrase id="TERM">Term</phrase>
     <phrase id="TERM_LENGTH">Term Length</phrase>
     <phrase id="TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO">The term length for a onetime price must be zero</phrase>
     <phrase id="TERMS_DAYS">Terms (days)</phrase>
     <phrase id="THERE_ARE_NO_GATEWAY_MODULES">There are no payment gateway modules enabled.</phrase>
     <phrase id="THERE_ARE_NO_HOSTING_SERVICES">There are no hosting services configured.</phrase>
+    <phrase id="THERE_IS_NO_CONTROL_PANEL_MODULE_CONFIGURED_FOR_THIS_SERVER">There is no control panel module configured for this server</phrase>
+    <phrase id="THE_SERVER_YOU_SELECTED_DOES_NOT_SUPPORT_PROVISIONING">The server you have selected does not support provisioning.  Please select a server with a configured control panel module.</phrase>
     <phrase id="TITLE">Title</phrase>
     <phrase id="TOTAL">Total</phrase>
     <phrase id="TOTAL_OUTSTANDING_INVOICES">Total outstanding invoices</phrase>
@@ -360,6 +384,7 @@
     <phrase id="TYPE">Type</phrase>
     <phrase id="UNIQUE_IP_ADDRESS">Unique IP Address</phrase>
     <phrase id="UNIT_PRICE">Unit Price</phrase>
+    <phrase id="UNSUSPEND_ACCOUNT">Un-suspend Account</phrase>
     <phrase id="UPDATE">Update</phrase>
     <phrase id="USER">User</phrase>
     <phrase id="USERS">Users</phrase>
@@ -379,6 +404,7 @@
     <phrase id="WELCOME_EMAIL">Welcome E-Mail</phrase>
     <phrase id="YEAR">Year</phrase>
     <phrase id="YES">Yes</phrase>
+    <phrase id="YOU_MUST_SELECT_A_SERVER_TO_PROVISION_SERVICE">You must select a server to provision the new account on.</phrase>
     <phrase id="ZIP_CODE">Zip / Postal Code</phrase>
 
     <!-- Error Messages -->
@@ -393,10 +419,10 @@
     <phrase id="INVALID_EMAIL">{0} requires a valid email address</phrase>
     <phrase id="BAD_PASSWORD">Invalid Password</phrase>
     <phrase id="PASSWORD_MISMATCH">Passwords do not match, please try again</phrase>
-    <phrase id="DB_USER_ADD_FAILED">Failed to add new user ({0}) to database.  Please try again or contact system administrator.</phrase>
+    <phrase id="DB_USER_ADD_FAILED">Failed to add new user to database.  Please try again or contact system administrator.</phrase>
     <phrase id="DB_USER_UPDATE_FAILED">Failed to update user: {0}.  Please try again or contact system administrator.</phrase>
     <phrase id="DB_USER_DELETE_FAILED">Failed to delete user: {0}.  Please try again or contact system administrator.</phrase>
-    <phrase id="DB_USER_EXISTS">Username ({0}) already exists.  Please enter a unique username.</phrase>
+    <phrase id="DB_USER_EXISTS">The username you have entered is already taken.  Please enter a unique username.</phrase>
     <phrase id="DB_USER_NOT_FOUND">User not found: {0}.</phrase>
     <phrase id="DB_HOSTING_SERVICE_NOT_FOUND">Web Hosting Service not found: {0}.</phrase>
     <phrase id="DB_HOSTING_ADD_FAILED">Failed to add hosting servic: {0}.  Please try again or contact system administrator.</phrase>
@@ -473,7 +499,7 @@
 
     <phrase id="USER_UPDATED">User updated: {0}</phrase>
     <phrase id="USER_PASS_UPDATED">Password reset for user: {0}</phrase>
-    <phrase id="USER_DELETED">User deleted: {0}</phrase>
+    <phrase id="USER_DELETED">User deleted</phrase>
     <phrase id="DOMAIN_SERVICE_ADDED">Created new Domain Service</phrase>
     <phrase id="DOMAIN_SERVICE_DELETED">Deleted Domain Service for TLD: .{0}</phrase>
     <phrase id="DOMAIN_SERVICE_UPDATED">Changes saved to Domain Service</phrase>

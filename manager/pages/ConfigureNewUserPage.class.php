@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/AdminPage.class.php";
-
-// Include UserDBO
-require_once BASE_PATH . "DBO/UserDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * ConfigureNewUserPage
@@ -24,7 +21,7 @@ require_once BASE_PATH . "DBO/UserDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ConfigureNewUserPage extends AdminPage
+class ConfigureNewUserPage extends SolidStateAdminPage
 {
   /**
    * Action
@@ -38,12 +35,9 @@ class ConfigureNewUserPage extends AdminPage
    */
   function action( $action_name )
   {
-    
     switch( $action_name )
       {
-	
       case "new_user_action":
-
 	if( isset( $this->session['new_user_action']['add'] ) )
 	  {
 	    $this->goto( "config_new_user" );
@@ -52,18 +46,14 @@ class ConfigureNewUserPage extends AdminPage
 	  {
 	    $this->goto( "config_users" );
 	  }
-
 	break;
 
       case "new_user":
-
 	// Client submited a new_user form - process it
 	$this->process_new_user();
-
 	break;
 
       case "new_user_confirm":
-
 	if( isset( $this->session['new_user_confirm']['continue'] ) )
 	  {
 	    // Go ahead
@@ -74,14 +64,11 @@ class ConfigureNewUserPage extends AdminPage
 	    // Go back
 	    $this->setTemplate( "default" );
 	  }
-
 	break;
 	
       default:
-
 	// No matching action, refer to base class
 	parent::action( $action_name );
-
       }
   }
 
@@ -93,17 +80,7 @@ class ConfigureNewUserPage extends AdminPage
    */
   function process_new_user()
   {
-    // Pull form data from the session
-    $user_data = $this->session['new_user'];
-
-    if( !isset( $user_data ) )
-      {
-	// Missing form data
-	fatal_error( "ConfigureNewUserPage::process_new_user()",
-		     "no form data received!" );
-      }
-
-    if( $user_data['password'] != $user_data['repassword'] )
+    if( $this->post['password'] != $this->post['repassword'] )
       {
 	// Password not entered correctly
 	$this->setError( array( "type"       => "PASSWORD_MISMATCH",
@@ -118,12 +95,12 @@ class ConfigureNewUserPage extends AdminPage
       }
 
     // Verify this username does not already exist
-    if( load_UserDBO( $user_data['username'] ) != null )
+    if( load_UserDBO( $this->post['username'] ) != null )
       {
 	// Username already exists
 	$this->setError( array( "type"       => "DB_USER_EXISTS", 
 				"field_name" => "username",
-				"args"       => array( $user_data['username'] ) ) );
+				"args"       => array( $this->post['username'] ) ) );
 
 	// Redisplay form
 	return;
@@ -131,8 +108,8 @@ class ConfigureNewUserPage extends AdminPage
 
     // Prepare UserDBO for database insertion
     $user_dbo = new UserDBO();
-    $user_dbo->load( $user_data );
-    $user_dbo->setPassword( $user_data['password'] );
+    $user_dbo->load( $this->post );
+    $user_dbo->setPassword( $this->post['password'] );
 
     // Place DBO in the session for the confirm & receipt page
     $this->session['new_user_dbo'] = $user_dbo;
@@ -162,7 +139,6 @@ class ConfigureNewUserPage extends AdminPage
     if( !add_UserDBO( $user_dbo ) )
       {
 	// Unable to add user
-	echo mysql_error();
 	$this->setError( array( "type" => "DB_USER_ADD_FAILED",
 				"args" => array( $user_dbo->getUsername() ) ) );
 
@@ -178,27 +154,6 @@ class ConfigureNewUserPage extends AdminPage
 	// Show receipt
 	$this->setTemplate( "receipt" );
       }
-  }
-
-  /**
-   * Populate the Language Preference Box
-   *
-   * @return array An array of languages
-   */
-  function populateLanguage()
-  {
-    global $translations;
-
-    $langauges = array();
-    foreach( $translations as $language => $phrases )
-      {
-	if( is_array( $phrases ) )
-	  {
-	    $languages[$language] = $language;
-	  }
-      }
-
-    return $languages;
   }
 }
 

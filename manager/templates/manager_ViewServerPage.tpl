@@ -17,6 +17,17 @@
       <th> {echo phrase="LOCATION"}: </th>
       <td> {dbo_echo dbo="server_dbo" field="location"} </td>
     </tr>
+    <tr>
+      <th> [CONTROL_PANEL_MODULE]: </th>
+      <td> 
+        {dbo_assign dbo="server_dbo" field="cpmodule" var="cpmodule"} 
+        {if $cpmodule != null}
+          {$cpmodule} (<a href="manager_content.php?page={$ServerConfigPage}&server={$id}">[CONFIGURE]</a>)
+        {else}
+          [NONE]
+        {/if}
+      </td>
+    </tr>
     <tr class="footer">
        <td colspan="2">
          {form name="view_server"}

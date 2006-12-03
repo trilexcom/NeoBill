@@ -13,11 +13,6 @@
 // Base class
 require_once BASE_PATH . "modules/RegistrarModule.class.php";
 
-// Reseller Club API
-require BASE_PATH . "modules/resellerclub/lib/domorder.class.php";
-require BASE_PATH . "modules/resellerclub/lib/customer.class.php";
-require BASE_PATH . "modules/resellerclub/lib/domcontact.class.php";
-
 /**
  * ResellerClub
  *
@@ -411,14 +406,22 @@ class ResellerClub extends RegistrarModule
     $this->setResellerID( $this->moduleDBO->loadSetting( "resellerid" ) );
     $this->setRole( $this->moduleDBO->loadSetting( "role" ) );
     $this->setServiceURL( $this->moduleDBO->loadSetting( "serviceurl" ) );
+	
+    if( $this->isEnabled() )
+      {
+	// Reseller Club API
+	require BASE_PATH . "modules/resellerclub/lib/domorder.class.php";
+	require BASE_PATH . "modules/resellerclub/lib/customer.class.php";
+	require BASE_PATH . "modules/resellerclub/lib/domcontact.class.php";
 
-    // Create Reseller Club objects
-    $this->domOrder = 
-      new DomOrder( BASE_PATH . "modules/resellerclub/lib/wsdl/domain.wsdl" );
-    $this->customer = 
-      new Customer( BASE_PATH . "modules/resellerclub/lib/wsdl/customer.wsdl" );
-    $this->domContact = 
-      new DomContact( BASE_PATH . "modules/resellerclub/lib/wsdl/domaincontact.wsdl" );
+	// Create Reseller Club objects
+	$this->domOrder = 
+	  new DomOrder( BASE_PATH . "modules/resellerclub/lib/wsdl/domain.wsdl" );
+	$this->customer = 
+	  new Customer( BASE_PATH . "modules/resellerclub/lib/wsdl/customer.wsdl" );
+	$this->domContact = 
+	  new DomContact( BASE_PATH . "modules/resellerclub/lib/wsdl/domaincontact.wsdl" );
+      }
   }
 
   /**

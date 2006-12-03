@@ -37,6 +37,11 @@ class HostingServicePurchaseDBO extends PurchaseDBO
   protected $accountdbo;
 
   /**
+   * @var string Domain Name
+   */
+  protected $domainName;
+
+  /**
    * @var integer Hosting service ID
    */
   protected $hostingserviceid;
@@ -95,6 +100,20 @@ class HostingServicePurchaseDBO extends PurchaseDBO
   public function getAccountID() { return $this->accountid; }
 
   /**
+   * Get Account Name
+   *
+   * @return string Account name
+   */
+  public function getAccountName() { return $this->accountdbo->getAccountName(); }
+
+  /**
+   * Get Account DBO
+   *
+   * @return AccountDBO The account this purchase belongs to
+   */
+  public function getAccountDBO() { return $this->accountdbo; }
+
+  /**
    * Set Purchasable
    *
    * @param HostingServiceDBO The hosting service that is/was purchased
@@ -123,6 +142,30 @@ class HostingServicePurchaseDBO extends PurchaseDBO
   public function getHostingServiceID() 
   { 
     return $this->purchasable->getID(); 
+  }
+
+  /**
+   * Set Domain Name
+   *
+   * @param string $domainName The primary hosted domain
+   */
+  public function setDomainName( $domainName ) { $this->domainName = $domainName; }
+
+  /**
+   * Get Domain Name
+   *
+   * @return string Primary hosted domain name
+   */
+  public function getDomainName() { return $this->domainName; }
+
+  /**
+   * Is Domain Required
+   *
+   * @return boolean True when the service requires a domain to be assigned
+   */
+  public function isDomainRequired() 
+  { 
+    return $this->purchasable->isDomainRequired(); 
   }
 
   /**
@@ -155,6 +198,13 @@ class HostingServicePurchaseDBO extends PurchaseDBO
    * @return integer Server ID
    */
   public function getServerID() { return $this->serverid; }
+
+  /**
+   * Get Server DBO
+   *
+   * @return ServerDBO The server DBO configured for this purchase
+   */
+  public function getServerDBO() { return $this->serverdbo; }
 
   /**
    * Get Server Hostname
@@ -194,6 +244,7 @@ function add_HostingServicePurchaseDBO( &$dbo )
 				       "hostingserviceid" => intval( $dbo->getHostingServiceID() ),
 				       "serverid" => intval( $dbo->getServerID() ),
 				       "term" => $dbo->getTerm(),
+				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "nextbillingdate" => $dbo->getNextBillingDate(),
 				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
@@ -242,6 +293,7 @@ function update_HostingServicePurchaseDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ),
 				array( "term" => $dbo->getTerm(),
                                        "serverid" => intval( $dbo->getServerID() ),
+				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "nextbillingdate" => $dbo->getNextBillingDate(),
 				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );

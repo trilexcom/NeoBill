@@ -17,6 +17,10 @@
         <td> {dbo_echo dbo="new_account_dbo" field="status"} </td>
       </tr>
       <tr>
+        <th> [USERNAME]: </th>
+        <td> {dbo_echo dbo="user_dbo" field="username"} </td>
+      </tr>
+      <tr>
         <th> {echo phrase="BILLING_STATUS"}: </th>
         <td> {dbo_echo dbo="new_account_dbo" field="billingstatus"} </td>
       </tr>

@@ -149,6 +149,7 @@ class EditHostingServicePage extends SolidStateAdminPage
     $this->get['hservice']->setTitle( $this->post['title'] );
     $this->get['hservice']->setDescription( $this->post['description'] );
     $this->get['hservice']->setUniqueIP( $this->post['uniqueip'] );
+    $this->get['hservice']->setDomainRequirement( $this->post['domainrequirement'] );
     if( !update_HostingServiceDBO( $this->get['hservice'] ) )
       {
 	// Error

@@ -43,7 +43,8 @@ class RadioButtonWidget extends HTMLWidget
     $myParams['value'] = $params['option'];
     return sprintf( "<input %s/> %s",
 		    $this->buildParams( $params, $myParams ),
-		    $this->fieldConfig['enum'][$params['option']] );
+		    !isset( $params['hideoption'] ) ?
+		    $this->fieldConfig['enum'][$params['option']] : null );
   }
 }
 ?>

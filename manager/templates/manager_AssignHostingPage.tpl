@@ -18,11 +18,21 @@
       </tr>
       <tr>
         <th> {form_description field="server"} </th>
-        <td> {form_element field="server" nulloption="true"} </td>
+        <td> 
+          {form_element field="server" nulloption="true"} <br/>
+        </td>
       </tr>
       <tr>
         <th> {form_description field="ipaddress"} </th>
         <td> {form_element field="ipaddress" nulloption="true"} </td>
+      </tr>
+      {if $domainIsRequired}
+        <tr>
+          <th> {form_description field="domainname"} </th>
+          <td> {form_element field="domainname"} </td>
+        </tr>
+      {/if}
+      <tr>
       </tr>
       <tr class="footer">
         <th colspan="2">

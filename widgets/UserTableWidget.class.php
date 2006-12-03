@@ -37,8 +37,7 @@ class UserTableWidget extends TableWidget
 	    $this->data[] = 
 	      array( "username" => $dbo->getUsername(),
 		     "type" => $dbo->getType(),
-		     "firstname" => $dbo->getFirstName(),
-		     "lastname" => $dbo->getLastName(),
+		     "contactname" => $dbo->getContactName(),
 		     "email" => $dbo->getEmail() );
 	  }
       }

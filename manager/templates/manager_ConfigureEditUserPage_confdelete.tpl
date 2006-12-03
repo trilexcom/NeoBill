@@ -13,8 +13,7 @@
       <tr>
         <th> {echo phrase="NAME"}: </th>
         <td> 
-          {dbo_echo dbo="edit_user_dbo" field="firstname"} 
-          {dbo_echo dbo="edit_user_dbo" field="lastname"}
+          {dbo_echo dbo="edit_user_dbo" field="contactname"} 
         </td>
       </tr>
       <tr>

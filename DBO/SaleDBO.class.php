@@ -137,6 +137,20 @@ abstract class SaleDBO extends DBO
   public function getTerm() { return $this->term; }
 
   /**
+   * Get Term ID
+   *
+   * @return string The ID of the price for the purchased term
+   */
+  public function getTermID()
+  {
+    return $this->getTerm() == null ?
+      null :
+      sprintf( "%d-Recurring-%d", 
+	       $this->purchasable->getID(), 
+	       $this->getTerm() );
+  }
+
+  /**
    * Set Purchasable
    *
    * @param PurchasableDBO The purchased item

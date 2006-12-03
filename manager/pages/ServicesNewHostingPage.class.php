@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
-
-// Include ServiceHostingDBO
-require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * ServicesNewHosting
@@ -68,6 +65,7 @@ class ServicesNewHosting extends SolidStateAdminPage
     $service_dbo->setTitle( $this->post['title'] );
     $service_dbo->setDescription( $this->post['description'] );
     $service_dbo->setUniqueIP( $this->post['uniqueip'] );
+    $service_dbo->setDomainRequirement( $this->post['domainrequirement'] );
 
     // Insert HostingServiceDBO into database
     if( !add_HostingServiceDBO( $service_dbo ) )

@@ -62,7 +62,7 @@ class SolidStatePage extends Page
     $wf = WidgetFactory::getWidgetFactory();
     $wf->registerWidget( "accountselect", "AccountSelectWidget", BASE_PATH . "widgets/AccountSelectWidget.class.php" );
     $wf->registerWidget( "hostingselect", "HostingSelectWidget", BASE_PATH . "widgets/HostingSelectWidget.class.php"  );
-    $wf->registerWidget( "serverselect", "ServerSelectWidget", BASE_PATH . "widgets/ServerSelectWidget" );
+    $wf->registerWidget( "serverselect", "ServerSelectWidget", BASE_PATH . "widgets/ServerSelectWidget.class.php" );
     $wf->registerWidget( "ipselect", "IPSelectWidget", BASE_PATH . "widgets/IPSelectWidget.class.php" );
     $wf->registerWidget( "tldselect", "TLDSelectWidget", BASE_PATH . "widgets/TLDSelectWidget.class.php" );
     $wf->registerWidget( "productselect", "ProductSelectWidget", BASE_PATH . "widgets/ProductSelectWidget.class.php" );
@@ -96,6 +96,7 @@ class SolidStatePage extends Page
     $wf->registerWidget( "domaincontacttable", "DomainContactTableWidget", BASE_PATH . "widgets/DomainContactTableWidget.class.php" );
     $wf->registerWidget( "pricetable", "PriceTableWidget", BASE_PATH . "widgets/PriceTableWidget.class.php" );
     $wf->registerWidget( "purchasabletermselect", "PurchasableTermSelectWidget", BASE_PATH . "widgets/PurchasableTermSelectWidget.class.php" );
+    $wf->registerWidget( "moduleselect", "ModuleSelectWidget", BASE_PATH . "widgets/ModuleSelectWidget.class.php" );
 
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();

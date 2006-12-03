@@ -54,6 +54,14 @@ class ViewServerPage extends SolidStatePage
     // Setup the Services table
     $hsField = $this->forms['view_server_services']->getField( "services" );
     $hsField->getWidget()->setServerID( $this->get['server']->getID() );
+
+    // Provide the control panel config page
+    if( null != ($moduleName = $this->get['server']->getCPModule()) )
+      {
+	$registry = ModuleRegistry::getModuleRegistry();
+	$CPModule = $registry->getModule( $moduleName );
+	$this->smarty->assign( "ServerConfigPage", $CPModule->getServerConfigPage() );
+      }
   }
 
   /**

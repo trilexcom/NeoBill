@@ -15,6 +15,10 @@
         <th> {form_description field="uniqueip"} </th>
         <td> {form_element dbo="hosting_dbo" field="uniqueip"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="domainrequirement"} </th>
+        <td> {form_element dbo="hosting_dbo" field="domainrequirement"} </td>
+      </tr>
       <tr class="footer">
         <th> 
           {form_element field="save"}

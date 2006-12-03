@@ -41,6 +41,12 @@ class EditServerPage extends SolidStateAdminPage
     // Set this page's Nav Vars
     $this->setNavVar( "id",   $this->get['server']->getID() );
     $this->setNavVar( "hostname", $this->get['server']->getHostName() );
+
+    // Setup the module drop-down
+    $widget = $this->forms['edit_server']->getField( "cpmodule" )->getWidget();
+    $validator = $this->forms['edit_server']->getField( "cpmodule" )->getValidator();
+    $widget->setType( "controlpanel" );
+    $validator->setType( "controlpanel" );
   }
 
   /**
@@ -78,10 +84,14 @@ class EditServerPage extends SolidStateAdminPage
    */
   function save()
   {
+    $moduleName = isset( $this->post['cpmodule'] ) ?
+      $this->post['cpmodule']->getName() : null;
+
     // Update the ServerDBO
     $server_dbo = $this->session['server_dbo'];
     $server_dbo->setLocation( $this->post['location'] );
     $server_dbo->setHostName( $this->post['hostname'] );
+    $server_dbo->setCPModule( $moduleName );
 
     // Save changes in the database
     if( !update_ServerDBO( $server_dbo ) )

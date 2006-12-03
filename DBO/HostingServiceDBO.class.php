@@ -26,6 +26,11 @@ class HostingServiceDBO extends PurchasableDBO
   protected $description;
 
   /**
+   * @var string Domain Requirement
+   */
+  protected $domainRequirement;
+
+  /**
    * @var integer HostingService ID
    */
   protected $id;
@@ -90,6 +95,35 @@ class HostingServiceDBO extends PurchasableDBO
   function getDescription() { return $this->description; }
 
   /**
+   * Set Domain Requirement
+   *
+   * @param string $required 'Required' or 'Not Required'
+   */
+  public function setDomainRequirement( $required )
+  {
+    if( !($required == "Required" || $required == "Not Required") )
+      {
+	throw new SWException( "Invalid setting for domain requirement: " . $required );
+      }
+
+    $this->domainRequirement = $required;
+  }
+
+  /**
+   * Get Domain Required
+   *
+   * @return string Domain requirement ("Required" or "Not Required")
+   */
+  public function getDomainRequirement() { return $this->domainRequirement; }
+
+  /**
+   * Is Domain Required
+   *
+   * @return boolean True if a domain is required to purchase this service
+   */
+  public function isDomainRequired() { return $this->domainRequirement == "Required"; }
+
+  /**
    * Set Unique IP Requirement
    *
    * @param string $required 'Required' or 'Not Required'
@@ -140,7 +174,8 @@ function add_HostingServiceDBO( &$dbo )
   $sql = $DB->build_insert_sql( "hostingservice",
 				array( "title" => $dbo->getTitle(),
 				       "description" => $dbo->getDescription(),
-				       "uniqueip" => $dbo->getUniqueIP() ) );
+				       "uniqueip" => $dbo->getUniqueIP(),
+				       "domainrequirement" => $dbo->getDomainRequirement() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -196,7 +231,8 @@ function update_HostingServiceDBO( &$dbo )
 				"id = " . $dbo->getID(),
 				array( "title" => $dbo->getTitle(),
 				       "description" => $dbo->getDescription(),
-				       "uniqueip" => $dbo->getUniqueIP() ) );
+				       "uniqueip" => $dbo->getUniqueIP(),
+				       "domainrequirement" => $dbo->getDomainRequirement() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

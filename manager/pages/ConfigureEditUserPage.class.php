@@ -124,9 +124,8 @@ class ConfigureEditUserPage extends SolidStateAdminPage
       }
 
     // Jump to 'Users' page, pass confirmation message
-    $this->goto( 'config_users', 
-		 array( array( "type" => "USER_DELETED",
-			       "args" => array( $user_dbo->getUsername() ) ) ) );
+    $this->setMessage( array( "type" => "[USER_DELETED]" ) );
+    $this->goto( 'config_users' );
   }
 
   /**
@@ -166,8 +165,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
       }
 
     // Load form contents into DBO
-    $this->get['user']->setFirstName( $this->post['firstname'] );
-    $this->get['user']->setLastName( $this->post['lastname'] );
+    $this->get['user']->setContactName( $this->post['contactname'] );
     $this->get['user']->setEmail( $this->post['email'] );
     $this->get['user']->setType( $this->post['type'] );
     $this->get['user']->setLanguage( $this->post['language'] );

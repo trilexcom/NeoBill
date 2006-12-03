@@ -25,6 +25,10 @@
         <td> {dbo_echo dbo="account_dbo" field="type"} </td>
       </tr>
       <tr>
+        <th> [USERNAME]: </th>
+        <td> <a href="manager_content.php?page=config_edit_user&user={dbo_echo dbo="account_dbo" field="username"}">{dbo_echo dbo="account_dbo" field="username"}</a> </td>
+      </tr>
+      <tr>
         <th> {echo phrase="ACCOUNT_STATUS"}: </th>
         <td> {dbo_echo dbo="account_dbo" field="status"} </td>
       </tr>

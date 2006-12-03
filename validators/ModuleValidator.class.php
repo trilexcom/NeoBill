@@ -19,6 +19,11 @@
 class ModuleValidator extends FieldValidator
 {
   /**
+   * @var string Type requirement
+   */
+  protected $type = null;
+
+  /**
    * Validate a Module
    *
    * Verifies that a module exists.
@@ -36,6 +41,10 @@ class ModuleValidator extends FieldValidator
     try 
       {
 	$module = ModuleRegistry::getModuleRegistry()->getModule( $data );
+	if( isset( $this->type ) && $module->getType() != $this->type )
+	  {
+	    throw new FieldException( "Invalid module type" );
+	  }
       }
     catch( ModuleDoesNotExistException $e )
       {
@@ -44,5 +53,12 @@ class ModuleValidator extends FieldValidator
 
     return $module;
   }
+
+  /**
+   * Set Module Type Requirement
+   *
+   * @param string $type Module type requirement
+   */
+  public function setType( $type ) { $this->type = $type; }
 }
 ?>

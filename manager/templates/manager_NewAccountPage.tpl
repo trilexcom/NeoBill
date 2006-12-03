@@ -22,6 +22,14 @@
       <th> {form_description field="status"} </th>
       <td> {form_element field="status"} </td>
     </tr>
+    <tr>
+      <th> {form_description field="username"} </th>
+      <td> {form_element field="username"} </td>
+    </tr>
+    <tr>
+      <th> {form_description field="password"} </th>
+      <td> {form_element field="password"} </td>
+    </tr>
   </table>
 
   <h2> {echo phrase="BILLING_INFORMATION"} </h2>

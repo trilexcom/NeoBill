@@ -20,12 +20,8 @@
         <td> {form_element field="type"} </td>
       </tr>
       <tr>
-        <th> {form_description field="firstname"} </th>
-        <td> {form_element field="firstname" size="30"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="lastname"} </th>
-        <td> {form_element field="lastname" size="30"} </td>
+        <th> {form_description field="contactname"} </th>
+        <td> {form_element field="contactname" size="30"} </td>
       </tr>
       <tr>
         <th> {form_description field="email"} </th>
@@ -33,7 +29,7 @@
       </tr>
       <tr>
         <th> {form_description field="language"} </th>
-        <td> {form_element field="language" size="30"} </td>
+        <td> {form_element field="language"} </td>
       </tr>
       <tr class="footer">
         <th> <input type="submit" value="Create User"/> </th>

@@ -21,121 +21,83 @@
 class UserDBO extends DBO
 {
   /**
-   * @var string Username
+   * @var string Contact name
    */
-  var $username;
-
-  /**
-   * @var integer Account ID
-   */
-  var $accountid;
-
-  /**
-   * @var string Password (MD5)
-   */
-  var $password;
-
-  /**
-   * @var string First name
-   */
-  var $firstname;
-
-  /**
-   * @var string Last name
-   */
-  var $lastname;
+  protected $contactName;
 
   /**
    * @var string Email
    */
-  var $email;
-
-  /**
-   * @var string Type (Administrator, Account Manager)
-   */
-  var $type;
+  protected $email;
 
   /**
    * @var string Language preference
    */
-  var $language;
+  protected $language;
+
+  /**
+   * @var string Password (MD5)
+   */
+  protected $password;
+
+  /**
+   * @var string Type (Administrator, Account Manager)
+   */
+  protected $type;
+
+  /**
+   * @var string Username
+   */
+  protected $username;
 
   /**
    * Convert to a String
    *
    * @return string Username
    */
-  function __toString() { return $this->getUsername(); }
+  public function __toString() { return $this->getUsername(); }
 
   /**
    * Set Username
    *
    * @param string $username Username
    */
-  function setUsername( $username ) { $this->username = $username; }
+  public function setUsername( $username ) { $this->username = $username; }
 
   /**
    * Get Username
    *
    * @return string Username
    */
-  function getUsername() { return $this->username; }
-
-  /**
-   * Set Account ID
-   *
-   * @param integer $accountid Account ID
-   */
-  function setAccountID( $accountid ) { $this->accountid = $accountid; }
-
-  /**
-   * Get Account ID
-   *
-   * @return integer Account ID
-   */
-  function getAccountID() { return $this->accountid; }
+  public function getUsername() { return $this->username; }
 
   /**
    * Set Password
    *
    * @param string $password Password (should be MD5'd before passing!)
    */
-  function setPassword( $password ) { $this->password = $password; }
+  public function setPassword( $password ) { $this->password = $password; }
 
   /**
    * Get Password
    *
    * @return string Password (should be MD5'd)
    */
-  function getPassword() { return $this->password; }
+  public function getPassword() { return $this->password; }
 
   /**
-   * Set First Name
+   * Set Contact Name
    *
-   * @param string $firstname First name
+   * @param string $contactName Contact name
    */
-  function setFirstName( $firstname ) { $this->firstname = $firstname; }
+  function setContactName( $contactName ) { $this->contactName = $contactName; }
 
   /**
-   * Get First Name
+   * Get Contact Name
    *
-   * @return string First name
+   * @return string Contact name
    */
-  function getFirstName() { return $this->firstname; }
-
-  /**
-   * Set Last Name
-   *
-   * @param string $lastname Last name
-   */
-  function setLastName( $lastname ) { $this->lastname = $lastname; }
-
-  /**
-   * Get Last Name
-   *
-   * @return string Last name
-   */
-  function getLastName() { return $this->lastname; }
+  function getContactName() { return $this->contactName; }
 
   /**
    * Set Email
@@ -161,8 +123,7 @@ class UserDBO extends DBO
     if( !($type == "Account Manager" || $type == "Administrator" || $type == "Client" ) )
       {
 	// Bad value
-	fatal_error( "UserDBO::setType()",
-		     "bad value supplied for setType: " . $type );
+	throw new SWException( "Invalid User type: " . $type );
       }
 
     $this->type = $type;
@@ -188,23 +149,6 @@ class UserDBO extends DBO
    * @return string Language preference
    */
   function getLanguage() { return $this->language; }
-
-  /**
-   * Load Memeber Data from Array
-   *
-   * @param array $data Data to load
-   */
-  function load( $data )
-  {
-    $this->setUsername( $data['username'] );
-    $this->setAccountID( $data['accountid'] );
-    $this->setPassword( $data['password'] );
-    $this->setFirstName( $data['firstname'] );
-    $this->setLastName( $data['lastname'] );
-    $this->setEmail( $data['email'] );
-    $this->setType( $data['type'] );
-    $this->setLanguage( $data['language'] );
-  }
 }
 
 /**
@@ -213,7 +157,7 @@ class UserDBO extends DBO
  * @param string $username Username
  * @return UserDBO User, null if not found
  */
-function &load_UserDBO( $username )
+function load_UserDBO( $username )
 {
   global $DB;
 
@@ -293,7 +237,7 @@ function count_all_UserDBO( $filter = null )
  * @param int $start Record number to start the results at
  * @return array Array of UserDBO's
  */
-function &load_array_UserDBO( $filter  = null, 
+function load_array_UserDBO( $filter  = null, 
 			      $sortby  = null, 
 			      $sortdir = null,
 			      $limit   = null, 
@@ -328,7 +272,7 @@ function &load_array_UserDBO( $filter  = null,
   while( $data = mysql_fetch_array( $result ) )
       {
 	// Create and initialize a new UserDBO with the data from the DB
-	$dbo =& new UserDBO();
+	$dbo = new UserDBO();
 	$dbo->load( $data );
 
 	// Add UserDBO to array
@@ -345,7 +289,7 @@ function &load_array_UserDBO( $filter  = null,
  * @param UserDBO &$dbo UserDBO to be added to database
  * @return boolean True on success
  */
-function add_UserDBO( &$dbo )
+function add_UserDBO( UserDBO $dbo )
 {
   global $DB;
 
@@ -353,10 +297,8 @@ function add_UserDBO( &$dbo )
   $sql = $DB->build_insert_sql( "user",
 				array( "username" => $dbo->getUsername(),
 				       "password" => $dbo->getPassword(),
-				       "accountid" => $dbo->getAccountID(),
 				       "type" => $dbo->getType(),
-				       "firstname" => $dbo->getFirstName(),
-				       "lastname" => $dbo->getLastName(),
+				       "contactname" => $dbo->getContactName(),
 				       "email" => $dbo->getEmail(),
 				       "language" => $dbo->getLanguage() ) );
 
@@ -370,7 +312,7 @@ function add_UserDBO( &$dbo )
  * @param UserDBO &$dbo UserDBO to update
  * @return boolean True on success
  */
-function update_UserDBO( &$dbo )
+function update_UserDBO( UserDBO $dbo )
 {
   global $DB;
 
@@ -379,9 +321,7 @@ function update_UserDBO( &$dbo )
 				"username = " . 
 				$DB->quote_smart( $dbo->getUsername() ),
 				array( "password" => $dbo->getPassword(),
-				       "accountid" => $dbo->getAccountID(),
-				       "firstname" => $dbo->getFirstName(),
-				       "lastname" => $dbo->getLastName(),
+				       "contactname" => $dbo->getContactName(),
 				       "email" => $dbo->getEmail(),
 				       "type" => $dbo->getType(),
 				       "language" => $dbo->getLanguage() ) );
@@ -408,5 +348,4 @@ function delete_UserDBO( &$dbo )
   // Run query
   return mysql_query( $sql, $DB->handle() );
 }
-
 ?>

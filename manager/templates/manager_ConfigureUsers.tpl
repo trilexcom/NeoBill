@@ -16,12 +16,8 @@
           {form_element field="username" size="10"}
         </td>
         <td>
-          {form_description field="firstname"} <br/>
-          {form_element field="firstname" size="20"}
-        </td>
-        <td>
-          {form_description field="lastname"} <br/>
-          {form_element field="lastname" size="20"}
+          {form_description field="contactname"} <br/>
+          {form_element field="contactname" size="20"}
         </td>
         <td>
           {form_description field="email"} <br/>
@@ -47,8 +43,8 @@
         {$users.type}
       {/form_table_column}
 
-      {form_table_column columnid="lastname" header="[NAME]"}
-        {$users.firstname} {$users.lastname}
+      {form_table_column columnid="contactname" header="[NAME]"}
+        {$users.contactname}
       {/form_table_column}
 
       {form_table_column columnid="email" header="[EMAIL]"}

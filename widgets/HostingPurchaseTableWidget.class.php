@@ -60,7 +60,8 @@ class HostingPurchaseTableWidget extends TableWidget
 		     "onetimeprice" => $dbo->getOnetimePrice(),
 		     "date" => $dbo->getDate(),
 		     "accountname" => $dbo->getAccountName(),
-		     "nextbillingdate" => $dbo->getNextBillingDate() );
+		     "nextbillingdate" => $dbo->getNextBillingDate(),
+		     "domainname" => $dbo->getDomainName() );
 	  }
       }
   }

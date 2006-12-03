@@ -15,12 +15,8 @@
         <td> {form_element dbo="edit_user_dbo" field="type"} </td>
       </tr>
       <tr>
-        <th> {form_description field="firstname"} </th>
-        <td> {form_element dbo="edit_user_dbo" field="firstname" size="30"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="lastname"} </th>
-        <td> {form_element dbo="edit_user_dbo" field="lastname" size="30"} </td>
+        <th> {form_description field="contactname"} </th>
+        <td> {form_element dbo="edit_user_dbo" field="contactname" size="30"} </td>
       </tr>
       <tr>
         <th> {form_description field="email"} </th>

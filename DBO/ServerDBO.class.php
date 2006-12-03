@@ -36,6 +36,11 @@ class ServerDBO extends DBO
   var $location;
 
   /**
+   * @var string Control Panel module
+   */
+  protected $CPModule = null;
+
+  /**
    * Convert to a String
    *
    * @return string Server ID
@@ -85,6 +90,20 @@ class ServerDBO extends DBO
   function getLocation() { return $this->location; }
 
   /**
+   * Set Control Panel Module
+   *
+   * @param string Control Panel Module
+   */
+  public function setCPModule( $CPModule ) { $this->CPModule = $CPModule; }
+
+  /**
+   * Get Control Panel Module
+   *
+   * @return string Control panel module name
+   */
+  public function getCPModule() { return $this->CPModule; }
+
+  /**
    * Get Hosting Service Purchases
    *
    * Returns an array of HostingServicePurchaseDBO's assigned to this server
@@ -109,15 +128,83 @@ class ServerDBO extends DBO
   }
 
   /**
-   * Load member data from an array
+   * Create Account
    *
-   * @param array $data Data to be loaded
+   * Creates a new control panel account on the server
+   *
+   * @param HostingServiceDBO $serviceDBO The service package
+   * @param string $domainName The primary domain name to use
+   * @param string $username The account's control panel username
+   * @param string $password The account's control panel password
    */
-  function load( $data )
+  public function createAccount( HostingServiceDBO $serviceDBO,
+				 $domainName,
+				 $username )
   {
-    $this->setID( $data['id'] );
-    $this->setHostName( $data['hostname'] );
-    $this->setLocation( $data['location'] );
+    if( !isset( $this->CPModule ) )
+      {
+	throw new SWUserException( "[THERE_IS_NO_CONTROL_PANEL_MODULE_CONFIGURED_FOR_THIS_SERVER]" );
+      }
+
+    $CPModule = ModuleRegistry::getModuleRegistry()->getModule( $this->getCPModule() );
+    $password = $CPModule->generatePassword();
+    $CPModule->createAccount( $this, $serviceDBO, $domainName, $username, $password );
+
+    return $password;
+  }
+
+  /**
+   * Kill Account
+   *
+   * Terminate a control panel account on the server
+   *
+   * @param string $username The user ID of the account to be killed
+   */
+  public function killAccount( $username )
+  {
+    if( !isset( $this->CPModule ) )
+      {
+	throw new SWUserException( "[THERE_IS_NO_CONTROL_PANEL_MODULE_CONFIGURED_FOR_THIS_SERVER]" );
+      }
+
+    $CPModule = ModuleRegistry::getModuleRegistry()->getModule( $this->getCPModule() );
+    $CPModule->killAccount( $this, $username );
+  }
+
+  /**
+   * Suspend Account
+   *
+   * Suspend a control panel account on the server
+   *
+   * @param string $username The user ID of the account to be suspended
+   */
+  public function suspendAccount( $username )
+  {
+    if( !isset( $this->CPModule ) )
+      {
+	throw new SWUserException( "[THERE_IS_NO_CONTROL_PANEL_MODULE_CONFIGURED_FOR_THIS_SERVER]" );
+      }
+
+    $CPModule = ModuleRegistry::getModuleRegistry()->getModule( $this->getCPModule() );
+    $CPModule->suspendAccount( $this, $username );
+  }
+
+  /**
+   * Un-suspend Account
+   *
+   * Un-suspend a control panel account on the server
+   *
+   * @param string $username The user ID of the account to be un-suspended
+   */
+  public function unsuspendAccount( $username )
+  {
+    if( !isset( $this->CPModule ) )
+      {
+	throw new SWUserException( "[THERE_IS_NO_CONTROL_PANEL_MODULE_CONFIGURED_FOR_THIS_SERVER]" );
+      }
+
+    $CPModule = ModuleRegistry::getModuleRegistry()->getModule( $this->getCPModule() );
+    $CPModule->unsuspendAccount( $this, $username );
   }
 }
 
@@ -134,7 +221,8 @@ function add_ServerDBO( &$dbo )
   // Build SQL
   $sql = $DB->build_insert_sql( "server",
 				array( "hostname" => $dbo->getHostName(),
-				       "location" => $dbo->getLocation() ) );
+				       "location" => $dbo->getLocation(),
+				       "cpmodule" => $dbo->getCPModule() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -177,7 +265,8 @@ function update_ServerDBO( &$dbo )
   $sql = $DB->build_update_sql( "server",
 				"id = " . $dbo->getID(),
 				array( "hostname" => $dbo->getHostName(),
-				       "location" => $dbo->getLocation() ) );
+				       "location" => $dbo->getLocation(),
+				       "cpmodule" => $dbo->getCPModule() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );

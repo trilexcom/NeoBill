@@ -72,6 +72,13 @@ class AssignHostingPage extends SolidStatePage
 	throw new SWUserException( "[SELECT_IP]" );
       }
 
+    // If this HostingService requires a domain, make sure the user selected one
+    if( $this->post['service']->isDomainRequired() && 
+	!isset( $this->post['domainname'] ) )
+      {
+	throw new SWUserException( "[YOU_MUST_SUPPLY_A_DOMAIN_NAME]" );
+      }
+
     // Create new HostingServicePurchase DBO
     $serverID = isset( $this->post['server'] ) ? $this->post['server']->getID() : null;
 
@@ -82,6 +89,7 @@ class AssignHostingPage extends SolidStatePage
 			    $this->post['term']->getTermLength() : null );
     $purchase_dbo->setServerID( $serverID );
     $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $purchase_dbo->setDomainName( $this->post['domainname'] );
 
     // Save purchase
     if( !add_HostingServicePurchaseDBO( $purchase_dbo ) )
@@ -159,5 +167,8 @@ class AssignHostingPage extends SolidStatePage
     // Update the service terms box
     $widget = $this->forms['assign_hosting']->getField( "term" )->getWidget();
     $widget->setPurchasable( $serviceDBO );
+
+    // Indicate if this hosting service requires a domainname
+    $this->smarty->assign( "domainIsRequired", $serviceDBO->isDomainRequired() );
   }
 }

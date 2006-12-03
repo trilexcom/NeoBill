@@ -14,6 +14,10 @@
         <th> {form_description field="uniqueip"} </th>
         <td> {form_element field="uniqueip"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="domainrequirement"} </th>
+        <td> {form_element field="domainrequirement"} </td>
+      </tr>
       <tr class="footer">
         <td colspan="2">
           {form_element field="continue"}

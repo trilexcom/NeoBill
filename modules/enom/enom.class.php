@@ -13,9 +13,6 @@
 // Base class
 require_once BASE_PATH . "modules/RegistrarModule.class.php";
 
-// Enom Interface
-require BASE_PATH . "modules/enom/include/EnomInterface.class.php";
-
 /**
  * Enom
  *
@@ -148,8 +145,14 @@ class Enom extends RegistrarModule
   {
     parent::init();
 
-    // Instantiate an EnomInterface to communicate with enom
-    $this->enom = new EnomInterface();
+    if( $this->isEnabled() )
+      {
+	// Enom Interface
+	require BASE_PATH . "modules/enom/include/EnomInterface.class.php";
+	
+	// Instantiate an EnomInterface to communicate with enom
+	$this->enom = new EnomInterface();
+      }
 
     // Load settings
     $this->setAPIURL( $this->moduleDBO->loadSetting( "enom_apiurl" ) );
