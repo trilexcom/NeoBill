@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// Order DBO
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * DomainContactPage
@@ -27,7 +24,7 @@ class DomainContactPage extends SolidStatePage
   /**
    * @var array Array of Order Domain Item's that still need contact info
    */
-  var $domainsNeedContact = array();
+  protected $domainsNeedContact = array();
 
   /**
    * Action
@@ -104,7 +101,8 @@ class DomainContactPage extends SolidStatePage
     // Give access to the template
     $this->session['order'] =& $_SESSION['order'];
 
-    if( null == ($domainItems = $this->session['order']->getDomainItems()) )
+    $domainItems = $this->session['order']->getDomainItems();
+    if( empty( $domainItems ) )
       {
 	// No domains, skip this step
 	$this->done();

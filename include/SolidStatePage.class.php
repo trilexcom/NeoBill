@@ -97,6 +97,7 @@ class SolidStatePage extends Page
     $wf->registerWidget( "pricetable", "PriceTableWidget", BASE_PATH . "widgets/PriceTableWidget.class.php" );
     $wf->registerWidget( "purchasabletermselect", "PurchasableTermSelectWidget", BASE_PATH . "widgets/PurchasableTermSelectWidget.class.php" );
     $wf->registerWidget( "moduleselect", "ModuleSelectWidget", BASE_PATH . "widgets/ModuleSelectWidget.class.php" );
+    $wf->registerWidget( "orderdomainselect", "OrderDomainSelectWidget", BASE_PATH . "widgets/OrderDomainSelectWidget.class.php" );
 
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();

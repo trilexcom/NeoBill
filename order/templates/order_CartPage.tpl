@@ -24,8 +24,8 @@
       {/form_table_column}
 
       {form_table_footer}
-        {form_element field="adddomain"}
         {form_element field="addhosting"}
+        {form_element field="adddomain"}
         {form_element field="remove"}
       {/form_table_footer}
     
@@ -50,37 +50,6 @@
       <p>({echo phrase="DOES_NOT_INCLUDE_TAXES"})</p>
   </div>
 {/form}
-
-<div class="cart">
-  {form name="cart_domains"}
-
-    {if $show_existing_domains}
-      <hr/>
-      <p> {echo phrase="EXISTING_DOMAIN_LIST"}: </p>
-      <div class="domains">
-        {form_table field="domaintable"}
-
-          {form_table_column columnid=""}
-            <center> {form_table_checkbox option=$domaintable.orderitemid} </center>
-          {/form_table_column}
-
-          {form_table_column columnid="domainname" header="[DOMAIN_NAME]"}
-            {$domaintable.domainname}
-          {/form_table_column}
-
-          {form_table_footer}
-            {form_element field="removedomain"}
-          {/form_table_footer}
-
-        {/form_table}
-      </div>
-      <p> {echo phrase="EXISTING_DOMAIN_CART_TEXT"} </p>
-    {/if}
-
-  {/form}
-
-  <hr/>
-</div>
 
 {form name="cart_nav"}
   <div class="buttoncontainer">

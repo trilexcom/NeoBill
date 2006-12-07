@@ -11,13 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// Order DBO
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
-
-// User DBO
-require_once BASE_PATH . "DBO/UserDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * CustomerPage
@@ -89,8 +83,8 @@ class CustomerPage extends SolidStatePage
     $this->session['order'] =& $_SESSION['order'];
 
     // Indicate to the template wether or not the order contains any domain items
-    $this->smarty->assign( "orderHasDomains",
-			   $this->session['order']->getDomainItems() != null );
+    $domainItems = $this->session['order']->getDomainItems();
+    $this->smarty->assign( "orderHasDomains", !empty( $domainItems ) );
        
     if( isset( $_SESSION['client']['userdbo'] ) )
       {
@@ -98,9 +92,7 @@ class CustomerPage extends SolidStatePage
 	$userDBO = $_SESSION['client']['userdbo'];
 	if( null == ($accountDBO = load_AccountDBO( $userDBO->getAccountID() )) )
 	  {
-	    fatal_error( "CustomerPage::init()",
-			 "User account not found, account id = " . 
-			 $userDBO->getAccountID() );
+	    throw new SWException( "User not found" );
 	  }
 
 	$this->session['order']->setAccountID( $accountDBO->getID() );
@@ -118,7 +110,8 @@ class CustomerPage extends SolidStatePage
 	$this->session['order']->setFax( $accountDBO->getFax() );
 	$this->session['order']->setUsername( $userDBO->getUsername() );
 
-	if( $this->session['order']->getDomainItems() == null )
+	$domainItems = $this->session['order']->getDomainItems();
+	if( empty( $domainItems ) )
 	  {
 	    $this->process();
 	  }
@@ -183,7 +176,8 @@ class CustomerPage extends SolidStatePage
 	$this->session['order']->setPassword( $this->post['password'] );
       }
 
-    if( null != ($domainItems = $this->session['order']->getDomainItems()) && 
+    $domainItems = $this->session['order']->getDomainItems();
+    if( !empty( $domainItems ) && 
 	($this->session['customer_information']['domaincontact'] == "same" ||
 	 $this->session['repeat_customer']['domaincontact'] == "same") )
       {

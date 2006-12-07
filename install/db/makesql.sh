@@ -1,5 +1,5 @@
 #!/bin/bash
-mysqldump --compact --no-data --quote-names --quick --force solidstate -u root -p > solid-state.mysql.sql
+mysqldump --compact --no-data --quote-names --quick --force solid_solidstate -u solid -p > solid-state.mysql.sql
 echo "INSERT INTO \`settings\` VALUES ('welcome_subject', 'Welcome to Web Hosting Company!');" >> solid-state.mysql.sql
 echo "INSERT INTO \`settings\` VALUES ('welcome_email', 'This is the welcome email that can be sent to your new \r\ncustomers.');" >> solid-state.mysql.sql
 echo "INSERT INTO \`settings\` VALUES ('invoice_text', 'Invoice #{invoice_id}\r\n\r\n===================================================================\r\nItem                                    Price     Qty  Total\r\n===================================================================\r\n{invoice_items}===================================================================\r\n\r\nSub-Total: {invoice_subtotal}\r\nTaxes: {invoice_taxtotal}\r\nInvoice Total: {invoice_total}\r\nPayments Received: {invoice_payments}\r\nBalance: {invoice_balance}\r\nDate Due: {invoice_due}\r\n\r\nIf you have any questions about this Invoice, please contact\r\nbilling@example.com.  Thank you!\r\n\r\nWeb Hosting Company\r\n');" >> solid-state.mysql.sql

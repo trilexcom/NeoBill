@@ -68,8 +68,7 @@ class ReviewPage extends SolidStatePage
     if( $this->session['order']->getAccountType() == "New Account" &&
 	!isset( $this->post['module'] ) )
       {
-	$this->setError( array( "type" => "YOU_MUST_SELECT_PAYMENT" ) );
-	return;
+	throw new SWUserException( "[YOU_MUST_SELECT_PAYMENT]" );
       }
 
     $this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
@@ -79,7 +78,7 @@ class ReviewPage extends SolidStatePage
     if( $this->session['order']->getID() == null && 
 	!add_OrderDBO( $this->session['order'] ) )
       {
-	fatal_error( "ReviewPage::checkout()", "Failed to add Order to database!" );
+	throw new SWException( "Failed to add Order to database!" );
       }
 
     if( $this->session['order']->getAccountType() == "Existing Account" )
@@ -100,8 +99,7 @@ class ReviewPage extends SolidStatePage
 	$checkPayment->setType( "Check" );
 	if( !add_PaymentDBO( $checkPayment ) )
 	  {
-	    fatal_error( "ReviewPage::checkout()", 
-			 "Failed to record payment by check!" );
+	    throw new SWException( "Failed to record payment by check!" );
 	  }
 
 	// Goto the receipt page

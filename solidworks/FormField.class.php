@@ -175,6 +175,7 @@ class FormField
    * Attempts to set a value for this field.
    *
    * @param mixed $data The data submitted to this field
+   * @return mixed The processed value
    * @throws FieldException FieldMissingException
    */
   public function set( $data )
@@ -217,5 +218,8 @@ class FormField
 	  array( $this->validator->validate( $data ) ) :
 	  $this->validator->validate( $data );
       }
+
+    // Return the value
+    return $this->value;
   }
 }

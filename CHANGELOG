@@ -1,3 +1,11 @@
+12/7/2006 - jdiamond
+=====================
+
+ * (trac #150) Implemented control panel module support and a basic module for cPanel.
+ * Numerous changes to the order interface that were necessary for integrating with control panel's.
+ * (trac #119) New (client) users are now created along with new accounts.
+ * (trac #67) It is now possible to edit hosting service purchases.
+
 11/26/2006 - jdiamond
 =====================
 

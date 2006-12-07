@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// Order DBO
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * CartPage
@@ -40,20 +37,13 @@ class CartPage extends SolidStatePage
 	  {
 	    $this->removeCartItems( $this->post['cart'] );
 	  }
-	elseif( isset( $this->post['adddomain'] ) )
-	  {
-	    $this->goto( "adddomain" );
-	  }
 	elseif( isset( $this->post['addhosting'] ) )
 	  {
-	    $this->goto( "addhosting" );
+	    $this->goto( "purchasehosting" );
 	  }
-	break;
-
-      case "cart_domains":
-	if( isset( $this->post['removedomain'] ) )
+	elseif( isset( $this->post['adddomain'] ) )
 	  {
-	    $this->removeExistingDomains( $this->post['domaintable'] );
+	    $this->goto( "purchasedomain" );
 	  }
 	break;
 
@@ -97,12 +87,12 @@ class CartPage extends SolidStatePage
       {
 	$paymentMethods++;
       }
-    if( $paymentMethods == 0 && !$this->conf['order']['accept_checks'] )
+    if( $paymentMethods == 0 )
       {
-	fatal_error( "CartPage::init()",
-		     "No payment methods have been enabled.  The HSP must enable at least one payment method before the order interface can be used" );
+	throw new SWUserException( "No payment methods have been enabled.  The HSP must enable at least one payment method before the order interface can be used" );
       }
 
+    // Make sure that an order has been started
     if( !isset( $_SESSION['order'] ) )
       {
 	$this->newOrder();
@@ -114,19 +104,11 @@ class CartPage extends SolidStatePage
 	$cField->getWidget()->setOrder( $_SESSION['order'] );
 	$cField->getValidator()->setOrder( $_SESSION['order'] );
 
-	// Setup the existing domains table
-	$dField = $this->forms['cart_domains']->getField( "domaintable" );
-	$dField->getWidget()->setOrder( $_SESSION['order'] );
-	$dField->getWidget()->showExistingDomains();
-	$dField->getValidator()->setOrder( $_SESSION['order'] );
-
 	$this->smarty->assign( "recurring_total", 
 			       $_SESSION['order']->getRecurringTotal() );
 	$this->smarty->assign( "nonrecurring_total",
 			       $_SESSION['order']->getNonRecurringTotal() );
 	$this->smarty->assign( "cart_total", $_SESSION['order']->getSubTotal() );
-	$this->smarty->assign( "show_existing_domains", 
-			       $_SESSION['order']->getExistingDomains() != null );
       }
   }
 
@@ -137,7 +119,7 @@ class CartPage extends SolidStatePage
   {
     // Start a new order
     $_SESSION['order'] = new OrderDBO();
-    $this->goto( "adddomain" );
+    $this->goto( "purchasehosting" );
   }
 
   /**
@@ -153,24 +135,7 @@ class CartPage extends SolidStatePage
       }
 
     // Reload (to reset the display domains flag, if necessary )
-    $this->goto( "cart" );
+    $this->reload();
   }
-
-  /**
-   * Remove Existing Domains from Cart
-   *
-   * @param array $orderitemids Array of domain names to be removed
-   */
-  function removeExistingDomains( $orderitems = array() )
-  {
-    foreach( $orderitems as $orderitemdbo )
-      {
-	$_SESSION['order']->removeExistingDomain( $orderitemdbo->getOrderItemID() );
-      }
-
-    // Reload (to reset the display domains flag, if necessary )
-    $this->goto( "cart" );
-  }
-
 }
 ?>

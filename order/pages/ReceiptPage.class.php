@@ -22,23 +22,6 @@ require BASE_PATH . "include/SolidStatePage.class.php";
 class ReceiptPage extends SolidStatePage
 {
   /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
-
-  /**
    * Initialize Review Page
    */
   function init()

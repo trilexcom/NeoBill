@@ -23,9 +23,11 @@ class FieldMissingException extends FieldException
   /**
    * FieldMissingException Constructor
    */
-  public function __construct()
+  public function __construct( $fieldName = null )
   {
     parent::__construct();
+
+    $this->setField( $fieldName );
   }
 
   /**

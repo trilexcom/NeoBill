@@ -21,9 +21,14 @@
 class OrderHostingDBO extends OrderItemDBO
 {
   /**
+   * @var string Domain name to be hosted with this service
+   */
+  protected $domainName = null;
+
+  /**
    * @var integer OrderHosting ID
    */
-  protected $id;
+  protected $id = null;
 
   /**
    * Set OrderHosting ID
@@ -74,8 +79,22 @@ class OrderHostingDBO extends OrderItemDBO
    */
   public function getDescription()
   {
-    return "[WEB_HOSTING_PACKAGE]: " . $this->purchasable->getTitle();
+    return sprintf( "%s (%s)", $this->purchasable->getTitle(), $this->getDomainName() );
   }
+
+  /**
+   * Set Domain Name
+   *
+   * @param string $domainName The domain name to be hosted by this service
+   */
+  public function setDomainName( $domainName ) { $this->domainName = $domainName; }
+
+  /**
+   * Get Domain Name
+   *
+   * @return string The domain name to be hosted by this service
+   */
+  public function getDomainName() { return $this->domainName; }
 
   /**
    * Execute Hosting Service Order
@@ -95,6 +114,7 @@ class OrderHostingDBO extends OrderItemDBO
     $purchaseDBO->setHostingServiceID( $this->getServiceID() );
     $purchaseDBO->setTerm( $this->getTerm() );
     $purchaseDBO->setDate( $DB->format_datetime( time() ) );
+    $purchaseDBO->setDomainName( $this->getDomainName() );
     $purchaseDBO->setPrevInvoiceID( -1 );
     $purchaseDBO->incrementNextBillingDate();
     if( !add_HostingServicePurchaseDBO( $purchaseDBO ) )
@@ -124,7 +144,7 @@ class OrderHostingDBO extends OrderItemDBO
  * @param OrderHostingDBO &$dbo OrderHostingDBO to add to database
  * @return boolean True on success
  */
-function add_OrderHostingDBO( &$dbo )
+function add_OrderHostingDBO( OrderHostingDBO $dbo )
 {
   global $DB;
 
@@ -134,7 +154,8 @@ function add_OrderHostingDBO( &$dbo )
 				       "orderitemid" => intval( $dbo->getOrderItemID() ),
 				       "serviceid" => $dbo->getServiceID(),
 				       "status" => $dbo->getStatus(),
-				       "term" => $dbo->getTerm() ) );
+				       "term" => $dbo->getTerm(),
+				       "domainname" => $dbo->getDomainName() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -170,7 +191,7 @@ function add_OrderHostingDBO( &$dbo )
  * @param OrderHostingDBO &$dbo OrderHostingDBO to update
  * @return boolean True on success
  */
-function update_OrderHostingDBO( &$dbo )
+function update_OrderHostingDBO( OrderHostingDBO $dbo )
 {
   global $DB;
 
@@ -180,7 +201,8 @@ function update_OrderHostingDBO( &$dbo )
 				array( "orderid" => intval( $dbo->getOrderID() ),
 				       "serviceid" => $dbo->getServiceID(),
 				       "status" => $dbo->getStatus(),
-				       "term" => $dbo->getTerm() ) );
+				       "term" => $dbo->getTerm(),
+				       "domainname" => $dbo->getDomainName() ) );
 				
   // Run query
   return mysql_query( $sql, $DB->handle() );
@@ -192,7 +214,7 @@ function update_OrderHostingDBO( &$dbo )
  * @param OrderHostingDBO &$dbo OrderHostingDBO to delete
  * @return boolean True on success
  */
-function delete_OrderHostingDBO( &$dbo )
+function delete_OrderHostingDBO( OrderHostingDBO $dbo )
 {
   global $DB;
 
