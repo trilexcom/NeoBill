@@ -40,8 +40,6 @@ class EmailInvoicePage extends SolidStatePage
    */
   function init()
   {
-    global $DB;
-
     parent::init();
 
     // Set URL Field values
@@ -58,11 +56,11 @@ class EmailInvoicePage extends SolidStatePage
     $subject = str_replace( "{company_name}", $this->conf['company']['name'], $subject );
     $subject = str_replace( "{period_begin_date}",
 			    strftime( "%D", 
-				      $DB->datetime_to_unix( $this->get['invoice']->getPeriodBegin() ) ),
+				      DBConnection::datetime_to_unix( $this->get['invoice']->getPeriodBegin() ) ),
 			    $subject );
     $subject = str_replace( "{period_end_date}",
 			    strftime( "%D", 
-				      $DB->datetime_to_unix( $this->get['invoice']->getPeriodEnd() ) ),
+				      DBConnection::datetime_to_unix( $this->get['invoice']->getPeriodEnd() ) ),
 			    $subject );
 
     $this->smarty->assign( "email", $account_dbo->getContactEmail() );

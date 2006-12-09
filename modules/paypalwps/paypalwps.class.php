@@ -141,7 +141,7 @@ class PaypalWPS extends PaymentProcessorModule
    */
   function loadPaypalPaymentDBO( $tx )
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     $paymentDBOArray = 
       load_array_PaymentDBO( sprintf( "transaction1=%s AND module=%s",

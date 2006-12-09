@@ -143,10 +143,8 @@ class DomainServicePurchaseDBO extends PurchaseDBO
    */
   function generateExpireDate()
   {
-    global $DB;
-
     // Break up the registration date
-    $start_date = getdate( $DB->datetime_to_unix( $this->getDate() ) );
+    $start_date = getdate( DBConnection::datetime_to_unix( $this->getDate() ) );
 
     // Add term-years to start date
     $expire_date = mktime( $start_date['hours'], 
@@ -157,7 +155,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
 			   $start_date['year'] + ($this->getTerm() / 12) );
 
     // Convert back to a datetime
-    $this->setExpireDate( $DB->format_datetime( $expire_date ) );
+    $this->setExpireDate( DBConnection::format_datetime( $expire_date ) );
   }
 
   /**
@@ -227,8 +225,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
    */
   public function isExpired()
   {
-    global $DB;
-    return $DB->datetime_to_unix( $this->getExpireDate() ) > time();
+    return DBConnection::datetime_to_unix( $this->getExpireDate() ) > time();
   }
 }
 
@@ -240,7 +237,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
  */
 function add_DomainServicePurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "domainservicepurchase",
@@ -291,7 +288,7 @@ function add_DomainServicePurchaseDBO( &$dbo )
  */
 function update_DomainServicePurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "domainservicepurchase",
@@ -316,7 +313,7 @@ function update_DomainServicePurchaseDBO( &$dbo )
  */
 function delete_DomainServicePurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "domainservicepurchase",
@@ -334,7 +331,7 @@ function delete_DomainServicePurchaseDBO( &$dbo )
  */
 function load_DomainServicePurchaseDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "domainservicepurchase",
@@ -384,7 +381,7 @@ function &load_array_DomainServicePurchaseDBO( $filter = null,
 					       $limit = null,
 					       $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "domainservicepurchase",
@@ -438,7 +435,7 @@ function &load_array_DomainServicePurchaseDBO( $filter = null,
  */
 function count_all_DomainServicePurchaseDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "domainservicepurchase",

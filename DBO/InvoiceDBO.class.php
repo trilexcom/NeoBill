@@ -337,12 +337,10 @@ class InvoiceDBO extends DBO
    */
   function getDescription()
   {
-    global $DB;
-
     return "Invoice #" . $this->getID() . 
       " (" . $this->getAccountName() . " " . 
-      date( "n/j/Y", $DB->datetime_to_unix( $this->getPeriodBegin() ) ) . " - " . 
-      date( "n/j/Y", $DB->datetime_to_unix( $this->getPeriodEnd() ) ) . ", " .
+      date( "n/j/Y", DBConnection::datetime_to_unix( $this->getPeriodBegin() ) ) . " - " . 
+      date( "n/j/Y", DBConnection::datetime_to_unix( $this->getPeriodEnd() ) ) . ", " .
       sprintf( "$%01.2f", $this->getBalance() ) . ")";
   }
 
@@ -373,9 +371,8 @@ class InvoiceDBO extends DBO
    */
   function getDueDate()
   {
-    global $DB;
-
-    return $DB->datetime_to_unix( $this->getDate() ) + ($this->getTerms()*24*60*60);
+    return DBConnection::datetime_to_unix( $this->getDate() ) + 
+      ($this->getTerms()*24*60*60);
   }
 
   /**
@@ -431,15 +428,13 @@ class InvoiceDBO extends DBO
    */
   public function generate()
   {
-    global $DB;
-
     if( !( $this->getAccountID() || $this->getPeriodBegin() || $this->getPeriodEnd() ) )
       {
 	throw new SWException( "Missing necessary information to generate this invoice" );
       }
 
-    $periodBeginTS = $DB->datetime_to_unix( $this->getPeriodBegin() );
-    $periodEndTS = $DB->datetime_to_unix( $this->getPeriodEnd() );
+    $periodBeginTS = DBConnection::datetime_to_unix( $this->getPeriodBegin() );
+    $periodEndTS = DBConnection::datetime_to_unix( $this->getPeriodEnd() );
 
     // Bill all applicable purchases for the account
     foreach( $this->accountDBO->getPurchases() as $purchaseDBO )
@@ -459,7 +454,7 @@ class InvoiceDBO extends DBO
 	  }
 
 	// Bill the purchase as many times as necessary during the period
-	$nextBillingDateTS = $DB->date_to_unix( $purchaseDBO->getNextBillingDate() );
+	$nextBillingDateTS = DBConnection::date_to_unix( $purchaseDBO->getNextBillingDate() );
 	$recurCount = 0;
 	while( $nextBillingDateTS >= $periodBeginTS && 
 	       $nextBillingDateTS < $periodEndTS )
@@ -478,7 +473,7 @@ class InvoiceDBO extends DBO
 
 		// Increment the next billing date by term
 		$nextBillingDateTS = 
-		  $DB->date_to_unix( $purchaseDBO->incrementNextBillingDate() );
+		  DBConnection::date_to_unix( $purchaseDBO->incrementNextBillingDate() );
 	      }
 
 	    // The -1 will be replaced by the invoice ID in add_InvoiceDBO
@@ -560,12 +555,12 @@ class InvoiceDBO extends DBO
    */
   function text( $email_text )
   {
-    global $conf, $DB;
+    global $conf;
 
     // Generate Invoice & E-mail text
     $email_text = str_replace( "{invoice_id}", $this->getID(), $email_text );
 
-    $invoiceDate = $DB->datetime_to_unix( $this->getDate() );
+    $invoiceDate = DBConnection::datetime_to_unix( $this->getDate() );
     $email_text = str_replace( "{invoice_date}", 
 			       strftime( "%B %e, %G", $invoiceDate ),
 			       $email_text );
@@ -638,7 +633,7 @@ class InvoiceDBO extends DBO
  */
 function add_InvoiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "invoice",
@@ -723,7 +718,7 @@ function add_InvoiceDBO( &$dbo )
  */
 function update_InvoiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "invoice",
@@ -748,7 +743,7 @@ function update_InvoiceDBO( &$dbo )
  */
 function delete_InvoiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Delete line-items
   foreach( $dbo->getItems() as $item_dbo )
@@ -786,7 +781,7 @@ function delete_InvoiceDBO( &$dbo )
  */
 function load_InvoiceDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "invoice",
@@ -835,7 +830,7 @@ function &load_array_InvoiceDBO( $filter = null,
 				 $limit = null,
 				 $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "invoice",
@@ -889,7 +884,7 @@ function &load_array_InvoiceDBO( $filter = null,
  */
 function count_all_InvoiceDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "invoice",

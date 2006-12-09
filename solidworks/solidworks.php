@@ -30,7 +30,6 @@ require "security.php";
 function solidworks( &$conf, $smarty )
 {
   global $page; // Make the Page object available to smarty_extensions
-  global $DB;   // Make DB available for DBO's
   global $translations;
 
   // Change the charset to UTF-8
@@ -57,7 +56,7 @@ function solidworks( &$conf, $smarty )
   
   // Get a Page object for the page being requested
   $page = null;
-  $page = get_page_object( $conf, $smarty, $DB );
+  $page = get_page_object( $conf, $smarty );
   if( $page == null )
     {
       // Delete current session
@@ -189,10 +188,9 @@ function handle_post_request()
  *
  * @param array $conf Configuration data
  * @param object $smarty Smarty template object
- * @param DBConnection $DB Database connection
  * @return Page A reference to the page object.  If the page parameter is invalid, null is returned.
  */
-function &get_page_object( $conf, $smarty, $DB )
+function &get_page_object( $conf, $smarty )
 {
   if( !isset( $_GET['page'] ) )
     {
@@ -216,7 +214,7 @@ function &get_page_object( $conf, $smarty, $DB )
 
   // Set the class name - workaround for PHP 5 get_class behavior.
   $page_obj->class_name = $page_class;
-  $page_obj->load( $conf, $smarty, $DB );
+  $page_obj->load( $conf, $smarty );
 
   if( $page_obj->isDisabled() )
     {

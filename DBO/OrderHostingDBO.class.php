@@ -106,14 +106,12 @@ class OrderHostingDBO extends OrderItemDBO
    */
   public function execute( $accountDBO )
   {
-    global $DB;
-
     // Create a hosting service purchase record
     $purchaseDBO = new HostingServicePurchaseDBO();
     $purchaseDBO->setAccountID( $accountDBO->getID() );
     $purchaseDBO->setHostingServiceID( $this->getServiceID() );
     $purchaseDBO->setTerm( $this->getTerm() );
-    $purchaseDBO->setDate( $DB->format_datetime( time() ) );
+    $purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
     $purchaseDBO->setDomainName( $this->getDomainName() );
     $purchaseDBO->setPrevInvoiceID( -1 );
     $purchaseDBO->incrementNextBillingDate();
@@ -146,7 +144,7 @@ class OrderHostingDBO extends OrderItemDBO
  */
 function add_OrderHostingDBO( OrderHostingDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "orderhosting",
@@ -193,7 +191,7 @@ function add_OrderHostingDBO( OrderHostingDBO $dbo )
  */
 function update_OrderHostingDBO( OrderHostingDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "orderhosting",
@@ -216,7 +214,7 @@ function update_OrderHostingDBO( OrderHostingDBO $dbo )
  */
 function delete_OrderHostingDBO( OrderHostingDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "orderhosting",
@@ -234,7 +232,7 @@ function delete_OrderHostingDBO( OrderHostingDBO $dbo )
  */
 function load_OrderHostingDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "orderhosting",
@@ -284,7 +282,7 @@ function &load_array_OrderHostingDBO( $filter = null,
 				     $limit = null,
 				     $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "orderhosting",
@@ -338,7 +336,7 @@ function &load_array_OrderHostingDBO( $filter = null,
  */
 function count_all_OrderHostingDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = "SELECT COUNT(*) FROM orderhosting";

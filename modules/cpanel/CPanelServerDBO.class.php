@@ -111,7 +111,7 @@ function addOrUpdate_CPanelServerDBO( CPanelServerDBO $dbo )
  */
 function add_CPanelServerDBO( CPanelServerDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "cpanelserver",
@@ -131,7 +131,7 @@ function add_CPanelServerDBO( CPanelServerDBO $dbo )
  */
 function update_CPanelServerDBO( CPanelServerDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "cpanelserver",
@@ -151,7 +151,7 @@ function update_CPanelServerDBO( CPanelServerDBO $dbo )
  */
 function delete_CPanelServerDBO( CPanelServerDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "cpanelserver",
@@ -169,7 +169,7 @@ function delete_CPanelServerDBO( CPanelServerDBO $dbo )
  */
 function load_CPanelServerDBO( $serverID )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "cpanelserver",
@@ -218,7 +218,7 @@ function &load_array_CPanelServerDBO( $filter = null,
 				      $limit = null,
 				      $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "cpanelserver",

@@ -262,7 +262,7 @@
     <phrase id="TERM">CGV</phrase>
     <phrase id="THANK_YOU_FOR_YOUR_ORDER">Merci pour votre achat !</phrase>
     <phrase id="TRANSFER_DOMAIN_OPTION">Transférer votre nom de domaine.</phrase>
-    <phrase id="TRANSFER_DOMAIN_OPTION_TEXT">Employer cette option pour transférer un domaine que vous possèdent déjà. Le transfert d'un nom de domaine permet de remplacer votre domaine et de tirer profit de nos offres. Pour plus d'information, voir l'option ci-dessous.</phrase>
+    <phrase id="TRANSFER_DOMAIN_OPTION_TEXT">Choisissez cette option pour transférer un domaine que vous possédez déjà. Le transfert d'un nom de domaine permet de remplacer votre domaine et de tirer profit de nos offres. Pour plus d'information, voir l'option ci-dessous.</phrase>
     <phrase id="TRANSFER_PERIOD">Période de renouvellement et de transfert</phrase>
     <phrase id="TRANSFER_SECRET">Secret de transfert</phrase>
     <phrase id="TRANSFER_TERMS">Veuillez séléctionnez les termes de votre nom de domaine</phrase>

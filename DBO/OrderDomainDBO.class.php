@@ -237,8 +237,6 @@ class OrderDomainDBO extends OrderItemDBO
    */
   function execute( $accountDBO )
   {
-    global $DB;
-
     switch( $this->getType() )
       {
       case "Existing":
@@ -271,7 +269,7 @@ class OrderDomainDBO extends OrderItemDBO
     $purchaseDBO->setTLD( $this->getTLD() );
     $purchaseDBO->setTerm( $this->getTerm() );
     $purchaseDBO->setDomainName( $this->getDomainName() );
-    $purchaseDBO->setDate( $DB->format_datetime( time() ) );
+    $purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
     $purchaseDBO->setPrevInvoiceID( -1 );
     $purchaseDBO->incrementNextBillingDate();
     if( !add_DomainServicePurchaseDBO( $purchaseDBO ) )
@@ -302,8 +300,6 @@ class OrderDomainDBO extends OrderItemDBO
    */
   function registerDomain( $accountDBO )
   {
-    global $DB, $conf;
-
     // Verify that the registrar module is enabled
     $serviceDBO = load_DomainServiceDBO( $this->getTLD() );
 
@@ -399,7 +395,7 @@ class OrderDomainDBO extends OrderItemDBO
  */
 function add_OrderDomainDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Initialize contact ID's to 0
   $adminID = $billingID = $techID = 0;
@@ -482,7 +478,7 @@ function add_OrderDomainDBO( &$dbo )
  */
 function update_OrderDomainDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "orderdomain",
@@ -507,7 +503,7 @@ function update_OrderDomainDBO( &$dbo )
  */
 function delete_OrderDomainDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "orderdomain",
@@ -525,7 +521,7 @@ function delete_OrderDomainDBO( &$dbo )
  */
 function load_OrderDomainDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "orderdomain",
@@ -575,7 +571,7 @@ function &load_array_OrderDomainDBO( $filter = null,
 				     $limit = null,
 				     $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "orderdomain",
@@ -629,7 +625,7 @@ function &load_array_OrderDomainDBO( $filter = null,
  */
 function count_all_OrderDomainDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = "SELECT COUNT(*) FROM orderdomain";

@@ -53,9 +53,8 @@ $conf = load_config_file( "application.conf" );
 // Load the translations/language file
 $translations = TranslationParser::load( "translations" );
 
-// Setup database communication
+// Setup database confing
 $conf['db'] = $db;
-$DB = new DBConnection;
 
 // Create the module registry
 ModuleRegistry::createModuleRegistry( BASE_PATH . "modules/" );

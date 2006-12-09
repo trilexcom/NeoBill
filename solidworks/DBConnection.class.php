@@ -21,113 +21,9 @@
 class DBConnection
 {
   /**
-   * @var object Database handle
+   * @var static DBConnection Singleton instance
    */
-  var $dbh = null;
-
-  /**
-   * Default constructor
-   *
-   * Initializes the database handle
-   */
-  function DBConnection()
-  {
-    $this->dbh = null;
-  }
-
-  /**
-   * Database Handle
-   *
-   * Access the database handle.  If no handle exists, open a connection to the
-   * database.
-   *
-   * @return object Database handle
-   */
-  function handle()
-  {
-    global $conf;
-
-    if( $this->dbh == null )
-      {
-	// Not connected.  Yet.
-	$this->connect();
-      }
-
-    return $this->dbh;
-  }
-
-  /**
-   * Connect to the database server
-   */
-  function connect()
-  {
-    global $conf;
-
-    // Open a connection to the database server
-    $this->dbh = @mysql_connect( $conf['db']['host'],
-				 base64_decode( $conf['db']['user'] ),
-				 base64_decode( $conf['db']['pass'] ) );
-    if( $this->dbh == null )
-      {
-	// Connection failed
-	echo "Failed to establish database connection.";
-	exit();
-      }
-    
-    // Open the Solid-State database
-    if( !@mysql_select_db( $conf['db']['database'], $this->dbh ) )
-      {
-	// Failed to open Solid-State database
-	echo "Failed to open database " . $conf['db']['database'];
-	exit();
-      }
-  }
-
-  /**
-   * Format DATE
-   *
-   * Convert a UNIX timestamp into a MySQL DATE
-   *
-   * @param integer $timestamp UNIX timestamp
-   * @return string MySQL DATE
-   */
-  function format_date( $timestamp )
-  {
-    return date( "Y-m-d", $timestamp );
-  }
-
-  /**
-   * Format DATETIME
-   *
-   * Convert a UNIX timestamp into a MySQL DATETIME
-   *
-   * @param integer $timestamp UNIX timestamp
-   * @return string MySQL DATETIME
-   */
-  function format_datetime( $timestamp )
-  {
-    return date( "Y-m-d H:i:s",
-		 $timestamp );
-  }
-
-  /**
-   * MySQL DATE to UNIX timestamp
-   *
-   * Convert a MySQL DATE into a UNIX timestamp
-   *
-   * @param string $datetime MySQL DATE
-   * @return integer UNIX timestamp
-   */
-  function date_to_unix( $datetime )
-  {
-    // Parse the datetime
-    $year   = intval( substr( $datetime, 0, 4 ) );
-    $month  = intval( substr( $datetime, 5, 2 ) );
-    $day    = intval( substr( $datetime, 8, 2 ) );
-
-    // Convert to a timestamp a la Unix
-    return mktime( 0, 0, 1, $month, $day, $year );
-  }
+  protected static $instance = null;
 
   /**
    * MySQL DATETIME to UNIX timestamp
@@ -137,7 +33,7 @@ class DBConnection
    * @param string $datetime MySQL DATETIME
    * @return integer UNIX timestamp
    */
-  function datetime_to_unix( $datetime )
+  public static function datetime_to_unix( $datetime )
   {
     // Parse the datetime
     $year   = intval( substr( $datetime, 0, 4 ) );
@@ -152,6 +48,130 @@ class DBConnection
   }
 
   /**
+   * MySQL DATE to UNIX timestamp
+   *
+   * Convert a MySQL DATE into a UNIX timestamp
+   *
+   * @param string $datetime MySQL DATE
+   * @return integer UNIX timestamp
+   */
+  public static function date_to_unix( $datetime )
+  {
+    // Parse the datetime
+    $year   = intval( substr( $datetime, 0, 4 ) );
+    $month  = intval( substr( $datetime, 5, 2 ) );
+    $day    = intval( substr( $datetime, 8, 2 ) );
+
+    // Convert to a timestamp a la Unix
+    return mktime( 0, 0, 1, $month, $day, $year );
+  }
+
+  /**
+   * Format DATETIME
+   *
+   * Convert a UNIX timestamp into a MySQL DATETIME
+   *
+   * @param integer $timestamp UNIX timestamp
+   * @return string MySQL DATETIME
+   */
+  public static function format_datetime( $timestamp )
+  {
+    return date( "Y-m-d H:i:s", $timestamp );
+  }
+
+  /**
+   * Format DATE
+   *
+   * Convert a UNIX timestamp into a MySQL DATE
+   *
+   * @param integer $timestamp UNIX timestamp
+   * @return string MySQL DATE
+   */
+  public static function format_date( $timestamp )
+  {
+    return date( "Y-m-d", $timestamp );
+  }
+
+  /**
+   * Get DB Connection Instance
+   *
+   * The DBConnection class is a singleton.  You may only construct one
+   * DBConnection object and it must be done by calling this static method.
+   *
+   * @return DBConnection DBConnection instance
+   */
+  public static function getDBConnection()
+  {
+    if( self::$instance == null )
+      {
+	self::$instance = new DBConnection();
+      }
+
+    return self::$instance;
+  }
+
+  /**
+   * @var object Database handle
+   */
+  protected $dbh = null;
+
+  /**
+   * Default constructor
+   *
+   * Initializes the database handle
+   */
+  protected function __construct()
+  {
+    $this->dbh = null;
+  }
+
+  /**
+   * Database Handle
+   *
+   * Access the database handle.  If no handle exists, open a connection to the
+   * database.
+   *
+   * @return object Database handle
+   */
+  public function handle()
+  {
+    if( $this->dbh == null )
+      {
+	// Not connected.  Yet.
+	$this->connect();
+      }
+
+    return $this->dbh;
+  }
+
+  /**
+   * Connect to the database server
+   */
+  public function connect()
+  {
+    global $conf;
+
+    // Open a connection to the database server
+    $this->dbh = @mysql_connect( $conf['db']['host'],
+				 base64_decode( $conf['db']['user'] ),
+				 base64_decode( $conf['db']['pass'] ) );
+    if( $this->dbh == null )
+      {
+	// Connection failed
+	throw new SWException( "Failed to establish database connection: " .
+			       mysql_error() );
+      }
+    
+    // Open the Solid-State database
+    if( !@mysql_select_db( $conf['db']['database'], $this->dbh ) )
+      {
+	// Failed to open Solid-State database
+	throw new SWException( "MySQL error when opening SolidState database: " .
+			       mysql_error() );
+      }
+  }
+
+  /**
    * Build INSERT SQL
    *
    * Builds a straight-forward INSERT command from a list of columns & values
@@ -160,7 +180,7 @@ class DBConnection
    * @param array $cols_vals An array with column names as keys and data as values
    * @return string SQL
    */
-  function build_insert_sql( $table_name, $cols_vals )
+  public function build_insert_sql( $table_name, $cols_vals )
   {
     // Extract the column names
     $cols = array_keys( $cols_vals );
@@ -168,8 +188,8 @@ class DBConnection
     // Validate table name
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
-	// Table name not provided or invalid - return nothing
-	return null;
+	// Table name not provided or invalid
+	throw new SWException( "Invalid table: " . $table_name );
       }
 
     // Begin building SQL
@@ -205,13 +225,13 @@ class DBConnection
    * @param string $where WHERE clause (must be valid SQL)
    * @return string SQL
    */
-  function build_delete_sql( $table_name, $where )
+  public function build_delete_sql( $table_name, $where )
   {
     // Validate table name
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
 	// Table name not provided or invalid - return nothing
-	return null;
+	throw new SWException( "Invalid table: " . $table_name );
       }
 
     // Begin building SQL
@@ -235,13 +255,13 @@ class DBConnection
    * @param array $cols_vals An array that maps columns (key) and values
    * @return string SQL
    */
-  function build_update_sql( $table_name, $where, $cols_vals )
+  public function build_update_sql( $table_name, $where, $cols_vals )
   {
     // Validate table name
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
 	// Table name not provided or invalid - return nothing
-	return null;
+	throw new SWException( "Invalid table: " . $table_name );
       }
 
     // Begin building SQL
@@ -253,8 +273,7 @@ class DBConnection
 	// Validate this column
 	if( !$this->validate_column( $column, $table_name ) )
 	  {
-	    echo "Invalid column " . $column;
-	    exit();
+	    throw new SWException( "Invalid table column: " . $column );
 	  }
 
 	$sql .= $column . " = ";
@@ -302,19 +321,19 @@ class DBConnection
    * @param integer $start Starting position for the result set to be returned
    * @return string SQL
    */
-  function build_select_sql( $table_name, 
-			     $columns, 
-			     $filter = null, 
-			     $sortby = null, 
-			     $sortdir = null, 
-			     $limit = null, 
-			     $start = null )
+  public function build_select_sql( $table_name, 
+				    $columns, 
+				    $filter = null, 
+				    $sortby = null, 
+				    $sortdir = null, 
+				    $limit = null, 
+				    $start = null )
   {
     // Validate table name
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
 	// Table name not provided or invalid - return nothing
-	return null;
+	throw new SWException( "Invalid table: " . $table_name );
       }
     
     // Validate columns
@@ -368,7 +387,7 @@ class DBConnection
    * @param string $table_name Table
    * @return boolean True if column exists
    */
-  function validate_column( $column_name, $table_name )
+  public function validate_column( $column_name, $table_name )
   {
     // Validate table name
     if( !$this->validate_table( $table_name ) )
@@ -381,10 +400,9 @@ class DBConnection
     if( !($result = @mysql_query( $sql, $this->handle() ) ) )
       {
 	// Query error
-	fatal_error( "DBConnection::validate_column()",
-		     sprintf( "Attempt to query table columns failed.  Table = %s, column = %s",
-			      $table_name,
-			      $column_name ) );
+	throw new SWException( sprintf( "Attempt to query table columns failed.  Table = %s, column = %s",
+					$table_name,
+					$column_name ) );
       }
 
     // Search result set for the column name provided
@@ -409,15 +427,14 @@ class DBConnection
    * @param string $table_name Table name
    * @return boolean True if table exists
    */
-  function validate_table( $table_name )
+  public function validate_table( $table_name )
   {
     // Query DB for a list of tables
     $sql = "SHOW TABLES";
     if( !($result = @mysql_query( $sql, $this->handle() ) ) )
       {
 	// Query error
-	echo "Attempt to query database tables failed.";
-	exit();
+	throw new SWException( "Attempt to validate table failed" );
       }
     
     // Search result set for the table name provided
@@ -443,7 +460,7 @@ class DBConnection
    * @param string $value Value to quote
    * @return string Safe value with quotes
    */
-  function quote_smart( $value )
+  public function quote_smart( $value )
   {
     // Stripslashes
     if( get_magic_quotes_gpc() ) 
@@ -459,6 +476,5 @@ class DBConnection
 
     return $value;
   }
-
 }
 ?>

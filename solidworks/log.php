@@ -23,8 +23,6 @@ require BASE_PATH . "DBO/LogDBO.class.php";
  */
 function log_message( $type, $module, $message )
 {
-  global $DB;
-
   // Construct a LogDBO
   $logdbo = new LogDBO();
   $logdbo->setType( $type );
@@ -33,7 +31,7 @@ function log_message( $type, $module, $message )
   $logdbo->setUsername( !empty( $_SESSION['client']['userdbo'] ) ? 
 			$_SESSION['client']['userdbo']->getUsername() : null );
   $logdbo->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
-  $logdbo->setDate( $DB->format_datetime( time() ) );
+  $logdbo->setDate( DBConnection::format_datetime( time() ) );
 
   // Write the log message
   if( !add_LogDBO( $logdbo ) )

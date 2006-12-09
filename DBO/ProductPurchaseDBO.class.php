@@ -121,7 +121,7 @@ class ProductPurchaseDBO extends PurchaseDBO
  */
 function add_ProductPurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "productpurchase",
@@ -170,7 +170,7 @@ function add_ProductPurchaseDBO( &$dbo )
  */
 function update_ProductPurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "productpurchase",
@@ -193,7 +193,7 @@ function update_ProductPurchaseDBO( &$dbo )
  */
 function delete_ProductPurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "productpurchase",
@@ -211,7 +211,7 @@ function delete_ProductPurchaseDBO( &$dbo )
  */
 function load_ProductPurchaseDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "productpurchase",
@@ -261,7 +261,7 @@ function &load_array_ProductPurchaseDBO( $filter = null,
 					 $limit = null,
 					 $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "productpurchase",
@@ -311,7 +311,7 @@ function &load_array_ProductPurchaseDBO( $filter = null,
  */
 function count_all_ProductPurchaseDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "productpurchase",

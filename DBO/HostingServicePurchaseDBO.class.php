@@ -236,7 +236,7 @@ class HostingServicePurchaseDBO extends PurchaseDBO
  */
 function add_HostingServicePurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "hostingservicepurchase",
@@ -286,7 +286,7 @@ function add_HostingServicePurchaseDBO( &$dbo )
  */
 function update_HostingServicePurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "hostingservicepurchase",
@@ -310,7 +310,7 @@ function update_HostingServicePurchaseDBO( &$dbo )
  */
 function delete_HostingServicePurchaseDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Release any IP Addresses assigned to this purchase
   if( ($ip_dbo_array = load_array_IPAddressDBO( "purchaseid = " . $dbo->getID() )) != null )
@@ -343,7 +343,7 @@ function delete_HostingServicePurchaseDBO( &$dbo )
  */
 function load_HostingServicePurchaseDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "hostingservicepurchase",
@@ -393,7 +393,7 @@ function &load_array_HostingServicePurchaseDBO( $filter = null,
 						$limit = null,
 						$start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "hostingservicepurchase",
@@ -448,7 +448,7 @@ function &load_array_HostingServicePurchaseDBO( $filter = null,
  */
 function count_all_HostingServicePurchaseDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "hostingservicepurchase",

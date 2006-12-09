@@ -97,7 +97,7 @@ class Cpanel extends ControlPanelModule
    */
   public function createTables()
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     // Wipe out old tables
     $sql = "DROP TABLE IF EXISTS `cpanelserver`";

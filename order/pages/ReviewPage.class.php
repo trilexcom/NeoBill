@@ -62,8 +62,6 @@ class ReviewPage extends SolidStatePage
    */
   function checkout()
   {
-    global $DB;
-
     // The module must have been picked if this is not an existing customer
     if( $this->session['order']->getAccountType() == "New Account" &&
 	!isset( $this->post['module'] ) )
@@ -72,7 +70,7 @@ class ReviewPage extends SolidStatePage
       }
 
     $this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
-    $this->session['order']->setDateCreated( $DB->format_datetime( time() ) );
+    $this->session['order']->setDateCreated( DBConnection::format_datetime( time() ) );
 
     // If the order does not have an ID already, save it to the database
     if( $this->session['order']->getID() == null && 
@@ -95,7 +93,7 @@ class ReviewPage extends SolidStatePage
 	$checkPayment->setOrderID( $this->session['order']->getID() );
 	$checkPayment->setAmount( $this->session['order']->getTotal() );
 	$checkPayment->setStatus( "Pending" );
-	$checkPayment->setDate( $DB->format_datetime( time() ) );
+	$checkPayment->setDate( DBConnection::format_datetime( time() ) );
 	$checkPayment->setType( "Check" );
 	if( !add_PaymentDBO( $checkPayment ) )
 	  {

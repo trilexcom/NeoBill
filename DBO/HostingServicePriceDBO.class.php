@@ -61,7 +61,7 @@ class HostingServicePriceDBO extends PriceDBO
  */
 function add_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "hostingserviceprice",
@@ -89,7 +89,7 @@ function add_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
  */
 function update_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "hostingserviceprice",
@@ -111,7 +111,7 @@ function update_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
  */
 function delete_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "hostingserviceprice",
@@ -137,7 +137,7 @@ function delete_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
  */
 function load_HostingServicePriceDBO( $serviceID, $type, $termLength )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "hostingserviceprice",
@@ -190,7 +190,7 @@ function load_array_HostingServicePriceDBO( $filter = null,
 					    $limit = null,
 					    $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "hostingserviceprice",

@@ -168,7 +168,7 @@ class HostingServiceDBO extends PurchasableDBO
  */
 function add_HostingServiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "hostingservice",
@@ -224,7 +224,7 @@ function add_HostingServiceDBO( &$dbo )
  */
 function update_HostingServiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "hostingservice",
@@ -246,7 +246,7 @@ function update_HostingServiceDBO( &$dbo )
  */
 function delete_HostingServiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "hostingservice",
@@ -264,7 +264,7 @@ function delete_HostingServiceDBO( &$dbo )
  */
 function load_HostingServiceDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "hostingservice",
@@ -314,7 +314,7 @@ function &load_array_HostingServiceDBO( $filter = null,
 					$limit = null,
 					$start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "hostingservice",
@@ -368,7 +368,7 @@ function &load_array_HostingServiceDBO( $filter = null,
  */
 function count_all_HostingServiceDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = "SELECT COUNT(*) FROM hostingservice";

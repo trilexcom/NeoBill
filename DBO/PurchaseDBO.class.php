@@ -55,10 +55,8 @@ abstract class PurchaseDBO extends SaleDBO
   {
     parent::__construct();
 
-    global $DB;
-
     // Initialize the next payment date to today
-    $this->setNextBillingDate( $DB->format_date( time() ) );
+    $this->setNextBillingDate( DBConnection::format_date( time() ) );
   }
 
   /**
@@ -106,7 +104,7 @@ abstract class PurchaseDBO extends SaleDBO
    */
   protected function getTaxRules() 
   { 
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     $filter = 
       "country=" . $DB->quote_smart( $this->accountdbo->getCountry() ) . " AND (" .
@@ -129,9 +127,7 @@ abstract class PurchaseDBO extends SaleDBO
    */
   public function incrementNextBillingDate()
   {
-    global $DB;
-
-    $nextBillingDateTS = $DB->date_to_unix( $this->getNextBillingDate() );
+    $nextBillingDateTS = DBConnection::date_to_unix( $this->getNextBillingDate() );
     $oldBillingDate = getdate( $nextBillingDateTS );
     $nextBillingDate = 
       $DB->format_date( mktime( 0, 0, 1,

@@ -109,7 +109,7 @@ class DomainServiceDBO extends PurchasableDBO
  */
 function add_DomainServiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "domainservice",
@@ -144,7 +144,7 @@ function add_DomainServiceDBO( &$dbo )
  */
 function update_DomainServiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "domainservice",
@@ -164,7 +164,7 @@ function update_DomainServiceDBO( &$dbo )
  */
 function delete_DomainServiceDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "domainservice",
@@ -182,7 +182,7 @@ function delete_DomainServiceDBO( &$dbo )
  */
 function load_DomainServiceDBO( $tld )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "domainservice",
@@ -232,7 +232,7 @@ function &load_array_DomainServiceDBO( $filter = null,
 				       $limit = null,
 				       $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "domainservice",
@@ -286,7 +286,7 @@ function &load_array_DomainServiceDBO( $filter = null,
  */
 function count_all_DomainServiceDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = "SELECT COUNT(*) FROM domainservice";

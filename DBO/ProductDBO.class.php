@@ -107,7 +107,7 @@ class ProductDBO extends PurchasableDBO
  */
 function add_ProductDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "product",
@@ -150,7 +150,7 @@ function add_ProductDBO( &$dbo )
  */
 function update_ProductDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "product",
@@ -170,7 +170,7 @@ function update_ProductDBO( &$dbo )
  */
 function delete_ProductDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "product",
@@ -188,7 +188,7 @@ function delete_ProductDBO( &$dbo )
  */
 function load_ProductDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "product",
@@ -237,7 +237,7 @@ function &load_array_ProductDBO( $filter = null,
 				 $limit = null,
 				 $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "product",
@@ -291,7 +291,7 @@ function &load_array_ProductDBO( $filter = null,
  */
 function count_all_ProductDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = "SELECT COUNT(*) FROM product";

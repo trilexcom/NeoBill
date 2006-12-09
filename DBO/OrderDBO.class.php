@@ -685,7 +685,7 @@ class OrderDBO extends DBO
    */
   public function calculateTaxes()
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     if( !isset( $this->orderitems ) )
       {
@@ -780,8 +780,6 @@ class OrderDBO extends DBO
 				     $billingStatus, 
 				     $billingDay )
   {
-    global $DB;
-
     // Verify that the username is not in use already
     if( load_UserDBO( $this->getUsername() ) != null )
       {
@@ -833,8 +831,6 @@ class OrderDBO extends DBO
    */
   public function execute()
   {
-    global $DB;
-
     if( null == ($accountDBO = $this->getAccount() ) )
       {
 	throw new SWException( "Account not found!" );
@@ -852,7 +848,7 @@ class OrderDBO extends DBO
   
     // Set the order to fulfilled and update the database
     $this->setAccountID( $accountDBO->getID() );
-    $this->setDateFulfilled( $DB->format_datetime( time() ) );
+    $this->setDateFulfilled( DBConnection::format_datetime( time() ) );
     $this->setStatus( "Fulfilled" );
     if( !update_OrderDBO( $this ) )
       {
@@ -870,11 +866,9 @@ class OrderDBO extends DBO
    */
   public function complete()
   {
-    global $DB, $conf;
-
     // Set status to pending and give a timestamp
     $this->setStatus( "Pending" );
-    $this->setDateCompleted( $DB->format_datetime( time() ) );
+    $this->setDateCompleted( DBConnection::format_datetime( time() ) );
 
     // Update the database record
     if( !update_OrderDBO( $this ) )
@@ -988,7 +982,7 @@ class OrderDBO extends DBO
  */
 function add_OrderDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "order",
@@ -1070,7 +1064,7 @@ function add_OrderDBO( &$dbo )
  */
 function update_OrderDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Update all OrderItemDBO's
   foreach( $dbo->getItems() as $orderItemDBO )
@@ -1127,7 +1121,7 @@ function update_OrderDBO( &$dbo )
  */
 function delete_OrderDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Delete all Order Items
   foreach( $dbo->getHostingItems() as $orderItemDBO )
@@ -1162,7 +1156,7 @@ function delete_OrderDBO( &$dbo )
  */
 function load_OrderDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "order",
@@ -1212,7 +1206,7 @@ function &load_array_OrderDBO( $filter = null,
 			       $limit = null,
 			       $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "order",
@@ -1266,7 +1260,7 @@ function &load_array_OrderDBO( $filter = null,
  */
 function count_all_OrderDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = "SELECT COUNT(*) FROM `order`";

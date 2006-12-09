@@ -498,7 +498,7 @@ class AccountDBO extends DBO
  */
 function add_AccountDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "account",
@@ -556,7 +556,7 @@ function add_AccountDBO( &$dbo )
  */
 function update_AccountDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "account",
@@ -591,7 +591,7 @@ function update_AccountDBO( &$dbo )
  */
 function delete_AccountDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   $id = intval( $dbo->getID() );
 
@@ -671,7 +671,7 @@ function delete_AccountDBO( &$dbo )
  */
 function load_AccountDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "account",
@@ -720,7 +720,7 @@ function &load_array_AccountDBO( $filter = null,
 				 $limit = null,
 				 $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "account",
@@ -772,7 +772,7 @@ function &load_array_AccountDBO( $filter = null,
  */
 function count_all_AccountDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "account",

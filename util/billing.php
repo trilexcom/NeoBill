@@ -19,8 +19,6 @@
  */
 function payments_stats()
 {
-  global $DB;
-
   // Count payments for the current month
   $payments_this_month = 0;
   
@@ -56,8 +54,6 @@ function payments_stats()
  */
 function outstanding_invoices_stats()
 {
-  global $DB;
-
   // Load invoices
   $invoicedbo_array = load_array_InvoiceDBO();
 

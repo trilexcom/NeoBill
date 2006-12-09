@@ -61,7 +61,7 @@ class DomainServicePriceDBO extends PriceDBO
  */
 function add_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "domainserviceprice",
@@ -89,7 +89,7 @@ function add_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
  */
 function update_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "domainserviceprice",
@@ -111,7 +111,7 @@ function update_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
  */
 function delete_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "domainserviceprice",
@@ -137,7 +137,7 @@ function delete_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
  */
 function load_DomainServicePriceDBO( $tld, $type, $termLength )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "domainserviceprice",
@@ -190,7 +190,7 @@ function load_array_DomainServicePriceDBO( $filter = null,
 					   $limit = null,
 					   $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "domainserviceprice",

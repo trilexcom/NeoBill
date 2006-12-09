@@ -128,9 +128,7 @@ class EditHostingPurchasePage extends SolidStatePage
    */
   public function save()
   {
-    global $DB;
-
-    $nextBillingDate = $DB->format_date( $this->post['nextbillingdate'] );
+    $nextBillingDate = DBConnection::format_date( $this->post['nextbillingdate'] );
     $this->get['hspurchase']->setTerm( $this->post['term']->getTermLength() );
     $this->get['hspurchase']->setNextBillingDate( $nextBillingDate );
     $this->get['hspurchase']->setDomainName( $this->post['domain'] );

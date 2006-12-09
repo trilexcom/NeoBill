@@ -471,7 +471,7 @@ class PaymentDBO extends DBO
  */
 function add_PaymentDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "payment",
@@ -520,7 +520,7 @@ function add_PaymentDBO( &$dbo )
  */
 function update_PaymentDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "payment",
@@ -552,7 +552,7 @@ function update_PaymentDBO( &$dbo )
  */
 function delete_PaymentDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "payment",
@@ -575,7 +575,7 @@ function delete_PaymentDBO( &$dbo )
  */
 function load_PaymentDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "payment",
@@ -624,7 +624,7 @@ function &load_array_PaymentDBO( $filter = null,
 				 $limit = null,
 				 $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "payment",
@@ -678,7 +678,7 @@ function &load_array_PaymentDBO( $filter = null,
  */
 function count_all_PaymentDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "payment",

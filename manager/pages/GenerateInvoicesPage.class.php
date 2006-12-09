@@ -119,13 +119,11 @@ class GenerateInvoicesPage extends SolidStatePage
   {
     parent::init();
 
-    global $DB;
-
     if( !isset( $this->post['periodend'] ) )
       {
 	// Set the end of the invoice period to be 1 month ahead of today
 	$today = getdate( time() );
-	$newDate = $DB->format_datetime( mktime( null, null, null, $today['mon']+1 ) );
+	$newDate = DBConnection::format_datetime( mktime( null, null, null, $today['mon']+1 ) );
 	$this->smarty->assign( "nextMonth", $newDate );
       }
   }

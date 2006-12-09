@@ -206,10 +206,8 @@ class AuthorizeAIM extends PaymentGatewayModule
    */
   function charge( $contactDBO, $cardNumber, $expireDate, $cardCode, &$paymentDBO, $authOnly )
   {
-    global $DB;
-
     // Build PaymentDBO
-    $paymentDBO->setDate( $DB->format_datetime( time() ) );
+    $paymentDBO->setDate( DBConnection::format_datetime( time() ) );
     $paymentDBO->setType( "Module" );
     $paymentDBO->setModule( $this->getName() );
 
@@ -281,7 +279,7 @@ class AuthorizeAIM extends PaymentGatewayModule
    */
   function createTables()
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     // Wipe out old tables
     $sql = "DROP TABLE IF EXISTS `authorizeaim`";
@@ -408,7 +406,7 @@ class AuthorizeAIM extends PaymentGatewayModule
    */
   function loadTransaction( $transactionID )
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     $sql = $DB->build_select_sql( "authorizeaim",
 				  "*",
@@ -507,7 +505,7 @@ class AuthorizeAIM extends PaymentGatewayModule
    */
   function saveTransaction( $transactionID, $lastDigits )
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     if( $this->loadTransaction( $transactionID ) )
       {

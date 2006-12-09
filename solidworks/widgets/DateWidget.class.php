@@ -58,12 +58,12 @@ class DateWidget extends TextWidget
    */
   protected function determineValue( $params )
   {
-    global $DB;
     $value = parent::determineValue( $params );
     if( is_string( $value ) )
       {
 	$tsValue = strlen( $value ) > 10 ? 
-	  $DB->datetime_to_unix( $value ) : $DB->date_to_unix( $value );
+	  DBConnection::datetime_to_unix( $value ) : 
+	  DBConnection::date_to_unix( $value );
       }
     else
       {

@@ -216,7 +216,7 @@ class ServerDBO extends DBO
  */
 function add_ServerDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "server",
@@ -259,7 +259,7 @@ function add_ServerDBO( &$dbo )
  */
 function update_ServerDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "server",
@@ -280,7 +280,7 @@ function update_ServerDBO( &$dbo )
  */
 function delete_ServerDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "server",
@@ -298,7 +298,7 @@ function delete_ServerDBO( &$dbo )
  */
 function load_ServerDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "server",
@@ -347,7 +347,7 @@ function &load_array_ServerDBO( $filter = null,
 				$limit = null,
 				$start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "server",
@@ -401,7 +401,7 @@ function &load_array_ServerDBO( $filter = null,
  */
 function count_all_ServerDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = "SELECT COUNT(*) FROM server";

@@ -271,7 +271,7 @@ class IPAddressDBO extends DBO
  */
 function add_IPAddressDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "ipaddress",
@@ -291,7 +291,7 @@ function add_IPAddressDBO( &$dbo )
  */
 function update_IPAddressDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "ipaddress",
@@ -311,7 +311,7 @@ function update_IPAddressDBO( &$dbo )
  */
 function delete_IPAddressDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   if( !$dbo->isAvailable() )
     {
@@ -335,7 +335,7 @@ function delete_IPAddressDBO( &$dbo )
  */
 function load_IPAddressDBO( $ip )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "ipaddress",
@@ -384,7 +384,7 @@ function &load_array_IPAddressDBO( $filter = null,
 				   $limit = null,
 				   $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "ipaddress",
@@ -438,7 +438,7 @@ function &load_array_IPAddressDBO( $filter = null,
  */
 function count_all_IPAddressDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "ipaddress",

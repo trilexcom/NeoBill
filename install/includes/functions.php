@@ -125,6 +125,7 @@ function create_admin_user($username, $password, $type, $firstname, $lastname, $
 		$firstname = $_POST['firstname'];
 		$lastname = $_POST['lastname'];
 		$email = $_POST['email'];
+		$contactname = sprintf( "%s %s", $firstname, $lastname );
 
 	require_once '../config/config.inc.php';
       
@@ -133,7 +134,7 @@ function create_admin_user($username, $password, $type, $firstname, $lastname, $
 	
 	mysql_select_db($db['database']) or die('Could not select database');
 	
-	$sqlquery = "INSERT INTO `user` (`username`, `password`, `type`, `firstname`, `lastname`, `email`) VALUES ('$username', '$password', '$type', '$firstname', '$lastname', '$email')";
+	$sqlquery = "INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`) VALUES ('$username', '$password', '$type', '$contactname', '$email')";
 	mysql_query( $sqlquery ) or die ('Query failed: ' . mysql_error() );
 
 	mysql_close();

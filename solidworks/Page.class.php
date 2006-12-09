@@ -81,11 +81,6 @@ class Page
   var $smarty;
 
   /**
-   * @var object Database object
-   */
-  var $DB;
-
-  /**
    * @var array Configuration
    */
   var $conf;
@@ -310,13 +305,11 @@ class Page
    *
    * @param array $conf Application configuration data
    * @param Smarty $smarty Smarty object
-   * @param DBConnection $DB Database object
    */
-  function load( $conf, $smarty, $DB )
+  function load( $conf, $smarty )
   {
     $this->conf = $conf;
     $this->smarty = $smarty;
-    $this->DB = $DB;
 
     if( get_class( $this ) != "Page" )
       {

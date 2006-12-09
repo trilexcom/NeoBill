@@ -61,7 +61,7 @@ class ProductPriceDBO extends PriceDBO
  */
 function add_ProductPriceDBO( ProductPriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "productprice",
@@ -89,7 +89,7 @@ function add_ProductPriceDBO( ProductPriceDBO $dbo )
  */
 function update_ProductPriceDBO( ProductPriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "productprice",
@@ -111,7 +111,7 @@ function update_ProductPriceDBO( ProductPriceDBO $dbo )
  */
 function delete_ProductPriceDBO( ProductPriceDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "productprice",
@@ -137,7 +137,7 @@ function delete_ProductPriceDBO( ProductPriceDBO $dbo )
  */
 function load_ProductPriceDBO( $productid, $type, $termLength )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "productprice",
@@ -190,7 +190,7 @@ function load_array_ProductPriceDBO( $filter = null,
 				     $limit = null,
 				     $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "productprice",

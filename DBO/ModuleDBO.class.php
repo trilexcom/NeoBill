@@ -173,7 +173,7 @@ class ModuleDBO extends DBO
    */
   function loadSetting( $name )
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     $sql = $DB->build_select_sql( "modulesetting",
 				  "*",
@@ -199,7 +199,7 @@ class ModuleDBO extends DBO
    */
   function saveSetting( $name, $value )
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     if( null == $this->loadSetting( $name ) )
       {
@@ -237,7 +237,8 @@ class ModuleDBO extends DBO
  */
 function add_ModuleDBO( &$dbo )
 {
-  global $DB, $conf;
+  global $conf;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "module",
@@ -259,7 +260,7 @@ function add_ModuleDBO( &$dbo )
  */
 function update_ModuleDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "module",
@@ -281,7 +282,7 @@ function update_ModuleDBO( &$dbo )
  */
 function delete_ModuleDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "module",
@@ -308,7 +309,7 @@ function delete_ModuleDBO( &$dbo )
  */
 function load_ModuleDBO( $name )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "module",
@@ -358,7 +359,7 @@ function &load_array_ModuleDBO( $filter = null,
 				$limit = null,
 				$start = null )
 {
-  global $DB, $conf;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "module",
@@ -411,7 +412,7 @@ function &load_array_ModuleDBO( $filter = null,
  */
 function count_all_ModuleDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "module",

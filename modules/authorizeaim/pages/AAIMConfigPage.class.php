@@ -10,6 +10,8 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
+
 /**
  * AAIMConfigPage
  *

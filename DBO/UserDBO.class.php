@@ -159,7 +159,7 @@ class UserDBO extends DBO
  */
 function load_UserDBO( $username )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();;
 
   // Build query
   $sql = $DB->build_select_sql( "user",
@@ -203,7 +203,7 @@ function load_UserDBO( $username )
  */
 function count_all_UserDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();;
 
   // Build Query
   $sql = "SELECT COUNT(*) FROM user";
@@ -243,7 +243,7 @@ function load_array_UserDBO( $filter  = null,
 			      $limit   = null, 
 			      $start   = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();;
 
   // Build query
   $sql = $DB->build_select_sql( "user",
@@ -291,7 +291,7 @@ function load_array_UserDBO( $filter  = null,
  */
 function add_UserDBO( UserDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();;
 
   // Prepare to insert into the User table
   $sql = $DB->build_insert_sql( "user",
@@ -314,7 +314,7 @@ function add_UserDBO( UserDBO $dbo )
  */
 function update_UserDBO( UserDBO $dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();;
 
   // Build UPDATE query
   $sql = $DB->build_update_sql( "user",
@@ -338,7 +338,7 @@ function update_UserDBO( UserDBO $dbo )
  */
 function delete_UserDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();;
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "user", 

@@ -348,7 +348,7 @@ class ContactDBO extends DBO
  */
 function ContactDBO_add( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "contact",
@@ -402,7 +402,7 @@ function ContactDBO_add( &$dbo )
  */
 function ContactDBO_delete( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "contact",
@@ -420,7 +420,7 @@ function ContactDBO_delete( &$dbo )
  */
 function ContactDBO_load( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "contact",
@@ -470,7 +470,7 @@ function &ContactDBO_loadArray( $filter = null,
 				$limit = null,
 				$start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "contact",
@@ -517,7 +517,7 @@ function &ContactDBO_loadArray( $filter = null,
  */
 function ContactDBO_update( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "contact",

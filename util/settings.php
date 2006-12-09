@@ -19,7 +19,7 @@
  */
 function load_settings( &$conf )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build Query
   $sql = $DB->build_select_sql( "settings", "*" );
@@ -133,7 +133,7 @@ function save_settings( &$conf )
  */
 function update_setting( $key, $value )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "settings",

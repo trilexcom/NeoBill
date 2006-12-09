@@ -165,11 +165,9 @@ class PSIPNPage extends SolidStatePage
    */
   function newPayment( $status )
   {
-    global $DB;
-
     // Construct a new Payment DBO
     $this->paymentDBO = new PaymentDBO();
-    $this->paymentDBO->setDate( $DB->format_datetime( time() ) );
+    $this->paymentDBO->setDate( DBConnection::format_datetime( time() ) );
     $this->paymentDBO->setAmount( $_POST['mc_gross'] );
     $this->paymentDBO->setTransaction1( $_POST['txn_id'] );
     $this->paymentDBO->setTransaction2( $_POST['payer_email'] );

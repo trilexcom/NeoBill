@@ -183,7 +183,7 @@ class TaxRuleDBO extends DBO
  */
 function add_TaxRuleDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "taxrule",
@@ -227,7 +227,7 @@ function add_TaxRuleDBO( &$dbo )
  */
 function update_TaxRuleDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "taxrule",
@@ -255,7 +255,7 @@ function update_TaxRuleDBO( &$dbo )
  */
 function delete_TaxRuleDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "taxrule",
@@ -273,7 +273,7 @@ function delete_TaxRuleDBO( &$dbo )
  */
 function load_TaxRuleDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "taxrule",
@@ -322,7 +322,7 @@ function &load_array_TaxRuleDBO( $filter = null,
 				 $limit = null,
 				 $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "taxrule",
@@ -376,7 +376,7 @@ function &load_array_TaxRuleDBO( $filter = null,
  */
 function count_all_TaxRuleDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "taxrule",

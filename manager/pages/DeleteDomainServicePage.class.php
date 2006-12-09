@@ -84,7 +84,7 @@ class DeleteDomainServicePage extends SolidStateAdminPage
    */
   function delete_domain_service()
   {
-    global $DB;
+    $DB = DBConnection::getDBConnection();
 
     $tld = $DB->quote_smart( $this->get['dservice']->getTLD() );
     if( load_array_DomainServicePurchaseDBO( "tld=" . $tld ) != null )

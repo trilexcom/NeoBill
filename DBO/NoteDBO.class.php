@@ -165,7 +165,7 @@ class NoteDBO extends DBO
  */
 function add_NoteDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_insert_sql( "note",
@@ -211,7 +211,7 @@ function add_NoteDBO( &$dbo )
  */
 function update_NoteDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_update_sql( "note",
@@ -232,7 +232,7 @@ function update_NoteDBO( &$dbo )
  */
 function delete_NoteDBO( &$dbo )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build SQL
   $sql = $DB->build_delete_sql( "note",
@@ -250,7 +250,7 @@ function delete_NoteDBO( &$dbo )
  */
 function load_NoteDBO( $id )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "note",
@@ -298,7 +298,7 @@ function &load_array_NoteDBO( $filter = null,
 			      $limit = null,
 			      $start = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "note",
@@ -352,7 +352,7 @@ function &load_array_NoteDBO( $filter = null,
  */
 function count_all_NoteDBO( $filter = null )
 {
-  global $DB;
+  $DB = DBConnection::getDBConnection();
   
   // Build query
   $sql = $DB->build_select_sql( "note",

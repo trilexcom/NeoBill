@@ -106,10 +106,8 @@ function smarty_modifier_currency( $value )
  */
 function smarty_modifier_datetime( $value, $show_part = null )
 {
-  global $DB;
-
   // Convert datetime to a unix time stamp
-  $time = $DB->datetime_to_unix( $value );
+  $time = DBConnection::datetime_to_unix( $value );
 
   // Return a formated date, e.g. 12/11/2005, 11:39:00am 
   // (or just one part, date/time)
@@ -419,7 +417,6 @@ function smarty_form_element( $params, &$smarty )
 {
   global $form_stack, $page, $cc;
   $conf =& $page->conf;
-  $DB =& $page->DB;
 
   $form_name        = end( $form_stack );
   $form_field       = $params['field'];
