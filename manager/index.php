@@ -13,9 +13,17 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require "../config/config.inc.php";
+// Load Smarty
+require "../solidworks/smarty/Smarty.class.php";
 
-require BASE_PATH . "solidworks/configuration.php";
+// Create a Smarty object
+$smarty = new Smarty();
+
+// Set Smarty directories
+$smarty->template_dir = "/templates";
+$smarty->compile_dir  = "../solidworks/smarty/templates_c";
+$smarty->cache_dir    = "../solidworks/smarty/cache";
+$smarty->config_dir   = "../solidworks/smarty/configs";
 
 // Display menu
 $smarty->display( "manager_frames.tpl" );

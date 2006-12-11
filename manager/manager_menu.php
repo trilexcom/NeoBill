@@ -13,6 +13,8 @@
 // Load config file
 require "../config/config.inc.php";
 
+require BASE_PATH . "include/SolidStateMenu.class.php";
+
 // Load SolidWorks
 require BASE_PATH . "solidworks/solidworks.php";
 
@@ -36,6 +38,11 @@ $smarty->assign( "username", isset( $_SESSION['client']['userdbo'] ) ?
 
 // Change the charset to UTF-8
 header( "Content-type: text/html; charset=utf-8" );
+
+// Build the core menu
+$menu = SolidStateMenu::getSolidStateMenu();
+$smarty->assign( "menuEventHandler", $menu->generateEventHandlerJS() );
+$smarty->assign( "menuData", $menu->generateMenuJS() );
 
 // Display menu
 $smarty->display( "manager_menu.tpl" );

@@ -1,12 +1,13 @@
-<html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
   </head>
 
-  <frameset cols="200,*" framespacing="0" frameborder="0" border="0" name="mainFrameSet">
-    <frame src="manager_menu.php" noresize="noresize" frameborder="0" name="menu"/>
-    <frame src="manager_content.php" noresize="noresize" frameborder="0" name="content"/>
+  <frameset cols="230,*" framespacing="0" name="mainFrameSet">
+    <frame src="manager_menu.php" name="menu"/>
+    <frame src="manager_content.php" name="content"/>
   </frameset>
 
 </html>

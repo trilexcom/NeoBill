@@ -119,6 +119,14 @@ abstract class SolidStateModule extends Module
 	$this->install();
       }
 
+    // Add this module to the menu
+    $menu = SolidStateMenu::getSolidStateMenu();
+    $menu->addItem( new SolidStateMenuItem( $this->getName(),
+					    $this->getName(),
+					    null,
+					    "manager_content.php?page=" . $this->getConfigPage() ),
+		    "modules" );
+
     return true;
   }
 

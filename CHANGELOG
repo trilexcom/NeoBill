@@ -1,3 +1,8 @@
+12/11/2006 - jdiamond
+=====================
+
+ * (trac #77) Implemented a dynamic tree menu for the left side-bar menu in the manager interface using the dhtmlxTree project
+
 12/9/2006 - jdiamond
 =====================
 

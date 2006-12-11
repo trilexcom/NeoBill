@@ -18,7 +18,7 @@ body.menu {
 	border-style:none;
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
-	background-color: #6e89dd;
+	background-color: #f0f0f0;
 }
 
 /******************************************************
@@ -51,42 +51,30 @@ body.menu {
 	width: 180px;
 	float: left;
 	clear: left;
-	background-color:#d6dff7;
 	border-style:solid; border-width:1px; border-color:#ffffff;
 	margin-top: 0px;
 	margin-left: 5px;
 }
 
-.menu a {
-	text-decoration:none;
+.menubox {
+	width: 98%;
+	height: 98%;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
-.menu a:hover {
-	text-decoration:underline;
+.standartTreeRow {
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+ 	font-size : 12px; 
+	-moz-user-select: none; 
 }
 
-h1.menu_head {
-	width: 177px;
-	float: left;
-	clear: left;
-	font-size: 90%;
-	// color: #ffffff;
-	// background-color: #000088;
-	background-color: #ffffff;
-	color: #6e89dd;
-	margin-top: 10px;
-	margin-left: 5px;
-	margin-bottom: 0px;
-	padding-left: 5px;
-}
-
-.menu ul {
-	font-size: 70%;
-	padding: 0px 0px 0px 20px;
-	margin: 4px 0px 8px 0px;
-}
-
-.menu li {
+.selectedTreeRow { 
+	background-color : navy; 
+	color:white; 
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size : 12px;  
+	-moz-user-select: none;  
 }
 
 /******************************************************
@@ -111,7 +99,7 @@ h1.menu_head {
 	margin-right: 0px;
 	margin-left: 0px;
 	padding: 5px 5px 5px 5px;
-	background-color:#d6dff7;
+	background-color: #d6dff7;
 }
 
 .content h1 {

@@ -19,6 +19,8 @@
 // Load config file
 require "../config/config.inc.php";
 
+require BASE_PATH . "include/SolidStateMenu.class.php";
+
 // Load SolidWorks
 require BASE_PATH . "solidworks/solidworks.php";
 

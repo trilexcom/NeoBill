@@ -59,7 +59,6 @@ $conf['db'] = $db;
 // Create the module registry
 ModuleRegistry::createModuleRegistry( BASE_PATH . "modules/" );
 
-
 // Load page classes
 if( isset( $conf['pages'] ) )
 {
