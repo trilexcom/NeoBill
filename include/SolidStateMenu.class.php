@@ -156,6 +156,11 @@ class SolidStateMenu
 	$menu->addItem( new SolidStateMenuItem( "administration", 
 						"[ADMINISTRATION]", 
 						"monitor.png" ) );
+	$menu->addItem( new SolidStateMenuItem( "log", 
+						"[LOG]", 
+						"error.png", 
+						"manager_content.php?page=log&action=swtablesort&swtablename=log&swtableform=log&swtablesortcol=date&swtablesortdir=DESC" ),
+			"administration" );
 	$menu->addItem( new SolidStateMenuItem( "settings", 
 						"[SETTINGS]", 
 						"table_edit.png", 
@@ -166,20 +171,10 @@ class SolidStateMenu
 						"sitemap.png", 
 						"manager_content.php?page=modules" ),
 			"administration" );
-	$menu->addItem( new SolidStateMenuItem( "myinfo", 
-						"[MY_INFO]", 
-						"vcard_edit.png", 
-						"manager_content.php?page=config_edit_user" ),
-			"administration" );
 	$menu->addItem( new SolidStateMenuItem( "users", 
 						"[USERS]", 
 						"vcard.png", 
 						"manager_content.php?page=config_users" ),
-			"administration" );
-	$menu->addItem( new SolidStateMenuItem( "log", 
-						"[LOG]", 
-						"error.png", 
-						"manager_content.php?page=log&action=swtablesort&swtablename=log&swtableform=log&swtablesortcol=date&swtablesortdir=DESC" ),
 			"administration" );
 	$menu->addItem( new SolidStateMenuItem( "about", 
 						"[ABOUT]", 

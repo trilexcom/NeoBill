@@ -1,0 +1,9 @@
+<translation language="portuguese">
+    <phrase id="PAYPAL_ACCOUNT">Conta Paypal</phrase>
+    <phrase id="PAYPAL_CART_UPLOAD_URL">Paypal URL</phrase>
+    <phrase id="PAYPAL_WPS_MODULE">M&#243;dulo Paypal WPS</phrase>
+    <phrase id="PAY_WITH_PAYPAL">Pagar com Paypal</phrase>
+    <phrase id="PAY_WITH_PAYPAL_TEXT">Voc&#234; optou por pagar atrav&#233;s do Paypal.  Quando clicar em "Pagar com Paypal", ir&#225; ser redireccionado para um site seguro do Paypal de forma a completar o processo de pagamento.  Assim que o pagamento esteja efectuado, voltar&#225; para o nosso website onde ter&#225; uma confirma&#231;&#227;o do pagamento, de forma a confirmar a respectiva compra.  Se por alguma raz&#227;o o processo de pagamento n&#227;o for completado, por favor contacte-nos de forma a resolver a situa&#231;&#227;o.</phrase>
+    <phrase id="PDT_ID_TOKEN">PDT Identity Token</phrase>
+    <phrase id="PS_CONFIGURATION_SAVED">Configura&#231;&#245;es do Paypal WPS Actualizadas</phrase>
+</translation>

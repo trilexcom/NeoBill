@@ -1,3 +1,8 @@
+12/12/2006 - jdiamond
+=====================
+
+ * (trac #154) Translations are now stored in individual files (in the 'language' folder) rather than one large file
+
 12/11/2006 - jdiamond
 =====================
 

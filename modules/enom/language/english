@@ -1,9 +1,4 @@
-<translations>
-
-  <!-- ======= -->
-  <!-- English -->
-  <!-- ======= -->
-  <translation language="english">
+<translation language="english">
     <phrase id="ENOM">Enom</phrase>
     <phrase id="ENOM_API_URL">enom API URL</phrase>
     <phrase id="ENOM_CONFIG_SAVED">Enom Configuration Save</phrase>
@@ -12,6 +7,4 @@
     <phrase id="ENOM_TEST_URL">Test URL (resellertest.enom.com)</phrase>
     <phrase id="ENOM_THE_FOLLOWING_ERRORS_WERE">The following error(s) were encountered when contacting Enom</phrase>
     <phrase id="ENOM_USERNAME">enom Username</phrase>
-  </translation>
-
-</translations>
+</translation>

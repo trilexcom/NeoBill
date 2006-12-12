@@ -26,21 +26,25 @@ load_settings( $conf );
 session_start();
 $language = isset( $_SESSION['client']['userdbo'] ) ? 
   $_SESSION['client']['userdbo']->getLanguage() : null;
-if( isset( $translations[$language] ) )
+if( $language != null )
   {
-    $conf['locale']['language'] = $language;
+    TranslationParser::load( "language/" . $language );
+    Translator::getTranslator()->setActiveLanguage( $language );
   }
-
-// Populate the username field
-$smarty->assign( "username", isset( $_SESSION['client']['userdbo'] ) ?
-				    $_SESSION['client']['userdbo']->getUsername() :
-				    null );
-
+  
 // Change the charset to UTF-8
 header( "Content-type: text/html; charset=utf-8" );
 
 // Build the core menu
 $menu = SolidStateMenu::getSolidStateMenu();
+$username = isset( $_SESSION['client']['userdbo'] ) ?
+  $_SESSION['client']['userdbo']->getUsername() : null;
+$menu->addItem( new SolidStateMenuItem( "myinfo", 
+					"[MY_INFO]", 
+					"vcard_edit.png", 
+					"manager_content.php?page=config_edit_user&user=" . $username ),
+		"administration" );
+
 $smarty->assign( "menuEventHandler", $menu->generateEventHandlerJS() );
 $smarty->assign( "menuData", $menu->generateMenuJS() );
 

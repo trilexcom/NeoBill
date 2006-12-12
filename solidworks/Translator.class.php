@@ -84,14 +84,19 @@ class Translator
    *
    * Translator is a singleton - it must be instantiate through Translator::getTranslator().
    */
-  private function __construct() { }
+  private function __construct() 
+  {
+  }
 
   /**
-   * Get Languages
+   * Get the Active Language
    *
-   * @return array A list of installed languages
+   * @return string Active language
    */
-  function getLanguages() { return array_keys( $this->translations ); }
+  public function getActiveLanguage()
+  {
+    return $this->activeLanguage;
+  }
 
   /**
    * Register a Translation

@@ -161,7 +161,10 @@ class ModuleRegistry
 	$moduleDir = sprintf( "%s%s", $this->modulesPath, $moduleName );
 	$moduleConfFile = sprintf( "%s/module.conf", $moduleDir );
 	$moduleClassFile = sprintf( "%s/%s.class.php", $moduleDir, $moduleName );
-	$moduleTransFile = sprintf( "%s/translations", $moduleDir );
+	$moduleDefTransFile = sprintf( "%s/language/english", $moduleDir );
+	$moduleActTransFile = sprintf( "%s/language/%s", 
+				       $moduleDir, 
+				       Translator::getTranslator()->getActiveLanguage() );
 	
 	if( is_dir( $moduleDir ) && 
 	    (isset( $file ) && $file != "." && $file != ".." ) &&
@@ -174,10 +177,17 @@ class ModuleRegistry
 	    $conf['forms'] = array_merge( $conf['forms'], $modConf['forms'] );
 	    $conf['hooks'] = array_merge( $conf['hooks'], $modConf['hooks'] );
 	    
-	    // Load the module's translation file
-	    if( file_exists( $moduleTransFile ) )
+	    // Load the module's default translation file
+	    if( file_exists( $moduleDefTransFile ) )
 	      {
-		TranslationParser::load( $moduleTransFile );
+		TranslationParser::load( $moduleDefTransFile );
+	      }
+
+	    // Load the module's active translation file
+	    if( $moduleDefTransFile != $moduleActTransFile &&
+		file_exists( $moduleActTransFile ) )
+	      {
+		TranslationParser::load( $moduleActTransFile );
 	      }
 	    
 	    // Load the module's class file

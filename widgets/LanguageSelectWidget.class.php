@@ -26,8 +26,19 @@ class LanguageSelectWidget extends SelectWidget
    */
   function getData()
   {
-    $translator = Translator::getTranslator();
-    return array_combine( $translator->getLanguages(), $translator->getLanguages() );
+    $languages = array();
+    
+    // Read all the languages in the "language/" directory
+    $langDir = opendir( "language/" );
+    while( false !== ($file = readdir( $langDir )) )
+      {
+	if( filetype( "language/" . $file ) == "file" )
+	  {
+	    $languages[$file] = $file;
+	  }
+      }
+
+    return $languages;
   }
 }
 ?>

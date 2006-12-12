@@ -22,6 +22,11 @@
 class TranslationParser
 {
   /**
+   * @var array Loaded translation files
+   */
+  protected static $loaded = array();
+
+  /**
    * @var Translator The translator object
    */
   protected $translator;
@@ -56,29 +61,34 @@ class TranslationParser
    */
   public static function load( $file )
   {
-    $xml_parser = xml_parser_create();
-    $translation_parser = new TranslationParser();
-    xml_set_object( $xml_parser, $translation_parser );
-    xml_set_element_handler( $xml_parser, "startElement", "endElement" );
-    xml_set_character_data_handler( $xml_parser, "characterData" );
-    
-    if( !($fp = @fopen( $file, "r" )) )
+    if( self::$loaded[$file] != true )
       {
-	throw new SWException( "Could not load translation file: " . $file );
-      }
-    
-    while( $data = fread( $fp, 4096 ) )
-      {
-	if( !xml_parse( $xml_parser, $data, feof( $fp ) ) )
+	$xml_parser = xml_parser_create();
+	$translation_parser = new TranslationParser();
+	xml_set_object( $xml_parser, $translation_parser );
+	xml_set_element_handler( $xml_parser, "startElement", "endElement" );
+	xml_set_character_data_handler( $xml_parser, "characterData" );
+	
+	if( !($fp = @fopen( $file, "r" )) )
 	  {
-	    throw new SWException( sprintf( "<pre>There is an error in your translations file:\n %s at line %d</pre>",
-					    xml_error_string( xml_get_error_code( $xml_parser ) ),
-					    xml_get_current_line_number( $xml_parser ) ) );
+	    throw new SWException( "Could not load translation file: " . $file );
 	  }
+	
+	while( $data = fread( $fp, 4096 ) )
+	  {
+	    if( !xml_parse( $xml_parser, $data, feof( $fp ) ) )
+	      {
+		throw new SWException( sprintf( "<pre>There is an error in your translations file:\n %s at line %d</pre>",
+						xml_error_string( xml_get_error_code( $xml_parser ) ),
+						xml_get_current_line_number( $xml_parser ) ) );
+	      }
+	  }
+	fclose( $fp );
+	
+	xml_parser_free( $xml_parser );
+
+	self::$loaded[$file] = true;
       }
-    fclose( $fp );
-    
-    xml_parser_free( $xml_parser );
   }
 
 
@@ -89,6 +99,7 @@ class TranslationParser
   {
     // Get access to the Translator
     $this->translator = Translator::getTranslator();
+    $this->translator->setDefaultLanguage( "english" );
   }
 
   /**
@@ -106,13 +117,6 @@ class TranslationParser
     $this->tagStackSize++;
     switch( $tagName )
       {
-      case "TRANSLATIONS":
-	if( isset( $attrs['DEFAULT_LANGUAGE'] ) )
-	  {
-	    $this->translator->setDefaultLanguage( $attrs['DEFAULT_LANGUAGE'] );
-	  }
-	break;
-
       case "TRANSLATION":
 	$this->translator->setActiveLanguage( $attrs['LANGUAGE'] );
 	break;
@@ -163,15 +167,6 @@ class TranslationParser
    */
   function characterData( $parser, $data )
   {
-    /*
-    switch( $this->tag_stack[$this->tagStackSize - 1] )
-      {
-      case "PHRASE":
-	$this->data .= $data;
-	break;
-      
-      }
-    */
     $this->data .= $data; // Assume "PHRASE"
   }
 }

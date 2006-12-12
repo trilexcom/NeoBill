@@ -185,7 +185,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
 
     // Load language preference
     $_SESSION['client']['userdbo'] = $this->get['user'];
-    $this->conf['locale']['language'] = $this->get['user']->getLanguage();
+    Translator::getTranslator()->setActiveLanguage( $this->get['user']->getLanguage() );
     $_SESSION['jsFunction'] = "reloadMenu()";
     $this->goto( "config_edit_user", null, "user=" . $this->get['user']->getUsername() );
   }

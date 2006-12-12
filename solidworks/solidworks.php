@@ -44,9 +44,10 @@ function solidworks( &$conf, $smarty )
   // Load the user's language preference
   $language = isset( $_SESSION['client']['userdbo'] ) ? 
     $_SESSION['client']['userdbo']->getLanguage() : null;
-  if( isset( $translations[$language] ) )
+  if( $language != null )
     {
-      $conf['locale']['language'] = $language;
+      TranslationParser::load( "language/" . $language );
+      Translator::getTranslator()->setActiveLanguage( $language );
     }
   
   if( $_SESSION['currentpage'] != $_GET['page'] )

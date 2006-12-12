@@ -1,9 +1,4 @@
-<translations>
-
-  <!-- ======= -->
-  <!-- English -->
-  <!-- ======= -->
-  <translation language="english">
+<translation language="english">
     <phrase id="CPANEL_ACCOUNT_DOES_NOT_EXIST">cPanel Module Error: The account does not exist</phrase>
     <phrase id="CPANEL_ACCOUNT_HAS_ALREADY_BEEN_SUSPENDED">This account has already been suspended</phrase>
     <phrase id="CPANEL_CONFIG_SAVED">cPanel Configuration Saved</phrase>
@@ -19,6 +14,4 @@
     <phrase id="CPANEL_SERVER_CONFIGURATION">cPanel Server Configuration</phrase>
     <phrase id="CPANEL_WHM_ACCESS_HASH">WHM Access Hash</phrase>
     <phrase id="CPANEL_WHM_USERNAME">WHM Username</phrase>
-  </translation>
-
-</translations>
+</translation>

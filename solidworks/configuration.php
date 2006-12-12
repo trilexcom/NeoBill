@@ -50,8 +50,8 @@ error_reporting( E_ALL ^ E_NOTICE );
 // Load application configuration
 $conf = load_config_file( "application.conf" );
 
-// Load the translations/language file
-$translations = TranslationParser::load( "translations" );
+// Load the default language
+TranslationParser::load( "language/english" );
 
 // Setup database confing
 $conf['db'] = $db;
