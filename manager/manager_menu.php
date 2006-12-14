@@ -22,6 +22,9 @@ require BASE_PATH . "solidworks/solidworks.php";
 require BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
+// Set the current theme
+$conf['themes']['current'] = $conf['themes']['manager'];
+
 // Load the user's language preference
 session_start();
 $language = isset( $_SESSION['client']['userdbo'] ) ? 

@@ -26,6 +26,9 @@ require_once BASE_PATH . "solidworks/solidworks.php";
 require_once BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
+// Set the current theme
+$conf['themes']['current'] = $conf['themes']['order'];
+
 // Hand off to SolidWorks
 solidworks( $conf, $smarty );
 ?>

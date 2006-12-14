@@ -98,6 +98,7 @@ class SolidStatePage extends Page
     $wf->registerWidget( "purchasabletermselect", "PurchasableTermSelectWidget", BASE_PATH . "widgets/PurchasableTermSelectWidget.class.php" );
     $wf->registerWidget( "moduleselect", "ModuleSelectWidget", BASE_PATH . "widgets/ModuleSelectWidget.class.php" );
     $wf->registerWidget( "orderdomainselect", "OrderDomainSelectWidget", BASE_PATH . "widgets/OrderDomainSelectWidget.class.php" );
+    $wf->registerWidget( "themeselect", "ThemeSelectWidget", BASE_PATH . "widgets/ThemeSelectWidget.class.php" );
 
     // Register SolidState Field Validators
     $vf = FieldValidatorFactory::getFieldValidatorFactory();
@@ -130,5 +131,17 @@ class SolidStatePage extends Page
     $vf->registerFieldValidator( "hostingserviceprice", "HostingServicePriceValidator", BASE_PATH . "validators/HostingServicePriceValidator.class.php" );
     $vf->registerFieldValidator( "domainserviceprice", "DomainServicePriceValidator", BASE_PATH . "validators/DomainServicePriceValidator.class.php" );
     $vf->registerFieldValidator( "productprice", "ProductPriceValidator", BASE_PATH . "validators/ProductPriceValidator.class.php" );
+    $vf->registerFieldValidator( "theme", "ThemeValidator", BASE_PATH . "validators/ThemeValidator.class.php" );
+  }
+
+  /**
+   * Initialize the Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    $this->smarty->assign( "header_template", 
+			   $this->selectTemplateFile( "manager_header.tpl" ) );
   }
 }

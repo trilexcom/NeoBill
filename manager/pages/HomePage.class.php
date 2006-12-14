@@ -23,7 +23,7 @@ require BASE_PATH . "util/billing.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class HomePage extends Page
+class HomePage extends SolidStatePage
 {
   /**
    * Initialize the Home Page
@@ -33,6 +33,8 @@ class HomePage extends Page
    */
   function init()
   {
+    parent::init();
+
     // Current month
     $now = getDate( time() );
     $this->smarty->assign( "month", $now['month'] );

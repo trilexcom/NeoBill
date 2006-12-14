@@ -57,6 +57,8 @@ class CPConfigPage extends SolidStateAdminPage
    */
   public function init()
   {
+    parent::init();
+
     // Supply the module to the template
     $this->CPModule = ModuleRegistry::getModuleRegistry()->getModule( "cpanel" );
     $this->smarty->assign_by_ref( "CPModule", $this->CPModule );

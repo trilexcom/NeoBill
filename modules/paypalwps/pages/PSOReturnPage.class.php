@@ -53,6 +53,8 @@ class PSOReturnPage extends Page
    */
   function init()
   {
+    parent::init();
+
     if( !isset( $_GET['tx'] ) )
       {
 	// Expected a TX value from Paypal

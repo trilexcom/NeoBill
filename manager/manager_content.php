@@ -28,6 +28,9 @@ require BASE_PATH . "solidworks/solidworks.php";
 require BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
+// Set the current theme
+$conf['themes']['current'] = $conf['themes']['manager'];
+
 // Remove any uninstalled modules from the database
 require_once BASE_PATH . "modules/SolidStateModule.class.php";
 removeMissingModules();

@@ -58,6 +58,8 @@ class PSMConfigPage extends SolidStateAdminPage
    */
   function init()
   {
+    parent::init();
+
     // Load the form values with Module settings
     $registry = ModuleRegistry::getModuleRegistry();
     $this->ppModule = $registry->getModule( 'paypalwps' );

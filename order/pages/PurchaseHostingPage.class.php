@@ -54,6 +54,8 @@ class PurchaseHostingPage extends SolidStatePage
    */
   public function init()
   {
+    parent::init();
+
     if( null == ($services = load_array_HostingServiceDBO()) )
       {
 	throw new SWException( "No hosting services have been setup" );

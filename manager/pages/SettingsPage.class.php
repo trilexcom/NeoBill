@@ -61,9 +61,20 @@ class SettingsPage extends SolidStateAdminPage
 
     $this->smarty->assign( "order_accept_checks", $this->conf['order']['accept_checks'] );
 
+    $this->smarty->assign( "managerTheme", $this->conf['themes']['manager'] );
+    $this->smarty->assign( "orderTheme", $this->conf['themes']['order'] );
+
     // This flag indicates if any payment_gateway modules are enabled
     $modules = $this->forms['settings_payment_gateway']->getField( "default_module" )->getWidget()->getData();
     $this->smarty->assign( "gatewaysAreEnabled", !empty( $modules ) );
+
+    // Setup the theme select boxes
+    $mtField = $this->forms['settings_themes']->getField( "managertheme" );
+    $otField = $this->forms['settings_themes']->getField( "ordertheme" );
+    $mtField->getWidget()->setType( "manager" );
+    $otField->getWidget()->setType( "order" );
+    $mtField->getValidator()->setType( "manager" );
+    $otField->getValidator()->setType( "order" );
   }
 
   /**
@@ -87,6 +98,10 @@ class SettingsPage extends SolidStateAdminPage
       {
       case "general":
 	$this->setTemplate( "default" );
+	break;
+
+      case "themes":
+	$this->setTemplate( "themes" );
 	break;
 
       case "dns":
@@ -119,6 +134,10 @@ class SettingsPage extends SolidStateAdminPage
 
       case "settings_notification":
 	$this->updateOrderNotification();
+	break;
+
+      case "settings_themes":
+	$this->updateThemes();
 	break;
 
       case "settings_nameservers":
@@ -176,6 +195,18 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['order']['confirmation_subject'] = $this->post['subject'];
     $this->conf['order']['confirmation_email'] = $this->post['email'];
     $this->save();
+  }
+
+  /**
+   * Update Theme Settings
+   */
+  function updateThemes()
+  {
+    $this->conf['themes']['manager'] = $this->post['managertheme'];
+    $this->conf['themes']['order'] = $this->post['ordertheme'];
+    $this->save();
+    $this->setTemplate( "themes" );
+    $this->reload();
   }
 
   function updateOrderInterfacePayments()
@@ -250,7 +281,7 @@ class SettingsPage extends SolidStateAdminPage
   function save()
   {
     save_settings( $this->conf );
-    $this->setMessage( array( "type" => "SETTINGS_UPDATED" ) );
+    $this->setMessage( array( "type" => "[SETTINGS_UPDATED]" ) );
   }
 }
 ?>

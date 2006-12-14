@@ -95,6 +95,8 @@ class PSOCheckoutPage extends SolidStatePage
    */
   function init()
   {
+    parent::init();
+
     $registry = ModuleRegistry::getModuleRegistry();
     $this->ppModule = $registry->getModule( 'paypalwps' );
 

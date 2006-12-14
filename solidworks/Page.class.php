@@ -626,7 +626,8 @@ class Page
 	break;
 
       default:
-	print( "error: invalid action: " . $action_name );
+	throw new SWUserException( "Invalid action: " . $action_name );
+	break;
       }
   }
 
@@ -785,13 +786,45 @@ class Page
   }
 
   /**
+   * Select Template File
+   *
+   * Based on the theme, return the template file to be used
+   *
+   * @param string $fileName The name of the template file
+   * @return string The full path to the correction template file to use
+   */
+  public function selectTemplateFile( $fileName, $defaultDir = "" )
+  {
+    $templateFileName = $defaultDir . $fileName;
+    if( $this->conf['themes']['current'] == "default" )
+      {
+	// Default theme just returns the template file from the templates/ dir
+	return $templateFileName;
+      }
+    else
+      {
+	// Build the theme's template file name
+	// Smarty loads the template file relative to the parent directory - thus
+	// the "../" bellow but not here.
+	$themeTemplateFileName = sprintf( "themes/%s/%s", 
+					  $this->conf['themes']['current'],
+					  $fileName );
+
+	// If the template file exists in the theme dir, then return that one,
+	// otherwise return the default template file
+	return @fopen( $themeTemplateFileName, "r" ) ? 
+	  "../" . $themeTemplateFileName : $templateFileName;
+      }
+  }
+
+  /**
    * Return the current template's filename
    *
    * @return string Template filename
    */
   function getTemplateFile()
   {
-    return $this->getTemplateDir() . $this->template_file;
+    return $this->selectTemplateFile( $this->template_file, $this->getTemplateDir() );
   }
 
   /**
@@ -811,16 +844,13 @@ class Page
    */
   function setTemplate( $template_name )
   {
-    $conf =& $this->conf;
-
     // Read configuration for template_name
-    $page_data = $conf['pages'][$this->getClassName()];
+    $page_data = $this->conf['pages'][$this->getClassName()];
 
     if( !isset( $page_data['templates'][$template_name] ) )
       {
 	// Template name is invalid
-	fatal_error( $this->getClassName(),
-		     "invalid template name: " . $template_name );
+	throw new SWException( "Invalid template name: " . $template_name );
       }
 
     // Set the template file name

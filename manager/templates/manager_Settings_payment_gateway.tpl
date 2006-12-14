@@ -1,9 +1,10 @@
 <ul id="tabnav">
-  <li> <a href="manager_content.php?page=settings&action=general"> {echo phrase="GENERAL"} </a> </li>
-  <li> <a href="manager_content.php?page=settings&action=billing"> {echo phrase="BILLING"} </a> </li>
-  <li> <a href="manager_content.php?page=settings&action=dns"> {echo phrase="DNS"} </a> </li>
-  <li> <a href="manager_content.php?page=settings&action=locale"> {echo phrase="LOCALE"} </a> </li>
-  <li class="selected"> <a href="manager_content.php?page=settings&action=payment_gateway"> {echo phrase="PAYMENTS"} </a> </li>
+  <li> <a href="manager_content.php?page=settings&action=general"> [GENERAL] </a> </li>
+  <li> <a href="manager_content.php?page=settings&action=themes"> [THEMES] </a> </li>
+  <li> <a href="manager_content.php?page=settings&action=billing"> [BILLING] </a> </li>
+  <li> <a href="manager_content.php?page=settings&action=dns"> [DNS] </a> </li>
+  <li> <a href="manager_content.php?page=settings&action=locale"> [LOCALE] </a> </li>
+  <li class="selected"> <a href="manager_content.php?page=settings&action=payment_gateway"> [PAYMENTS] </a> </li>
 </ul>
 
 <h2> {echo phrase="PAYMENT_GATEWAY"} </h2>

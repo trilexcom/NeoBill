@@ -17,7 +17,7 @@
     <div class="content">
 
       {* Include page header *}
-      {include file="manager_header.tpl"}
+      {include file="$header_template"}
 
       {* Display any error messages *}
       {page_errors}

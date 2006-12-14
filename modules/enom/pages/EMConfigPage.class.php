@@ -53,6 +53,8 @@ class EMConfigPage extends SolidStateAdminPage
    */
   public function init()
   {
+    parent::init();
+
     // Populate the form
     $module = ModuleRegistry::getModuleRegistry()->getModule( "enom" );
     $this->smarty->assign( "enomusername", $module->getUsername() );

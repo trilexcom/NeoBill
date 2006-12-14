@@ -58,6 +58,8 @@ class RCMConfigPage extends SolidStateAdminPage
    */
   function init()
   {
+    parent::init();
+
     // Load the form values with Module settings
     $registry = ModuleRegistry::getModuleRegistry();
     $this->rcModule = $registry->getModule( 'resellerclub' );
