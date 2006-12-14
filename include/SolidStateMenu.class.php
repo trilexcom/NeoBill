@@ -233,30 +233,6 @@ class SolidStateMenu
   }
 
   /**
-   * Generate Event Handler Javascript
-   *
-   * @return string Javascript for the menu event handler
-   */
-  public function generateEventHandlerJS()
-  {
-    $js = "function onMenuNodeSelect( nodeId )\n{\n\tswitch( nodeId )\n\t\t{\n";
-    $js .= $this->rootItem->generateEventHandlerJS();
-    $js .= "\t\t\tdefault:\n\t\t\t\talert( \"node: \" + nodeId );\n\t\t\t\tbreak;\n\t\t}\n\t}\n";
-
-    return $js;
-  }
-
-  /**
-   * Generate Menu Javascript
-   *
-   * @return string Javascript to build the dhtmlxTree menu object
-   */
-  public function generateMenuJS()
-  {
-    return $this->rootItem->generateJS();
-  }
-
-  /**
    * Get Item
    *
    * @param string $name The name of the item to find
@@ -270,6 +246,18 @@ class SolidStateMenu
       }
 
     return $this->rootItem->getItem( $name );
+  }
+
+  /**
+   * Get Item Array
+   *
+   * Flatten the menu into an array
+   *
+   * @return array A flattened array of menu item data
+   */
+  public function getItemArray()
+  {
+    return $this->rootItem->toArray();
   }
 }
 ?>

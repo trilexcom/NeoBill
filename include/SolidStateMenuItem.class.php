@@ -81,61 +81,6 @@ class SolidStateMenuItem
   }
 
   /**
-   * Generate Event Handler Javascript
-   *
-   * @return string Javascript code
-   */
-  public function generateEventHandlerJS()
-  {
-    $js = "";
-    if( $this->id != 0 )
-      {
-	// Don't build JS for the root node
-	$js = sprintf( "\t\t\tcase %d:\n", $this->id );
-	$js .= sprintf( "\t\t\t\tparent.content.location.href = \"%s\";\n",
-			$this->url );
-	$js .= sprintf( "\t\t\t\tbreak;\n" );
-      }
-
-    // Build Javascript for all the children
-    foreach( $this->children as $childItem )
-      {
-	$js .= $childItem->generateEventHandlerJS();
-      }
-
-    return $js;
-  }
-
-  /**
-   * Generate Javascript
-   *
-   * @return string Javascript code
-   */
-  public function generateJS()
-  {
-    $js = "";
-    if( $this->id != 0 )
-      {
-	// Don't build JS for the root node
-	$js = sprintf( "tree.insertNewChild( %d, %d, \"%s\", 0, \"%s\", \"%s\", \"%s\", \"\" );\n",
-		       $this->parentID,
-		       $this->id,
-		       $this->description,
-		       $this->imageFile,
-		       $this->imageFile,
-		       $this->imageFile );
-      }
-
-    // Build Javascript for all the children
-    foreach( $this->children as $childItem )
-      {
-	$js .= $childItem->generateJS();
-      }
-
-    return $js;
-  }
-
-  /**
    * Get Item
    *
    * @param string $name The name of the item
@@ -181,5 +126,32 @@ class SolidStateMenuItem
    * @param integer $id Menu item's parent ID
    */
   public function setParentID( $id ) { $this->parentID = $id; }
+
+  /**
+   * To Array
+   *
+   * Flatten the menu item in an array
+   *
+   * @return array An array of menu item data along with children
+   */
+  public function toArray()
+  {
+    $result = array();
+    if( $this->name != "root" )
+      {
+	$result = array( $this->name => array( "id" => $this->id,
+					       "parentID" => $this->parentID,
+					       "description" => $this->description,
+					       "url" => $this->url,
+					       "imageFile" => $this->imageFile ) );
+      }
+
+    foreach( $this->children as $childItem )
+      {
+	$result = array_merge( $result, $childItem->toArray() );
+      }
+
+    return $result;
+  }
 }
 ?>

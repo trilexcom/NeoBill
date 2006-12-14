@@ -135,7 +135,7 @@ function display_page( $page )
   else
     {
       // Display with headers
-      $smarty->display( $page->selectTemplateFile( $conf['main_template'] ) );
+      $smarty->display( Page::selectTemplateFile( $conf['main_template'] ) );
     }
 
   // Remove messages and errors from session

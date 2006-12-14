@@ -25,6 +25,9 @@ load_settings( $conf );
 // Set the current theme
 $conf['themes']['current'] = $conf['themes']['manager'];
 
+// Set the current theme
+$conf['themes']['current'] = $conf['themes']['manager'];
+
 // Load the user's language preference
 session_start();
 $language = isset( $_SESSION['client']['userdbo'] ) ? 
@@ -48,10 +51,9 @@ $menu->addItem( new SolidStateMenuItem( "myinfo",
 					"manager_content.php?page=config_edit_user&user=" . $username ),
 		"administration" );
 
-$smarty->assign( "menuEventHandler", $menu->generateEventHandlerJS() );
-$smarty->assign( "menuData", $menu->generateMenuJS() );
+$menuItems = $menu->getItemArray();
+$smarty->assign( "menuItems", $menuItems );
 
 // Display menu
-$smarty->display( "manager_menu.tpl" );
-
+$smarty->display( Page::selectTemplateFile( "manager_menu.tpl" ) );
 ?>

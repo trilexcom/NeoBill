@@ -13,19 +13,48 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-// Load Smarty
-require "../solidworks/smarty/Smarty.class.php";
+// Load config file
+require "../config/config.inc.php";
 
-// Create a Smarty object
-$smarty = new Smarty();
+require BASE_PATH . "include/SolidStateMenu.class.php";
 
-// Set Smarty directories
-$smarty->template_dir = "/templates";
-$smarty->compile_dir  = "../solidworks/smarty/templates_c";
-$smarty->cache_dir    = "../solidworks/smarty/cache";
-$smarty->config_dir   = "../solidworks/smarty/configs";
+// Load SolidWorks
+require BASE_PATH . "solidworks/solidworks.php";
 
-// Display menu
-$smarty->display( "manager_frames.tpl" );
+// Load settings from database
+require BASE_PATH . "util/settings.php";
+load_settings( $conf );
+
+// Set the current theme
+$conf['themes']['current'] = $conf['themes']['manager'];
+
+// Load the user's language preference
+session_start();
+$language = isset( $_SESSION['client']['userdbo'] ) ? 
+  $_SESSION['client']['userdbo']->getLanguage() : null;
+if( $language != null )
+  {
+    TranslationParser::load( "language/" . $language );
+    Translator::getTranslator()->setActiveLanguage( $language );
+  }
+  
+// Change the charset to UTF-8
+header( "Content-type: text/html; charset=utf-8" );
+
+// Build the core menu
+$menu = SolidStateMenu::getSolidStateMenu();
+$username = isset( $_SESSION['client']['userdbo'] ) ?
+  $_SESSION['client']['userdbo']->getUsername() : null;
+$menu->addItem( new SolidStateMenuItem( "myinfo", 
+					"[MY_INFO]", 
+					"vcard_edit.png", 
+					"manager_content.php?page=config_edit_user&user=" . $username ),
+		"administration" );
+
+$menuItems = $menu->getItemArray();
+$smarty->assign( "menuItems", $menuItems );
+
+// Display frames
+$smarty->display( Page::selectTemplateFile( "manager_frames.tpl" ) );
 
 ?>

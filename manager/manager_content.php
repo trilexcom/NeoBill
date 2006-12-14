@@ -31,6 +31,19 @@ load_settings( $conf );
 // Set the current theme
 $conf['themes']['current'] = $conf['themes']['manager'];
 
+// Build the core menu
+$menu = SolidStateMenu::getSolidStateMenu();
+$username = isset( $_SESSION['client']['userdbo'] ) ?
+  $_SESSION['client']['userdbo']->getUsername() : null;
+$menu->addItem( new SolidStateMenuItem( "myinfo", 
+					"[MY_INFO]", 
+					"vcard_edit.png", 
+					"manager_content.php?page=config_edit_user&user=" . $username ),
+		"administration" );
+
+$menuItems = $menu->getItemArray();
+$smarty->assign( "menuItems", $menuItems );
+
 // Remove any uninstalled modules from the database
 require_once BASE_PATH . "modules/SolidStateModule.class.php";
 removeMissingModules();
