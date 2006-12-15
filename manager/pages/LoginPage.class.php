@@ -10,7 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once BASE_PATH . "solidworks/Page.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 require_once BASE_PATH . "DBO/UserDBO.class.php";
 
@@ -22,7 +22,7 @@ require_once BASE_PATH . "DBO/UserDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class LoginPage extends Page
+class LoginPage extends SolidStatePage
 {
   /**
    * Action
@@ -47,6 +47,19 @@ class LoginPage extends Page
   }
 
   /**
+   * Initialize the Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Setup the theme drop-down
+    $tField = $this->forms['login']->getField( "theme" );
+    $tField->getWidget()->setType( "manager" );
+    $tField->getValidator()->setType( "manager" );
+  }
+
+  /**
    * Login
    *
    * Validate the login.  Store the UserDBO in the session if OK, or display an error
@@ -61,6 +74,10 @@ class LoginPage extends Page
 	 $user_dbo->getType() == "Account Manager") )
       {
 	// Login success
+	if( isset( $this->post['theme'] ) )
+	  {
+	    $user_dbo->setTheme( $this->post['theme'] );
+	  }
 	$_SESSION['client']['userdbo'] = $user_dbo;
 	log_notice( "Login", "User: " . $user_dbo->getUsername() . " logged in" );
 	$_SESSION['jsFunction'] = "reloadMenu()";
@@ -72,5 +89,4 @@ class LoginPage extends Page
     $this->setError( array( "type" => "LOGIN_FAILED" ) );
   }
 }
-
 ?>

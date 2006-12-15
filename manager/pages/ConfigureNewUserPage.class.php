@@ -73,6 +73,19 @@ class ConfigureNewUserPage extends SolidStateAdminPage
   }
 
   /**
+   * Initialize the Page
+   */
+  public function init()
+  {
+    parent::init();
+
+    // Setup the theme preference field
+    $tpField = $this->forms['new_user']->getField( "theme" );
+    $tpField->getWidget()->setType( "manager" );
+    $tpField->getValidator()->setType( "manager" );
+  }
+
+  /**
    * Process New User
    *
    * Verify the username requested does not already exist, then

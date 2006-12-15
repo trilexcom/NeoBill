@@ -23,10 +23,9 @@ require BASE_PATH . "util/settings.php";
 load_settings( $conf );
 
 // Set the current theme
-$conf['themes']['current'] = $conf['themes']['manager'];
-
-// Set the current theme
-$conf['themes']['current'] = $conf['themes']['manager'];
+$theme = isset( $_SESSION['client']['userdbo'] ) ?
+  $_SESSION['client']['userdbo']->getTheme() : $conf['themes']['manager'];
+$conf['themes']['current'] = $theme;
 
 // Load the user's language preference
 session_start();

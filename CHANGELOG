@@ -1,6 +1,8 @@
-12/13/2006 - jdiamond
+12/14/2006 - jdiamond
+=====================
 
- * (trac #89) Add support for GUI themes
+ * (trac #89) Added support for GUI themes
+ * Added a very-primitive "CellPhone" theme
 
 12/12/2006 - jdiamond
 =====================

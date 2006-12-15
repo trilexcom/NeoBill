@@ -18,10 +18,10 @@ CREATE TABLE `account` (
   `mobilephone` varchar(255) default NULL,
   `fax` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 CREATE TABLE `authorizeaim` (
-  `transid` varchar(10) NOT NULL default '',
-  `lastdigits` varchar(4) NOT NULL default '',
+  `transid` varchar(10) NOT NULL,
+  `lastdigits` varchar(4) NOT NULL,
   PRIMARY KEY  (`transid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `contact` (
@@ -81,7 +81,7 @@ CREATE TABLE `hostingservice` (
   `uniqueip` enum('Required','Not Required') NOT NULL default 'Not Required',
   `domainrequirement` enum('Required','Not Required') NOT NULL default 'Required',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 CREATE TABLE `hostingserviceprice` (
   `serviceid` int(10) unsigned NOT NULL default '0',
   `type` enum('Onetime','Recurring') NOT NULL default 'Onetime',
@@ -137,7 +137,7 @@ CREATE TABLE `log` (
   `remoteip` int(11) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=119 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=246 DEFAULT CHARSET=latin1;
 CREATE TABLE `module` (
   `name` varchar(255) NOT NULL default '',
   `enabled` enum('Yes','No') NOT NULL default 'No',
@@ -152,7 +152,7 @@ CREATE TABLE `modulesetting` (
   `value` text,
   `modulename` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 CREATE TABLE `note` (
   `id` int(11) NOT NULL auto_increment,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -161,7 +161,7 @@ CREATE TABLE `note` (
   `username` varchar(32) NOT NULL default '',
   `text` blob NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 CREATE TABLE `order` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `datecreated` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -278,6 +278,7 @@ CREATE TABLE `user` (
   `contactname` varchar(255) default NULL,
   `email` varchar(255) default NULL,
   `language` varchar(255) default NULL,
+  `theme` varchar(255) NOT NULL default 'default',
   PRIMARY KEY  (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 INSERT INTO `settings` VALUES ('welcome_subject', 'Welcome to Web Hosting Company!');
@@ -291,3 +292,5 @@ INSERT INTO `settings` VALUES ('order_notification_subject', 'SolidState Order R
 INSERT INTO `settings` VALUES ('order_notification_email', 'A new order from {contact_name} has been received.\r\n\r\nRemote IP: ({order_ip})\r\nTimestamp: {order_datestamp}');
 INSERT INTO `settings` VALUES ('invoice_subject', 'Your {company_name} Invoice for {period_begin_date} - {period_end_date}');
 INSERT INTO `settings` VALUES ('order_accept_checks', '0');
+INSERT INTO `settings` VALUES ('theme_manager', 'default');
+INSERT INTO `settings` VALUES ('theme_order', 'default');

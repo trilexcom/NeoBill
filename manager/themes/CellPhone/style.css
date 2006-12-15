@@ -1,0 +1,116 @@
+/*************************************************
+ * Table
+ *************************************************/
+
+.table {
+}
+
+.table p {
+	font-weight: bold;
+	margin-bottom: 1em;
+	margin-left: -1px;
+}
+
+.table table {
+	border-style: solid; border-width: 1px; border-color: #000000;
+	border-collapse: collapse;
+	background-color: #ffffff;
+	width: 100%;
+}
+
+.table th {
+	border-style: solid; border-width: 1px; border-color: #000000;
+	text-align: left;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.table tr.a {
+	background-color: #ffffff;
+}
+
+.table td {
+	border-style: solid; border-width: 1px; border-color: #000000;
+}
+
+/*************************************************
+ * Properties Table
+ *************************************************/
+
+.properties table {
+	width: 100%;
+	border-style: none; border-width: 1px; border-color: #000000;
+	border-collapse: collapse;
+}
+
+.properties th {
+	width: 25%;
+	border-style: solid; border-width: 1px; border-color: #000000;
+	text-align: left;
+}
+
+.properties td {
+	width: 45%;
+	text-align: left;
+	border-style: solid; border-width: 1px; border-color: #000000;
+}
+
+.properties td.action_cell {
+	width: 25%;
+	border-style: none;
+	text-align: left;
+}
+
+/*************************************************
+ * Search
+ *************************************************/
+
+.search table {
+	border-style: solid; border-width: 1px; border-color: #000000;
+	border-collapse: collapse;
+}
+
+.search td {
+	border-style: solid; border-width: 1px; border-color: #000000;
+	vertical-align: bottom;
+}
+
+/*************************************************
+ * Form
+ *************************************************/
+
+.form {
+}
+
+.form table {
+	border-style: solid; border-width: 1px; border-color: #000000;
+	border-collapse: collapse;
+}
+
+.form th {
+	width: 40%;
+	border-style: solid; border-width: 1px; border-color: #000000;
+	text-align: left;
+}
+
+.form td {
+	width: 60%;
+	border-style: solid; border-width: 1px; border-color: #000000;
+}
+
+.form table.inner {
+	width: 100%;
+	border-style: none;
+	border-collapse: collapse;
+}
+
+.form table.inner th {
+	text-align: center;
+	width: auto;
+	font-size: 100%;
+}
+
+.form table.inner td {
+	width: auto;
+	font-size: 100%;
+}

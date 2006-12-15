@@ -17,6 +17,12 @@ require "configuration.php";
 require "smarty_extensions.php";
 require "security.php";
 
+// Change the charset to UTF-8
+header( "Content-type: text/html; charset=utf-8" );
+
+// Open the session
+session_start();
+
 /**
  * SolidWorks (entry point)
  *
@@ -31,12 +37,6 @@ function solidworks( &$conf, $smarty )
 {
   global $page; // Make the Page object available to smarty_extensions
   global $translations;
-
-  // Change the charset to UTF-8
-  header( "Content-type: text/html; charset=utf-8" );
-
-  // Open the session
-  session_start();
 
   // Make sure the client is logged in as a valid user before proceeding
   validate_client();

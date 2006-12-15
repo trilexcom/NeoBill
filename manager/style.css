@@ -429,7 +429,17 @@ body.login {
 	font-size: 80%;
 }
 
+.login small {
+	margin-left: 1.25em;
+	font-size: 60%;
+}
+
 .login input {
+	margin-top: 0px;
+	margin-left: 1em;
+}
+
+.login select {
 	margin-top: 0px;
 	margin-left: 1em;
 }

@@ -89,6 +89,11 @@ class ConfigureEditUserPage extends SolidStateAdminPage
 
     // Store user DBO in session so it can be displayed in the edit form
     $this->session['edit_user_dbo'] =& $this->get['user'];
+
+    // Setup the theme preference field
+    $tpField = $this->forms['edit_user']->getField( "theme" );
+    $tpField->getWidget()->setType( "manager" );
+    $tpField->getValidator()->setType( "manager" );
   }
 
   /**
@@ -169,6 +174,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
     $this->get['user']->setEmail( $this->post['email'] );
     $this->get['user']->setType( $this->post['type'] );
     $this->get['user']->setLanguage( $this->post['language'] );
+    $this->get['user']->setTheme( $this->post['theme'] );
 
     // Commit changes
     if( !update_UserDBO( $this->get['user'] ) )

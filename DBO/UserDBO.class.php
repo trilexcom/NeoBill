@@ -41,6 +41,11 @@ class UserDBO extends DBO
   protected $password;
 
   /**
+   * @var string The user's theme preference
+   */
+  protected $theme = "default";
+
+  /**
    * @var string Type (Administrator, Account Manager)
    */
   protected $type;
@@ -112,6 +117,20 @@ class UserDBO extends DBO
    * @return string Email
    */
   function getEmail() { return $this->email; }
+
+  /**
+   * Set Theme
+   *
+   * @param string $theme User's theme preference
+   */
+  public function setTheme( $theme ) { $this->theme = $theme; }
+
+  /**
+   * Get Theme
+   *
+   * @return string User's theme preference
+   */
+  public function getTheme() { return $this->theme; }
 
   /**
    * Set User Type
@@ -300,7 +319,8 @@ function add_UserDBO( UserDBO $dbo )
 				       "type" => $dbo->getType(),
 				       "contactname" => $dbo->getContactName(),
 				       "email" => $dbo->getEmail(),
-				       "language" => $dbo->getLanguage() ) );
+				       "language" => $dbo->getLanguage(),
+				       "theme" => $dbo->getTheme() ) );
 
   // Execute
   return mysql_query( $sql, $DB->handle() );
@@ -324,7 +344,8 @@ function update_UserDBO( UserDBO $dbo )
 				       "contactname" => $dbo->getContactName(),
 				       "email" => $dbo->getEmail(),
 				       "type" => $dbo->getType(),
-				       "language" => $dbo->getLanguage() ) );
+				       "language" => $dbo->getLanguage(),
+				       "theme" => $dbo->getTheme() ) );
 
   // Run query
   return mysql_query( $sql, $DB->handle() );
