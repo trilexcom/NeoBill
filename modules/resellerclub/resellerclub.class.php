@@ -152,8 +152,8 @@ class ResellerClub extends RegistrarModule
       }
 
     // Add a customer at Directi
-    $telephone1 = parse_phone_number( $telephone1 );
-    $telephone2 = parse_phone_number( $telephone2 );
+    $telephone1 = $this->parse_phone_number( $telephone1 );
+    $telephone2 = $this->parse_phone_number( $telephone2 );
     $result = $this->customer->addCustomer( $this->getUsername(),
 					    $this->getPassword(),
 					    $this->getRole(),
@@ -171,9 +171,9 @@ class ResellerClub extends RegistrarModule
 					    $country,
 					    $zip,
 					    $telephone1['cc'],
-					    $telephone1['area'] . $telephone1['number'],
+					    $telephone1['number'],
 					    $telephone2['cc'],
-					    $telephone2['area'] . $telephone2['number'],
+					    $telephone2['number'],
 					    "",
 					    "",
 					    "en" );
@@ -233,8 +233,8 @@ class ResellerClub extends RegistrarModule
     if( $contactID > 0 )
       {
 	// Update contact
-	$phone = parse_phone_number( $contactDBO->getPhone() );
-	$fax = parse_phone_number( $contactDBO->getFax() );
+	$phone = $this->parse_phone_number( $contactDBO->getPhone() );
+	$fax = $this->parse_phone_number( $contactDBO->getFax() );
 	$result = $this->domContact->mod( $this->getUsername(),
 					  $this->getPassword(),
 					  $this->getRole(),
@@ -252,9 +252,9 @@ class ResellerClub extends RegistrarModule
 					  $contactDBO->getCountry(),
 					  $contactDBO->getPostalCode(),
 					  $phone['cc'],
-					  $phone['area'] . $phone['number'],
+					  $phone['number'],
 					  $fax['cc'],
-					  $fax['area'] . $fax['number'] );
+					  $fax['number'] );
 	if( $result['status'] != "Success" )
 	  {
 	    print_r( $result );
@@ -265,8 +265,8 @@ class ResellerClub extends RegistrarModule
     else
       {
 	// Add contact
-	$phone = parse_phone_number( $contactDBO->getPhone() );
-	$fax = parse_phone_number( $contactDBO->getFax() );
+	$phone = $this->parse_phone_number( $contactDBO->getPhone() );
+	$fax = $this->parse_phone_number( $contactDBO->getFax() );
 	$contact_id = 
 	  $this->domContact->addContact( $this->getUsername(),
 					 $this->getPassword(),
@@ -284,9 +284,9 @@ class ResellerClub extends RegistrarModule
 					 $contactDBO->getCountry(),
 					 $contactDBO->getPostalCode(),
 					 $phone['cc'],
-					 $phone['area'] . $phone['number'],
+					 $phone['number'],
 					 $fax['cc'],
-					 $fax['area'] . $fax['number'],
+					 $fax['number'],
 					 $customerID );
 	if( !is_numeric( $contactID ) )
 	  {
@@ -465,6 +465,23 @@ class ResellerClub extends RegistrarModule
     //  * The domain must not be registered through us
     return !($result[$fqdn]['status'] == "available" ||
 	     $result[$fqdn]['status'] == "regthroughus");
+  }
+
+  /**
+   * Parse Phone Number
+   *
+   * Parse a SolidWorks phone number for use with Reseller Club
+   *
+   * @param string $phoneNumber A solidstate phone number (+x-xxxxxxxxxx)
+   * @return array Phone number components ('CC' and 'number')
+   */
+  protected function parse_phone_number( $phoneNumber )
+  {
+    $components = explode( "-", $phoneNumber );
+    $result['cc'] = intval( $components[0] );
+    $result['number'] = $components[1];
+
+    return $result;
   }
 
   /**

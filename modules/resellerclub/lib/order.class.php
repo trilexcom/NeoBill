@@ -16,7 +16,7 @@
 		* @access private
 		* @var object
 		*/
-		var $s;	// This will hold an instance of soapclient class in nusoap.php
+		var $s;	// This will hold an instance of soapclientw class in nusoap.php
 		
 		/**
 		* @access private
@@ -36,7 +36,7 @@
 		function Order($wsdlurl="wsdl/Order.wsdl")
 		{
 			$this->wsdl = $wsdlurl;
-			$this->s = new soapclient($this->wsdl,"wsdl");
+			$this->s = new soapclientw($this->wsdl,"wsdl");
 		}
 		
 		/**
