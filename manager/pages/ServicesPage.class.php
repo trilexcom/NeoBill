@@ -32,6 +32,8 @@ class ServicesPage extends SolidStatePage
    */
   function init()
   {
+    parent::init();
+
     // Get stats
     $services = services_stats();
     $domain_services = domain_services_stats();

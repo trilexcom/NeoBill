@@ -11,9 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * ServicesHostingServicesPage

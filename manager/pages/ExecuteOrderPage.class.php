@@ -13,9 +13,6 @@
 // Include the parent class
 require_once BASE_PATH . "include/SolidStatePage.class.php";
 
-// OrderDBO class
-require_once BASE_PATH . "DBO/OrderDBO.class.php";
-
 /**
  * ExecuteOrderPage
  *

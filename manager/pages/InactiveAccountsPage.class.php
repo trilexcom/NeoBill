@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// AccountDBO class
-require_once BASE_PATH . "DBO/AccountDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * InactiveAccountsPage

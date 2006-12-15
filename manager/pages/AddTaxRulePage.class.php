@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
-
-// TaxRuleDBO class
-require_once BASE_PATH . "DBO/TaxRuleDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * AddTaxRulePage

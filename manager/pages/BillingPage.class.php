@@ -33,6 +33,8 @@ class BillingPage extends SolidStatePage
    */
   function init()
   {
+    parent::init();
+
     // Current month
     $now = getDate( time() );
     $this->smarty->assign( "month", $now['month'] );

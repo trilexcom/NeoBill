@@ -10,10 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
-
-require_once BASE_PATH . "DBO/ServerDBO.class.php";
-require_once BASE_PATH . "DBO/IPAddressDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * AddIPAddressPage

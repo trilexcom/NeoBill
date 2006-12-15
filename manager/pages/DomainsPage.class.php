@@ -30,6 +30,8 @@ class DomainsPage extends SolidStatePage
    */
   function init()
   {
+    parent::init();
+
     // Get stats
     $stats = domain_stats();
 

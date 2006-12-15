@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
-
-// Include the DomainServiceDBO class
-require_once BASE_PATH . "DBO/DomainServiceDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * NewDomainServicePage

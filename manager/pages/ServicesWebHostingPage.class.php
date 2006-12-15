@@ -11,9 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "solidworks/Page.class.php";
-
-require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
+require BASE_PATH . "solidworks/SolidStatePage.class.php";
 
 /**
  * ServicesWebHosting
@@ -23,7 +21,7 @@ require_once BASE_PATH . "DBO/HostingServiceDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServicesWebHosting extends Page
+class ServicesWebHosting extends SolidStatePage
 {
   /**
    * Action

@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
-
-// Include UserDBO
-require_once BASE_PATH . "DBO/UserDBO.class.php";
+require BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * ConfigureEditUserPage

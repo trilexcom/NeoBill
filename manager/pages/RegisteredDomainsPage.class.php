@@ -11,10 +11,7 @@
  */
 
 // Include the parent class
-require_once BASE_PATH . "include/SolidStatePage.class.php";
-
-// InvoiceDBO class
-require_once BASE_PATH . "DBO/DomainServicePurchaseDBO.class.php";
+require BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * RegisteredDomainsPage
@@ -33,6 +30,8 @@ class RegisteredDomainsPage extends SolidStatePage
    */
   function init()
   {
+    parent::init();
+
     // Filter out expired domains
     $this->forms['registered_domains']->getField( "domains" )->getWidget()->showActiveDomainsOnly();
   }

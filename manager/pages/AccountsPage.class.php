@@ -13,8 +13,6 @@
 // Include the parent class
 require BASE_PATH . "include/SolidStatePage.class.php";
 
-require BASE_PATH . "DBO/AccountDBO.class.php";
-
 /**
  * AccountsPage
  *
@@ -33,6 +31,8 @@ class AccountsPage extends SolidStatePage
    */
   function init()
   {
+    parent::init();
+
     // Account Summary
     $active_accounts   = count_all_AccountDBO( "status='Active'" );
     $inactive_accounts = count_all_AccountDBO( "status='Inactive'" );
