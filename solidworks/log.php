@@ -34,11 +34,7 @@ function log_message( $type, $module, $message )
   $logdbo->setDate( DBConnection::format_datetime( time() ) );
 
   // Write the log message
-  if( !add_LogDBO( $logdbo ) )
-    {
-      echo "There was an error attempting to write a log entry to the database";
-      exit();
-    }
+  add_LogDBO( $logdbo );
 }
 
 /**

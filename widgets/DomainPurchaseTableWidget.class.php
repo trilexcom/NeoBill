@@ -37,8 +37,10 @@ class DomainPurchaseTableWidget extends TableWidget
       sprintf( "accountid='%d'", $this->accountID ) : null;
 
     // Load the DomainPurchase Table
-    if( null != ($purchases = load_array_DomainServicePurchaseDBO( $where )) )
+    try
       {
+	$purchases = load_array_DomainServicePurchaseDBO( $where );
+
 	// Build the table
 	foreach( $purchases as $dbo )
 	  {
@@ -52,6 +54,7 @@ class DomainPurchaseTableWidget extends TableWidget
 		     "nextbillingdate" => $dbo->getNextBillingDate() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

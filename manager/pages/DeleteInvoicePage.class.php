@@ -84,16 +84,10 @@ class DeleteInvoicePage extends SolidStatePage
   function delete_invoice()
   {
     // Delete Invoice DBO
-    if( !delete_InvoiceDBO( $this->get['invoice'] ) )
-      {
-	// Delete failed
-	$this->setError( array( "type" => "DB_INVOICE_DELETE_FAILED",
-				"args" => array( $this->session['invoice_dbo']->getID() ) ) );
-	$this->reload();
-      }
+    delete_InvoiceDBO( $this->get['invoice'] );
 
     // Success - go back to products page
-    $this->setMessage( array( "type" => "INVOICE_DELETED",
+    $this->setMessage( array( "type" => "[INVOICE_DELETED]",
 			      "args" => array( $this->session['invoice_dbo']->getID() ) ) );
     $this->goto( "billing_invoices" );
   }

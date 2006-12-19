@@ -182,8 +182,7 @@ class ModuleDBO extends DBO
 					   $DB->quote_smart( $this->getName() ) ) );
     if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) 
       {
-	fatal_error( "ModuleDBO::setting()",
-		     "Could not load module setting: " . mysql_error() );
+	throw new DBException( "Could not load module setting: " . mysql_error() );
       }
 
     $data = mysql_fetch_array( $result );
@@ -221,8 +220,7 @@ class ModuleDBO extends DBO
 
     if( !mysql_query( $sql, $DB->handle() ) )
       {
-	fatal_error( "ModuleDBO::saveSetting()",
-		     "Could not insert/update module setting  " . $name . ": " . mysql_error() );
+	throw new DBException( "Could not insert/update module setting  " . $name . ": " . mysql_error() );
       }
 
     return true;
@@ -237,7 +235,6 @@ class ModuleDBO extends DBO
  */
 function add_ModuleDBO( &$dbo )
 {
-  global $conf;
   $DB = DBConnection::getDBConnection();
 
   // Build SQL
@@ -249,7 +246,10 @@ function add_ModuleDBO( &$dbo )
 				       "description" => $dbo->getDescription() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -271,7 +271,10 @@ function update_ModuleDBO( &$dbo )
 				       "description" => $dbo->getDescription() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -291,14 +294,17 @@ function delete_ModuleDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Remove Module Settings
   $sql = $DB->build_delete_sql( "modulesetting",
 				sprintf("modulename=%s",
 					$DB->quote_smart( $dbo->getName() ) ) );
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -324,14 +330,13 @@ function load_ModuleDBO( $name )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_ModuleDBO()",
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new HostingServiceDBO
@@ -374,12 +379,12 @@ function &load_array_ModuleDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_ModuleDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {	  
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -427,19 +432,17 @@ function count_all_ModuleDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_ModuleDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_ModuleDBO()", 
-		   "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );
   return $data[0];
 }
-
 ?>

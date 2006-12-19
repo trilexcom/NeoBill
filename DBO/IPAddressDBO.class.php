@@ -114,11 +114,7 @@ class IPAddressDBO extends DBO
    */
   function setServerID( $id ) 
   {
-    if( ($this->serverdbo = load_ServerDBO( $id )) == null )
-      {
-	fatal_error( "IPAddressDBO::setServerID()",
-		     "error, could not load ServerDBO for server id = " . $id );
-      }
+    $this->serverdbo = load_ServerDBO( $id );
     $this->serverid = $id; 
   }
 
@@ -150,11 +146,7 @@ class IPAddressDBO extends DBO
       }
 
     // Load HostingServicePurchaseDBO
-    if( ($this->purchasedbo = load_HostingServicePurchaseDBO( $id )) == null )
-      {
-	fatal_error( "IPAddressDBO::setPurchaseID()",
-		     "error, could not load HostingServicePurchase. id = " . $id );
-      }
+    $this->purchasedbo = load_HostingServicePurchaseDBO( $id );
     $this->purchaseid = $id;
   }
 
@@ -280,7 +272,10 @@ function add_IPAddressDBO( &$dbo )
 				       "purchaseid" => intval( $dbo->getPurchaseID() ) ) );
 
   // Run Query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -300,7 +295,10 @@ function update_IPAddressDBO( &$dbo )
 				       "purchaseid" => intval( $dbo->getPurchaseID() ) ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -316,7 +314,7 @@ function delete_IPAddressDBO( &$dbo )
   if( !$dbo->isAvailable() )
     {
       // Can not remove an IP Address when it is assigned to a service
-      return false;
+      throw new DBException( "[IP_ADDRESS_NOT_FREE]" );
     }
 
   // Build SQL
@@ -324,7 +322,10 @@ function delete_IPAddressDBO( &$dbo )
 				"ipaddress = " . intval( $dbo->getIP() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -350,13 +351,13 @@ function load_IPAddressDBO( $ip )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_IPAddressDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new IPAddressDBO
@@ -399,13 +400,13 @@ function &load_array_IPAddressDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_IPAddressDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -453,14 +454,14 @@ function count_all_IPAddressDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_IPAddressDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_IPAddressDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

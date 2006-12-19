@@ -69,23 +69,13 @@ class NewDomainServicePage extends SolidStateAdminPage
     $service_dbo->setDescription( $this->post['description'] );
 
     // Insert DomainServiceDBO into database
-    if( !add_DomainServiceDBO( $service_dbo ) )
-      {
-	// Unable to add service
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_ADD_FAILED",
-				"args" => array( $service_dbo->getTLD() ) ) );
+    add_DomainServiceDBO( $service_dbo );
 
-	// Return to form
-	$this->setTemplate( "default" );
-      }
-    else
-      {
-	// Hosting Service added
-	// Jump to View Domain Service page
-	$this->goto( "services_edit_domain_service", 
-		     array( array( "type" => "DOMAIN_SERVICE_ADDED" ) ), 
-		     "dservice=" . $service_dbo->getTLD() );
-      }
+    // Hosting Service added
+    // Jump to View Domain Service page
+    $this->goto( "services_edit_domain_service", 
+		 array( array( "type" => "[DOMAIN_SERVICE_ADDED]" ) ), 
+		 "dservice=" . $service_dbo->getTLD() );
   }
 }
 ?>

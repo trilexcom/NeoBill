@@ -112,7 +112,8 @@ class ServerDBO extends DBO
    */
   function getPurchases()
   {
-    return load_array_HostingServicePurchaseDBO( "serverid=" . $this->getID() );
+    try { return load_array_HostingServicePurchaseDBO( "serverid=" . $this->getID() ); }
+    catch( DBNoRowsFoundException $e ) { return array(); }
   }
 
   /**
@@ -124,7 +125,8 @@ class ServerDBO extends DBO
    */
   function getIPAddresses()
   {
-    return load_array_IPAddressDBO( "serverid=" . $this->getID() );
+    try { load_array_IPAddressDBO( "serverid=" . $this->getID() ); }
+    catch( DBNoRowsFoundException $e ) { return array(); }
   }
 
   /**
@@ -212,7 +214,6 @@ class ServerDBO extends DBO
  * Insert ServerDBO into database
  *
  * @param ServerDBO &$dbo ServerDBO to add to database
- * @return boolean True on success
  */
 function add_ServerDBO( &$dbo )
 {
@@ -227,7 +228,7 @@ function add_ServerDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -237,25 +238,22 @@ function add_ServerDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_ServerDBO()", "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_ServerDBO()", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
 }
 
 /**
  * Update ServerDBO in database
  *
  * @param ServerDBO &$dbo ServerDBO to update
- * @return boolean True on success
  */
 function update_ServerDBO( &$dbo )
 {
@@ -269,7 +267,10 @@ function update_ServerDBO( &$dbo )
 				       "cpmodule" => $dbo->getCPModule() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -282,12 +283,30 @@ function delete_ServerDBO( &$dbo )
 {
   $DB = DBConnection::getDBConnection();
 
+  if( $dbo->getPurchases() != null )
+    {
+      // Can not delete Server until all purchases are removed
+      throw new DBException( "[SERVER_NOT_FREE]" );
+    }
+
+  // Delete all IP Addresses
+  if( ($ip_dbo_array = $dbo->getIPAddresses() ) != null )
+    {
+      foreach( $ip_dbo_array as $ip_dbo )
+	{
+	  delete_IPAddressDBO( $ip_dbo );
+	}
+    }
+
   // Build DELETE query
   $sql = $DB->build_delete_sql( "server",
 				"id = " . $dbo->getID() );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -313,13 +332,13 @@ function load_ServerDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_ServerDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new ServerDBO
@@ -362,13 +381,13 @@ function &load_array_ServerDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_ServerDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of HostingServiceDBOs from the result set
@@ -410,14 +429,14 @@ function count_all_ServerDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_ServerDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_ServerDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

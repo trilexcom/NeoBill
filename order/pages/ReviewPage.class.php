@@ -73,10 +73,9 @@ class ReviewPage extends SolidStatePage
     $this->session['order']->setDateCreated( DBConnection::format_datetime( time() ) );
 
     // If the order does not have an ID already, save it to the database
-    if( $this->session['order']->getID() == null && 
-	!add_OrderDBO( $this->session['order'] ) )
+    if( $this->session['order']->getID() == null )
       {
-	throw new SWException( "Failed to add Order to database!" );
+	add_OrderDBO( $this->session['order'] );
       }
 
     if( $this->session['order']->getAccountType() == "Existing Account" )
@@ -95,10 +94,7 @@ class ReviewPage extends SolidStatePage
 	$checkPayment->setStatus( "Pending" );
 	$checkPayment->setDate( DBConnection::format_datetime( time() ) );
 	$checkPayment->setType( "Check" );
-	if( !add_PaymentDBO( $checkPayment ) )
-	  {
-	    throw new SWException( "Failed to record payment by check!" );
-	  }
+	add_PaymentDBO( $checkPayment );
 
 	// Goto the receipt page
 	$this->session['order']->complete();

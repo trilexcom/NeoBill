@@ -69,25 +69,12 @@ class ProductsPage extends SolidStatePage
   {
     foreach( $this->post['products'] as $dbo )
       {
-	$where = sprintf( "productid='%s'", $dbo->getID() );
-	if( load_array_ProductPurchaseDBO( $where ) != null )
-	  {
-	    // Can not delete product if any purchases exist
-	    throw new SWUserException( "PURCHASES_EXIST" );
-	  }
-
 	// Delete Product DBO
-	if( !delete_ProductDBO( $dbo ) )
-	  {
-	    // Delete failed
-	    $this->setError( array( "type" => "DB_PRODUCT_DELETE_FAILED",
-				    "args" => $dbo->getProductName() ) );
-	    $this->cancel();
-	  }
+	delete_ProductDBO( $dbo );
       }
 
     // Success - go back to products page
-    $this->setMessage( array( "type" => "PRODUCTS_DELETED" ) );
+    $this->setMessage( array( "type" => "[PRODUCTS_DELETED]" ) );
     $this->goto( "services_products" );
   }
 }

@@ -96,8 +96,15 @@ class DomainServiceDBO extends PurchasableDBO
     parent::load( $data );
 
     // Load service pricing
-    $this->prices = load_array_DomainServicePriceDBO( sprintf( "tld='%s'", 
-							       $this->getTLD() ) );
+    try
+      {
+	$this->prices = load_array_DomainServicePriceDBO( sprintf( "tld='%s'", 
+								   $this->getTLD() ) );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	$this->prices = array();
+      }
   }
 }
 
@@ -120,17 +127,13 @@ function add_DomainServiceDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Add all the PriceDBO's for this object
   foreach( $dbo->getPricing() as $price )
     {
-      if( !add_DomainServicePriceDBO( $price ) )
-	{
-	  throw new SWException( "Failed to add price DBO to database: " . 
-				 mysql_error() );
-	}
+      add_DomainServicePriceDBO( $price );
     }
 
   return true;
@@ -153,7 +156,10 @@ function update_DomainServiceDBO( &$dbo )
 				       "description" => $dbo->getDescription() ) );
 				
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -166,12 +172,25 @@ function delete_DomainServiceDBO( &$dbo )
 {
   $DB = DBConnection::getDBConnection();
 
+  // Verify that no purchases exist
+  try 
+    { 
+      load_array_DomainServicePurchaseDBO( "tld=" . $tld ); 
+      
+      // Can not delete domain service if any purchases exist
+      throw new DBException( "[PURCHASES_EXIST]" );
+    }
+    catch( DBNoRowsFoundException $e ) {}
+
   // Build SQL
   $sql = $DB->build_delete_sql( "domainservice",
 				"tld = " . $DB->quote_smart( $dbo->getTLD() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -196,15 +215,13 @@ function load_DomainServiceDBO( $tld )
   // Run query
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
-      // Query error
-      fatel_error( "load_DomainServiceDBO", 
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new DomainServiceDBO
@@ -247,13 +264,13 @@ function &load_array_DomainServiceDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_DomainServiceDBO", "Domain Service SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -295,16 +312,13 @@ function count_all_DomainServiceDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_DomainServiceDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
-      // This must return 1 row
-      fatal_error( "count_all_DomainServiceDBO()",
-		   "Expected SELECT to return 1 row" );
-      exit();
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

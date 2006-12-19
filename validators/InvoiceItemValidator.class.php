@@ -43,10 +43,8 @@ class InvoiceItemValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($itemDBO = load_InvoiceItemDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "InvoiceItem" );
-      }
+    try { $itemDBO = load_InvoiceItemDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "InvoiceItem" ); }
 
     // Verify that this item belongs to the invocie specified
     if( isset( $this->invoiceID ) && $itemDBO->getInvoiceID() != $this->invoiceID )

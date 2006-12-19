@@ -37,8 +37,9 @@ class AccountTableWidget extends TableWidget
       sprintf( "status='%s'", $this->statusFilter ) : null;
 
     // Load the Account Table
-    if( null != ($accounts = load_array_AccountDBO( $where )) )
+    try
       {
+	$accounts = load_array_AccountDBO( $where );
 	// Build the table
 	foreach( $accounts as $dbo )
 	  {
@@ -56,6 +57,7 @@ class AccountTableWidget extends TableWidget
 		     "contactemail" => $dbo->getContactEmail() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

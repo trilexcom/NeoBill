@@ -57,7 +57,6 @@ class DomainServicePriceDBO extends PriceDBO
  * Insert DomainServicePriceDBO into database
  *
  * @param DomainServicePriceDBO &$dbo DomainServicePriceDBO to add to database
- * @return boolean True on success
  */
 function add_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 {
@@ -74,7 +73,7 @@ function add_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Success!
@@ -85,7 +84,6 @@ function add_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
  * Update DomainServicePriceDBO in database
  *
  * @param DomainServicePriceDBO $dbo DomainServicePriceDBO to update
- * @return boolean True on success
  */
 function update_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 {
@@ -101,7 +99,10 @@ function update_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 				       "taxable" => $dbo->getTaxable() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -123,7 +124,7 @@ function delete_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      throw new SWUserException( "[FAILED_TO_DELETE_PRICE]: " . $dbo->getPrice() );
+      throw new DBException();
     }
 }
 
@@ -155,14 +156,13 @@ function load_DomainServicePriceDBO( $tld, $type, $termLength )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_DomainServicePriceDBO", 
-		   "Attempt to load DBO failed on SELECT: " . mysql_error() );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new DomainServicePriceDBO
@@ -205,14 +205,13 @@ function load_array_DomainServicePriceDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_DomainServicePriceDBO", "SELECT failure:" .
-		   mysql_error() );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return array();
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DomainServicePriceDBOs from the result set

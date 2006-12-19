@@ -108,11 +108,7 @@ class EditProductPage extends SolidStateAdminPage
     try
       {
 	$this->get['product']->addPrice( $priceDBO );
-	if( !add_ProductPriceDBO( $priceDBO ) )
-	  {
-	    throw new SWException( "Failed to add price to database: " . 
-				   mysql_error() );
-	  }
+	add_ProductPriceDBO( $priceDBO );
 	$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
       }
     catch( DuplicatePriceException $e )
@@ -151,15 +147,10 @@ class EditProductPage extends SolidStateAdminPage
     // Update DBO
     $product_dbo->setName( $this->post['name'] );
     $product_dbo->setDescription( $this->post['description'] );
-    if( !update_ProductDBO( $product_dbo ) )
-      {
-	// Error
-	$this->setError( array( "type" => "DB_PRODUCT_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    update_ProductDBO( $product_dbo );
 
     // Sucess!
-    $this->setMessage( array( "type" => "PRODUCT_UPDATED" ) );
+    $this->setMessage( array( "type" => "[PRODUCT_UPDATED]" ) );
     $this->goback();
   }
 }

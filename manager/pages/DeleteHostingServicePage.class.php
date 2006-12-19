@@ -81,25 +81,11 @@ class DeleteHostingServicePage extends SolidStateAdminPage
    */
   function delete_hosting()
   {
-    $id = $this->get['hservice']->getID();
-    if( load_array_HostingServicePurchaseDBO( "hostingserviceid=" . $id ) != null )
-      {
-	// Can not delete service if any purchases exist
-	$this->setError( array( "type" => "PURCHASES_EXIST" ) );
-	$this->cancel();
-      }
-
     // Delete Hosting Service DBO
-    if( !delete_HostingServiceDBO( $this->get['hservice'] ) )
-      {
-	// Delete failed
-	$this->setError( array( "type" => "DB_HOSTING_DELETE_FAILED",
-				"args" => array( $this->session['hosting_dbo']->getTitle() ) ) );
-	$this->cancel();
-      }
+    delete_HostingServiceDBO( $this->get['hservice'] );
 
     // Success - go back to web hosting services page
-    $this->setMessage( array( "type" => "HOSTING_SERVICE_DELETED",
+    $this->setMessage( array( "type" => "[HOSTING_SERVICE_DELETED]",
 			      "args" => array( $this->session['hosting_dbo']->getTitle() ) ) );
     $this->goto( "services_web_hosting" );
   }

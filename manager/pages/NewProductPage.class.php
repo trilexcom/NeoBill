@@ -68,18 +68,10 @@ class NewProductPage extends SolidStateAdminPage
     $product_dbo->setDescription( $this->post['description'] );
 
     // Insert ProductDBO into database
-    if( !add_ProductDBO( $product_dbo ) )
-      {
-	// Unable to add product to database
-	$this->setError( array( "type" => "DB_PRODUCT_ADD_FAILED",
-				"args" => array( $product_dbo->getName() ) ) );
+    add_ProductDBO( $product_dbo );
 
-	// Redisplay form
-	$this->setTemplate( "default" );
-	$this->reload();
-      }
     // Jump to View Product page
-    $this->setMessage( array( "type" => "PRODUCT_ADDED" ) );
+    $this->setMessage( array( "type" => "[PRODUCT_ADDED]" ) );
     $this->goto( "services_edit_product", null, "product=" . $product_dbo->getID() );
   }
 }

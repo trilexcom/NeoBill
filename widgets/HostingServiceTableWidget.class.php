@@ -30,9 +30,10 @@ class HostingServiceTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the HostingService Table
-    if( null != ($services = load_array_HostingServiceDBO( $where )) )
+    try
       {
 	// Build the table
+	$services = load_array_HostingServiceDBO( $where );
 	foreach( $services as $dbo )
 	  {
 	    // Format the pricing for this hosting service
@@ -57,5 +58,6 @@ class HostingServiceTableWidget extends TableWidget
 		     "pricing" => $priceString );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 }

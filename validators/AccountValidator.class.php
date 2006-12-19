@@ -31,10 +31,8 @@ class AccountValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($accountDBO = load_AccountDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Account" );
-      }
+    try { $accountDBO = load_AccountDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Account" ); }
 
     return $accountDBO;
   }

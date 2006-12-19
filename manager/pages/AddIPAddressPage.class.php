@@ -100,11 +100,12 @@ class AddIPAddressPage extends SolidStateAdminPage
     // Verify that there will be no duplicates
     for( $ip = $begin_ip; $ip <= $end_ip; $ip++ )
       {
-	if( null != load_IPAddressDBO( $ip ) )
-	  {
-	    $this->setError( array( "type" => "DUPLICATE_IP" ) );
-	    $this->reload();
+	try 
+	  { 
+	    load_IPAddressDBO( $ip ); 
+	    throw new SWUserException( "[DUPLICATE_IP]" );
 	  }
+	catch( DBNoRowsFoundException $e ) {}
       }
 
     // Store the IP's to be added to the database in the session
@@ -134,15 +135,11 @@ class AddIPAddressPage extends SolidStateAdminPage
     // Add IP Addresses to database
     foreach( $this->session['ip_dbo_array'] as $ip_dbo )
       {
-	if( !add_IPAddressDBO( $ip_dbo ) )
-	  {
-	    $this->setError( array( "type" => "DB_ADD_IP_FAILED" ) );
-	    $this->goback();
-	  }
+	add_IPAddressDBO( $ip_dbo );
       }
 
     // Done
-    $this->setMessage( array( "type" => "IP_ADDED" ) );
+    $this->setMessage( array( "type" => "[IP_ADDED]" ) );
     $this->goto( "services_view_server", 
 		 null,
 		 sprintf( "server=%d&action=ips", $this->get['server']->getID() ) );

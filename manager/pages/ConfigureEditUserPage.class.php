@@ -117,13 +117,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
   function delete_user()
   {
     // Remove DBO from the database
-    if( !delete_UserDBO( $this->get['user'] ) )
-      {
-	// Failed to delete user
-	$this->setError( array( "type" => "DB_USER_DELETE_FAILED",
-				"args" => array( $user_dbo->getUsername() ) ) );
-	return;
-      }
+    delete_UserDBO( $this->get['user'] );
 
     // Jump to 'Users' page, pass confirmation message
     $this->setMessage( array( "type" => "[USER_DELETED]" ) );
@@ -141,8 +135,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
 	$this->get['user']->getUsername() )
       {
 	// Can not delete self
-	$this->setError( array( "type" => "USER_SELF_DELETE" ) );
-	return;
+	throw new SWUserException( "[USER_SELF_DELETE]" );
       }
 
     // Ask the user to confirm the delete
@@ -160,10 +153,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
       {
 	// Client can not change his own user type
 	$this->session['edit_user']['type'] = $this->get['user']->getType();
-	$this->setError( array( "type" => "USER_TYPE_CHANGE", 
-				"field_name" => "type" ) );
-
-	return;
+	throw new SWUserException( "[USER_TYPE_CHANGE]" );
       }
 
     // Load form contents into DBO
@@ -174,16 +164,10 @@ class ConfigureEditUserPage extends SolidStateAdminPage
     $this->get['user']->setTheme( $this->post['theme'] );
 
     // Commit changes
-    if( !update_UserDBO( $this->get['user'] ) )
-      {
-	// DB update failed
-	$this->setError( array( "type" => "DB_USER_UPDATE_FAILED",
-				"args" => array( $this->get['user']->getUsername() ) ) );
-	return;
-      }
+    update_UserDBO( $this->get['user'] );
 
     // Success - Display message
-    $this->setMessage( array( "type" => "USER_UPDATED", 
+    $this->setMessage( array( "type" => "[USER_UPDATED]", 
 			      "args" => array( $this->get['user']->getUsername() ) ) );
 
     // Load language preference
@@ -202,25 +186,17 @@ class ConfigureEditUserPage extends SolidStateAdminPage
 	$this->post['password'] != $this->post['repassword'] )
       {
 	// Password not entered correctly
-	$this->setError( array( "type"       => "PASSWORD_MISMATCH",
-				"field_name" => "password" ) );
-
-	// Redisplay form
-	return;
+	throw new SWUserException( "[PASSWORD_MISMATCH]" );
       }
 
     // Set new password
     $this->get['user']->setPassword( $this->post['password'] );
 
     // Commit changes
-    if( !update_UserDBO( $this->get['user'] ) )
-      {
-	// DB update failed
-	throw new SWException( "Failed to update User record" );
-      }
+    update_UserDBO( $this->get['user'] );
 
     // Display message
-    $this->setMessage( array( "type" => "USER_PASS_UPDATED", 
+    $this->setMessage( array( "type" => "[USER_PASS_UPDATED]", 
 			      "args" => array( $this->get['user']->getUsername() ) ) );
   }
 }

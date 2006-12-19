@@ -43,10 +43,8 @@ class ProductPurchaseValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($purchaseDBO = load_ProductPurchaseDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "ProductPurchase" );
-      }
+    try { $purchaseDBO = load_ProductPurchaseDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "ProductPurchase" ); }
 
     // Verify that this purchase is for a specific account
     if( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID )

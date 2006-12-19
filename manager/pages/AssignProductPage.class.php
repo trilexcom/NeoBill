@@ -71,10 +71,10 @@ class AssignProductPage extends SolidStatePage
     // Store service DBO in session
     $this->session['account_dbo'] = $dbo;
 
-    if( null == ($products = load_array_ProductDBO()) )
+    try{ $products = load_array_ProductDBO(); }
+    catch( DBNoRowsFoundException $e )
       {
-	$this->setError( array( "type" => "[THERE_ARE_NO_PRODUCTS]" ) );
-	$this->goback();
+	throw new SWUserException( "[THERE_ARE_NO_PRODUCTS]" );
       }
 
     if( !isset( $this->post['product'] ) )
@@ -99,16 +99,10 @@ class AssignProductPage extends SolidStatePage
     $purchase_dbo->setNote( $this->post['note'] );
 
     // Save purchase
-    if( !add_ProductPurchaseDBO( $purchase_dbo ) )
-      {
-	// Add failed
-	$this->setError( array( "type" => "DB_ASSIGN_PRODUCT_FAILED",
-				"args" => array( $service_dbo->getName() ) ) );
-	$this->reload();
-      }
+    add_ProductPurchaseDBO( $purchase_dbo );
     
     // Success
-    $this->setMessage( array( "type" => "PRODUCT_ASSIGNED" ) );
+    $this->setMessage( array( "type" => "[PRODUCT_ASSIGNED]" ) );
     $this->goto( "accounts_view_account",
 		 null,
 		 "action=products&account=" . $this->get['account']->getID() );

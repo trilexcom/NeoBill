@@ -69,9 +69,7 @@ class AssignDomainPage extends SolidStatePage
     // page to update the price dynamically
     if( !isset( $this->post['domainname'] ) )
       {
-	$e = new FieldMissingException();
-	$e->setField( "domainname" );
-	throw $e;
+	throw new FieldMissingException( "domainname" );
       }
 
     // Create new DomainServicePurchase DBO
@@ -80,20 +78,14 @@ class AssignDomainPage extends SolidStatePage
     $purchase_dbo->setTLD( $this->post['tld']->getTLD() );
     $purchase_dbo->setTerm( $this->post['term'] ?
 			    $this->post['term']->getTermLength() : null );
-    $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $purchase_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $purchase_dbo->setDomainName( $this->post['domainname'] );
 
     // Save purchase
-    if( !add_DomainServicePurchaseDBO( $purchase_dbo ) )
-      {
-	// Add failed
-	$this->setError( array( "type" => "DB_ASSIGN_DOMAIN_FAILED",
-				"args" => array( $service_dbo->getTitle() ) ) );
-	$this->reload();
-      }
+    add_DomainServicePurchaseDBO( $purchase_dbo );
     
     // Success
-    $this->setMessage( array( "type" => "DOMAIN_ASSIGNED" ) );
+    $this->setMessage( array( "type" => "[DOMAIN_ASSIGNED]" ) );
     $this->goto( "accounts_view_account",
 		 null,
 		 "action=domains&account=" . $this->get['account']->getID() );
@@ -116,10 +108,10 @@ class AssignDomainPage extends SolidStatePage
     // Store account DBO in session
     $this->session['account_dbo'] =& $this->get['account'];
 
-    if( null == ($services = load_array_DomainServiceDBO()) )
+    try { $services = load_array_DomainServiceDBO(); }
+    catch( DBNoRowsFoundException $e )
       {
-	$this->setError( array( "type" => "[THERE_ARE_NO_DOMAIN_SERVICES]" ) );
-	$this->goback();
+	throw new SWUserException( "[THERE_ARE_NO_DOMAIN_SERVICES]" );
       }
 
     if( !isset( $this->post['tld'] ) )

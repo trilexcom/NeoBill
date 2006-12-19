@@ -26,20 +26,20 @@ class ProductSelectWidget extends SelectWidget
   function getData()
   {
     // Query ProductDBO's
-    $productDBOs = load_array_ProductDBO();
-    if( empty( $productDBOs ) )
-      {
-	return array();
-      }
-
-    // Convery to an array: product ID => product name
     $products = array();
-    foreach( $productDBOs as $productDBO )
+    try
       {
-	$products[$productDBO->getID()] = $productDBO->getName();
+	$productDBOs = load_array_ProductDBO();
+
+	// Convery to an array: product ID => product name
+	foreach( $productDBOs as $productDBO )
+	  {
+	    $products[$productDBO->getID()] = $productDBO->getName();
+	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     return $products;
-  }
+ } 
 }
 ?>

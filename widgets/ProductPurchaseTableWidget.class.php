@@ -37,9 +37,10 @@ class ProductPurchaseTableWidget extends TableWidget
       sprintf( "accountid='%d'", $this->accountID ) : null;
 
     // Load the ProductPurchase Table
-    if( null != ($purchases = load_array_ProductPurchaseDBO( $where )) )
+    try
       {
 	// Build the table
+	$purchases = load_array_ProductPurchaseDBO( $where );
 	foreach( $purchases as $dbo )
 	  {
 	    // Put the row into the table
@@ -51,6 +52,7 @@ class ProductPurchaseTableWidget extends TableWidget
 		     "nextbillingdate" => $dbo->getNextBillingDate() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

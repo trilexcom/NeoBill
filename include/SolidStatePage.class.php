@@ -41,6 +41,9 @@ require BASE_PATH . "DBO/ServerDBO.class.php";
 require BASE_PATH . "DBO/TaxRuleDBO.class.php";
 // require BASE_PATH . "DBO/UserDBO.class.php";
 
+// Exceptions
+require BASE_PATH . "exceptions/RecordNotFoundException.class.php";
+
 /**
  * SolidStatePage
  *

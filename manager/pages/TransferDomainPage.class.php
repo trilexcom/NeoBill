@@ -141,30 +141,18 @@ class TransferDomainPage extends SolidStatePage
     $contacts['billing'] = $contacts['admin'];
 
     // Execute the registration at the Registrar
-    try
-      {
-	$module->transferDomain( $this->purchaseDBO->getDomainName(),
-				 $this->purchaseDBO->getTLD(),
-				 intval( $this->purchaseDBO->getTerm() / 12 ),
-				 $this->purchaseDBO->getSecret(),
-				 $contacts,
-				 $this->accountDBO );
-      }
-    catch( RegistrarException $e )
-      {
-	$this->setError( array( "type" => $e->getMessage() ) );
-	$this->cancel();
-      }
+    $module->transferDomain( $this->purchaseDBO->getDomainName(),
+			     $this->purchaseDBO->getTLD(),
+			     intval( $this->purchaseDBO->getTerm() / 12 ),
+			     $this->purchaseDBO->getSecret(),
+			     $contacts,
+			     $this->accountDBO );
     
     // Store the purchase in database
-    if( !add_DomainServicePurchaseDBO( $this->purchaseDBO ) )
-      {
-	$this->setError( array( "type" => "DOMAIN_TRANSFER_FAILED_DB" ) );
-	$this->cancel();
-      }
+    add_DomainServicePurchaseDBO( $this->purchaseDBO );
     
     // Registration complete
-    $this->setMessage( array( "type" => "DOMAIN_TRANSFERED",
+    $this->setMessage( array( "type" => "[DOMAIN_TRANSFERED]",
 			      "args" => array( $this->purchaseDBO->getFullDomainName() ) ) );
     $this->goto( "domains_browse", null, null );
   }
@@ -203,9 +191,7 @@ class TransferDomainPage extends SolidStatePage
     if( !$module->isTransferable( $fqdn ) )
       {
 	// Domain is not eligible for transfer
-	$this->setError( array( "type" => "DOMAIN_NOT_TRANSFERABLE",
-				"args" => array( $fqdn ) ) );
-	$this->reload();
+	throw new SWUserException( "[DOMAIN_NOT_TRANSFERABLE]" );
       }
 
     // Domain can be transfered
@@ -213,7 +199,7 @@ class TransferDomainPage extends SolidStatePage
     $this->purchaseDBO->setPurchasable( $this->post['servicetld'] );
     $this->purchaseDBO->setDomainName( $this->post['domainname'] );
     $this->purchaseDBO->setSecret( $this->post['secret'] );
-    $this->setMessage( array( "type" => "DOMAIN_IS_ELIGIBLE",
+    $this->setMessage( array( "type" => "[DOMAIN_IS_ELIGIBLE]",
 			      "args" => array( $fqdn ) ) );
     $this->setTemplate( "transfer" );
   }

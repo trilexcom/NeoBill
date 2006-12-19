@@ -37,9 +37,10 @@ class IPPoolTableWidget extends TableWidget
       sprintf( "serverid='%d'", $this->serverID ) : null;
 
     // Load the IP Address pool
-    if( null != ($IPAddresses = load_array_IPAddressDBO( $where )) )
+    try
       {
 	// Build the table
+	$IPAddresses = load_array_IPAddressDBO( $where );
 	foreach( $IPAddresses as $dbo )
 	  {
 	    // Put the row into the table
@@ -53,6 +54,7 @@ class IPPoolTableWidget extends TableWidget
 		     "service" => $dbo->getServiceTitle() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

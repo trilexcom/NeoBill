@@ -134,10 +134,7 @@ class EditHostingPurchasePage extends SolidStatePage
     $this->get['hspurchase']->setDomainName( $this->post['domain'] );
     $this->get['hspurchase']->setServerID( $this->post['server']->getID() );
 
-    if( !update_HostingServicePurchaseDBO( $this->get['hspurchase'] ) )
-      {
-	throw new SWUserException( "[HOSTING_SERVICE_PURCHASE_UPDATE_FAILED]" );
-      }
+    update_HostingServicePurchaseDBO( $this->get['hspurchase'] );
 
     // Success
     $this->setMessage( array( "type" => "[CHANGES_SAVED]" ) );

@@ -43,10 +43,8 @@ class DomainPurchaseValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($purchaseDBO = load_DomainServicePurchaseDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "DomainPurchase" );
-      }
+    try { $purchaseDBO = load_DomainServicePurchaseDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "DomainPurchase" ); }
 
     // Verify that this purchase is for a specific account
     if( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID )

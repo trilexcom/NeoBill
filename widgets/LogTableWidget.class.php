@@ -28,9 +28,10 @@ class LogTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the Log Table
-    if( null != ($logs = load_array_LogDBO( $where )) )
+    try
       {
 	// Build the table
+	$logs = load_array_LogDBO( $where );
 	foreach( $logs as $dbo )
 	  {
 	    // Put the row into the table
@@ -43,5 +44,6 @@ class LogTableWidget extends TableWidget
 		     "date" => $dbo->getDate() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 }

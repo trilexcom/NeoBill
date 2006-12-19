@@ -57,18 +57,16 @@ class InvoiceSelectWidget extends SelectWidget
       }
     
     // Query InvoiceDBO's
-    $invoiceDBOs = load_array_InvoiceDBO( $where );
-    if( empty( $invoiceDBOs ) )
-      {
-	return array();
-      }
-
-    // Convery to an array: invoice ID => invoice name
     $invoices = array();
-    foreach( $invoiceDBOs as $invoiceDBO )
+    try
       {
-	$invoices[$invoiceDBO->getID()] = $invoiceDBO->getDescription();
+	$invoiceDBOs = load_array_InvoiceDBO( $where );
+	foreach( $invoiceDBOs as $invoiceDBO )
+	  {
+	    $invoices[$invoiceDBO->getID()] = $invoiceDBO->getDescription();
+	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     return $invoices;
   }

@@ -156,7 +156,14 @@ class HostingServiceDBO extends PurchasableDBO
     parent::load( $data );
 
     // Load service pricing
-    $this->prices = load_array_HostingServicePriceDBO( "serviceid=" . $this->getID() );
+    try
+      {
+	$this->prices = load_array_HostingServicePriceDBO( "serviceid=" . $this->getID() );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	$this->prices = array();
+      }
   }
 }
 
@@ -164,7 +171,6 @@ class HostingServiceDBO extends PurchasableDBO
  * Insert HostingServiceDBO into database
  *
  * @param HostingServiceDBO &$dbo HostingServiceDBO to add to database
- * @return boolean True on success
  */
 function add_HostingServiceDBO( &$dbo )
 {
@@ -180,7 +186,7 @@ function add_HostingServiceDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -190,14 +196,12 @@ function add_HostingServiceDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_HostingServiceDBO()", 
-		   "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_HostingServiceDBO()", 
-		   "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
@@ -206,14 +210,8 @@ function add_HostingServiceDBO( &$dbo )
   // Add all the PriceDBO's for this object
   foreach( $dbo->getPricing() as $price )
     {
-      if( !add_HostingServicePriceDBO( $price ) )
-	{
-	  throw new SWException( "Failed to add price DBO to database: " . 
-				 mysql_error() );
-	}
+      add_HostingServicePriceDBO( $price );
     }
-
-  return true;
 }
 
 /**
@@ -235,7 +233,10 @@ function update_HostingServiceDBO( &$dbo )
 				       "domainrequirement" => $dbo->getDomainRequirement() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -248,12 +249,25 @@ function delete_HostingServiceDBO( &$dbo )
 {
   $DB = DBConnection::getDBConnection();
 
+  $id = $dbo->getID();
+  try
+    {
+      load_array_HostingServicePurchaseDBO( "hostingserviceid=" . $id );
+      
+      // Can not delete service if any purchases exist
+      throw new DBException( "[PURCHASES_EXIST]" );
+    }
+  catch( DBNoRowsFoundException $e ) {}
+
   // Build DELETE query
   $sql = $DB->build_delete_sql( "hostingservice",
 				"id = " . $dbo->getID() );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -279,14 +293,13 @@ function load_HostingServiceDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_HostingServiceDBO", 
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new HostingServiceDBO
@@ -329,13 +342,13 @@ function &load_array_HostingServiceDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_HostingServiceDBO", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of HostingServiceDBOs from the result set
@@ -377,15 +390,14 @@ function count_all_HostingServiceDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_HostingServiceDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_HostingServiceDBO()", 
-		   "Expected SELECT to return 1 row" );
+      throw new DBException( "Expected SELECT to return 1 row" );
     }
 
   $data = mysql_fetch_array( $result );

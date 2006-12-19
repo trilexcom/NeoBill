@@ -84,24 +84,12 @@ class DeleteDomainServicePage extends SolidStateAdminPage
     $DB = DBConnection::getDBConnection();
 
     $tld = $DB->quote_smart( $this->get['dservice']->getTLD() );
-    if( load_array_DomainServicePurchaseDBO( "tld=" . $tld ) != null )
-      {
-	// Can not delete domain service if any purchases exist
-	$this->setError( array( "type" => "PURCHASES_EXIST" ) );
-	$this->cancel();
-      }
 
     // Delete Domain Service DBO
-    if( !delete_DomainServiceDBO( $this->get['dservice'] ) )
-      {
-	// Delete failed
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_DELETE_FAILED",
-				"args" => array( $this->session['domain_service_dbo']->getTLD() ) ) );
-	$this->cancel();
-      }
+    delete_DomainServiceDBO( $this->get['dservice'] );
 
     // Success - go back to web domain services page
-    $this->setMessage( array( "type" => "DOMAIN_SERVICE_DELETED",
+    $this->setMessage( array( "type" => "[DOMAIN_SERVICE_DELETED]",
 			      "args" => array( $this->session['domain_service_dbo']->getTLD() ) ) );
     $this->goto( "services_domain_services" );
   }

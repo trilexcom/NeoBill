@@ -44,9 +44,10 @@ class HostingPurchaseTableWidget extends TableWidget
       sprintf( "serverid='%d'", $this->serverID ) : $where;
 
     // Load the HostingPurchase Table
-    if( null != ($purchases = load_array_HostingServicePurchaseDBO( $where )) )
+    try
       {
 	// Build the table
+	$purchases = load_array_HostingServicePurchaseDBO( $where );
 	foreach( $purchases as $dbo )
 	  {
 	    // Put the row into the table
@@ -64,6 +65,7 @@ class HostingPurchaseTableWidget extends TableWidget
 		     "domainname" => $dbo->getDomainName() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

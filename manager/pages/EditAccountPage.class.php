@@ -88,42 +88,27 @@ class EditAccountPage extends SolidStatePage
     // Access DBO
     $account_dbo =& $this->get['account'];
 
-    // Pull form data from session
-    $account_data = $this->session['edit_account'];
-   
-    if( !isset( $account_data ) )
-      {
-	// Missing form data
-	fatal_error( "EditAccountPage::update_account()",
-		     "no form data received!" );
-      }
-
     // Update DBO
-    $account_dbo->setType( $account_data['type'] );
-    $account_dbo->setStatus( $account_data['status'] );
-    $account_dbo->setBillingStatus( $account_data['billingstatus'] );
-    $account_dbo->setBillingDay( $account_data['billingday'] );
-    $account_dbo->setBusinessName( $account_data['businessname'] );
-    $account_dbo->setContactName( $account_data['contactname'] );
-    $account_dbo->setContactEmail( $account_data['contactemail'] );
-    $account_dbo->setAddress1( $account_data['address1'] );
-    $account_dbo->setAddress2( $account_data['address2'] );
-    $account_dbo->setCity( $account_data['city'] );
-    $account_dbo->setState( $account_data['state'] );
-    $account_dbo->setCountry( $account_data['country'] );
-    $account_dbo->setPostalCode( $account_data['postalcode'] );
-    $account_dbo->setPhone( $account_data['phone'] );
-    $account_dbo->setMobilePhone( $account_data['mobilephone'] );
-    $account_dbo->setFax( $account_data['fax'] );
-    if( !update_AccountDBO( $account_dbo ) )
-      {
-	// Error
-	$this->setError( array( "type" => "DB_ACCOUNT_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    $account_dbo->setType( $this->post['type'] );
+    $account_dbo->setStatus( $this->post['status'] );
+    $account_dbo->setBillingStatus( $this->post['billingstatus'] );
+    $account_dbo->setBillingDay( $this->post['billingday'] );
+    $account_dbo->setBusinessName( $this->post['businessname'] );
+    $account_dbo->setContactName( $this->post['contactname'] );
+    $account_dbo->setContactEmail( $this->post['contactemail'] );
+    $account_dbo->setAddress1( $this->post['address1'] );
+    $account_dbo->setAddress2( $this->post['address2'] );
+    $account_dbo->setCity( $this->post['city'] );
+    $account_dbo->setState( $this->post['state'] );
+    $account_dbo->setCountry( $this->post['country'] );
+    $account_dbo->setPostalCode( $this->post['postalcode'] );
+    $account_dbo->setPhone( $this->post['phone'] );
+    $account_dbo->setMobilePhone( $this->post['mobilephone'] );
+    $account_dbo->setFax( $this->post['fax'] );
+    update_AccountDBO( $account_dbo );
 
     // Sucess!
-    $this->setMessage( array( "type" => "ACCOUNT_UPDATED" ) );
+    $this->setMessage( array( "type" => "[ACCOUNT_UPDATED]" ) );
   }
 }
 

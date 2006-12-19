@@ -138,32 +138,14 @@ class ViewServerPage extends SolidStatePage
   {
     if( $_SESSION['client']['userdbo']->getType() != "Administrator" )
       {
-	$this->setError( array( "type" => "ACCESS_DENIED" ) );
-	return;
+	throw new SWUserException( "[ACCESS_DENIED]" );
       }
 
     foreach( $this->post['ips'] as $ipdbo )
       {
-	// Verify that this IP address is not being used
-	if( !$ipdbo->isAvailable() )
-	  {
-	    // Can not delete IP until it is free
-	    $this->setError( array( "type" => "IP_NOT_FREE",
-				    "args" => array( $ipdbo->getIPString() ) ) );
-	    $this->setTemplate( "ips" );
-	    $this->reload();
-	  }
-	
 	// Remove the IP address from the database
-	if( !delete_IPAddressDBO( $ipdbo ) )
-	  {
-	    // Database error
-	    $this->setError( array( "type" => "DB_DELETE_IP_FAILED",
-				    "args" => array( $ipdbo->getIPString() ) ) );
-	    $this->reload();
-	  }
-
-	$this->setMessage( array( "type" => "IP_DELETED",
+	delete_IPAddressDBO( $ipdbo );
+	$this->setMessage( array( "type" => "[IP_DELETED]",
 				  "args" => array( $ipdbo->getIPString() ) ) );
       }
 

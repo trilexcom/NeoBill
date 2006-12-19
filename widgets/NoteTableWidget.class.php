@@ -37,9 +37,10 @@ class NoteTableWidget extends TableWidget
       sprintf( "accountid='%d'", $this->accountID ) : null;
 
     // Load the Note Table
-    if( null != ($notes = load_array_NoteDBO( $where )) )
+    try
       {
 	// Build the table
+	$notes = load_array_NoteDBO( $where );
 	foreach( $notes as $dbo )
 	  {
 	    // Put the row into the table
@@ -50,6 +51,7 @@ class NoteTableWidget extends TableWidget
 		     "text" => $dbo->getText() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

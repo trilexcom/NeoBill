@@ -161,7 +161,6 @@ class NoteDBO extends DBO
  * Insert NoteDBO into Database
  *
  * @param NoteDBO &$dbo NoteDBO to add to database
- * @return boolean True on success
  */
 function add_NoteDBO( &$dbo )
 {
@@ -178,7 +177,7 @@ function add_NoteDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -188,26 +187,22 @@ function add_NoteDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_NoteDBO()", "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_NoteDBO()", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
-
 }
 
 /**
  * Update NoteDBO
  *
  * @param NoteDBO &$dbo NoteDBO to update
- * @return boolean True on success
  */
 function update_NoteDBO( &$dbo )
 {
@@ -221,7 +216,10 @@ function update_NoteDBO( &$dbo )
 				       "text" => $dbo->getText() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -239,7 +237,10 @@ function delete_NoteDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -264,13 +265,13 @@ function load_NoteDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_NoteDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
   
   // Load a new NoteDBO
@@ -313,13 +314,13 @@ function &load_array_NoteDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_NoteDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -367,14 +368,14 @@ function count_all_NoteDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_NoteDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_NoteDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

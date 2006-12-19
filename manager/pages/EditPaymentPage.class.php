@@ -95,25 +95,20 @@ class EditPaymentPage extends SolidStatePage
     if( !$this->get['payment']->capture() )
       {
 	// There was an error processing the transaction
-	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
-	$this->reload();
+	throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
       }
 
     // Update the payment record
-    if( !update_PaymentDBO( $this->get['payment'] ) )
-      {
-	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
-      }
+    update_PaymentDBO( $this->get['payment'] );
 
     if( $this->get['payment']->getStatus() == "Declined" )
       {
 	// Transaction was declined
-	$this->setError( array( "type" => "CC_CAPTURE_DECLINED" ) );
-	$this->reload();
+	throw new SWUserException( "[CC_CAPTURE_DECLINED]" );
       }
 
     // Success
-    $this->setMessage( array( "type" => "CC_CAPTURED" ) );
+    $this->setMessage( array( "type" => "[CC_CAPTURED]" ) );
     $this->reload();
   }
 
@@ -126,26 +121,20 @@ class EditPaymentPage extends SolidStatePage
     if( !$this->get['payment']->refund() )
       {
 	// There was an error processing the transaction
-	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
-	$this->reload();
+	throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
       }
 
     if( $this->get['payment']->getStatus() == "Declined" )
       {
 	// Transaction was declined
-	$this->setError( array( "type" => "CC_REFUND_DECLINED" ) );
-	$this->reload();
+	throw new SWUserException( "[CC_REFUND_DECLINED]" );
       }
 
     // Update the payment record
-    if( !update_PaymentDBO( $this->get['payment'] ) )
-      {
-	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    update_PaymentDBO( $this->get['payment'] );
 
     // Success
-    $this->setMessage( array( "type" => "CC_REFUNDED" ) );
+    $this->setMessage( array( "type" => "[CC_REFUNDED]" ) );
     $this-reload();
   }
 
@@ -161,15 +150,10 @@ class EditPaymentPage extends SolidStatePage
     $this->get['payment']->setTransaction2( $this->post['transaction2'] );
     $this->get['payment']->setStatus( $this->post['status'] );
     $this->get['payment']->setStatusMessage( $this->post['statusmessage'] );
-    if( !update_PaymentDBO( $this->get['payment'] ) )
-      {
-	// Update error
-	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    update_PaymentDBO( $this->get['payment'] );
 
     // Success!
-    $this->setMessage( array( "type" => "PAYMENT_UPDATED" ) );
+    $this->setMessage( array( "type" => "[PAYMENT_UPDATED]" ) );
     $this->reload();
   }
 
@@ -181,26 +165,20 @@ class EditPaymentPage extends SolidStatePage
     if( !$this->get['payment']->void() )
       {
 	// There was an error processing the transaction
-	$this->setError( array( "type" => "CC_TRANSACTION_FAILED" ) );
-	$this->reload();
+	throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
       }
 
     if( $this->get['payment']->getStatus() == "Declined" )
       {
 	// Transaction was declined
-	$this->setError( array( "type" => "CC_VOID_DECLINED" ) );
-	$this->reload();
+	throw new SWUserException( "[CC_VOID_DECLINED]" );
       }
 
     // Update the payment record
-    if( !update_PaymentDBO( $this->get['payment'] ) )
-      {
-	$this->setError( array( "type" => "DB_PAYMENT_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    update_PaymentDBO( $this->get['payment'] );
 
     // Success
-    $this->setMessage( array( "type" => "CC_VOIDED" ) );
+    $this->setMessage( array( "type" => "[CC_VOIDED]" ) );
     $this->reload();
   }
 }

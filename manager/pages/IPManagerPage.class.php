@@ -60,32 +60,16 @@ class IPManagerPage extends SolidStatePage
   {
     if( $_SESSION['client']['userdbo']->getType() != "Administrator" )
       {
-	$this->setError( array( "type" => "ACCESS_DENIED" ) );
-	$this->reload();
+	throw new SWUserException( "[ACCESS_DENIED]" );
       }
 
     foreach( $this->post['ipaddresses'] as $IPDBO )
-      {
-	// Verify that this IP address is not being used
-	if( !$IPDBO->isAvailable() )
-	  {
-	    // Can not delete IP until it is free
-	    $this->setError( array( "type" => "IP_NOT_FREE",
-				    "args" => array( $IPDBO->getIPString() ) ) );
-	    $this->reload();
-	  }
-	
+      {	
 	// Remove the IP address from the database
-	if( !delete_IPAddressDBO( $IPDBO ) )
-	  {
-	    // Database error
-	    $this->setError( array( "type" => "DB_DELETE_IP_FAILED",
-				    "args" => array( $IPDBO->getIPString() ) ) );
-	    $this->reload();
-	  }
+	delete_IPAddressDBO( $IPDBO );
 	
 	// Success
-	$this->setMessage( array( "type" => "IP_DELETED",
+	$this->setMessage( array( "type" => "[IP_DELETED]",
 				  "args" => array( $IPDBO->getIPString() ) ) );
       }
   }

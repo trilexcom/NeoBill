@@ -119,9 +119,7 @@ class RegisterDomainPage extends SolidStatePage
     if( !$module->checkAvailability( $fqdn ) )
       {
 	// Domain is NOT available
-	$this->setError( array( "type" => "DOMAIN_NOT_AVAILABLE",
-				"args" => array( $fqdn ) ) );
-	$this->reload();
+	throw new SWUserException( "[DOMAIN_NOT_AVAILABLE]" );
       }
 
     // Domain is avaialble
@@ -132,7 +130,7 @@ class RegisterDomainPage extends SolidStatePage
     $this->purchaseDBO->setPurchasable( $this->post['servicetld'] );
     $this->purchaseDBO->setDomainName( $this->post['domainname'] );
 
-    $this->setMessage( array( "type" => "DOMAIN_IS_AVAILABLE",
+    $this->setMessage( array( "type" => "[DOMAIN_IS_AVAILABLE]",
 			      "args" => array( $fqdn ) ) );
     $this->setTemplate( "whois_results" );
   }
@@ -186,29 +184,17 @@ class RegisterDomainPage extends SolidStatePage
     $contacts['billing'] = $contacts['admin'];
 
     // Execute the registration at the Registrar
-    try
-      {
-	$module->registerNewDomain( $this->purchaseDBO->getDomainName(),
-				    $this->purchaseDBO->getTLD(),
-				    intval( $this->purchaseDBO->getTerm() / 12 ),
-				    $contacts,
-				    $this->accountDBO );
-      }
-    catch( RegistrarException $e )
-      {
-	$this->setError( array( "type" => $e->getMessage() ) );
-	$this->cancel();
-      }
+    $module->registerNewDomain( $this->purchaseDBO->getDomainName(),
+				$this->purchaseDBO->getTLD(),
+				intval( $this->purchaseDBO->getTerm() / 12 ),
+				$contacts,
+				$this->accountDBO );
 
     // Store the purchase in database
-    if( !add_DomainServicePurchaseDBO( $this->purchaseDBO ) )
-      {
-	$this->setError( array( "type" => "DOMAIN_REGISTER_FAILED_DB" ) );
-	$this->cancel();
-      }
+    add_DomainServicePurchaseDBO( $this->purchaseDBO );
 
     // Registration complete
-    $this->setMessage( array( "type" => "DOMAIN_REGISTERED",
+    $this->setMessage( array( "type" => "[DOMAIN_REGISTERED]",
 			      "args" => array( $this->purchaseDBO->getFullDomainName() ) ) );
     $this->goto( "domains_browse", null, null );
   }

@@ -75,9 +75,7 @@ class AddTaxRulePage extends SolidStateAdminPage
 	if( !isset( $this->post['state'] ) )
 	  {
 	    // A specific state was not provided
-	    $this->setError( array( "type" => "FIELD_MISSING",
-				    "args" => array( "[STATE]" ) ) );
-	    $this->reload();
+	    throw new FieldMissingException( "state" );
 	  }
       }
 
@@ -90,16 +88,10 @@ class AddTaxRulePage extends SolidStateAdminPage
     $taxrule_dbo->setDescription( $this->post['description'] );
 
     // Insert Tax Rule into database
-    if( !add_TaxRuleDBO( $taxrule_dbo ) )
-      {
-	// Add failed
-	$this->setError( array( "type" => "DB_ADD_TAX_RULE_FAILED" ) );
-	$this->cancel();
-      }
+    add_TaxRuleDBO( $taxrule_dbo );
 
     // Success
-    $this->setMessage( array( "type" => "TAX_RULE_CREATED" ) );
-    $this->cancel();
+    $this->setMessage( array( "type" => "[TAX_RULE_CREATED]" ) );
   }
 }
 

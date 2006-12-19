@@ -85,11 +85,7 @@ class HostingServicePurchaseDBO extends PurchaseDBO
   public function setAccountID( $id )
   {
     $this->accountid = $id;
-    if( ($this->accountdbo = load_AccountDBO( $id )) == null )
-      {
-	fatal_error( "HostingServicePurchaseDBO::setAccountID()",
-		     "could not load AccountDBO for HostingServicePurchaseDBO, id = " . $id );
-      }
+    $this->accountdbo = load_AccountDBO( $id );
   }
 
   /**
@@ -185,11 +181,7 @@ class HostingServicePurchaseDBO extends PurchaseDBO
       }
 
     $this->serverid = $id;
-    if( ($this->serverdbo = load_ServerDBO( $id )) == null )
-      {
-	fatal_error( "HostingServicePurchaseDBO::setServerID()",
-		     "could not load ServerDBO for HostingServicePurchaseDBO, id = " . $id );
-      }
+    $this->serverdbo = load_ServerDBO( $id );
   }
 
   /**
@@ -232,7 +224,6 @@ class HostingServicePurchaseDBO extends PurchaseDBO
  * Insert HostingServicePurchaseDBO into database
  *
  * @param HostingServicePurchaseDBO &$dbo HostingServicePurchaseDBO to add to database
- * @return boolean True on success
  */
 function add_HostingServicePurchaseDBO( &$dbo )
 {
@@ -252,7 +243,7 @@ function add_HostingServicePurchaseDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -262,27 +253,22 @@ function add_HostingServicePurchaseDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_HostingServicePurchaseDBO()", 
-		   "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_HostingServicePurchaseDBO()",
-		   "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
 }
 
 /** 
  * Update HostingServicePurchaseDBO in database
  *
  * @param HostingServicePurchaseDBO &$dbo HostingServicePurchaseDBO to update
- * @return boolean True on success
  */
 function update_HostingServicePurchaseDBO( &$dbo )
 {
@@ -299,7 +285,10 @@ function update_HostingServicePurchaseDBO( &$dbo )
 				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -313,26 +302,27 @@ function delete_HostingServicePurchaseDBO( &$dbo )
   $DB = DBConnection::getDBConnection();
 
   // Release any IP Addresses assigned to this purchase
-  if( ($ip_dbo_array = load_array_IPAddressDBO( "purchaseid = " . $dbo->getID() )) != null )
+  try
     {
+      $ip_dbo_array = load_array_IPAddressDBO( "purchaseid = " . $dbo->getID() );
       foreach( $ip_dbo_array as $ip_dbo )
 	{
 	  // Remove IP address from this purchase
 	  $ip_dbo->setPurchaseID( 0 );
-	  if( !update_IPAddressDBO( $ip_dbo ) )
-	    {
-	      // DB Error
-	      return false;
-	    }
+	  update_IPAddressDBO( $ip_dbo );
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
 
   // Build DELETE query
   $sql = $DB->build_delete_sql( "hostingservicepurchase",
 				"id = " . $dbo->getID() );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -358,14 +348,13 @@ function load_HostingServicePurchaseDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_HostingServicePurchaseDBO()",
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new HostingServiceDBO
@@ -408,14 +397,13 @@ function &load_array_HostingServicePurchaseDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_HostingServicePurchaseDBO()",
-		   "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -463,15 +451,14 @@ function count_all_HostingServicePurchaseDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_HostingServicePurchaseDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_HostingServicePurchaseDBO()",
-		   "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

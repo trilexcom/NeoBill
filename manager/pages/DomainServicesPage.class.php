@@ -69,26 +69,13 @@ class DomainServicesPage extends SolidStatePage
   {
     foreach( $this->post['services'] as $dbo )
       {
-	$where = sprintf( "tld='%s'", $dbo->getTLD() );
-	if( load_array_DomainServicePurchaseDBO( $where ) != null )
-	  {
-	    // Can not delete domain service if any purchases exist
-	    throw new SWUserException( "PURCHASES_EXIST" );
-	  }
-
 	// Delete Domain Service DBO
-	if( !delete_DomainServiceDBO( $dbo ) )
-	  {
-	    // Delete failed
-	    $this->setError( array( "type" => "DB_DOMAIN_SERVICE_DELETE_FAILED",
-				    "args" => array( $this->session['domain_service_dbo']->getTLD() ) ) );
-	    $this->cancel();
-	  }
-	
-	// Success - go back to web domain services page
-	$this->setMessage( array( "type" => "DOMAIN_SERVICES_DELETED" ) );
-	$this->goto( "services_domain_services" );
+	delete_DomainServiceDBO( $dbo );
       }
+
+    // Success - go back to web domain services page
+    $this->setMessage( array( "type" => "[DOMAIN_SERVICES_DELETED]" ) );
+    $this->goto( "services_domain_services" );
   }
 }
 

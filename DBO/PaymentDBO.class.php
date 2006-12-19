@@ -451,14 +451,8 @@ class PaymentDBO extends DBO
 	return;
       }
 
-    // Load invoice DBO
-    if( ($invoicedbo = load_InvoiceDBO( $this->invoiceid )) == null )
-      {
-	fatal_error( "PaymentDBO::touchInvoice()",
-		     "PaymentDBO::touchInvoice(), error: could not load InvoiceDBO" );
-      }
-
-    // Update the Invoice record
+    // Update the invoice record
+    $invoicedbo = load_InvoiceDBO( $this->invoiceid );
     update_InvoiceDBO( $invoicedbo );
   }
 }
@@ -467,7 +461,6 @@ class PaymentDBO extends DBO
  * Add PaymentDBO to Database
  *
  * @param PaymentDBO &$dbo PaymentDBO to be added to database
- * @return boolean True on success
  */
 function add_PaymentDBO( &$dbo )
 {
@@ -487,8 +480,7 @@ function add_PaymentDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      echo mysql_error( $DB->handle() );
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -498,18 +490,17 @@ function add_PaymentDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_PaymentDBO()", "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_PaymentDBO()", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
   $dbo->touchInvoice();
-  return true;
 }
 
 /**
@@ -538,10 +529,9 @@ function update_PaymentDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
   $dbo->touchInvoice();
-  return true;
 }
 
 /**
@@ -561,10 +551,9 @@ function delete_PaymentDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
   $dbo->touchInvoice();
-  return true;
 }
 
 /**
@@ -590,13 +579,13 @@ function load_PaymentDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_PaymentDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new HostingServiceDBO
@@ -639,13 +628,13 @@ function &load_array_PaymentDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_PaymentDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -693,18 +682,17 @@ function count_all_PaymentDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_PaymentDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_PaymentDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );
   return $data[0];
 }
-
 ?>

@@ -344,7 +344,6 @@ class ContactDBO extends DBO
  * Insert ContactDBO into database
  *
  * @param ContactDBO &$dbo ContactDBO to add to database
- * @return boolean True on success
  */
 function ContactDBO_add( &$dbo )
 {
@@ -369,7 +368,7 @@ function ContactDBO_add( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -379,19 +378,16 @@ function ContactDBO_add( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_OrderDomainDBO()", 
-		   "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_OrderDomainDBO()", 
-		   "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-  return true;
 }
 
 /**
@@ -409,14 +405,17 @@ function ContactDBO_delete( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
  * Load a ContactDBO from the database
  *
  * @param integer $id Contact ID
- * @return ContactDBO Contact, or null if not found
+ * @return ContactDBO Contact
  */
 function ContactDBO_load( $id )
 {
@@ -435,14 +434,13 @@ function ContactDBO_load( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatel_error( "ContactDBO_load", 
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new OrderDBO
@@ -485,13 +483,13 @@ function &ContactDBO_loadArray( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "ContactDBO_loadArray", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -513,7 +511,6 @@ function &ContactDBO_loadArray( $filter = null,
  * Update ContactDBO in database
  *
  * @param ContactDBO &$dbo ContactDBO to update
- * @return boolean True on success
  */
 function ContactDBO_update( &$dbo )
 {
@@ -537,5 +534,8 @@ function ContactDBO_update( &$dbo )
 				       "fax" => $dbo->getFax() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }

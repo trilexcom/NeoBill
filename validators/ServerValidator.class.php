@@ -31,10 +31,8 @@ class ServerValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($serverDBO = load_ServerDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Server" );
-      }
+    try { $serverDBO = load_ServerDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Server" ); }
 
     return $serverDBO;
   }

@@ -31,10 +31,8 @@ class UserValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($userDBO = load_UserDBO( $data )) )
-      {
-	throw new RecordNotFoundException( "User" );
-      }
+    try { $userDBO = load_UserDBO( $data ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "User" ); }
 
     return $userDBO;
   }

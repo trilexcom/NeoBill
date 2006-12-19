@@ -103,12 +103,11 @@ class WelcomeEmailPage extends SolidStatePage
     if( !$email->send() )
       {
 	// Error delivering invoice
-	$this->setError( array( "type" => "WELCOME_EMAIL_FAILED" ) );
-	$this->reload();
+	throw new SWUserException( "[WELCOME_EMAIL_FAILED]" );
       }
 
     // Return to view_account with a sucess message
-    $this->setMessage( array( "type" => "WELCOME_SENT" ) );
+    $this->setMessage( array( "type" => "[WELCOME_SENT]" ) );
     $this->goto( "accounts_view_account",
 		 null,
 		 "account=" . $this->get['account']->getID() );

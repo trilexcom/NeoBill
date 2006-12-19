@@ -31,10 +31,8 @@ class RegistrarModuleValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($moduleDBO = load_ModuleDBO( $data )) )
-      {
-	throw new RecordNotFoundException( "RegistrarModule" );
-      }
+    try { $moduleDBO = load_ModuleDBO( $data ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "RegistrarModule" ); }
 
     return $moduleDBO;
   }

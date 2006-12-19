@@ -26,18 +26,17 @@ class ServerSelectWidget extends SelectWidget
   function getData()
   {
     // Query ServerDBO's
-    $serverDBOs = load_array_ServerDBO();
-    if( empty( $serverDBOs ) )
-      {
-	return array();
-      }
-
-    // Convery to an array: hosting ID => hosting service name
     $servers = array();
-    foreach( $serverDBOs as $serverDBO )
+    try
       {
-	$servers[$serverDBO->getID()] = $serverDBO->getHostname();
+	// Convery to an array: hosting ID => hosting service name
+	$serverDBOs = load_array_ServerDBO();
+	foreach( $serverDBOs as $serverDBO )
+	  {
+	    $servers[$serverDBO->getID()] = $serverDBO->getHostname();
+	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     return $servers;
   }

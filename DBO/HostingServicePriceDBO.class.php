@@ -74,7 +74,7 @@ function add_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Success!
@@ -101,7 +101,10 @@ function update_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
 				       "taxable" => $dbo->getTaxable() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -123,7 +126,7 @@ function delete_HostingServicePriceDBO( HostingServicePriceDBO $dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      throw new SWUserException( "[FAILED_TO_DELETE_PRICE]: " . $dbo->getPrice() );
+      throw new DBException();
     }
 }
 
@@ -155,14 +158,13 @@ function load_HostingServicePriceDBO( $serviceID, $type, $termLength )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_HostingServicePriceDBO", 
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new HostingServicePriceDBO
@@ -205,13 +207,13 @@ function load_array_HostingServicePriceDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_HostingServicePriceDBO", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return array();
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of HostingServicePriceDBOs from the result set

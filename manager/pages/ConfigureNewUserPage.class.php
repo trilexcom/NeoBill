@@ -95,29 +95,23 @@ class ConfigureNewUserPage extends SolidStateAdminPage
   {
     if( $this->post['password'] != $this->post['repassword'] )
       {
-	// Password not entered correctly
-	$this->setError( array( "type"       => "PASSWORD_MISMATCH",
-				"field_name" => "password" ) );
-
 	// Destroy the password values so they're not echoed to the form
 	unset( $this->session['new_user']['password'] );
 	unset( $this->session['new_user']['repassword'] );
 
-	// Redisplay form
-	return;
+	// Password not entered correctly
+	throw new SWUserException( "[PASSWORD_MISMATCH]" );
       }
 
     // Verify this username does not already exist
-    if( load_UserDBO( $this->post['username'] ) != null )
-      {
-	// Username already exists
-	$this->setError( array( "type"       => "DB_USER_EXISTS", 
-				"field_name" => "username",
-				"args"       => array( $this->post['username'] ) ) );
+    try 
+      { 
+	load_UserDBO( $this->post['username'] ); 
 
-	// Redisplay form
-	return;
+	// Username already exists
+	throw new SWUserException( "[DB_USER_EXISTS]" );
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     // Prepare UserDBO for database insertion
     $user_dbo = new UserDBO();
@@ -149,24 +143,14 @@ class ConfigureNewUserPage extends SolidStateAdminPage
       }
 
     // Insert UserDBO into database
-    if( !add_UserDBO( $user_dbo ) )
-      {
-	// Unable to add user
-	$this->setError( array( "type" => "DB_USER_ADD_FAILED",
-				"args" => array( $user_dbo->getUsername() ) ) );
+    add_UserDBO( $user_dbo );
 
-	// Return to form
-	$this->setTemplate( "default" );
-      }
-    else
-      {
-	// User added
-	// Clear new_user data from the session
-	unset( $this->session['new_user'] );
-
-	// Show receipt
-	$this->setTemplate( "receipt" );
-      }
+    // User added
+    // Clear new_user data from the session
+    unset( $this->session['new_user'] );
+    
+    // Show receipt
+    $this->setTemplate( "receipt" );
   }
 }
 

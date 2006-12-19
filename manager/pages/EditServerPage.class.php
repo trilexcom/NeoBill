@@ -92,14 +92,10 @@ class EditServerPage extends SolidStateAdminPage
     $server_dbo->setCPModule( $moduleName );
 
     // Save changes in the database
-    if( !update_ServerDBO( $server_dbo ) )
-      {
-	$this->setError( array( "type" => "DB_SERVER_UPDATE_FAILED" ) );
-	$this->goback();
-      }
+    update_ServerDBO( $server_dbo );
 
     // Success
-    $this->setMessage( array( "type" => "SERVER_UPDATED" ) );
+    $this->setMessage( array( "type" => "[SERVER_UPDATED]" ) );
     $this->goback();
   }
 }

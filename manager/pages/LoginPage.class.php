@@ -10,7 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * LoginPage
@@ -65,26 +65,30 @@ class LoginPage extends SolidStatePage
    */
   function login()
   {
-    $user_dbo = load_UserDBO( $this->post['username'] );
-    if( $user_dbo != null &&
-	$user_dbo->getPassword() == $this->post['password'] &&
-	($user_dbo->getType() == "Administrator" || 
-	 $user_dbo->getType() == "Account Manager") )
+    try
       {
-	// Login success
-	if( isset( $this->post['theme'] ) )
+	$user_dbo = load_UserDBO( $this->post['username'] );
+	if( $user_dbo->getPassword() == $this->post['password'] &&
+	    ($user_dbo->getType() == "Administrator" || 
+	     $user_dbo->getType() == "Account Manager") )
 	  {
-	    $user_dbo->setTheme( $this->post['theme'] );
+	    // Login success
+	    if( isset( $this->post['theme'] ) )
+	      {
+		$user_dbo->setTheme( $this->post['theme'] );
+	      }
+	    $_SESSION['client']['userdbo'] = $user_dbo;
+	    log_notice( "Login", "User: " . $user_dbo->getUsername() . " logged in" );
+	    $_SESSION['jsFunction'] = "reloadMenu()";
+	    $this->goto( "home" );
 	  }
-	$_SESSION['client']['userdbo'] = $user_dbo;
-	log_notice( "Login", "User: " . $user_dbo->getUsername() . " logged in" );
-	$_SESSION['jsFunction'] = "reloadMenu()";
-	$this->goto( "home" );
       }
+    catch( DBNoRowsFoundException $e ) {}
+
     // Login failure
     log_security( "Login", 
 		  "Login failed for " . $this->post['username'] );
-    $this->setError( array( "type" => "LOGIN_FAILED" ) );
+    throw new SWUserException( "[LOGIN_FAILED]" );
   }
 }
 ?>

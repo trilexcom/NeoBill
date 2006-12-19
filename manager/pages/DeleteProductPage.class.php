@@ -73,25 +73,11 @@ class DeleteProductPage extends SolidStateAdminPage
    */
   function delete_product()
   {
-    $id = $this->get['product']->getID();
-    if( load_array_ProductPurchaseDBO( "productid=" . $id ) != null )
-      {
-	// Can not delete product if any purchases exist
-	$this->setError( array( "type" => "PURCHASES_EXIST" ) );
-	$this->goback();
-      }
-
     // Delete Product DBO
-    if( !delete_ProductDBO( $this->get['product'] ) )
-      {
-	// Delete failed
-	$this->setError( array( "type" => "DB_PRODUCT_DELETE_FAILED",
-				"args" => array( $this->session['product_dbo']->getName() ) ) );
-	$this->goback();
-      }
+    delete_ProductDBO( $this->get['product'] );
 
     // Success - go back to products page
-    $this->setMessage( array( "type" => "PRODUCT_DELETED",
+    $this->setMessage( array( "type" => "[PRODUCT_DELETED]",
 			      "args" => array( $this->session['product_dbo']->getName() ) ) );
     $this->goto( "services_products" );
   }

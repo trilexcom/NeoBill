@@ -102,9 +102,9 @@ class AddInvoicePage extends SolidStatepage
     // Create a new invoice DBO
     $invoice = new InvoiceDBO();
     $invoice->setAccountID( $account_id );
-    $invoice->setDate( $this->DB->format_datetime( $this->post['date'] ) );
-    $invoice->setPeriodBegin( $this->DB->format_datetime( $this->post['periodbegin'] ) );
-    $invoice->setPeriodEnd( $this->DB->format_datetime( $this->post['periodend'] ) );
+    $invoice->setDate( DBConnection::format_datetime( $this->post['date'] ) );
+    $invoice->setPeriodBegin( DBConnection::format_datetime( $this->post['periodbegin'] ) );
+    $invoice->setPeriodEnd( DBConnection::format_datetime( $this->post['periodend'] ) );
     $invoice->setNote( $this->post['note'] );
     $invoice->setTerms( $this->post['terms'] );
 
@@ -112,15 +112,10 @@ class AddInvoicePage extends SolidStatepage
     $invoice->generate();
 
     // Insert invoice into database
-    if( !add_InvoiceDBO( $invoice ) )
-      {
-	// Add failed
-	$this->setError( array( "type" => "DB_ADD_INVOICE_FAILED" ) );
-	$this->reload();
-      }
+    add_InvoiceDBO( $invoice );
 
     // Success
-    $this->setMessage( array( "type" => "INVOICE_CREATED" ) );
+    $this->setMessage( array( "type" => "[INVOICE_CREATED]" ) );
     $this->goto( "billing_view_invoice",
 		 null,
 		 "invoice=" . $invoice->getID() );

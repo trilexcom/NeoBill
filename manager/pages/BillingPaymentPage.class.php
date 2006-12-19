@@ -72,15 +72,10 @@ class BillingPaymentPage extends SolidStatePage
     $payment_dbo->setStatus( $this->post['status'] );
 
     // Insert Payment into database
-    if( !add_PaymentDBO( $payment_dbo ) )
-      {
-	// Add failed
-	$this->setError( array( "type" => "DB_ADD_PAYMENT_FAILED" ) );
-	$this->reload();
-      }
+    add_PaymentDBO( $payment_dbo );
 
     // Success
-    $this->setMessage( array( "type" => "PAYMENT_ENTERED" ) );
+    $this->setMessage( array( "type" => "[PAYMENT_ENTERED]" ) );
     $this->reload();
   }
 

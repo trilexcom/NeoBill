@@ -28,12 +28,12 @@ function payments_stats()
   // Get all payments for this month
   $now = getDate( time() );
   $first_of_month = mktime( 0, 0, 1, $now['mon'], 1, $now['year']);
-  $paymentdbo_array = load_array_PaymentDBO( "UNIX_TIMESTAMP(date) > " . 
-					     $first_of_month );
 
-  // Iterate through the payments
-  if( isset( $paymentdbo_array ) )
+  try
     {
+      // Iterate through the payments
+      $paymentdbo_array = load_array_PaymentDBO( "UNIX_TIMESTAMP(date) > " . 
+						 $first_of_month );
       foreach( $paymentdbo_array as $payment )
 	{
 	  // Add payment to totals
@@ -41,6 +41,8 @@ function payments_stats()
 	  $total_payments_this_month += $payment->getAmount();
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
+
   return array( "count" => $payments_this_month,
 		"total" => $total_payments_this_month );
 }
@@ -54,9 +56,6 @@ function payments_stats()
  */
 function outstanding_invoices_stats()
 {
-  // Load invoices
-  $invoicedbo_array = load_array_InvoiceDBO();
-
   // Count the outstanding invoices
   $count = 0;
 
@@ -76,8 +75,9 @@ function outstanding_invoices_stats()
   $total_balance_past_due_30 = 0.00;
 
   // Iterate through all the invoices
-  if( isset( $invoicedbo_array ) )
+  try
     {
+      $invoicedbo_array = load_array_InvoiceDBO();
       foreach( $invoicedbo_array as $invoice )
 	{
 	  if( ($invoice_balance = $invoice->getBalance()) >= 0.01 )
@@ -102,6 +102,7 @@ function outstanding_invoices_stats()
 	    }
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
 
   // Stuff array with stats and return
   return array( "count" => $count,

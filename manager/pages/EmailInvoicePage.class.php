@@ -126,12 +126,11 @@ class EmailInvoicePage extends SolidStatePage
     if( !$email->send() )
       {
 	// Error delivering invoice
-	$this->setError( array( "type" => "INVOICE_EMAIL_FAILED" ) );
-	$this->reload();
+	throw new SWUserException( "[INVOICE_EMAIL_FAILED]" );
       }
 
     // Return to view_invoice with a sucess message
-    $this->setMessage( array( "type" => "INVOICE_SENT" ) );
+    $this->setMessage( array( "type" => "[INVOICE_SENT]" ) );
     $this->goto( "billing_view_invoice",
 		 null,
 		 "invoice=" . $this->get['invoice']->getID() );

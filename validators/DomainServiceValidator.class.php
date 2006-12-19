@@ -31,10 +31,8 @@ class DomainServiceValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($domainDBO = load_DomainServiceDBO( $data )) )
-      {
-	throw new RecordNotFoundException( "DomainService" );
-      }
+    try { $domainDBO = load_DomainServiceDBO( $data ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "DomainService" ); }
 
     return $domainDBO;
   }

@@ -66,14 +66,10 @@ class ViewOrderPage extends SolidStatePage
    */
   function delete()
   {
-    if( !delete_OrderDBO( $this->get['order'] ) )
-      {
-	fatal_error( "ViewOrderPage::delete()",
-		     "Could not delete Order.  ID = " . $this->get['order']->getID() );
-      }
+    delete_OrderDBO( $this->get['order'] );
 
     // Success
-    $this->setMessage( array( "type" => "ORDER_DELETED",
+    $this->setMessage( array( "type" => "[ORDER_DELETED]",
 			      "args" => array( $this->get['order']->getID() ) ) );
     $this->goto( "pending_orders" );
   }
@@ -149,14 +145,8 @@ class ViewOrderPage extends SolidStatePage
    */
   function save()
   {
-    if( !$this->saveChanges() )
-      {
-	// DB Error
-	fatal_error( "ViewOrderPage::save()",
-		     "Could not update Order. ID = " . $this->get['order']->getID() );
-      }
-
-    $this->setMessage( array( "type" => "ORDER_SAVED" ) );
+    $this->saveChanges();
+    $this->setMessage( array( "type" => "[ORDER_SAVED]" ) );
   }
 
   /**
@@ -172,17 +162,15 @@ class ViewOrderPage extends SolidStatePage
       {
 	if( !isset( $this->post['username'] ) )
 	  {
-	    $this->setError( array( "type" => "FIELD_MISSING",
-				    "args" => array( "username" ) ) );
-	    $this->reload();
+	    throw new FieldMissingException( "username" );
 	  }
 
-	if( load_UserDBO( $this->post['username'] ) != null )
-	  {
-	    $this->setError( array( "type" => "DB_USER_EXISTS",
-				    "args" => array( $this->post['username'] ) ) );
-	    $this->reload();
+	try 
+	  { 
+	    load_UserDBO( $this->post['username'] ); 
+	    throw new SWUserException( "[DB_USER_EXISTS]" );
 	  }
+	catch( DBNoRowsFoundException $e ) {}
 
 	$this->get['order']->setUsername( $this->post['username'] );
 	if( isset( $this->post['password'] ) )
@@ -219,7 +207,7 @@ class ViewOrderPage extends SolidStatePage
       }
 
     // Save changes to database
-    return update_OrderDBO( $this->get['order'] );
+    update_OrderDBO( $this->get['order'] );
   }
 }
 ?>

@@ -43,10 +43,8 @@ class NoteValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($noteDBO = load_NoteDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Note" );
-      }
+    try {$noteDBO = load_NoteDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Note" ); }
 
     // Verify that this note is for a specific account
     if( isset( $this->accountID ) && $noteDBO->getAccountID() != $this->accountID )

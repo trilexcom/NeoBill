@@ -114,7 +114,7 @@
     <phrase id="USE_ADMIN_CONTACT">Check to use Admin contact</phrase>
     <phrase id="USE_BILLING_CONTACT">Check to use Billing contact</phrase>
     <phrase id="USERNAME">Username</phrase>
-    <phrase id="USERNAME_EXISTS">The username you selected: {0}, is in use.  Please select another.</phrase>
+    <phrase id="USERNAME_EXISTS">The username you selected is in use.  Please select another.</phrase>
     <phrase id="VERIFY_EMAIL">Verify E-mail</phrase>
     <phrase id="VERIFY_PASSWORD">Verify Password</phrase>
     <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>

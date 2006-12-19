@@ -28,9 +28,10 @@ class ServerTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the Server Table
-    if( null != ($servers = load_array_ServerDBO( $where )) )
+    try
       {
 	// Build the table
+	$servers = load_array_ServerDBO( $where );
 	foreach( $servers as $dbo )
 	  {
 	    // Put the row into the table
@@ -40,5 +41,6 @@ class ServerTableWidget extends TableWidget
 		     "location" => $dbo->getLocation() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 }

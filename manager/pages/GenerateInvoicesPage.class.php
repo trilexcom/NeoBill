@@ -97,16 +97,11 @@ class GenerateInvoicesPage extends SolidStatePage
 	  }
 
 	// Insert invoice into database
-	if( !add_InvoiceDBO( $invoice ) )
-	  {
-	    // Add failed
-	    $this->setError( array( "type" => "DB_INVOICE_BATCH_FAILED" ) );
-	    $this->reload();
-	  }
+	add_InvoiceDBO( $invoice );
       }
 
     // Success
-    $this->setMessage( array( "type" => "INVOICE_BATCH_CREATED" ) );
+    $this->setMessage( array( "type" => "[INVOICE_BATCH_CREATED]" ) );
     $this->goto( "billing_invoices" );
   }
 

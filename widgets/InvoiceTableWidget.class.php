@@ -57,9 +57,10 @@ class InvoiceTableWidget extends TableWidget
 	       $this->priorToInvoice->getPeriodBegin() ) : $where;
 
     // Load the Invoice Table
-    if( null != ($invoices = load_array_InvoiceDBO( $where )) )
+    try
       {
 	// Build the table
+	$invoices = load_array_InvoiceDBO( $where );
 	foreach( $invoices as $dbo )
 	  {
 	    // Put the row into the table
@@ -78,6 +79,7 @@ class InvoiceTableWidget extends TableWidget
 		     "balance" => $dbo->getBalance() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

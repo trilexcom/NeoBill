@@ -30,9 +30,10 @@ class ProductTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the Product Table
-    if( null != ($products = load_array_ProductDBO( $where )) )
+    try
       {
 	// Build the table
+	$products = load_array_ProductDBO( $where );
 	foreach( $products as $dbo )
 	  {
 	    // Format the pricing for this hosting service
@@ -56,5 +57,6 @@ class ProductTableWidget extends TableWidget
 		     "pricing" => $priceString );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 }

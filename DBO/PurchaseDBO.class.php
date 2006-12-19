@@ -110,9 +110,9 @@ abstract class PurchaseDBO extends SaleDBO
       "country=" . $DB->quote_smart( $this->accountdbo->getCountry() ) . " AND (" .
       "allstates=" . $DB->quote_smart( "YES" ) . " OR " .
       "state=" . $DB->quote_smart( $this->accountdbo->getState() ) . ")";
-    $taxes = load_array_TaxRuleDBO( $filter );
 
-    return $taxes == null ? array() : $taxes;
+    try { return load_array_TaxRuleDBO( $filter ); }
+    catch( DBNoRowsFoundException $e ) { return array(); }
   }
 
   /**
@@ -147,11 +147,7 @@ abstract class PurchaseDBO extends SaleDBO
   public function setAccountID( $id )
   {
     $this->accountid = $id;
-    if( ($this->accountdbo = load_AccountDBO( $id )) == null )
-      {
-	fatal_error( "ProductPurchaseDBO::setAccountID()",
-		     "could not load AccountDBO for AccountPurchaseDBO, id = " . $id );
-      }
+    $this->accountdbo = load_AccountDBO( $id );
   }
 
   /**

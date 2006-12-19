@@ -92,12 +92,25 @@ class InvoiceDBO extends DBO
     $this->id = $id; 
 
     // Load any line-items for this Invoice
-    $invoiceItems = load_array_InvoiceItemDBO( "invoiceid=" . intval( $id ) );
-    $this->invoiceitemdbo_array = $invoiceItems == null ? array() : $invoiceItems;
+    try
+      {
+	$this->invoiceitemdbo_array = 
+	  load_array_InvoiceItemDBO( "invoiceid=" . intval( $id ) );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	$this->invoiceitemdbo_array = array();
+      }
 
     // Load any payments for this Invoice
-    $payments = load_array_PaymentDBO( "invoiceid=" . intval( $id ) );
-    $this->paymentdbo_array = $payments == null ? array() : $payments;
+    try
+      {
+	$this->paymentdbo_array = load_array_PaymentDBO( "invoiceid=" . intval( $id ) );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	$this->paymentdbo_array = array();
+      }
   }
 
   /**
@@ -115,11 +128,7 @@ class InvoiceDBO extends DBO
   function setAccountID( $id )
   {
     $this->accountid = $id;
-    if( ($this->accountDBO = load_AccountDBO( $id )) == null )
-      {
-	fatal_error( "InvoiceDBO::setAccountID()",
-		     "could not load AccountDBO for InvoiceDBO, id = " . $id );
-      }
+    $this->accountDBO = load_AccountDBO( $id );
   }
 
   /**
@@ -403,8 +412,14 @@ class InvoiceDBO extends DBO
 		      $this->getAccountID(),
 		      "yes",
 		      $this->getPeriodBegin() );
-    $invoices = load_array_InvoiceDBO( $where );
-    return $invoices == null ? array() : $invoices;
+    try
+      {
+	return load_array_InvoiceDBO( $where );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	return array();
+      }
   }
 
   /**
@@ -534,12 +549,7 @@ class InvoiceDBO extends DBO
       {
 	// Invoice already exists in database, so go ahead and Insert line-item
 	// into database
-	if( !add_InvoiceItemDBO( $itemdbo ) )
-	  {
-	    fatal_error( "InvoiceDBO::add_item()",
-			 "Failed to add line item to invoice!" );
-	  }
-
+	add_InvoiceItemDBO( $itemdbo );
       }
     $this->invoiceitemdbo_array[] = $itemdbo;
   }
@@ -629,7 +639,6 @@ class InvoiceDBO extends DBO
  * Insert InvoiceDBO into database
  *
  * @param InvoiceDBO &$dbo InvoiceDBO to add to database
- * @return boolean True on success
  */
 function add_InvoiceDBO( &$dbo )
 {
@@ -648,9 +657,7 @@ function add_InvoiceDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      echo $sql . " ";
-      echo mysql_error( $DB->handle() );
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -660,12 +667,12 @@ function add_InvoiceDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_InvoiceDBO", "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_InvoiceDBO", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Add line-items to database as well
@@ -674,10 +681,7 @@ function add_InvoiceDBO( &$dbo )
       foreach( $itemdbo_array as $itemdbo )
 	{
 	  $itemdbo->setInvoiceID( $id );
-	  if( !add_InvoiceItemDBO( $itemdbo ) )
-	    {
-	      fatal_error( "add_InvoiceDBO", "Failed to add line item to invoice!" );
-	    }
+	  add_InvoiceItemDBO( $itemdbo );
 	}
     }
 
@@ -689,25 +693,19 @@ function add_InvoiceDBO( &$dbo )
       switch( get_class( $purchaseDBO ) )
 	{
 	case "DomainServicePurchaseDBO":
-	  $ret = update_DomainServicePurchaseDBO( $purchaseDBO );
+	  update_DomainServicePurchaseDBO( $purchaseDBO );
 	  break;
 	case "HostingServicePurchaseDBO":
-	  $ret = update_HostingServicePurchaseDBO( $purchaseDBO );
+	  update_HostingServicePurchaseDBO( $purchaseDBO );
 	  break;
 	case "ProductPurchaseDBO":
-	  $ret = update_ProductPurchaseDBO( $purchaseDBO );
+	  update_ProductPurchaseDBO( $purchaseDBO );
 	  break;
-	}
-      if( !$ret )
-	{
-	  throw new SWException( "Failed to update purchase DBO!" );
 	}
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
 }
 
 /**
@@ -732,14 +730,16 @@ function update_InvoiceDBO( &$dbo )
 				       "outstanding" => $dbo->getOutstanding() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
  * Delete InvoiceDBO from database
  *
  * @param InvoiceDBO &$dbo InvoiceDBO to delete
- * @return boolean True on success
  */
 function delete_InvoiceDBO( &$dbo )
 {
@@ -748,21 +748,13 @@ function delete_InvoiceDBO( &$dbo )
   // Delete line-items
   foreach( $dbo->getItems() as $item_dbo )
     {
-      if( !delete_InvoiceItemDBO( $item_dbo ) )
-	{
-	  fatal_error( "delete_InvoiceDBO()",
-		       "could not delete invoice line item for invoice id: " . $dbo->getID() );
-	}
+      delete_InvoiceItemDBO( $item_dbo );
     }
 
   // Delete Payments
   foreach( $dbo->getPayments() as $payment_dbo )
     {
-      if( !delete_PaymentDBO( $payment_dbo ) )
-	{
-	  fatal_error( "delete_InvoiceDBO()",
-		       "could not delete payment for invoice id: " . $dbo->getID() );
-	}
+      delete_PaymentDBO( $payment_dbo );
     }
 
   // Build SQL
@@ -770,14 +762,17 @@ function delete_InvoiceDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
  * Load InvoiceDBO from Database
  *
  * @param integer $id Invoice ID
- * @return InvoiceDBO Invoice if found, null if not found
+ * @return InvoiceDBO Invoice 
  */
 function load_InvoiceDBO( $id )
 {
@@ -796,13 +791,13 @@ function load_InvoiceDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_InvoiceDBO", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new InvoiceDBO
@@ -845,13 +840,13 @@ function &load_array_InvoiceDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_InvoiceDBO", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -899,14 +894,14 @@ function count_all_InvoiceDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_InvoiceDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_InvoiceDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

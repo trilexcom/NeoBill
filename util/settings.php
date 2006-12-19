@@ -27,8 +27,7 @@ function load_settings( &$conf )
   // Run Query
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
-      fatal_error( "load_settings", 
-		   "Could not load configuration settings from database!" );
+      throw new DBException();
     }
 
   while( $setting = mysql_fetch_array( $result ) )
@@ -66,6 +65,7 @@ function load_settings( &$conf )
 	case "locale_language":
 	  TranslationParser::load( "language/" . $val );
 	  Translator::getTranslator()->setActiveLanguage( $val ); 
+	  $conf['locale']['language'] = $val;
 	  break;
 	case "locale_currency_symbol": $conf['locale']['currency_symbol'] = $val; break;
 
@@ -89,7 +89,7 @@ function load_settings( &$conf )
  *
  * @param array $conf Configuration data
  */
-function save_settings( &$conf )
+function save_settings( $conf )
 {
   update_setting( "company_name", $conf['company']['name'] );
   update_setting( "company_email", $conf['company']['email'] );
@@ -150,7 +150,7 @@ function update_setting( $key, $value )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      fatal_error( "update_setting", "Failed to update setting: " . mysql_error() );
+      throw new DBException();
     }
 }
 ?>

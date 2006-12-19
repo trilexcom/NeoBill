@@ -44,10 +44,8 @@ class HostingPurchaseValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($purchaseDBO = load_HostingServicePurchaseDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "HostingPurchase" );
-      }
+    try { $purchaseDBO = load_HostingServicePurchaseDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "HostingPurchase" ); }
 
     // Verify that this purchase is for a specific account
     if( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID )

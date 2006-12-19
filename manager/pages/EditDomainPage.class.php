@@ -87,15 +87,10 @@ class EditDomainPage extends SolidStatePage
     $this->get['dpurchase']->setTLD( $this->post['tld']->getTLD() );
     $this->get['dpurchase']->setTerm( $this->post['term'] );
     $this->get['dpurchase']->setDate( $this->DB->format_datetime( $this->post['date'] ) );
-    if( !update_DomainServicePurchaseDBO( $this->get['dpurchase'] ) )
-      {
-	// Update error
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_PURCHASE_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    update_DomainServicePurchaseDBO( $this->get['dpurchase'] );
 
     // Success!
-    $this->setMessage( array( "type" => "DOMAIN_SERVICE_PURCHASE_UPDATED" ) );
+    $this->setMessage( array( "type" => "[DOMAIN_SERVICE_PURCHASE_UPDATED]" ) );
     $this->goback();
   }
 
@@ -117,31 +112,17 @@ class EditDomainPage extends SolidStatePage
     // Update DBO
     $this->get['dpurchase']->setDate( $this->DB->format_datetime( $this->post['date'] ) );
     $this->get['dpurchase']->setTerm( $this->post['term'] );
-    if( !update_DomainServicePurchaseDBO( $this->get['dpurchase'] ) )
-      {
-	// Update error
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_PURCHASE_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    update_DomainServicePurchaseDBO( $this->get['dpurchase'] );
 
     // Update Registrar (but only if the "contact registrar" box was checked)
     if( $this->post['registrar'] )
       {
-	try
-	  {
-	    $module->renewDomain( $this->get['dpurchase'], 
-				  $this->get['dpurchase']->getTermInt() );
-	  }
-	catch( RegistrarException $e )
-	  {
-	    // Renew error
-	    $this->setError( array( "type" => $e->getMessage() ) );
-	    $this->goback();
-	  }
+	$module->renewDomain( $this->get['dpurchase'], 
+			      $this->get['dpurchase']->getTermInt() );
       }
 
     // Success!
-    $this->setMessage( array( "type" => "DOMAIN_RENEWED" ) );
+    $this->setMessage( array( "type" => "[DOMAIN_RENEWED]" ) );
     $this->goback();
   }
 }

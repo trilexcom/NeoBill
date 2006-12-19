@@ -27,18 +27,17 @@ class TLDSelectWidget extends SelectWidget
   function getData()
   {
     // Query TLDServiceDBO's
-    $domainDBOs = load_array_DomainServiceDBO();
-    if( empty( $domainDBOs ) )
-      {
-	return array();
-      }
-
-    // Convery to an array: TLD => TLD
     $tlds = array();
-    foreach( $domainDBOs as $domainDBO )
+    try
       {
-	$tlds[$domainDBO->getTLD()] = $domainDBO->getTLD();
+	// Convery to an array: TLD => TLD
+	$domainDBOs = load_array_DomainServiceDBO();
+	foreach( $domainDBOs as $domainDBO )
+	  {
+	    $tlds[$domainDBO->getTLD()] = $domainDBO->getTLD();
+	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     return $tlds;
   }

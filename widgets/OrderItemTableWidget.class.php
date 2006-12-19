@@ -41,8 +41,13 @@ class OrderItemTableWidget extends TableWidget
    */
   protected function determineValue( $params )
   {
-    if( $this->order == null || 
-	null == ($orderitemdbo =& $this->order->getItem( intval( $params['option'] ) )) )
+    if( $this->order == null )
+      {
+	return null;
+      }
+
+    $orderitemdbo = $this->order->getItem( intval( $params['option'] ) );
+    if( $orderitemdbo == null )
       {
 	return null;
       }

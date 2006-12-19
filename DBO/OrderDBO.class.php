@@ -186,7 +186,11 @@ class OrderDBO extends DBO
    *
    * @return AccountDBO Account DBO
    */
-  public function getAccount() { return load_AccountDBO( $this->getAccountID() ); }
+  public function getAccount() 
+  { 
+    try{ return load_AccountDBO( $this->getAccountID() ); }
+    catch( DBNoRowsFoundException $e ) { return null; }
+  }
 
   /**
    * Get Account Name
@@ -698,16 +702,15 @@ class OrderDBO extends DBO
 			 $DB->quote_smart( $this->getCountry() ),
 			 $DB->quote_smart( "YES" ),
 			 $DB->quote_smart( $this->getState() ) );
-    if( !($taxRuleDBOArray = load_array_TaxRuleDBO( $taxQuery ) ) )
+    try
       {
-	// No taxes apply
-	return;
+	$taxRuleDBOArray = load_array_TaxRuleDBO( $taxQuery );
+	foreach( $this->orderitems as $orderItemDBO )
+	  {
+	    $orderItemDBO->setTaxRules( $taxRuleDBOArray );
+	  }
       }
-    
-    foreach( $this->orderitems as $orderItemDBO )
-      {
-	$orderItemDBO->setTaxRules( $taxRuleDBOArray );
-      }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**
@@ -781,7 +784,8 @@ class OrderDBO extends DBO
 				     $billingDay )
   {
     // Verify that the username is not in use already
-    if( load_UserDBO( $this->getUsername() ) != null )
+    try { load_UserDBO( $this->getUsername() ); }
+    catch( DBNoRowsFoundException $e )
       {
 	throw new OrderFailedException( "[USER_ALREADY_EXISTS]" );
       }
@@ -791,10 +795,7 @@ class OrderDBO extends DBO
     $userDBO->setUsername( $this->getUsername() );
     $userDBO->setPassword( md5( $this->getPassword() ) );
     $userDBO->setType( "Client" );
-    if( !add_UserDBO( $userDBO ) )
-      {
-	throw new OrderFailedException( "[FAILED_TO_CREATE_NEW_USER]" );
-      }
+    add_UserDBO( $userDBO );
 
     // Create the account
     $accountDBO = new AccountDBO();
@@ -815,10 +816,7 @@ class OrderDBO extends DBO
     $accountDBO->setMobilePhone( $this->getMobilePhone() );
     $accountDBO->setFax( $this->getFax() );
     $accountDBO->setUsername( $userDBO->getUsername() );
-    if( !add_AccountDBO( $accountDBO ) )
-      {
-	throw new OrderFailedException( "[FAILED_TO_CREATE_NEW_ACCOUNT]" );
-      }
+    add_AccountDBO( $accountDBO );
 
     $this->setAccountID( $accountDBO->getID() );
     return $this->execute();
@@ -831,10 +829,7 @@ class OrderDBO extends DBO
    */
   public function execute()
   {
-    if( null == ($accountDBO = $this->getAccount() ) )
-      {
-	throw new SWException( "Account not found!" );
-      }
+    $accountDBO = $this->getAccount();
 
     // Act on all of the accepted items
     foreach( $this->getAcceptedItems() as $orderItemDBO )
@@ -850,10 +845,7 @@ class OrderDBO extends DBO
     $this->setAccountID( $accountDBO->getID() );
     $this->setDateFulfilled( DBConnection::format_datetime( time() ) );
     $this->setStatus( "Fulfilled" );
-    if( !update_OrderDBO( $this ) )
-      {
-	throw new OrderFailedException( "Failed to update order in the database!" );
-      }
+    update_OrderDBO( $this );
 
     // Success
     return true;
@@ -871,10 +863,7 @@ class OrderDBO extends DBO
     $this->setDateCompleted( DBConnection::format_datetime( time() ) );
 
     // Update the database record
-    if( !update_OrderDBO( $this ) )
-      {
-	throw new OrderFailedException( "Failed to udpate the order in the database!" );
-      }
+    update_OrderDBO( $this );
 
     // Notification e-mail
     $body = $this->replaceTokens( $conf['order']['notification_email'] );
@@ -927,8 +916,9 @@ class OrderDBO extends DBO
    * @return array An array of PaymentDBO's for this order
    */
   public function getPayments() 
-  { 
-    return load_array_PaymentDBO( "orderid=" . $this->getID() ); 
+  {
+    try{ return load_array_PaymentDBO( "orderid=" . $this->getID() ); }
+    catch( DBNoRowsFoundException $e ) { return array(); }
   }
 
   /**
@@ -961,13 +951,21 @@ class OrderDBO extends DBO
     $this->setAccountID( $data['accountid'] );
 
     // Load order items
-    $domains = load_array_OrderDomainDBO( "orderid=" . intval( $data['id'] ) );
-    $services = load_array_OrderHostingDBO( "orderid=" . intval( $data['id'] ) );
+    try { $domains = load_array_OrderDomainDBO( "orderid=" . intval( $data['id'] ) ); }
+    catch( DBNoRowsFoundException $e ) { $domains = array(); }
+
+    try{ $services = load_array_OrderHostingDBO( "orderid=" . intval( $data['id'] ) ); }
+    catch( DBNoRowsFoundException $e ) { $services = array(); }
   
     // Combine domains and services into the orderitems array
-    $domains = ($domains == null) ? array() : $domains;
-    $services = ($services == null) ? array() : $services;
-    $this->orderitems = array_merge( $domains, $services );
+    foreach( $domains as $domainItem )
+      {
+	$this->orderitems[$domainItem->getOrderItemID()] = $domainItem;
+      }
+    foreach( $services as $serviceItem )
+      {
+	$this->orderitems[$serviceItem->getOrderItemID()] = $serviceItem;
+      }
 
     // Calculate taxes
     $this->calculateTaxes();
@@ -978,7 +976,6 @@ class OrderDBO extends DBO
  * Insert OrderDBO into database
  *
  * @param OrderDBO &$dbo OrderDBO to add to database
- * @return boolean True on success
  */
 function add_OrderDBO( &$dbo )
 {
@@ -1010,9 +1007,7 @@ function add_OrderDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      echo $sql;
-      echo mysql_error();
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -1022,12 +1017,12 @@ function add_OrderDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_OrderDBO()", "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_OrderDBO()", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Save all OrderItemDBO's
@@ -1036,31 +1031,22 @@ function add_OrderDBO( &$dbo )
       $orderItemDBO->setOrderID( $id );
       if( is_a( $orderItemDBO, "OrderHostingDBO" ) )
 	{
-	  if( !add_OrderHostingDBO( $orderItemDBO ) )
-	    {
-	      throw new SWException( "Could not save hosting item to database!" );
-	    }
+	  add_OrderHostingDBO( $orderItemDBO );
 	}
       elseif( is_a( $orderItemDBO, "OrderDomainDBO" ) )
 	{
-	  if( !add_OrderDomainDBO( $orderItemDBO ) )
-	    {
-	      throw new SWException( "Could not save domain item to database!" );
-	    }
+	  add_OrderDomainDBO( $orderItemDBO );
 	}
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
 }
 
 /**
  * Update OrderDBO in database
  *
  * @param OrderDBO &$dbo OrderDBO to update
- * @return boolean True on success
  */
 function update_OrderDBO( &$dbo )
 {
@@ -1071,17 +1057,11 @@ function update_OrderDBO( &$dbo )
     {
       if( is_a( $orderItemDBO, "OrderHostingDBO" ) )
 	{
-	  if( !update_OrderHostingDBO( $orderItemDBO ) )
-	    {
-	      throw new SWException( "Could not update hosting item!" );
-	    }
+	  update_OrderHostingDBO( $orderItemDBO );
 	}
       elseif( is_a( $orderItemDBO, "OrderDomainDBO" ) )
 	{
-	  if( !update_OrderDomainDBO( $orderItemDBO ) )
-	    {
-	      throw new SWException( "Could not update domain item!" );
-	    }
+	  update_OrderDomainDBO( $orderItemDBO );
 	}
     }
 
@@ -1110,14 +1090,16 @@ function update_OrderDBO( &$dbo )
 				       "status" => $dbo->getStatus() ) );
 				
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
  * Delete OrderDBO from database
  *
  * @param OrderDBO &$dbo OrderDBO to delete
- * @return boolean True on success
  */
 function delete_OrderDBO( &$dbo )
 {
@@ -1126,18 +1108,12 @@ function delete_OrderDBO( &$dbo )
   // Delete all Order Items
   foreach( $dbo->getHostingItems() as $orderItemDBO )
     {
-      if( !delete_OrderHostingDBO( $orderItemDBO ) )
-	{
-	  return false;
-	}
+      delete_OrderHostingDBO( $orderItemDBO );
     }
 
   foreach( $dbo->getDomainItems() as $orderItemDBO )
     {
-      if( !delete_OrderDomainDBO( $orderItemDBO ) )
-	{
-	  return false;
-	}
+      delete_OrderDomainDBO( $orderItemDBO );
     }
 
   // Build SQL
@@ -1145,14 +1121,17 @@ function delete_OrderDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Delete order
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
  * Load a OrderDBO from the database
  *
  * @param integer $id Order ID
- * @return OrderDBO OrderDBO, or null if not found
+ * @return OrderDBO OrderDBO
  */
 function load_OrderDBO( $id )
 {
@@ -1171,14 +1150,13 @@ function load_OrderDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatel_error( "load_OrderDBO", 
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new OrderDBO
@@ -1221,13 +1199,13 @@ function &load_array_OrderDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_OrderDBO", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -1269,16 +1247,14 @@ function count_all_OrderDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_OrderDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_OrderDBO()",
-		   "Expected SELECT to return 1 row" );
-      exit();
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

@@ -229,17 +229,11 @@ class ViewAccountPage extends SolidStatePage
     // Delete the product purchases
     foreach( $this->post['products'] as $dbo )
       {
-	if( !delete_ProductPurchaseDBO( $dbo ) )
-	  {
-	    // Error
-	    $this->setError( array( "type" => "DB_DELETE_PRODUCT_PURCHASE_FAILED",
-				    "args" => array( $dbo->getProductName() ) ) );
-	    $this->reload();
-	  }
+	delete_ProductPurchaseDBO( $dbo );
       }
 
     // Success
-    $this->setMessage( array( "type" => "PRODUCT_PURCHASE_DELETED" ) );
+    $this->setMessage( array( "type" => "[PRODUCT_PURCHASE_DELETED]" ) );
     $this->setURLField( "action", "products" );
     $this->reload();
   }
@@ -254,17 +248,11 @@ class ViewAccountPage extends SolidStatePage
     // Delete the domain purchases
     foreach( $this->post['domains'] as $dbo )
       {
-	if( !delete_DomainServicePurchaseDBO( $dbo ) )
-	  {
-	    // Error
-	    $this->setError( array( "type" => "DB_DELETE_DOMAIN_PURCHASE_FAILED",
-				    "args" => array( $dbo->getFullDomainName() ) ) );
-	    $this->reload();
-	  }
+	delete_DomainServicePurchaseDBO( $dbo );
       }
 
     // Success
-    $this->setMessage( array( "type" => "DOMAIN_PURCHASE_DELETED" ) );
+    $this->setMessage( array( "type" => "[DOMAIN_PURCHASE_DELETED]" ) );
     $this->setURLField( "action", "domains" );
     $this->reload();
   }
@@ -279,17 +267,11 @@ class ViewAccountPage extends SolidStatePage
     // Delete the service purchases
     foreach( $this->post['services'] as $dbo )
       {
-	if( !delete_HostingServicePurchaseDBO( $dbo ) )
-	  {
-	    // Error
-	    $this->setError( array( "type" => "DB_DELETE_HOSTING_PURCHASE_FAILED",
-				    "args" => array( $dbo->getTitle() ) ) );
-	    $this->reload();
-	  }
+	delete_HostingServicePurchaseDBO( $dbo );
       }
 
     // Success
-    $this->setMessage( array( "type" => "HOSTING_PURCHASES_DELETED" ) );
+    $this->setMessage( array( "type" => "[HOSTING_PURCHASES_DELETED]" ) );
     $this->setURLField( "action", "services" );
     $this->reload();
   }
@@ -311,21 +293,15 @@ class ViewAccountPage extends SolidStatePage
 	    $user_dbo->getUsername() != $noteDBO->getUsername() )
 	  {
 	    // User does not have the authority to delete this note
-	    $this->setError( array( "type" => "ACCESS_DENIED" ) );
-	    $this->reload();
+	    throw new SWUserException( "[ACCESS_DENIED]" );
 	  }
 
 	// Delete the note
-	if( !delete_NoteDBO( $noteDBO ) )
-	  {
-	    // Error deleting note
-	    $this->setError( array( "type" => "DB_NOTE_DELETE_FAILED" ) );
-	    $this->reload();
-	  }
+	delete_NoteDBO( $noteDBO );
       }
 
     // Note deleted
-    $this->setMessage( array( "type" => "NOTE_DELETED" ) );
+    $this->setMessage( array( "type" => "[NOTE_DELETED]" ) );
     $this->reload();
   }
   
@@ -346,16 +322,11 @@ class ViewAccountPage extends SolidStatePage
     $note_dbo->setText( $this->post['text'] );
 
     // Add NoteDBO to database
-    if( !add_NoteDBO( $note_dbo ) )
-      {
-	// Unable to add note to database
-	$this->setError( array( "type" => "DB_NOTE_ADD_FAILED" ) );
-	$this->reload();
-      }
+    add_NoteDBO( $note_dbo );
 
     // Account added - clear form data from session
     unset( $this->session['view_account_note'] );
-    $this->setMessage( array( "type" => "NOTE_ADDED" ) );
+    $this->setMessage( array( "type" => "[NOTE_ADDED]" ) );
     $this->reload();
   }
 }

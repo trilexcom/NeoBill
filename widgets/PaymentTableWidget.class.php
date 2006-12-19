@@ -55,9 +55,10 @@ class PaymentTableWidget extends TableWidget
       }
 
     // Load the Payment Table
-    if( null != ($items = load_array_PaymentDBO( $where )) )
+    try
       {
 	// Build the table
+	$items = load_array_PaymentDBO( $where );
 	foreach( $items as $dbo )
 	  {
 	    // Put the row into the table
@@ -70,6 +71,7 @@ class PaymentTableWidget extends TableWidget
 		     "status" => $dbo->getStatus() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

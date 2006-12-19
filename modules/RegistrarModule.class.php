@@ -13,7 +13,7 @@
 require_once BASE_PATH . "modules/SolidStateModule.class.php";
 
 // Exceptions
-class RegistrarException extends SWException 
+class RegistrarException extends SWUserException 
 {
   public function __construct( $message )
   {

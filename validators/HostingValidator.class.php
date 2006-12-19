@@ -31,10 +31,8 @@ class HostingValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($hostingDBO = load_HostingServiceDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "HostingService" );
-      }
+    try { $hostingDBO = load_HostingServiceDBO( intval( $data ) ); }
+    catch( DBRowNotFoundException $e ) { throw new RecordNotFoundException( "HostingService" ); }
 
     return $hostingDBO;
   }

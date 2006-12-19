@@ -540,7 +540,7 @@
     <phrase id="IP_DELETED">Removed IP Address: {0}</phrase>
     <phrase id="SERVER_ADDED">Added a New Server</phrase>
     <phrase id="SERVER_UPDATED">Server Updated.</phrase>
-    <phrase id="SERVER_DELETED">Server ({0}) Deleted.</phrase>
+    <phrase id="SERVER_DELETED">Server Deleted.</phrase>
     <phrase id="SETTINGS_UPDATED">Settings Saved.</phrase>
     <phrase id="TAX_RULE_CREATED">Tax Rule Created.</phrase>
     <phrase id="TAX_RULE_DELETED">Tax Rule Deleted.</phrase>

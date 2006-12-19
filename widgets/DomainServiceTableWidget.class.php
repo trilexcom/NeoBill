@@ -28,8 +28,10 @@ class DomainServiceTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the DomainService Table
-    if( null != ($services = load_array_DomainServiceDBO( $where )) )
+    try
       {
+	$services = load_array_DomainServiceDBO( $where );
+
 	// Build the table
 	foreach( $services as $dbo )
 	  {
@@ -54,5 +56,6 @@ class DomainServiceTableWidget extends TableWidget
 		     "module" => $dbo->getModuleName() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 }

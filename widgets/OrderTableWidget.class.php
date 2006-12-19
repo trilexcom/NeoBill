@@ -37,9 +37,10 @@ class OrderTableWidget extends TableWidget
       sprintf( "status='%s'", $this->statusFilter ) : null;
 
     // Load the Order Table
-    if( null != ($orders = load_array_OrderDBO( $where )) )
+    try
       {
 	// Build the table
+	$orders = load_array_OrderDBO( $where );
 	foreach( $orders as $dbo )
 	  {
 	    // Put the row into the table
@@ -60,6 +61,7 @@ class OrderTableWidget extends TableWidget
                      "total" => $dbo->getTotal() );
 	  }
       }
+    catch( DBNoRowsFoundExceptiona $e ) {}
   }
 
   /**

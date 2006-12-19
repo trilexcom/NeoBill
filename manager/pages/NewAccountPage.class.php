@@ -76,10 +76,12 @@ class NewAccountPage extends SolidStatePage
   function process_new_account()
   {
     // Make sure the username is available
-    if( load_UserDBO( $this->post['username'] ) != null )
-      {
+    try 
+      { 
+	load_UserDBO( $this->post['username'] );
 	throw new SWUserException( "[DB_USER_EXISTS]" );
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     // Prepare AccountDBO
     $account_dbo = new AccountDBO();
@@ -111,30 +113,24 @@ class NewAccountPage extends SolidStatePage
     $account_dbo =& $this->session['new_account_dbo'];
 
     // Insert UserBO into database
-    if( !add_UserDBO( $this->session['user_dbo'] ) )
-      {
-	throw new SWUserException( "[DB_USER_ADD_FAILED]" );
-      }
+    add_UserDBO( $this->session['user_dbo'] );
     
     // Insert AccountDBO into database
     $account_dbo->setUsername( $this->session['user_dbo']->getUsername() );
-    if( !add_AccountDBO( $account_dbo ) )
+    try
+      {
+	add_AccountDBO( $account_dbo );
+      }
+    catch( DBMySQLException $e )
       {
 	// Unable to add product to database
 	delete_UserDBO( $this->session['user_dbo'] );
-	$this->setError( array( "type" => "DB_ACCOUNT_ADD_FAILED",
-				"args" => array( $account_dbo->getAccountName() ) ) );
+	throw $e;
+      }
 
-	// Redisplay form
-	$this->setTemplate( "default" );
-      }
-    else
-      {
-	
-	// Jump to View Account page
-	$this->setMessage( array( "type" => "ACCOUNT_ADDED" ) );
-	$this->goto( "accounts_view_account", null, "account=" . $account_dbo->getID() );
-      }
+    // Jump to View Account page
+    $this->setMessage( array( "type" => "[ACCOUNT_ADDED]" ) );
+    $this->goto( "accounts_view_account", null, "account=" . $account_dbo->getID() );
   }
 }
 

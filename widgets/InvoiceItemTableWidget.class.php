@@ -37,9 +37,10 @@ class InvoiceItemTableWidget extends TableWidget
       sprintf( "invoiceid='%d'", $this->invoiceID ) : null;
 
     // Load the InvoiceItem Table
-    if( null != ($items = load_array_InvoiceItemDBO( $where )) )
+    try
       {
 	// Build the table
+	$items = load_array_InvoiceItemDBO( $where );
 	foreach( $items as $dbo )
 	  {
 	    // Put the row into the table
@@ -51,6 +52,7 @@ class InvoiceItemTableWidget extends TableWidget
 		     "amount" => $dbo->getAmount() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

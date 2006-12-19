@@ -179,7 +179,6 @@ class TaxRuleDBO extends DBO
  * Add TaxRuleDBO to Database
  *
  * @param TaxRuleDBO &$dbo TaxRuleDBO to be added to database
- * @return boolean True on success
  */
 function add_TaxRuleDBO( &$dbo )
 {
@@ -195,8 +194,7 @@ function add_TaxRuleDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      echo mysql_error( $DB->handle() );
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -206,24 +204,22 @@ function add_TaxRuleDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_TaxRuleDBO()", "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_TaxRuleDBO()", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-  return true;
 }
 
 /**
  * Update TaxRuleDBO
  *
  * @param TaxRuleDBO &$dbo TaxRuleDBO to be updated
- * @return boolean True on success
  */
 function update_TaxRuleDBO( &$dbo )
 {
@@ -241,7 +237,7 @@ function update_TaxRuleDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   return true;
@@ -262,7 +258,10 @@ function delete_TaxRuleDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -288,13 +287,13 @@ function load_TaxRuleDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_TaxRuleDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new HostingServiceDBO
@@ -337,13 +336,13 @@ function &load_array_TaxRuleDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_TaxRuleDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -391,18 +390,17 @@ function count_all_TaxRuleDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_TaxRuleDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_TaxRuleDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );
   return $data[0];
 }
-
 ?>

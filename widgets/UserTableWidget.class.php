@@ -28,9 +28,10 @@ class UserTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the User Table
-    if( null != ($users = load_array_UserDBO( $where )) )
+    try
       {
 	// Build the table
+	$users = load_array_UserDBO( $where );
 	foreach( $users as $dbo )
 	  {
 	    // Put the row into the table
@@ -41,5 +42,6 @@ class UserTableWidget extends TableWidget
 		     "email" => $dbo->getEmail() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 }

@@ -272,21 +272,11 @@ class OrderDomainDBO extends OrderItemDBO
     $purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
     $purchaseDBO->setPrevInvoiceID( -1 );
     $purchaseDBO->incrementNextBillingDate();
-    if( !add_DomainServicePurchaseDBO( $purchaseDBO ) )
-      {
-	log_error( "OrderDomainDBO::execute()",
-		   "Failed to add domain service purchase to DB" );
-	return false;
-      }
+    add_DomainServicePurchaseDBO( $purchaseDBO );
 
     // Fulfill this order item
     $this->setStatus( "Fulfilled" );
-    if( !update_OrderDomainDBO( $this ) )
-      {
-	log_error( "OrderDomainDBO::execute()",
-		   "Failed to update OrderDomainDBO" );
-	return false;
-      }
+    update_OrderDomainDBO( $this );
 
     // Success
     return true;
@@ -391,7 +381,6 @@ class OrderDomainDBO extends OrderItemDBO
  * Insert OrderDomainDBO into database
  *
  * @param OrderDomainDBO &$dbo OrderDomainDBO to add to database
- * @return boolean True on success
  */
 function add_OrderDomainDBO( &$dbo )
 {
@@ -403,27 +392,15 @@ function add_OrderDomainDBO( &$dbo )
     {
       // Save contacts
       $adminContactDBO = $dbo->getAdminContact();
-      if( !ContactDBO_add( $adminContactDBO ) )
-	{
-	  log_error( "add_OrderDomainDBO", "Failed to add admin contact to database!" );
-	  return false;
-	}
+      ContactDBO_add( $adminContactDBO );
       $adminID = $adminContactDBO->getID();
 
       $billingContactDBO = $dbo->getBillingContact();
-      if( !ContactDBO_add( $billingContactDBO ) )
-	{
-	  log_error( "add_OrderDomainDBO", "Failed to add billing contact to database!" );
-	  return false;
-	}
+      ContactDBO_add( $billingContactDBO );
       $billingID = $billingContactDBO->getID();
 
       $techContactDBO = $dbo->getTechContact();
-      if( !ContactDBO_add( $techContactDBO ) )
-	{
-	  log_error( "add_OrderDomainDBO", "Failed to add technical contact to database!" );
-	  return false;
-	}
+      ContactDBO_add( $techContactDBO );
       $techID = $techContactDBO->getID();
     }
 
@@ -445,7 +422,7 @@ function add_OrderDomainDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -455,26 +432,22 @@ function add_OrderDomainDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_OrderDomainDBO()", 
-		   "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_OrderDomainDBO()", 
-		   "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-  return true;
 }
 
 /**
  * Update OrderDomainDBO in database
  *
  * @param OrderDomainDBO &$dbo OrderDomainDBO to update
- * @return boolean True on success
  */
 function update_OrderDomainDBO( &$dbo )
 {
@@ -492,7 +465,10 @@ function update_OrderDomainDBO( &$dbo )
 				       "transfersecret" => $dbo->getTransferSecret() ) );
 				
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -510,7 +486,10 @@ function delete_OrderDomainDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -536,14 +515,13 @@ function load_OrderDomainDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatel_error( "load_OrderDomainDBO", 
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new OrderDBO
@@ -586,13 +564,13 @@ function &load_array_OrderDomainDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_OrderDomainDBO", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -634,16 +612,14 @@ function count_all_OrderDomainDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_OrderDomainDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_OrderDomainDBO()",
-		   "Expected SELECT to return 1 row" );
-      exit();
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

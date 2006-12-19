@@ -28,9 +28,10 @@ class TaxRuleTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the TaxRule Table
-    if( null != ($taxRules = load_array_TaxRuleDBO( $where )) )
+    try
       {
 	// Build the table
+	$taxRules = load_array_TaxRuleDBO( $where );
 	foreach( $taxRules as $dbo )
 	  {
 	    // Put the row into the table
@@ -43,5 +44,6 @@ class TaxRuleTableWidget extends TableWidget
 		     "rate" => $dbo->getRate() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 }

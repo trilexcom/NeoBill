@@ -67,19 +67,7 @@ class ServicesHostingServicesPage extends SolidStatePage
   {
     foreach( $this->post['hosting_services'] as $serviceDBO )
       {
-	$id = $serviceDBO->getID();
-	if( load_array_HostingServicePurchaseDBO( "hostingserviceid=" . $id ) != null )
-	  {
-	    throw new SWUserException( "[PURCHASES_EXIST]" );
-	  }
-
-	if( !delete_HostingServiceDBO( $serviceDBO ) )
-	  {
-	    // Delete failed
-	    $this->setError( array( "type" => "DB_HOSTING_DELETE_FAILED",
-				    "args" => array( $this->session['hosting_dbo']->getTitle() ) ) );
-	    $this->cancel();
-	  }
+	delete_HostingServiceDBO( $serviceDBO );
       }
 
     $this->setMessage( array( "type" => "[HOSTING_SERVICES_DELETED]" ) );

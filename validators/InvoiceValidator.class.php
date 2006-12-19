@@ -32,10 +32,8 @@ class InvoiceValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($invoiceDBO = load_InvoiceDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Invoice" );
-      }
+    try { $invoiceDBO = load_InvoiceDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Invoice" ); }
 
     return $invoiceDBO;
   }

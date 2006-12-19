@@ -95,7 +95,8 @@ class ProductDBO extends PurchasableDBO
     parent::load( $data );
 
     // Load pricing
-    $this->prices = load_array_ProductPriceDBO( "productid=" . $this->getID() );
+    try { $this->prices = load_array_ProductPriceDBO( "productid=" . $this->getID() ); }
+    catch( DBNoRowsFoundException $e ) { $this->prices = array(); }
   }
 }
 
@@ -117,7 +118,7 @@ function add_ProductDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -127,19 +128,16 @@ function add_ProductDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_ProductDBO()",
-		   "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_ProductDBO()", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
 }
 
 /**
@@ -159,7 +157,10 @@ function update_ProductDBO( &$dbo )
 				       "description" => $dbo->getDescription() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -172,12 +173,24 @@ function delete_ProductDBO( &$dbo )
 {
   $DB = DBConnection::getDBConnection();
 
+  try
+    {
+      load_array_ProductPurchaseDBO( "productid=" . $dbo->getID() );
+      
+      // Can not delete product if any purchases exist
+      throw new DBException( "[PURCHASES_EXIST]" );
+    }
+  catch( DBNoRowsFoundException $e ) {}
+
   // Build SQL
   $sql = $DB->build_delete_sql( "product",
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -203,13 +216,13 @@ function load_ProductDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_ProductDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
   
   // Load a new HostingServiceDBO
@@ -252,13 +265,13 @@ function &load_array_ProductDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_ProductDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -300,14 +313,14 @@ function count_all_ProductDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_ProductDBO()", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_ProductDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

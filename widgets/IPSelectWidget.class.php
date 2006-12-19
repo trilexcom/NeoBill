@@ -26,18 +26,17 @@ class IPSelectWidget extends SelectWidget
   function getData()
   {
     // Query IPDBO's
-    $ipDBOs = load_array_IPAddressDBO();
-    if( empty( $ipDBOs ) )
-      {
-	return array();
-      }
-
-    // Convery to an array: hosting ID => hosting service name
     $ips = array();
-    foreach( $ipDBOs as $ipDBO )
+    try
       {
-	$ips[$ipDBO->getIP()] = $ipDBO->getHostnameIP();
+	// Convery to an array: hosting ID => hosting service name
+	$ipDBOs = load_array_IPAddressDBO();
+	foreach( $ipDBOs as $ipDBO )
+	  {
+	    $ips[$ipDBO->getIP()] = $ipDBO->getHostnameIP();
+	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     return $ips;
   }

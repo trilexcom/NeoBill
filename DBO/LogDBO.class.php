@@ -210,7 +210,6 @@ class LogDBO extends DBO
  * Insert LogDBO into database
  *
  * @param LogDBO &$dbo LogDBO to add
- * @return boolean True on success
  */
 function add_LogDBO( &$dbo )
 {
@@ -228,7 +227,7 @@ function add_LogDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -238,27 +237,22 @@ function add_LogDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      echo "Could not retrieve ID from previous INSERT!";
-      exit();
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      echo "Previous INSERT did not generate an ID";
-      exit();
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
 }
 
 /**
  * Update LogDBO in database
  *
  * @param LogDBO &$dbo Log DBO to update
- * @return boolean True on success
  */
 function update_LogDBO( &$dbo )
 {
@@ -275,7 +269,10 @@ function update_LogDBO( &$dbo )
 				       "date" => $dbo->getDate() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -294,7 +291,10 @@ function delete_LogDBO( &$dbo )
   $sql = $DB->build_delete_sql( "log",
 				"id = " . $id );
   // Delete the LogDBO
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -320,14 +320,13 @@ function load_LogDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      echo "Attempt to load DBO failed on SELECT";
-      exit();
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
   
   // Load a new LogDBO
@@ -370,14 +369,13 @@ function &load_array_LogDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      echo "SELECT failure";
-      exit();
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -423,16 +421,14 @@ function count_all_LogDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      echo "SELECT COUNT failure";
-      exit();
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      echo "Expected SELECT to return 1 row";
-      exit();
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

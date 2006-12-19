@@ -92,41 +92,31 @@ class AssignHostingPage extends SolidStatePage
     $purchase_dbo->setDomainName( $this->post['domainname'] );
 
     // Save purchase
-    if( !add_HostingServicePurchaseDBO( $purchase_dbo ) )
-      {
-	// Add failed
-	throw new SWException( "Failed to add hostingservicepurchase record!" );
-      }
+    add_HostingServicePurchaseDBO( $purchase_dbo );
 
     // If an IP address was selected, assign that IP address to this purchase
     if( isset( $this->post['ipaddress'] ) )
       {
 	if( $this->post['ipaddress']->getServerID() != $serverID )
 	  {
-	    // IP Address does not match Server
-	    $this->setError( array( "type" => "IP_MISMATCH",
-				    "args" => array( $this->post['ipaddress']->getIPString(),
-						     $this->post['server']->getHostName() ) ) );
 	    // Roll-back
 	    delete_HostingServicePurchaseDBO( $purchase_dbo );
-	    $this->reload();
+	    throw new SWUserException( "[IP_MISMATCH]" );
 	  }
 
 	// Update IP Address record
 	$this->post['ipaddress']->setPurchaseID( $purchase_dbo->getID() );
-	if( !update_IPAddressDBO( $this->post['ipaddress'] ) )
+	try{ update_IPAddressDBO( $this->post['ipaddress'] ); }
+	catch( DBException $e )
 	  {
-	    // Invalid IP
-	    $this->setError( array( "type" => "DB_IP_UPDATE_FAILED" ) );
-
 	    // Roll-back
 	    delete_HostingServicePurchaseDBO( $purchase_dbo );
-	    $this->reload();
+	    throw new SWUserException( "[DB_IP_UPDATE_FAILED]" );
 	  }
       }
     
     // Success
-    $this->setMessage( array( "type" => "HOSTING_ASSIGNED" ) );
+    $this->setMessage( array( "type" => "[HOSTING_ASSIGNED]" ) );
     $this->goto( "accounts_view_account",
 		 null,
 		 "action=services&account=" . $this->get['account']->getID() );
@@ -145,10 +135,10 @@ class AssignHostingPage extends SolidStatePage
     // Store service DBO in session
     $this->session['account_dbo'] =& $this->get['account'];
 
-    if( null == ($services = load_array_HostingServiceDBO()) )
+    try { $services = load_array_HostingServiceDBO(); }
+    catch( DBNoRowsFoundException $e )
       {
-	$this->setError( array( "type" => "[THERE_ARE_NO_HOSTING_SERVICES]" ) );
-	$this->goback();
+	throw new SWUserException( "[THERE_ARE_NO_HOSTING_SERVICES]" );
       }
 
     if( !isset( $this->post['service'] ) )

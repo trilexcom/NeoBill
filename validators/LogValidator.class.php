@@ -31,10 +31,8 @@ class LogValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($logDBO = load_LogDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Log" );
-      }
+    try { $logDBO = load_LogDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Log" ); }
 
     return $logDBO;
   }

@@ -32,11 +32,15 @@ class DomainServicePriceValidator extends FieldValidator
     $data = parent::validate( $data );
 
     $id = explode( "-", $data );
-    if( null == ($priceDBO = load_DomainServicePriceDBO( $id[0], 
-							 $id[1], 
-							 intval( $id[2] ) )) )
+    try
       {
-	throw new RecordNotFoundException( "DomainServicePrice" );
+	$priceDBO = load_DomainServicePriceDBO( $id[0], 
+						$id[1], 
+						intval( $id[2] ) );
+      }
+    catch( DBNoRowsFoundException $e ) 
+      { 
+	throw new RecordNotFoundException( "DomainServicePrice" ); 
       }
 
     return $priceDBO;

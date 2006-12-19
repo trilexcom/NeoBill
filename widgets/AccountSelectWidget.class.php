@@ -26,19 +26,20 @@ class AccountSelectWidget extends SelectWidget
    */
   function getData()
   {
-    // Query AccountDBO's
-    $accountDBOs = load_array_AccountDBO();
-    if( empty( $accountDBOs ) )
-      {
-	return array();
-      }
-
-    // Convery to an array: account ID => account name
     $accounts = array();
-    foreach( $accountDBOs as $accountDBO )
-      {
-	$accounts[$accountDBO->getID()] = $accountDBO->getAccountName();
+
+    // Query AccountDBO's
+    try 
+      { 
+	$accountDBOs = load_array_AccountDBO(); 
+
+	// Convery to an array: account ID => account name
+	foreach( $accountDBOs as $accountDBO )
+	  {
+	    $accounts[$accountDBO->getID()] = $accountDBO->getAccountName();
+	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     return $accounts;
   }

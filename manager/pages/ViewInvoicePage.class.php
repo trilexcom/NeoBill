@@ -144,16 +144,11 @@ class ViewInvoicePage extends SolidStatePage
     // Delete Payments
     foreach( $this->post['payments'] as $dbo )
       {
-	if( !delete_PaymentDBO( $dbo ) )
-	  {
-	    // Could not delete payment
-	    $this->setError( array( "type" => "DB_DELETE_PAYMENT_FAILED" ) );
-	    $this->reload();
-	  }
+	delete_PaymentDBO( $dbo );
       }
 
     // Success
-    $this->setMessage( array( "type" => "PAYMENT_DELETED" ) );
+    $this->setMessage( array( "type" => "[PAYMENT_DELETED]" ) );
     $this->reload();
   }
 
@@ -167,17 +162,11 @@ class ViewInvoicePage extends SolidStatePage
     // Delete Invoice Items
     foreach( $this->post['items'] as $dbo )
       {
-	if( !delete_InvoiceItemDBO( $dbo ) )
-	  {
-	    // Could not delete line item
-	    $this->setError( array( "type" => "DB_DELETE_INVOICE_ITEM_FAILED",
-				    "args" => array( $dbo->getText() ) ) );
-	    $this->reload();
-	  }
+	delete_InvoiceItemDBO( $dbo );
       }
 
     // Success
-    $this->setMessage( array( "type" => "INVOICE_ITEM_DELETED" ) );
+    $this->setMessage( array( "type" => "[INVOICE_ITEM_DELETED]" ) );
     $this->reload();
   }
 
@@ -196,14 +185,10 @@ class ViewInvoicePage extends SolidStatePage
     $lineitem_dbo->setInvoiceID( $this->get['invoice']->getID() );
 
     // Save Lineitem to database
-    if( !add_InvoiceItemDBO( $lineitem_dbo ) )
-      {
-	// Failed to save lineitem
-	$this->setError( array( "type" => "DB_ADD_INVOICE_ITEM_FAILED" ) );
-      }
+    add_InvoiceItemDBO( $lineitem_dbo );
 
     // Success
-    $this->setMessage( array( "type" => "INVOICE_ITEM_CREATED" ) );
+    $this->setMessage( array( "type" => "[INVOICE_ITEM_CREATED]" ) );
   }
 }
 

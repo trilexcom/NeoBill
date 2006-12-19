@@ -43,10 +43,8 @@ class PaymentValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($paymentDBO = load_PaymentDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Payment" );
-      }
+    try { $paymentDBO = load_PaymentDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Payment" ); }
 
     // Verify that this payment belongs to the invocie specified
     if( isset( $this->invoiceID ) && $paymentDBO->getInvoiceID() != $this->invoiceID )

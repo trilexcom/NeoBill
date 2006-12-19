@@ -32,10 +32,8 @@ class OrderValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($orderDBO = load_OrderDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Order" );
-      }
+    try { $orderDBO = load_OrderDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Order" ); }
 
     return $orderDBO;
   }

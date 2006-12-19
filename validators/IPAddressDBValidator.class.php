@@ -31,10 +31,8 @@ class IPAddressDBValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($ipAddressDBO = load_IPAddressDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "IPAddress" );
-      }
+    try { $ipAddressDBO = load_IPAddressDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "IPAddress" ); }
 
     return $ipAddressDBO;
   }

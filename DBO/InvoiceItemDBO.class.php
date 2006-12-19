@@ -199,11 +199,7 @@ class InvoiceItemDBO extends DBO
    */
   function touchInvoice()
   {
-    if( ($invoicedbo = load_InvoiceDBO( $this->invoiceid )) == null )
-      {
-	fatal_error( "InvoiceItemDBO::touchInvoice()",
-		     "PaymentDBO::touchInvoice(), error: could not load InvoiceDBO" );
-      }
+    $invoicedbo = load_InvoiceDBO( $this->invoiceid );
     update_InvoiceDBO( $invoicedbo );
   }
 }
@@ -212,9 +208,8 @@ class InvoiceItemDBO extends DBO
  * Insert InvoiceItemDBO into database
  *
  * @param InvoiceItemDBO &$dbo InvoiceItemDBO to add to database
- * @return boolean True on success
  */
-function add_InvoiceItemDBO( &$dbo )
+function add_InvoiceItemDBO( $dbo )
 {
   $DB = DBConnection::getDBConnection();
 
@@ -230,7 +225,7 @@ function add_InvoiceItemDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -240,14 +235,12 @@ function add_InvoiceItemDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_InvoiceItemDBO()",
-		   "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_InvoiceItemDBO()",
-		   "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
@@ -255,17 +248,14 @@ function add_InvoiceItemDBO( &$dbo )
 
   // Update Invoice's outstanding flag
   $dbo->touchInvoice();
-
-  return true;
 }
 
 /**
  * Update InvoiceItemDBO
  *
  * @param InvoiceItemDBO &$dbo InvoiceItemDBO to update
- * @return boolean True on success
  */
-function update_InvoiceItemDBO( &$dbo )
+function update_InvoiceItemDBO( $dbo )
 {
   $DB = DBConnection::getDBConnection();
 
@@ -281,20 +271,17 @@ function update_InvoiceItemDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Update Invoice's outstanding flag
   $dbo->touchInvoice();
-
-  return true;
 }
 
 /**
  * Delete InvoiceItemDBO from Database
  *
  * @param InvoiceItemDBO &$dbo InvoiceItemDBO to delete
- * @return boolean True on success
  */
 function delete_InvoiceItemDBO( &$dbo )
 {
@@ -305,7 +292,10 @@ function delete_InvoiceItemDBO( &$dbo )
 				"id = " . intval( $dbo->getID() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -331,14 +321,13 @@ function load_InvoiceItemDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_InvoiceItemDBO()",
-		   "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new HostingServiceDBO
@@ -381,14 +370,13 @@ function &load_array_InvoiceItemDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_InvoiceItemDBO()",
-		   "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -436,14 +424,14 @@ function count_all_InvoiceItemDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "count_all_InvoiceItemDBO", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_InvoiceItemDBO()", "Expected SELECT to return 1 row" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );

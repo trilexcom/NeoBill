@@ -39,13 +39,6 @@ class DeleteServerPage extends SolidStateAdminPage
     // Set this page's Nav Vars
     $this->setNavVar( "id",   $this->get['server']->getID() );
     $this->setNavVar( "hostname", $this->get['server']->getHostName() );
-
-    if( $this->get['server']->getPurchases() != null )
-      {
-	// Can not delete Server until all purchases are removed
-	$this->setError( array( "type" => "SERVER_NOT_FREE" ) );
-	$this->goback();
-      }
   }
 
   /**
@@ -84,36 +77,11 @@ class DeleteServerPage extends SolidStateAdminPage
    */
   function deleteServer()
   {
-    if( $this->get['server']->getPurchases() != null )
-      {
-	// Can not delete Server until all purchases are removed
-	$this->setError( array( "type" => "SERVER_NOT_FREE" ) );
-	$this->goback();
-      }
-
-    // Delete all IP Addresses
-    if( ($ip_dbo_array = $this->get['server']->getIPAddresses() ) != null )
-      {
-	foreach( $ip_dbo_array as $ip_dbo )
-	  {
-	    if( !delete_IPAddressDBO( $ip_dbo ) )
-	      {
-		$this->setError( array( "type" => "DB_DELETE_IP_FAILED",
-					"args" => array( $ip_dbo->getIPString() ) ) );
-		$this->goback();
-	      }
-	  }
-      }
-
     // Delete Server
-    if( !delete_ServerDBO( $this->get['server'] ) )
-      {
-	$this->setError( array( "type" => "DB_DELETE_SERVER_FAILED" ) );
-	$this->goback();
-      }
+    delete_ServerDBO( $this->get['server'] );
 
     // Success!
-    $this->setMessage( array( "type" => "SERVER_DELETED",
+    $this->setMessage( array( "type" => "[SERVER_DELETED]",
 			      "args" => array( $this->session['server_dbo']->getHostName() ) ) );
     $this->goto( "services_servers" );
   }

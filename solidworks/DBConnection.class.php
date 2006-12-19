@@ -10,6 +10,25 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+// Database Exceptions
+class DBException extends SWUserException
+{
+  public function __construct( $message = null )
+  {
+    $this->message = isset( $message ) ? 
+      $message :
+      sprintf( "A database error has occured:\n\t " . mysql_error() );
+  }
+}
+
+class DBNoRowsFoundException extends DBException
+{
+  public function __construct()
+  {
+    $this->message = "No rows found";
+  }
+}
+
 /**
  * DBConnection
  *
@@ -158,16 +177,14 @@ class DBConnection
     if( $this->dbh == null )
       {
 	// Connection failed
-	throw new SWException( "Failed to establish database connection: " .
-			       mysql_error() );
+	throw new DBException();
       }
     
     // Open the Solid-State database
     if( !@mysql_select_db( $conf['db']['database'], $this->dbh ) )
       {
 	// Failed to open Solid-State database
-	throw new SWException( "MySQL error when opening SolidState database: " .
-			       mysql_error() );
+	throw new DBException();
       }
   }
 
@@ -189,7 +206,7 @@ class DBConnection
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
 	// Table name not provided or invalid
-	throw new SWException( "Invalid table: " . $table_name );
+	throw new DBException( "Invalid table: " . $table_name );
       }
 
     // Begin building SQL
@@ -231,7 +248,7 @@ class DBConnection
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
 	// Table name not provided or invalid - return nothing
-	throw new SWException( "Invalid table: " . $table_name );
+	throw new DBException( "Invalid table: " . $table_name );
       }
 
     // Begin building SQL
@@ -261,7 +278,7 @@ class DBConnection
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
 	// Table name not provided or invalid - return nothing
-	throw new SWException( "Invalid table: " . $table_name );
+	throw new DBException( "Invalid table: " . $table_name );
       }
 
     // Begin building SQL
@@ -273,7 +290,7 @@ class DBConnection
 	// Validate this column
 	if( !$this->validate_column( $column, $table_name ) )
 	  {
-	    throw new SWException( "Invalid table column: " . $column );
+	    throw new DBException( "Invalid table column: " . $column );
 	  }
 
 	$sql .= $column . " = ";
@@ -333,7 +350,7 @@ class DBConnection
     if( !isset( $table_name ) || !$this->validate_table( $table_name ) )
       {
 	// Table name not provided or invalid - return nothing
-	throw new SWException( "Invalid table: " . $table_name );
+	throw new DBException( "Invalid table: " . $table_name );
       }
     
     // Validate columns
@@ -400,9 +417,9 @@ class DBConnection
     if( !($result = @mysql_query( $sql, $this->handle() ) ) )
       {
 	// Query error
-	throw new SWException( sprintf( "Attempt to query table columns failed.  Table = %s, column = %s",
-					$table_name,
-					$column_name ) );
+	throw new DBException( sprintf( "Attempt to query table columns failed.  Table = %s, column = %s",
+					     $table_name,
+					     $column_name ) );
       }
 
     // Search result set for the column name provided
@@ -434,7 +451,7 @@ class DBConnection
     if( !($result = @mysql_query( $sql, $this->handle() ) ) )
       {
 	// Query error
-	throw new SWException( "Attempt to validate table failed" );
+	throw new DBException( "Attempt to validate table failed" );
       }
     
     // Search result set for the table name provided

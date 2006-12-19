@@ -31,10 +31,8 @@ class TaxRuleValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($taxRuleDBO = load_TaxRuleDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "TaxRule" );
-      }
+    try { $taxRuleDBO = load_TaxRuleDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "TaxRule" ); }
 
     return $taxRuleDBO;
   }

@@ -68,16 +68,7 @@ class ServicesNewHosting extends SolidStateAdminPage
     $service_dbo->setDomainRequirement( $this->post['domainrequirement'] );
 
     // Insert HostingServiceDBO into database
-    if( !add_HostingServiceDBO( $service_dbo ) )
-      {
-	// Unable to add service
-	$this->setError( array( "type" => "DB_HOSTING_ADD_FAILED",
-				"args" => array( $service_dbo->getTitle() ) ) );
-
-	// Return to form
-	$this->setTemplate( "default" );
-	$this->reload();
-      }
+    add_HostingServiceDBO( $service_dbo );
 
     // Done
     $this->goto( "services_edit_hosting",

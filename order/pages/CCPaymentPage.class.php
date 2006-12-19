@@ -123,10 +123,7 @@ class CCPaymentPage extends SolidStatePage
       }
 
     // Card processed, save the payment DBO
-    if( !add_PaymentDBO( $paymentDBO ) )
-      {
-	throw new SWException( "Failed to save Payment to database!" );
-      }
+    add_PaymentDBO( $paymentDBO );
 
     // Complete the order
     $_SESSION['order']->complete();

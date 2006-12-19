@@ -63,15 +63,10 @@ class AddServerPage extends SolidStateAdminPage
     $server_dbo->setLocation( $this->post['location'] );
 
     // Add ServerDBO to database
-    if( !add_ServerDBO( $server_dbo ) )
-      {
-	// Error
-	$this->setError( array( "type" => "DB_ADD_SERVER_FAILED" ) );
-	$this->goback();
-      }
+    add_ServerDBO( $server_dbo );
 
     // Success
-    $this->setMessage( array( "type" => "SERVER_ADDED" ) );
+    $this->setMessage( array( "type" => "[SERVER_ADDED]" ) );
     $this->goto( "services_view_server",
 		 null,
 		 "server=" . $server_dbo->getID() );

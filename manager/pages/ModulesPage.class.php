@@ -65,24 +65,18 @@ class ModulesPage extends SolidStateAdminPage
 	    // Enable this module
 	    $moduleDBO = load_ModuleDBO( $module->getName() );
 	    $moduleDBO->setEnabled( "Yes" );
-	    if( !update_ModuleDBO( $moduleDBO ) )
-	      {
-		throw new SWException( "Failed to enable module: " . $moduleDBO->getName() );
-	      }
+	    update_ModuleDBO( $moduleDBO );
 	  }
 	elseif( $module->isEnabled() && !in_array( $module, $this->post['modules'] ) )
 	  {
 	    // Disable this module
 	    $moduleDBO = load_ModuleDBO( $module->getName() );
 	    $moduleDBO->setEnabled( "No" );
-	    if( !update_ModuleDBO( $moduleDBO ) )
-	      {
-		throw new SWException( "Failed to enable module: " . $moduleDBO->getName() );
-	      }
+	    update_ModuleDBO( $moduleDBO );
 	  }
       }
 
-    $this->setMessage( array( "type" => "MODULES_UPDATED" ) );
+    $this->setMessage( array( "type" => "[MODULES_UPDATED]" ) );
     $this->reload();
   }
 }

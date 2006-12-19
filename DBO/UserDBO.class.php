@@ -193,13 +193,13 @@ function load_UserDBO( $username )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_UserDBO()", "Attempt to load UserDBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // User not found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new UserDBO
@@ -231,15 +231,14 @@ function count_all_UserDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "count_all_UserDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_UserDBO()", 
-		   "SELECT expected 1 row, but got more (or none)" );
+      throw new DBException();
     }
 
   $data = mysql_fetch_array( $result );
@@ -277,13 +276,13 @@ function load_array_UserDBO( $filter  = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_UserDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No Users found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of UserDBOs from the result set
@@ -323,7 +322,10 @@ function add_UserDBO( UserDBO $dbo )
 				       "theme" => $dbo->getTheme() ) );
 
   // Execute
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -348,7 +350,10 @@ function update_UserDBO( UserDBO $dbo )
 				       "theme" => $dbo->getTheme() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -367,6 +372,9 @@ function delete_UserDBO( &$dbo )
 				$DB->quote_smart( $dbo->getUsername() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 ?>

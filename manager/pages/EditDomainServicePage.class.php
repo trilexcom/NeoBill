@@ -91,11 +91,7 @@ class EditDomainServicePage extends SolidStateAdminPage
     try
       {
 	$this->get['dservice']->addPrice( $priceDBO );
-	if( !add_DomainServicePriceDBO( $priceDBO ) )
-	  {
-	    throw new SWException( "Failed to add price to database: " . 
-				   mysql_error() );
-	  }
+	add_DomainServicePriceDBO( $priceDBO );
 	$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
       }
     catch( DuplicatePriceException $e )
@@ -149,12 +145,7 @@ class EditDomainServicePage extends SolidStateAdminPage
     // Update DBO
     $this->get['dservice']->setDescription( $this->post['description'] );
     $this->get['dservice']->setModuleName( $this->post['modulename']->getName() );
-    if( !update_DomainServiceDBO( $this->get['dservice'] ) )
-      {
-	// Update error
-	$this->setError( array( "type" => "DB_DOMAIN_SERVICE_UPDATE_FAILED" ) );
-	$this->reload();
-      }
+    update_DomainServiceDBO( $this->get['dservice'] );
 
     // Sucess!
     $this->setMessage( array( "type" => "DOMAIN_SERVICE_UPDATED" ) );

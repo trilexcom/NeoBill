@@ -90,10 +90,7 @@ class CustomerPage extends SolidStatePage
       {
 	// Use the account information already on file
 	$userDBO = $_SESSION['client']['userdbo'];
-	if( null == ($accountDBO = load_AccountDBO( $userDBO->getAccountID() )) )
-	  {
-	    throw new SWException( "User not found" );
-	  }
+	$accountDBO = load_AccountDBO( $userDBO->getAccountID() );
 
 	$this->session['order']->setAccountID( $accountDBO->getID() );
 	$this->session['order']->setBusinessName( $accountDBO->getBusinessName() );
@@ -152,12 +149,12 @@ class CustomerPage extends SolidStatePage
 	  }
 
 	// Check for a duplicate username
-	if( load_UserDBO( $this->post['username'] ) )
-	  {
-	    $this->setError( array( "type" => "USERNAME_EXISTS",
-				    "args" => array( $this->session['customer_information']['username'] ) ) );
-	    return;
+	try 
+	  { 
+	    load_UserDBO( $this->post['username'] ); 
+	    throw new SWUserException( "[USERNAME_EXISTS]" );
 	  }
+	catch( DBNoRowsFoundException $e ) {}
 
 	// Stuff the contact info into the order
 	$this->session['order']->setBusinessName( $this->post['businessname'] );

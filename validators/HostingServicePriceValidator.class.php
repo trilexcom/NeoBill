@@ -32,12 +32,13 @@ class HostingServicePriceValidator extends FieldValidator
     $data = parent::validate( $data );
 
     $id = explode( "-", $data );
-    if( null == ($priceDBO = load_HostingServicePriceDBO( intval( $id[0] ), 
-							  $id[1], 
-							  intval( $id[2] ) )) )
+    try
       {
-	throw new RecordNotFoundException( "HostingServicePrice" );
+	$priceDBO = load_HostingServicePriceDBO( intval( $id[0] ), 
+						 $id[1], 
+						 intval( $id[2] ) );
       }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "HostingServicePrice" ); }
 
     return $priceDBO;
   }

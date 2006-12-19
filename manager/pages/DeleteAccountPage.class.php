@@ -58,7 +58,7 @@ class DeleteAccountPage extends SolidStatePage
 	elseif( isset( $this->session['delete_account']['cancel'] ) )
 	  {
 	    // Cancel
-	    $this->goback( 2 );
+	    $this->goback();
 	  }
 
 	break;
@@ -79,16 +79,10 @@ class DeleteAccountPage extends SolidStatePage
   function delete_account()
   {
     // Delete Account DBO
-    if( !delete_AccountDBO( $this->session['account_dbo'] ) )
-      {
-	// Delete failed
-	$this->setError( array( "type" => "DB_ACCOUNT_DELETE_FAILED",
-				"args" => array( $this->session['account_dbo']->getAccountName() ) ) );
-	$this->goback( 1 );
-      }
+    delete_AccountDBO( $this->session['account_dbo'] );
 
     // Success - go back to accounts page
-    $this->setMessage( array( "type" => "ACCOUNT_DELETED",
+    $this->setMessage( array( "type" => "[ACCOUNT_DELETED]",
 			      "args" => array( $this->session['account_dbo']->getAccountName() ) ) );
     $this->goto( "accounts_browse" );
   }

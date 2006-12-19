@@ -32,10 +32,8 @@ class ProductValidator extends FieldValidator
   {
     $data = parent::validate( $data );
 
-    if( null == ($productDBO = load_ProductDBO( intval( $data ) )) )
-      {
-	throw new RecordNotFoundException( "Product" );
-      }
+    try { $productDBO = load_ProductDBO( intval( $data ) ); }
+    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Product" ); }
 
     return $productDBO;
   }

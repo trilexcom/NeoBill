@@ -72,9 +72,24 @@ class CartPage extends SolidStatePage
   function init()
   {
     // Make sure we have things to sell
-    if( (load_array_DomainServiceDBO() == null) && (load_array_HostingServiceDBO() == null) )
+    $stuffToSell = false;
+    try 
+      { 
+	load_array_DomainServiceDBO(); 
+	$stuffToSell = true;
+      }
+    catch( DBNoRowsFoundException $e ) {}
+
+    try
       {
-	throw new SWException( "There are no services configured.  The HSP must configure some services before the order interface can be used" );
+	load_array_HostingServiceDBO();
+	$stuffToSell = true;
+      }
+    catch( DBNoRowsFoundException $E ) {}
+
+    if( !$stuffToSell )
+      {
+	throw new SWUserException( "No hosting or domain services have been configured.  The HSP must configure hosting and/or domain services before using the Order wizard" );
       }
 
     // Make sure we have a way to collect payment

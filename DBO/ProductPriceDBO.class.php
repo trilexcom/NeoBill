@@ -74,11 +74,8 @@ function add_ProductPriceDBO( ProductPriceDBO $dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
-
-  // Success!
-  return true;
 }
 
 /**
@@ -101,7 +98,10 @@ function update_ProductPriceDBO( ProductPriceDBO $dbo )
 				       "taxable" => $dbo->getTaxable() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -123,7 +123,7 @@ function delete_ProductPriceDBO( ProductPriceDBO $dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      throw new SWUserException( "[FAILED_TO_DELETE_PRICE]: " . $dbo->getPrice() );
+      throw new DBException();
     }
 }
 
@@ -155,14 +155,13 @@ function load_ProductPriceDBO( $productid, $type, $termLength )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_ProductPriceDBO", 
-		   "Attempt to load DBO failed on SELECT: " . mysql_error() );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new ProductPriceDBO
@@ -205,14 +204,13 @@ function load_array_ProductPriceDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_ProductPriceDBO", "SELECT failure: " .
-		   mysql_error() );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return array();
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of ProductPriceDBOs from the result set

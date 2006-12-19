@@ -60,25 +60,18 @@ class TaxesPage extends SolidStatePage
   {
     if( $_SESSION['client']['userdbo']->getType() != "Administrator" )
       {
-	$this->setError( array( "type" => "ACCESS_DENIED" ) );
-	return;
+	throw new SWUserException( "[ACCESS_DENIED]" );
       }
 
     // Remove the Tax Rule(s) from the database
     foreach( $this->post['rules'] as $dbo )
       {
-	if( !delete_TaxRuleDBO( $dbo ) )
-	  {
-	    $this->setError( array( "type" => "DB_DELETE_TAX_RULE_FAILED",
-				    "args" => array( $id ) ) );
-	    $this->reload();
-	  }
+	delete_TaxRuleDBO( $dbo );
       }
 
     // Success
-    $this->setMessage( array( "type" => "TAX_RULES_DELETED" ) );
+    $this->setMessage( array( "type" => "[TAX_RULES_DELETED]" ) );
     $this->reload();
   }
 }
-
 ?>

@@ -414,13 +414,15 @@ class AccountDBO extends DBO
   { 
     // Sum up invoice balances
     $balance = 0;
-    if( ($invoices = load_array_InvoiceDBO( "accountid=" . $this->getID() )) != null )
+    try
       {
+	$invoices = load_array_InvoiceDBO( "accountid=" . $this->getID() );
 	foreach( $invoices as $invoice_dbo )
 	  {
 	    $balance += $invoice_dbo->getBalance();
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
     return $balance;
   }
 
@@ -450,7 +452,14 @@ class AccountDBO extends DBO
    */
   function getHostingServices()
   {
-    return load_array_HostingServicePurchaseDBO( "accountid=" . intval( $this->getID() ) );
+    try
+      {
+	return load_array_HostingServicePurchaseDBO( "accountid=" . intval( $this->getID() ) );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	return array();
+      }
   }
 
   /**
@@ -460,7 +469,14 @@ class AccountDBO extends DBO
    */
   function getDomainServices()
   {
-    return load_array_DomainServicePurchaseDBO( "accountid=" . intval( $this->getID() ) );
+    try
+      {
+	return load_array_DomainServicePurchaseDBO( "accountid=" . intval( $this->getID() ) );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	return array();
+      }
   }
 
   /**
@@ -470,7 +486,14 @@ class AccountDBO extends DBO
    */
   function getProducts()
   {
-    return load_array_ProductPurchaseDBO( "accountid=" . intval( $this->getID() ) );
+    try
+      {
+	return load_array_ProductPurchaseDBO( "accountid=" . intval( $this->getID() ) );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	return array();
+      }
   }
 
   /**
@@ -494,7 +517,6 @@ class AccountDBO extends DBO
  * Insert AccountDBO into database
  *
  * @param AccountDBO &$dbo AccountDBO to add
- * @return boolean True on success
  */
 function add_AccountDBO( &$dbo )
 {
@@ -523,7 +545,7 @@ function add_AccountDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      return false;
+      throw new DBException();
     }
 
   // Get auto-increment ID
@@ -533,19 +555,16 @@ function add_AccountDBO( &$dbo )
   if( $id == false )
     {
       // DB error
-      fatal_error( "add_AccountDBO()", 
-		   "Could not retrieve ID from previous INSERT!" );
+      throw new DBException( "Could not retrieve ID from previous INSERT!" );
     }
   if( $id == 0 )
     {
       // No ID?
-      fatal_error( "add_AccountDBO()", "Previous INSERT did not generate an ID" );
+      throw new DBException( "Previous INSERT did not generate an ID" );
     }
 
   // Store ID in DBO
   $dbo->setID( $id );
-
-  return true;
 }
 
 /**
@@ -580,7 +599,10 @@ function update_AccountDBO( &$dbo )
 				       "username" => $dbo->getUsername() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -601,11 +623,7 @@ function delete_AccountDBO( &$dbo )
     {
       foreach( $hosting_array as $hosting_dbo )
 	{
-	  if( !delete_HostingServicePurchaseDBO( $hosting_dbo ) )
-	    {
-	      fatal_error( "delete_AccountDBO()", 
-			   "error, could not delete HostingServicePurchase" );
-	    }
+	  delete_HostingServicePurchaseDBO( $hosting_dbo );
 	}
     }
 
@@ -615,11 +633,7 @@ function delete_AccountDBO( &$dbo )
     {
       foreach( $domain_array as $domain_dbo )
 	{
-	  if( !delete_DomainServicePurchaseDBO( $domain_dbo ) )
-	    {
-	      fatal_error( "delete_AccountDBO", 
-			   "error, could not delete DomainServicePurchase" );
-	    }
+	  delete_DomainServicePurchaseDBO( $domain_dbo );
 	}
     }
 
@@ -629,11 +643,7 @@ function delete_AccountDBO( &$dbo )
     {
       foreach( $product_array as $product_dbo )
 	{
-	  if( !delete_ProductPurchaseDBO( $product_dbo ) )
-	    {
-	      fatal_error( "delete_AccountDBO", 
-			   "error, could not delete ProductPurchase" );
-	    }
+	  delete_ProductPurchaseDBO( $product_dbo );
 	}
     }
 
@@ -643,31 +653,28 @@ function delete_AccountDBO( &$dbo )
     {
       foreach( $invoice_array as $invoice_dbo )
 	{
-	  if( !delete_InvoiceDBO( $invoice_dbo ) )
-	    {
-	      fatal_error( "AccountDBO.class.php", "Could not delete Invoice" );
-	    }
+	  delete_InvoiceDBO( $invoice_dbo );
 	}
     }
 
   // Delete the account's user
-  if( !delete_UserDBO( $dbo->getUserDBO() ) )
-    {
-      throw new SWException( "Failed to delete account user!" );
-    }
+  delete_UserDBO( $dbo->getUserDBO() );
 
   // Build SQL
   $sql = $DB->build_delete_sql( "account",
 				"id = " . $id );
   // Delete the AccountDBO
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
  * Load an AccountDBO from the database
  *
  * @param integer $id ID of Account DBO to retrieve
- * @return AccountDBO Account DBO, null if not found
+ * @return AccountDBO Account DBO
  */
 function load_AccountDBO( $id )
 {
@@ -686,13 +693,13 @@ function load_AccountDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_AccountDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
   
   // Load a new AccountDBO
@@ -735,13 +742,13 @@ function &load_array_AccountDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_AccountDBO", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of DBOs from the result set
@@ -787,15 +794,14 @@ function count_all_AccountDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      fatal_error( "AccountDBO.class.php", "SELECT COUNT failure" );
+      throw new DBException();
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      fatal_error( "count_all_AccountDBO()", 
-		   "Expected SELECT to return 1 row" );
+      throw new DBNoRowsFoundException();
     }
 
   $data = mysql_fetch_array( $result );

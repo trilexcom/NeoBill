@@ -108,11 +108,7 @@ class EditHostingServicePage extends SolidStateAdminPage
     try
       {
 	$this->get['hservice']->addPrice( $priceDBO );
-	if( !add_HostingServicePriceDBO( $priceDBO ) )
-	  {
-	    throw new SWException( "Failed to add price to database: " . 
-				   mysql_error() );
-	  }
+	add_HostingServicePriceDBO( $priceDBO );
 	$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
       }
     catch( DuplicatePriceException $e )
@@ -150,11 +146,7 @@ class EditHostingServicePage extends SolidStateAdminPage
     $this->get['hservice']->setDescription( $this->post['description'] );
     $this->get['hservice']->setUniqueIP( $this->post['uniqueip'] );
     $this->get['hservice']->setDomainRequirement( $this->post['domainrequirement'] );
-    if( !update_HostingServiceDBO( $this->get['hservice'] ) )
-      {
-	// Error
-	throw new SWException( "Could not update hosting service!" );
-      }
+    update_HostingServiceDBO( $this->get['hservice'] );
   }
 }
 

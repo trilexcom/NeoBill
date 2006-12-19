@@ -33,8 +33,10 @@ class DomainTableWidget extends TableWidget
     parent::init( $params );
 
     // Load the Domain Table
-    if( null != ($domains = load_array_DomainServicePurchaseDBO( $where )) )
+    try
       {
+	$domains = load_array_DomainServicePurchaseDBO( $where );
+
 	// Build the table
 	foreach( $domains as $dbo )
 	  {
@@ -58,6 +60,7 @@ class DomainTableWidget extends TableWidget
 		     "expiredate" => $dbo->getExpireDate() );
 	  }
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**
