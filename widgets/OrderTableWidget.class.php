@@ -61,7 +61,7 @@ class OrderTableWidget extends TableWidget
                      "total" => $dbo->getTotal() );
 	  }
       }
-    catch( DBNoRowsFoundExceptiona $e ) {}
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**

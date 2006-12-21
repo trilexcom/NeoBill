@@ -661,6 +661,17 @@ function delete_AccountDBO( &$dbo )
     }
   catch( DBNoRowsFoundException $e ) {}
 
+  // Delete any Orders assigned to this account
+  try
+    {
+      $orders = load_array_OrderDBO( "accountid=" . $id );
+      foreach( $orders as $orderDBO )
+	{
+	  delete_OrderDBO( $orderDBO );
+	}
+    }
+  catch( DBNoRowsFoundException $e ) {}
+
   // Delete the account's user
   delete_UserDBO( $dbo->getUserDBO() );
 
