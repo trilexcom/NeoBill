@@ -156,6 +156,8 @@ class CustomerPage extends SolidStatePage
 	  }
 	catch( DBNoRowsFoundException $e ) {}
 
+	$this->session['order']->setNote( $this->post['note'] );
+
 	// Stuff the contact info into the order
 	$this->session['order']->setBusinessName( $this->post['businessname'] );
 	$this->session['order']->setContactname( $this->post['contactname'] );

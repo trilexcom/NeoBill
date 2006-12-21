@@ -7,6 +7,7 @@
     <phrase id="ADD_ANOTHER_DOMAIN">Add Another Domain</phrase>
     <phrase id="ADD_DOMAIN">Add Domain</phrase>
     <phrase id="ADD_HOSTING">Add Web Hosting Package</phrase>
+    <phrase id="ADDITIONAL_INFORMATION">Additional Information</phrase>
     <phrase id="ADDRESS">Address</phrase>
     <phrase id="ADMINISTRATIVE_CONTACT">Administrative Contact</phrase>
     <phrase id="APPLY_TO_THESE_DOMAINS">Apply the above contact information to the following domains:</phrase>
@@ -56,6 +57,7 @@
     <phrase id="EXISTING_DOMAIN_CART_TEXT">Please note: You will need to contact your domain registrar and update the name servers for each of the above domains.</phrase>
     <phrase id="EXISTING_DOMAIN_OPTION_TEXT">If you have already own a domain name and you do not wish to transfer it to us, select this option.  After your account is setup you will need to update your DNS settings with our name servers:</phrase>
     <phrase id="FAX">Fax</phrase>
+    <phrase id="FEEL_FREE_TO_USE_THIS_SPACE_TO_ASK_QUESTIONS_OR">Feel free to use this space to ask questions or to inform us about special circumstances regarding your account</phrase>
     <phrase id="IF_YOU_ARE_AN_EXISTING_CUSTOMER">If you are an existing customer, </phrase>
     <phrase id="IN_CART_DOMAIN_OPTION">Use a domain that is already in your cart</phrase>
     <phrase id="IS_ALREADY_REGISTERED">is already registered</phrase>

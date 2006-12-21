@@ -112,6 +112,7 @@
     <phrase id="CREDIT_CARD">Credit Card</phrase>
     <phrase id="CURRENCY_SYMBOL">Currency Symbol</phrase>
     <phrase id="CUSTOMER">Customer</phrase>
+    <phrase id="CUSTOMER_NOTE">Customer Note</phrase>
     <phrase id="CUSTOMERS_EMAIL">Customer's E-Mail Address</phrase>
     <phrase id="DATE">Date</phrase>
     <phrase id="DATE_FULFILLED">Date Fulfilled</phrase>

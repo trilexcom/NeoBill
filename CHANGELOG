@@ -2,6 +2,7 @@
 =====================
 
  * (trac #131) Added support for an external "Add-to-Cart" link and a "Whois box"
+ * (trac #117) Added a "note" field to the order interface
 
 12/15/2006 - jdiamond
 =====================

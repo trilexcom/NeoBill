@@ -127,6 +127,11 @@ class OrderDBO extends DBO
   protected $password;
 
   /**
+   * @var string Customer's note
+   */
+  protected $note = null;
+
+  /**
    * @var string Order status (Incomplete, Pending, or Fulfilled)
    */
   protected $status = "Incomplete";
@@ -489,6 +494,20 @@ class OrderDBO extends DBO
    * @return string Password
    */
   public function getPassword() { return $this->password; }
+
+  /**
+   * Set Customer Note
+   *
+   * @param string $note Customer note
+   */
+  public function setNote( $note ) { $this->note = $note; }
+
+  /**
+   * Get Customer Note
+   *
+   * @return string Customer note
+   */
+  public function getNote() { return $this->note; }
 
   /**
    * Add Item
@@ -950,6 +969,7 @@ class OrderDBO extends DBO
     $this->setPassword( $data['password'] );
     $this->setStatus( $data['status'] );
     $this->setAccountID( $data['accountid'] );
+    $this->setNote( $data['note'] );
 
     // Load order items
     try { $domains = load_array_OrderDomainDBO( "orderid=" . intval( $data['id'] ) ); }
@@ -1003,7 +1023,8 @@ function add_OrderDBO( &$dbo )
 				       "username" => $dbo->getUsername(),
 				       "password" => $dbo->getPassword(),
 				       "accountid" => $dbo->getAccountID(),
-				       "status" => $dbo->getStatus() ) );
+				       "status" => $dbo->getStatus(),
+				       "note" => $dbo->getNote() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -1088,7 +1109,8 @@ function update_OrderDBO( &$dbo )
 				       "username" => $dbo->getUsername(),
 				       "password" => $dbo->getPassword(),
 				       "accountid" => $dbo->getAccountID(),
-				       "status" => $dbo->getStatus() ) );
+				       "status" => $dbo->getStatus(),
+				       "note" => $dbo->getNote() ) );
 				
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

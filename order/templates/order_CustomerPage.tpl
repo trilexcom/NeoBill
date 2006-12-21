@@ -137,6 +137,20 @@
     </table>
   </div>
 
+  <div class="domainoption">
+    <table>
+      <tr class="reverse">
+        <th> [ADDITIONAL_INFORMATION] </th>
+      </tr>
+      <tr>
+        <td>
+          <p> [FEEL_FREE_TO_USE_THIS_SPACE_TO_ASK_QUESTIONS_OR]: </p>
+          {form_element field="note" rows="5" cols="60"}
+        </td>
+      </tr>
+    </table>
+  </div>
+
   <div class="buttoncontainer">
     <table>
       <tr>

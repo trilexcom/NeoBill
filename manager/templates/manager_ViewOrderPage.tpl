@@ -33,6 +33,10 @@
         <th> {echo phrase="TOTAL"}: </th>
         <td> {dbo_echo|currency dbo="orderdbo" field="total"} </td>
       </tr>
+      <tr>
+        <th> [CUSTOMER_NOTE]: </th>
+        <td> <textarea rows="6" cols="40" readonly="true">{dbo_echo dbo="orderdbo" field="note"}</textarea> </td>
+      </tr>
     </table>
   </div>
 
