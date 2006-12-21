@@ -278,7 +278,17 @@ function smarty_form( $params, $content, &$smarty, &$repeat )
 	}
 
       // Compose the form action field
-      $action = $page->getURL() . "&submit=" . $form_name;
+      if( $form_method == "POST" )
+	{
+	  $action = $page->getURL() . "&submit=" . $form_name;
+	}
+      else
+	{
+	  $action = $page->getURL();
+	  $content = sprintf( "<input type=\"hidden\" name=\"page\" value=\"%s\"/>\n%s",
+			      $page_name,
+			      $content );
+	}
 
       // Output the content enclosed within the form tags
       return "<form name=\"" . $form_name . "\" method=\"" . $form_method . 

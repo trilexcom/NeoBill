@@ -63,15 +63,7 @@ class PSIPNPage extends SolidStatePage
   function deletePayment()
   {
     // Delete the payment
-    if( !delete_PaymentDBO( $this->paymentDBO ) )
-      {
-	fatal_error( "PSIPNPage::deletePayment", 
-		     sprintf( "Failed to delete payment. TXN=%s, Customer=%s, Amount=%s, Status=%s",
-			      $_POST['txn_id'],
-			      $_POST['payer_email'],
-			      $_POST['mc_gross'],
-			      $_POST['payment_status'] ) );
-      }
+    delete_PaymentDBO( $this->paymentDBO );
 
     // Log the deleted payment
     log_notice( "PSIPNPage::deletePayment()", 
@@ -112,51 +104,51 @@ class PSIPNPage extends SolidStatePage
       $this->ppModule->loadPaypalPaymentDBO( isset( $_POST['parent_txn_id'] ) ?
 					     $_POST['parent_txn_id'] :
 					     $_POST['txn_id'] );
-
+    
     // Take action
     switch( $_POST['payment_status'] )
       {
       case "Canceled_Reversal":
 	$this->paymentCanceledReversal();
 	break;
-
+	
       case "Processed":
-
+	
       case "Completed":
 	$this->paymentCompleted();
 	break;
-
+	
       case "In-Progress":
-
+	
       case "Pending":
 	$this->paymentPending();
 	break;
-
+	
       case "Refunded":
 	$this->paymentRefunded();
 	break;
-
+	
       case "Reversed":
 	$this->paymentReversed();
 	break;
-
+	
       case "Denied":
-
+	
       case "Expired":
-
+	
       case "Failed":
-
+	
       case "Voided":
-
+	
 	$this->paymentVoided();
 	break;
-
+	
       default:
 	fatal_error( "PSIPNPage::init()", 
 		     "IPN was validated, but the payment status is not supported!" );
 	break;
       }
-
+    
     log_notice( "PSPIPNPage::init()", "Succesfully processed IPN." );
   }
 
@@ -189,16 +181,7 @@ class PSIPNPage extends SolidStatePage
 
 
     // Add the Payment DBO to the database
-    if( !add_PaymentDBO( $this->paymentDBO ) )
-      {
-	fatal_error( "PSIPNPage::newPayment()",
-		     sprintf( "Failed to add Paypal payment to database.  Order id=%d, TXN=%s, Customer=%s, Amount=%s, Paypal Status=%s",
-			      intval( $_POST['custom'] ),
-			      $_POST['txn_id'],
-			      $_POST['payer_email'],
-			      $_POST['mc_gross'],
-			      $_POST['payment_status'] ) );
-      }
+    add_PaymentDBO( $this->paymentDBO );
 
     // Log the new payment
     log_notice( "PSIPNPage::newPayment()", 
@@ -325,11 +308,7 @@ class PSIPNPage extends SolidStatePage
    */
   function updatePayment()
   {
-    if( !update_PaymentDBO( $this->paymentDBO ) )
-      {
-	fatal_error( "PSIPNPage::paymentCompleted()",
-		     "Failed to update Payment!" );
-      }
+    update_PaymentDBO( $this->paymentDBO );
     log_notice( "PSIPNPage::paymentCompleted()", 
 		sprintf( "Updated Paypal payment.  TXN=%s, Customer=%s", 
 			 $_POST['txn_id'],

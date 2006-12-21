@@ -143,10 +143,14 @@ class PaypalWPS extends PaymentProcessorModule
   {
     $DB = DBConnection::getDBConnection();
 
-    $paymentDBOArray = 
-      load_array_PaymentDBO( sprintf( "transaction1=%s AND module=%s",
-				      $DB->quote_smart( $tx ),
-				      $DB->quote_smart( $this->getName() ) ) );
+    try 
+      {
+	$paymentDBOArray = 
+	  load_array_PaymentDBO( sprintf( "transaction1=%s AND module=%s",
+					  $DB->quote_smart( $tx ),
+					  $DB->quote_smart( $this->getName() ) ) );
+      }
+    catch( DBNoRowsFoundException $e ) {}
 
     if( count( $paymentDBOArray ) > 1 )
       {

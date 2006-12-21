@@ -54,6 +54,8 @@ class PurchaseDomainPage extends SolidStatePage
    */
   public function init()
   {
+    parent::init();
+
     // Start a new order (if necessary)
     if( !isset( $_SESSION['order'] ) )
       {
@@ -71,6 +73,11 @@ class PurchaseDomainPage extends SolidStatePage
       array_shift( load_array_DomainServiceDBO() );
     $termWidget->setPurchasable( $dservice );
 
+    if( isset( $this->get['domain'] ) && isset( $this->get['tld'] ) )
+      {
+	$this->smarty->assign( "domain", $this->get['domain'] );
+	$this->smarty->assign( "tld", $this->get['tld']->getTLD() );
+      }
   }
 
   /**

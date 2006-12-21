@@ -93,21 +93,24 @@ class CPanelServerDBO extends DBO
  */
 function addOrUpdate_CPanelServerDBO( CPanelServerDBO $dbo )
 {
-  if( null == load_CPanelServerDBO( $dbo->getServerID() ) )
+  try 
+    { 
+      load_CPanelServerDBO( $dbo->getServerID() ); 
+
+      // Update
+      update_CPanelServerDBO( $dbo );
+    }
+  catch( DBNoRowsFoundException $e )
     {
       // Add
-      return add_CPanelServerDBO( $dbo );
+      add_CPanelServerDBO( $dbo );
     }
-
-  // Update
-  return update_CPanelServerDBO( $dbo );
 }
 
 /**
  * Insert CPanelServerDBO into database
  *
  * @param CPanelServerDBO $dbo CPanelServerDBO to add to database
- * @return boolean True on success
  */
 function add_CPanelServerDBO( CPanelServerDBO $dbo )
 {
@@ -120,14 +123,16 @@ function add_CPanelServerDBO( CPanelServerDBO $dbo )
 				       "accesshash" => $dbo->getAccessHash() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
  * Update CPanelServerDBO in database
  *
  * @param CPanelServerDBO $dbo CPanelServerDBO to update
- * @return boolean True on success
  */
 function update_CPanelServerDBO( CPanelServerDBO $dbo )
 {
@@ -140,7 +145,10 @@ function update_CPanelServerDBO( CPanelServerDBO $dbo )
 				       "accesshash" => $dbo->getAccessHash() ) );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -158,7 +166,10 @@ function delete_CPanelServerDBO( CPanelServerDBO $dbo )
 				"serverid = " . $dbo->getServerID() );
 
   // Run query
-  return mysql_query( $sql, $DB->handle() );
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
 }
 
 /**
@@ -184,13 +195,13 @@ function load_CPanelServerDBO( $serverID )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_ServerDBO()", "Attempt to load DBO failed on SELECT" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No rows found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Load a new CPanelServerDBO
@@ -233,13 +244,13 @@ function &load_array_CPanelServerDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      fatal_error( "load_array_CPanelServerDBO()", "SELECT failure" );
+      throw new DBException();
     }
 
   if( mysql_num_rows( $result ) == 0 )
     {
       // No services found
-      return null;
+      throw new DBNoRowsFoundException();
     }
 
   // Build an array of HostingServiceDBOs from the result set

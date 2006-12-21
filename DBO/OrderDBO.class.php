@@ -784,11 +784,12 @@ class OrderDBO extends DBO
 				     $billingDay )
   {
     // Verify that the username is not in use already
-    try { load_UserDBO( $this->getUsername() ); }
-    catch( DBNoRowsFoundException $e )
-      {
+    try 
+      { 
+	load_UserDBO( $this->getUsername() ); 
 	throw new OrderFailedException( "[USER_ALREADY_EXISTS]" );
       }
+    catch( DBNoRowsFoundException $e ) {}
 
     // Create user
     $userDBO = new UserDBO();

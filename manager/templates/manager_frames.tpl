@@ -2,6 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
+    <title>{$company_name} - Manager Interface</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
   </head>
 

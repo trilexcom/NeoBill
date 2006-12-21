@@ -34,6 +34,7 @@ class EditHostingServicePage extends SolidStateAdminPage
 
     // Store service DBO in session
     $this->session['hosting_dbo'] =& $this->get['hservice'];
+    $this->smarty->assign_by_ref( "serviceDBO", $this->get['hservice'] );
 
     // Setup the pricing table
     $ptw = $this->forms['edit_hosting_pricing']->getField( "prices" )->getWidget();

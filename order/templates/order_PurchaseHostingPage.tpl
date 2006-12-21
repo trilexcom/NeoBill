@@ -13,7 +13,7 @@
       </tr>
       <tr>
         <td> {form_description field="hostingservice"}</td>
-        <td> {form_element field="hostingservice" onchange="submit()"} </td>
+        <td> {form_element field="hostingservice" onchange="submit()" value=$service} </td>
       </tr>
       <tr>
         <td> {form_description field="hostingterm"}</td>
@@ -48,7 +48,7 @@
               <table>
                 <tr>
                   <th> [REGISTER_NEW_DOMAIN]: </th>
-                  <td> {form_element field="registerdomainname" size="30"}.{form_element field="registerdomaintld" onchange="submit()"} </td>
+                  <td> {form_element field="registerdomainname" size="30" value=$domain}.{form_element field="registerdomaintld" onchange="submit()" value=$tld} </td>
                 </tr>
                 <tr>
                   <th> {form_description field="registerdomainterm"} </th>

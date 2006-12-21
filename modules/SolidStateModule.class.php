@@ -113,7 +113,11 @@ abstract class SolidStateModule extends Module
   public function init()
   {
     // Check if this module is installed
-    if( null == ($this->moduleDBO = load_ModuleDBO( $this->getName() ) ) )
+    try 
+      {
+	$this->moduleDBO = load_ModuleDBO( $this->getName() );
+      }
+    catch( DBNoRowsFoundException $e )
       {
 	// Install this module
 	$this->install();
@@ -148,10 +152,7 @@ abstract class SolidStateModule extends Module
     $this->moduleDBO->setType( $this->getType() );
     $this->moduleDBO->setShortDescription( $this->getShortDescription() );
     $this->moduleDBO->setDescription( $this->getDescription() );
-    if( !add_ModuleDBO( $this->moduleDBO ) )
-      {
-	throw new ModuleInstallFailedException( $this->getName() );
-      }
+    add_ModuleDBO( $this->moduleDBO );
   }
 
   /**
@@ -159,11 +160,7 @@ abstract class SolidStateModule extends Module
    */
   public function updateModuleDBO()
   {
-    if( !update_ModuleDBO( $this->moduleDBO ) )
-      {
-	fatal_error( "SolidStateModule::disable()",
-		     "Failed to update Module DBO: " . $this->getName() );
-      }
+    update_ModuleDBO( $this->moduleDBO );
   }
 }
 
@@ -172,23 +169,19 @@ abstract class SolidStateModule extends Module
  */
 function removeMissingModules()
 {
-  global $conf;
-
   $modules = ModuleRegistry::getModuleRegistry()->getAllModules();
-  if( null != ($moduleDBOArray = load_array_ModuleDBO()) )
+  try
     {
-      foreach( load_array_ModuleDBO() as $moduleDBO )
+      $moduleDBOArray = load_array_ModuleDBO();
+      foreach( $moduleDBOArray as $moduleDBO )
 	{
 	  // Remove from the database any modules that are not installed anymore
 	  if( !array_key_exists( $moduleDBO->getName(), $modules ) )
 	    {
-	      if( !delete_ModuleDBO( $moduleDBO ) )
-		{
-		  fatal_error( "removeMissingModules()",
-			       "Failed to remove missing module from the database: " .$moduleDBO->getName() );
-		}
+	      delete_ModuleDBO( $moduleDBO );
 	    }
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
 }
 ?>

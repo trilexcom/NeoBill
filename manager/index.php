@@ -57,6 +57,7 @@ $menuItems = $menu->getItemArray();
 $smarty->assign( "menuItems", $menuItems );
 
 // Display frames
+$smarty->assign( "company_name", $conf['company']['name'] );
 $smarty->display( Page::selectTemplateFile( "manager_frames.tpl" ) );
 
 ?>

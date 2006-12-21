@@ -18,7 +18,7 @@
             <table>
               <tr>
                 <th> [DOMAIN_NAME]: </th>
-                <td> {form_element field="domainname" size="30"}.{form_element field="domaintld" onchange="submit()"} </td>
+                <td> {form_element field="domainname" size="30" value=$domain}.{form_element field="domaintld" onchange="submit()" value=$tld} </td>
               </tr>
               <tr>
                 <th> {form_description field="domainterm"} </th>

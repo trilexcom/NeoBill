@@ -19,6 +19,10 @@
         <th> {form_description field="domainrequirement"} </th>
         <td> {form_element dbo="hosting_dbo" field="domainrequirement"} </td>
       </tr>
+      <tr>
+        <th> [ADD_TO_CART_URL]: </th>
+        <td> order/index.php?page=purchasehosting&service={$serviceDBO->getID()} </td>
+      </tr>
       <tr class="footer">
         <th> 
           {form_element field="save"}

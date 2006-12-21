@@ -36,6 +36,7 @@
     <phrase id="ADD_PRODUCT">Add Product</phrase>
     <phrase id="ADD_SERVER">Add Server</phrase>
     <phrase id="ADD_SERVER_PAGE">Add Server Page</phrase>
+    <phrase id="ADD_TO_CART_URL">Add-to-cart URL</phrase>
     <phrase id="ADMINISTRATOR">Administrator</phrase>
     <phrase id="ADMINISTRATION">Administration</phrase>
     <phrase id="ALL">All</phrase>
@@ -512,7 +513,7 @@
     <phrase id="PRODUCT_DELETED">Product Deleted: {0}</phrase>
     <phrase id="ACCOUNT_ADDED">New Account created</phrase>
     <phrase id="ACCOUNT_UPDATED">Account changes saved.</phrase>
-    <phrase id="ACCOUNT_DELETED">Account deleted: {0}</phrase>
+    <phrase id="ACCOUNT_DELETED">Account Deleted</phrase>
     <phrase id="NOTE_ADDED">Note added.</phrase>
     <phrase id="NOTE_DELETED">Note deleted.</phrase>
     <phrase id="HOSTING_ASSIGNED">Hosting Service Added to Account</phrase>

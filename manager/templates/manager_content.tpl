@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
   <head>
-    <title>SolidState Manager - {$location|capitalize}</title>
+    <title>{$company_name} - Manager Interface</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
     <script type="text/javascript" src="../solidworks/include.js"></script>
   </head>

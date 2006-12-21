@@ -618,44 +618,48 @@ function delete_AccountDBO( &$dbo )
   $id = intval( $dbo->getID() );
 
   // Delete any HostingSericePurchases assigned to this account
-  $hosting_array = load_array_HostingServicePurchaseDBO( "accountid=" . $id );
-  if( isset( $hosting_array ) )
+  try
     {
+      $hosting_array = load_array_HostingServicePurchaseDBO( "accountid=" . $id );
       foreach( $hosting_array as $hosting_dbo )
 	{
 	  delete_HostingServicePurchaseDBO( $hosting_dbo );
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
 
   // Delete any DomainSericePurchases assigned to this account
-  $domain_array = load_array_DomainServicePurchaseDBO( "accountid=" . $id );
-  if( isset( $domain_array ) )
+  try
     {
+      $domain_array = load_array_DomainServicePurchaseDBO( "accountid=" . $id );
       foreach( $domain_array as $domain_dbo )
 	{
 	  delete_DomainServicePurchaseDBO( $domain_dbo );
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
 
   // Delete any ProductPurchases assigned to this account
-  $product_array = load_array_ProductPurchaseDBO( "accountid=" . $id );
-  if( isset( $product_array ) )
+  try
     {
+      $product_array = load_array_ProductPurchaseDBO( "accountid=" . $id );
       foreach( $product_array as $product_dbo )
 	{
 	  delete_ProductPurchaseDBO( $product_dbo );
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
 
   // Delete any Invoices assigned to this account
-  $invoice_array = load_array_InvoiceDBO( "accountid=" . $id );
-  if( isset( $invoice_array ) )
+  try
     {
+      $invoice_array = load_array_InvoiceDBO( "accountid=" . $id );
       foreach( $invoice_array as $invoice_dbo )
 	{
 	  delete_InvoiceDBO( $invoice_dbo );
 	}
     }
+  catch( DBNoRowsFoundException $e ) {}
 
   // Delete the account's user
   delete_UserDBO( $dbo->getUserDBO() );

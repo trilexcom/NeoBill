@@ -64,11 +64,13 @@ class CPServerConfigPage extends SolidStateAdminPage
     // Set URL fields
     $this->setURLField( "server", $this->get['server']->getID() );
 
-    if( null != ($CSDBO = load_CPanelServerDBO( $this->get['server']->getID() )) )
+    try
       {
+	$CSDBO = load_CPanelServerDBO( $this->get['server']->getID() );
 	$this->smarty->assign( "WHMUsername", $CSDBO->getUsername() );
 	$this->smarty->assign( "accessHash", $CSDBO->getAccessHash() );
       }
+    catch( DBNoRowsFoundException $e ) {}
   }
 
   /**
@@ -82,10 +84,7 @@ class CPServerConfigPage extends SolidStateAdminPage
 								    "\r" => "" ) ) );
     $CSDBO->setUsername( $this->post['username'] );
 
-    if( !addOrUpdate_CPanelServerDBO( $CSDBO ) )
-      {
-	throw new SWUserException( "[CPANEL_FAILED_TO_ADD_OR_UPDATE]" );
-      }
+    addOrUpdate_CPanelServerDBO( $CSDBO );
 
     // Success
     $this->setMessage( array( "type" => "[CPANEL_SERVER_CONFIG_SAVED]" ) );

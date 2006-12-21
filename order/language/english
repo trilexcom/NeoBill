@@ -25,6 +25,7 @@
     <phrase id="CARD_CODE_FORMAT">(help)</phrase>
     <phrase id="CART">Cart</phrase>
     <phrase id="CART_TOTAL">Total</phrase>
+    <phrase id="CHECK_DOMAIN_AVAILABILITY">Check Domain Availability</phrase>
     <phrase id="CHECK_OR_MONEY_ORDER">Check or Money Order</phrase>
     <phrase id="CHECKOUT">Checkout</phrase>
     <phrase id="CITY">City</phrase>
@@ -57,6 +58,8 @@
     <phrase id="FAX">Fax</phrase>
     <phrase id="IF_YOU_ARE_AN_EXISTING_CUSTOMER">If you are an existing customer, </phrase>
     <phrase id="IN_CART_DOMAIN_OPTION">Use a domain that is already in your cart</phrase>
+    <phrase id="IS_ALREADY_REGISTERED">is already registered</phrase>
+    <phrase id="IS_AVAILABLE">is available</phrase>
     <phrase id="ITEM">Item</phrase>
     <phrase id="LOGIN">Login</phrase>
     <phrase id="LOGIN_INFORMATION">Login Information</phrase>
@@ -87,6 +90,8 @@
     <phrase id="REGISTER_DOMAIN_OPTION">Register a new domain</phrase>
     <phrase id="REGISTER_DOMAIN_OPTION_TEXT">Select this option if you do not have a domain yet and you would like to register one with us.</phrase>
     <phrase id="REGISTER_NEW_DOMAIN">Register new domain</phrase>
+    <phrase id="REGISTER_THIS_DOMAIN_AND_PURCHASE_HOSTING">Register this domain and purchase web hosting</phrase>
+    <phrase id="REGISTER_THIS_DOMAIN_WITHOUT_HOSTING">Register this domain without purchasing web hosting</phrase>
     <phrase id="REGISTER_TRANSFER_DOMAIN">Register / Transfer Domain</phrase>
     <phrase id="REGISTRATION_PERIOD">Registration Period</phrase>
     <phrase id="REGISTRATION_TERMS">Please Select Your Domain Registration Terms</phrase>
@@ -111,6 +116,7 @@
     <phrase id="TRANSFER_PERIOD">Transfer and Renewal Period</phrase>
     <phrase id="TRANSFER_SECRET">Transfer Secret</phrase>
     <phrase id="TRANSFER_TERMS">Please Select Your Domain Transfer Terms</phrase>
+    <phrase id="TRY_ANOTHER_DOMAIN">Try Another Domain</phrase>
     <phrase id="USE_ADMIN_CONTACT">Check to use Admin contact</phrase>
     <phrase id="USE_BILLING_CONTACT">Check to use Billing contact</phrase>
     <phrase id="USERNAME">Username</phrase>
@@ -119,6 +125,7 @@
     <phrase id="VERIFY_PASSWORD">Verify Password</phrase>
     <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>
     <phrase id="WELCOME_BACK">Welcome back</phrase>
+    <phrase id="WHOIS">Whois</phrase>
     <phrase id="YOUR_ACCOUNT_WILL_BE_BILLED">Your account will be billed for today's purchase on your next invoice.</phrase>
     <phrase id="YOUR_CART">Your Cart</phrase>
     <phrase id="YOUR_EXISTING_DOMAIN">Your existing domain</phrase>

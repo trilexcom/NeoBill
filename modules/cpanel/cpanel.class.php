@@ -126,12 +126,7 @@ class Cpanel extends ControlPanelModule
    */
   protected function getCPanelServerDBO( ServerDBO $serverDBO )
   {
-    if( null == ($CPServerDBO = load_CPanelServerDBO( $serverDBO->getID() )) )
-      {
-	throw new SWUserException( "[CPANEL_INVALID_SERVER_CONFIGURATION]" );
-      }
-
-    return $CPServerDBO;
+    return load_CPanelServerDBO( $serverDBO->getID() );
   }
 
   /**

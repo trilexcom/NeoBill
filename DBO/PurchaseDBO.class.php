@@ -130,10 +130,10 @@ abstract class PurchaseDBO extends SaleDBO
     $nextBillingDateTS = DBConnection::date_to_unix( $this->getNextBillingDate() );
     $oldBillingDate = getdate( $nextBillingDateTS );
     $nextBillingDate = 
-      $DB->format_date( mktime( 0, 0, 1,
-				 $oldBillingDate['mon'] + $this->getTerm(),
-				 $oldBillingDate['mday'],
-				 $oldBillingDate['year'] ) );
+      DBConnection::format_date( mktime( 0, 0, 1,
+					 $oldBillingDate['mon'] + $this->getTerm(),
+					 $oldBillingDate['mday'],
+					 $oldBillingDate['year'] ) );
 
     $this->setNextBillingDate( $nextBillingDate );
     return $nextBillingDate;
