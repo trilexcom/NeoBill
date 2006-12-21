@@ -138,6 +138,7 @@
     <phrase id="DOMAIN_IS_ELIGIBLE">{0} is eligible for transfer.</phrase>
     <phrase id="DOMAIN_NOT_AVAILABLE">Sorry, the domain: {0} is not avaiable.  Please try again.</phrase>
     <phrase id="DOMAINS">Domains</phrase>
+    <phrase id="DOMAINS_DELETED">Domain(s) Deleted</phrase>
     <phrase id="DOMAIN_NAME">Domain Name</phrase>
     <phrase id="DOMAIN_REGISTRATION">Domain Registration</phrase>
     <phrase id="DOMAIN_SERVICE">Domain Service</phrase>

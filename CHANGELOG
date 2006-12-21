@@ -4,6 +4,7 @@
  * (trac #131) Added support for an external "Add-to-Cart" link and a "Whois box"
  * (trac #117) Added a "note" field to the order interface
  * (trac #149) Fixed a data-integrity bug caused by the AccountDBO not deleting associated orders before deleting itself
+ * (trac #17) Added a remove button to the registered domains and expired domains tables
 
 12/15/2006 - jdiamond
 =====================

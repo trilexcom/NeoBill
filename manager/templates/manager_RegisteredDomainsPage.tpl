@@ -29,6 +29,10 @@
   {form name="registered_domains"}
     {form_table field="domains"}
 
+      {form_table_column columnid="id" header=""}
+        <center> {form_table_checkbox option=$domains.id} </center>
+      {/form_table_column}
+
       {form_table_column columnid="fulldomainname" header="[DOMAIN_NAME]"}
         <a href="manager_content.php?page=domains_edit_domain&dpurchase={$domains.id}">{$domains.fulldomainname}</a>
       {/form_table_column}
@@ -48,6 +52,10 @@
       {form_table_column columnid="expiredate" header="[EXPIRATION_DATE]"}
         {$domains.expiredate|datetime:date}
       {/form_table_column}
+
+      {form_table_footer}
+        {form_element field="remove"}
+      {/form_table_footer}
 
     {/form_table}
   {/form}
