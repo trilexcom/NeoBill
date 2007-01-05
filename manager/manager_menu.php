@@ -13,14 +13,14 @@
 // Load config file
 require "../config/config.inc.php";
 
-require BASE_PATH . "include/SolidStateMenu.class.php";
-
 // Load SolidWorks
 require BASE_PATH . "solidworks/solidworks.php";
 
 // Load settings from database
 require BASE_PATH . "util/settings.php";
 load_settings( $conf );
+
+require BASE_PATH . "include/SolidStateMenu.class.php";
 
 // Set the current theme
 $theme = isset( $_SESSION['client']['userdbo'] ) ?

@@ -1,3 +1,12 @@
+1/5/2007 - jdiamond
+=====================
+
+ * (trac #138) Expanded invoice line-item descriptions to include more information such as term length,
+               domain name assigned to hosting service, and expire dates for domains.
+ * Changed the "Home" menu item to display the name of the company and made all the other menu items a
+   child of this item.
+ * Made the "Next Billing Date" field editable for all purchase types
+
 12/21/2006 - jdiamond
 =====================
 

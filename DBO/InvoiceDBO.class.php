@@ -463,8 +463,7 @@ class InvoiceDBO extends DBO
 	    $taxes += $purchaseDBO->getOnetimeTaxes();
 	    $this->add_item( 1, 
 			     $purchaseDBO->getOnetimePrice(),
-			     $purchaseDBO->getTitle() .
-			     " ([ONETIME])",
+			     $purchaseDBO->getLineItemTextOneTime(),
 			     false );
 	  }
 
@@ -505,7 +504,7 @@ class InvoiceDBO extends DBO
 	    $taxes += ($purchaseDBO->getRecurringTaxes() * $recurCount);
 	    $this->add_item( $recurCount, 
 			     $purchaseDBO->getRecurringPrice(),
-			     $purchaseDBO->getTitle(),
+			     $purchaseDBO->getLineItemTextRecurring(),
 			     false );
 	  }
 
@@ -514,7 +513,7 @@ class InvoiceDBO extends DBO
 	  {
 	    $this->add_item( 1, 
 			     $taxes,
-			     $purchaseDBO->getTitle() . ": [TAX]",
+			     $purchaseDBO->getLineItemTextTax(),
 			     true );
 	  }
 

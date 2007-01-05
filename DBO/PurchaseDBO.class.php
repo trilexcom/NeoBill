@@ -84,6 +84,36 @@ abstract class PurchaseDBO extends SaleDBO
   }
 
   /**
+   * Get Description for "One-time" Line Item
+   *
+   * @return string The text that should appear on the invoice for this purchase
+   */
+  public function getLineItemTextOneTime()
+  {
+    return $this->getTitle() . " ([ONETIME])";
+  }
+
+  /**
+   * Get Description for "Recurring" Line Item
+   *
+   * @return string The text that should appear on the invoice for this purchase
+   */
+  public function getLineItemTextRecurring()
+  {
+    return $this->getTitle();
+  }
+
+  /**
+   * Get Description for "Tax" Line Item
+   *
+   * @return string The text that should appear on the invoice for this purchase
+   */
+  public function getLineItemTextTax()
+  {
+    return $this->getTitle() . ": [TAX]";
+  }
+
+  /**
    * Get Next Billing Date
    *
    * @return string The next billing date for this purchase (MySQL DATETIME)

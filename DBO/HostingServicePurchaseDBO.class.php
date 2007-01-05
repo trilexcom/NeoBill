@@ -218,6 +218,22 @@ class HostingServicePurchaseDBO extends PurchaseDBO
    * @return string Hosting service title
    */
   public function getTitle() { return $this->purchasable->getTitle(); }
+
+  /**
+   * Get Description for "Recurring" Line Item
+   *
+   * @return string The text that should appear on the invoice for this purchase
+   */
+  public function getLineItemTextRecurring()
+  {
+    $domain = $this->getDomainName();
+    $term = $this->getTerm();
+    return sprintf( "%s%s ([TERM]: %d %s)", 
+		    $this->getTitle(), 
+		    $domain != null ? ": " . $domain : null,
+		    $term,
+		    $term > 1 ? "[MONTHS]" : "[MONTH]" );
+  }
 }
 
 /**

@@ -111,6 +111,20 @@ class ProductPurchaseDBO extends PurchaseDBO
    * @return string Product name
    */
   function getTitle() { return $this->getProductName(); }
+
+  /**
+   * Get Description for "Recurring" Line Item
+   *
+   * @return string The text that should appear on the invoice for this purchase
+   */
+  public function getLineItemTextRecurring()
+  {
+    $term = $this->getTerm();
+    return sprintf( "%s ([TERM]: %d %s)", 
+		    $this->getTitle(), 
+		    $term,
+		    $term > 1 ? "[MONTHS]" : "[MONTH]" );
+  }
 }
 
 /**

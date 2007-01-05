@@ -25,11 +25,19 @@
       {/form_table_column}
 
       {form_table_column columnid="productname" header="[PRODUCT_NAME]"}
-        {$products.productname}
+        <a href="manager_content.php?page=edit_product_purchase&ppurchase={$products.id}">{$products.productname}</a>
       {/form_table_column}
 
       {form_table_column columnid="note" header="[NOTE]"}
         {$products.note}
+      {/form_table_column}
+
+      {form_table_column columnid="term" header="[TERM]"}
+        {if $products.term != 0}
+          {$products.term} [MONTHS]
+        {else}
+          [N/A]
+        {/if}
       {/form_table_column}
 
       {form_table_column columnid="date" header="[DATE]"}

@@ -24,20 +24,6 @@ require BASE_PATH . "include/SolidStatePage.class.php";
 class EditDomainPage extends SolidStatePage
 {
   /**
-   * Initialize the Edit Domain Page
-   */
-  function init()
-  {
-    parent::init();
-
-    // Set URL Field
-    $this->setURLField( "dpurchase", $this->get['dpurchase']->getID() );
-
-    // Store DBO in session
-    $this->session['domain_dbo'] =& $this->get['dpurchase'];
-  }
-
-  /**
    * Action
    *
    * Actions handled by this page:
@@ -83,15 +69,41 @@ class EditDomainPage extends SolidStatePage
   function edit_domain()
   {
     // Update DBO
-    $this->get['dpurchase']->setDomainName( $this->post['domainname'] );
-    $this->get['dpurchase']->setTLD( $this->post['tld']->getTLD() );
-    $this->get['dpurchase']->setTerm( $this->post['term'] );
-    $this->get['dpurchase']->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $this->get['dpurchase']->setTerm( $this->post['term'] ?
+				      $this->post['term']->getTermLength() : null );
+    $this->get['dpurchase']->setNextBillingDate( DBConnection::format_datetime( $this->post['nextbillingdate'] ) );
     update_DomainServicePurchaseDBO( $this->get['dpurchase'] );
 
     // Success!
     $this->setMessage( array( "type" => "[DOMAIN_SERVICE_PURCHASE_UPDATED]" ) );
     $this->goback();
+  }
+
+  /**
+   * Initialize the Edit Domain Page
+   */
+  function init()
+  {
+    parent::init();
+
+    // Set URL Field
+    $this->setURLField( "dpurchase", $this->get['dpurchase']->getID() );
+
+    // Store DBO in session
+    $this->smarty->assign_by_ref( "domainDBO", $this->get['dpurchase'] );
+
+    try 
+      { 
+	$widget = $this->forms['edit_domain']->getField( "term" )->getWidget();
+	$widget->setPurchasable( $this->get['dpurchase']->getPurchasable() );
+
+	$widget = $this->forms['renew_domain']->getField( "term" )->getWidget();
+	$widget->setPurchasable( $this->get['dpurchase']->getPurchasable() );
+      }
+    catch( DBNoRowsFoundException $e )
+      {
+	throw new SWUserException( "[THERE_ARE_NO_DOMAIN_SERVICES]" );
+      }
   }
 
   /**
@@ -110,15 +122,16 @@ class EditDomainPage extends SolidStatePage
       }
 
     // Update DBO
-    $this->get['dpurchase']->setDate( $this->DB->format_datetime( $this->post['date'] ) );
-    $this->get['dpurchase']->setTerm( $this->post['term'] );
+    $this->get['dpurchase']->setDate( DBConnection::format_datetime( $this->post['date'] ) );
+    $this->get['dpurchase']->setTerm( $this->post['term'] ?
+				      $this->post['term']->getTermLength() : null );
     update_DomainServicePurchaseDBO( $this->get['dpurchase'] );
 
     // Update Registrar (but only if the "contact registrar" box was checked)
     if( $this->post['registrar'] )
       {
 	$module->renewDomain( $this->get['dpurchase'], 
-			      $this->get['dpurchase']->getTermInt() );
+			      $this->get['dpurchase']->getTerm() );
       }
 
     // Success!

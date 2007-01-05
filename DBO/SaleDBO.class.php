@@ -34,9 +34,14 @@ abstract class SaleDBO extends DBO
   /**
    * Constructor
    */
-  public function __construct()
-  {
-  }
+  public function __construct() {}
+
+  /**
+   * Get Sale ID
+   *
+   * @return mixed An ID for this sale
+   */
+  abstract public function getID();
 
   /**
    * Get Onetime price
@@ -145,7 +150,7 @@ abstract class SaleDBO extends DBO
   {
     return $this->getTerm() == null ?
       null :
-      sprintf( "%d-Recurring-%d", 
+      sprintf( "%s-Recurring-%d", 
 	       $this->purchasable->getID(), 
 	       $this->getTerm() );
   }

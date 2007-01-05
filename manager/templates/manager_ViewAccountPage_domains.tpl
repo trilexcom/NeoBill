@@ -25,7 +25,7 @@
       {/form_table_column}
 
       {form_table_column columnid="fulldomainname" header="[DOMAIN_NAME]"}
-        <a href="manager_content.php?page=domains_edit_domain&domain={$domains.id}">{$domains.fulldomainname}</a>
+        <a href="manager_content.php?page=domains_edit_domain&dpurchase={$domains.id}">{$domains.fulldomainname}</a>
       {/form_table_column}
 
       {form_table_column columnid="term" header="[TERM]"}

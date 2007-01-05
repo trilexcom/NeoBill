@@ -3,19 +3,20 @@
   <div class="form">
     <table style="width: 70%">
       <tr>
-        <th> {form_description field="domainname"} </th>
-        <td>
-          {form_element dbo="domain_dbo" field="domainname"}
-          . {form_element dbo="domain_dbo" field="tld"}
-        </td>
+        <th> [DOMAIN_NAME]: </th>
+        <td> {$domainDBO->getFullDomainName()}</td>
+      </tr>
+      <tr>
+        <th> [ACTIVATION_DATE]: </th>
+        <td> {$domainDBO->getDate()|datetime:date} </td>
       </tr>
       <tr>
         <th> {form_description field="term"} </th>
-        <td> {form_element dbo="domain_dbo" field="term"} </td>
+        <td> {form_element value=$domainDBO->getTermID() field="term"} </td>
       </tr>
       <tr>
-        <th> {form_description field="date"} </th>
-        <td> {form_element dbo="domain_dbo" field="date"} </td>
+        <th> {form_description field="nextbillingdate"} </th>
+        <td> {form_element value=$domainDBO->getNextBillingDate() field="nextbillingdate"} </td>
       </tr>
       <tr class="footer">
         <th colspan="2">
@@ -33,7 +34,7 @@
     <table style="width: 70%">
       <tr>
         <th> {form_description field="term"} </th> 
-        <td> {form_element dbo="domain_dbo" field="term"} </td> 
+        <td> {form_element field="term"} </td> 
       </tr>
       <tr>
         <th> {form_description field="date"} </th>

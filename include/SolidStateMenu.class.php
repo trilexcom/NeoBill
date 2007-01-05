@@ -34,18 +34,21 @@ class SolidStateMenu
    */
   public static function getSolidStateMenu()
   {
+    global $conf;
+
     if( self::$instance == null )
       {
 	$menu = new SolidStateMenu();
 
 	$menu->addItem( new SolidStateMenuItem( "home", 
-						"[HOME]", 
+						$conf['company']['name'], 
 						"house.png", 
 						"manager_content.php?page=home" ) );
 	$menu->addItem( new SolidStateMenuItem( "accounts", 
 						"[ACCOUNTS]", 
 						"group.png", 
-						"manager_content.php?page=accounts" ) );
+						"manager_content.php?page=accounts" ),
+			"home" );
 	$menu->addItem( new SolidStateMenuItem( "activeAccounts", 
 						"[ACTIVE_ACCOUNTS]", 
 						"user_green.png", 
@@ -74,7 +77,8 @@ class SolidStateMenu
 	$menu->addItem( new SolidStateMenuItem( "billing", 
 						"[BILLING_INVOICES]", 
 						"money.png", 
-						"manager_content.php?page=billing" ) );
+						"manager_content.php?page=billing" ),
+			"home" );
 	$menu->addItem( new SolidStateMenuItem( "outstandingInvoices", 
 						"[OUTSTANDING_INVOICES]", 
 						"page_error.png", 
@@ -103,7 +107,8 @@ class SolidStateMenu
 	$menu->addItem( new SolidStateMenuItem( "services", 
 						"[PRODUCTS_SERVICES]", 
 						"cart.png", 
-						"manager_content.php?page=services" ) );
+						"manager_content.php?page=services" ),
+			"home" );
 	$menu->addItem( new SolidStateMenuItem( "servicesHosting", 
 						"[WEB_HOSTING_SERVICES]", 
 						"page_world.png", 
@@ -132,7 +137,8 @@ class SolidStateMenu
 	$menu->addItem( new SolidStateMenuItem( "domains", 
 						"[DOMAINS]", 
 						"world_link.png", 
-						"manager_content.php?page=domains" ) );
+						"manager_content.php?page=domains" ),
+			"home" );
 	$menu->addItem( new SolidStateMenuItem( "registeredDomains", 
 						"[REGISTERED_DOMAINS]", 
 						"world_link.png", 
@@ -155,7 +161,8 @@ class SolidStateMenu
 			"domains" );
 	$menu->addItem( new SolidStateMenuItem( "administration", 
 						"[ADMINISTRATION]", 
-						"monitor.png" ) );
+						"monitor.png" ),
+			"home" );
 	$menu->addItem( new SolidStateMenuItem( "log", 
 						"[LOG]", 
 						"error.png", 
@@ -179,11 +186,13 @@ class SolidStateMenu
 	$menu->addItem( new SolidStateMenuItem( "about", 
 						"[ABOUT]", 
 						"bell.png",
-						"http://www.solid-state.org:8080/solidstate/wiki/SolidStateContributors" ) );
+						"http://www.solid-state.org:8080/solidstate/wiki/SolidStateContributors" ),
+			"home" );
 	$menu->addItem( new SolidStateMenuItem( "logout", 
 						"[LOGOUT]", 
 						"door_out.png",
-						"manager_content.php?page=home&action=logout" ) );
+						"manager_content.php?page=home&action=logout" ),
+			"home" );
 
 	self::$instance = $menu;
       }

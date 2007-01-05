@@ -26,6 +26,7 @@
       <tr>
         <th> [PURCHASED]: </th>
         <td> {$purchaseDBO->getDate()|datetime:date} </td>
+      </tr>
       <tr>
         <th> {form_description field="term"} </th>
         <td> {form_element field="term" value=$purchaseDBO->getTermID()} </td>

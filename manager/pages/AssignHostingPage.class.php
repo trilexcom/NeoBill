@@ -69,14 +69,14 @@ class AssignHostingPage extends SolidStatePage
     if( $this->post['service']->getUniqueIP() == "Required" && 
 	!isset( $this->post['ipaddress'] ) )
       {
-	throw new SWUserException( "[SELECT_IP]" );
+	throw new FieldMissingException( "ipaddress" );
       }
 
     // If this HostingService requires a domain, make sure the user selected one
     if( $this->post['service']->isDomainRequired() && 
 	!isset( $this->post['domainname'] ) )
       {
-	throw new SWUserException( "[YOU_MUST_SUPPLY_A_DOMAIN_NAME]" );
+	throw new FieldMissingException( "domainname" );
       }
 
     // Create new HostingServicePurchase DBO
@@ -88,7 +88,7 @@ class AssignHostingPage extends SolidStatePage
     $purchase_dbo->setTerm( isset( $this->post['term'] ) ? 
 			    $this->post['term']->getTermLength() : null );
     $purchase_dbo->setServerID( $serverID );
-    $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $purchase_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $purchase_dbo->setDomainName( $this->post['domainname'] );
 
     // Save purchase

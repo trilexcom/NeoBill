@@ -56,6 +56,13 @@ class DomainServiceDBO extends PurchasableDBO
    * @return string Top Level Domain
    */
   public function getTLD() { return $this->tld; }
+
+  /**
+   * Get ID (same as get TLD)
+   *
+   * @return string Top Level Domain
+   */
+  public function getID() { return $this->getTLD(); }
   
   /**
    * Set Module Name

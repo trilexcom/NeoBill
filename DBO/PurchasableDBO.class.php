@@ -53,6 +53,13 @@ abstract class PurchasableDBO extends DBO
   }
 
   /**
+   * Get Purchasable ID
+   *
+   * @return mixed An ID for this purchasabe
+   */
+  abstract public function getID();
+
+  /**
    * Get Pricing
    *
    * Queries the pricing options available for this purchasable

@@ -195,7 +195,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
    *
    * @return string FQDN
    */
-  function getTitle() { return $this->getFullDomainName(); }
+  function getTitle() { return "[DOMAIN_REGISTRATION]: " . $this->getFullDomainName(); }
 
   /**
    * Set Domain Secret (for transfer purchases)
@@ -226,6 +226,22 @@ class DomainServicePurchaseDBO extends PurchaseDBO
   public function isExpired()
   {
     return DBConnection::datetime_to_unix( $this->getExpireDate() ) > time();
+  }
+
+  /**
+   * Get Description for "Recurring" Line Item
+   *
+   * @return string The text that should appear on the invoice for this purchase
+   */
+  public function getLineItemTextRecurring()
+  {
+    $term = intval( $this->getTerm() / 12 );
+    return sprintf( "%s ([TERM]: %d %s, [EXPIRES] %s)", 
+		    $this->getTitle(),
+		    $term,
+		    $term > 1 ? "[YEARS]" : "[YEAR]",
+		    strftime( "%D", DBConnection::datetime_to_unix( $this->getExpireDate() ) ) );
+			      
   }
 }
 

@@ -94,8 +94,10 @@ class AssignProductPage extends SolidStatePage
     $purchase_dbo = new ProductPurchaseDBO();
     $purchase_dbo->setAccountID( $this->get['account']->getID() );
     $purchase_dbo->setProductID( $this->post['product']->getID() );
-    $purchase_dbo->setTerm( $this->post['term']->getTermLength() );
-    $purchase_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $purchase_dbo->setTerm( isset( $this->post['term'] ) ? 
+				   $this->post['term']->getTermLength() :
+				   null );
+    $purchase_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $purchase_dbo->setNote( $this->post['note'] );
 
     // Save purchase
