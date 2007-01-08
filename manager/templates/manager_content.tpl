@@ -6,6 +6,7 @@
     <title>{$company_name} - Manager Interface</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
     <script type="text/javascript" src="../solidworks/include.js"></script>
+    <link rel="STYLESHEET" type="text/css" href="../include/dhtmlxTabbar/css/dhtmlXTabbar.css">
   </head>
 
   {if isset( $jsFunction )}

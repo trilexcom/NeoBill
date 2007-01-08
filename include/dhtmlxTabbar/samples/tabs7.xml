@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<tabbar  hrefmode="ajax">
+    <row>
+        <tab id="b1" width='100px' selected="1"  href="slow_ajax.php?num=1">SCBR 1</tab>
+        <tab id="b2" width='100px' href="slow_ajax.php?num=2">SCBR 2</tab>
+        <tab id="b3" width='100px' href="slow_ajax.php?num=3">SCBR 3</tab>
+    </row>
+</tabbar>

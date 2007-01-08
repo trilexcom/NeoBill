@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<tree id="0">
+	<item text="dhtmlxTabBar v1.0" open="1" id="root">
+		<item text="Main Features" id="mf">
+			<userdata name="file">guide.html</userdata>
+		</item>
+		<item text="Supported Browsers" id="browsers">
+			<userdata name="file">guide.html</userdata>
+		</item>
+		<item text="Guide" id="guide" select="1">
+			<userdata name="file">guide.html</userdata>
+			<item text="Initialize TabBar object from javascript constructor" id="init"/>
+			<item text="Initialize TabBar object from HTML structure" id="inithtml"/>
+			<item text="Building tabbar with Javascript" id="scriptinit"/>
+			<item text="Building tabbar from XML" id="xmlinit"/>
+			<item text="Assigning content to tabs with Javscript" id="contentjs"/>
+			<item text="Assigning content to tabs in XML" id="contentxml"/>
+			<item text="Loading content in IFrames" id="ifrmode"/>
+			<item text="Loading content with AJAX" id="ajaxmode"/>
+            <item text="Settings: position, align, offset, marging" id="settings"/>
+            <item text="Skining: colors,predefined skins" id="skins"/> 
+			<item text="Manage tabbar and tab content area size" id="sizes"/>  
+			<item text="Manage each tab with script API" id="tabmanag"/>           
+		</item>
+		<item text="API Functions" id="api" open="1">
+			<item text="Alphabeticaly sorted" id="api_a">
+				<userdata name="file">alpha.html</userdata>
+			</item>
+			<item text="Grouped by Type" id="api_t">
+				<userdata name="file">tgroup.html</userdata>
+			</item>
+			<item text="Grouped by Object" id="api_o">
+				<userdata name="file">ogroup.html</userdata>
+			</item>
+			<!--item text="*Event handlers arguments" id="events_args">
+				<userdata name="file">events.html</userdata>
+			</item-->
+		</item>
+	</item>
+</tree> 

@@ -33,9 +33,9 @@ class ViewServerPage extends SolidStatePage
     // Set URL Field
     $this->setURLField( "server", $this->get['server']->getID() );
 
-    if( isset( $this->session['template'] ) )
+    if( isset( $this->session['tab'] ) )
       {
-	$this->setTemplate( $this->session['template'] );
+	$this->smarty->assign( "tab", $this->session['tab'] );
       }
 
     // Store Server DBO in session
@@ -78,18 +78,18 @@ class ViewServerPage extends SolidStatePage
     switch( $action_name )
       {
       case "info":
-	$this->session['template'] = "default";
-	$this->setTemplate( "default" );
+	$this->session['tab'] = "default";
+	$this->smarty->assign( "tab", "info" );
 	break;
 
       case "ips":
-	$this->session['template'] = "ips";
-	$this->setTemplate( "ips" );
+	$this->session['tab'] = "ips";
+	$this->smarty->assign( "tab", "ips" );
 	break;
 
       case "services":
-	$this->session['template'] = "services";
-	$this->setTemplate( "services" );
+	$this->session['tab'] = "services";
+	$this->smarty->assign( "tab", "services" );
 	break;
 
       case "view_server_ips":
@@ -150,7 +150,7 @@ class ViewServerPage extends SolidStatePage
       }
 
     // Success
-    $this->setTemplate( "ips" );
+    $this->smarty->assign( "tab", "ips" );
   }
 }
 

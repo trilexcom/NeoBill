@@ -1,0 +1,419 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>DHTML TabBar guide and samples</title>
+</head>
+
+<body>
+<style>
+	body {font-size:14px;line-height:18px;}
+	.{font-family:arial;}
+	h2 {cursor:pointer;font-size:20px;margin:30px 0px 40px 5px;line-height:10px}
+	h3 {cursor:pointer;font-weight:normal;color:black;text-decoration:underline;line-height:10px}
+	h4 {cursor:pointer;font-weight:normal;color:black;text-decoration:underline;line-height:10px}
+	a h4{
+		color:blue;
+		font-weight:bold;
+	}
+	.op {cursor:pointer;}
+	div.block {margin-left:5px;}
+	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	li {margin-top:2px;}
+</style>
+<h2><a href="http://www.scbr.com/docs/products/dhtmlxTabBar/index.shtml" target="_top" title="Visit javascript tabbar home page">dhtmlXTabBar</a> Guide and Samples</h2>
+<div class="block">
+<!---  --->
+	<a name="mf"><h3 >Main features</h3
+	></a><div style="display:show" class="block">
+		<li>Multibrowser/Multiplatform support </li>
+		<li>xHTML compatible</li>
+		<li>Full controll with JavaScript - wide API</li>
+		<li>Loading content with AJAX or in Iframes</li>
+		<li>Top, bottom, right and left oriented tabs</li>
+		<li>XML support</li>
+		<li>Fully customizable</li>
+		<li>Cool predefined skins</li>
+		<li>Multi-line tabbars</li>
+		<li>Scrollable</li>
+		<li>Easy initialization</li>
+	</div>
+
+	<a name="browsers"><h3 >Supported browsers</h3
+	></a><div style="display:show" class="block">
+		<li>IE 5.x and above</li>
+		<li>Mozilla 1.4 and above</li>
+		<li>FireFox 0.9 and above</li>
+		<li>Opera (Xml loading depends on browser version)</li>
+	</div>
+
+	<h3 >Working with dhtmlXTabBar</h3
+	><div style="display:show" class="block">
+
+<!--- Initialize object on page --->
+<a name="init"><h4 >Initialize TabBar object from javascript constructor</h4
+></a><div class="block">
+<strong>With Javascript constructor:</strong><br>
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<script>
+            tabbar=new dhtmlXTabBar("a_tabbar");
+            tabbar.setImagePath("../imgs/");
+</script>
+</XMP>
+		Parameters passed to the constructor are:
+			<li>object to attach tabbar to (should be loaded before calling constructor)</li>
+		Specify Additional parameters of the tabbar:
+			<li>setImagePath(url) - method specifies the path to the folder with tree icons</li>
+		</div>
+	Then you can load tabs <a href="#xmlinit">from XML</a> or add them <a href="#scriptinit">with script</a>
+</div>
+
+<a name="inithtml"><h4 >Initialize TabBar object from HTML structure</h4
+></a><div class="block">
+<strong>Without Javascript code:</strong><br>
+You do not need to write a line of javascript code if you include <em>dhtmlXTabBar_start.js</em>
+into the page. All you need is to specify class="dhtmlxTabBar" of the div element which is container for 
+the tabbar, and tabbar object will be initialized inside automatically.
+<XMP>
+<script  src="../js/dhtmlXCommon.js"></script>
+<script  src="../js/dhtmlXTabbar.js"></script>
+<script  src="../js/dhtmlXTabBar_start.js"></script>
+<div id="a_tabbar" class="dhtmlxTabBar" imgpath="../imgs/" style="width:390; height:390;"  skinColors="#FCFBFC,#F4F3EE" >
+    <div id="a1" name="Tab 1">Content 1</div>
+    <div id="a2" name="Tab 2">Content 2</div>
+    <div id="a3" name="Tab 3">Content 3</div>
+</div>
+</XMP>
+<br>
+<em>Container DIV attributes to use:</em>
+<li>mode - tabbar orientation - top/bottom/left/right</li>
+<li>tabheight - height of tab (not tab content)</li>
+<li>imgpath - path to folder with tabbar images</li>
+<li>margin - space between tabs</li>
+<li>align - tabs align - right/left</li>
+<li>hrefmode - see <a href="#ifrmode">Loading contant in IFrames</a> and <a href="ajaxmode">Loading Content with AJAX</a></li>
+<li>offset - offset of first tab from edge.</li>
+<li>tabstyle - one of predefined styles: winDflt, winScarf, winBiScarf, winRound</li>
+<li>select - if tab selected</li>
+<li>skinColors - list of two background colors - for active(1) and other tabs(2), like "#ffdead,#f5fffa"</li>
+<li>style - you should specify width and height of tabbar area (with content)</li>
+<li></li>
+<br>
+<em>Tab DIVs attributes to use:</em>
+<li>id - identifier of tab</li>
+<li>name - tab label</li>
+<li>width - width of tab in pixels</li>
+<li>href - url of tab content</li>
+<li>row - row index</li>
+<br>
+In this case the content of the tab should be placed inside tab DIV tags.		
+</div>
+<!--- Initializing tabs from Javascript --->
+<a name="scriptinit"><h4 >Building tabbar with Javascript</h4
+></a><div class="block">
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<script>
+            tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("imgs/");
+
+            tabbar.addTab("a1","Tab 1-1","100px");
+            tabbar.addTab("a2","Tab 1-2","100px");
+            tabbar.addTab("a3","Tab 1-3","100px");
+</script>
+</XMP>
+        Parametrs:
+			<li type="circle">tab identifier</li>
+			<li type="circle">title/label</li>
+			<li type="circle">width</li>
+		</div>
+
+<!--- Initializing tabs from XML --->
+<a name="xmlinit"><h4 >Building tabar from XML</h4
+></a><div class="block">
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<script>
+            tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("../imgs/");
+            tabbar.loadXML("tabs.xml");
+</script>
+</XMP>
+<br><br>
+<strong>XML Syntax:</strong>
+<XMP>
+<?xml version="1.0"?>
+<tabbar>
+    <row>
+        <tab id="a1" width='200px'>Tab 1-1</tab>
+        <tab id="a2" width='200px'>Tab 1-2</tab>
+    </row>
+    <row>
+        <tab id="b1" width='150px'>Tab 2-1</tab>
+        <tab id="b2" width='100px' selected="1">Tab 2-2</tab>
+        <tab id="b3" width='150px'>Tab 2-3</tab>
+    </row>
+</tabbar>
+</XMP>
+<br>
+In <strong>PHP</strong> script use the following code for page header:<br>
+<xmp>
+<?php
+	if ( stristr($_SERVER["HTTP_ACCEPT"],"application/xhtml+xml") ) {
+  		header("Content-type: application/xhtml+xml"); } else {
+  		header("Content-type: text/xml");
+	}
+	echo("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n");
+?>
+</xmp>
+<br>
+		<strong>&lt;tabbar&gt;</strong> node is mandatory. It specifies the parent of loading block of data.<br>
+		Possible properties:<br> 
+			<li><em>hrefmode</em> - optional. Possible values are: ajax/ajax-html or iframe/iframe-on-demand. Defines the way of loading tab page content.</li>
+			<li><em>margin</em> - space between tabs</li>
+			<li><em>align</em> - align of tabs group - left/right</li>
+			<li><em>offset</em> - offset of first tabs from edge</li>
+			<li><em>tabstyle</em> - one of predefined styles: winDflt, winScarf, winBiScarf, winRound</li>
+			<li><em>skinColors</em></li>
+		<br><br>
+		<strong>&lt;row&gt;</strong> can contain tabs (in order to load more than one level at once) or not.<br>
+		Mandatory parameters for this tag are:<br>
+			<li><em>width</em> - width (height) of tab</li>
+			<li><em>id</em> - id of the node</li>
+		<br>Optional:
+			<li><em>selected</em> - to set tab active. This attribute should be set to single tab in tabbar.</li>
+			<li><em>href</em> - url of the page to load under this tab (depending of tabbar/hrefmode it will use ajax or iframe)</li>
+<br><br>
+		</div>
+
+<!--- Assigning content to tabs --->
+<a name="contentjs"><h4 >Assigning content to tabs with Javscript</h4
+		></a><div class="block">
+<strong>With Javascript:</strong>
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<div id="html_1" >Some content</div>
+<script>
+            tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("imgs/");
+            tabbar.addTab("a1","Tab 1-1","100px");
+            tabbar.addTab("a2","Tab 1-2","100px");
+            tabbar.setContent("a1","html_1");
+            tabbar.setContentHTML("a2","<br/>The content can be set as...
+</script>
+</XMP>
+</div>
+
+<a name="contentxml"><h4 >Assigning content to tabs in XML</h4
+		></a><div class="block">
+<strong>With XML</strong>
+<XMP>
+<?xml version="1.0"?>
+<tabbar>
+    <row>
+        <tab id="a1" width='200px'>Tab 1-1
+            <content>
+                <![CDATA[<img src='imgs/page_a.gif'>]]>
+            </content>
+        </tab>
+        <tab id="a2" width='200px'>Tab 1-2
+            <content>
+                <![CDATA[
+					<table>
+						<tr><td>Some data</td></tr>
+					</table>
+				]]>
+            </content>
+        </tab>
+    </row>
+</tabbar>
+
+</XMP>
+		</div>
+
+<!--- Loading contant in IFrames --->		
+<a name="ifrmode"><h4 >Loading content in IFrames</h4
+></a><div class="block">
+If tabbar hrefmode set to "iframe" or "iframes-on-demand", tabbar will load content in iframes (which will be created automatically)
+<XMP>
+<?xml version="1.0"?>
+<tabbar  hrefmode="iframe">
+    <row>
+        <tab id="b1" width='100px' href="http://groups.google.com">Google groups</tab>
+        <tab id="b2" width='100px' selected="1" href="http://google.com">Google search</tab>
+    </row>
+</tabbar>
+</XMP>
+Possible hrefmode values are:
+<li>iframe - iframes created  and its contnet loaded at once</li>
+<li>iframes-on-demand - iframes created only when tab activated</li>
+		</div>
+
+<!--- Loading Content with AJAX --->
+<a name="ajaxmode"><h4 >Loading Content with AJAX</h4></a><div class="block">
+If tabbar hrefmode set to "ajax" or "ajax-html", tabbar will load content directly into the page (can contain javascript): 
+<XMP>
+<?xml version="1.0"?>
+<tabbar  hrefmode="ajax">
+    <row>
+        <tab id="b1" width='100px' selected="1"  href="slow_ajax.php?num=1">SCBR 1</tab>
+        <tab id="b2" width='100px' href="slow_ajax.php?num=2">SCBR 2</tab>
+        <tab id="b3" width='100px' href="slow_ajax.php?num=3">SCBR 3</tab>
+    </row>
+</tabbar>
+</XMP>
+Possible hrefmode values are:
+<li>ajax - contnet loaded from xml (see structure below)</li>
+<li>ajax-html - contnet loaded from html file</li>
+<br><br>
+
+In this case Tabbar expects AJAX request to get XML of the following structure:
+<XMP>
+<?xml version="1.0"?>
+<data>
+	<![CDATA[
+		Here should be the content that you want to place. It can be html code or simple text.
+	]]>
+</data>
+</XMP>
+
+</div>
+
+<!--- Settings --->
+<a name="settings"><h4 >Settings: position, align, offset, marging</h4></a><div class="block">
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<script>
+            tabbar=new dhtmlXTabBar("a_tabbar","top"); //top,bottom,left,right
+            tabbar.setImagePath("../imgs/");
+
+            tabbar.setAlign("left"); //left,rigth,top,bottom
+            tabbar.setMargin("2");
+            tabbar.setOffset("5");
+            tabbar.loadXML("tabs.xml");
+</script>
+</XMP>
+</div>
+
+
+<a name="skins"><h4 >Skining: colors,predefined skins</h4></a><div class="block">
+<strong>Predefined Style Schemas:</strong><br>
+There are 4 predefined schemas for Tabbar (see <a href="http://www.scbr.com/docs/products/dhtmlxTabbar/samples/tab_styles.html">sample</a>):
+<li>winDflt - Windows XP like (default style)</li>
+<li>winScarf - same with one splay adge</li>
+<li>winBiScarf - same with two splay adges</li>
+<li>winRound - rounded tabs</li>
+<br>
+To use necessary schema turn it on with <em>setStyle</em> method.
+<br><br>
+<strong>TabBar colors:</strong><br>
+You can define background colors for tabs using <em>setSkinColors</em> method, where first argument sets background for active tab, second - for other tabs.
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<script>
+			tabbar=new dhtmlXTabBar("b_tabbar","top");
+            tabbar.setImagePath("../imgs/");
+
+            tabbar.setStyle("winScarf");
+            tabbar.setSkinColors("#FFFF00","#FFFACD");
+</script>
+</XMP>
+</div>
+
+<a name="sizes"><h4 >Manage tabbar and tab content area size</h4></a><div class="block">
+<li>Set tabs content area size depending on content size</li>
+<XMP>
+	//param 1 - adjust width automatically
+	//param 2 - adjust height automatically
+	tabbar.enableAutoSize(true,true);
+	
+</XMP>
+
+<li>Set tabs content size depending on tabbar's container size (f.e. window size)</li>
+<XMP>
+	tabbar.enableAutoReSize(true);
+</XMP>
+
+<li>Set fixed (minimal in case of AutoSize) size of tabbar</li>
+<XMP>
+	//param 1 - width
+	//param 2 - height
+	//param 3 - true means that givven size is size of contnet area only  
+	tabbar.setSize("200px","300px",true)
+
+</XMP>
+</div>
+
+
+<a name="tabmanag"><h4 >Manage each tab with script API</h4></a><div class="block">
+<li>Get/Set(change) label of tab</li>
+<XMP>
+<script>
+	//param - tab ID
+	tabbar.getLabel(tabId);
+	//param 1 - tab ID
+	//param 2 - label string
+	tabbar.setLabel(tabId,"New tab Label");
+</script>
+</XMP>
+
+<li>Show/Hide existing tab</li>
+<XMP>
+<script>
+	//param 1 - tab ID
+	//param 2 - if true, then selection from hidden tab should be moved to nearest one
+	tabbar.hideTab(tab,true);
+	//param 1 - tab ID
+	tabbar.showTab(tabId);
+</script>
+</XMP>
+
+<li>Add/Remove tab</li>
+<XMP>
+<script>
+	//param 1 - tab ID
+	//param 2 - new tab label
+	//param 3 - size in px
+	//param 4 - index in row (optional)
+	//parma 5 - index of row (optional)
+	tabbar.addTab(tabId,"Label",100,0,0);
+	//param 1 - tab ID
+	//param 2 - if true, then selection from deleted tab should be moved to nearest one
+	tabbar.removeTab(tabId,true);
+</script>
+</XMP>
+
+<li>Disable/Enable tab</li>
+<XMP>
+<script>
+	//param 1 - tab ID
+	//param 2 - if true, then selection from disabled tab should be moved to nearest one
+	tabbar.disableTab(tabId,true);
+	//param 1 - tab ID
+	tabbar.enableTab(tabId);
+</script>
+</XMP>
+
+<li>Set/Get Active tab</li>
+<XMP>
+<script>
+	tabbar.getActiveTab();
+	//param 1 - tab ID
+	tabbar.setTabActive(tabId);
+</script>
+</XMP>
+</div>
+
+<!--- <a name="skins"><h4 >Skining: colors,predefined skins</h4></a><div class="block">
+
+<XMP>
+<script>
+			
+</script>
+</XMP>
+</div> --->
+
+</div>
+</body>
+</html>

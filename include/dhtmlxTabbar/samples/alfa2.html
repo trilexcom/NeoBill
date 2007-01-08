@@ -1,0 +1,24 @@
+   <table width="600">
+      <tr>
+         <td width="50%" valign="top">
+            <div id="gridbox" width="100%" height="250px" style="background-color:white;"></div>
+         </td>
+
+      </tr>
+   </table>
+<hr>
+<script>
+   mygrid = new dhtmlXGridObject('gridbox');
+   mygrid.setImagePath("../../dhtmlxgrid/imgs/");
+   mygrid.setHeader("Sales,Book Title Book Title Book Title Book Title,Author,Price,In Store,Shipping,Bestseller,Date of Publication");
+   mygrid.setInitWidths("50,150,120,80,80,80,80,200")
+   mygrid.setColAlign("right,left,left,right,center,left,center,center")
+   mygrid.setColTypes("dyn,ed,ed,price,ch,co,ra,ro");
+   mygrid.enableEditEvents(false,true,true);
+   mygrid.getCombo(5).put(2,2);
+   mygrid.setColSorting("int,str,str,int,str,str,str,date")
+   mygrid.setColumnColor("white,#d5f1ff,#d5f1ff")
+   mygrid.init();
+   mygrid.loadXML("../../dhtmlxgrid/grid.xml");
+</script>
+

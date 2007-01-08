@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>DHTML TabBar sample. dhtmlXTabBar - Navigation in  TabBar</title>
+</head>
+<style>
+	body {font-size:12px}
+	.{font-family:arial;font-size:12px}
+	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	div.hdr{
+		background-color:lightgrey;
+		margin-bottom:10px;
+		padding-left:10px;
+	}
+</style>
+<body>
+	<div class="hdr">DHTML JavaScript Tabbar samples</div>
+	<h1>Navigation in  TabBar</h1>
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script  src="../js/dhtmlXCommon.js"></script>
+	<script  src="../js/dhtmlXTabbar.js"></script>
+	<table>
+		<tr>
+			<td>
+				<div id="a_tabbar" style="width:412; height:100;"/>
+			</td>
+        </tr>
+	</table>
+    <input type='Button' value='Prev' onclick='tabbar2.goToPrevTab()'>
+    <input type='Button' onclick='alert(tabbar2.getActiveTab());' value='Current'>
+    <input type='Button' value='Next' onclick='tabbar2.goToNextTab()'>
+    <input type='Button' value='Set value' onclick='tabbar2.setLabel(tabbar2.getActiveTab(),this.nextSibling.value)'><input>
+
+<hr>
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<script>
+            tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("imgs/");
+
+            tabbar.loadXML("tabs1.xml");
+			...
+            tabbar.goToPrevTab(); 		// navigate to the previous tab
+            tabbar.goToNextTab(); 		// navigate to the next tab
+            var id=tabbar.getActiveTab(); 	// returns id of currently active tab
+            tabbar.setLabel('new'); 		// set label of tab
+</script>
+</XMP>
+	<script>
+
+			tabbar2=new dhtmlXTabBar("a_tabbar","top");
+            tabbar2.setImagePath("../imgs/");
+
+            tabbar2.loadXML("tabs1.xml");
+
+	</script>
+<br><br>
+  <div id="out_zone"></div>
+  <p><a href="http://www.scbr.com/docs/products/dhtmlxTabbar/index.shtml" style="font-weight:bold;">Go to the dhtmlxTabbar main page</a> or <a href="javascript:self.close()">Close this page</a></p>
+</body>
+</html>

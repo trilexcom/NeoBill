@@ -95,23 +95,23 @@ class ViewAccountPage extends SolidStatePage
       {
 
       case "account_info":
-	$this->setTemplate( "default" );
+	$this->smarty->assign( "tab", "info" );
 	break;
 
       case "services":
-	$this->setTemplate( "services" );
+	$this->smarty->assign( "tab", "hosting" );
 	break;
 
       case "domains":
-	$this->setTemplate( "domains" );
+	$this->smarty->assign( "tab", "domains" );
 	break;
 
       case "products":
-	$this->setTemplate( "products" );
+	$this->smarty->assign( "tab", "products" );
 	break;
 
       case "billing":
-	$this->setTemplate( "billing" );
+	$this->smarty->assign( "tab", "billing" );
 	break;
 
       case "product_purchases":

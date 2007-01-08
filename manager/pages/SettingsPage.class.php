@@ -25,7 +25,7 @@ class SettingsPage extends SolidStateAdminPage
   /**
    * Initialize Settings Page
    */
-  function init()
+  public function init()
   {
     parent::init();
 
@@ -96,30 +96,6 @@ class SettingsPage extends SolidStateAdminPage
   {
     switch( $action_name )
       {
-      case "general":
-	$this->setTemplate( "default" );
-	break;
-
-      case "themes":
-	$this->setTemplate( "themes" );
-	break;
-
-      case "dns":
-	$this->setTemplate( "dns" );
-	break;
-
-      case "billing":
-	$this->setTemplate( "billing" );
-	break;
-
-      case "locale":
-	$this->setTemplate( "locale" );
-	break;
-
-      case "payment_gateway":
-	$this->setTemplate( "payment_gateway" );
-	break;
-
       case "settings_company":
 	$this->update_company();
 	break;
@@ -175,6 +151,7 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['company']['email'] = $this->post['email'];
     $this->conf['company']['notification_email'] = $this->post['notification_email'];
     $this->save();
+    $this->smarty->assign( "tab", "general" );
   }
 
   /**
@@ -185,6 +162,7 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['welcome_subject'] = $this->post['subject'];
     $this->conf['welcome_email'] = $this->post['email'];
     $this->save();
+    $this->smarty->assign( "tab", "general" );
   }
 
   /**
@@ -195,6 +173,7 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['order']['confirmation_subject'] = $this->post['subject'];
     $this->conf['order']['confirmation_email'] = $this->post['email'];
     $this->save();
+    $this->smarty->assign( "tab", "general" );
   }
 
   /**
@@ -205,7 +184,7 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['themes']['manager'] = $this->post['managertheme'];
     $this->conf['themes']['order'] = $this->post['ordertheme'];
     $this->save();
-    $this->setTemplate( "themes" );
+    $this->smarty->assign( "tab", "themes" );
     $this->reload();
   }
 
@@ -213,7 +192,7 @@ class SettingsPage extends SolidStateAdminPage
   {
     $this->conf['order']['accept_checks'] = $this->post['accept_checks'];
     $this->save();
-    $this->setTemplate( "payment_gateway" );
+    $this->smarty->assign( "tab", "payment_gateway" );
   }
 
   /**
@@ -224,6 +203,7 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['order']['notification_subject'] = $this->post['subject'];
     $this->conf['order']['notification_email'] = $this->post['email'];
     $this->save();
+    $this->smarty->assign( "tab", "general" );
   }
 
   /**
@@ -237,7 +217,7 @@ class SettingsPage extends SolidStateAdminPage
 	     $this->post['nameservers_ns3'],
 	     $this->post['nameservers_ns4'] );
     $this->save();
-    $this->setTemplate( "dns" );
+    $this->smarty->assign( "tab", "dns" );
   }
 
   /**
@@ -248,7 +228,7 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['invoice_text'] = $this->post['text'];
     $this->conf['invoice_subject'] = $this->post['subject'];
     $this->save();
-    $this->setTemplate( "billing" );
+    $this->smarty->assign( "tab", "billing" );
   }
 
   /**
@@ -260,7 +240,7 @@ class SettingsPage extends SolidStateAdminPage
     $this->conf['locale']['language'] = $this->post['language'];
     $this->save();
     $_SESSION['jsFunction'] = "reloadMenu()";
-    $this->goto( "settings", null, "action=locale" );
+    $this->smarty->assign( "tab", "locale" );
   }
 
   /**
@@ -272,7 +252,7 @@ class SettingsPage extends SolidStateAdminPage
       $this->post['default_module']->getName();
     $this->conf['payment_gateway']['order_method'] = $this->post['order_method'];
     $this->save();
-    $this->setTemplate( "payment_gateway" );
+    $this->smarty->assign( "tab", "payment_gateway" );
   }
 
   /**

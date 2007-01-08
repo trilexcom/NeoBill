@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>DHTML TabBar sample. dhtmlXTabBar - Top/Bottom/Right/Left Tabbars</title>
+</head>
+<style>
+	body {font-size:12px}
+	.{font-family:arial;font-size:12px}
+	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0px;font-family:courier;padding:2px}
+	div.hdr{
+		background-color:lightgrey;
+		margin-bottom:10px;
+		padding-left:10px;
+	}
+</style>
+<body>
+	<div class="hdr">DHTML JavaScript Tabbar samples</div>
+	<h1>Top/Bottom/Right/Left Tabbars</h1>
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script  src="../js/dhtmlXCommon.js"></script>
+	<script  src="../js/dhtmlXTabbar.js"></script>
+	<script  src="../js/console.js"></script>
+    <div id='m_zone' style='width:420px; height:420px; overflow:hidden; background-color:#F0F8FF; position:absolute; left:150px; top:150px; '>
+<xmp>
+
+/*
+	enableContentZone - allow to hide
+	content zone so few tabbars can
+	emulate single content zone
+*/
+
+tabbar=new dhtmlXTabBar("a_tabbar","left");
+tabbar.setImagePath("../imgs/");
+tabbar.enableContentZone(false);
+tabbar.loadXML("tabs4a.xml");
+
+tabbar2=new dhtmlXTabBar("b_tabbar","right");
+tabbar2.setImagePath("../imgs/");
+tabbar2.enableContentZone(false);
+tabbar2.loadXML("tabs4a.xml");
+
+tabbar3=new dhtmlXTabBar("c_tabbar","top");
+tabbar3.setImagePath("../imgs/");
+tabbar3.enableContentZone(false);
+tabbar3.loadXML("tabs3a.xml");
+
+tabbar4=new dhtmlXTabBar("d_tabbar","bottom");
+tabbar4.setImagePath("../imgs/");
+tabbar4.enableContentZone(false);
+tabbar4.loadXML("tabs3a.xml");
+</xmp>
+    </div>
+				<div id="a_tabbar" style=" width:40px; height:420px; position:absolute; left:127px; top:150px;"></div>
+				<div id="b_tabbar" style=" width:40px; height:420px; position:absolute; left:550px; top:150px;"></div>
+				<div id="c_tabbar" style=" width:420px; height:47px; position:absolute; left:150px; top:129px;"></div>
+				<div id="d_tabbar" style=" width:420px; height:47px; position:absolute; left:150px; top:570px;"></div>
+<hr>
+
+	<script>
+
+			tabbar=new dhtmlXTabBar("a_tabbar","left");
+            tabbar.setImagePath("../imgs/");
+
+            tabbar.enableContentZone(false);
+            tabbar.loadXML("tabs4a.xml");
+
+			tabbar2=new dhtmlXTabBar("b_tabbar","right");
+            tabbar2.setImagePath("../imgs/");
+            
+            tabbar2.enableContentZone(false);
+            tabbar2.loadXML("tabs4a.xml");
+
+			tabbar3=new dhtmlXTabBar("c_tabbar","top");
+            tabbar3.setImagePath("../imgs/");
+
+            tabbar3.enableContentZone(false);
+            tabbar3.loadXML("tabs3a.xml");
+
+			tabbar4=new dhtmlXTabBar("d_tabbar","bottom");
+            tabbar4.setImagePath("../imgs/");
+            
+            tabbar4.enableContentZone(false);
+            tabbar4.loadXML("tabs3a.xml");
+
+	</script>
+<br><br>
+  <div id="out_zone"></div>
+  <p style="position:absolute;top:640px"><a href="http://www.scbr.com/docs/products/dhtmlxTabbar/index.shtml" style="font-weight:bold;">Go to the dhtmlxTabbar main page</a> or <a href="javascript:self.close()">Close this page</a></p>
+</body>
+</html>

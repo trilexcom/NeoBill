@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>DHTML TabBar sample. dhtmlXTabBar - Add content to TabBar</title>
+</head>
+<style>
+	body {font-size:12px}
+	.{font-family:arial;font-size:12px}
+	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	div.hdr{
+		background-color:lightgrey;
+		margin-bottom:10px;
+		padding-left:10px;
+	}
+</style>
+<body>
+	<div class="hdr">DHTML JavaScript Tabbar samples</div>
+	<h1>Attach content to TabBar</h1>
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script  src="../js/dhtmlXCommon.js"></script>
+	<script  src="../js/dhtmlXTabbar.js"></script>
+    <a href='javascript:void(0)' onclick='doIt()'>Attach content to TabBar</a><br />
+    <a href='javascript:void(0)' onclick='doIt2()'>Clear all  tabs</a><br />
+	<br><br>
+	<table>
+		<tr>
+			<td>
+				<div id="a_tabbar" style="width:390px; height:390px;"/>
+			</td>
+            <td><div id='html_1'><img src="imgs/page_a.gif"></div></td>
+            <td><div id='html_2'><img src="imgs/page_b.gif"></div></td>
+        </tr>
+	</table>
+<hr>
+<XMP>
+<div id="a_tabbar" style="width:400;height:100"></div>
+<script>
+            tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("imgs/");
+            tabbar.setSkinColors("#FCFBFC","#F4F3EE");
+
+            tabbar.addTab("a1","Tab 1-1","100px");
+            tabbar.addTab("a2","Tab 1-2","100px");
+            tabbar.addTab("a3","Tab 1-3","100px");
+
+            tabbar.setContent("a1","html_1");
+            tabbar.setContent("a2","html_2");
+            tabbar.setContentHTML("a3","<br/>The content can be set as <b>HTML</b> node or as <b>HTML</b> text.");
+</script>
+</XMP>
+	<script>
+			tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("../imgs/");
+
+            tabbar.setSkinColors("#FCFBFC","#F4F3EE","#FCFBFC");
+            tabbar.addTab("a1","Tab 1-1","100px");
+            tabbar.addTab("a2","Tab 1-2","100px");
+            tabbar.addTab("a3","Tab 1-3","100px");
+            tabbar.setTabActive("a1");
+
+
+            function doIt(){
+                tabbar.setContent("a1","html_1");
+                tabbar.setContent("a2","html_2");
+                tabbar.setContentHTML("a3","<br/>The content can be set as <b>HTML</b> node or as <b>HTML</b> text.");
+            }
+            function doIt2(){
+                tabbar.setContentHTML("a1","");
+                tabbar.setContentHTML("a2","");
+                tabbar.setContentHTML("a3","");
+            }
+	</script>
+<br><br>
+  <div id="out_zone"></div>
+  <p><a href="http://www.scbr.com/docs/products/dhtmlxTabbar/index.shtml" style="font-weight:bold;">Go to the dhtmlxTabbar main page</a> or <a href="javascript:self.close()">Close this page</a></p>
+</body>
+</html>

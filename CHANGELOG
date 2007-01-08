@@ -1,3 +1,10 @@
+1/7/2007 - jdiamond
+=====================
+
+ * Integrated the dhtmlxTabbar project to provide a DHTML tab bar for the view account,
+   view server, and settings pages.  As a result, all of the separate template files
+   for each of the tabs were combined into one template for each page.
+
 1/5/2007 - jdiamond
 =====================
 
