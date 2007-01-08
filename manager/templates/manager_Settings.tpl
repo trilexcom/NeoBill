@@ -214,7 +214,7 @@
     </div>
   </div> 
 
-  <div id="payment_gateway" name="[PAYMENTS]" width="80">
+  <div id="payment_gateway" name="[PAYMENT_GATEWAY]" width="120">
     <h2> {echo phrase="PAYMENT_GATEWAY"} </h2>
     {if $gatewaysAreEnabled}
       <div class="form">
@@ -239,14 +239,20 @@
     {else}
       <p> {echo phrase="THERE_ARE_NO_GATEWAY_MODULES"} </p>
     {/if}
+  </div>
 
+  <div id="order_interface" name="[ORDER_INTERFACE]" width="120">
     <h2> {echo phrase="ORDER_INTERFACE"} </h2>
     <div class="form">
       {form name="settings_order_interface"}
         <table style="width: 95%">
           <tr>
+            <th> {form_description field="title"} </th>
+            <td> {form_element field="title" size="40" value=$order_title} </td>
+          </tr>
+          <tr>
             <th> {form_description field="accept_checks"} </th>
-            <td> {form_element field="accept_checks" option="true"} </td>
+            <td> {form_element field="accept_checks" option="true" value=$order_accept_checks} </td>
           </tr>
           <tr class="footer">
             <td colspan="2">

@@ -59,7 +59,9 @@ class SettingsPage extends SolidStateAdminPage
 
     $this->smarty->assign( "default_gateway", $this->conf['payment_gateway']['default_module'] );
 
-    $this->smarty->assign( "order_accept_checks", $this->conf['order']['accept_checks'] );
+    $this->smarty->assign( "order_title", $this->conf['order']['title'] );
+    $this->smarty->assign( "order_accept_checks", 
+			   $this->conf['order']['accept_checks'] ? "true" : "false" );
 
     $this->smarty->assign( "managerTheme", $this->conf['themes']['manager'] );
     $this->smarty->assign( "orderTheme", $this->conf['themes']['order'] );
@@ -133,7 +135,7 @@ class SettingsPage extends SolidStateAdminPage
 	break;
 
       case "settings_order_interface":
-	$this->updateOrderInterfacePayments();
+	$this->updateOrderInterface();
 	break;
 
       default:
@@ -188,11 +190,12 @@ class SettingsPage extends SolidStateAdminPage
     $this->reload();
   }
 
-  function updateOrderInterfacePayments()
+  function updateOrderInterface()
   {
+    $this->conf['order']['title'] = $this->post['title'];
     $this->conf['order']['accept_checks'] = $this->post['accept_checks'];
     $this->save();
-    $this->smarty->assign( "tab", "payment_gateway" );
+    $this->smarty->assign( "tab", "order_interface" );
   }
 
   /**

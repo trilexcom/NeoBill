@@ -75,6 +75,7 @@ function load_settings( &$conf )
 	  $conf['payment_gateway']['order_method'] = $val; break;
 
 	case "order_accept_checks": $conf['order']['accept_checks'] = $val; break;
+	case "order_title": $conf['order']['title'] = $val; break;
 
 	case "theme_manager": $conf['themes']['manager'] = $val; break;
 	case "theme_order": $conf['themes']['order'] = $val; break;
@@ -121,6 +122,7 @@ function save_settings( $conf )
   update_setting( "payment_gateway_order_method",
 		  $conf['payment_gateway']['order_method'] );
 
+  update_setting( "order_title", $conf['order']['title'] );
   update_setting( "order_accept_checks", $conf['order']['accept_checks'] ? "1" : "0" );
 
   update_setting( "theme_manager", $conf['themes']['manager'] );

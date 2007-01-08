@@ -13,3 +13,4 @@ echo "INSERT INTO \`settings\` VALUES ('invoice_subject', 'Your {company_name} I
 echo "INSERT INTO \`settings\` VALUES ('order_accept_checks', '0');" >> solid-state.mysql.sql
 echo "INSERT INTO \`settings\` VALUES ('theme_manager', 'default');" >> solid-state.mysql.sql
 echo "INSERT INTO \`settings\` VALUES ('theme_order', 'default');" >> solid-state.mysql.sql
+echo "INSERT INTO \`settings\` VALUES ('order_title', 'Web Host Provider :: Order Page');" >> solid-state.mysql.sql

@@ -29,6 +29,9 @@ load_settings( $conf );
 // Set the current theme
 $conf['themes']['current'] = $conf['themes']['order'];
 
+// Provide the Order Interface page title to the templates
+$smarty->assign( "order_title", $conf['order']['title'] );
+
 // Hand off to SolidWorks
 solidworks( $conf, $smarty );
 ?>

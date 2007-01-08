@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
   <head>
-    <title>Solid-State Order/Signup Interface - {$location|capitalize}</title>
+    <title>{$order_title}</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
   </head>
 

@@ -260,6 +260,7 @@
     <phrase id="ORDER_DATE">Order Date</phrase>
     <phrase id="ORDER_ID">Order ID</phrase>
     <phrase id="ORDER_INTERFACE">Order Interface</phrase>
+    <phrase id="ORDER_INTERFACE_PAGE_TITLE">Order Interface Page Title</phrase>
     <phrase id="ORDER_IP">Order IP</phrase>
     <phrase id="ORDER_ITEMS">Order Items</phrase>
     <phrase id="ORDER_NOTIFICATION_EMAIL">Order Notification E-Mail</phrase>
