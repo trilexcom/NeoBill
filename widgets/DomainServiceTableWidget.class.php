@@ -19,11 +19,6 @@
 class DomainServiceTableWidget extends TableWidget
 {
   /**
-   * @var boolean Show all items flag
-   */
-  protected $showAll = true;
-
-  /**
    * Initialize the Table
    *
    * @param array $params Parameters from the {form_table} tag
@@ -35,8 +30,7 @@ class DomainServiceTableWidget extends TableWidget
     // Load the DomainService Table
     try
       {
-	$where = $this->showAll ? null : "public='Yes'";
-	$services = load_array_DomainServiceDBO( $where );
+	$services = load_array_DomainServiceDBO();
 
 	// Build the table
 	foreach( $services as $dbo )
@@ -65,9 +59,4 @@ class DomainServiceTableWidget extends TableWidget
       }
     catch( DBNoRowsFoundException $e ) {}
   }
-
-  /**
-   * Hide Private Items
-   */
-  public function hidePrivateItems() { $this->showAll = false; }
 }

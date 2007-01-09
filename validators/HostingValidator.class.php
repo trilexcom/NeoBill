@@ -34,6 +34,11 @@ class HostingValidator extends FieldValidator
     try { $hostingDBO = load_HostingServiceDBO( intval( $data ) ); }
     catch( DBRowNotFoundException $e ) { throw new RecordNotFoundException( "HostingService" ); }
 
+    if( $this->fieldConfig['publicitemsonly'] && !$hostingDBO->isPublic() )
+      {
+	throw new RecordNotFoundException( "HostingService" );
+      }
+
     return $hostingDBO;
   }
 }

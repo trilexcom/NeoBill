@@ -30,7 +30,8 @@ class HostingSelectWidget extends SelectWidget
     try
       {
 	// Convery to an array: hosting ID => hosting service name
-	$hostingDBOs = load_array_HostingServiceDBO();
+	$where = $this->fieldConfig['publicitemsonly'] ? "public='Yes'" : null;
+	$hostingDBOs = load_array_HostingServiceDBO( $where );
 	foreach( $hostingDBOs as $hostingDBO )
 	  {
 	    $hostings[$hostingDBO->getID()] = $hostingDBO->getTitle();

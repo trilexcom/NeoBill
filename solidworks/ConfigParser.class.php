@@ -175,6 +175,16 @@ class ConfigParser
       case "FIELD":
 	$this->form_field_name = $attrs['NAME'];
 	$field_data =& $this->conf['forms'][$this->form_name]['fields'][$this->form_field_name];
+	foreach( $attrs as $key => $value )
+	  {
+	    // If the value is "true" or "false", convert to a boolean type
+	    // Otherwise, just copy the value as is
+	    $field_data[strtolower( $key )] = 
+	      (strtolower( $value ) == "true" || strtolower( $value ) == "false") ?
+	      strtolower( $value ) == "true" :
+	      $value;
+	  }
+	/*
 	$field_data['widget'] = $attrs['WIDGET'];
 	$field_data['validator'] = $attrs['VALIDATOR'];
 	$field_data['description'] = $attrs['DESCRIPTION'];
@@ -193,6 +203,7 @@ class ConfigParser
 	$field_data['method_name'] = $attrs['METHOD_NAME'];
 	$field_data['cancel'] = (strtolower( $attrs['CANCEL'] ) == "true");
 	$field_data['array'] = (strtolower( $attrs['ARRAY'] ) == "true");
+	*/
 	break;
 
       case "COLUMNS":

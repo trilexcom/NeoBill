@@ -73,10 +73,6 @@ class PurchaseDomainPage extends SolidStatePage
       array_shift( load_array_DomainServiceDBO() );
     $termWidget->setPurchasable( $dservice );
 
-    // Do not allow the private domain services
-    $tldField->getWidget()->hidePrivateItems();
-    $tldField->getValidator()->noPrivateItems();
-
     if( isset( $this->get['domain'] ) && isset( $this->get['tld'] ) )
       {
 	$this->smarty->assign( "domain", $this->get['domain'] );

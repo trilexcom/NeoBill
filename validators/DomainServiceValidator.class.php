@@ -19,16 +19,6 @@
 class DomainServiceValidator extends FieldValidator
 {
   /**
-   * @var boolean Allow private items flag
-   */
-  protected $allowPrivateItems = true;
-
-  /**
-   * No Private Items Allowed
-   */
-  public function noPrivateItems() { $this->allowPrivateItems = false; }
-  
-  /**
    * Validate a Domain Service TLD
    *
    * Verifies that the domain service exists.
@@ -44,7 +34,7 @@ class DomainServiceValidator extends FieldValidator
     try { $domainDBO = load_DomainServiceDBO( $data ); }
     catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "DomainService" ); }
 
-    if( !$this->allowPrivateItems && !$domainDBO->isPublic() )
+    if( $this->fieldConfig['publicitemsonly'] && !$domainDBO->isPublic() )
       {
 	throw new RecordNotFoundException( "DomainService" );
       }
