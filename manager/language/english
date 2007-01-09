@@ -43,6 +43,8 @@
     <phrase id="ALL_ACCOUNTS">All (Active &amp; Inactive) accounts</phrase>
     <phrase id="ALL_INVOICES">All Invoices</phrase>
     <phrase id="ALL_STATES">Apply rule to all States</phrase>
+    <phrase id="ALLOW_CUSTOMERS_TO_ORDER_THIS_SERVICE">Allow customers to order this service</phrase>
+    <phrase id="ALLOW_CUSTOMERS_TO_ORDER_THIS_PRODUCT">Allow customers to order this product</phrase>
     <phrase id="AMOUNT">Amount</phrase>
     <phrase id="AMOUNT_DUE">Amount Due</phrase>
     <phrase id="AMOUNT_PAID">Amount Paid</phrase>
@@ -308,6 +310,7 @@
     <phrase id="PRODUCTS_SERVICES">Products &amp; Services</phrase>
     <phrase id="PRODUCTS_SERVICES_SUMMARY">Products &amp; Services Summary</phrase>
     <phrase id="PROVISION_NEW_ACCOUNT_ON_THE_SERVER_ABOVE">Provision a new account on the server above</phrase>
+    <phrase id="PUBLIC">Public</phrase>
     <phrase id="PURCHASED">Purchased</phrase>
     <phrase id="QUANTITY">Quantity</phrase>
     <phrase id="RECEIVE_PAYMENT">Receive Payment</phrase>

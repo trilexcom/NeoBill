@@ -20,6 +20,10 @@
         <td> {form_element dbo="hosting_dbo" field="domainrequirement"} </td>
       </tr>
       <tr>
+        <th> {form_description field="public"} </th>
+        <td> {form_element dbo="hosting_dbo" field="public" option="Yes"} </td>
+      </tr>
+      <tr>
         <th> [ADD_TO_CART_URL]: </th>
         <td> order/index.php?page=purchasehosting&service={$serviceDBO->getID()} </td>
       </tr>

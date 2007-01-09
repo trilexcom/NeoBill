@@ -147,6 +147,7 @@ class EditProductPage extends SolidStateAdminPage
     // Update DBO
     $product_dbo->setName( $this->post['name'] );
     $product_dbo->setDescription( $this->post['description'] );
+    $product_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
     update_ProductDBO( $product_dbo );
 
     // Sucess!

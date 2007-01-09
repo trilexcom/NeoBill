@@ -113,7 +113,8 @@ function add_ProductDBO( &$dbo )
   // Build SQL
   $sql = $DB->build_insert_sql( "product",
 				array( "name" => $dbo->getName(),
-				       "description" => $dbo->getDescription() ) );
+				       "description" => $dbo->getDescription(),
+				       "public" => $dbo->getPublic() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -154,7 +155,8 @@ function update_ProductDBO( &$dbo )
   $sql = $DB->build_update_sql( "product",
 				"id = " . intval( $dbo->getID() ),
 				array( "name" => $dbo->getName(),
-				       "description" => $dbo->getDescription() ) );
+				       "description" => $dbo->getDescription(),
+				       "public" => $dbo->getPublic() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

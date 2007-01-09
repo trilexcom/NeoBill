@@ -11,6 +11,10 @@
         <th> {form_description field="modulename"} </th>
         <td> {form_element dbo="domain_service_dbo" field="modulename"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="public"} </th>
+        <td> {form_element dbo="domain_service_dbo" field="public" option="Yes"} </td>
+      </tr>
       <tr class="footer">
         <th> 
           {form_element field="save"}

@@ -181,7 +181,8 @@ function add_HostingServiceDBO( &$dbo )
 				array( "title" => $dbo->getTitle(),
 				       "description" => $dbo->getDescription(),
 				       "uniqueip" => $dbo->getUniqueIP(),
-				       "domainrequirement" => $dbo->getDomainRequirement() ) );
+				       "domainrequirement" => $dbo->getDomainRequirement(),
+				       "public" => $dbo->getPublic() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -230,7 +231,8 @@ function update_HostingServiceDBO( &$dbo )
 				array( "title" => $dbo->getTitle(),
 				       "description" => $dbo->getDescription(),
 				       "uniqueip" => $dbo->getUniqueIP(),
-				       "domainrequirement" => $dbo->getDomainRequirement() ) );
+				       "domainrequirement" => $dbo->getDomainRequirement(),
+				       "public" => $dbo->getPublic() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

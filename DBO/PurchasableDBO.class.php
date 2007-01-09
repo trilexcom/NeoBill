@@ -36,6 +36,11 @@ abstract class PurchasableDBO extends DBO
   protected $prices = array();
 
   /**
+   * @var string Public flag
+   */
+  protected $public = null;
+
+  /**
    * Add Price
    *
    * @param PriceDBO PriceDBO to add to this Purchasable
@@ -79,6 +84,34 @@ abstract class PurchasableDBO extends DBO
       }
 
     return $results;
+  }
+
+  /**
+   * Get Public Flag
+   *
+   * @return string Public flag ("Yes" or "No")
+   */
+  public function getPublic() { return $this->public; }
+
+  /**
+   * Is Public?
+   *
+   * @return boolean True if this purchasable is public
+   */
+  public function isPublic() { return $this->public == "Yes"; }
+
+  /**
+   * Set Public Flag
+   *
+   * @param string Public flag ("Yes" or "No")
+   */
+  public function setPublic( $public )
+  {
+    if( !( $public == "Yes" || $public == "No" ) )
+      {
+	throw new SWException( "Invalid public flag setting: " . $public );
+      }
+    $this->public = $public;
   }
 }
 ?>

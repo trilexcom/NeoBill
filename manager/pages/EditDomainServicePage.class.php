@@ -145,10 +145,11 @@ class EditDomainServicePage extends SolidStateAdminPage
     // Update DBO
     $this->get['dservice']->setDescription( $this->post['description'] );
     $this->get['dservice']->setModuleName( $this->post['modulename']->getName() );
+    $this->get['dservice']->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
     update_DomainServiceDBO( $this->get['dservice'] );
 
     // Sucess!
-    $this->setMessage( array( "type" => "DOMAIN_SERVICE_UPDATED" ) );
+    $this->setMessage( array( "type" => "[DOMAIN_SERVICE_UPDATED]" ) );
     $this->reload();
   }
 }

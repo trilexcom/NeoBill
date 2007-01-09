@@ -19,6 +19,11 @@
 class TLDSelectWidget extends SelectWidget
 {
   /**
+   * @var boolean Show all items flag
+   */
+  protected $showAll = true;
+
+  /**
    * Get Data
    *
    * @param array $config Field configuration
@@ -31,7 +36,8 @@ class TLDSelectWidget extends SelectWidget
     try
       {
 	// Convery to an array: TLD => TLD
-	$domainDBOs = load_array_DomainServiceDBO();
+	$where = $this->showAll ? null : "public='Yes'";
+	$domainDBOs = load_array_DomainServiceDBO( $where );
 	foreach( $domainDBOs as $domainDBO )
 	  {
 	    $tlds[$domainDBO->getTLD()] = $domainDBO->getTLD();
@@ -41,5 +47,10 @@ class TLDSelectWidget extends SelectWidget
 
     return $tlds;
   }
+
+  /**
+   * Hide Private Items
+   */
+  public function hidePrivateItems() { $this->showAll = false; }
 }
 ?>

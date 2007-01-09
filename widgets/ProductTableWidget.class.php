@@ -54,7 +54,8 @@ class ProductTableWidget extends TableWidget
 	      array( "id" => $dbo->getID(),
 		     "name" => $dbo->getName(),
 		     "description" => $dbo->getDescription(),
-		     "pricing" => $priceString );
+		     "pricing" => $priceString,
+		     "public" => $dbo->getPublic() );
 	  }
       }
     catch( DBNoRowsFoundException $e ) {}

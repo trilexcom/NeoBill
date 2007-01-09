@@ -129,7 +129,8 @@ function add_DomainServiceDBO( &$dbo )
   $sql = $DB->build_insert_sql( "domainservice",
 				array( "tld" => $dbo->getTLD(),
 				       "modulename" => $dbo->getModuleName(),
-				       "description" => $dbo->getDescription() ) );
+				       "description" => $dbo->getDescription(),
+				       "public" => $dbo->getPublic() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -160,7 +161,8 @@ function update_DomainServiceDBO( &$dbo )
   $sql = $DB->build_update_sql( "domainservice",
 				"tld = " . $DB->quote_smart( $dbo->getTLD() ),
 				array( "modulename" => $dbo->getModuleName(),
-				       "description" => $dbo->getDescription() ) );
+				       "description" => $dbo->getDescription(),
+				       "public" => $dbo->getPublic() ) );
 				
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

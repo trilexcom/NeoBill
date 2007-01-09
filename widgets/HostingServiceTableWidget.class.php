@@ -55,7 +55,8 @@ class HostingServiceTableWidget extends TableWidget
 		     "title" => $dbo->getTitle(),
 		     "description" => $dbo->getDescription(),
 		     "uniqueip" => $dbo->getUniqueIP(),
-		     "pricing" => $priceString );
+		     "pricing" => $priceString,
+		     "public" => $dbo->getPublic() );
 	  }
       }
     catch( DBNoRowsFoundException $e ) {}

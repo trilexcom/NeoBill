@@ -19,6 +19,11 @@
 class DomainServiceTableWidget extends TableWidget
 {
   /**
+   * @var boolean Show all items flag
+   */
+  protected $showAll = true;
+
+  /**
    * Initialize the Table
    *
    * @param array $params Parameters from the {form_table} tag
@@ -30,6 +35,7 @@ class DomainServiceTableWidget extends TableWidget
     // Load the DomainService Table
     try
       {
+	$where = $this->showAll ? null : "public='Yes'";
 	$services = load_array_DomainServiceDBO( $where );
 
 	// Build the table
@@ -53,9 +59,15 @@ class DomainServiceTableWidget extends TableWidget
 	      array( "tld" => $dbo->getTLD(),
 		     "description" => $dbo->getDescription(),
 		     "pricing" => $priceString,
-		     "module" => $dbo->getModuleName() );
+		     "module" => $dbo->getModuleName(),
+		     "public" => $dbo->getPublic() );
 	  }
       }
     catch( DBNoRowsFoundException $e ) {}
   }
+
+  /**
+   * Hide Private Items
+   */
+  public function hidePrivateItems() { $this->showAll = false; }
 }

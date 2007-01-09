@@ -11,6 +11,10 @@
         <th> {form_description field="description"} </th>
         <td> {form_element field="description" cols="40" rows="3"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="public"} </th>
+        <td> {form_element field="public" option="Yes"} </td>
+      </tr>
       <tr class="footer">
         <th colspan="2">
           {form_element field="continue"}

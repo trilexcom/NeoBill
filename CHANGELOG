@@ -3,6 +3,9 @@
 
  * (trac #164) Made the Order Interface's page title a setting and gave it its own
    tab on the Manager > Administration > Settings page
+ * (trac #152) Added a "public" flag to hosting services, domain services, and products.
+   Only products/services with a public flag are available to the customer through the
+   Order interface (and the future customer interface).
 
 1/7/2007 - jdiamond
 =====================

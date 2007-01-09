@@ -66,6 +66,7 @@ class ServicesNewHosting extends SolidStateAdminPage
     $service_dbo->setDescription( $this->post['description'] );
     $service_dbo->setUniqueIP( $this->post['uniqueip'] );
     $service_dbo->setDomainRequirement( $this->post['domainrequirement'] );
+    $service_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
 
     // Insert HostingServiceDBO into database
     add_HostingServiceDBO( $service_dbo );

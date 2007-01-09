@@ -66,6 +66,7 @@ class NewProductPage extends SolidStateAdminPage
     $product_dbo = new ProductDBO();
     $product_dbo->setName( $this->post['name'] );
     $product_dbo->setDescription( $this->post['description'] );
+    $product_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
 
     // Insert ProductDBO into database
     add_ProductDBO( $product_dbo );

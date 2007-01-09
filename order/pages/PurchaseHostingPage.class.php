@@ -91,12 +91,20 @@ class PurchaseHostingPage extends SolidStatePage
       array_shift( load_array_DomainServiceDBO() );
     $RDTermWidget->setPurchasable( $dservice );
 
+    // Do not allow the private domain services
+    $tldField->getWidget()->hidePrivateItems();
+    $tldField->getValidator()->noPrivateItems();
+
     $TDTermWidget = $this->forms['purchasehosting']->getField( "transferdomainterm" )->getWidget();
     $tldField = $this->forms['purchasehosting']->getField( "transferdomaintld" );
     $dservice = isset( $_POST['transferdomaintld'] ) ?
       $tldField->set( $_POST['transferdomaintld'] ) :
       array_shift( load_array_DomainServiceDBO() );
     $TDTermWidget->setPurchasable( $dservice );
+
+    // Do not allow the private domain services
+    $tldField->getWidget()->hidePrivateItems();
+    $tldField->getValidator()->noPrivateItems();
 
     // Setup the in-cart domains drop-down
     $widget = $this->forms['purchasehosting']->getField( "incartdomain" )->getWidget();

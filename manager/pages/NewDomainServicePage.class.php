@@ -67,6 +67,7 @@ class NewDomainServicePage extends SolidStateAdminPage
     $service_dbo->setTLD( $this->post['tld'] );
     $service_dbo->setModuleName( $this->post['modulename']->getName() );
     $service_dbo->setDescription( $this->post['description'] );
+    $service_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
 
     // Insert DomainServiceDBO into database
     add_DomainServiceDBO( $service_dbo );
