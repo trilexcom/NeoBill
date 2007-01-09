@@ -76,12 +76,12 @@
           <td> {form_element dbo="orderdbo" field="state" size="20"} </td>
         </tr>
         <tr>
-          <th> {form_description field="country"} </th>
-          <td> {form_element dbo="orderdbo" field="country"} </td>
-        </tr>
-        <tr>
           <th> {form_description field="postalcode"} </th>
           <td> {form_element dbo="orderdbo" field="postalcode" size="10"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="country"} </th>
+          <td> {form_element dbo="orderdbo" field="country"} </td>
         </tr>
         <tr>
           <th> {form_description field="phone"} </th>

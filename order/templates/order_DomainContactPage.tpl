@@ -36,10 +36,6 @@
                 <td> {form_element field="aaddress3" size="50"} </td>
               </tr>
               <tr>
-                <td> {form_description field="acountry"} </td>
-                <td> {form_element field="acountry"} </td>
-              </tr>
-              <tr>
                 <td> {form_description field="acity"} </td>
                 <td> {form_element field="acity" size="30"} </td>
               </tr>
@@ -50,6 +46,10 @@
               <tr>
                 <td> {form_description field="apostalcode"} </td>
                 <td> {form_element field="apostalcode" size="10"} </td>
+              </tr>
+              <tr>
+                <td> {form_description field="acountry"} </td>
+                <td> {form_element field="acountry"} </td>
               </tr>
               <tr>
                 <td> {form_description field="aphone"} </td>
@@ -102,10 +102,6 @@
                 <td> {form_element field="baddress3" size="50"} </td>
               </tr>
               <tr>
-                <td> {form_description field="bcountry"} </td>
-                <td> {form_element field="bcountry"} </td>
-              </tr>
-              <tr>
                 <td> {form_description field="bcity"} </td>
                 <td> {form_element field="bcity" size="30"} </td>
               </tr>
@@ -116,6 +112,10 @@
               <tr>
                 <td> {form_description field="bpostalcode"} </td>
                 <td> {form_element field="bpostalcode" size="10"} </td>
+              </tr>
+              <tr>
+                <td> {form_description field="bcountry"} </td>
+                <td> {form_element field="bcountry"} </td>
               </tr>
               <tr>
                 <td> {form_description field="bphone"} </td>
@@ -168,10 +168,6 @@
                 <td> {form_element field="taddress3" size="50"} </td>
               </tr>
               <tr>
-                <td> {form_description field="tcountry"} </td>
-                <td> {form_element field="tcountry"} </td>
-              </tr>
-              <tr>
                 <td> {form_description field="tcity"} </td>
                 <td> {form_element field="tcity" size="30"} </td>
               </tr>
@@ -182,6 +178,10 @@
               <tr>
                 <td> {form_description field="tpostalcode"} </td>
                 <td> {form_element field="tpostalcode" size="10"} </td>
+              </tr>
+              <tr>
+                <td> {form_description field="tcountry"} </td>
+                <td> {form_element field="tcountry"} </td>
               </tr>
               <tr>
                 <td> {form_description field="tphone"} </td>

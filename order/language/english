@@ -133,6 +133,7 @@
     <phrase id="YOUR_EXISTING_DOMAIN">Your existing domain</phrase>
     <phrase id="YOUR_ORDER">Your Order</phrase>
     <phrase id="YOUR_ORDER_REFERENCE_NUMBER_IS">Your order reference number is</phrase>
+    <phrase id="ZIP_POSTAL_CODE">Zip / Postal Code</phrase>
 
     <!-- Error Messages -->
 

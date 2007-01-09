@@ -48,12 +48,12 @@
               <td> {dbo_echo dbo="order" field="state"} </td>
             </tr>
             <tr>
-              <td> {echo phrase="COUNTRY"}: </td>
-              <td> {dbo_echo|country dbo="order" field="country"} </td>
+              <td> {echo phrase="ZIP_POSTAL_CODE"}: </td>
+              <td> {dbo_echo dbo="order" field="postalcode"} </td>
             </tr>
             <tr>
-              <td> {echo phrase="POSTALCODE"}: </td>
-              <td> {dbo_echo dbo="order" field="postalcode"} </td>
+              <td> {echo phrase="COUNTRY"}: </td>
+              <td> {dbo_echo|country dbo="order" field="country"} </td>
             </tr>
             <tr>
               <td> {echo phrase="PHONE"}: </td>

@@ -51,10 +51,6 @@
                 <td> {form_element dbo="order" field="address2" size="50"} </td>
               </tr>
               <tr>
-                <td> {form_description field="country"} </td>
-                <td> {form_element dbo="order" field="country"} </td>
-              </tr>
-              <tr>
                 <td> {form_description field="city"} </td>
                 <td> {form_element dbo="order" field="city" size="30"} </td>
               </tr>
@@ -65,6 +61,10 @@
               <tr>
                 <td> {form_description field="postalcode"} </td>
                 <td> {form_element dbo="order" field="postalcode" size="10"} </td>
+              </tr>
+              <tr>
+                <td> {form_description field="country"} </td>
+                <td> {form_element dbo="order" field="country"} </td>
               </tr>
               <tr>
                 <td> {form_description field="phone"} </td>

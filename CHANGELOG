@@ -1,3 +1,8 @@
+1/9/2007 - jdiamond
+=====================
+
+ * (trac #175) Standardized on "Zip / Postal Code" as a label in the manager and order interfaces.  Also standardized the order of the City, State, Postal Code, and Country fields (in that order) in all forms.
+
 1/8/2007 - jdiamond
 =====================
 

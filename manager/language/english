@@ -414,7 +414,7 @@
     <phrase id="YEAR">Year</phrase>
     <phrase id="YES">Yes</phrase>
     <phrase id="YOU_MUST_SELECT_A_SERVER_TO_PROVISION_SERVICE">You must select a server to provision the new account on.</phrase>
-    <phrase id="ZIP_CODE">Zip / Postal Code</phrase>
+    <phrase id="ZIP_POSTAL_CODE">Zip / Postal Code</phrase>
 
     <!-- Error Messages -->
     <phrase id="LOGIN_FAILED">Login Failed</phrase>

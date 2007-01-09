@@ -52,12 +52,12 @@
         <td> {dbo_echo dbo="new_account_dbo" field="state"} </td>
       </tr>
       <tr>
-        <th> {echo phrase="COUNTRY"}: </th>
-        <td> {dbo_echo|country dbo="new_account_dbo" field="country"} </td>
+        <th> {echo phrase="ZIP_POSTAL_CODE"}: </th>
+        <td> {dbo_echo dbo="new_account_dbo" field="postalcode"} </td>
       </tr>
       <tr>
-        <th> {echo phrase="ZIP_CODE"}: </th>
-        <td> {dbo_echo dbo="new_account_dbo" field="postalcode"} </td>
+        <th> {echo phrase="COUNTRY"}: </th>
+        <td> {dbo_echo|country dbo="new_account_dbo" field="country"} </td>
       </tr>
       <tr>
         <th> {echo phrase="PHONE"}: </th>
