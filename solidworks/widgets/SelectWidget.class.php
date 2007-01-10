@@ -52,28 +52,39 @@ class SelectWidget extends HTMLWidget
 	$html .= "\t<option value=\"\"></option>\n";
       }
 
-    foreach( $this->getData() as $optValue => $optDesc )
+    $data = $this->getData();
+    if( !empty( $data ) )
       {
-	//Determin if this is the selected value
-	if( $value == $optValue )
+	// Add options to the select box
+	foreach( $data as $optValue => $optDesc )
 	  {
-	    // This is the selected option
-	    $optParams['selected'] = "selected";
-	  }
-	else
-	  {
-	    unset( $optParams['selected'] );
+	    //Determin if this is the selected value
+	    if( $value == $optValue )
+	      {
+		// This is the selected option
+		$optParams['selected'] = "selected";
+	      }
+	    else
+	      {
+		unset( $optParams['selected'] );
+	      }
+
+	    // Add option HTML
+	    $optParams['value'] = $optValue;
+	    $html .= sprintf( "\t<option %s>%s</option>\n",
+			      $this->generateParams( $optParams ),
+			      $optDesc );
 	  }
 
-	// Add option HTML
-	$optParams['value'] = $optValue;
-	$html .= sprintf( "\t<option %s>%s</option>\n",
-			  $this->generateParams( $optParams ),
-			  $optDesc );
+	// Close <select> tag
+	$html .= "</select>\n";
       }
-
-    // Close <select> tag
-    $html .= "</select>\n";
+    else
+      {
+	// The select box is empty
+	$html = sprintf( "<strong>%s</strong>", 
+			 isset( $params['empty'] ) ? $params['empty'] : "No Data" );
+      }
 
     return $html;
   }

@@ -1,3 +1,9 @@
+1/10/2007 - jdiamond
+=====================
+
+ * (trac #165) Tweaked the select box widget to show a "No Data" message whenever there are no options available.  
+   The message can be customized by setting the "empty" parameter on the form_field tag.
+
 1/9/2007 - jdiamond
 =====================
 

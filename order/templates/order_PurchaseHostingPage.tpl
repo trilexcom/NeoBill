@@ -72,7 +72,7 @@
               <table>
                 <tr>
                   <th> {form_description field="incartdomain"} </th>
-                  <td> {form_element field="incartdomain"} </td>
+                  <td> {form_element field="incartdomain" empty="[THERE_ARE_NO_DOMAINS_IN_YOUR_CART]"} </td>
                 </tr>
               </table>
             </div>
