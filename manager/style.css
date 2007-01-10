@@ -236,7 +236,6 @@ body.menu {
 .table table {
 	margin-top: -7px;
 	margin-bottom: 1em;
-	border-style: solid; border-width: 1px; border-color: #b0b0b0;
 	border-collapse: collapse;
 	background-color: #ffffff;
 	width: 100%;
@@ -244,7 +243,6 @@ body.menu {
 
 .table th {
 	border-style: solid; border-width: 1px; border-color: #b0b0b0;
-	text-align: left;
 	font-size: 70%;
 	padding-top: 2px; padding-bottom: 2px;
 	background-color: #d6dff7;
@@ -260,14 +258,6 @@ body.menu {
 
 .table th > a:hover {
 	text-decoration:underline;
-}
-
-.table tr.a {
-	background-color: #ffffff;
-}
-
-.table tr.b {
-	background-color: #f0f0f0;
 }
 
 .table tr.footer {
@@ -287,14 +277,6 @@ body.menu {
 	border-style: solid; border-width: 1px; border-color: #b0b0b0;
 	padding-top: 2px; padding-bottom: 2px;
 	height: 2em;
-}
-
-.table td.active {
-	color: #00ff00;
-}
-
-.table td.suspended {
-	color: #ff0000;
 }
 
 /*************************************************
@@ -488,46 +470,4 @@ body.login {
 .action form {
 	padding: 0px 0px 0px 0px;
 	margin: 0px 0px 0px 0px;
-}
-
-/**************************************************
- * Tabbed Navigation
- **************************************************/
-
-ul#tabnav {
-	list-style-type: none;
-	margin: 0;
-	margin-top: 1em;
-	margin-left: 1em;
-	margin-right: 1em;
-	padding-left: 1em;
-	padding-bottom: 24px;
-	border-bottom: 1px solid #000000;
-	font: bold 11px verdana, arial, sans-serif;
-}
-
-ul#tabnav li {
-	float: left;
-	height: 21px;
-	background-color: #f0f0f0;
-	color: #ffffff;
-	margin: 2px 2px 0 2px;
-	border: 1px solid #000000;
-}
-
-ul#tabnav li.selected {
-	background-color: #ffffff;
-	border-bottom: 1px solid #ffffff;
-}
-
-ul#tabnav a:link, ul#tabnav a:visited {
-	diplay: block:
-	color: #ffffff;
-	background-color: transparent;
-	text-decoration: none;
-	padding: 4px;
-}
-
-ul#tabnav a:hover {
-	color: #ff0000;
 }

@@ -653,6 +653,14 @@ function smarty_form_table( $params, $content, &$smarty, &$repeat )
 	  echo "\t</tr>\n\t<tr>\n" . $content;
 	  echo $tableWidget->getTableFooterHTML();
 	}
+      catch( TableEmptyException $e )
+	{
+	  // Table is empty
+	  $repeat = false;
+	  echo $content;
+	  echo $tableWidget->getTableEmptyHTML();
+	  echo $tableWidget->getTableFooterHTML();
+	}
     }
   else
     {

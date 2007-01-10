@@ -11,6 +11,7 @@
  */
 
 class EndOfTableException extends SWException {}
+class TableEmptyException extends SWException {}
 
 function array_shift2( &$array )
 {
@@ -206,7 +207,15 @@ class TableWidget extends HTMLWidget
   {
     // Start the table
     $startIndex = $this->getStartIndex();
-    $endIndex = isset( $this->size ) ? $startIndex + $this->size : count( $this->data );
+    if( isset( $this->size ) )
+      {
+	$endIndex = count( $this->data ) < ($startIndex + $this->size) ? 
+	  count( $this->data ) : $startIndex + $this->size;
+      }
+    else
+      {
+	$endIndex = count( $this->data );
+      }
 
     $html = !empty( $this->data ) ?
       sprintf("<p>%s (%d - %d [OF] %d)</p>\n", 
@@ -216,7 +225,24 @@ class TableWidget extends HTMLWidget
 	      count( $this->data ) ) :
       sprintf("<p>%s ([EMPTY])</p>\n", $this->fieldConfig['description'] );
     $html .= sprintf( "\n<table %s>\n\t<tr>\n", 
-		      $this->buildParams( $this->params, $myParams ) );
+		      $this->buildParams( $this->parameters, $myParams ) );
+
+    return $html;
+  }
+
+  /**
+   * Get Table Empty HTML
+   *
+   * @return string HTML code for an empty table row
+   */
+  public function getTableEmptyHTML()
+  {
+    // Display the "empty" message
+    $emptyMessage = isset( $this->parameters['empty'] ) ? 
+      $this->parameters['empty'] : "No Data";
+    $html = sprintf( "\t<tr>\n\t\t<td colspan=%d>%s</td>\n", 
+		     $this->colCount+1, 
+		     $emptyMessage );
 
     return $html;
   }
@@ -236,8 +262,10 @@ class TableWidget extends HTMLWidget
     $endIndex = isset( $this->size ) ? 
       $startIndex + $this->size : count( $this->data );
 
-    // End of table - display begin, prev, next, and end links
+    // End of table
     $html = "\t</tr>\n\t<tr class=\"footer\">\n";
+
+    // Display begin, prev, next, and end links
     $html .= sprintf( "\t\t<td colspan=\"%d\">\n", $this->colCount + 1 );
     $html .= "\t\t\t" . $this->footerContent;
     if( $startIndex > 0 )
@@ -277,7 +305,7 @@ class TableWidget extends HTMLWidget
       {
 	$html .= sprintf( "[NEXT] ([END])" );
       }
-    $html .= "\t\t</td>\n";
+    $html .= "\t\t</td>\n\t</tr>\n";
     $html .= "</table>\n\n";
 
     return $html;
@@ -293,7 +321,7 @@ class TableWidget extends HTMLWidget
     $this->colCount = 0;
     $this->rowCount = 0;
     $this->data = array();
-    $this->params = $params;
+    $this->parameters = $params;
     $this->size = isset( $params['size'] ) ? intval( $params['size'] ) : 20;
     $this->showHeadersFlag = true;
   }
@@ -325,7 +353,7 @@ class TableWidget extends HTMLWidget
 	if( empty( $this->data ) )
 	  {
 	    // Nothing to do
-	    throw new EndOfTableException();
+	    throw new TableEmptyException();
 	  }
 
 	// Search the table if necessary

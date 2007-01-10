@@ -27,7 +27,7 @@
 
 <div class="table">
   {form name="registered_domains"}
-    {form_table field="domains"}
+    {form_table field="domains" empty="[THERE_ARE_NO_REGISTERED_DOMAINS]"}
 
       {form_table_column columnid="id" header=""}
         <center> {form_table_checkbox option=$domains.id} </center>
