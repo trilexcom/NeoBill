@@ -44,6 +44,11 @@ abstract class PurchaseDBO extends SaleDBO
   protected $nextBillingDate = null;
 
   /**
+   * @var string Purchase note
+   */
+  protected $note;
+
+  /**
    * @var integer ID of the last invoice this purchase was billed on
    */
   protected $prevInvoiceID = null;
@@ -121,6 +126,13 @@ abstract class PurchaseDBO extends SaleDBO
   public function getNextBillingDate() { return $this->nextBillingDate; }
 
   /**
+   * Get Purchase Note
+   *
+   * @return string Purchase note
+   */
+  function getNote() { return $this->note; }
+
+  /**
    * Get Previous Invoice ID
    *
    * @return integer The ID of the invoice this purchase last appeared on or -1 if last charged to an order
@@ -193,6 +205,13 @@ abstract class PurchaseDBO extends SaleDBO
    * @param string The next billing date for this purchase (MySQL DATETIME)
    */
   public function setNextBillingDate( $date ) { $this->nextBillingDate = $date; }
+
+  /**
+   * Set Purchase Note
+   *
+   * @param string $note Purchase note
+   */
+  function setNote( $note ) { $this->note = $note; }
 
   /**
    * Set Previous Invoice ID

@@ -1,3 +1,10 @@
+1/12/2007 - jdiamond
+=====================
+
+ * (trac #115) Added a note field similar to what exists for product purchases for hosting service 
+   purchases and domain service purchases as well.
+ * Added counts for web/domain/product purchases to the tabs on the View Account page
+
 1/10/2007 - jdiamond
 =====================
 

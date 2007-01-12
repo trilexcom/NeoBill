@@ -146,7 +146,7 @@
     {/form}
   </div>
 
-  <div id="hosting" name="[WEB_HOSTING_SERVICES]" width="160">
+  <div id="hosting" name="[WEB_HOSTING_SERVICES] ({$hosting_count})" width="160">
     <div class="action">
       <p class="header">{echo phrase="ACTIONS"}</p>
       {form name="view_account_hosting"}
@@ -200,7 +200,7 @@
     </div>
   </div>
 
-  <div id="domains" name="[DOMAINS]" width="80">
+  <div id="domains" name="[DOMAINS] ({$domain_count})" width="80">
     <div class="action">
       <p class="header">{echo phrase="ACTIONS"}</p>
       {form name="view_account_domains"}
@@ -246,7 +246,7 @@
     </div>
   </div>
 
-  <div id="products" name="[OTHER_PRODUCTS_SERVICES]" width="160">
+  <div id="products" name="[OTHER_PRODUCTS_SERVICES] ({$product_count})" width="180">
     <div class="action">
       <p class="header">{echo phrase="ACTIONS"}</p>
       {form name="view_account_products"}
@@ -265,10 +265,6 @@
 
           {form_table_column columnid="productname" header="[PRODUCT_NAME]"}
             <a href="manager_content.php?page=edit_product_purchase&ppurchase={$products.id}">{$products.productname}</a>
-          {/form_table_column}
-
-          {form_table_column columnid="note" header="[NOTE]"}
-            {$products.note}
           {/form_table_column}
 
           {form_table_column columnid="term" header="[TERM]"}

@@ -18,6 +18,10 @@
         <th> {form_description field="nextbillingdate"} </th>
         <td> {form_element value=$domainDBO->getNextBillingDate() field="nextbillingdate"} </td>
       </tr>
+      <tr>
+        <th> {form_description field="note"} </th>
+        <td> {form_element value=$domainDBO->getNote() field="note" rows=4 cols=50} </td>
+      </tr>
       <tr class="footer">
         <th colspan="2">
           {form_element field="continue"}

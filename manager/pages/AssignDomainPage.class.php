@@ -80,6 +80,7 @@ class AssignDomainPage extends SolidStatePage
 			    $this->post['term']->getTermLength() : null );
     $purchase_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $purchase_dbo->setDomainName( $this->post['domainname'] );
+    $purchase_dbo->setNote( $this->post['note'] );
 
     // Save purchase
     add_DomainServicePurchaseDBO( $purchase_dbo );

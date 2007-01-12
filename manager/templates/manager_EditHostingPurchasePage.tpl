@@ -46,6 +46,10 @@
           <td> {form_element field="domain" value=$purchaseDBO->getDomainName()}
         </tr>
       {/if}
+      <tr>
+        <th> {form_description field="note"} </th>
+        <td> {form_element field="note" value=$purchaseDBO->getNote() rows=4 cols=50} </td>
+      </tr>
       <tr class="footer">
         <td colspan="2">
           {form_element field="save"} {form_element field="cancel"}

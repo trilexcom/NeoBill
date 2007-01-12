@@ -264,7 +264,8 @@ function add_DomainServicePurchaseDBO( &$dbo )
 				       "expiredate" => $dbo->getExpireDate(),
 				       "secret" => $dbo->getSecret(),
 				       "nextbillingdate" => $dbo->getNextBillingDate(),
-				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
+				       "previnvoiceid" => $dbo->getPrevInvoiceID(),
+				       "note" => $dbo->getNote() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -310,7 +311,8 @@ function update_DomainServicePurchaseDBO( &$dbo )
 				       "expiredate" => $dbo->getExpireDate(),
 				       "secret" => $dbo->getSecret(),
 				       "nextbillingdate" => $dbo->getNextBillingDate(),
-				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
+				       "previnvoiceid" => $dbo->getPrevInvoiceID(),
+				       "note" => $dbo->getNote() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

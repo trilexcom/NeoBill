@@ -69,6 +69,7 @@ class EditDomainPage extends SolidStatePage
   function edit_domain()
   {
     // Update DBO
+    $this->get['dpurchase']->setNote( $this->post['note'] );
     $this->get['dpurchase']->setTerm( $this->post['term'] ?
 				      $this->post['term']->getTermLength() : null );
     $this->get['dpurchase']->setNextBillingDate( DBConnection::format_datetime( $this->post['nextbillingdate'] ) );

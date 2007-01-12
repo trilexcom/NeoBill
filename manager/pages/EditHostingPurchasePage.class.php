@@ -133,6 +133,7 @@ class EditHostingPurchasePage extends SolidStatePage
     $this->get['hspurchase']->setNextBillingDate( $nextBillingDate );
     $this->get['hspurchase']->setDomainName( $this->post['domain'] );
     $this->get['hspurchase']->setServerID( $this->post['server']->getID() );
+    $this->get['hspurchase']->setNote( $this->post['note'] );
 
     update_HostingServicePurchaseDBO( $this->get['hspurchase'] );
 

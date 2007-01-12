@@ -90,6 +90,7 @@ class AssignHostingPage extends SolidStatePage
     $purchase_dbo->setServerID( $serverID );
     $purchase_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $purchase_dbo->setDomainName( $this->post['domainname'] );
+    $purchase_dbo->setNote( $this->post['note'] );
 
     // Save purchase
     add_HostingServicePurchaseDBO( $purchase_dbo );

@@ -31,11 +31,6 @@ class ProductPurchaseDBO extends PurchaseDBO
   protected $productid;
 
   /**
-   * @var string Purchase note
-   */
-  protected $note;
-
-  /**
    * Convert to a String
    *
    * @return string Product Purchase ID
@@ -83,20 +78,6 @@ class ProductPurchaseDBO extends PurchaseDBO
     // This function is meant to force purchasable to be a ProductDBO
     parent::setPurchasable( $productDBO );
   }
-
-  /**
-   * Set Purchase Note
-   *
-   * @param string $note Purchase note
-   */
-  function setNote( $note ) { $this->note = $note; }
-
-  /**
-   * Get Purchase Note
-   *
-   * @return string Purchase note
-   */
-  function getNote() { return $this->note; }
 
   /**
    * Get Product Name

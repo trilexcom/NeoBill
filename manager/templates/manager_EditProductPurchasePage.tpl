@@ -25,7 +25,7 @@
       </tr>
       <tr>
         <th> {form_description field="note"} </th>
-        <td> {form_element field="note" size="40" value=$purchaseDBO->getNote()} </td>
+        <td> {form_element field="note" size="40" rows="4" cols="50" value=$purchaseDBO->getNote()} </td>
       </tr>
       <tr class="footer">
         <td colspan="2">

@@ -254,7 +254,8 @@ function add_HostingServicePurchaseDBO( &$dbo )
 				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "nextbillingdate" => $dbo->getNextBillingDate(),
-				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
+				       "previnvoiceid" => $dbo->getPrevInvoiceID(),
+				       "note" => $dbo->getNote() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -298,7 +299,8 @@ function update_HostingServicePurchaseDBO( &$dbo )
 				       "domainname" => $dbo->getDomainName(),
 				       "date" => $dbo->getDate(),
 				       "nextbillingdate" => $dbo->getNextBillingDate(),
-				       "previnvoiceid" => $dbo->getPrevInvoiceID() ) );
+				       "previnvoiceid" => $dbo->getPrevInvoiceID(),
+				       "note" => $dbo->getNote() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

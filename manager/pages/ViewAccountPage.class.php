@@ -42,6 +42,14 @@ class ViewAccountPage extends SolidStatePage
     $this->setNavVar( "account_id",   $accountID );
     $this->setNavVar( "account_name", $this->get['account']->getAccountName() );
 
+    // Provide the service and product counts to the template
+    $this->smarty->assign( "hosting_count", 
+			   count( $this->get['account']->getHostingServices() ) );
+    $this->smarty->assign( "domain_count",
+			   count( $this->get['account']->getDomainServices() ) );
+    $this->smarty->assign( "product_count",
+			   count( $this->get['account']->getProducts() ) );
+
     // Setup the note table
     $nField = $this->forms['view_account_note']->getField( "notes" );
     $nField->getWidget()->setAccountID( $accountID );
