@@ -40,7 +40,7 @@ CREATE TABLE `contact` (
   `mobilephone` varchar(255) default NULL,
   `fax` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 CREATE TABLE `cpanelserver` (
   `serverid` int(10) unsigned NOT NULL default '0',
   `username` varchar(255) NOT NULL default '',
@@ -51,6 +51,7 @@ CREATE TABLE `domainservice` (
   `tld` varchar(255) NOT NULL default '',
   `modulename` varchar(255) default NULL,
   `description` blob,
+  `public` enum('Yes','No') NOT NULL default 'Yes',
   PRIMARY KEY  (`tld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 CREATE TABLE `domainserviceprice` (
@@ -69,19 +70,21 @@ CREATE TABLE `domainservicepurchase` (
   `nextbillingdate` date default NULL,
   `previnvoiceid` int(11) default NULL,
   `domainname` varchar(255) NOT NULL default '',
+  `note` text,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `expiredate` datetime NOT NULL default '0000-00-00 00:00:00',
   `secret` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 CREATE TABLE `hostingservice` (
   `id` int(11) NOT NULL auto_increment,
   `title` varchar(255) NOT NULL default '',
   `description` blob,
   `uniqueip` enum('Required','Not Required') NOT NULL default 'Not Required',
   `domainrequirement` enum('Required','Not Required') NOT NULL default 'Required',
+  `public` enum('Yes','No') NOT NULL default 'Yes',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 CREATE TABLE `hostingserviceprice` (
   `serviceid` int(10) unsigned NOT NULL default '0',
   `type` enum('Onetime','Recurring') NOT NULL default 'Onetime',
@@ -97,11 +100,12 @@ CREATE TABLE `hostingservicepurchase` (
   `serverid` int(11) default NULL,
   `term` int(11) default NULL,
   `domainname` varchar(255) default NULL,
+  `note` text,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `nextbillingdate` date default NULL,
   `previnvoiceid` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 CREATE TABLE `invoice` (
   `id` int(11) NOT NULL auto_increment,
   `accountid` int(11) NOT NULL default '0',
@@ -137,7 +141,7 @@ CREATE TABLE `log` (
   `remoteip` int(11) NOT NULL default '0',
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=433 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=472 DEFAULT CHARSET=latin1;
 CREATE TABLE `module` (
   `name` varchar(255) NOT NULL default '',
   `enabled` enum('Yes','No') NOT NULL default 'No',
@@ -183,10 +187,11 @@ CREATE TABLE `order` (
   `username` varchar(10) NOT NULL default '',
   `password` varchar(32) NOT NULL default '',
   `note` text,
+  `accepted_tos` enum('Yes','No') NOT NULL default 'No',
   `status` enum('Incomplete','Pending','Fulfilled') NOT NULL default 'Incomplete',
   `accountid` int(10) unsigned default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 CREATE TABLE `orderdomain` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `orderid` int(10) unsigned NOT NULL default '0',
@@ -201,7 +206,7 @@ CREATE TABLE `orderdomain` (
   `billingcontactid` int(10) unsigned NOT NULL default '0',
   `techcontactid` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 CREATE TABLE `orderhosting` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `orderid` int(10) unsigned NOT NULL default '0',
@@ -211,7 +216,7 @@ CREATE TABLE `orderhosting` (
   `term` int(11) default NULL,
   `domainname` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 CREATE TABLE `payment` (
   `id` int(11) NOT NULL auto_increment,
   `invoiceid` int(11) unsigned default NULL,
@@ -225,13 +230,14 @@ CREATE TABLE `payment` (
   `status` enum('Declined','Completed','Pending','Authorized','Refunded','Reversed','Voided') NOT NULL default 'Completed',
   `statusmessage` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 CREATE TABLE `product` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `description` blob,
+  `public` enum('Yes','No') NOT NULL default 'Yes',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 CREATE TABLE `productprice` (
   `productid` int(10) unsigned NOT NULL default '0',
   `type` enum('Onetime','Recurring') NOT NULL default 'Onetime',
@@ -248,9 +254,9 @@ CREATE TABLE `productpurchase` (
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `nextbillingdate` date default NULL,
   `previnvoiceid` int(11) default NULL,
-  `note` varchar(255) default NULL,
+  `note` text,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 CREATE TABLE `server` (
   `id` int(11) NOT NULL auto_increment,
   `hostname` varchar(255) NOT NULL default '',
