@@ -105,7 +105,7 @@ input {
 }
 
 .cart_total {
-	text-align: right;
+	text-align: left;
 	width: 650px;
 }
 
@@ -129,7 +129,6 @@ input {
 	border-width: 0px;
 	border-collapse: collapse;
 	border-color: #000000;
-	width: 4em;
 }
 
 .cart_total th {
@@ -138,6 +137,7 @@ input {
 	border-collapse: collapse;
 	border-color: #000000;
 	font-wieght: bold;
+	width: 40%
 }
 
 .form table {
@@ -149,4 +149,9 @@ input {
 .form th {
 	width: 10em;
 	text-align: left;
+}
+
+p.error {
+	font-weight: bold;
+	color: #cc0000;
 }

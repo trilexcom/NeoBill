@@ -149,6 +149,16 @@
           <th>{form_description field="module"}&nbsp;&nbsp;</th>
           <td>{form_element field="module"}</td>
         </tr>
+        {if $tos_required}
+          <tr>
+            <td/>
+            <td>
+              {form_element field="accept_tos" option="true"}
+              [I_HAVE_READ_AND_AGREE_TO_THE] 
+              <a href="{$tos_url}" target="_blank">[TERMS_OF_SERVICE]</a>
+            </td>
+          </tr>
+        {/if}
       </table>
     </div>
   {else}

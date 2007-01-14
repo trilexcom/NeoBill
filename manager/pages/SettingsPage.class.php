@@ -62,6 +62,9 @@ class SettingsPage extends SolidStateAdminPage
     $this->smarty->assign( "order_title", $this->conf['order']['title'] );
     $this->smarty->assign( "order_accept_checks", 
 			   $this->conf['order']['accept_checks'] ? "true" : "false" );
+    $this->smarty->assign( "order_tos_required", 
+			   $this->conf['order']['tos_required'] ? "true" : "false" );
+    $this->smarty->assign( "order_tos_url", $this->conf['order']['tos_url'] );
 
     $this->smarty->assign( "managerTheme", $this->conf['themes']['manager'] );
     $this->smarty->assign( "orderTheme", $this->conf['themes']['order'] );
@@ -98,20 +101,8 @@ class SettingsPage extends SolidStateAdminPage
   {
     switch( $action_name )
       {
-      case "settings_company":
-	$this->update_company();
-	break;
-
-      case "settings_welcome":
-	$this->update_welcome();
-	break;
-
-      case "settings_confirmation":
-	$this->updateOrderConfirmation();
-	break;
-
-      case "settings_notification":
-	$this->updateOrderNotification();
+      case "settings_general":
+	$this->updateGeneral();
 	break;
 
       case "settings_themes":
@@ -145,35 +136,27 @@ class SettingsPage extends SolidStateAdminPage
   }
 
   /**
-   * Update Company Settings
+   * Update General Settings
    */
-  function update_company()
+  function updateGeneral()
   {
+    // Company
     $this->conf['company']['name'] = $this->post['name'];
     $this->conf['company']['email'] = $this->post['email'];
     $this->conf['company']['notification_email'] = $this->post['notification_email'];
-    $this->save();
-    $this->smarty->assign( "tab", "general" );
-  }
+    
+    // Welcome E-mail
+    $this->conf['welcome_subject'] = $this->post['welcome_subject'];
+    $this->conf['welcome_email'] = $this->post['welcome_email'];
 
-  /**
-   * Update Welcome Email Settings
-   */
-  function update_welcome()
-  {
-    $this->conf['welcome_subject'] = $this->post['subject'];
-    $this->conf['welcome_email'] = $this->post['email'];
-    $this->save();
-    $this->smarty->assign( "tab", "general" );
-  }
+    // Order Confirmation E-mail
+    $this->conf['order']['confirmation_subject'] = $this->post['confirm_subject'];
+    $this->conf['order']['confirmation_email'] = $this->post['confirm_email'];
 
-  /**
-   * Update Order Confirmation Email Settings
-   */
-  function updateOrderConfirmation()
-  {
-    $this->conf['order']['confirmation_subject'] = $this->post['subject'];
-    $this->conf['order']['confirmation_email'] = $this->post['email'];
+    // Order Notice E-mail
+    $this->conf['order']['notification_subject'] = $this->post['notify_subject'];
+    $this->conf['order']['notification_email'] = $this->post['notify_email'];
+
     $this->save();
     $this->smarty->assign( "tab", "general" );
   }
@@ -194,19 +177,10 @@ class SettingsPage extends SolidStateAdminPage
   {
     $this->conf['order']['title'] = $this->post['title'];
     $this->conf['order']['accept_checks'] = $this->post['accept_checks'];
+    $this->conf['order']['tos_required'] = $this->post['tos_required'];
+    $this->conf['order']['tos_url'] = $this->post['tos_url'];
     $this->save();
     $this->smarty->assign( "tab", "order_interface" );
-  }
-
-  /**
-   * Update Order Notification Email Settings
-   */
-  function updateOrderNotification()
-  {
-    $this->conf['order']['notification_subject'] = $this->post['subject'];
-    $this->conf['order']['notification_email'] = $this->post['email'];
-    $this->save();
-    $this->smarty->assign( "tab", "general" );
   }
 
   /**

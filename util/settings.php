@@ -76,6 +76,8 @@ function load_settings( &$conf )
 
 	case "order_accept_checks": $conf['order']['accept_checks'] = $val; break;
 	case "order_title": $conf['order']['title'] = $val; break;
+	case "order_tos_required": $conf['order']['tos_required'] = $val; break;
+	case "order_tos_url": $conf['order']['tos_url'] = $val; break;
 
 	case "theme_manager": $conf['themes']['manager'] = $val; break;
 	case "theme_order": $conf['themes']['order'] = $val; break;
@@ -124,6 +126,8 @@ function save_settings( $conf )
 
   update_setting( "order_title", $conf['order']['title'] );
   update_setting( "order_accept_checks", $conf['order']['accept_checks'] ? "1" : "0" );
+  update_setting( "order_tos_required", $conf['order']['tos_required'] ? "1" : "0" );
+  update_setting( "order_tos_url", $conf['order']['tos_url'] );
 
   update_setting( "theme_manager", $conf['themes']['manager'] );
   update_setting( "theme_order", $conf['themes']['order'] );
@@ -144,10 +148,26 @@ function update_setting( $key, $value )
 {
   $DB = DBConnection::getDBConnection();
 
-  // Build SQL
-  $sql = $DB->build_update_sql( "settings",
-				"setting = " . $DB->quote_smart( $key ),
-				array( "value" => $value ) );
+  $sql = $DB->build_select_sql( "settings", null, "setting = '" . $key . "'" );
+  if( !($result = mysql_query( $sql, $DB->handle() )) )
+    {
+      throw new DBException();
+    }
+
+  if( !mysql_fetch_row( $result ) )
+    {
+      // Insert
+      $sql = $DB->build_insert_sql( "settings",
+				    array( "setting" => $key, "value" => $value ) );
+    }
+  else
+    {
+      // Update
+      $sql = $DB->build_update_sql( "settings",
+				    "setting = " . $DB->quote_smart( $key ),
+				    array( "value" => $value ) );
+      
+    }
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

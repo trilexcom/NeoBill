@@ -1,3 +1,11 @@
+1/14/2007 - jdiamond
+=====================
+
+ * (trac #190) Added a TOS checkbox to the order interface and settings to control
+   it to the manager interface.
+ * (trac #193) Fixed a bug that was preventing settings that don't have an entry
+   in the settings table from being saved properly.
+
 1/12/2007 - jdiamond
 =====================
 

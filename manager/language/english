@@ -2,6 +2,7 @@
     <phrase id="30_DAYS_PAST_DUE">30+ days past-due invoices</phrase>
     <phrase id="ABOUT">About</phrase>
     <phrase id="ACCEPT">Accept</phrase>
+    <phrase id="ACCEPTED_TOS">Accepted Terms of Service</phrase>
     <phrase id="ACCESS_DENIED">Access Denied: You must be an Administrator to access this page.</phrase>
     <phrase id="ACCOUNT">Account</phrase>
     <phrase id="ACCOUNT_CONFIRM">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
@@ -243,6 +244,7 @@
     <phrase id="NEW_PRODUCT_CONFIRM">Please confirm the details you have entered and click "Continue" or "Go Back"</phrase>
     <phrase id="NEW_TAX_RULE">New Tax Rule</phrase>
     <phrase id="NEW_USER">New User</phrase>
+    <phrase id="NEW_USERS_MUST_ACCEPT_TOS_BEFORE_COMPLETING_ORDER">New users must accept TOS before completing order</phrase>
     <phrase id="NEXT">Next</phrase>
     <phrase id="NEXT_BILLING_DATE">Next Billing Date</phrase>
     <phrase id="NO">No</phrase>
@@ -374,6 +376,8 @@
     <phrase id="TERM_LENGTH">Term Length</phrase>
     <phrase id="TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO">The term length for a onetime price must be zero</phrase>
     <phrase id="TERMS_DAYS">Terms (days)</phrase>
+    <phrase id="TERMS_OF_SERVICE">Terms of Service</phrase>
+    <phrase id="TERMS_OF_SERVICE_URL">URL for your Terms of Service document</phrase>
     <phrase id="THEME">Theme</phrase>
     <phrase id="THEME_PREFERENCE">Theme Preference</phrase>
     <phrase id="THEMES">Themes</phrase>

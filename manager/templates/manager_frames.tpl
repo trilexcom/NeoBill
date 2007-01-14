@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="./style.css" />  
   </head>
 
-  <frameset cols="230,*" framespacing="0" name="mainFrameSet">
+  <frameset cols="240,*" framespacing="0" name="mainFrameSet">
     <frame src="manager_menu.php" name="menu"/>
     <frame src="manager_content.php" name="content"/>
   </frameset>

@@ -22,6 +22,10 @@
         <td> {dbo_echo dbo="orderdbo" field="remoteipstring"} </td>
       </tr>
       <tr>
+        <th> [ACCEPTED_TOS]: </th>
+        <td> {dbo_echo dbo="orderdbo" field="acceptedtos"} </td>
+      </tr>
+      <tr>
         <th> {echo phrase="SUB_TOTAL"}: </th>
         <td> {dbo_echo|currency dbo="orderdbo" field="subtotal"} </td>
       </tr>

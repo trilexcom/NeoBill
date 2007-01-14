@@ -137,6 +137,11 @@ class OrderDBO extends DBO
   protected $status = "Incomplete";
 
   /**
+   * @var string TOS Accepted (Yes or No)
+   */
+  protected $acceptedTOS = "No";
+
+  /**
    * @var integer Account ID
    */
   protected $accountid;
@@ -157,6 +162,27 @@ class OrderDBO extends DBO
    * @return string Order ID
    */
   public function __toString() { return $this->getOrderID(); }
+
+  /**
+   * Set TOS Accepted
+   *
+   * @param string TOS Accepted flag (Yes or No)
+   */
+  public function setAcceptedTOS( $acceptedTOS )
+  {
+    if( !($acceptedTOS == "Yes" || $acceptedTOS == "No") )
+      {
+	throw new SWException( "Invalid value for AcceptedTOS: " . $acceptedTOS );
+      }
+    $this->acceptedTOS = $acceptedTOS;
+  }
+
+  /**
+   * Get TOS Accepteded
+   *
+   * @param return TOS Accepteded flag (Yes or No)
+   */
+  public function getAcceptedTOS() { return $this->acceptedTOS; }
 
   /**
    * Set Order ID
@@ -970,6 +996,7 @@ class OrderDBO extends DBO
     $this->setStatus( $data['status'] );
     $this->setAccountID( $data['accountid'] );
     $this->setNote( $data['note'] );
+    $this->setAcceptedTOS( $data['accepted_tos'] );
 
     // Load order items
     try { $domains = load_array_OrderDomainDBO( "orderid=" . intval( $data['id'] ) ); }
@@ -1024,7 +1051,8 @@ function add_OrderDBO( &$dbo )
 				       "password" => $dbo->getPassword(),
 				       "accountid" => $dbo->getAccountID(),
 				       "status" => $dbo->getStatus(),
-				       "note" => $dbo->getNote() ) );
+				       "note" => $dbo->getNote(),
+				       "accepted_tos" => $dbo->getAcceptedTOS() ) );
 
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
@@ -1110,7 +1138,8 @@ function update_OrderDBO( &$dbo )
 				       "password" => $dbo->getPassword(),
 				       "accountid" => $dbo->getAccountID(),
 				       "status" => $dbo->getStatus(),
-				       "note" => $dbo->getNote() ) );
+				       "note" => $dbo->getNote(),
+				       "accepted_tos" => $dbo->getAcceptedTOS() ) );
 				
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )

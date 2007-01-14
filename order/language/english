@@ -4,6 +4,7 @@
     <phrase id="6_MONTHS">6 Months</phrase>
     <phrase id="12_MONTHS">12 Months</phrase>
     <phrase id="A_CONFIRMATION_EMAIL">A confirmation e-mail has been sent to</phrase>
+    <phrase id="ACCEPT_TOS">Accept Terms of Service</phrase>
     <phrase id="ADD_ANOTHER_DOMAIN">Add Another Domain</phrase>
     <phrase id="ADD_DOMAIN">Add Domain</phrase>
     <phrase id="ADD_HOSTING">Add Web Hosting Package</phrase>
@@ -58,6 +59,7 @@
     <phrase id="EXISTING_DOMAIN_OPTION_TEXT">If you have already own a domain name and you do not wish to transfer it to us, select this option.  After your account is setup you will need to update your DNS settings with our name servers:</phrase>
     <phrase id="FAX">Fax</phrase>
     <phrase id="FEEL_FREE_TO_USE_THIS_SPACE_TO_ASK_QUESTIONS_OR">Feel free to use this space to ask questions or to inform us about special circumstances regarding your account</phrase>
+    <phrase id="I_HAVE_READ_AND_AGREE_TO_THE">I have read and agree to the</phrase>
     <phrase id="IF_YOU_ARE_AN_EXISTING_CUSTOMER">If you are an existing customer, </phrase>
     <phrase id="IN_CART_DOMAIN_OPTION">Use a domain that is already in your cart</phrase>
     <phrase id="IS_ALREADY_REGISTERED">is already registered</phrase>
@@ -111,6 +113,7 @@
     <phrase id="TAXES">Taxes</phrase>
     <phrase id="TECHNICAL_CONTACT">Technical Contact</phrase>
     <phrase id="TERM">Term</phrase>
+    <phrase id="TERMS_OF_SERVICE">Terms of Service</phrase>
     <phrase id="THANK_YOU_FOR_YOUR_ORDER">Thank you for your order!</phrase>
     <phrase id="THERE_ARE_NO_DOMAINS_IN_YOUR_CART">There are no domains in your cart</phrase>
     <phrase id="TRANSFER_DOMAIN">Transfer Domain</phrase>
@@ -129,6 +132,7 @@
     <phrase id="WEB_HOSTING_PACKAGE">Web Hosting Package</phrase>
     <phrase id="WELCOME_BACK">Welcome back</phrase>
     <phrase id="WHOIS">Whois</phrase>
+    <phrase id="YOU_MUST_ACCEPT_THE_TERMS_OF_SERVICE">You must accept the Terms of Service before continuing.</phrase>
     <phrase id="YOUR_ACCOUNT_WILL_BE_BILLED">Your account will be billed for today's purchase on your next invoice.</phrase>
     <phrase id="YOUR_CART">Your Cart</phrase>
     <phrase id="YOUR_EXISTING_DOMAIN">Your existing domain</phrase>

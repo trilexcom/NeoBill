@@ -69,8 +69,15 @@ class ReviewPage extends SolidStatePage
 	throw new SWUserException( "[YOU_MUST_SELECT_PAYMENT]" );
       }
 
+    // If required, make sure that the TOS box was checked
+    if( $this->conf['order']['tos_required'] && !isset( $this->post['accept_tos'] ) )
+      {
+	throw new SWUserException( "[YOU_MUST_ACCEPT_THE_TERMS_OF_SERVICE]" );
+      }
+
     $this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
     $this->session['order']->setDateCreated( DBConnection::format_datetime( time() ) );
+    $this->session['order']->setAcceptedTOS( $this->post['accept_tos'] == "true" ? "Yes" : "No" );
 
     // If the order does not have an ID already, save it to the database
     if( $this->session['order']->getID() == null )
@@ -126,6 +133,10 @@ class ReviewPage extends SolidStatePage
     // Setup the cart table
     $cartWidget = $this->forms['review']->getField( "cart" )->getWidget();
     $cartWidget->setOrder( $_SESSION['order'] );
+
+    // Provide the Terms of Service config to the template
+    $this->smarty->assign( "tos_required", $this->conf['order']['tos_required'] );
+    $this->smarty->assign( "tos_url", $this->conf['order']['tos_url'] );
 
     // Supress the login link
     $this->smarty->assign( "supressWelcome", true );
