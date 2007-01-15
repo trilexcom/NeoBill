@@ -121,7 +121,7 @@ class TransferDomainPage extends SolidStatePage
     $module = $registry->getModule( $serviceDBO->getModuleName() );
 
     // Set the time of purchase
-    $this->purchaseDBO->setDate( $this->DB->format_datetime( time() ) );
+    $this->purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
 
     // Prepare contact info
     $contacts['admin'] = new ContactDBO( $this->accountDBO->getContactName(),

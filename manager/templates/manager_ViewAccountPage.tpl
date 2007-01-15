@@ -130,19 +130,27 @@
     {/form}
 
     {form name="view_account_add_note"}
-
-        <div class="form">
-        <table style="width: 500px">
-          <tr>
-            <th> {form_description field="text"} </th>
-            <td> {form_element field="text" cols="45" rows="5"} </td>
-          </tr>
-          <tr class="footer">
-            <th colspan="2"> {form_element field="add"} </th>
-          </tr>
+      <div class="form">
+        <table>
+          <thead>
+            <tr>
+              <th colspan="2"> [ADD_NOTE] </th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <td class="left"/>
+              <td class="right"> {form_element field="add"} </td>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr>
+              <th> {form_description field="text"} </th>
+              <td> {form_element field="text" cols="45" rows="5"} </td>
+            </tr>
+          </tbody>
         </table>         
-        </div>
-
+      </div>
     {/form}
   </div>
 

@@ -453,10 +453,12 @@ class Page
    * Reload the Current Page
    *
    * Reloads the current page
+   *
+   * @param string $tail A string to append to the URL
    */
-  public function reload()
+  public function reload( $tail = null )
   {
-    header( "Location: " . $this->getURL() );
+    header( "Location: " . $this->getURL() . $tail );
     exit();
   }
 

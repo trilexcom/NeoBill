@@ -117,7 +117,7 @@ class EditProductPage extends SolidStateAdminPage
 	$this->setMessage( array( "type" => "[PRICE_UPDATED]" ) );
       }
 
-    $this->reload();
+    $this->reload( "&sstab=pricing" );
   }
 
   /**
@@ -131,7 +131,7 @@ class EditProductPage extends SolidStateAdminPage
       }
 
     $this->setMessage( array( "type" => "[PRICES_DELETED]" ) );
-    $this->reload();
+    $this->reload( "&sstab=pricing" );
   }
 
   /**
@@ -155,5 +155,4 @@ class EditProductPage extends SolidStateAdminPage
     $this->goback();
   }
 }
-
 ?>

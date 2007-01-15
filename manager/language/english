@@ -248,6 +248,7 @@
     <phrase id="NEXT">Next</phrase>
     <phrase id="NEXT_BILLING_DATE">Next Billing Date</phrase>
     <phrase id="NO">No</phrase>
+    <phrase id="NO_CONTROL_PANEL_MODULES_HAVE_BEEN_ENABLED">No control panel modules have been enabled</phrase>
     <phrase id="NONE">None</phrase>
     <phrase id="NO_REGISTRAR_MODULES">No Registrar modules installed</phrase>
     <phrase id="NOTE">Note</phrase>
@@ -266,6 +267,7 @@
     <phrase id="ORDER_ID">Order ID</phrase>
     <phrase id="ORDER_INTERFACE">Order Interface</phrase>
     <phrase id="ORDER_INTERFACE_PAGE_TITLE">Order Interface Page Title</phrase>
+    <phrase id="ORDER_INFORMATION">Order Information</phrase>
     <phrase id="ORDER_IP">Order IP</phrase>
     <phrase id="ORDER_ITEMS">Order Items</phrase>
     <phrase id="ORDER_NOTIFICATION_EMAIL">Order Notification E-Mail</phrase>
@@ -301,8 +303,8 @@
     <phrase id="PREV">Prev</phrase>
     <phrase id="PRICE">Price</phrase>
     <phrase id="PRICE_ADDED">Price Added</phrase>
-    <phrase id="PRICE_DELETED">Price(s) Deleted</phrase>
     <phrase id="PRICE_UPDATED">Price Updated</phrase>
+    <phrase id="PRICES_DELETED">Price(s) Deleted</phrase>
     <phrase id="PRICING">Pricing</phrase>
     <phrase id="PRICING_FOR">Pricing for</phrase>
     <phrase id="PRINT">Print</phrase>
@@ -402,6 +404,7 @@
     <phrase id="UNSUSPEND_ACCOUNT">Un-suspend Account</phrase>
     <phrase id="UPDATE">Update</phrase>
     <phrase id="USER">User</phrase>
+    <phrase id="USER_INFO">User Info</phrase>
     <phrase id="USERS">Users</phrase>
     <phrase id="USER_CREATED">User created</phrase>
     <phrase id="USERNAME">Username</phrase>

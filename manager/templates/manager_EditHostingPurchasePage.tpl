@@ -10,51 +10,61 @@
   {/form}
 {/if}
 
-<h2> [EDIT_HOSTING_SERVICE_PURCHASE] </h2>
-
 {form name="edit_hosting_purchase"}
   <div class="form">
     <table>
-      <tr>
-        <th> [ACCOUNT]: </th>
-        <td> {$purchaseDBO->getAccountName()} </td>
-      </tr>
-      <tr>
-        <th> [HOSTING_SERVICE]: </th>
-        <td> {$purchaseDBO->getTitle()} </td>
-      </tr>
-      <tr>
-        <th> [PURCHASED]: </th>
-        <td> {$purchaseDBO->getDate()|datetime:date} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="term"} </th>
-        <td> {form_element field="term" value=$purchaseDBO->getTermID()} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="nextbillingdate"} </th>
-        <td> {form_element field="nextbillingdate" value=$purchaseDBO->getNextBillingDate()} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="server"} </th>
-        <td> {form_element field="server" value=$purchaseDBO->getServerID() nulloption="true"}
-      </tr>
-      {assign var="domainIsRequired" value=$purchaseDBO->isDomainRequired()}
-      {if $domainIsRequired}
+      <thead>
         <tr>
-          <th> {form_description field="domain"} </th>
-          <td> {form_element field="domain" value=$purchaseDBO->getDomainName()}
+          <th colspan="2"> [EDIT_HOSTING_SERVICE_PURCHASE] </th>
         </tr>
-      {/if}
-      <tr>
-        <th> {form_description field="note"} </th>
-        <td> {form_element field="note" value=$purchaseDBO->getNote() rows=4 cols=50} </td>
-      </tr>
-      <tr class="footer">
-        <td colspan="2">
-          {form_element field="save"} {form_element field="cancel"}
-        </td>
-      </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td class="left">
+             {form_element field="cancel"}
+          </td>
+          <td class="right">
+            {form_element field="save"}
+          </td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <th> [ACCOUNT]: </th>
+          <td> {$purchaseDBO->getAccountName()} </td>
+        </tr>
+        <tr>
+          <th> [HOSTING_SERVICE]: </th>
+          <td> {$purchaseDBO->getTitle()} </td>
+        </tr>
+        <tr>
+          <th> [PURCHASED]: </th>
+          <td> {$purchaseDBO->getDate()|datetime:date} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="term"} </th>
+          <td> {form_element field="term" value=$purchaseDBO->getTermID()} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="nextbillingdate"} </th>
+          <td> {form_element field="nextbillingdate" value=$purchaseDBO->getNextBillingDate()} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="server"} </th>
+          <td> {form_element field="server" value=$purchaseDBO->getServerID() nulloption="true"}
+        </tr>
+        {assign var="domainIsRequired" value=$purchaseDBO->isDomainRequired()}
+        {if $domainIsRequired}
+          <tr>
+           <th> {form_description field="domain"} </th>
+           <td> {form_element field="domain" value=$purchaseDBO->getDomainName()}
+          </tr>
+        {/if}
+        <tr>
+          <th> {form_description field="note"} </th>
+          <td> {form_element field="note" value=$purchaseDBO->getNote() rows=4 cols=50} </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 {/form}

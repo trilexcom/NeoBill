@@ -100,7 +100,7 @@ class EditDomainServicePage extends SolidStateAdminPage
 	$this->setMessage( array( "type" => "[PRICE_UPDATED]" ) );
       }
 
-    $this->reload();
+    $this->reload( "&sstab=pricing" );
   }
 
   /**
@@ -114,7 +114,7 @@ class EditDomainServicePage extends SolidStateAdminPage
       }
 
     $this->setMessage( array( "type" => "[PRICES_DELETED]" ) );
-    $this->reload();
+    $this->reload( "&sstab=pricing" );
   }
 
   /**
@@ -150,7 +150,7 @@ class EditDomainServicePage extends SolidStateAdminPage
 
     // Sucess!
     $this->setMessage( array( "type" => "[DOMAIN_SERVICE_UPDATED]" ) );
-    $this->reload();
+    $this->reload( "&sstab=general" );
   }
 }
 ?>

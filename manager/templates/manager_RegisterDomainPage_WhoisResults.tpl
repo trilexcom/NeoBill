@@ -1,21 +1,31 @@
-<h2> {echo phrase="REGISTER"} {dbo_echo dbo="dspdbo" field="fulldomainname"} </h2>
 {form name="register_domain_service"}
   <div class="form">
     <table>
-      <tr>
-        <th> {form_description field="account"} </th>
-        <td> {form_element field="account"} </td>
-      </tr>
-      <tr>
-        <th> {form_description field="term"} </th>
-        <td> {form_element field="term"} </td>
-      </tr>
-      <tr class="footer">
-        <td colspan="2">
-          {form_element field="continue"}
-          {form_element field="cancel"}
-        </td>
-      </tr>
+      <thead>
+        <tr>
+          <th colspan="2"> [REGISTER] {dbo_echo dbo="dspdbo" field="fulldomainname"} </th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <td class="left">
+            {form_element field="cancel"}
+          </td>
+          <td class="right">
+            {form_element field="continue"}
+          </td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <th> {form_description field="account"} </th>
+          <td> {form_element field="account"} </td>
+        </tr>
+        <tr>
+          <th> {form_description field="term"} </th>
+          <td> {form_element field="term"} </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 {/form}

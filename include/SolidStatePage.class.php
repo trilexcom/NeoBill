@@ -142,9 +142,21 @@ class SolidStatePage extends Page
    */
   public function init()
   {
+    // Tab URL parameter
+    $this->urlForm->addFormField( new FormField( "url",
+						 "sstab",
+						 null,
+						 "text",
+						 null ) );
+
     parent::init();
 
     $this->smarty->assign( "header_template", 
 			   $this->selectTemplateFile( "manager_header.tpl" ) );
+
+    if( isset( $this->get['sstab'] ) )
+      {
+	$this->smarty->assign( "tab", $this->get['sstab'] );
+      }
   }
 }

@@ -105,7 +105,7 @@ class AddPaymentPage extends SolidStatePage
       $this->session['new_payment']['invoice']->getID();
     $payment_dbo = new PaymentDBO();
     $payment_dbo->setInvoiceID( $invoice_id );
-    $payment_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $payment_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $payment_dbo->setAmount( $this->post['amount'] );
     $payment_dbo->setType( $this->post['type'] );
     $payment_dbo->setStatus( "Completed" );
@@ -122,5 +122,4 @@ class AddPaymentPage extends SolidStatePage
 		 "invoice=" . $payment_dbo->getInvoiceID() );
   }
 }
-
 ?>
