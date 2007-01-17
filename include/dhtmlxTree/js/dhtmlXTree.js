@@ -1,10 +1,10 @@
 /*
-Copyright Scand LLC http://www.scbr.com
-This version of Software is free for using in non-commercial applications. For commercial use please contact info@scbr.com to obtain license
-*/ 
- 
-
- 
+ * Copyright Scand LLC http://www.scbr.com
+ * This version of Software is free for using in non-commercial applications. For commercial use please contact info@scbr.com to obtain license
+ *
+ * 1/17/2007 - jdiamond - Modifed the consts def_img_x and def_img_y to be 16px
+ */ 
+  
 function dhtmlXTreeObject(htmlObject,width,height,rootId){
  this._isOpera=(navigator.userAgent.indexOf('Opera')!= -1);
 
@@ -20,8 +20,8 @@ function dhtmlXTreeObject(htmlObject,width,height,rootId){
  this.height=height;
  this.rootId=rootId;
  this.childCalc=null;
- this.def_img_x="18px";
- this.def_img_y="18px";
+ this.def_img_x="16px";
+ this.def_img_y="16px";
 
  this.style_pointer="pointer";
  if(navigator.appName == 'Microsoft Internet Explorer')this.style_pointer="hand";

@@ -124,6 +124,11 @@ class SolidStateMenu
 						"lightbulb.png", 
 						"manager_content.php?page=services_products" ),
 			"services" );
+	$menu->addItem( new SolidStateMenuItem( "addon", 
+						"[ADD_ONS]", 
+						"bricks.png", 
+						"manager_content.php?page=addon" ),
+			"services" );
 	$menu->addItem( new SolidStateMenuItem( "servers", 
 						"[SERVERS]", 
 						"server_database.png", 
