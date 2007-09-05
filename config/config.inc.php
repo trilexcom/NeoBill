@@ -35,16 +35,16 @@ define( "BASE_PATH", ereg_replace("config", "", $this_pathinfo['dirname']) . "/"
 
 global $config;
 
-$config['installed']	= 0;
-$config['cache']	= 'cache';
-$config['compiled']	= 'templates_c';
+$config['installed'] = '1';
+$config['cache'] = '/home/samer/public_html/solid0.4/solidworks/smarty/cache';
+$config['compiled'] = '/home/samer/public_html/solid0.4/solidworks/smarty/templates_c';
 $config['encoded']	= 1;
 
 global $db;
 
-$db['host'] 		= '';
-$db['user'] 		= '';
-$db['pass'] 		= '';
-$db['database'] 	= '';
+$db['host'] = 'localhost';
+$db['user'] = 'cm9vdA==';
+$db['pass'] = '';
+$db['database'] = 'solid4plus';
 $db['encoded']		= 1;
 ?>

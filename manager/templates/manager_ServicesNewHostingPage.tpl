@@ -15,14 +15,14 @@
         <td> {form_element field="uniqueip"} </td>
       </tr>
       <tr>
-        <th/>
+        <th>{form_description field="allow1"}</th>
         <td>
           <table class="inner">
             <tr>
-              <th> 1 {echo phrase="MONTH"} </td>
-              <th> 3 {echo phrase="MONTHS"} </td>
-              <th> 6 {echo phrase="MONTHS"} </td>
-              <th> 12 {echo phrase="MONTHS"} </td>
+              <td>{form_element field="allow1"}  1 {echo phrase="MONTH"} </td>
+              <td>{form_element field="allow3"}  3 {echo phrase="MONTHS"} </td>
+              <td>{form_element field="allow6"}  6 {echo phrase="MONTHS"} </td>
+              <td>{form_element field="allow12"}  12 {echo phrase="MONTHS"} </td>
             </tr>
           </table>
         </td>

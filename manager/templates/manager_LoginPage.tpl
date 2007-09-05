@@ -17,10 +17,10 @@
         <h1>Solid-State {echo phrase="LOGIN"}</h1>
 
         <p>{echo phrase="USERNAME"}:</p>
-        {form_element field="username" size="40"}
+        {form_element field="username" size="30"}
 
         <p>{echo phrase="PASSWORD"}:</p>
-        {form_element field="password" size="40"}<br/>
+        {form_element field="password" size="30"}<br/>
 
         <br/>{form_element field="continue"}
 

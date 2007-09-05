@@ -13,6 +13,18 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+// Check if install directory exists
+if (file_exists('../install/')){
+  die ('Please remove "install" directory for security reasons');
+
+}
+
+// Check if config.inc.php is writable Change this to force chmod 444
+if (is_writable('../config/config.inc.php'))
+
+        die ('config/config.inc.php is writable, please set it to read only');
+       
+
 // Load config file
 require_once "../config/config.inc.php";
 
