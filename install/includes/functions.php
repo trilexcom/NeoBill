@@ -155,6 +155,7 @@ function create_admin_user($username, $password, $type, $firstname, $lastname, $
 		$type = $_POST['type'];
 		$firstname = $_POST['firstname'];
 		$lastname = $_POST['lastname'];
+                $contactname = $firstname.' '.$lastname;
 		$email = $_POST['email'];
                 $msg = '';
         
@@ -166,6 +167,14 @@ function create_admin_user($username, $password, $type, $firstname, $lastname, $
                 $msg = _INSTALLERINVALIDEMAIL;
                 
         }
+
+        if (strlen($_POST['user_password']) < 3)
+        {
+        	global $page, $percent, $msg;
+        	$page = "create_admin";
+        	$percent = "60%";                
+                $msg = _INSTALLERPASSWORDLENGTH;
+        }
         
         if ($password != $verifypass)
         {       
@@ -176,7 +185,7 @@ function create_admin_user($username, $password, $type, $firstname, $lastname, $
                 $msg = _INSTALLERPASSWORDCOMPAREFAILED;
                 
         }
-
+        
         if ($username == '' || $password == md5(''))
         {       
                 
@@ -196,7 +205,7 @@ function create_admin_user($username, $password, $type, $firstname, $lastname, $
         	
         	mysql_select_db($db['database']) or die('Could not select database');
         	
-        	$sqlquery = "INSERT INTO `user` (`username`, `password`, `type`, `firstname`, `lastname`, `email`) VALUES ('$username', '$password', '$type', '$firstname', '$lastname', '$email')";
+        	$sqlquery = "INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`) VALUES ('$username', '$password', '$type', '$contactname', '$email')";
         	mysql_query( $sqlquery ) or die ('Query failed: ' . mysql_error() );
 
         	mysql_close();

@@ -17,14 +17,13 @@
         <h1>Solid-State {echo phrase="LOGIN"}</h1>
 
         <p>{echo phrase="USERNAME"}:</p>
-        {form_element field="username" size="40"}
+        {form_element field="username" size="30"}
 
         <p>{echo phrase="PASSWORD"}:</p>
-        {form_element field="password" size="40"}<br/>
+        {form_element field="password" size="30"}<br/>
 
         <p>[THEME]:</p>
-        {form_element field="theme" nulloption="true"} <br/>
-	<small>([LEAVE_BLANK_TO_USE_YOUR_DEFAULT_THEME])</small><br/>
+        {form_element field="theme"} <br/>
 
         <br/>{form_element field="continue"}
 
