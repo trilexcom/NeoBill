@@ -56,8 +56,11 @@ class AccountsPage extends SolidStatePage
   {
     switch( $action_name )
       {
-
-      default:
+      
+        case "search_accounts_all":
+	$this->searchTable( "total_accounts", "accounts", $this->post );
+	break;
+        default:
 
 	// No matching action, refer to base class
 	parent::action( $action_name );

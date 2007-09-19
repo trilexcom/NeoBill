@@ -1,6 +1,6 @@
 <h2>{echo phrase="ACCOUNTS_SUMMARY"}</h2>
 <div class="search">
-  {form name="search_accountdbo_table"}
+  {form name="search_accounts_all"}
     <table>
       <tr>
         <th> {echo phrase="SEARCH"} </th>

@@ -189,9 +189,9 @@ class SolidStateMenu
 						"manager_content.php?page=config_users" ),
 			"administration" );
 	$menu->addItem( new SolidStateMenuItem( "about", 
-						"[ABOUT]", 
+						"[WEBSITE]", 
 						"bell.png",
-						"http://www.solid-state.org:8080/solidstate/wiki/SolidStateContributors" ),
+						"http://www.solid-state.org/" ),
 			"home" );
 	$menu->addItem( new SolidStateMenuItem( "logout", 
 						"[LOGOUT]", 
