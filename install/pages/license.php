@@ -1,4 +1,4 @@
-<h2>Accept licence</h2>
+<h2><?php echo _ACCEPTLICENCE;?></h2>
 <p/>
 <p> <?php echo _INSTALLERLICENSE ?></p>
 

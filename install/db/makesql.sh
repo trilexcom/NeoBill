@@ -11,6 +11,3 @@ echo "INSERT INTO \`settings\` VALUES ('order_notification_subject', 'SolidState
 echo "INSERT INTO \`settings\` VALUES ('order_notification_email', 'A new order from {contact_name} has been received.\r\n\r\nRemote IP: ({order_ip})\r\nTimestamp: {order_datestamp}');" >> solid-state.mysql.sql
 echo "INSERT INTO \`settings\` VALUES ('invoice_subject', 'Your {company_name} Invoice for {period_begin_date} - {period_end_date}');" >> solid-state.mysql.sql
 echo "INSERT INTO \`settings\` VALUES ('order_accept_checks', '0');" >> solid-state.mysql.sql
-echo "INSERT INTO \`settings\` VALUES ('theme_manager', 'default');" >> solid-state.mysql.sql
-echo "INSERT INTO \`settings\` VALUES ('theme_order', 'default');" >> solid-state.mysql.sql
-echo "INSERT INTO \`settings\` VALUES ('order_title', 'Web Host Provider :: Order Page');" >> solid-state.mysql.sql

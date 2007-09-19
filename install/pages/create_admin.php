@@ -1,3 +1,23 @@
+<?php
+
+$firstname = '';
+$lastname = '';
+$username = 'admin';
+$email = '';
+if (isset($_POST['firstname']))
+        $firstname = $_POST['firstname'];
+
+if (isset($_POST['lastname']))
+        $lastname = $_POST['lastname'];
+
+if (isset($_POST['username']))
+        $username = $_POST['username'];
+
+if (isset($_POST['email']))
+        $email = $_POST['email'];
+
+?>
+
 <script type="text/javascript" src="javascript/password.js"></script>
 <script type="text/javascript" src="javascript/verifynotify.js"></script>
 <h2>Create Admin Account</h2>
@@ -7,15 +27,15 @@
 		<table border="0" cellpadding="5" summary="table">
 			<tr>
 				<td class="dbtitle"><?php echo _INSTALLERADMINFIRSTNAME; ?></td>
-				<td><input type="text" name="firstname" /></td>
+				<td><input type="text" name="firstname" value="<?php echo $firstname;?>"/></td>
 			</tr>
 			<tr>
 				<td class="dbtitle"><?php echo _INSTALLERADMINLASTNAME; ?></td>
-				<td><input type="text" name="lastname" /></td>
+				<td><input type="text" name="lastname" value="<?php echo $lastname;?>"/></td>
 			</tr>
 			<tr>
 				<td class="dbtitle"><?php echo _INSTALLERADMINUSERNAME; ?></td>
-				<td><input type="text" name="username" value="Administrator" /></td>
+				<td><input type="text" name="username" value="<?php echo $username;?>" /></td>
 			</tr>			
 			<tr>
 				<td class="dbtitle"><?php echo _INSTALLERADMINPASSWORD; ?></td>
@@ -37,7 +57,7 @@
 			<input type="hidden" name="random_num" value="<?php echo $random_num; ?>" />
 			<?php } ?>
 			<tr>
-				<td class="pwdChkTd1 dbtitle" align="right"><?php echo _INSTALLERADMINPASSSTRENGTH; ?></td>
+				<td class="pwdChkTd1" align="left">&nbsp;&nbsp;<?php echo _INSTALLERADMINPASSSTRENGTH; ?></td>
 				<td valign="top" class="pwdChkTd2">
 					<table cellpadding="0" cellspacing="0" class="pwdChkTbl2" summary="table">
 						<tr>
@@ -67,10 +87,10 @@
 			</tr>
 			<tr>
 				<td class="dbtitle"><?php echo _INSTALLERADMINEMAIL; ?></td>
-				<td><input type="text" name="email" /></td>
+				<td><input type="text" name="email" value="<?php echo $email;?>"/></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="submit" value="Create" /></td>
+				<td colspan="2"><input type="submit" value="<?php echo _INSTALLERCREATEADMIN;?>" /></td>
 			</tr>
 		</table>
 	</form>

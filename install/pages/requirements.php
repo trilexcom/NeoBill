@@ -53,10 +53,11 @@ if (empty($compiled)) {
       echo '<li class="descrip">'._INSTALLERREQDESCRIP.'</li>';
 
   if (is_writable($compiled)) {
-      echo '<li class="passed"><input type="text" name="compiled" value="'.$compiled.'" size="75" /> <span style="color:green;font-weight:700;">&radic;</span></li>';
+            echo '<li class="passed"><input type="text" name="compiled" value="'.$compiled.'" size="75" /></li>';
+      echo '<li class="passed">'._INSTALLERDIRWRITABLE.'<strong>&radic;</strong></li>';
   } else {
-      echo '<li class="failed"><input type="text" name="compiled" value="'.$compiled.'" size="75" /> <span style="color:red;font-weight:700;">&empty;</span></li>';
-      echo '<li class="failed">'._INSTALLERDIRNOTWRITABLE.'</li>';
+      echo '<li class="failed"><input type="text" name="compiled" value="'.$compiled.'" size="75" /></li>';
+      echo '<li class="failed">'._INSTALLERDIRNOTWRITABLE.'<strong> &empty;</strong></li>';
       $checkfailed = true;
   }
 echo '</ul>';
@@ -68,10 +69,11 @@ if (empty($cache)) {
 }
       echo '<li class="descrip">'._INSTALLERREQDESCRIP.'</li>';
   if (is_writable($cache)) {
-      echo '<li class="passed"><input type="text" name="cache" value="'.$cache.'" size="75" /> <span style="color:green;font-weight:700;">&radic;</span></li>';
+      echo '<li class="passed"><input type="text" name="cache" value="'.$cache.'" size="75" /></li>';
+      echo '<li class="passed">'._INSTALLERDIRWRITABLE.'<strong>&radic;</strong></li>';
   } else {
-      echo '<li class="failed"><input type="text" name="cache" value="'.$cache.'" size="75" /> <span style="color:red;font-weight:700;">&empty;</span></li>';
-      echo '<li class="failed">'._INSTALLERDIRNOTWRITABLE.'</li>';
+      echo '<li class="failed"><input type="text" name="cache" value="'.$cache.'" size="75" /></li>';
+      echo '<li class="failed">'._INSTALLERDIRNOTWRITABLE.'<strong> &empty;</strong></li>';
       $checkfailed = true;
   }
 echo '</ul>';

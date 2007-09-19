@@ -31,14 +31,15 @@
       return $isinstalled;
   }
 
-  function modify_install_status($installed)
+  // Modify config.inc.php to show that Solid State has already been installed
+  function modify_install_status()
   {
       $config_php = join('', file('../config/config.inc.php'));
 
-		$installed = $_POST['installed'];
-      
-      $config_php = preg_replace('/\[\'installed\'\]\s*=\s*(\'|\")(.*)\\1;/', "['installed'] = '$installed';", $config_php);
-     
+	//	$installed = $_POST['installed'];
+
+      $config_php = preg_replace('/\[\'installed\'\]\s*=\s*\'0\'\s*;/', "['installed'] = '1';", $config_php);
+      //$config_php = preg_replace('#\[\'installed\'\]( *)=(*)(\'|\")(.*)$3;#', "['installed'] = '$installed';", $config_php);  
       $fp = fopen('../config/config.inc.php', 'w+');
       fwrite($fp, $config_php);
       fclose($fp);
@@ -78,14 +79,42 @@
       fclose($fp);
   }
   
+  function verify_email ($email)
+  {     
+        if(!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+([\.][a-z0-9-]+)+$/i",$email))
+                return false;
+
+        return true;
+  }
+
   function load_db()
   {
       require_once '../config/config.inc.php';
       
       // Connecting, selecting database
-      $link = mysql_connect($db['host'], base64_decode($db['user']), base64_decode($db['pass'])) or die('Could not connect: ' . mysql_error());
-      echo _INSTALLERDBCONNECTED . ':<br /><br />';
-      mysql_select_db($db['database']) or die( _INSTALLERDBSELECTFAILED );
+      $link = mysql_connect($db['host'], base64_decode($db['user']), base64_decode($db['pass']));
+
+      if (!$link){
+         return mysql_error();
+
+        }
+
+      if(!mysql_select_db($db['database'])) {
+                
+
+                if ($_POST['createdb'] == 'on')
+                {
+                        if(!mysql_query('create database '.$db['database']))
+                                 return mysql_error();                       
+
+                        if(!mysql_select_db($db['database']))
+                                 return mysql_error();
+                }
+                else
+                        return _INSTALLERDBSELECTFAILED;
+        
+                
+       }
       
       // Performing SQL query
       $sql_file = implode('', file('db/solid-state.mysql.sql'));
@@ -104,16 +133,17 @@
 		  // Ignore "empty query" messages
 		  if( mysql_errno() != 1065 )
 		    {
-		      die( _INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+		      return _INSTALLERDBQUERYFAILED . ': ' . mysql_error();
+                      
 		    }
 		}
-	      echo _INSTALLERDBQUERYCOMPLETE . " $i <br />";
+	      //echo _INSTALLERDBQUERYCOMPLETE . " $i <br />";
 	    }
 	}
       
       mysql_close($link);
       
-      echo '<br /><br />' . _INSTALLERDBLOADED . '!<br /><br />';
+      return '';
 
   }
 
@@ -121,32 +151,66 @@ function create_admin_user($username, $password, $type, $firstname, $lastname, $
 
 		$username = $_POST['username'];
 		$password = md5($_POST['user_password']);
+                $verifypass = md5($_POST['passverify']);
 		$type = $_POST['type'];
 		$firstname = $_POST['firstname'];
 		$lastname = $_POST['lastname'];
 		$email = $_POST['email'];
-		$contactname = sprintf( "%s %s", $firstname, $lastname );
+                $msg = '';
+        
+        if (!verify_email($email))
+        {       
+                global $page, $percent, $msg;                
+        	$page = "create_admin";
+        	$percent = "60%";                
+                $msg = _INSTALLERINVALIDEMAIL;
+                
+        }
+        
+        if ($password != $verifypass)
+        {       
+       
+        	global $page, $percent, $msg;                
+        	$page = "create_admin";
+        	$percent = "60%";                
+                $msg = _INSTALLERPASSWORDCOMPAREFAILED;
+                
+        }
 
-	require_once '../config/config.inc.php';
-      
-    // Connecting, selecting database
-	mysql_connect($db['host'], base64_decode($db['user']), base64_decode($db['pass'])) or die('Could not connect: '.mysql_error());
-	
-	mysql_select_db($db['database']) or die('Could not select database');
-	
-	$sqlquery = "INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`) VALUES ('$username', '$password', '$type', '$contactname', '$email')";
-	mysql_query( $sqlquery ) or die ('Query failed: ' . mysql_error() );
+        if ($username == '' || $password == md5(''))
+        {       
+                
+        	global $page, $percent, $msg;
+        	$page = "create_admin";
+        	$percent = "60%";                
+                $msg = _INSTALLERADMINFILLDETAILS;
+        }
 
-	mysql_close();
 
-	global $page, $percent;
-	$page = "companyinfo";
-	$percent = "80%";
+ 
+        if ($msg == '')
+        {      
+                require_once "../config/config.inc.php";
+                // Connecting, selecting database
+        	mysql_connect($db['host'], base64_decode($db['user']), base64_decode($db['pass'])) or die('Could not connect: '.mysql_error());
+        	
+        	mysql_select_db($db['database']) or die('Could not select database');
+        	
+        	$sqlquery = "INSERT INTO `user` (`username`, `password`, `type`, `firstname`, `lastname`, `email`) VALUES ('$username', '$password', '$type', '$firstname', '$lastname', '$email')";
+        	mysql_query( $sqlquery ) or die ('Query failed: ' . mysql_error() );
+
+        	mysql_close();
+
+        	global $page, $percent;
+        	$page = "companyinfo";
+        	$percent = "80%";
+        }
 
 }
 
 function insert_company_info()
 {
+
   $companyName = $_POST['name'];
   $companyEmail = $_POST['email'];
   $language = $_POST['language'];
@@ -156,8 +220,30 @@ function insert_company_info()
   $ns3 = $_POST['ns3'];
   $ns4 = $_POST['ns4'];
 
-  require_once '../config/config.inc.php';
+   if (!verify_email($companyEmail))
+   {       
+        global $page, $percent, $msg;                
+	$page = "companyinfo";
+	$percent = "80%";                
+        $msg = _INSTALLERINVALIDEMAIL;
+                
+    }
 
+  else
+     
+  if ($companyName == '' || $companyEmail == '' || $currency == '' || $ns1 =='' || $ns2 = '')
+  {       
+
+  	global $page, $percent, $msg;
+	$page = "companyinfo";
+	$percent = "80%";                
+        $msg = _INSTALLERFILLCOMPANYDETAILS;
+        
+  }
+  else
+  {      
+
+  require_once '../config/config.inc.php';
   mysql_connect($db['host'], base64_decode($db['user']), base64_decode($db['pass'])) or die('Could not connect: '.mysql_error());
   
   mysql_select_db($db['database']) or die('Could not select database');
@@ -194,6 +280,25 @@ function insert_company_info()
   global $page, $percent;
   $page = "complete";
   $percent = "100%";
+  }
+
+}
+
+function get_installer_languages()
+{
+        $files = scandir('lang');
+        $i = 0;
+        foreach ($files as $key=>$value){
+
+                if(file_exists('lang/'.$value.'/global.php'))
+                {
+                
+                        $languages[$i] = $value;
+                        $i++;
+                
+                }        
+        }
+        return $languages;
 }
 
 switch ($_POST['function']){
@@ -206,11 +311,11 @@ switch ($_POST['function']){
 		break;	
 	case "create_admin":
 		create_admin_user($username, $password, $type, $firstname, $lastname, $email);
-		modify_install_status('1');
+	//	modify_install_status('1');
 	//	header("Location:index.php?page=complete");
 		break;
         case "insert_company_info":
-	  insert_company_info( $name, $email );
+	  insert_company_info();
 	  break;
 }
 

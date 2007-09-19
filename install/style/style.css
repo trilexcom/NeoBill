@@ -181,8 +181,8 @@ width:100%;
 
 .dbtitle {
 font-family:verdana,arial,sans-serif;
-font-size:11px;
-text-align:right;
+font-size:10px;
+text-align:left;
 }
 
 .dbdesc {
@@ -235,7 +235,7 @@ margin:0 20px;
 
 .pwdChkTd1 {
 padding:5px 7px 13px 0;
-text-align:right;
+text-align:left;
 width:180px;
 }
 
@@ -309,4 +309,13 @@ color:#B8B8B8;
 height:2px;
 margin:15px 0 0 20px;
 width:95%;
+}
+
+p.error {
+	font-size: 100%;
+	color: #FF0000;
+	margin-left: 1em; margin-right: 1em;
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	border-style: solid; border-width: 1px; border-color: #669999;
+	background-color: #EEEEEE;
 }

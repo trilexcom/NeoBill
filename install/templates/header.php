@@ -24,15 +24,16 @@
 				<h1>Install Steps</h1>
 					<?php include "templates/nav.php"; ?>
 				</div>
-				<div class="helpbox">
+                        	<div class="helpbox">
 					<?php include "templates/help.php"; ?>
 				</div>
 			</div>
 			<div id="maincolumn">
-			<div class="header">
+			<div class="header">                               
 				<div id="logo">
 					<img src="images/img_logo.gif" alt="SolidState" />
 				</div>
 			<div style="clear:both;"></div>
 			</div>
 			<?php include "templates/graph.php"; ?>
+
