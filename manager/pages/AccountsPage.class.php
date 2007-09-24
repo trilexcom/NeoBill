@@ -42,6 +42,7 @@ class AccountsPage extends SolidStatePage
     $this->smarty->assign( "inactive_accounts_count", $inactive_accounts );
     $this->smarty->assign( "pending_accounts_count",  $pending_accounts );
     $this->smarty->assign( "total_accounts",          $total_accounts );
+
   }
 
   /**
@@ -57,8 +58,8 @@ class AccountsPage extends SolidStatePage
     switch( $action_name )
       {
       
-        case "search_accounts_all":
-	$this->searchTable( "total_accounts", "accounts", $this->post );
+        case "search_all_accounts":
+	$this->searchTable( "active_accounts", "accounts", $this->post );
 	break;
         default:
 

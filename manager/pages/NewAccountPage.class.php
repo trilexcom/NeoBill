@@ -23,6 +23,8 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  */
 class NewAccountPage extends SolidStatePage
 {
+
+
   /**
    * Action
    *
@@ -37,15 +39,16 @@ class NewAccountPage extends SolidStatePage
     switch( $action_name )
       {
       case "new_account":
-	if( isset( $this->post['continue'] ) )
+        // If Continue is pressed, or form is submitted by pressing enter
+	if( isset( $this->post['cancel'] ) )
+	  {
+	    // Canceled
+	    $this->goto( "accounts_browse" );                
+	  }
+	else
 	  {
 	    // Process new account form
 	    $this->process_new_account();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    // Canceled
-	    $this->goto( "accounts_browse" );
 	  }
 	break;
 

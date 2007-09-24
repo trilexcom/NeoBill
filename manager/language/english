@@ -302,6 +302,7 @@
     <phrase id="PERIOD">Period</phrase>
     <phrase id="PHONE">Phone</phrase>
     <phrase id="PLEASE_PROVIDE_A_DOMAIN_NAME">Please provide a domain name</phrase>
+    <phrase id="PLEASE_ENTER_A_VALID_EMAIL_ADDRESS_FOR">Please enter a valid email address for: </phrase>
     <phrase id="POSTED">Posted</phrase>
     <phrase id="PREV">Prev</phrase>
     <phrase id="PRICE">Price</phrase>

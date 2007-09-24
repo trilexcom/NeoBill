@@ -22,7 +22,7 @@ require_once BASE_PATH . "solidworks/SWException.class.php";
  * @package util
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class SolidState extends SWException
+class SolidStateException extends SWException
 {
   /**
    * @var string Error Message

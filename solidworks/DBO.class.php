@@ -40,6 +40,12 @@ abstract class DBO
    */
   public function load( $data )
   {
+/*    foreach ($data as $key => $value)
+        {
+        if (!is_numeric($key))
+        echo 'Key: '.$key.'&nbsp;&nbsp;&nbsp;&nbsp;Value: '.$value.'<br />';
+        }
+        die();    */
     foreach( $data as $key => $value )
       {
 	$method = sprintf( "set%s", $key );

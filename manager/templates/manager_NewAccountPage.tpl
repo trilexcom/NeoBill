@@ -10,6 +10,10 @@
     <tbody>
       <tr>
         <th> {form_description field="type"} </th>
+        <td> {form_element field="type" option="Individual Account"} </td>
+      </tr>
+      <tr>
+      <th/>
         <td> {form_element field="type" option="Business Account"} </td>
       </tr>
       <tr>
@@ -18,10 +22,6 @@
           &nbsp; &nbsp; &nbsp; {form_description field="businessname"} <br/>
           &nbsp; &nbsp; &nbsp; {form_element field="businessname" size="30"}
         </td>
-      </tr>
-      <tr>
-        <th/>
-        <td> {form_element field="type" option="Individual Account"} </td>
       </tr>
       <tr>
         <th> {form_description field="status"} </th>
@@ -65,10 +65,10 @@
     <tfoot>
       <tr>
         <td class="left">
-          {form_element field="cancel"}
+          {form_element field="continue"}
         </td>
         <td class="right">
-          {form_element field="continue"}
+          {form_element field="cancel"}
         </td>
       </tr>
     </tfoot>

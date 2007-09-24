@@ -178,7 +178,7 @@ class UserDBO extends DBO
  */
 function load_UserDBO( $username )
 {
-  $DB = DBConnection::getDBConnection();;
+  $DB = DBConnection::getDBConnection();
 
   // Build query
   $sql = $DB->build_select_sql( "user",

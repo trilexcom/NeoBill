@@ -9,11 +9,11 @@
       <tfoot>
         <tr>
           <td class="left">
-            {form_element field="cancel"}
+            {form_element field="continue"}
           </td>
           <td class="right">
-            {form_element field="continue"}
-          </th>
+            {form_element field="cancel"}
+          </td>
         </tr>
       </tfoot>
       <tr>

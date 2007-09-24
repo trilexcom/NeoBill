@@ -111,6 +111,14 @@ class AccountDBO extends DBO
   protected $userDBO = null;
 
   /**
+   * Initialize Class
+   *
+   * @param integer $id New Account ID
+   */
+  function AccountDBO( ) { $this->userDBO = new UserDBO(); }
+
+   
+  /**
    * Set Account ID
    *
    * @param integer $id New Account ID
@@ -138,7 +146,7 @@ class AccountDBO extends DBO
    */
   public function setUsername( $username )
   {
-    $this->userDBO = load_UserDBO( $username );
+    $this->userDBO->setusername ($username);
   }
 
   /**
@@ -146,7 +154,10 @@ class AccountDBO extends DBO
    *
    * @return string Username
    */
-  public function getUsername() { return $this->userDBO->getUsername(); }
+  public function getUsername() 
+  { 
+        return $this->userDBO->getUsername(); 
+  }
 
   /**
    * Get UserDBO

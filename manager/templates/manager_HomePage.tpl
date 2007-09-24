@@ -2,32 +2,32 @@
   <div class="properties">
     <table style="width: 90%">
       <tr>
-        <th> {echo phrase="OUTSTANDING_INVOICES"} </th>
-        <td> <a href="manager_content.php?page=billing_invoices_outstanding">{$os_invoices_count}</a> </td>
-        <td class="action_cell">&raquo; <a href="manager_content.php?page=billing_generate">{echo phrase="GENERATE_INVOICES"}</a> </td>
+        <th> <a href="manager_content.php?page=billing_invoices_outstanding">{echo phrase="OUTSTANDING_INVOICES"} </a></th>
+        <td> {$os_invoices_count}</a> </td>
+        <td class="action_cell">&raquo; <a href="manager_content.php?page=billing_generate">{echo phrase="GENERATE_INVOICES"} </td>
       </tr>
       <tr>
-        <th> {echo phrase="TOTAL_OUTSTANDING_INVOICES"} </th>
-        <td> <a href="manager_content.php?page=billing_invoices_outstanding">{$os_invoices_total|currency}</a> </td>
+        <th> <a href="manager_content.php?page=billing_invoices_outstanding">{echo phrase="TOTAL_OUTSTANDING_INVOICES"} </a></th>
+        <td> {$os_invoices_total|currency} </td>
         <td class="action_cell"/>
       </tr>
       <tr>
-        <th> {echo phrase="PAST_DUE_INVOICES"} </th>
-        <td> <a href="manager_content.php?page=billing_invoices_outstanding">{$os_invoices_count_past_due}</a> </td>
+        <th> <a href="manager_content.php?page=billing_invoices_outstanding">{echo phrase="PAST_DUE_INVOICES"} </a></th>
+        <td> {$os_invoices_count_past_due} </td>
         <td class="action_cell"/>
       </tr>
       <tr>
-        <th> {echo phrase="TOTAL_PAST_DUE"} </th>
-        <td> <a href="manager_content.php?page=billing_invoices_outstanding">{$os_invoices_total_past_due|currency}</a> </td>
+        <th> <a href="manager_content.php?page=billing_invoices_outstanding">{echo phrase="TOTAL_PAST_DUE"} </a></th>
+        <td> {$os_invoices_total_past_due|currency} </td>
         <td class="action_cell"/>
       </tr>
       <tr>
-        <th> {echo phrase="30_DAYS_PAST_DUE"} </th>
-        <td> <a href="manager_content.php?page=billing_invoices_outstanding">{$os_invoices_count_past_due_30}</a> </td>
+        <th> <a href="manager_content.php?page=billing_invoices_outstanding">{echo phrase="30_DAYS_PAST_DUE"} </a></th>
+        <td> {$os_invoices_count_past_due_30} </td>
       </tr> 
       <tr>
-        <th> {echo phrase="TOTAL_30_PAST_DUE"} </th>
-        <td> <a href="manager_content.php?page=billing_invoices_outstanding">{$os_invoices_total_past_due_30|currency}</a> </td>
+        <th> <a href="manager_content.php?page=billing_invoices_outstanding">{echo phrase="TOTAL_30_PAST_DUE"} </a></th>
+        <td> {$os_invoices_total_past_due_30|currency} </td>
         <td class="action_cell"/>
       </tr> 
       <tr>
@@ -47,13 +47,13 @@
 <div class="properties">
   <table style="width: 90%">
     <tr>
-      <th> {echo phrase="ACTIVE_ACCOUNTS"} </th>
-      <td> <a href="manager_content.php?page=accounts_browse">{$active_accounts_count}</a> </td>
+      <th> <a href="manager_content.php?page=accounts_browse">{echo phrase="ACTIVE_ACCOUNTS"} </a></th>
+      <td> {$active_accounts_count} </td>
       <td class="action_cell"> &raquo; <a href="manager_content.php?page=accounts_new_account">{echo phrase="CREATE_NEW_ACCOUNT"}</a> </td>
     </tr>
     <tr>
-      <th> {echo phrase="INACTIVE_ACCOUNTS"} </th>
-      <td> <a href="manager_content.php?page=accounts_browse_inactive">{$inactive_accounts_count}</a> </td>
+      <th> <a href="manager_content.php?page=accounts_browse_inactive">{echo phrase="INACTIVE_ACCOUNTS"} </a></th>
+      <td> {$inactive_accounts_count} </td>
       <td class="action_cell"/>
     </tr>
     <tr>
@@ -62,8 +62,8 @@
       <td class="action_cell"/>
     </tr>
     <tr>
-      <th> {echo phrase="PENDING_ACCOUNTS"} </th>
-      <td> <a href="manager_content.php?page=accounts_browse_pending">{$pending_accounts_count}</a> </td>
+      <th> <a href="manager_content.php?page=accounts_browse_pending">{echo phrase="PENDING_ACCOUNTS"} </a></th>
+      <td> {$pending_accounts_count} </td>
       <td class="action_cell"/>
     </tr>
   </table>
