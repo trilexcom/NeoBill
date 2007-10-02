@@ -184,7 +184,8 @@ function delete_DomainServiceDBO( &$dbo )
   // Verify that no purchases exist
   try 
     { 
-      load_array_DomainServicePurchaseDBO( "tld=" . $tld ); 
+      $tld=$dbo->getTLD();
+      load_array_DomainServicePurchaseDBO( "tld = '".$dbo->getTLD()."'");
       
       // Can not delete domain service if any purchases exist
       throw new DBException( "[PURCHASES_EXIST]" );
@@ -200,6 +201,11 @@ function delete_DomainServiceDBO( &$dbo )
     {
       throw new DBException();
     }
+   
+  // Delete all prices belonging to the deleted domain service.   
+    $domainPrices = new DomainServicePriceDBO();
+    $domainPrices->setTLD($tld);
+    deleteAll_DomainServicePriceDBO($domainPrices);     
 }
 
 /**

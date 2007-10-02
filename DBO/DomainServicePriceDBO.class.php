@@ -120,6 +120,28 @@ function delete_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 					 $dbo->getTLD(),
 					 $dbo->getType(),
 					 $dbo->getTermLength() ) );
+die ($sql);
+  
+  // Run query
+  if( !mysql_query( $sql, $DB->handle() ) )
+    {
+      throw new DBException();
+    }
+}
+
+/**
+ * Delete All Prices for a certain domain service tld
+ *
+ * @param DomainServicePriceDBO $tld
+ */
+function deleteAll_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
+{
+  $DB = DBConnection::getDBConnection();
+
+  // Build DELETE query
+  $sql = $DB->build_delete_sql( "domainserviceprice",
+				sprintf( "tld='%s'",
+					 $dbo->getTLD()));
   
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
