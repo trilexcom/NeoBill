@@ -377,6 +377,7 @@
     <phrase id="TAXES">Taxes</phrase>
     <phrase id="TAX_RATE">Tax Rate</phrase>
     <phrase id="TAX_RULES">Tax Rules</phrase>
+    <phrase id="TAX_RULES_DELETED">Tax Rule(s) Deleted</phrase>
     <phrase id="TEMPORARY_PASSWORD">Temporary password</phrase>
     <phrase id="TERM">Term</phrase>
     <phrase id="TERM_LENGTH">Term Length</phrase>

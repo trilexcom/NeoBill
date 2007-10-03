@@ -9,6 +9,7 @@ define('_INSTALLERPASSWORDLENGTH','Password should be 3 characters or longer');
 define('_INSTALLER', 'SolidState Installation');
 define('_INSTALLERPLEASEREFER', 'Please refer to the');
 define('_INSTALLERDURINGPROCESS', 'during this process');
+define('_INSTALLCOMPLETE', 'Installation Complete. For security purposes,<br/>1- Please remove the "install" directory.<br/>Please set your config.php to read only');
 
 // installer tasks
 define('_INSTALLERTASKS', 'Installer tasks');

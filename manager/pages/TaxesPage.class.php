@@ -66,9 +66,10 @@ class TaxesPage extends SolidStatePage
     // Remove the Tax Rule(s) from the database
     foreach( $this->post['rules'] as $dbo )
       {
+  //      print_r($dbo);
 	delete_TaxRuleDBO( $dbo );
       }
-
+//die();
     // Success
     $this->setMessage( array( "type" => "[TAX_RULES_DELETED]" ) );
     $this->reload();

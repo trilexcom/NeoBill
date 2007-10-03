@@ -39,6 +39,7 @@ class AddTaxRulePage extends SolidStateAdminPage
 	if( isset( $this->post['continue'] ) )
 	  {
 	    $this->addTaxRule();
+            $this->cancel();
 	  }
 	else
 	  {
@@ -92,6 +93,7 @@ class AddTaxRulePage extends SolidStateAdminPage
 
     // Success
     $this->setMessage( array( "type" => "[TAX_RULE_CREATED]" ) );
+    $this->post['success'] = "true";
   }
 }
 

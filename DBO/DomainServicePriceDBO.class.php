@@ -120,7 +120,6 @@ function delete_DomainServicePriceDBO( DomainServicePriceDBO $dbo )
 					 $dbo->getTLD(),
 					 $dbo->getType(),
 					 $dbo->getTermLength() ) );
-die ($sql);
   
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
