@@ -25,7 +25,7 @@
 **/
 
 $this_pathinfo  = pathinfo( __FILE__ );
-define( "BASE_PATH", ereg_replace("config", "", $this_pathinfo['dirname']) . "/" );
+define( "BASE_PATH", ereg_replace("config", "", $this_pathinfo['dirname']));
 
 /** 
  * ----------------------------------------------------------------------
