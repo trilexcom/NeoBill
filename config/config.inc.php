@@ -1,50 +1,71 @@
 <?php
-/**
- * config.php
+/*
+ * @(#)config.inc.php
  *
- * This file contains a set of basic configuration variables that are needed to
- * run SolidState.  More (most) configuration options are stored in the datbase,
- * and can be set through the "Administration > Settings" page.
+ *    Version: 0.50.20090322
+ * Written by: John Diamond <mailto:jdiamond@solid-state.org>
+ * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
- * Database configuration:
+ * Copyright (C) 2006-2008 by John Diamond
+ * Copyright (C) 2009 by Yves Kreis
  *
- *   $db['host']     - This is the host that your MySQL database server runs on
- *   $db['user']     - Database user with access to the SolidState database
- *   $db['pass']     - Password for the database user
- *   $db['database'] - The name of the database that SolidState will be using.
- *   $db['encoded']	 - 0 for MySQL information unenccoded
- *                     1 for encoded
- * 
- * System Config
- * 
- *   $config['installed'] - Is SS Installed?
- *   $config['cache']     -	Absolute path of smarty cache directory
- *   $config['compiled']  - Absolute path of smarty compiled (template_c) directory
- *   $config['encoded']   - 0 for MySQL information unenccoded
- *                   		1 for encoded
-**/
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ */
+ 
+  /*
+   * This file contains a set of basic configuration variables that are needed to run SolidState. However most configuration 
+   * options are stored in the database and can be set through the "Administration > Settings" page.
+   *
+   * Database configuration:
+   *
+   *   $db['hostname']      - This is the hostname that your MySQL database server runs on
+   *   $db['username']      - Database user with access to the SolidState database
+   *   $db['password']      - Password for the database user
+   *   $db['database']      - The name of the database that SolidState will be using
+   *   $db['encoded']	    - 0 for MySQL information unenccoded
+   *                          1 for MySQL information encoded
+   *
+   * System configuration:
+   *
+   *   $config['installed'] - Is SolidState installed?
+   *   $config['cache']     - Absolute path of smarty cache directory
+   *   $config['compiled']  - Absolute path of smarty compiled directory (template_c)
+   *   $config['encoded']   - 0 for MySQL information unenccoded
+   *                   		  1 for MySQL information encoded
+   */
 
-$this_pathinfo  = pathinfo( __FILE__ );
-define( "BASE_PATH", ereg_replace("config", "", $this_pathinfo['dirname']));
+  $this_pathinfo  = pathinfo( __FILE__ );
+  define("BASE_PATH", ereg_replace('config', '', $this_pathinfo['dirname']));
 
-/** 
- * ----------------------------------------------------------------------
- * The following define some global settings for the application
- * ---------------------------------------------------------------------
-**/
+  /*
+   * Database configuration
+   */
 
-global $config;
+  global $db;
 
-$config['installed']	= 0;
-$config['cache'] = '/home/samer/public_html/solidsvn/solidworks/smarty/cache';
-$config['compiled'] = '/home/samer/public_html/solidsvn/solidworks/smarty/templates_c';
-$config['encoded']	= 1;
+  $db['hostname'] = 'localhost';
+  $db['username'] = 'solidstate';
+  $db['password'] = '';
+  $db['database'] = 'solidstate';
+  $db['encoded']  = 1;
 
-global $db;
+  /*
+   * System configuration
+   */
 
-$db['host'] = 'localhost';
-$db['user'] = 'cm9vdA==';
-$db['pass'] = '';
-$db['database'] = 'solidsvn';
-$db['encoded']		= 1;
+  global $config;
+
+  $config['installed'] = 0;
+  $config['cache']     = './solidworks/smarty/cache';
+  $config['compiled']  = './solidworks/smarty/templates_c';
+  $config['encoded']   = 1;
+
 ?>
