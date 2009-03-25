@@ -1,8 +1,8 @@
 <?php
 /*
- * @(#)config.inc.php
+ * @(#)config.php
  *
- *    Version: 0.50.20090322
+ *    Version: 0.50.20090325
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
