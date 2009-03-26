@@ -1,98 +1,105 @@
 <?php
+/*
+ * @(#)install/pages/requirements.php
+ *
+ *    Version: 0.50.20090325
+ * Written by: John Diamond <mailto:jdiamond@solid-state.org>
+ * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
+ *
+ * Copyright (C) 2006-2008 by John Diamond
+ * Copyright (C) 2009 by Yves Kreis
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ */
 
-echo '<h2>'._INSTALLERTASK3.'</h2>';
-
-// PHP Version
-echo '<h3>'._INSTALLERPHPVERSION.'</h3>';
-echo '<ul class="systemrequirements">';
-  
-$phpversion = phpversion();
-if ($phpversion > '4.3.0') 
-  {
-    echo '<li class="passed">'._INSTALLERYOURPHPVER.' ' . $phpversion . ' '._INSTALLERPHPVEROK.'</li>';
-  }
- else
-  {
-    echo '<li class="failed">'._INSTALLERYOURPHPVER.' ' . $phpversion . ' '._INSTALLERPHPVERNOTOK.' </li>';
+  $pathinfo = pathinfo(__FILE__);
+  $filepath = ereg_replace('install/pages', '', $pathinfo['dirname']);
+  $checkfailed = false;
+?>
+        <h2><?php echo _INSTALLERREQUIREMENTS; ?></h2>
+        <h3><?php echo _INSTALLERPHPVERSION; ?></h3>
+        <ul class="systemrequirements">
+<?php
+  $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
+  if (floatval($phpversion) >= 4.3) {
+    echo '          <li class="passed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONOK), '.</li>', "\n";
+  } else {
+    echo '          <li class="failed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONKO), '.</li>', "\n";
     $checkfailed = true;
-  }
-echo '</ul>';
-
-// Config File Permissions  
-echo '<h3>'._INSTALLERWPPERMISSIONLINKTEXT.'</h3>';
-if ($checkfailed != true)
-  {
-    echo '<form style="display:inline" action="index.php" method="post">';
-  } 
- else
-  {
-    echo '<form style="display:inline" action="index.php" method="post">';
-  }
-echo '<ul class="systemrequirements">';
-
-echo '<li class="descrip">'._INSTALLERREQDESCRIP.'</li>';
-$file = $file_path."config/config.inc.php";
-if (is_writable($file)) 
-  {
-    echo '<li class="passed">'.$file.' '._INSTALLERFILEWRITABLE.'</li>';
-  } 
- else 
-  {
-    echo '<li class="failed">'.$file.' '._INSTALLERFILENOTWRITABLE.'</li>';
-    $checkfailed = true;
-  }
-echo '</ul>';
-
-// Smarty templates_c Permissions
-echo '<ul class="systemrequirements">';
-$compiled = $_GET['compiled'];
-if (empty($compiled)) {
-  $compiled = $file_path."solidworks/smarty/templates_c";
-}
-
-      echo '<li class="descrip">'._INSTALLERREQDESCRIP.'</li>';
-
-  if (is_writable($compiled)) {
-            echo '<li class="passed"><input type="text" name="compiled" value="'.$compiled.'" size="75" /></li>';
-      echo '<li class="passed">'._INSTALLERDIRWRITABLE.'<strong>&radic;</strong></li>';
-  } else {
-      echo '<li class="failed"><input type="text" name="compiled" value="'.$compiled.'" size="75" /></li>';
-      echo '<li class="failed">'._INSTALLERDIRNOTWRITABLE.'<strong> &empty;</strong></li>';
-      $checkfailed = true;
-  }
-echo '</ul>';
-
-echo '<ul class="systemrequirements">';
-$cache = $_GET['cache'];
-if (empty($cache)) {
-  $cache= $file_path."solidworks/smarty/cache";
-}
-      echo '<li class="descrip">'._INSTALLERREQDESCRIP.'</li>';
-  if (is_writable($cache)) {
-      echo '<li class="passed"><input type="text" name="cache" value="'.$cache.'" size="75" /></li>';
-      echo '<li class="passed">'._INSTALLERDIRWRITABLE.'<strong>&radic;</strong></li>';
-  } else {
-      echo '<li class="failed"><input type="text" name="cache" value="'.$cache.'" size="75" /></li>';
-      echo '<li class="failed">'._INSTALLERDIRNOTWRITABLE.'<strong> &empty;</strong></li>';
-      $checkfailed = true;
-  }
-echo '</ul>';
-
-if ($checkfailed != true)
-  {
-
-      echo '<div class="submit">';
-      echo '  <input type="hidden" name="function" value="system_config" />';
-      echo '  <input type="hidden" name="install_step" value="3" />';
-      echo '  <input type="submit" value="'._NEXT.'" />';
-      echo '</div>';
-      echo '</form>';
-  } else {
-      
-      echo '<div class="submit">';
-      echo '  <input type="hidden" name="install_step" value="2" />';
-      echo '  <input type="submit" value="'._RECHECK.'" />';
-      echo '</div>';
-      echo '</form>';
   }
 ?>
+        </ul>
+        <h3><?php echo _INSTALLERPERMISSIONS; ?></h3>
+        <ul class="systemrequirements">
+          <li class="description"><?php echo _INSTALLERPERMISSIONSFILE, ':'; ?></li>
+<?php
+  $file = $filepath . 'config/config.php';
+  if (is_writable($file)) {
+    echo '          <li class="passed">', $file, _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+  } else {
+    echo '          <li class="failed">', $file, '</li>', "\n";
+    echo '          <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKOFILE, '.</li>', "\n";
+    $checkfailed = true;
+  }
+?>
+        </ul>
+        <form action="index.php" method="post">
+          <ul class="systemrequirements">
+            <li class="description"><?php echo _INSTALLERPERMISSIONSDIRECTORY, ':'; ?></li>
+<?php
+  $compiled = '';
+  if (isset($_POST['compiled'])) {
+    $compiled = $_POST['compiled'];
+  }
+  if (empty($compiled)) {
+    $compiled = $filepath . 'solidworks/smarty/templates_c';
+  }
+  if (is_writable($compiled)) {
+    echo '            <li class="passed"><input type="text" name="compiled" value="', $compiled, '" size="90" />', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+  } else {
+    echo '            <li class="failed"><input type="text" name="compiled" value="', $compiled, '" size="90" /></li>', "\n";
+    echo '            <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKODIRECTORY, '.</li>', "\n";
+    $checkfailed = true;
+  }
+?>
+          </ul>
+          <ul class="systemrequirements">
+            <li class="description"><?php echo _INSTALLERPERMISSIONSDIRECTORY, ':'; ?></li>
+<?php
+  $cache = '';
+  if (isset($_POST['cache'])) {
+    $cache = $_POST['cache'];
+  }
+  if (empty($cache)) {
+    $cache= $filepath . 'solidworks/smarty/cache';
+  }
+  if (is_writable($cache)) {
+    echo '            <li class="passed"><input type="text" name="cache" value="', $cache, '" size="90" />', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+  } else {
+    echo '            <li class="failed"><input type="text" name="cache" value="', $cache, '" size="90" /></li>', "\n";
+    echo '            <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKODIRECTORY, '.</li>', "\n";
+    $checkfailed = true;
+  }
+?>
+          </ul>
+          <div class="submit">
+<?php
+  if ($checkfailed == true) {
+    echo '            <input type="hidden" name="install_step" value="2" />', "\n";
+    echo '            <input type="submit" value="', _INSTALLERRECHECK, '" />', "\n";
+  } else {
+    echo '            <input type="hidden" name="function" value="config_system" />', "\n";
+    echo '            <input type="hidden" name="install_step" value="3" />', "\n";
+    echo '            <input type="submit" value="', _INSTALLERNEXT, '" />', "\n";
+  }
+?>
+          </div>
+        </form>

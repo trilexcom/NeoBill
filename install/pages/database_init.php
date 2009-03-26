@@ -1,6 +1,6 @@
 <?php
 /*
- * @(#)install/pages/license.php
+ * @(#)install/pages/database_init.php
  *
  *    Version: 0.50.20090325
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
@@ -19,16 +19,39 @@
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
+
+  $message = init_db();
 ?>
-        <h2><?php echo _INSTALLERLICENSE; ?></h2>
+        <h2><?php echo _INSTALLERDBINIT; ?></h2>
         <br />
-        <p><?php echo _INSTALLERLICENSEEXPLANATION; ?></p>
+<?php
+  if ($message != '') {
+?>
+        <p class="error"><?php echo $message; ?></p>
+<?php
+  } else {
+?>
+        <p class="success"><?php echo _INSTALLERDBINITOK; ?>.</p>
+<?php
+  }
+?>
         <form action="index.php" method="post">
-          <div id="iframe">
-            <?php echo _INSTALLERGNULICENSE ?>
-          </div>
           <div class="submit">
-            <input type="hidden" name="install_step" value="2" />
-            <input type="submit" value="<?php echo _INSTALLERACCEPT; ?>" />
+<?php
+  if ($message != '') {
+?>
+            <input type="hidden" name="install_step" value="3" />
+            <input type="hidden" name="hostname" value="<?php if (isset($_POST['hostname'])) { echo $_POST['hostname']; } ?>" />
+            <input type="hidden" name="username" value="<?php if (isset($_POST['username'])) { echo $_POST['username']; } ?>" />
+            <input type="hidden" name="database" value="<?php if (isset($_POST['database'])) { echo $_POST['database']; } ?>" />
+            <input type="submit" value="<?php echo _INSTALLERDBSETUP; ?>" />
+<?php
+  } else {
+?>
+            <input type="hidden" name="install_step" value="4" />
+            <input type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
+<?php
+  }
+?>
           </div>
         </form>

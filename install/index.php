@@ -20,9 +20,6 @@
  *
  */
 
-  // TBD: Disable in Production Environment
-  error_reporting(E_ALL | E_STRICT);
-  
   if (!isset($page)) {
     $page = 'welcome';
     $percent = "0%";

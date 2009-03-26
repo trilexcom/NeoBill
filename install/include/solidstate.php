@@ -242,8 +242,6 @@
     }
   }
   
-  $_POST['install_step'] = '6';
-  
   if (isset($_POST['install_step'])) {
     switch ($_POST['install_step']) {
       case '0':

@@ -21,7 +21,7 @@
  */
 ?>
 
-          <h1 class="help_title"><?php echo _INSTALLERNEEDHELP; ?></h1>
+          <h1 class="help_title"><?php echo _INSTALLERNEEDHELP; ?>?</h1>
           <ul>
             <li><a href="https://sourceforge.net/forum/forum.php?forum_id=550853"><?php echo _INSTALLERPUBLICFORUMS; ?></a></li>
           </ul>
