@@ -1,57 +1,52 @@
 <?php
-/**
- * index.php
+/*
+ * @(#)install/index.php
  *
- * This file controls the entire install program.
+ *    Version: 0.50.20090326
+ * Written by: Mark Chaney (MACscr) <mailto:mchaney@maximstudios.com>
+ * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
- * @package Installer
- * @author Mark Chaney (MACscr) <mchaney@maximstudios.com>
- * @copyright Mark Chaney (MACscr) <mchaney@maximstudios.com>
- * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
+ * Copyright (C) 2001-2008 by Mark Chaney
+ * Copyright (C) 2009 by Yves Kreis
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
  */
 
-error_reporting(E_ALL ^ E_NOTICE);
-
-if( !isset( $page ) )
-  {
-    $page="welcome";
+  // TBD: Disable in Production Environment
+  error_reporting(E_ALL | E_STRICT);
+  
+  if (!isset($page)) {
+    $page = 'welcome';
     $percent = "0%";
   }
-
-if(!isset($_COOKIE['lang'] ))
-{
-        setcookie ('lang', 'english');
-        echo 'Cookie Not Set<br />';
-        
-}
-
-if( isset($_POST['lang'] )) {
-
-        setcookie('lang', $_POST['lang']);
-}
-
-
-// load the installer language files
-if(isset($_POST['lang']))
-      require_once 'lang/'.$_POST['lang'].'/global.php';
-else if (!isset($_COOKIE['lang']))
-      require_once 'lang/english/global.php';
-else
-      require_once 'lang/'.$_COOKIE['lang'].'/global.php';
-
-//echo '<h1 style="color: #FFFFFF;">Cookie Language is '.$_COOKIE['lang'].'</h1>';
-
-require_once "includes/functions.php";
-require_once "templates/header.php";
-
-$this_pathinfo  = pathinfo( __FILE__ );
-$file_path      = ereg_replace('install', '', $this_pathinfo['dirname']);
-
-// Display Error message if any
-if (isset($msg))
-        echo '<p class="error">'.$msg.'</p>';
-include "pages/".$page.".php";
-
-require_once "templates/footer.php";
-
+  
+  if (!isset($_COOKIE['language'])) {
+    setcookie('language', 'english');
+  }
+  if(isset($_POST['language'])) {
+    setcookie('language', $_POST['language']);
+  }
+  
+  if (isset($_POST['language'])) {
+    require_once 'language/' . $_POST['language'] . '.php';
+  } else if (isset($_COOKIE['language'])) {
+    require_once 'language/' . $_COOKIE['language'] . '.php';
+  } else {
+    require_once 'language/english.php';
+  }
+  
+  require_once 'include/solidstate.php';
+  require_once 'templates/header.php';
+  
+  include 'pages/' . $page . '.php';
+  
+  require_once 'templates/footer.php';
 ?>

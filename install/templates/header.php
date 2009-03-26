@@ -2,7 +2,7 @@
 /*
  * @(#)install/templates/header.php
  *
- *    Version: 0.50.20090325
+ *    Version: 0.50.20090326
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -21,9 +21,9 @@
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo _ISOLANGUAGECODE; ?>">
 <head>
-  <link rel="stylesheet" href="style/style.css" type="text/css" />
+  <link rel="stylesheet" href="style/solidstate.css" type="text/css" />
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta name="description" content="Open Source Customer Management and Billing Software for Web Hosts" />
   <meta name="robots" content="index, follow" />
@@ -51,7 +51,7 @@
       <div id="maincolumn">
         <div class="header">                               
           <div id="logo">
-            <img src="images/logo.gif" alt="SolidState" />
+            <img src="images/solidstate.gif" alt="SolidState" />
           </div>
           <div style="clear: both;">
           </div>
