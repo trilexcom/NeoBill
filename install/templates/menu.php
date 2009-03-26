@@ -1,8 +1,8 @@
 <?php
 /*
- * @(#)install/templates/nav.php
+ * @(#)install/templates/menu.php
  *
- *    Version: 0.50.20090325
+ *    Version: 0.50.20090326
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *

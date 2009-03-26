@@ -36,11 +36,11 @@
   }
   
   if (isset($_POST['language'])) {
-    require_once 'language/' . $_POST['language'] . '.php';
+    require_once 'languages/' . $_POST['language'] . '.php';
   } else if (isset($_COOKIE['language'])) {
-    require_once 'language/' . $_COOKIE['language'] . '.php';
+    require_once 'languages/' . $_COOKIE['language'] . '.php';
   } else {
-    require_once 'language/english.php';
+    require_once 'languages/english.php';
   }
   
   require_once 'include/solidstate.php';

@@ -1,5 +1,6 @@
 --
--- @(#)db/upgrade.v0.4.mysql
+--
+-- @(#)install/database/upgrade.v0.4.mysql
 --
 --    Version: 0.50.20090326
 -- Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>

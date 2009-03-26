@@ -214,7 +214,7 @@
   
   function get_languages_installer() {
     $languages = array();
-    $files = scandir('language');
+    $files = scandir('languages');
     
     foreach ($files as $key=>$file) {
       if ('.' != $file && '..' != $file && 'index.php' != $file && 4 < strlen($file)) {
