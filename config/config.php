@@ -2,7 +2,7 @@
 /*
  * @(#)config.php
  *
- *    Version: 0.50.20090325
+ *    Version: 0.50.20090327
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -39,11 +39,8 @@
    *   $config['cache']     - Absolute path of smarty cache directory
    *   $config['compiled']  - Absolute path of smarty compiled directory (template_c)
    *   $config['encoded']   - 0 for MySQL information unenccoded
-   *                   		  1 for MySQL information encoded
+   *                   	      1 for MySQL information encoded
    */
-
-  $this_pathinfo  = pathinfo( __FILE__ );
-  define("BASE_PATH", ereg_replace('config', '', $this_pathinfo['dirname']));
 
   /*
    * Database configuration

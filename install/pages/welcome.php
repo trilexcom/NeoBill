@@ -2,7 +2,7 @@
 /*
  * @(#)install/pages/welcome.php
  *
- *    Version: 0.50.20090326
+ *    Version: 0.50.20090327
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -22,19 +22,30 @@
 
   $languages = get_languages_installer();
 ?>
+        <script type="text/javascript" src="javascript/language.js"></script>
         <h2><?php echo _INSTALLERWELCOME; ?></h2>
         <br />
         <form action="index.php" method="post">
           <div>
             <div>
               <?php echo _INSTALLERCHOOSELANGUAGE; ?> : 
-              <select name="language">
+              <select name="language" onchange="_language();" onkeyup="_language();">
 <?php
   foreach($languages as $key=>$value) {
     echo '                <option value="', $value, '"';
-    if ('english' == $value) {
-      echo ' selected="selected"';
-    } 
+    if (isset($_POST['language'])) {
+      if ($_POST['language'] == $value) {
+        echo ' selected="selected"';
+      }
+    } else if (isset($_COOKIE['language'])) {
+      if ($_COOKIE['language'] == $value) {
+        echo ' selected="selected"';
+      }
+    } else {
+      if ('english' == $value) {
+        echo ' selected="selected"';
+      }
+    }
     echo '>', ucfirst($value), '</option>', "\n";
   }
 ?>

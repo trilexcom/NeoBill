@@ -1,13 +1,13 @@
 <?php
 /*
- * @(#)install/languages/english.php
+ * @(#)install/languages/français.php
  *
  *    Version: 0.50.20090327
- * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
+ * Written by: Georges Barthel <mailto:georges.barthel@hosting-skills.org>
  *
- * Copyright (C) 2006-2008 by John Diamond
  * Copyright (C) 2009 by Yves Kreis
+ * Copyright (C) 2009 by Georges Barthel
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
  * as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
@@ -23,7 +23,7 @@
   /*
    * Language
    */
-  define('_ISOLANGUAGECODE', 'en');
+  define('_ISOLANGUAGECODE', 'fr');
   
   /*
    * General
@@ -147,10 +147,8 @@
               Version 2, June 1991
             </p>
             <p style="text-align: justify; padding-left: 10px;">
-              Copyright (C) 1989, 1991 Free Software Foundation, Inc., 
-              51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA<br />
-              Everyone is permitted to copy and distribute verbatim copies 
-              of this license document, but changing it is not allowed.
+              Copyright (C) 1989, 1991 Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA<br />
+              Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
             </p>
             <p style="text-align: center;">
               Preamble

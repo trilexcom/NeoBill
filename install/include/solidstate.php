@@ -2,7 +2,7 @@
 /*
  * @(#)install/include/solidstate.php
  *
- *    Version: 0.50.20090326
+ *    Version: 0.50.20090327
  * Written by: Mark Chaney (MACscr) <mailto:mchaney@maximstudios.com>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -20,10 +20,28 @@
  *
  */
 
+  function check_installed() {
+    $file = fopen('../config/config.php', 'r');
+    if (!$file) {
+      return false;
+    }
+    
+    $buffer = array();
+    $installed = false;
+    while (!feof($file)) {
+      $buffer = eregi_replace(' ', '', strtolower(fgets($file, 4096)));
+      if (!stristr($buffer, '$config[\'installed\']=1;') === false) {
+        $installed = true;
+      }
+    }
+    fclose($file);
+    return $installed;
+  }
+  
   function modify_config_install() {
     $config_php = join('', file('../config/config.php'));
     
-    $config_php = preg_replace('/\[\'installed\'\]\s*=\s*\'0\'\s*;/', "['installed'] = '1';", $config_php);
+    $config_php = preg_replace('/\[\'installed\'\]\s*=\s*(.*);/', "['installed'] = 1;", $config_php, -1, $test);
     
     $fp = fopen('../config/config.php', 'w+');
     fwrite($fp, $config_php);
@@ -45,10 +63,10 @@
       $database = $_POST['database'];
     }
     
-    $config_php = preg_replace('/\[\'hostname\'\]\s*=\s*(\'|\")(.*)\\1;/', "['hostname'] = '$hostname';", $config_php);
-    $config_php = preg_replace('/\[\'username\'\]\s*=\s*(\'|\")(.*)\\1;/', "['username'] = '$username';", $config_php);
-    $config_php = preg_replace('/\[\'password\'\]\s*=\s*(\'|\")(.*)\\1;/', "['password'] = '$password';", $config_php);
-    $config_php = preg_replace('/\[\'database\'\]\s*=\s*(\'|\")(.*)\\1;/', "['database'] = '$database';", $config_php);
+    $config_php = preg_replace('/\[\'hostname\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['hostname'] = '$hostname';", $config_php);
+    $config_php = preg_replace('/\[\'username\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['username'] = '$username';", $config_php);
+    $config_php = preg_replace('/\[\'password\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['password'] = '$password';", $config_php);
+    $config_php = preg_replace('/\[\'database\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['database'] = '$database';", $config_php);
     
     $fp = fopen('../config/config.php', 'w+');
     fwrite($fp, $config_php);
@@ -66,8 +84,8 @@
       $compiled = $_POST['compiled'];
     }
     
-    $config_php = preg_replace('/\[\'cache\'\]\s*=\s*(\'|\")(.*)\\1;/', "['cache']     = '$cache';", $config_php);
-    $config_php = preg_replace('/\[\'compiled\'\]\s*=\s*(\'|\")(.*)\\1;/', "['compiled']  = '$compiled';", $config_php);
+    $config_php = preg_replace('/\[\'cache\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['cache']     = '$cache';", $config_php);
+    $config_php = preg_replace('/\[\'compiled\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['compiled']  = '$compiled';", $config_php);
     
     $fp = fopen('../config/config.php', 'w+');
     fwrite($fp, $config_php);
@@ -159,8 +177,6 @@
     mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
     mysql_query("INSERT INTO `users` (`username`, `password`, `type`, `name`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_close();
-    
-    unset($_POST['email']);
   }
   
   function create_company() {
@@ -223,6 +239,11 @@
     }
     
     return $languages;
+  }
+  
+  if (check_installed()) {
+    unset($_POST['function']);
+    $_POST['install_step'] = '6';
   }
   
   if (isset($_POST['function'])) {

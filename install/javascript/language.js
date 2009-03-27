@@ -1,12 +1,9 @@
-<?php
 /*
- * @(#)install/index.php
+ * @(#)install/javascript/language.js
  *
  *    Version: 0.50.20090327
- * Written by: Mark Chaney (MACscr) <mailto:mchaney@maximstudios.com>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
- * Copyright (C) 2001-2008 by Mark Chaney
  * Copyright (C) 2009 by Yves Kreis
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
@@ -20,29 +17,11 @@
  *
  */
 
-  if (!isset($page)) {
-    $page = 'welcome';
-    $percent = "0%";
+function _language() {
+  if (!document.forms[0]) {
+    return;
   }
   
-  if (!isset($_COOKIE['language'])) {
-    setcookie('language', 'english');
-  }
-  if(isset($_POST['language'])) {
-    setcookie('language', $_POST['language']);
-  }
-  
-  if (isset($_POST['language'])) {
-    require_once 'languages/' . $_POST['language'] . '.php';
-  } else if (isset($_COOKIE['language'])) {
-    require_once 'languages/' . $_COOKIE['language'] . '.php';
-  } else {
-    require_once 'languages/english.php';
-  }
-  
-  require_once 'include/solidstate.php';
-  
-  include 'templates/header.php';
-  include 'pages/' . $page . '.php';
-  include 'templates/footer.php';
-?>
+  document.forms[0].elements['install_step'].value = '0';
+  document.forms[0].submit();
+}

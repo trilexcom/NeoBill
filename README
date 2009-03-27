@@ -1,31 +1,6 @@
-NOTE: For the most up-to-date installation documentation please visit the
-      Solid-State Homepage: http://www.solid-state.org
-
-* Copy the SolidState source tree to your web root directory
-
-* Create a new MySQL database:
-
-    $ mysqladmin -u root -p create solidstate
-
-* Grant privileges for the solidstate database:
-
-    $ mysql -u root -p
-
-    mysql> GRANT ALL PRIVILEGES ON solidstate.* TO apache@localhost IDENTIFIED BY 'password';
-
-    Where: 'apache@localhost' is the username of your web server's MySQL account
-           'password' is the user's password
-
-* Don't forget to activate your new privleges:
-
-    mysql> FLUSH PRIVILEGES;
-
-* Open a web browser and run the Install script: http://<your-host>/path/to/solidstate/install
-
-* Remove the install/ directory from your installation
-
-* Open a web browser and visit: http://<your-host>/path/to/solidstate/manager
-
-* Goto "Administration / Settings" and edit your configuration settings.
-
-* Goto "Administration / Modules" to enable and configure the modules you wish to use
+PLEASE NOTE:
+The development of SolidState has been relaunched recently. The current commit 
+in the trunc is a beta development release of SolidState v0.5. It uses a new 
+configuration file format and a new database scheme which both might change 
+until the release of v0.5 without update/upgrade support. An update/upgrade 
+will be provided for v0.4.z.r and maybe v0.5 alpha.

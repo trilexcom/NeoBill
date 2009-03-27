@@ -2,7 +2,7 @@
 /*
  * @(#)install/pages/create_admin.php
  *
- *    Version: 0.50.20090325
+ *    Version: 0.50.20090327
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -60,7 +60,7 @@
             <td><input type="text" name="username" value="<?php echo $username; ?>" /></td>
           </tr><tr>
             <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORD; ?>: *</td>
-            <td><input type="password" name="password-1" onkeyup="password(this);" /></td>
+            <td><input type="password" name="password-1" onblur="_password(this);" onkeyup="_password(this);" /></td>
           </tr><tr>
             <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORDSTRENGTH; ?>:</td>
             <td valign="top" class="pwdChkTd">
@@ -79,7 +79,7 @@
             <td class="dbtitle"><?php echo _INSTALLERADMINPASSWORDRETYPE; ?>: *</td>
             <td>
               <table cellpadding="0" cellspacing="0" summary="Password Check"><tr>
-                <td><input type="password" name="password-2" onkeyup="password(this);" /></td>
+                <td><input type="password" name="password-2" onblur="_password(this);" onkeyup="_password(this);" /></td>
                 <td><div style="margin-left: 5px;" id="result">&nbsp;</div></td>
               </tr></table>
             </td>

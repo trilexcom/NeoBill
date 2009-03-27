@@ -1,7 +1,7 @@
 /*
  * @(#)install/javascript/password.js
  *
- *    Version: 0.50.20090325
+ *    Version: 0.50.20090327
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
  * Copyright (C) 2009 by Yves Kreis
@@ -17,7 +17,11 @@
  *
  */
 
-function password(input) {
+function _password(input) {
+  if (!document.forms[0]) {
+    return;
+  }
+  
   if ('password-1' == input.name) {
     var password1 = input;
     var password2 = document.forms[0].elements['password-2'];
@@ -33,7 +37,7 @@ function password(input) {
   }
   
   if ('password-1' == input.name) {
-    var level = strength(input.value);
+    var level = _strength(input.value);
     if (4 < level) {
       level = 4;
     }
@@ -72,7 +76,7 @@ function password(input) {
   }
 }
 
-function strength(password) {
+function _strength(password) {
   var strength = 0;
   
   // Length

@@ -2,7 +2,7 @@
 /*
  * @(#)install/pages/complete.php
  *
- *    Version: 0.50.20090326
+ *    Version: 0.50.20090327
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -20,15 +20,28 @@
  *
  */
 
-  modify_config_install();
+  $pathinfo = pathinfo(__FILE__);
+  $filepath = ereg_replace('install/pages', '', $pathinfo['dirname']);
+  
+  if (!check_installed()) {
+    modify_config_install();
+  }
 ?>
         <h2><?php echo _INSTALLCOMPLETE; ?></h2>
         <br />
         <p><?php echo _INSTALLERCONGRATULATIONS; ?>!</p>
         <p style="color: red;">
-          <?php echo _INSTALLERSECURITY0; ?>:<br />
-          <?php echo _INSTALLERSECURITY1; ?>.<br />
-          <?php echo _INSTALLERSECURITY2; ?>.
+<?php
+  echo '          ', _INSTALLERSECURITY0, ':<br />', "\n";
+  $file = $filepath . 'config/config.php';
+  echo '';
+  if (is_writable($file)) {
+    echo '          1. ', _INSTALLERSECURITY1, '.<br />', "\n";
+    echo '          2. ', _INSTALLERSECURITY2, '.<br />', "\n";
+  } else {
+    echo '          ', _INSTALLERSECURITY1, '.', "\n";
+  }
+?>
         </p>
         <form action="../manager/" method="post">
           <div class="submit">
