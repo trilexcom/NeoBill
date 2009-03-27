@@ -16,9 +16,13 @@
       </tr>
       <tr>
         <th/>
+        <td> {form_element dbo="account_dbo" field="type" option="Non-Profit Account"} </td>
+      </tr>
+      <tr>
+        <th/>
         <td> 
           &nbsp; &nbsp; &nbsp; {form_description field="businessname"} <br/>
-          &nbsp; &nbsp; &nbsp; {form_element dbo="account_dbo" field="businessname" size="30"}
+          &nbsp; &nbsp; &nbsp; {form_element dbo="account_dbo" field="businessname" size="60"}
         </td>
       </tr>
       <tr>

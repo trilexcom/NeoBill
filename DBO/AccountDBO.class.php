@@ -6,7 +6,9 @@
  *
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
+ * @author Yves Kreis <yves@hosting-skills.org>
  * @copyright John Diamond <jdiamond@solid-state.org>
+ * @copyright Yves Kreis <yves@hosting-skills.org>
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
@@ -17,6 +19,7 @@
  *
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
+ * @author Yves Kreis <yves@hosting-skills.org>
  */
 class AccountDBO extends DBO
 {
@@ -26,7 +29,7 @@ class AccountDBO extends DBO
   var $id;
 
   /**
-   * @var string Account Type (Business Account/Individual Account)
+   * @var string Account Type (Business Account/Non-Profit Account/Individual Account)
    */
   var $type;
 
@@ -46,7 +49,7 @@ class AccountDBO extends DBO
   var $billingday;
 
   /**
-   * @var string Business Name (if type = "Business Account")
+   * @var string Business Name (if type = "Business Account" || type = "Non-Profit Account")
    */
   var $businessname;
 
@@ -173,7 +176,7 @@ class AccountDBO extends DBO
    */
   function setType( $type ) 
   { 
-    if( !( $type == "Individual Account" || $type == "Business Account" ) )
+    if( !( $type == "Individual Account" || $type == "Non-Profit Account" || $type == "Business Account" ) )
       {
 	// Bad value
 	fatal_error( "AccountDBO::setType()", "bad value supplied for setType: " . $type );
@@ -441,8 +444,8 @@ class AccountDBO extends DBO
    * Get Account Name
    *
    * If the Account Type is set to "Individual Account" this function
-   * will return the Contact Name.  Alternately, for a "Business Account", this
-   * function will return the "Business Name".
+   * will return the Contact Name.  Alternately, for a "Business Account" or a
+   * "Non-Profit Account", this function will return the "Business Name".
    *
    * @return string Account Name
    */
