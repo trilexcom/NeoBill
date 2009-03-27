@@ -24,6 +24,7 @@
  *
  * @link http://smarty.php.net/
  * @copyright 2001-2005 New Digital Group, Inc.
+ * @copyright 2009 Yves Kreis <yves@hosting-skills.org>
  * @author Monte Ohrt <monte at ohrt dot com>
  * @author Andrei Zmievski <andrei@php.net>
  * @package Smarty
@@ -1640,7 +1641,7 @@ class Smarty
                 // relative pathname to $params['resource_base_path']
                 // use the first directory where the file is found
                 foreach ((array)$params['resource_base_path'] as $_curr_path) {
-                    $_fullpath = $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
+                    $_fullpath = '.' . $_curr_path . DIRECTORY_SEPARATOR . $params['resource_name'];
                     if (file_exists($_fullpath) && is_file($_fullpath)) {
                         $params['resource_name'] = $_fullpath;
                         return true;
