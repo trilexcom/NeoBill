@@ -2,7 +2,7 @@
 /*
  * @(#)config.php
  *
- *    Version: 0.50.20090327
+ *    Version: 0.50.20090328
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -42,6 +42,9 @@
    *                   	      1 for MySQL information encoded
    */
 
+  $pathinfo = pathinfo(__FILE__);
+  define('BASE_PATH', ereg_replace('manager', '', $pathinfo['dirname']));
+  
   /*
    * Database configuration
    */

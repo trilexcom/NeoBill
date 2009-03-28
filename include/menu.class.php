@@ -1,27 +1,49 @@
 <?php
-/**
- * SolidStateMenu.class.php
+/*
+ * @(#)include/menu.class.php
  *
- * This file contains the definition of the SolidStateMenu class
+ *    Version: 0.50.20090328
+ * Written by: John Diamond <mailto:jdiamond@solid-state.org>
+ * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
- * @package SolidState
- * @author John Diamond <jdiamond@solid-state.org>
- * @copyright John Diamond <jdiamond@solid-state.org>
- * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
+ * Copyright (C) 2006-2008 by John Diamond
+ * Copyright (C) 2009 by Yves Kreis
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
  */
 
-require BASE_PATH . "include/SolidStateMenuItem.class.php";
+  require_once BASE_PATH . "include/menu_item.class.php";
 
-/**
- * SolidStateMenu
- *
- * Implements a dynamic dhtmlxTree menu
- *
- * @package SolidState
- * @author John Diamond <jdiamond@solid-state.org>
- */
-class SolidStateMenu
-{
+  class Menu {
+    /*
+     *
+     */
+    function &instance($instance = null) {
+      static $instance;
+      if (!is_null($instance)) {
+        $instance = $instance;
+      }
+      return $instance;
+    }
+    
+    /*
+     *
+     */
+    function test1() {
+      return &Menu::instance();
+    }
+    function test2() {
+      return &Menu::instance('test');
+    }
+     
   /**
    * @var SolidStateMenu The singleton instance
    */
@@ -218,10 +240,12 @@ class SolidStateMenu
   /**
    * Constructor
    */
+   /*
   protected function __construct()
   {
     $this->rootItem = new SolidStateMenuItem( "root", "root" );
   }
+    */
 
   /**
    * Add Item
