@@ -2,7 +2,7 @@
 /*
  * @(#)install/languages/english.php
  *
- *    Version: 0.50.20090327
+ *    Version: 0.50.20090328
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -69,8 +69,8 @@
    */
   define('_INSTALLERREQUIREMENTS', 'System Requirements');
   define('_INSTALLERPHPVERSION', 'php version');
-  define('_INSTALLERPHPVERSIONOK', 'Your php version is %0 which meets our system requirement of php version 4.3.0');
-  define('_INSTALLERPHPVERSIONKO', 'Your php version is %0 which doesn\'t meets our system requirement of php version 4.3.0');
+  define('_INSTALLERPHPVERSIONOK', 'Your php version is %0 which meets our system requirement of php version 4.0.6');
+  define('_INSTALLERPHPVERSIONKO', 'Your php version is %0 which doesn\'t meets our system requirement of php version 4.0.6');
   define('_INSTALLERPERMISSIONS', 'File system permissions');
   define('_INSTALLERPERMISSIONSFILE', 'Please ensure that the web server has write access to the following file' );
   define('_INSTALLERPERMISSIONSDIRECTORY', 'Please ensure that the web server has write access to the following directory' );

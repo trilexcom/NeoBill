@@ -2,7 +2,7 @@
 /*
  * @(#)install/pages/requirements.php
  *
- *    Version: 0.50.20090325
+ *    Version: 0.50.20090328
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -28,8 +28,8 @@
         <h3><?php echo _INSTALLERPHPVERSION; ?></h3>
         <ul class="systemrequirements">
 <?php
-  $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
-  if (floatval($phpversion) >= 4.3) {
+  $phpversion = split('.', substr(phpversion(), 0, strpos(phpversion(), '-')));
+  if (intval($phpversion[0]) > 4 || (intval($phpversion[0]) == 4 && (intval($phpversion[1]) > 0 || intval($phpversion[1]) == 0 && intval($phpversion[2]) >= 6))) {
     echo '          <li class="passed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONOK), '.</li>', "\n";
   } else {
     echo '          <li class="failed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONKO), '.</li>', "\n";
