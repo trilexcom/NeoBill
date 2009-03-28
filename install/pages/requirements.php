@@ -28,8 +28,8 @@
         <h3><?php echo _INSTALLERPHPVERSION; ?></h3>
         <ul class="systemrequirements">
 <?php
-  $phpversion = split('.', substr(phpversion(), 0, strpos(phpversion(), '-')));
-  if (intval($phpversion[0]) > 4 || (intval($phpversion[0]) == 4 && (intval($phpversion[1]) > 0 || intval($phpversion[1]) == 0 && intval($phpversion[2]) >= 6))) {
+  $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
+  if (version_compare($phpversion, '4.0.6', '>=')) {
     echo '          <li class="passed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONOK), '.</li>', "\n";
   } else {
     echo '          <li class="failed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONKO), '.</li>', "\n";
