@@ -2,7 +2,7 @@
 /*
  * @(#)install/languages/français.php
  *
- *    Version: 0.50.20090327
+ *    Version: 0.50.20090401
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  * Written by: Georges Barthel <mailto:georges.barthel@hosting-skills.org>
  *
@@ -28,97 +28,97 @@
   /*
    * General
    */
-  define('_INSTALLERSTEPS', 'Install Steps');
-  define('_INSTALLERSTEP0', 'Welcome');
-  define('_INSTALLERSTEP1', 'License');
-  define('_INSTALLERSTEP2', 'Requirements');
-  define('_INSTALLERSTEP3', 'Database');
-  define('_INSTALLERSTEP4', 'Create Admin');
-  define('_INSTALLERSTEP5', 'Create Company');
-  define('_INSTALLERSTEP6', 'Complete');
-  define('_INSTALLERNEEDHELP', 'Need Help');
-  define('_INSTALLERPUBLICFORUMS', 'Public Forums');
-  define('_INSTALLERPERCENT', 'Install %0 complete');
+  define('_INSTALLERSTEPS', 'Etapes d\'installation');
+  define('_INSTALLERSTEP0', 'Bienvenue');
+  define('_INSTALLERSTEP1', 'Licence');
+  define('_INSTALLERSTEP2', 'Exigences');
+  define('_INSTALLERSTEP3', 'Base de données');
+  define('_INSTALLERSTEP4', 'Créer Admin');
+  define('_INSTALLERSTEP5', 'Créer Compagnie');
+  define('_INSTALLERSTEP6', 'Complet');
+  define('_INSTALLERNEEDHELP', 'Besoin d\'aide');
+  define('_INSTALLERPUBLICFORUMS', 'Forums publics');
+  define('_INSTALLERPERCENT', 'Installation %0 complète');
   
-  define('_INSTALLERREQUIREDFIELDSKO', 'Please fill in all required fields fields');
-  define('_INSTALLERPASSWORDSMATCHKO', 'The passwords do not match');
-  define('_INSTALLERVALIDEMAILKO','Please enter a valid e-mail address');
+  define('_INSTALLERREQUIREDFIELDSKO', 'Veuillez compléter tous les champs');
+  define('_INSTALLERPASSWORDSMATCHKO', 'Les mots de passe ne sont pas identiques');
+  define('_INSTALLERVALIDEMAILKO', 'Veuillez entrer une adresse électronique correcte');
   
   /*
    * Buttons
    */
-  define('_INSTALLERNEXT', 'Next');
-  define('_INSTALLERACCEPT', 'Accept');
-  define('_INSTALLERRECHECK', 'Recheck');
-  define('_INSTALLERINIT', 'Initialize');
+  define('_INSTALLERNEXT', 'Suite');
+  define('_INSTALLERACCEPT', 'Accepter');
+  define('_INSTALLERRECHECK', 'Revérifier');
+  define('_INSTALLERINIT', 'Initialiser');
   
   /*
    * Welcome
    */
-  define('_INSTALLERWELCOME', 'Welcome to the SolidState install wizard');
-  define('_INSTALLERCHOOSELANGUAGE', 'Choose language');
+  define('_INSTALLERWELCOME', 'Bienvenue à l\'assistant d\'installation de SolidState');
+  define('_INSTALLERCHOOSELANGUAGE', 'Choisir la langue');
   
   /*
    * License
    */
-  define('_INSTALLERLICENSE', 'License');
-  define('_INSTALLERLICENSEEXPLANATION', 'Please read through the GNU General Public License. SolidState is developed as free software, but there are certain requirements for distributing and editing.');
+  define('_INSTALLERLICENSE', 'Licence');
+  define('_INSTALLERLICENSEEXPLANATION', 'Veuillez lire la licence GNU General Public License. SolidState est développé comme logiciel gratuit, mais il y a certaines exigences pour la distribution et l\'édition.');
   
   /*
    * Requirements
    */
-  define('_INSTALLERREQUIREMENTS', 'System Requirements');
-  define('_INSTALLERPHPVERSION', 'php version');
-  define('_INSTALLERPHPVERSIONOK', 'Your php version is %0 which meets our system requirement of php version 4.3.0');
-  define('_INSTALLERPHPVERSIONKO', 'Your php version is %0 which doesn\'t meets our system requirement of php version 4.3.0');
-  define('_INSTALLERPERMISSIONS', 'File system permissions');
-  define('_INSTALLERPERMISSIONSFILE', 'Please ensure that the web server has write access to the following file' );
-  define('_INSTALLERPERMISSIONSDIRECTORY', 'Please ensure that the web server has write access to the following directory' );
-  define('_INSTALLERPERMISSIONSWRITABLEOK', ' is writable');
-  define('_INSTALLERPERMISSIONSWRITABLEKOFILE', ' is not writable - please ensure that the file permissions are correct');
-  define('_INSTALLERPERMISSIONSWRITABLEKODIRECTORY', ' is not writable - please ensure that the directory permissions are correct');
+  define('_INSTALLERREQUIREMENTS', 'Exigences système');
+  define('_INSTALLERPHPVERSION', 'version php');
+  define('_INSTALLERPHPVERSIONOK', 'Votre version php est %0 ce qui correspond à notre exigence système php version 4.0.6');
+  define('_INSTALLERPHPVERSIONKO', 'Votre version php est %0 ce qui ne correspond pas à notre exigence système php version 4.0.6');
+  define('_INSTALLERPERMISSIONS', 'Permissions système fichiers');
+  define('_INSTALLERPERMISSIONSFILE', 'Veuillez vous assurer que le serveur web a le droit d\'écriture sur le fichier suivant');
+  define('_INSTALLERPERMISSIONSDIRECTORY', 'Veuillez vous assurer que le serveur web a le droit d\'écriture sur le répertoire suivant');
+  define('_INSTALLERPERMISSIONSWRITABLEOK', 'peut être modifié');
+  define('_INSTALLERPERMISSIONSWRITABLEKOFILE', 'ne peut être modifié – veuillez vérifier que les permissions sur le fichier sont correctes');
+  define('_INSTALLERPERMISSIONSWRITABLEKODIRECTORY', 'ne peut être modifié – veuillez vérifier que les permissions sur le répertoire sont correctes');
   
   /*
    * Database
    */
-  define('_INSTALLERDBCONNECTFAILED', 'Could not connect to database');
-  define('_INSTALLERDBNAMESFAILED', 'Could not change character set');
-  define('_INSTALLERDBCREATEFAILED', 'Could not create database');
-  define('_INSTALLERDBSELECTFAILED', 'Could not select database');
-  define('_INSTALLERDBQUERYFAILED', 'Query failed');
+  define('_INSTALLERDBCONNECTFAILED', 'Impossible de se connecter à la base de données');
+  define('_INSTALLERDBNAMESFAILED', 'Impossible de changer le set de caractères');
+  define('_INSTALLERDBCREATEFAILED', 'Impossible de créer la base de données');
+  define('_INSTALLERDBSELECTFAILED', 'Impossible de sélectionner la base de données');
+  define('_INSTALLERDBQUERYFAILED', 'Recherche échouée');
    
-  define('_INSTALLERDBSETUP', 'Database Setup');
-  define('_INSTALLERDBHOSTNAME', 'Hostname');
-  define('_INSTALLERDBHOSTNAMEEXPLANATION', 'This is the hostname that your MySQL database server runs on' );
-  define('_INSTALLERDBUSERNAME', 'Username');
-  define('_INSTALLERDBUSERNAMEEXPLANATION', 'Database user with access to the SolidState database' );
-  define('_INSTALLERDBPASSWORD', 'Password');
-  define('_INSTALLERDBPASSWORDEXPLANATION', 'Password for the database user');
-  define('_INSTALLERDBDATABASE', 'Database');
-  define('_INSTALLERDBDATABASEEXPLANATION', 'The name of the database that SolidState will be using');
-  define('_INSTALLERDBCREATE', 'Create Database');
-  define('_INSTALLERDBCREATEEXPLANATION', 'Attempt to create database');
+  define('_INSTALLERDBSETUP', 'Installation de la base de données');
+  define('_INSTALLERDBHOSTNAME', 'Nom d\'hôte');
+  define('_INSTALLERDBHOSTNAMEEXPLANATION', 'Ceci est le nom d\'hôte utilisé par votre serveur de base de données MySQL');
+  define('_INSTALLERDBUSERNAME', 'Nom d\'utilisateur');
+  define('_INSTALLERDBUSERNAMEEXPLANATION', 'Utilisateur de la base de données avec accès à la base de données SolidState');
+  define('_INSTALLERDBPASSWORD', 'Mot de passe');
+  define('_INSTALLERDBPASSWORDEXPLANATION', 'Mot de passe pour l\'utilisateur de la base de données');
+  define('_INSTALLERDBDATABASE', 'Base de données');
+  define('_INSTALLERDBDATABASEEXPLANATION', 'Le nom de la base de données qu\'utilisera SolidState');
+  define('_INSTALLERDBCREATE', 'Créer la base de données');
+  define('_INSTALLERDBCREATEEXPLANATION', 'Création de la base de données');
   
-  define('_INSTALLERDBINIT', 'Database Initialization');
-  define('_INSTALLERDBINITOK', 'Database successfully initialized');
+  define('_INSTALLERDBINIT', 'Initialisation de la base de données');
+  define('_INSTALLERDBINITOK', 'Initialisation de la base de données réussie');
   
   /*
    * Create Admin
    */
-  define('_INSTALLERADMIN', 'Create Admin Account');
-  define('_INSTALLERADMINFIRSTNAME', 'First Name');
-  define('_INSTALLERADMINLASTNAME', 'Last Name');
-  define('_INSTALLERADMINUSERNAME', 'Username');
-  define('_INSTALLERADMINPASSWORD', 'Password');
-  define('_INSTALLERADMINPASSWORDSTRENGTH', 'Password Strength');
-  define('_INSTALLERADMINPASSWORDSTRENGTHNOTRATED', 'Not rated');
-  define('_INSTALLERADMINPASSWORDSTRENGTHWORST', 'Worst');
-  define('_INSTALLERADMINPASSWORDSTRENGTHWEAK', 'Weak');
-  define('_INSTALLERADMINPASSWORDSTRENGTHMEDIUM', 'Medium');
-  define('_INSTALLERADMINPASSWORDSTRENGTHSTRONG', 'Strong');
-  define('_INSTALLERADMINPASSWORDSTRENGTHBEST', 'Best');
-  define('_INSTALLERADMINPASSWORDRETYPE', 'Re-Type Password');
-  define('_INSTALLERADMINEMAIL', 'E-Mail Address');
+  define('_INSTALLERADMIN', 'Création du compte admin');
+  define('_INSTALLERADMINFIRSTNAME', 'Prénom');
+  define('_INSTALLERADMINLASTNAME', 'Nom');
+  define('_INSTALLERADMINUSERNAME', 'Nom d\'utilisateur');
+  define('_INSTALLERADMINPASSWORD', 'Mot de passe');
+  define('_INSTALLERADMINPASSWORDSTRENGTH', 'Force du mot de passe');
+  define('_INSTALLERADMINPASSWORDSTRENGTHNOTRATED', 'Non défini');
+  define('_INSTALLERADMINPASSWORDSTRENGTHWORST', 'Le pire');
+  define('_INSTALLERADMINPASSWORDSTRENGTHWEAK', 'Faible');
+  define('_INSTALLERADMINPASSWORDSTRENGTHMEDIUM', 'Moyen');
+  define('_INSTALLERADMINPASSWORDSTRENGTHSTRONG', 'Fort');
+  define('_INSTALLERADMINPASSWORDSTRENGTHBEST', 'Excellent');
+  define('_INSTALLERADMINPASSWORDRETYPE', 'Retaper le mot de passe');
+  define('_INSTALLERADMINEMAIL', 'Adresse électronique');
   
   /*
    * Create Company
@@ -132,12 +132,12 @@
   /*
    * Complete
    */
-  define('_INSTALLCOMPLETE', 'Installation Complete');
-  define('_INSTALLERCONGRATULATIONS', 'Congratulations, you have successfully installed SolidState');
-  define('_INSTALLERSECURITY0', 'For security purposes');
-  define('_INSTALLERSECURITY1', 'Please remove the "install" directory');
-  define('_INSTALLERSECURITY2', 'Please change the permissions of the file "config/config.php" to read-only');
-  define('_MANAGERINTERFACE', 'Manager Interface');
+  define('_INSTALLCOMPLETE', 'Installation terminée');
+  define('_INSTALLERCONGRATULATIONS', 'Félicitations, vous avez bien installé SolidState');
+  define('_INSTALLERSECURITY0', 'Pour des raisons de sécurité');
+  define('_INSTALLERSECURITY1', 'Veuillez effacer le répertoire "install"');
+  define('_INSTALLERSECURITY2', 'Veuillez modifier les permissions du fichier "config/config.php" et le définir comme lecture seul');
+  define('_MANAGERINTERFACE', 'Interface de Management');
 
   /*
    * GNU General Public License
