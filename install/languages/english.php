@@ -2,7 +2,7 @@
 /*
  * @(#)install/languages/english.php
  *
- *    Version: 0.50.20090328
+ *    Version: 0.50.20090401
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -40,9 +40,9 @@
   define('_INSTALLERPUBLICFORUMS', 'Public Forums');
   define('_INSTALLERPERCENT', 'Install %0 complete');
   
-  define('_INSTALLERREQUIREDFIELDSKO', 'Please fill in all required fields fields');
+  define('_INSTALLERREQUIREDFIELDSKO', 'Please fill in all required fields');
   define('_INSTALLERPASSWORDSMATCHKO', 'The passwords do not match');
-  define('_INSTALLERVALIDEMAILKO','Please enter a valid e-mail address');
+  define('_INSTALLERVALIDEMAILKO', 'Please enter a valid e-mail address');
   
   /*
    * Buttons
@@ -72,11 +72,11 @@
   define('_INSTALLERPHPVERSIONOK', 'Your php version is %0 which meets our system requirement of php version 4.0.6');
   define('_INSTALLERPHPVERSIONKO', 'Your php version is %0 which doesn\'t meets our system requirement of php version 4.0.6');
   define('_INSTALLERPERMISSIONS', 'File system permissions');
-  define('_INSTALLERPERMISSIONSFILE', 'Please ensure that the web server has write access to the following file' );
-  define('_INSTALLERPERMISSIONSDIRECTORY', 'Please ensure that the web server has write access to the following directory' );
-  define('_INSTALLERPERMISSIONSWRITABLEOK', ' is writable');
-  define('_INSTALLERPERMISSIONSWRITABLEKOFILE', ' is not writable - please ensure that the file permissions are correct');
-  define('_INSTALLERPERMISSIONSWRITABLEKODIRECTORY', ' is not writable - please ensure that the directory permissions are correct');
+  define('_INSTALLERPERMISSIONSFILE', 'Please ensure that the web server has write access to the following file');
+  define('_INSTALLERPERMISSIONSDIRECTORY', 'Please ensure that the web server has write access to the following directory');
+  define('_INSTALLERPERMISSIONSWRITABLEOK', 'is writable');
+  define('_INSTALLERPERMISSIONSWRITABLEKOFILE', 'is not writable - please ensure that the file permissions are correct');
+  define('_INSTALLERPERMISSIONSWRITABLEKODIRECTORY', 'is not writable - please ensure that the directory permissions are correct');
   
   /*
    * Database
@@ -89,9 +89,9 @@
    
   define('_INSTALLERDBSETUP', 'Database Setup');
   define('_INSTALLERDBHOSTNAME', 'Hostname');
-  define('_INSTALLERDBHOSTNAMEEXPLANATION', 'This is the hostname that your MySQL database server runs on' );
+  define('_INSTALLERDBHOSTNAMEEXPLANATION', 'This is the hostname that your MySQL database server runs on');
   define('_INSTALLERDBUSERNAME', 'Username');
-  define('_INSTALLERDBUSERNAMEEXPLANATION', 'Database user with access to the SolidState database' );
+  define('_INSTALLERDBUSERNAMEEXPLANATION', 'Database user with access to the SolidState database');
   define('_INSTALLERDBPASSWORD', 'Password');
   define('_INSTALLERDBPASSWORDEXPLANATION', 'Password for the database user');
   define('_INSTALLERDBDATABASE', 'Database');
@@ -137,7 +137,7 @@
   define('_INSTALLERSECURITY0', 'For security purposes');
   define('_INSTALLERSECURITY1', 'Please remove the "install" directory');
   define('_INSTALLERSECURITY2', 'Please change the permissions of the file "config/config.php" to read-only');
-  define('_MANAGERINTERFACE', 'Manager Interface');
+  define('_MANAGERINTERFACE', 'Management Interface');
 
   /*
    * GNU General Public License

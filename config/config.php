@@ -2,7 +2,7 @@
 /*
  * @(#)config.php
  *
- *    Version: 0.50.20090328
+ *    Version: 0.50.20090330
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -43,7 +43,7 @@
    */
 
   $pathinfo = pathinfo(__FILE__);
-  define('BASE_PATH', ereg_replace('manager', '', $pathinfo['dirname']));
+  define('BASE_PATH', ereg_replace('config', '', $pathinfo['dirname']));
   
   /*
    * Database configuration

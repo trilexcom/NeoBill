@@ -2,7 +2,7 @@
 /*
  * @(#)install/include/solidstate.php
  *
- *    Version: 0.50.20090327
+ *    Version: 0.50.20090331
  * Written by: Mark Chaney (MACscr) <mailto:mchaney@maximstudios.com>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -41,7 +41,7 @@
   function modify_config_install() {
     $config_php = join('', file('../config/config.php'));
     
-    $config_php = preg_replace('/\[\'installed\'\]\s*=\s*(.*);/', "['installed'] = 1;", $config_php, -1, $test);
+    $config_php = preg_replace('/\[\'installed\'\]\s*=\s*(.*);/', "['installed'] = 1;", $config_php);
     
     $fp = fopen('../config/config.php', 'w+');
     fwrite($fp, $config_php);
@@ -230,12 +230,14 @@
   
   function get_languages_installer() {
     $languages = array();
-    $files = scandir('languages');
     
-    foreach ($files as $key=>$file) {
-      if ('.' != $file && '..' != $file && 'index.php' != $file && 4 < strlen($file)) {
-        $languages[count($languages)] = substr($file, 0, strlen($file) - 4);
-      }        
+    if ($dh = @opendir('./languages/')) {
+      while (false != ($file = readdir($dh))) {
+        if ('.' != $file && '..' != $file && 'index.php' != $file && 4 < strlen($file)) {
+          $languages[count($languages)] = substr($file, 0, strlen($file) - 4);
+        }
+      }
+      closedir($dh);
     }
     
     return $languages;

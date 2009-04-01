@@ -2,7 +2,7 @@
 /*
  * @(#)install/pages/requirements.php
  *
- *    Version: 0.50.20090328
+ *    Version: 0.50.20090401
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -43,7 +43,7 @@
 <?php
   $file = $filepath . 'config/config.php';
   if (is_writable($file)) {
-    echo '          <li class="passed">', $file, _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+    echo '          <li class="passed">', $file, ' ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
   } else {
     echo '          <li class="failed">', $file, '</li>', "\n";
     echo '          <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKOFILE, '.</li>', "\n";
@@ -63,7 +63,7 @@
     $compiled = $filepath . 'solidworks/smarty/templates_c';
   }
   if (is_writable($compiled)) {
-    echo '            <li class="passed"><input type="text" name="compiled" value="', $compiled, '" size="90" />', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+    echo '            <li class="passed"><input type="text" name="compiled" value="', $compiled, '" size="90" /> ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
   } else {
     echo '            <li class="failed"><input type="text" name="compiled" value="', $compiled, '" size="90" /></li>', "\n";
     echo '            <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKODIRECTORY, '.</li>', "\n";
@@ -82,7 +82,7 @@
     $cache= $filepath . 'solidworks/smarty/cache';
   }
   if (is_writable($cache)) {
-    echo '            <li class="passed"><input type="text" name="cache" value="', $cache, '" size="90" />', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
+    echo '            <li class="passed"><input type="text" name="cache" value="', $cache, '" size="90" /> ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
   } else {
     echo '            <li class="failed"><input type="text" name="cache" value="', $cache, '" size="90" /></li>', "\n";
     echo '            <li class="failed">', _INSTALLERPERMISSIONSWRITABLEKODIRECTORY, '.</li>', "\n";
