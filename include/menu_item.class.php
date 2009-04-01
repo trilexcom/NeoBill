@@ -2,7 +2,7 @@
 /*
  * @(#)include/menu_item.class.php
  *
- *    Version: 0.50.20090328
+ *    Version: 0.50.20090330
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *

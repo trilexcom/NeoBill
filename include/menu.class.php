@@ -2,7 +2,7 @@
 /*
  * @(#)include/menu.class.php
  *
- *    Version: 0.50.20090328
+ *    Version: 0.50.20090330
  * Written by: John Diamond <mailto:jdiamond@solid-state.org>
  * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
  *
@@ -26,34 +26,42 @@
     /*
      *
      */
-    function &instance($instance = null) {
-      static $instance;
+    function instance($instance = null) {
+      static $u;
       if (!is_null($instance)) {
-        $instance = $instance;
+        $u = $instance;
       }
-      return $instance;
+      return $u;
     }
     
     /*
      *
      */
     function test1() {
-      return &Menu::instance();
+      return Menu::instance();
     }
     function test2() {
-      return &Menu::instance('test');
+      return Menu::instance('test2');
     }
-     
+    function test3() {
+//      return Menu::$instance;
+    }
+    function test4() {
+//      Menu::$instance = 'test4';
+//      return Menu::$instance;
+    }
+    
   /**
    * @var SolidStateMenu The singleton instance
    */
-  protected static $instance = null;
+  //static $instance = null;
 
   /**
    * Initialize SolidStateMenu Singleton
    *
    * @return SolidStateMenu The SolidStateMenu instance
    */
+    /*
   public static function getSolidStateMenu()
   {
     global $conf;
@@ -230,11 +238,14 @@
   /**
    * @var integer The next item id
    */
+    /*
   protected $nextItemID = 1;
 
   /**
+   *
    * @var SolidStateMenuItem Root menu item
    */
+    /*
   protected $rootItem = null;
 
   /**
@@ -253,6 +264,7 @@
    * @param SolidStateMenuItem Menu item to add
    * @param string $parentName The name of the parent item or null
    */
+  /*
   public function addItem( SolidStateMenuItem $item, $parentName = null )
   {
     if( null != ($result = $this->getItem( $item->getName() )) )
@@ -276,6 +288,7 @@
    * @param string $name The name of the item to find
    * @return SolidStateMenuItem The item if found, null otherwise
    */
+  /*
   public function getItem( $name )
   {
     if( $name == "root" )
@@ -293,9 +306,11 @@
    *
    * @return array A flattened array of menu item data
    */
+  /*
   public function getItemArray()
   {
     return $this->rootItem->toArray();
   }
+  */
 }
 ?>
