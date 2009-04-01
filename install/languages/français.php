@@ -110,7 +110,7 @@
   define('_INSTALLERADMINLASTNAME', 'Nom');
   define('_INSTALLERADMINUSERNAME', 'Nom d\'utilisateur');
   define('_INSTALLERADMINPASSWORD', 'Mot de passe');
-  define('_INSTALLERADMINPASSWORDSTRENGTH', 'Force du mot de passe');
+  define('_INSTALLERADMINPASSWORDSTRENGTH', 'Complexité du mot de passe');
   define('_INSTALLERADMINPASSWORDSTRENGTHNOTRATED', 'Non défini');
   define('_INSTALLERADMINPASSWORDSTRENGTHWORST', 'Le pire');
   define('_INSTALLERADMINPASSWORDSTRENGTHWEAK', 'Faible');
@@ -123,11 +123,11 @@
   /*
    * Create Company
    */
-  define('_INSTALLERCOMPANY', 'Company Info');
-  define('_INSTALLERCOMPANYNAME', 'Company Name');
-  define('_INSTALLERCOMPANYEMAIL', 'Company E-Mail');
-  define('_INSTALLERCOMPANYCURRENCY', 'Currency Symbol');
-  define('_INSTALLERCOMPANYNAMESERVER', 'Name Server');
+  define('_INSTALLERCOMPANY', 'Information sur la société');
+  define('_INSTALLERCOMPANYNAME', 'Nom de la société');
+  define('_INSTALLERCOMPANYEMAIL', 'Adresse électronique de la société');
+  define('_INSTALLERCOMPANYCURRENCY', 'Symbole de devise');
+  define('_INSTALLERCOMPANYNAMESERVER', 'Serveur de nom');
   
   /*
    * Complete
