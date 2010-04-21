@@ -258,7 +258,7 @@ function &load_array_CPanelServerDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new ServerDBO with the data from the DB
-      $dbo =& new CPanelServerDBO();
+      $dbo = new CPanelServerDBO();
       $dbo->load( $data );
 
       // Add ServerDBO to array

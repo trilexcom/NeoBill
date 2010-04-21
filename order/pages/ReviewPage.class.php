@@ -37,9 +37,9 @@ class ReviewPage extends SolidStatePage
 	    if( $this->session['order']->getAccountID() != null &&
 		$this->session['order']->getDomainItems() == null )
 	      {
-		$this->goto( "cart" );
+		$this->gotoPage( "cart" );
 	      }
-	    $this->goto( "customer" );
+	    $this->gotoPage( "customer" );
 	  }
 	elseif( isset( $this->post['checkout'] ) )
 	  {
@@ -89,7 +89,7 @@ class ReviewPage extends SolidStatePage
       {
 	// Send existing accounts off to the receipt page
 	$this->session['order']->complete();
-	$this->goto( "receipt" );
+	$this->gotoPage( "receipt" );
       }
 
     if( $this->session['review']['module'] == "Check" )
@@ -105,7 +105,7 @@ class ReviewPage extends SolidStatePage
 
 	// Goto the receipt page
 	$this->session['order']->complete();
-	$this->goto( "receipt", null, "payByCheck=1" );
+	$this->gotoPage( "receipt", null, "payByCheck=1" );
       }
 
     // Collect Payment
@@ -116,7 +116,7 @@ class ReviewPage extends SolidStatePage
 
     // Redirect to the module's checkout page
     $_SESSION['module'] = $paymentModule;
-    $this->goto( $checkoutPage );
+    $this->gotoPage( $checkoutPage );
   }
 
   /**
@@ -149,7 +149,7 @@ class ReviewPage extends SolidStatePage
   {
     // Start a new order
     unset( $_SESSION['order'] );
-    $this->goto( "cart" );
+    $this->gotoPage( "cart" );
   }
 }
 ?>

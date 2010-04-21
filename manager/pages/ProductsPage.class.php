@@ -39,7 +39,7 @@ class ProductsPage extends SolidStatePage
 	if( isset( $this->post['add'] ) )
 	  {
 	    // Goto new user page
-	    $this->goto( "services_new_product" );
+	    $this->gotoPage( "services_new_product" );
 	  }
 	break;
 
@@ -75,7 +75,7 @@ class ProductsPage extends SolidStatePage
 
     // Success - go back to products page
     $this->setMessage( array( "type" => "[PRODUCTS_DELETED]" ) );
-    $this->goto( "services_products" );
+    $this->gotoPage( "services_products" );
   }
 }
 ?>

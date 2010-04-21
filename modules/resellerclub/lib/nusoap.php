@@ -2550,7 +2550,7 @@ class soap_server extends nusoap_base {
 ?><?php
 
 //Manish Change starts here.
-include_once("config.php");
+include_once("config.inc.php");
 $serviceurl = $SERVICE_URL;
 //Manish Change ends here.
 

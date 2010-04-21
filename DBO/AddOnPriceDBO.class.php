@@ -218,7 +218,7 @@ function load_array_AddOnPriceDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new AddOnDBO with the data from the DB
-      $dbo =& new AddOnPriceDBO();
+      $dbo = new AddOnPriceDBO();
       $dbo->load( $data );
 
       // Add AddOnDBO to array

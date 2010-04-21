@@ -100,7 +100,7 @@ class RegisterDomainPage extends SolidStatePage
    */
   function cancel()
   {
-    $this->goto( "domains_register",
+    $this->gotoPage( "domains_register",
 		 null,
 		 null );
   }
@@ -196,7 +196,7 @@ class RegisterDomainPage extends SolidStatePage
     // Registration complete
     $this->setMessage( array( "type" => "[DOMAIN_REGISTERED]",
 			      "args" => array( $this->purchaseDBO->getFullDomainName() ) ) );
-    $this->goto( "domains_browse", null, null );
+    $this->gotoPage( "domains_browse", null, null );
   }
 
   /**

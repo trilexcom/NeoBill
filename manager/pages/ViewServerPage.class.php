@@ -102,13 +102,13 @@ class ViewServerPage extends SolidStatePage
       case "view_server":
 	if( isset( $this->post['edit'] ) )
 	  {
-	    $this->goto( "services_edit_server",
+	    $this->gotoPage( "services_edit_server",
 			 null,
 			 "server=" . $this->get['server']->getID() );
 	  }
 	elseif( isset( $this->post['delete'] ) )
 	  {
-	    $this->goto( "services_delete_server",
+	    $this->gotoPage( "services_delete_server",
 			 null,
 			 "server=" . $this->get['server']->getID() );
 	  }
@@ -117,7 +117,7 @@ class ViewServerPage extends SolidStatePage
       case "view_server_add_ip":
 	if( isset( $this->post['add'] ) )
 	  {
-	    $this->goto( "services_add_ip", 
+	    $this->gotoPage( "services_add_ip", 
 			 null, 
 			 "server=" . $this->session['server_dbo']->getID() );
 	  }

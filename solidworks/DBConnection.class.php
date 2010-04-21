@@ -168,12 +168,12 @@ class DBConnection
    */
   public function connect()
   {
-    global $conf;
+    global $db;
 
     // Open a connection to the database server
-    $this->dbh = @mysql_connect( $conf['db']['host'],
-				 base64_decode( $conf['db']['user'] ),
-				 base64_decode( $conf['db']['pass'] ) );
+    $this->dbh = @mysql_connect( $db['hostname'],
+				 $db['username'],
+				 base64_decode( $db['password'] ) );
     if( $this->dbh == null )
       {
 	// Connection failed
@@ -181,7 +181,7 @@ class DBConnection
       }
     
     // Open the Solid-State database
-    if( !@mysql_select_db( $conf['db']['database'], $this->dbh ) )
+    if( !@mysql_select_db( $db['database'], $this->dbh ) )
       {
 	// Failed to open Solid-State database
 	throw new DBException();

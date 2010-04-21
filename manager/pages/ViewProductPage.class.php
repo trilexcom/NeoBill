@@ -53,14 +53,14 @@ class ViewProductPage extends SolidStatePage
 	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Domain Service
-	    $this->goto( "services_edit_product",
+	    $this->gotoPage( "services_edit_product",
 			 null,
 			 "product=" . $this->get['product']->getID() );
 	  }
 	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Product
-	    $this->goto( "services_delete_product",
+	    $this->gotoPage( "services_delete_product",
 			 null,
 			 "product=" . $this->get['product']->getID() );
 	  }

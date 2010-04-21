@@ -59,7 +59,7 @@ class CCPaymentPage extends SolidStatePage
   /**
    * Go Back (to Review Page)
    */
-  function back() { $this->goto( "review" ); }
+  function back() { $this->gotoPage( "review" ); }
 
   /**
    * Initialize Page
@@ -82,7 +82,7 @@ class CCPaymentPage extends SolidStatePage
   {
     // Start a new order
     unset( $_SESSION['order'] );
-    $this->goto( "cart" );
+    $this->gotoPage( "cart" );
   }
 
   /**
@@ -129,7 +129,7 @@ class CCPaymentPage extends SolidStatePage
     $_SESSION['order']->complete();
 
     // Show receipt
-    $this->goto( "receipt" );
+    $this->gotoPage( "receipt" );
   }
 }
 ?>

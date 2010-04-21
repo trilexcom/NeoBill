@@ -853,7 +853,7 @@ function &load_array_InvoiceDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new InvoiceDBO();
+      $dbo = new InvoiceDBO();
       $dbo->load( $data );
 
       // Add HostingServiceDBO to array

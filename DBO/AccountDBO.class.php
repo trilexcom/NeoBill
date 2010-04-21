@@ -785,7 +785,7 @@ function &load_array_AccountDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new AccountDBO();
+      $dbo = new AccountDBO();
       $dbo->load( $data );
 
       // Add DomainServiceDBO to array

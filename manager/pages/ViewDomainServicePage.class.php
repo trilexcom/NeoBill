@@ -53,14 +53,14 @@ class ViewDomainServicePage extends SolidStatePage
 	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Domain Service
-	    $this->goto( "services_edit_domain_service",
+	    $this->gotoPage( "services_edit_domain_service",
 			 null,
 			 "dservice=" . $this->get['dservice']->getTLD() );
 	  }
 	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Domain Service
-	    $this->goto( "services_delete_domain_service",
+	    $this->gotoPage( "services_delete_domain_service",
 			 null,
 			 "dservice=" . $this->get['dservice']->getTLD() );
 	  }

@@ -147,14 +147,14 @@ class ViewAccountPage extends SolidStatePage
 	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Account
-	    $this->goto( "accounts_edit_account",
+	    $this->gotoPage( "accounts_edit_account",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }
 	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Account
-	    $this->goto( "accounts_delete_account",
+	    $this->gotoPage( "accounts_delete_account",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }
@@ -178,7 +178,7 @@ class ViewAccountPage extends SolidStatePage
 	if( isset( $this->post['add'] ) )
 	  {
 	    // Add a hosting service to this account
-	    $this->goto( "accounts_assign_hosting",
+	    $this->gotoPage( "accounts_assign_hosting",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }
@@ -188,7 +188,7 @@ class ViewAccountPage extends SolidStatePage
 	if( isset( $this->post['add'] ) )
 	  {
 	    // Add a domain to this account
-	    $this->goto( "accounts_assign_domain",
+	    $this->gotoPage( "accounts_assign_domain",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }
@@ -198,7 +198,7 @@ class ViewAccountPage extends SolidStatePage
 	if( isset( $this->post['add'] ) )
 	  {
 	    // Add a product to this account
-	    $this->goto( "accounts_assign_product",
+	    $this->gotoPage( "accounts_assign_product",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }
@@ -208,14 +208,14 @@ class ViewAccountPage extends SolidStatePage
 	if( isset( $this->post['add_invoice'] ) )
 	  {
 	    // Create a new invoice for this account
-	    $this->goto( "accounts_add_invoice",
+	    $this->gotoPage( "accounts_add_invoice",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }
 	elseif( isset( $this->post['add_payment'] ) )
 	  {
 	    // Enter a new payment for this account
-	    $this->goto( "accounts_add_payment",
+	    $this->gotoPage( "accounts_add_payment",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }

@@ -164,7 +164,7 @@ function smarty_dbo_assign( $params, &$smarty )
   $smarty_var   = $params['var'];
 
   // Access the Page's session data
-  $session =& $page->getPageSession();
+  $session = $page->getPageSession();
 
   if( !isset( $session[$dbo_var_name] ) )
     {
@@ -205,7 +205,7 @@ function smarty_dbo_echo( $params, &$smarty )
   $field_name   = $params['field'];
 
   // Access the Page's session data
-  $session =& $page->getPageSession();
+  $session = $page->getPageSession();
 
   if( !isset( $session[$dbo_var_name] ) )
     {
@@ -438,7 +438,7 @@ function smarty_form_element( $params, &$smarty )
   $value            = $params['value'];
 
   // Access the Page's session data
-  $session =& $page->getPageSession();
+  $session = $page->getPageSession();
 
   // Verify form configuration exists
   $form_data = $conf['forms'][$form_name];
@@ -472,7 +472,7 @@ function smarty_form_echo( $params, &$smarty )
   $form_field       = $params['field'];
 
   // Access the Page's session data
-  $session =& $page->getPageSession();
+  $session = $page->getPageSession();
 
   // Verify form configuration exists
   $form_data = $conf['forms'][$form_name];
@@ -521,7 +521,7 @@ function field_has_error( $field_name )
   $page_name = $form_conf['page'];
 
   // Access the Page's session data
-  $session =& $page->getPageSession();
+  $session = $page->getPageSession();
 
   $errors = $session['form_errors'];
 

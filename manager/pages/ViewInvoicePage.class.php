@@ -81,7 +81,7 @@ class ViewInvoicePage extends SolidStatePage
 	if( isset( $this->post['add_payment'] ) )
 	  {
 	    // Jump to the Add Payment page
-	    $this->goto( "accounts_add_payment",
+	    $this->gotoPage( "accounts_add_payment",
 			 null,
 			 sprintf( "&invoice=%d&account=%d",
 				  $this->get['invoice']->getID(),
@@ -90,21 +90,21 @@ class ViewInvoicePage extends SolidStatePage
 	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Jump to the Delete Invoice page
-	    $this->goto( "billing_delete_invoice",
+	    $this->gotoPage( "billing_delete_invoice",
 			 null,
 			 "&invoice=" . $this->get['invoice']->getID() );
 	  }
 	elseif( isset( $this->post['email'] ) )
 	  {
 	    // Jump to the Email Invoice page
-	    $this->goto( "billing_email_invoice",
+	    $this->gotoPage( "billing_email_invoice",
 			 null,
 			 "&invoice=" . $this->get['invoice']->getID() );
 	  }
 	elseif( isset( $this->post['print'] ) )
 	  {
 	    // Jump to the Print Invoice page
-	    $this->goto( "billing_print_invoice",
+	    $this->gotoPage( "billing_print_invoice",
 			 null,
 			 "&invoice=" . $this->get['invoice']->getID() );
 	  }

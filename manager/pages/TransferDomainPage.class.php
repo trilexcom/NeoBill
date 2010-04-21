@@ -86,7 +86,7 @@ class TransferDomainPage extends SolidStatePage
    */
   function cancel()
   {
-    $this->goto( "transfer_domain",
+    $this->gotoPage( "transfer_domain",
 		 null,
 		 null );
   }
@@ -154,7 +154,7 @@ class TransferDomainPage extends SolidStatePage
     // Registration complete
     $this->setMessage( array( "type" => "[DOMAIN_TRANSFERED]",
 			      "args" => array( $this->purchaseDBO->getFullDomainName() ) ) );
-    $this->goto( "domains_browse", null, null );
+    $this->gotoPage( "domains_browse", null, null );
   }
 
   /**

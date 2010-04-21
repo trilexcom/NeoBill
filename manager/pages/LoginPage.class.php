@@ -80,7 +80,7 @@ class LoginPage extends SolidStatePage
 	    $_SESSION['client']['userdbo'] = $user_dbo;
 	    log_notice( "Login", "User: " . $user_dbo->getUsername() . " logged in" );
 	    $_SESSION['jsFunction'] = "reloadMenu()";
-	    $this->goto( "home" );
+	    $this->gotoPage( "home" );
 	  }
       }
     catch( DBNoRowsFoundException $e ) {}

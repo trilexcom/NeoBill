@@ -20,7 +20,7 @@
  *
  */
 
-  require_once '../config/config.php';
+  require_once '../config/config.inc.php';
   require_once BASE_PATH . 'include/menu.class.php';
   
   echo is_null(Menu::test1());

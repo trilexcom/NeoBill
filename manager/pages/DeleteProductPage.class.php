@@ -79,7 +79,7 @@ class DeleteProductPage extends SolidStateAdminPage
     // Success - go back to products page
     $this->setMessage( array( "type" => "[PRODUCT_DELETED]",
 			      "args" => array( $this->session['product_dbo']->getName() ) ) );
-    $this->goto( "services_products" );
+    $this->gotoPage( "services_products" );
   }
 }
 

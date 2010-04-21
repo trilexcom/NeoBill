@@ -221,7 +221,7 @@ function load_array_HostingServicePriceDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new HostingServiceDBO with the data from the DB
-      $dbo =& new HostingServicePriceDBO();
+      $dbo = new HostingServicePriceDBO();
       $dbo->load( $data );
 
       // Add HostingServiceDBO to array

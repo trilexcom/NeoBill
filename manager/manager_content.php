@@ -17,15 +17,15 @@
 // apd_set_pprof_trace();
 
 // Load config file
-require "../config/config.inc.php";
+require_once dirname(__FILE__)."/../config/config.inc.php";
 
-require BASE_PATH . "include/SolidStateMenu.class.php";
+require_once dirname(__FILE__)."/../include/SolidStateMenu.class.php";
 
 // Load SolidWorks
-require BASE_PATH . "solidworks/solidworks.php";
+require_once dirname(__FILE__)."/../solidworks/solidworks.php";
 
 // Load settings from database
-require BASE_PATH . "util/settings.php";
+require_once dirname(__FILE__)."/../util/settings.php";
 load_settings( $conf );
 
 // Set the current theme

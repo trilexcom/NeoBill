@@ -44,7 +44,7 @@ class PSOCheckoutPage extends SolidStatePage
       case "pso_checkout":
 	if( isset( $this->post['back'] ) )
 	  {
-	    $this->goto( "review" );
+	    $this->gotoPage( "review" );
 	  }
 	elseif( isset( $this->post['startover'] ) )
 	  {
@@ -117,7 +117,7 @@ class PSOCheckoutPage extends SolidStatePage
   {
     // Start a new order
     unset( $_SESSION['order'] );
-    $this->goto( "cart" );
+    $this->gotoPage( "cart" );
   }
 }
 ?>

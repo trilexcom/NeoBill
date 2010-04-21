@@ -37,7 +37,7 @@ class TaxesPage extends SolidStatePage
       {
       case "taxes_action":
 	// Create a new tax rule
-	$this->goto( "add_tax_rule" );
+	$this->gotoPage( "add_tax_rule" );
 	break;
 
       case "tax_rules":

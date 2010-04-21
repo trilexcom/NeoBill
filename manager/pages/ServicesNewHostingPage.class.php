@@ -72,7 +72,7 @@ class ServicesNewHosting extends SolidStateAdminPage
     add_HostingServiceDBO( $service_dbo );
 
     // Done
-    $this->goto( "services_edit_hosting",
+    $this->gotoPage( "services_edit_hosting",
 		 null,
 		 "hservice=" . $service_dbo->getID() );
   }

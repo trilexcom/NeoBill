@@ -39,7 +39,7 @@ class ConfigureUsersPage extends SolidStateAdminPage
 	if( isset( $this->post['add'] ) )
 	  {
 	    // Goto new user page
-	    $this->goto( "config_new_user" );
+	    $this->gotoPage( "config_new_user" );
 	  }
 	break;
 

@@ -136,7 +136,7 @@
   define('_INSTALLERCONGRATULATIONS', 'Congratulations, you have successfully installed SolidState');
   define('_INSTALLERSECURITY0', 'For security purposes');
   define('_INSTALLERSECURITY1', 'Please remove the "install" directory');
-  define('_INSTALLERSECURITY2', 'Please change the permissions of the file "config/config.php" to read-only');
+  define('_INSTALLERSECURITY2', 'Please change the permissions of the file "config/config.inc.php" to read-only');
   define('_MANAGERINTERFACE', 'Manager Interface');
 
   /*

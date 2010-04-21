@@ -67,7 +67,7 @@ class AddServerPage extends SolidStateAdminPage
 
     // Success
     $this->setMessage( array( "type" => "[SERVER_ADDED]" ) );
-    $this->goto( "services_view_server",
+    $this->gotoPage( "services_view_server",
 		 null,
 		 "server=" . $server_dbo->getID() );
   }

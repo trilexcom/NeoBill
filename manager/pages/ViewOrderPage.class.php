@@ -71,7 +71,7 @@ class ViewOrderPage extends SolidStatePage
     // Success
     $this->setMessage( array( "type" => "[ORDER_DELETED]",
 			      "args" => array( $this->get['order']->getID() ) ) );
-    $this->goto( "pending_orders" );
+    $this->gotoPage( "pending_orders" );
   }
 
   /**
@@ -83,7 +83,7 @@ class ViewOrderPage extends SolidStatePage
     $this->saveChanges();
 
     // Redirect to the execute order page
-    $this->goto( "execute_order", null, sprintf( "order=%d", 
+    $this->gotoPage( "execute_order", null, sprintf( "order=%d", 
 						 $this->get['order']->getID() ) );
   }
 

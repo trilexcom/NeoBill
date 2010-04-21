@@ -36,7 +36,7 @@ class ServersPage extends SolidStatePage
       case "servers_action":
 	if( isset( $this->post['add'] ) )
 	  {
-	    $this->goto( "services_add_server" );
+	    $this->gotoPage( "services_add_server" );
 	  }
 	break;
 

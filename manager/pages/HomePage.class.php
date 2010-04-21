@@ -83,7 +83,7 @@ class HomePage extends SolidStatePage
 	log_notice( "Logout", 
 		    "User: " . $_SESSION['client']['userdbo']->getUsername() . " logged out" );
 	session_destroy();
-	$this->goto( "home" );
+	$this->gotoPage( "home" );
 
 	break;
 	

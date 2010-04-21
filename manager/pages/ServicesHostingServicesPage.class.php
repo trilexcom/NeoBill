@@ -39,7 +39,7 @@ class ServicesHostingServicesPage extends SolidStatePage
 	if( isset( $this->post['add'] ) )
 	  {
 	    // Goto new user page
-	    $this->goto( "services_new_hosting" );
+	    $this->gotoPage( "services_new_hosting" );
 	  }
 	break;
 

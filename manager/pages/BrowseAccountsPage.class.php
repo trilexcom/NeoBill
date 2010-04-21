@@ -39,7 +39,7 @@ class BrowseAccountsPage extends SolidStatePage
 	if( isset( $this->session['browse_accounts_action']['add'] ) )
 	  {
 	    // Goto new account page
-	    $this->goto( "accounts_new_account" );
+	    $this->gotoPage( "accounts_new_account" );
 	  }
 	break;
 

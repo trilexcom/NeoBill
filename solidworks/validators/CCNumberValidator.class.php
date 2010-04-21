@@ -33,7 +33,7 @@ class CCNumberValidator extends TextValidator
     $data = parent::validate( $data );
 
     // Strip out unwanted characters
-    $data = ereg_replace( "[^0-9]", "", $data );
+    $data = preg_replace( "|[^0-9]|", "", $data );
 
     // Test the number's length
     if( strlen( $data ) < 13 || strlen( $data ) > 16 )

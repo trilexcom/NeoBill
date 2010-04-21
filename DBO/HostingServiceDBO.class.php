@@ -358,7 +358,7 @@ function &load_array_HostingServiceDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new HostingServiceDBO with the data from the DB
-      $dbo =& new HostingServiceDBO();
+      $dbo = new HostingServiceDBO();
       $dbo->load( $data );
 
       // Add HostingServiceDBO to array

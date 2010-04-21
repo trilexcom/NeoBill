@@ -75,7 +75,7 @@ class PSOReturnPage extends Page
     $_SESSION['order']->complete();
 
     // Show receipt
-    $this->goto( "receipt" );
+    $this->gotoPage( "receipt" );
   }
 }
 ?>

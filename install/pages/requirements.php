@@ -20,15 +20,15 @@
  *
  */
 
-  $pathinfo = pathinfo(__FILE__);
-  $filepath = ereg_replace('install/pages', '', $pathinfo['dirname']);
+  $filepath = dirname(__FILE__).'/../../';
   $checkfailed = false;
 ?>
         <h2><?php echo _INSTALLERREQUIREMENTS; ?></h2>
         <h3><?php echo _INSTALLERPHPVERSION; ?></h3>
         <ul class="systemrequirements">
 <?php
-  $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
+  $phpversion = (strpos(phpversion(), '-') !== false)
+                 ? substr(phpversion(), 0, strpos(phpversion(), '-')) : phpversion();
   if (version_compare($phpversion, '4.0.6', '>=')) {
     echo '          <li class="passed">', str_replace('%0', $phpversion, _INSTALLERPHPVERSIONOK), '.</li>', "\n";
   } else {
@@ -41,7 +41,12 @@
         <ul class="systemrequirements">
           <li class="description"><?php echo _INSTALLERPERMISSIONSFILE, ':'; ?></li>
 <?php
-  $file = $filepath . 'config/config.php';
+  $file = realpath($filepath . 'config/config.inc.php');
+  if (!file_exists($file)) {
+    echo  '         <li class="failed">', $file, '</li>', "\n";
+    echo '          <li class="failed">', "The configuration file does not exist, please rename config.inc.php to config.php", '.</li>', "\n";
+  }
+  
   if (is_writable($file)) {
     echo '          <li class="passed">', $file, ' ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
   } else {
@@ -57,10 +62,10 @@
 <?php
   $compiled = '';
   if (isset($_POST['compiled'])) {
-    $compiled = $_POST['compiled'];
+    $compiled = realpath($_POST['compiled']);
   }
   if (empty($compiled)) {
-    $compiled = $filepath . 'solidworks/smarty/templates_c';
+    $compiled = realpath($filepath . 'solidworks/smarty/templates_c');
   }
   if (is_writable($compiled)) {
     echo '            <li class="passed"><input type="text" name="compiled" value="', $compiled, '" size="90" /> ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";
@@ -76,10 +81,10 @@
 <?php
   $cache = '';
   if (isset($_POST['cache'])) {
-    $cache = $_POST['cache'];
+    $cache = realpath($_POST['cache']);
   }
   if (empty($cache)) {
-    $cache= $filepath . 'solidworks/smarty/cache';
+    $cache= realpath($filepath . 'solidworks/smarty/cache');
   }
   if (is_writable($cache)) {
     echo '            <li class="passed"><input type="text" name="cache" value="', $cache, '" size="90" /> ', _INSTALLERPERMISSIONSWRITABLEOK, '.</li>', "\n";

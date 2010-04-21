@@ -39,11 +39,11 @@ class CartPage extends SolidStatePage
 	  }
 	elseif( isset( $this->post['addhosting'] ) )
 	  {
-	    $this->goto( "purchasehosting" );
+	    $this->gotoPage( "purchasehosting" );
 	  }
 	elseif( isset( $this->post['adddomain'] ) )
 	  {
-	    $this->goto( "purchasedomain" );
+	    $this->gotoPage( "purchasedomain" );
 	  }
 	break;
 
@@ -54,7 +54,7 @@ class CartPage extends SolidStatePage
 	  }
 	elseif( isset( $this->post['checkout'] ) )
 	  {
-	    $this->goto( "customer" );
+	    $this->gotoPage( "customer" );
 	  }
 	break;
 
@@ -134,7 +134,7 @@ class CartPage extends SolidStatePage
   {
     // Start a new order
     $_SESSION['order'] = new OrderDBO();
-    $this->goto( "purchasehosting" );
+    $this->gotoPage( "purchasehosting" );
   }
 
   /**

@@ -497,7 +497,7 @@ function &ContactDBO_loadArray( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new ContactDBO();
+      $dbo = new ContactDBO();
       $dbo->load( $data );
 
       // Add OrderDBO to array

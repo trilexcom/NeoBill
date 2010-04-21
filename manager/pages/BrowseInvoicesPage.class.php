@@ -37,7 +37,7 @@ class BrowseInvoicesPage extends SolidStatePage
       {
       case "browse_invoices_action":
 	// Create a new invoice
-	$this->goto( "accounts_add_invoice" );
+	$this->gotoPage( "accounts_add_invoice" );
 	break;
 
       case "search_invoices":

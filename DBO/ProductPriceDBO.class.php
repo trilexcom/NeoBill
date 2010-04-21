@@ -218,7 +218,7 @@ function load_array_ProductPriceDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new ProductDBO with the data from the DB
-      $dbo =& new ProductPriceDBO();
+      $dbo = new ProductPriceDBO();
       $dbo->load( $data );
 
       // Add ProductDBO to array

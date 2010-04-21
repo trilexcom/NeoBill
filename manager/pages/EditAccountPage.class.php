@@ -58,14 +58,14 @@ class EditAccountPage extends SolidStatePage
 	  {
 	    // Save changes
 	    $this->update_account();
-	    $this->goto( "accounts_view_account",
+	    $this->gotoPage( "accounts_view_account",
 			 array( array( "type" => "ACCOUNT_UPDATED" ) ),
 			 "account=" . $this->get['account']->getID() );
 	  }
 	elseif( isset( $this->session['edit_account']['cancel'] ) )
 	  {
 	    // Cancel (return to view page)
-	    $this->goto( "accounts_view_account",
+	    $this->gotoPage( "accounts_view_account",
 			 null,
 			 "account=" . $this->get['account']->getID() );
 	  }

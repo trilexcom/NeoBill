@@ -414,7 +414,7 @@ function &load_array_IPAddressDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new IPAddressDBO();
+      $dbo = new IPAddressDBO();
       $dbo->load( $data );
 
       // Add HostingServiceDBO to array

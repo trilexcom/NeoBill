@@ -383,7 +383,7 @@ function &load_array_LogDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new LogDBO();
+      $dbo = new LogDBO();
       $dbo->load( $data );
 
       // Add DomainServiceDBO to array

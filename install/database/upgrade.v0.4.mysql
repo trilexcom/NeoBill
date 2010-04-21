@@ -65,8 +65,7 @@ update `settings` set `setting` = 'nameserver_4' where `setting` = 'nameservers_
 --
 -- Table `user`
 --
-rename table `user` to `users`;
-alter table `users` alter `type` drop default;
-alter table `users` change `contactname` `name` varchar( 255 ) not null;
-alter table `users` change `email` `email` varchar( 255 ) not null;
-alter table `users` change `language` `language` varchar( 255 ) not null;
+alter table `user` alter `type` drop default;
+alter table `user` change `contactname` `name` varchar( 255 ) not null;
+alter table `user` change `email` `email` varchar( 255 ) not null;
+alter table `user` change `language` `language` varchar( 255 ) not null;

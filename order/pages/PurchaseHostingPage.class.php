@@ -240,7 +240,7 @@ class PurchaseHostingPage extends SolidStatePage
       }
 
     // Proceed to the cart page
-    $this->goto( "cart" );
+    $this->gotoPage( "cart" );
   }
 }
 ?>

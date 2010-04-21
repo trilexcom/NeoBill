@@ -301,7 +301,7 @@ function &load_array_OrderHostingDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new OrderHostingDBO();
+      $dbo = new OrderHostingDBO();
       $dbo->load( $data );
 
       // Add OrderDBO to array

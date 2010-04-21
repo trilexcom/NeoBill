@@ -11,16 +11,16 @@
  */
 
 // Load config file
-require "../config/config.inc.php";
+require_once dirname(__FILE__)."/../config/config.inc.php";
 
 // Load SolidWorks
-require BASE_PATH . "solidworks/solidworks.php";
+require_once dirname(__FILE__)."/../solidworks/solidworks.php";
 
 // Load settings from database
-require BASE_PATH . "util/settings.php";
+require_once dirname(__FILE__)."/../util/settings.php";
 load_settings( $conf );
 
-require BASE_PATH . "include/SolidStateMenu.class.php";
+require_once dirname(__FILE__)."/../include/SolidStateMenu.class.php";
 
 // Set the current theme
 $theme = isset( $_SESSION['client']['userdbo'] ) ?

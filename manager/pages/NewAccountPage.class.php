@@ -43,7 +43,7 @@ class NewAccountPage extends SolidStatePage
 	if( isset( $this->post['cancel'] ) )
 	  {
 	    // Canceled
-	    $this->goto( "accounts_browse" );                
+	    $this->gotoPage( "accounts_browse" );                
 	  }
 	else
 	  {
@@ -133,7 +133,7 @@ class NewAccountPage extends SolidStatePage
 
     // Jump to View Account page
     $this->setMessage( array( "type" => "[ACCOUNT_ADDED]" ) );
-    $this->goto( "accounts_view_account", null, "account=" . $account_dbo->getID() );
+    $this->gotoPage( "accounts_view_account", null, "account=" . $account_dbo->getID() );
   }
 }
 

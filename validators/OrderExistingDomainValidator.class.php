@@ -49,7 +49,7 @@ class OrderExistingDomainValidator extends FieldValidator
 	throw new SWException( "Attempted to validate an OrderItem without giving an OrderDBO!" );
       }
 
-    if( null == ($orderDomainDBO =& $this->order->getExistingDomain( intval( $data ) )) )
+    if( null == ($orderDomainDBO = $this->order->getExistingDomain( intval( $data ) )) )
       {
 	// Order Item does not exist
 	throw new RecordNotFoundException( "OrderItem" );

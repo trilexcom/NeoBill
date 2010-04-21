@@ -89,7 +89,7 @@ class DeleteInvoicePage extends SolidStatePage
     // Success - go back to products page
     $this->setMessage( array( "type" => "[INVOICE_DELETED]",
 			      "args" => array( $this->session['invoice_dbo']->getID() ) ) );
-    $this->goto( "billing_invoices" );
+    $this->gotoPage( "billing_invoices" );
   }
 
 }

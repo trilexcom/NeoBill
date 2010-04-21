@@ -21,7 +21,7 @@
  */
 
   function check_installed() {
-    $file = fopen('../config/config.php', 'r');
+    $file = fopen('../config/config.inc.php', 'r');
     if (!$file) {
       return false;
     }
@@ -39,17 +39,17 @@
   }
   
   function modify_config_install() {
-    $config_php = join('', file('../config/config.php'));
+    $config_php = join('', file('../config/config.inc.php'));
     
     $config_php = preg_replace('/\[\'installed\'\]\s*=\s*(.*);/', "['installed'] = 1;", $config_php);
     
-    $fp = fopen('../config/config.php', 'w+');
+    $fp = fopen('../config/config.inc.php', 'w+');
     fwrite($fp, $config_php);
     fclose($fp);
   }
   
   function modify_config_db() {
-    $config_php = join('', file('../config/config.php'));
+    $config_php = join('', file('../config/config.inc.php'));
     
     if (get_magic_quotes_gpc()) {
       $hostname = stripslashes($_POST['hostname']);
@@ -68,13 +68,13 @@
     $config_php = preg_replace('/\[\'password\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['password'] = '$password';", $config_php);
     $config_php = preg_replace('/\[\'database\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['database'] = '$database';", $config_php);
     
-    $fp = fopen('../config/config.php', 'w+');
+    $fp = fopen('../config/config.inc.php', 'w+');
     fwrite($fp, $config_php);
     fclose($fp);
   }
   
   function modify_config_system() {
-    $config_php = join('', file('../config/config.php'));
+    $config_php = join('', file('../config/config.inc.php'));
     
     if (get_magic_quotes_gpc()) {
       $cache    = stripslashes($_POST['cache']);
@@ -87,13 +87,13 @@
     $config_php = preg_replace('/\[\'cache\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['cache']     = '$cache';", $config_php);
     $config_php = preg_replace('/\[\'compiled\'\]\s*=\s*(\'|\")(.*)(\'|\");/', "['compiled']  = '$compiled';", $config_php);
     
-    $fp = fopen('../config/config.php', 'w+');
+    $fp = fopen('../config/config.inc.php', 'w+');
     fwrite($fp, $config_php);
     fclose($fp);
   }
   
   function init_db() {
-    require_once '../config/config.php';
+    require_once '../config/config.inc.php';
     
     if (!mysql_connect($db['hostname'], $db['username'], base64_decode($db['password']))) {
       return _INSTALLERDBCONNECTFAILED . ': ' . mysql_error();
@@ -171,11 +171,11 @@
     }
     $contactname = $firstname . ' ' . $lastname;
     
-    require_once '../config/config.php';
+    require_once '../config/config.inc.php';
     mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
     mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
     mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `users` (`username`, `password`, `type`, `name`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `user` (`username`, `password`, `type`, `name`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_close();
   }
   
@@ -212,7 +212,7 @@
       $nameserver_4 = addslashes($_POST['nameserver-4']);
     }
     
-    require_once '../config/config.php';
+    require_once '../config/config.inc.php';
     mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
     mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
     mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());

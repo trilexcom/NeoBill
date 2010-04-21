@@ -87,7 +87,7 @@ class DeleteHostingServicePage extends SolidStateAdminPage
     // Success - go back to web hosting services page
     $this->setMessage( array( "type" => "[HOSTING_SERVICE_DELETED]",
 			      "args" => array( $this->session['hosting_dbo']->getTitle() ) ) );
-    $this->goto( "services_web_hosting" );
+    $this->gotoPage( "services_web_hosting" );
   }
 }
 

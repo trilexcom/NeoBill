@@ -102,7 +102,7 @@ class GenerateInvoicesPage extends SolidStatePage
 
     // Success
     $this->setMessage( array( "type" => "[INVOICE_BATCH_CREATED]" ) );
-    $this->goto( "billing_invoices" );
+    $this->gotoPage( "billing_invoices" );
   }
 
   /**

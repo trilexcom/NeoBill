@@ -97,7 +97,7 @@ class ExecuteOrderPage extends SolidStatePage
       }
 	
     // Jump to the view account page
-    $this->goto( "accounts_view_account", 
+    $this->gotoPage( "accounts_view_account", 
 		 null, 
 		 sprintf( "account=%d", $this->get['order']->getAccountID() ) );
   }

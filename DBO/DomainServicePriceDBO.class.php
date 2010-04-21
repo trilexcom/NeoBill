@@ -240,7 +240,7 @@ function load_array_DomainServicePriceDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DomainServiceDBO with the data from the DB
-      $dbo =& new DomainServicePriceDBO();
+      $dbo = new DomainServicePriceDBO();
       $dbo->load( $data );
 
       // Add DomainServiceDBO to array

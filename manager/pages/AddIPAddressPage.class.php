@@ -140,7 +140,7 @@ class AddIPAddressPage extends SolidStateAdminPage
 
     // Done
     $this->setMessage( array( "type" => "[IP_ADDED]" ) );
-    $this->goto( "services_view_server", 
+    $this->gotoPage( "services_view_server", 
 		 null,
 		 sprintf( "server=%d&action=ips", $this->get['server']->getID() ) );
   }

@@ -429,7 +429,7 @@ function &load_array_HostingServicePurchaseDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new HostingServicePurchaseDBO();
+      $dbo = new HostingServicePurchaseDBO();
       $dbo->load( $data );
 
       // Add HostingServiceDBO to array

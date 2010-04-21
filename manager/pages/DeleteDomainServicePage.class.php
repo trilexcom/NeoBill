@@ -91,7 +91,7 @@ class DeleteDomainServicePage extends SolidStateAdminPage
     // Success - go back to web domain services page
     $this->setMessage( array( "type" => "[DOMAIN_SERVICE_DELETED]",
 			      "args" => array( $this->session['domain_service_dbo']->getTLD() ) ) );
-    $this->goto( "services_domain_services" );
+    $this->gotoPage( "services_domain_services" );
   }
 }
 ?>

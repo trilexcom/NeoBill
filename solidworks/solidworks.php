@@ -97,8 +97,8 @@ function solidworks( &$conf, $smarty )
 
 function display_page( $page )
 {
-  $conf =& $page->conf;
-  $smarty =& $page->smarty;
+  $conf = $page->conf;
+  $smarty = $page->smarty;
 
   // Update page variables - they may need to be filled in with run-time info
   generate_location_stack( $conf );
@@ -139,7 +139,7 @@ function display_page( $page )
     }
 
   // Remove messages and errors from session
-  $session =& $page->getPageSession();
+  $session = $page->getPageSession();
   unset( $session['errors'] );
   unset( $session['messages'] );
 }

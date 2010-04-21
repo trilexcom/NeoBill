@@ -578,7 +578,7 @@ function &load_array_OrderDomainDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new OrderDomainDBO();
+      $dbo = new OrderDomainDBO();
       $dbo->load( $data );
 
       // Add OrderDBO to array

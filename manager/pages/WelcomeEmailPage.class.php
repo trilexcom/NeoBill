@@ -81,7 +81,7 @@ class WelcomeEmailPage extends SolidStatePage
    */
   function cancel()
   {
-    $this->goto( "accounts_view_account",
+    $this->gotoPage( "accounts_view_account",
 		 null,
 		 "account=" . $this->get['account']->getID() );
   }
@@ -108,7 +108,7 @@ class WelcomeEmailPage extends SolidStatePage
 
     // Return to view_account with a sucess message
     $this->setMessage( array( "type" => "[WELCOME_SENT]" ) );
-    $this->goto( "accounts_view_account",
+    $this->gotoPage( "accounts_view_account",
 		 null,
 		 "account=" . $this->get['account']->getID() );
   }

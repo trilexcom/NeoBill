@@ -69,7 +69,7 @@ class HTMLWidget
     global $page;
 
     // Access the session
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     // 5. No value
     $value = null;

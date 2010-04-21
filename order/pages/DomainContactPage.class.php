@@ -44,7 +44,7 @@ class DomainContactPage extends SolidStatePage
 	  }
 	elseif( isset( $this->session['domain_contact']['back'] ) )
 	  {
-	    $this->goto( "customer" );
+	    $this->gotoPage( "customer" );
 	  }
 	elseif( isset( $this->session['domain_contact']['continue'] ) )
 	  {
@@ -63,7 +63,7 @@ class DomainContactPage extends SolidStatePage
    */
   function done()
   {
-    $this->goto( "review" );
+    $this->gotoPage( "review" );
   }
 
   /**
@@ -95,7 +95,7 @@ class DomainContactPage extends SolidStatePage
     if( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() )
       {
 	// No order, or order is empty.  Go back the the cart and start a new one
-	$this->goto( "cart" );
+	$this->gotoPage( "cart" );
       }
 
     // Give access to the template
@@ -128,7 +128,7 @@ class DomainContactPage extends SolidStatePage
   {
     // Start a new order
     unset( $_SESSION['order'] );
-    $this->goto( "cart" );
+    $this->gotoPage( "cart" );
   }
 
   /**

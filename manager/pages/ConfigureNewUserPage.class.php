@@ -40,11 +40,11 @@ class ConfigureNewUserPage extends SolidStateAdminPage
       case "new_user_action":
 	if( isset( $this->session['new_user_action']['add'] ) )
 	  {
-	    $this->goto( "config_new_user" );
+	    $this->gotoPage( "config_new_user" );
 	  }
 	elseif( isset( $this->session['new_user_action']['view'] ) )
 	  {
-	    $this->goto( "config_users" );
+	    $this->gotoPage( "config_users" );
 	  }
 	break;
 

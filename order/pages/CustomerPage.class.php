@@ -35,7 +35,7 @@ class CustomerPage extends SolidStatePage
       case "customer_information":
 	if( isset( $this->post['back'] ) )
 	  {
-	    $this->goto( "cart" );
+	    $this->gotoPage( "cart" );
 	  }
 	elseif( isset( $this->post['continue'] ) )
 	  {
@@ -50,7 +50,7 @@ class CustomerPage extends SolidStatePage
       case "repeat_customer":
 	if( isset( $this->post['back'] ) )
 	  {
-	    $this->goto( "cart" );
+	    $this->gotoPage( "cart" );
 	  }
 	elseif( isset( $this->post['continue'] ) )
 	  {
@@ -76,7 +76,7 @@ class CustomerPage extends SolidStatePage
     if( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() )
       {
 	// No order, or order is empty.  Go back the the cart and start a new one
-	$this->goto( "cart" );
+	$this->gotoPage( "cart" );
       }
 
     // Give access to the template
@@ -124,7 +124,7 @@ class CustomerPage extends SolidStatePage
   {
     // Start a new order
     unset( $_SESSION['order'] );
-    $this->goto( "cart" );
+    $this->gotoPage( "cart" );
   }
 
   /**
@@ -203,7 +203,7 @@ class CustomerPage extends SolidStatePage
 	  }
       }
 
-    $this->goto( "domaincontact" );
+    $this->gotoPage( "domaincontact" );
   }
 }
 ?>

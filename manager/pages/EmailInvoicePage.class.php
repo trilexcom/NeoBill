@@ -102,7 +102,7 @@ class EmailInvoicePage extends SolidStatePage
    */
   function cancel()
   {
-    $this->goto( "billing_view_invoice",
+    $this->gotoPage( "billing_view_invoice",
 		 null,
 		 "invoice=" . $this->get['invoice']->getID() );
   }
@@ -131,7 +131,7 @@ class EmailInvoicePage extends SolidStatePage
 
     // Return to view_invoice with a sucess message
     $this->setMessage( array( "type" => "[INVOICE_SENT]" ) );
-    $this->goto( "billing_view_invoice",
+    $this->gotoPage( "billing_view_invoice",
 		 null,
 		 "invoice=" . $this->get['invoice']->getID() );
   }

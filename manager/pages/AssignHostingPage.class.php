@@ -118,7 +118,7 @@ class AssignHostingPage extends SolidStatePage
     
     // Success
     $this->setMessage( array( "type" => "[HOSTING_ASSIGNED]" ) );
-    $this->goto( "accounts_view_account",
+    $this->gotoPage( "accounts_view_account",
 		 null,
 		 "action=services&account=" . $this->get['account']->getID() );
   }

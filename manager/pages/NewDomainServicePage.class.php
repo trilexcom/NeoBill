@@ -74,7 +74,7 @@ class NewDomainServicePage extends SolidStateAdminPage
 
     // Hosting Service added
     // Jump to View Domain Service page
-    $this->goto( "services_edit_domain_service", 
+    $this->gotoPage( "services_edit_domain_service", 
 		 array( array( "type" => "[DOMAIN_SERVICE_ADDED]" ) ), 
 		 "dservice=" . $service_dbo->getTLD() );
   }

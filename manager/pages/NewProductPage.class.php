@@ -73,7 +73,7 @@ class NewProductPage extends SolidStateAdminPage
 
     // Jump to View Product page
     $this->setMessage( array( "type" => "[PRODUCT_ADDED]" ) );
-    $this->goto( "services_edit_product", null, "product=" . $product_dbo->getID() );
+    $this->gotoPage( "services_edit_product", null, "product=" . $product_dbo->getID() );
   }
 }
 ?>

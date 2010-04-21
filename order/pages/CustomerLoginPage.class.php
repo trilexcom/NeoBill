@@ -80,7 +80,7 @@ class CustomerLoginPage extends SolidStatePage
 	$_SESSION['client']['userdbo'] = $this->post['user'];
 	log_notice( "CustomerLoginPage::login()", 
 		    "User: " . $this->post['user']->getUsername() . " logged in." );
-	$this->goto( "cart" );
+	$this->gotoPage( "cart" );
       }
 
     // Login failure

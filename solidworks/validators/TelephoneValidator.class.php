@@ -77,8 +77,8 @@ class TelephoneValidator extends TextValidator
       }
 
     // Remove white space and acceptable characters
-    $data = ereg_replace( "([ 	]+)", "", $data );
-    $data = eregi_replace("(\(|\)|\-|\+)", "", $data );
+    $data = preg_replace( "|\s+|", "", $data );
+    $data = preg_replace("|[-\(\)\\]+|", "", $data );
 
     // Verify that the field contains nothing but numbers
     if( !ctype_digit( $data ) )

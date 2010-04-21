@@ -49,7 +49,7 @@ class OrderItemValidator extends FieldValidator
 	throw new SWException( "Attempted to validate an OrderItem without giving an OrderDBO!" );
       }
 
-    if( null == ($orderItemDBO =& $this->order->getItem( intval( $data ) )) )
+    if( null == ($orderItemDBO = $this->order->getItem( intval( $data ) )) )
       {
 	// Order Item does not exist
 	throw new RecordNotFoundException( "OrderItem" );

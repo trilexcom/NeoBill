@@ -28,7 +28,7 @@ class ReceiptPage extends SolidStatePage
   {
     if( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() )
       {
-	$this->goto( "cart" );
+	$this->gotoPage( "cart" );
       }
 
     // Give access to the template

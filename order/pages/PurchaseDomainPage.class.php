@@ -134,7 +134,7 @@ class PurchaseDomainPage extends SolidStatePage
     $_SESSION['order']->addItem( $domainItem );
 
     // Proceed to the cart page
-    $this->goto( "cart" );
+    $this->gotoPage( "cart" );
   }
 }
 ?>

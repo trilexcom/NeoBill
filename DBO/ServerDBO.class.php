@@ -395,7 +395,7 @@ function &load_array_ServerDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new ServerDBO with the data from the DB
-      $dbo =& new ServerDBO();
+      $dbo = new ServerDBO();
       $dbo->load( $data );
 
       // Add ServerDBO to array

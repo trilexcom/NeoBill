@@ -33,7 +33,7 @@
         <p style="color: red;">
 <?php
   echo '          ', _INSTALLERSECURITY0, ':<br />', "\n";
-  $file = $filepath . 'config/config.php';
+  $file = $filepath . 'config/config.inc.php';
   echo '';
   if (is_writable($file)) {
     echo '          1. ', _INSTALLERSECURITY1, '.<br />', "\n";

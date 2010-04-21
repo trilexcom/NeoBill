@@ -87,7 +87,7 @@ class AssignDomainPage extends SolidStatePage
     
     // Success
     $this->setMessage( array( "type" => "[DOMAIN_ASSIGNED]" ) );
-    $this->goto( "accounts_view_account",
+    $this->gotoPage( "accounts_view_account",
 		 null,
 		 "action=domains&account=" . $this->get['account']->getID() );
   }

@@ -43,7 +43,8 @@
    */
 
   $pathinfo = pathinfo(__FILE__);
-  define('BASE_PATH', ereg_replace('config', '', $pathinfo['dirname']));
+  // define('BASE_PATH', realpath(dirname(__FILE__).'/../'))
+  define('BASE_PATH', preg_replace('|config|', '', $pathinfo['dirname']));
   
   /*
    * Database configuration

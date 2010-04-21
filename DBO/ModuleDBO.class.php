@@ -392,7 +392,7 @@ function &load_array_ModuleDBO( $filter = null,
   while( $data = mysql_fetch_array( $result ) )
     {
       // Create and initialize a new DBO with the data from the DB
-      $dbo =& new ModuleDBO();
+      $dbo = new ModuleDBO();
       $dbo->load( $data );
 
       // Add HostingServiceDBO to array

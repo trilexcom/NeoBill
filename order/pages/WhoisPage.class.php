@@ -42,7 +42,7 @@ class WhoisPage extends SolidStatePage
 	    $page = "purchasedomain";
 	  }
 
-	$this->goto( $page,
+	$this->gotoPage( $page,
 		     null,
 		     sprintf( "domain=%s&tld=%s",
 			      $this->get['domain'],

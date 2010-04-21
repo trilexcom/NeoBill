@@ -121,7 +121,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
 
     // Jump to 'Users' page, pass confirmation message
     $this->setMessage( array( "type" => "[USER_DELETED]" ) );
-    $this->goto( 'config_users' );
+    $this->gotoPage( 'config_users' );
   }
 
   /**
@@ -174,7 +174,7 @@ class ConfigureEditUserPage extends SolidStateAdminPage
     $_SESSION['client']['userdbo'] = $this->get['user'];
     Translator::getTranslator()->setActiveLanguage( $this->get['user']->getLanguage() );
     $_SESSION['jsFunction'] = "reloadMenu()";
-    $this->goto( "config_edit_user", null, "user=" . $this->get['user']->getUsername() );
+    $this->gotoPage( "config_edit_user", null, "user=" . $this->get['user']->getUsername() );
   }
 
   /**

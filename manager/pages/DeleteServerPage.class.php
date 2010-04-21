@@ -83,7 +83,7 @@ class DeleteServerPage extends SolidStateAdminPage
     // Success!
     $this->setMessage( array( "type" => "[SERVER_DELETED]",
 			      "args" => array( $this->session['server_dbo']->getHostName() ) ) );
-    $this->goto( "services_servers" );
+    $this->gotoPage( "services_servers" );
   }
 }
 ?>

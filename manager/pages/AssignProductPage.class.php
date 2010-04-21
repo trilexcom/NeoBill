@@ -105,7 +105,7 @@ class AssignProductPage extends SolidStatePage
     
     // Success
     $this->setMessage( array( "type" => "[PRODUCT_ASSIGNED]" ) );
-    $this->goto( "accounts_view_account",
+    $this->gotoPage( "accounts_view_account",
 		 null,
 		 "action=products&account=" . $this->get['account']->getID() );
   }

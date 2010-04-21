@@ -472,7 +472,7 @@ class Page
    * @param hash $messages Messages to attach to new page (deprecated)
    * @param string $url_tail Query string to attach to URL
    */
-  function goto( $page_name, $messages = null, $url_tail = null )
+  function gotoPage( $page_name, $messages = null, $url_tail = null )
   {
     $conf =& $this->conf;
 
@@ -530,7 +530,7 @@ class Page
 		     "Invalid modules or hook: " . $hook . "(" . $moduleName . ")" );
       }
 
-    $this->goto( $this->conf['hooks'][$moduleName][$hook], null, $queryString );
+    $this->gotoPage( $this->conf['hooks'][$moduleName][$hook], null, $queryString );
   }
 
 

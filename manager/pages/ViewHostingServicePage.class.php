@@ -53,14 +53,14 @@ class ViewHostingServicePage extends SolidStatePage
 	if( isset( $this->post['edit'] ) )
 	  {
 	    // Edit this Hosting Service
-	    $this->goto( "services_edit_hosting",
+	    $this->gotoPage( "services_edit_hosting",
 			 null,
 			 "hservice=" . $this->get['hservice']->getID() );
 	  }
 	elseif( isset( $this->post['delete'] ) )
 	  {
 	    // Delete this Hosting Service
-	    $this->goto( "services_delete_hosting",
+	    $this->gotoPage( "services_delete_hosting",
 			 null,
 			 "hservice=" . $this->get['hservice']->getID() );
 	  }

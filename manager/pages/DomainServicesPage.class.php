@@ -39,7 +39,7 @@ class DomainServicesPage extends SolidStatePage
 	if( isset( $this->session['domain_services_action']['add'] ) )
 	  {
 	    // Goto new user page
-	    $this->goto( "services_new_domain_service" );
+	    $this->gotoPage( "services_new_domain_service" );
 	  }
 	break;
 
@@ -75,7 +75,7 @@ class DomainServicesPage extends SolidStatePage
 
     // Success - go back to web domain services page
     $this->setMessage( array( "type" => "[DOMAIN_SERVICES_DELETED]" ) );
-    $this->goto( "services_domain_services" );
+    $this->gotoPage( "services_domain_services" );
   }
 }
 

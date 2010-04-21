@@ -152,7 +152,7 @@ class TableWidget extends HTMLWidget
   public function getSearchCriteria()
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     return $session['tables'][$this->formName][$this->fieldName]['search'];
   }
@@ -165,7 +165,7 @@ class TableWidget extends HTMLWidget
   public function getSortCol()
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     return $session['tables'][$this->formName][$this->fieldName]['col'];
   }
@@ -178,7 +178,7 @@ class TableWidget extends HTMLWidget
   public function getSortDir()
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     return $session['tables'][$this->formName][$this->fieldName]['dir'];
   }
@@ -191,7 +191,7 @@ class TableWidget extends HTMLWidget
   public function getStartIndex()
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     return $session['tables'][$this->formName][$this->fieldName]['start'];
   }
@@ -334,7 +334,7 @@ class TableWidget extends HTMLWidget
   protected function isToBeSorted()
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     return $session['tables']['sortform'] == $this->formName &&
       $session['tables']['sorttable'] == $this->fieldName;
@@ -454,7 +454,7 @@ class TableWidget extends HTMLWidget
   public function setSortCol( $columnName )
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     $session['tables'][$this->formName][$this->fieldName]['col'] = $columnName;
   }
@@ -470,7 +470,7 @@ class TableWidget extends HTMLWidget
   public function setSearchCriteria( $columnid, $search )
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     $session['tables'][$this->formName][$this->fieldName]['search'][$columnid] = $search;
   }
@@ -483,7 +483,7 @@ class TableWidget extends HTMLWidget
   public function setSortDir( $direction )
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     $session['tables'][$this->formName][$this->fieldName]['dir'] = $direction;
   }
@@ -496,7 +496,7 @@ class TableWidget extends HTMLWidget
   public function setStartIndex( $startIndex )
   {
     global $page;
-    $session =& $page->getPageSession();
+    $session = $page->getPageSession();
 
     $session['tables'][$this->formName][$this->fieldName]['start'] = $startIndex;
   }

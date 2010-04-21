@@ -117,7 +117,7 @@ class AddPaymentPage extends SolidStatePage
 
     // Success
     $this->setMessage( array( "type" => "[PAYMENT_ENTERED]" ) );
-    $this->goto( "billing_view_invoice",
+    $this->gotoPage( "billing_view_invoice",
 		 null,
 		 "invoice=" . $payment_dbo->getInvoiceID() );
   }

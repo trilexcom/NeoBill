@@ -116,7 +116,7 @@ class AddInvoicePage extends SolidStatepage
 
     // Success
     $this->setMessage( array( "type" => "[INVOICE_CREATED]" ) );
-    $this->goto( "billing_view_invoice",
+    $this->gotoPage( "billing_view_invoice",
 		 null,
 		 "invoice=" . $invoice->getID() );
   }

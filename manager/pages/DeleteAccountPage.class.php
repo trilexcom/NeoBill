@@ -84,7 +84,7 @@ class DeleteAccountPage extends SolidStatePage
     // Success - go back to accounts page
     $this->setMessage( array( "type" => "[ACCOUNT_DELETED]",
 			      "args" => array( $this->session['account_dbo']->getAccountName() ) ) );
-    $this->goto( "accounts_browse" );
+    $this->gotoPage( "accounts_browse" );
   }
 }
 

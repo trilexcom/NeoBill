@@ -518,10 +518,10 @@ create table `taxrule` (
 -- --------------------------------------------------------
 
 --
--- Structure for table `users`
+-- Structure for table `user`
 --
 
-create table `users` (
+create table `user` (
   `username` varchar(32) not null default '',
   `password` varchar(32) not null default '',
   `type` enum('Account Manager','Administrator','Client') not null,

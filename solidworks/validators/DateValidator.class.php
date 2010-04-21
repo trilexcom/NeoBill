@@ -92,8 +92,8 @@ class DateValidator extends TextValidator
   protected function validateDate( $data )
   {
     // Strip out white space and valid characters: '/' and '-'
-    $data = ereg_replace( "([ 	]+)", "", $data );
-    $data = eregi_replace("(\-|/)", " ", $data );
+    $data = preg_replace( "|([ 	]+)|", "", $data );
+    $data = preg_replace("|[-/]|", " ", $data );
 
     // Explode the date into an array
     $components = explode( " ", $data );
