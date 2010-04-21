@@ -1,15 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="./style.css" />  
-    <script src="../include/dhtmlxTree/js/dhtmlXCommon.js"></script>
-    <script src="../include/dhtmlxTree/js/dhtmlXTree.js"></script>
+    <script src="../include/dhtmlxTree/js/dhtmlXCommon.js" type="text/javascript"></script>
+    <script src="../include/dhtmlxTree/js/dhtmlXTree.js" type="text/javascript"></script>
   </head>
 
   <body class="menu">
     <div id="treeMenu" class="menubox"></div>
-    <script type="text/javascript">
+    <script language="javascript" type="text/javascript">
 
       function onMenuNodeSelect( nodeId )
       {ldelim}

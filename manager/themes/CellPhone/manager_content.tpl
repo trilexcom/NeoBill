@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
   <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <title>SolidState Manager - {$location|capitalize}</title>
     <link rel="stylesheet" type="text/css" href="./themes/CellPhone/style.css" />  
     <script type="text/javascript" src="../solidworks/include.js"></script>
