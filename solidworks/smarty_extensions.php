@@ -118,11 +118,11 @@ function smarty_modifier_datetime( $value, $show_part = null )
       break;
 
     case "time":
-      return strftime( "%r", $time );
+      return strftime( "%I:%M:%S %p", $time );
       break;
 
     default:
-      return strftime( "%m/%e/%Y, %r", $time );
+      return strftime( '%m/%d/%Y, %I:%M:%S %p', $time );
 
     }
 }
