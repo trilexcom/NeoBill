@@ -70,7 +70,7 @@
   define('_INSTALLERREQUIREMENTS', 'System Requirements');
   define('_INSTALLERPHPVERSION', 'php version');
   define('_INSTALLERPHPVERSIONOK', 'Your php version is %0 which meets our system requirement of php version 4.0.6');
-  define('_INSTALLERPHPVERSIONKO', 'Your php version is %0 which doesn\'t meets our system requirement of php version 4.0.6');
+  define('_INSTALLERPHPVERSIONKO', 'Your php version is %0 which doesn\'t meet our system requirement of php version 4.0.6');
   define('_INSTALLERPERMISSIONS', 'File system permissions');
   define('_INSTALLERPERMISSIONSFILE', 'Please ensure that the web server has write access to the following file');
   define('_INSTALLERPERMISSIONSDIRECTORY', 'Please ensure that the web server has write access to the following directory');

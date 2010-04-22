@@ -44,7 +44,7 @@
   $file = realpath($filepath . 'config/config.inc.php');
   if (!file_exists($file)) {
     echo  '         <li class="failed">', $file, '</li>', "\n";
-    echo '          <li class="failed">', "The configuration file does not exist, please rename config.inc.php to config.php", '.</li>', "\n";
+    echo '          <li class="failed">', "The configuration file does not exist, please make sure config.inc.php exists in directory config", '.</li>', "\n";
   }
   
   if (is_writable($file)) {
