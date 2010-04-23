@@ -21,7 +21,7 @@
  */
 
   $pathinfo = pathinfo(__FILE__);
-  $filepath = ereg_replace('install/pages', '', $pathinfo['dirname']);
+  $filepath = preg_replace('|install/pages|', '', $pathinfo['dirname']);
   
   if (!check_installed()) {
     modify_config_install();

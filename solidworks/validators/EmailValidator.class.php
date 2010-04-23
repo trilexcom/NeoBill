@@ -34,10 +34,10 @@ class EmailValidator extends TextValidator
   {
     $data = parent::validate( $data );
 
-    if( !ereg( '^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.
+    if (!preg_match( '"^[-!#$%&\'*+\\\\./0-9=?A-Z^_`a-z{|}~]+'.
 	       '@'.
-	       '[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.
-	       '[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $data ) )
+	       '[-!#$%&\'*+\\\\/0-9=?A-Z^_`a-z{|}~]+\.'.
+	       '[-!#$%&\'*+\\\\./0-9=?A-Z^_`a-z{|}~]+$"', $data ))
       {
 	// Not a valid email address
 	throw new EmailFieldException();

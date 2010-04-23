@@ -230,7 +230,7 @@ class Whois extends WhoisClient
 			// name. If it exists thenthe function succeeded.
 			foreach($result as $line)
 				{
-				if (eregi("^$hostName", $line))
+				if (preg_match('|^'.preg_quote($hostName).'|i', $line))
 					return true;
 				}
 			// otherwise there was no mail handler for the domain

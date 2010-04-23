@@ -56,10 +56,10 @@ class TelephoneValidator extends TextValidator
   protected function validatePhoneNumber( $data )
   {
     // Strip out the international calling code, if there isn't one, set it to 1
-    if( ereg( "^\+", $data ) )
+    if (preg_match( "|^\+|", $data ))
       {
 	// Extract the CC and verify that it's numerical
-	$telComp = preg_split( "/[\s\-]+/", $data );
+	$telComp = preg_split( '/[\s\-]+/', $data );
 	$cc = substr( $telComp[0], 1 );
 	if( !ctype_digit( $cc ) )
 	  {
@@ -77,8 +77,8 @@ class TelephoneValidator extends TextValidator
       }
 
     // Remove white space and acceptable characters
-    $data = preg_replace( "|\s+|", "", $data );
-    $data = preg_replace("|[-\(\)\\]+|", "", $data );
+    $data = preg_replace( '|\s+|', '', $data );
+    $data = preg_replace( '/[-\(\)\\\\]+/', '', $data );
 
     // Verify that the field contains nothing but numbers
     if( !ctype_digit( $data ) )

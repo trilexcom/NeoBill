@@ -61,11 +61,3 @@ update `settings` set `setting` = 'nameserver_1' where `setting` = 'nameservers_
 update `settings` set `setting` = 'nameserver_2' where `setting` = 'nameservers_ns2';
 update `settings` set `setting` = 'nameserver_3' where `setting` = 'nameservers_ns3';
 update `settings` set `setting` = 'nameserver_4' where `setting` = 'nameservers_ns4';
-
---
--- Table `user`
---
-alter table `user` alter `type` drop default;
-alter table `user` change `contactname` `name` varchar( 255 ) not null;
-alter table `user` change `email` `email` varchar( 255 ) not null;
-alter table `user` change `language` `language` varchar( 255 ) not null;

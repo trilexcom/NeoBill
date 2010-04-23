@@ -29,7 +29,7 @@
     $buffer = array();
     $installed = false;
     while (!feof($file)) {
-      $buffer = eregi_replace(' ', '', strtolower(fgets($file, 4096)));
+      $buffer = preg_replace('| |', '', strtolower(fgets($file, 4096)));
       if (!stristr($buffer, '$config[\'installed\']=1;') === false) {
         $installed = true;
       }
