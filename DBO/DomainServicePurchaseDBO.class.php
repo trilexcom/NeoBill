@@ -240,7 +240,7 @@ class DomainServicePurchaseDBO extends PurchaseDBO
 		    $this->getTitle(),
 		    $term,
 		    $term > 1 ? "[YEARS]" : "[YEAR]",
-		    strftime( "%D", DBConnection::datetime_to_unix( $this->getExpireDate() ) ) );
+		    date( "m/d/y", DBConnection::datetime_to_unix( $this->getExpireDate() ) ) );
 			      
   }
 }

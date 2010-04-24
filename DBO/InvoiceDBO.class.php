@@ -571,7 +571,7 @@ class InvoiceDBO extends DBO
 
     $invoiceDate = DBConnection::datetime_to_unix( $this->getDate() );
     $email_text = str_replace( "{invoice_date}", 
-			       strftime( "%B %e, %G", $invoiceDate ),
+			       date( "F j, Y", $invoiceDate ),
 			       $email_text );
 
     $email_text = str_replace( "{invoice_subtotal}", 
@@ -610,7 +610,7 @@ class InvoiceDBO extends DBO
 					$this->getOutstandingBalance() ), 
 			       $email_text );
 
-    $due_date = strftime( "%B %e, %G", $this->getDueDate() );
+    $due_date = date( "F j, Y", $this->getDueDate() );
     $email_text = str_replace( "{invoice_due}", $due_date, $email_text );
 
     // Generate invoice line items

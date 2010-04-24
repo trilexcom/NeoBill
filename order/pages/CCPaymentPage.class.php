@@ -104,7 +104,7 @@ class CCPaymentPage extends SolidStatePage
 				      null,
 				      null );
     // Format the expire date
-    $expireDate = strftime( "%m%y", $this->post['cardexpire'] );
+    $expireDate = date( "my", $this->post['cardexpire'] );
 
     // Create a new Payment DBO and process the payment
     $paymentDBO = new PaymentDBO();

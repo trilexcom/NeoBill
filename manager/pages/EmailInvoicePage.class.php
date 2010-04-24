@@ -52,11 +52,11 @@ class EmailInvoicePage extends SolidStatePage
     $subject = $this->conf['invoice_subject'];
     $subject = str_replace( "{company_name}", $this->conf['company']['name'], $subject );
     $subject = str_replace( "{period_begin_date}",
-			    strftime( "%D", 
+			    date( "m/d/y",
 				      DBConnection::datetime_to_unix( $this->get['invoice']->getPeriodBegin() ) ),
 			    $subject );
     $subject = str_replace( "{period_end_date}",
-			    strftime( "%D", 
+			    date( "m/d/y",
 				      DBConnection::datetime_to_unix( $this->get['invoice']->getPeriodEnd() ) ),
 			    $subject );
 

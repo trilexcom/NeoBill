@@ -114,15 +114,15 @@ function smarty_modifier_datetime( $value, $show_part = null )
   switch( $show_part )
     {
     case "date":
-      return strftime( "%m/%d/%Y", $time );
+      return date( 'm/d/Y', $time );
       break;
 
     case "time":
-      return strftime( "%I:%M:%S %p", $time );
+      return date( 'h:i:s a', $time );
       break;
 
     default:
-      return strftime( '%m/%d/%Y, %I:%M:%S %p', $time );
+      return date( 'm/d/Y, h:i:s a', $time );
 
     }
 }

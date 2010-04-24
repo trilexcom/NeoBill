@@ -45,7 +45,7 @@
         </tr>
         <tr>
           <th> {form_description field="note"} </th>
-          <td> {form_element field="note"} </td>
+          <td> {form_element field="note" cols="45" rows="13"} </td>
         </tr>
       </tbody>
     </table>
