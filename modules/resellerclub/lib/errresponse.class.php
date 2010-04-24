@@ -63,7 +63,7 @@ class Response
 	{
                  
 		$this->data = $value;
-		if(is_array($this->data))
+		if (is_array($this->data))
 		{
 			$this->errorAnalyse();
 		}
@@ -78,9 +78,9 @@ class Response
 
 	function errorAnalyse()
 	{
-		foreach($this->data as $key => $value)
+		foreach ($this->data as $key => $value)
 		{
-			if ($key == "faultstring")
+			if ($key == 'faultstring')
 			{
 				$error = array();
 				$counter = 1;
@@ -119,7 +119,7 @@ class Response
 	*/
 	function getResult()
 	{
-		if(!$this->error)
+		if (!$this->error)
 		{
 			return $this->data;
 		}
@@ -137,12 +137,12 @@ class Response
 	*/
 	function printError()
 	{
-		if($this->error)
+		if ($this->error)
 		{
-			print "<b>Error Code:</b><br>" . $this->errorCode . "<br>";
-			print "<b>Error Class:</b><br>" . $this->errorClass. "<br>";
-			print "<b>Error Description:</b><br>" . $this->errorMsg . "<br>";
-			print "<b>Error Level:</b><br>" . $this->errorLevel . "<br>";
+			print '<b>Error Code:</b><br>' . $this->errorCode . '<br>';
+			print '<b>Error Class:</b><br>' . $this->errorClass. '<br>';
+			print '<b>Error Description:</b><br>' . $this->errorMsg . '<br>';
+			print '<b>Error Level:</b><br>' . $this->errorLevel . '<br>';
 		}
 		else
 		{
@@ -159,36 +159,36 @@ class Response
 	*/
 	function printData($dataToPrint)
 	{
-		if(!$this->error)
+		if (!$this->error)
 		{
-			if(is_array($dataToPrint))
+			if (is_array($dataToPrint))
 			{
-                           print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\"
-					width=\"100%\" border=\"1\">";
-				foreach($dataToPrint as $key => $value)
+                           print ' <table id="tblParams" style="font-size: 11px; font-family: Verdana" ' .
+                                ' cellspacing="1" cellspacing="1" width="100%" border="1">';
+				foreach ($dataToPrint as $key => $value)
 				{
-					if(is_array($value))
+					if (is_array($value))
 					{
-                                           print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\"
-                                        width=\"100%\" border=\"1\">";
-					print "<tr><td>$key </td><td>$this->printData($value)</td></tr>;
-                                        print"</TABLE>";
+                                           print ' <table id="tblParams" style="font-size: 11px; font-family: Verdana" ' .
+                                            'cellspacing="1" cellspacing="1" width="100%" border="1">';
+					print '<tr><td>'.$key.'</td><td>'.$this->printData($value).'</td></tr>';
+                                        print '</table>';
 					}
 					else
 					{
-						print "<tr><td>$key </td><td>$value</td></tr>";
+						print '<tr><td>'.$key.'</td><td>'.$value.'</td></tr>';
 					}
 				}
-                           print"</TABLE>";  
+                           print '</table>';
 			}
 			else
 			{
-				print "$dataToPrint<br>";
+				print $dataToPrint.'<br>';
 			}
 		}
 		else
 		{
-			print "<b>Error Occured:</b> Call printError() to print Error<br><br>";
+			print '<b>Error Occured:</b> Call printError() to print Error<br><br>';
 		}
 	}
 }

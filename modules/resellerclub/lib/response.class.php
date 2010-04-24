@@ -68,9 +68,8 @@ class Response
 	{
                  
 		$this->data = $value;
-		if(is_array($this->data))
+		if (is_array($this->data))
 		{
-                        
 			$this->errorAnalyse();
 		}
 	}
@@ -84,7 +83,7 @@ class Response
 
 	function errorAnalyse()
 	{
-		foreach($this->data as $key => $value)
+		foreach ($this->data as $key => $value)
 		{
            //      print_r($key);
 			if ($key == "faultstring")
@@ -127,7 +126,7 @@ class Response
 	*/
 	function getResult()
 	{
-		if(!$this->error)
+		if (!$this->error)
 		{
 			return $this->data;
 		}
@@ -145,14 +144,14 @@ class Response
 	*/
 	function printError()
 	{
-		if($this->error)
+		if ($this->error)
 		{
-                 print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\" width=\"100%\" border=\"1\">";
+                 print" <table id=\"tblParams\" style=\"font-size: 11px; font-family: Verdana\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" border=\"1\">";
 			print "<tr><td><b>Error Code:</b></td><td><br>" . $this->errorCode . "<br></td></tr>";
 			print "<tr><td><b>Error Class:</b></td><td><br>" . $this->errorClass. "<br></td></tr>";
 			print "<tr><td><b>Error Description:</b></td><td><br>" . $this->errorMsg . "<br></td></tr>";
 			print "<tr><td><b>Error Level:</b><br></td><td>" . $this->errorLevel . "<br></td></tr>";
-                 print"</TABLE>";
+                 print"</table>";
 		}
 		else
 		{
@@ -177,17 +176,17 @@ class Response
 
 	function printData($dataToPrint)
 	{
-		if(!$this->error)
+		if (!$this->error)
 		{
-		 print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\"
+		 print" <table id=\"tblParams\" style=\"font-size: 11px; font-family: Verdana\" cellspacing=\"1\" cellpadding=\"1\"
                                         width=\"100%\" border=\"1\">";
-               	if(is_array($dataToPrint))
+               	if (is_array($dataToPrint))
 			{
-				foreach($dataToPrint as $key => $value)
+				foreach ($dataToPrint as $key => $value)
 				{
-					if(is_array($value))
+					if (is_array($value))
 					{
-                                       /*    print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\"
+                                       /*    print" <table id=\"tblParams\" style=\"font-size: 11px; font-family: Verdana\" cellspacing=\"1\" cellpadding=\"1\"
                                         width=\"100%\" border=\"1\">";*/
 					print "<tr><td>$key </td><td>";
                                         $this->printData($value);
@@ -195,9 +194,9 @@ class Response
 					}
 					else
 					{
-                                                if(is_string($key))
+                                                if (is_string($key))
                                                    {
-                                                     if(empty($value))
+                                                     if (empty($value))
                                                        {
                                                         $value="&nbsp;";
                                                        } 
@@ -209,7 +208,7 @@ class Response
                                                    }
 					}
 				}
-                      /*     print"</TABLE>";  */
+                      /*     print"</table>";  */
                            
 			}
 			else
@@ -217,7 +216,7 @@ class Response
                                
 				print "<tr><td>$dataToPrint</td><td></td></tr>";  
 			}
-                      print"</TABLE>";
+                      print"</table>";
 
 		}
 		else
@@ -234,26 +233,26 @@ class Response
 
  function printData2($dataToPrint)
         {
-                if(!$this->error)
+                if (!$this->error)
                 {
                  print"<form name=\"Form1\" method=\"post\" action=\"../examples/CustomerClient.php\" id=\"Form1\">"; 
 
-                 print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\" width=\"100%\" border=\"1\">";
-                if(is_array($dataToPrint))
+                 print" <table id=\"tblParams\" style=\"font-size: 11px; font-family: Verdana\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" border=\"1\">";
+                if (is_array($dataToPrint))
                         {
-                         foreach($dataToPrint as $key => $value)
+                         foreach ($dataToPrint as $key => $value)
                                 {
-                                  if($key=="customerid")
+                                  if ($key=="customerid")
                                      {
-                                        print"<TR><TD><input type=\"hidden\" name=\"txtCustomerID\" value =\"$value\"></TD></TR>";
-                                        print "<TR><TD style=\"WIDTH: 197px; HEIGHT: 29px\">$key</TD><TD style=\"HEIGHT: 29px\"><P>$value</P></TD></TR>";
+                                        print"<tr><td><input type=\"hidden\" name=\"txtCustomerID\" value =\"$value\"></td></tr>";
+                                        print "<tr><td style=\"width: 197px; height: 29px\">$key</td><td style=\"height: 29px\"><P>$value</P></td></tr>";
                                      } 
                                 }
-                                foreach($dataToPrint as $key => $value)
+                                foreach ($dataToPrint as $key => $value)
                                 {
-                                        if(is_array($value))
+                                        if (is_array($value))
                                         {
-                                       /*    print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\"
+                                       /*    print" <table id=\"tblParams\" style=\"font-size: 11px; font-family: Verdana\" cellspacing=\"1\" cellpadding=\"1\"
                                         width=\"100%\" border=\"1\">";*/
                                         print "<tr><td>$key </td><td>";
                                         $this->printData2($value);
@@ -262,18 +261,18 @@ class Response
            
                                         else
                                         {
-                                                if(is_string($key))
+                                                if (is_string($key))
                                                    {
-                                                     if(empty($value))
+                                                     if (empty($value))
                                                        {
                                                         $value="&nbsp;";
                                                        }
                                          //            print "<tr><td>$key</td><td>$value</td></tr>";
-                                        if($key=="password"||$key=="totalreceipts"||$key=="creationdt"||$key=="customerstatus"||$key=="resellerid"||$key=="customerid")
+                                        if ($key=="password"||$key=="totalreceipts"||$key=="creationdt"||$key=="customerstatus"||$key=="resellerid"||$key=="customerid")
                                            {
                                              continue;
                                            }
-                                        print "<TR><TD style=\"WIDTH: 197px; HEIGHT: 29px\">$key</TD><TD style=\"HEIGHT: 29px\"><P><input name=\"txt$key\" type=\"text\" id=\"txt$key\" value=\"$value\"/></P></TD></TR>";
+                                        print "<tr><td style=\"width: 197px; height: 29px\">$key</td><td style=\"height: 29px\"><P><input name=\"txt$key\" type=\"text\" id=\"txt$key\" value=\"$value\"/></P></td></tr>";
 
                                                    }
                                                  else
@@ -282,7 +281,7 @@ class Response
                                                    }
                                         }
                                 }
-                      /*     print"</TABLE>";  */
+                      /*     print"</table>";  */
 
                         }
                         else
@@ -290,8 +289,8 @@ class Response
 
                                 print "<tr><td>$dataToPrint</td><td></td></tr>";
                         }
-                      print"<TR><TD align=\"center\" colSpan=\"2\"><input type=\"submit\" name=\"submitbtn\" value=\"ModDetails1\" id=\"btnModDetails2\" /></TD></TR>";
-              print"</TABLE>";
+                      print"<tr><td align=\"center\" colSpan=\"2\"><input type=\"submit\" name=\"submitbtn\" value=\"ModDetails1\" id=\"btnModDetails2\" /></td></tr>";
+              print"</table>";
 
                 }
                 else
@@ -304,31 +303,31 @@ class Response
 
 function printData3($dataToPrint)
         {
-                if(!$this->error)
+                if (!$this->error)
                 {
                  print"<form name=\"Form1\" method=\"post\" action=\"http://image.local.webhosting.info/api/examples/domcontactclient.php\" id=\"Form1\">";
 
 
 
-                 print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\" width=\"100%\" border=\"1\">";
-                if(is_array($dataToPrint))
+                 print" <table id=\"tblParams\" style=\"font-size: 11px; font-family: Verdana\" cellspacing=\"1\" cellpadding=\"1\" width=\"100%\" border=\"1\">";
+                if (is_array($dataToPrint))
                         {
-                                foreach($dataToPrint as $key => $value)
+                                foreach ($dataToPrint as $key => $value)
                                 {
-                                  if($key=="contactid")
+                                  if ($key=="contactid")
                                      {
-                                        print"<TR><TD><input type=\"hidden\" name=\"txtContactID\" value =\"$value\"></TD></TR>";
+                                        print"<tr><td><input type=\"hidden\" name=\"txtContactID\" value =\"$value\"></td></tr>";
 
-                                        print "<TR><TD style=\"WIDTH: 197px; HEIGHT: 29px\">$key</TD><TD style=\"HEIGHT: 29px\"><P>$value</P></TD></TR>";
+                                        print "<tr><td style=\"width: 197px; height: 29px\">$key</td><td style=\"height: 29px\"><P>$value</P></td></tr>";
                                      }
                                 }
-                                foreach($dataToPrint as $key => $value)
+                                foreach ($dataToPrint as $key => $value)
                                 {
-                                        if(is_array($value))
+                                        if (is_array($value))
                                         {
-                                       /*    print" <TABLE id=\"tblParams\" style=\"FONT-SIZE: 11px; FONT-FAMILY: Verdana\" cellSpacing=\"1\" cellPadding=\"1\"
+                                       /*    print" <table id=\"tblParams\" style=\"font-size: 11px; font-family: Verdana\" cellspacing=\"1\" cellpadding=\"1\"
                                         width=\"100%\" border=\"1\">";*/
-                                        if($key=="contacttype")
+                                        if ($key == "contacttype")
                                           continue;
                                         print "<tr><td>$key </td><td>";
                                         $this->printData3($value);
@@ -337,18 +336,18 @@ function printData3($dataToPrint)
 
                                  else
                                         {
-                                                if(is_string($key))
+                                                if (is_string($key))
                                                    {
-                                                     if(empty($value))
+                                                     if (empty($value))
                                                        {
                                                         $value="&nbsp;";
                                                        }
                                          //            print "<tr><td>$key</td><td>$value</td></tr>";
-                                        if($key=="password"||$key=="totalreceipts"||$key=="creationdt"||$key=="customerstatus"||$key=="resellerid"||$key=="contactid"||$key=="eaqid"||$key=="classname"||$key=="parentkey"||$key=="actioncompleted"||$key=="customerid"||$key=="classkey"||$key=="entitytypeid"||$key=="currentstatus"||$key=="contacttype"||$key=="description"||$key=="entityid")
+                                        if ($key=="password"||$key=="totalreceipts"||$key=="creationdt"||$key=="customerstatus"||$key=="resellerid"||$key=="contactid"||$key=="eaqid"||$key=="classname"||$key=="parentkey"||$key=="actioncompleted"||$key=="customerid"||$key=="classkey"||$key=="entitytypeid"||$key=="currentstatus"||$key=="contacttype"||$key=="description"||$key=="entityid")
                                            {
                                              continue;
                                            }
-                                        print "<TR><TD style=\"WIDTH: 197px; HEIGHT: 29px\">$key</TD><TD style=\"HEIGHT: 29px\"><P><input name=\"txt$key\" type=\"text\" id=\"txt$key\" value=\"$value\"/></P></TD></TR>";
+                                        print "<tr><td style=\"width: 197px; height: 29px\">$key</td><td style=\"height: 29px\"><P><input name=\"txt$key\" type=\"text\" id=\"txt$key\" value=\"$value\"/></P></td></tr>";
 
                                                    }
                                                  else
@@ -357,7 +356,7 @@ function printData3($dataToPrint)
                                                    }
                                         }
                                 }
-                      /*     print"</TABLE>";  */
+                      /*     print"</table>";  */
 
                         }
                         else
@@ -365,8 +364,8 @@ function printData3($dataToPrint)
 
                                 print "<tr><td>$dataToPrint</td><td></td></tr>";
                         }
-                      print"<TR><TD align=\"center\" colSpan=\"2\"><input type=\"submit\" name=\"submitbtn\" value=\"ModDetails2\" id=\"btnModDetails\" /></TD></TR>";
-              print"</TABLE>";
+                      print"<tr><td align=\"center\" colSpan=\"2\"><input type=\"submit\" name=\"submitbtn\" value=\"ModDetails2\" id=\"btnModDetails\" /></td></tr>";
+              print"</table>";
 
                 }
                 else
@@ -380,99 +379,101 @@ function printData3($dataToPrint)
 	{
 		?>
 		<form name="Form1" method="post" action="../examples/CustomerClient.php" id="Form1">
-			<TABLE id="tblParams" style="FONT-SIZE: 11px; FONT-FAMILY: Verdana" cellSpacing="1" cellPadding="1"
+			<table id="tblParams" style="font-size: 11px; font-family: Verdana" cellspacing="1" cellpadding="1"
 				width="100%" border="1">
-				<TR>
-					<TD colSpan="2">Customer Details</TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px; HEIGHT: 26px">Customer ID</TD>
-					<TD><?=$dataToPrint['customerid']?></TD>
+				<tr>
+					<td colSpan="2">Customer Details</td>
+				</tr>
+				<tr>
+					<td style="width: 197px; height: 26px">Customer ID</td>
+					<td><?=$dataToPrint['customerid']?>
 					<input name="txtCustomerID" value="<?=$dataToPrint['customerid']?>"type="hidden"/>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px; HEIGHT: 26px">User Name</TD>
-					<TD><input name="txtUserName" value="<?=$dataToPrint['username']?>"type="text" id="txtUsername" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Name</TD>
-					<TD>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 197px; height: 26px">User Name</td>
+					<td><input name="txtUserName" value="<?=$dataToPrint['username']?>"type="text" id="txtUsername" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Name</td>
+					<td>
 						<P><input name="txtName" value="<?=$dataToPrint['name']?>" type="text" id="txtName" /></P>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px; HEIGHT: 28px">Company</TD>
-					<TD style="HEIGHT: 28px">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 197px; height: 28px">Company</td>
+					<td style="height: 28px">
 						<P><input name="txtCompany" value="<?=$dataToPrint['company']?>" type="text" id="txtCompany" /></P>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Language Preference</TD>
-					<TD>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Language Preference</td>
+					<td>
 						<P><input name="txtLangPref" value="<?=$dataToPrint['langpref']?>" type="text" id="txtLangPref" /></P>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px; HEIGHT: 29px">Adderss1</TD>
-					<TD style="HEIGHT: 29px">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 197px; height: 29px">Adderss1</td>
+					<td style="height: 29px">
 						<P><input name="txtAddress1" value="<?=$dataToPrint['address1']?>" type="text" id="txtAddress1" /></P>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px; HEIGHT: 28px">Address2</TD>
-					<TD style="HEIGHT: 28px">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 197px; height: 28px">Address2</td>
+					<td style="height: 28px">
 						<P><input name="txtAddress2" value="<?=$dataToPrint['address2']?>" type="text" id="txtAddress2" /></P>
-					</TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Address3</TD>
-					<TD><input name="txtAddress3" value="<?=$dataToPrint['address3']?>" type="text" id="txtAddress3" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">City</TD>
-					<TD><input name="txtCity" value="<?=$dataToPrint['city']?>" type="text" id="txtCity" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px; HEIGHT: 28px">State</TD>
-					<TD><input name="txtState" value="<?=$dataToPrint['state']?>" type="text" id="txtState" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Country</TD>
-					<TD><input name="txtCountry" value="<?=$dataToPrint['country']?>" type="text" id="txtCountry" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Zip</TD>
-					<TD><input name="txtZip" value="<?=$dataToPrint['zip']?>" type="text" id="txtZip" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">TelNo. Country code.</TD>
-					<TD><input name="txtTelcc" value="<?=$dataToPrint['telnocc']?>" type="text" id="txtTelCc" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">TelNo.</TD>
-					<TD><input name="txtTelNo" value="<?=$dataToPrint['telno']?>" type="text" id="txtTel" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Alternate TelNo.Country code</TD>
-					<TD><input name="txtAltTelCc" value="<?=$dataToPrint['alttelnocc']?>" type="text" id="txtAltTelCc" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Alternate &nbsp;TelNo.</TD>
-					<TD><input name="txtAltTelNo" value="<?=$dataToPrint['alttelno']?>" type="text" id="txtAltTel" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">FaxNo. Country code</TD>
-					<TD><input name="txtFaxCc" value="<?=$dataToPrint['faxnocc']?>" type="text" id="txtFaxCc" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">FaxNo.</TD>
-					<TD><input name="txtFaxNo" value="<?=$dataToPrint['faxno']?>" type="text" id="txtFax" /></TD>
-				</TR>
-				<TR>
-					<TD align="center" colSpan="2"><input type="submit" name="btnModDetails" value="ModDetails" id="btnModDetails" /></TD>
-							<input type="hidden" name="submitbtn" value="ModDetails1">
-				</TR>
-			</TABLE>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Address3</td>
+					<td><input name="txtAddress3" value="<?=$dataToPrint['address3']?>" type="text" id="txtAddress3" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">City</td>
+					<td><input name="txtCity" value="<?=$dataToPrint['city']?>" type="text" id="txtCity" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px; height: 28px">State</td>
+					<td><input name="txtState" value="<?=$dataToPrint['state']?>" type="text" id="txtState" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Country</td>
+					<td><input name="txtCountry" value="<?=$dataToPrint['country']?>" type="text" id="txtCountry" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Zip</td>
+					<td><input name="txtZip" value="<?=$dataToPrint['zip']?>" type="text" id="txtZip" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">TelNo. Country code.</td>
+					<td><input name="txtTelcc" value="<?=$dataToPrint['telnocc']?>" type="text" id="txtTelCc" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">TelNo.</td>
+					<td><input name="txtTelNo" value="<?=$dataToPrint['telno']?>" type="text" id="txtTel" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Alternate TelNo.Country code</td>
+					<td><input name="txtAltTelCc" value="<?=$dataToPrint['alttelnocc']?>" type="text" id="txtAltTelCc" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Alternate &nbsp;TelNo.</td>
+					<td><input name="txtAltTelNo" value="<?=$dataToPrint['alttelno']?>" type="text" id="txtAltTel" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">FaxNo. Country code</td>
+					<td><input name="txtFaxCc" value="<?=$dataToPrint['faxnocc']?>" type="text" id="txtFaxCc" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">FaxNo.</td>
+					<td><input name="txtFaxNo" value="<?=$dataToPrint['faxno']?>" type="text" id="txtFax" /></td>
+				</tr>
+				<tr>
+					<td align="center" colSpan="2"><input type="submit" name="btnModDetails" value="ModDetails" id="btnModDetails" />
+					<input type="hidden" name="submitbtn" value="ModDetails1">
+                                        </td>
+				</tr>
+			</table>
 		</form>
 		<?
 	}
@@ -481,78 +482,78 @@ function printData3($dataToPrint)
 	{
 		?>
 		<form name="Form1" method="post" action="../examples/DomainContactClient.php" >
-			<TABLE 
-					width="100%" border="1">
-				<TR>
-					<TD colSpan="2">Contact&nbsp;Details</TD>
-				<TR>
-					<TD>Contact ID</TD><TD><?=$dataToPrint['contactid']?></TD>
-					<input name="txtContactID" value="<?=$dataToPrint['contactid']?>"type="hidden"/>
-				</TR>
-				<TR>
-					<TD>Name</TD>
-					<TD><input name="txtName" value="<?=$dataToPrint['name']?>" type="text"  />
-					</TD>
-				</TR>
-				<TR>
-					<TD>Company</TD>
-					<TD><input name="txtCompany" value="<?=$dataToPrint['company']?>" type="text"  /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Email Address</TD>
-					<TD><input name="txtEmailAddr" value="<?=$dataToPrint['emailaddr']?>" type="text"  /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Adderss1</TD>
-					<TD><input name="txtAddress1" value="<?=$dataToPrint['address1']?>" type="text"/></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Address2</TD>
-					<TD><input name="txtAddress2" value="<?=$dataToPrint['address2']?>" type="text"  /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Address3</TD>
-					<TD><input name="txtAddress3" value="<?=$dataToPrint['address3']?>" type="text" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">City</TD>
-					<TD><input name="txtCity" value="<?=$dataToPrint['city']?>" type="text" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">State</TD>
-					<TD><input name="txtState" value="<?=$dataToPrint['state']?>" type="text" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Country</TD>
-					<TD><input name="txtCountry" value="<?=$dataToPrint['country']?>" type="text" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">Zip</TD>
-					<TD><input name="txtZip" value="<?=$dataToPrint['zip']?>" type="text" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">TelNo. Country code.</TD>
-					<TD><input name="txtTelcc" value="<?=$dataToPrint['telnocc']?>" type="text" /></TD>
-				</TR>
-				<TR>
-					<TD style="WIDTH: 197px">TelNo.</TD>
-					<TD><input name="txtTelNo" value="<?=$dataToPrint['telno']?>" type="text" /></TD>
-				</TR>
-				<TR>
-						<TD style="WIDTH: 197px">FaxNo. Country code</TD>
-						<TD><input name="txtFaxCc" value="<?=$dataToPrint['faxnocc']?>" type="text" id="txtFaxCc" /></TD>
-				</TR>
-				<TR>
-						<TD style="WIDTH: 197px">FaxNo.</TD>
-						<TD><input name="txtFaxNo" value="<?=$dataToPrint['faxno']?>" type="text" id="txtFaxNo" /></TD>
-				</TR>
-				<TR>
-					<TD align="center" colSpan="2">
+			<table width="100%" border="1">
+				<tr>
+					<td colSpan="2">Contact&nbsp;Details</td>
+				</tr>
+                                <tr>
+					<td>Contact ID</td>
+                                        <td><?=$dataToPrint['contactid']?>
+					<input name="txtContactID" value="<?=$dataToPrint['contactid']?>"type="hidden"/></td>
+				</tr>
+				<tr>
+					<td>Name</td>
+					<td><input name="txtName" value="<?=$dataToPrint['name']?>" type="text"  /></td>
+				</tr>
+				<tr>
+					<td>Company</td>
+					<td><input name="txtCompany" value="<?=$dataToPrint['company']?>" type="text"  /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Email Address</td>
+					<td><input name="txtEmailAddr" value="<?=$dataToPrint['emailaddr']?>" type="text"  /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Adderss1</td>
+					<td><input name="txtAddress1" value="<?=$dataToPrint['address1']?>" type="text"/></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Address2</td>
+					<td><input name="txtAddress2" value="<?=$dataToPrint['address2']?>" type="text"  /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Address3</td>
+					<td><input name="txtAddress3" value="<?=$dataToPrint['address3']?>" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">City</td>
+					<td><input name="txtCity" value="<?=$dataToPrint['city']?>" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">State</td>
+					<td><input name="txtState" value="<?=$dataToPrint['state']?>" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Country</td>
+					<td><input name="txtCountry" value="<?=$dataToPrint['country']?>" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">Zip</td>
+					<td><input name="txtZip" value="<?=$dataToPrint['zip']?>" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">TelNo. Country code.</td>
+					<td><input name="txtTelcc" value="<?=$dataToPrint['telnocc']?>" type="text" /></td>
+				</tr>
+				<tr>
+					<td style="width: 197px">TelNo.</td>
+					<td><input name="txtTelNo" value="<?=$dataToPrint['telno']?>" type="text" /></td>
+				</tr>
+				<tr>
+						<td style="width: 197px">FaxNo. Country code</td>
+						<td><input name="txtFaxCc" value="<?=$dataToPrint['faxnocc']?>" type="text" id="txtFaxCc" /></td>
+				</tr>
+				<tr>
+						<td style="width: 197px">FaxNo.</td>
+						<td><input name="txtFaxNo" value="<?=$dataToPrint['faxno']?>" type="text" id="txtFaxNo" /></td>
+				</tr>
+				<tr>
+					<td align="center" colSpan="2">
 						<input type="submit" name="btnMod" value=" Mod "  />
 						<input type="hidden" name="submitbtn" value="DomCnoMod">
-					</TD>
-				</TR>
-			</TABLE>
+					</td>
+				</tr>
+			</table>
 		</form>
 		<?
 	}

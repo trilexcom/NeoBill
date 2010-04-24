@@ -144,7 +144,7 @@ class EditPaymentPage extends SolidStatePage
   function save()
   {
     // Update Payment DBO
-    $this->get['payment']->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $this->get['payment']->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $this->get['payment']->setAmount( $this->post['amount'] );
     $this->get['payment']->setTransaction1( $this->post['transaction1'] );
     $this->get['payment']->setTransaction2( $this->post['transaction2'] );

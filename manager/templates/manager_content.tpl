@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>{$company_name} - Manager Interface</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />  
     <script type="text/javascript" src="../solidworks/include.js"></script>
-    <link rel="STYLESHEET" type="text/css" href="../include/dhtmlxTabbar/css/dhtmlXTabbar.css">
+    <link rel="STYLESHEET" type="text/css" href="../include/dhtmlxTabbar/css/dhtmlXTabbar.css" />
   </head>
 
   {if isset( $jsFunction )}

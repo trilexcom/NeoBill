@@ -20,7 +20,7 @@
         <td colspan="2"> 
           {echo phrase="PAY_WITH_PAYPAL_TEXT"}
           <p align="center"> <input type="submit" value="Pay with Paypal"/> </p>
-        </td> </tr>
+        </td>
       </tr>
     </table>
   </div>

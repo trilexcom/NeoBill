@@ -68,7 +68,7 @@
         </table>
       </div>
     </td>
-  <tr>
+  </tr>
 </table>
 <div class="table">
   {form name="view_invoice_items"}

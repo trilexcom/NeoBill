@@ -45,7 +45,6 @@
               <th> {form_description field="public"} </th>
               <td> {form_element dbo="product_dbo" field="public" option="Yes"} </td>
             </tr>
-            </tr>
           </tbody>
         </table>
       </div>

@@ -80,9 +80,9 @@ class GenerateInvoicesPage extends SolidStatePage
 	// Create a new Invoice
 	$invoice = new InvoiceDBO();
 	$invoice->setAccountID( $account->getID() );
-	$invoice->setDate( $this->DB->format_datetime( $invoice_date ) );
-	$invoice->setPeriodBegin( $this->DB->format_datetime( $period_begin ) );
-	$invoice->setPeriodEnd( $this->DB->format_datetime( $period_end ) );
+	$invoice->setDate( DBConnection::format_datetime( $invoice_date ) );
+	$invoice->setPeriodBegin( DBConnection::format_datetime( $period_begin ) );
+	$invoice->setPeriodEnd( DBConnection::format_datetime( $period_end ) );
 	$invoice->setNote( $note );
 	$invoice->setTerms( $terms );
 

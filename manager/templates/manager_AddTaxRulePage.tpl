@@ -28,7 +28,6 @@
         <tr>
           <th> {form_description field="allstates"} </th>
           <td> {form_element field="allstates" option="true"} </td>
-          </td>
         </tr>
         <tr>
           <th> &nbsp;{form_description field="state"} </th>

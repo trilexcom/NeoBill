@@ -29,6 +29,7 @@
           <tr>
             <th> {echo phrase="ACCOUNT_NAME"}: </th>
             <td> {dbo_echo dbo="account_dbo" field="accountname"} </td>
+          </tr>
           <tr>
             <th> {echo phrase="ACCOUNT_TYPE"}: </th>
             <td> {dbo_echo dbo="account_dbo" field="type"} </td>

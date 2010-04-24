@@ -13,14 +13,14 @@
       </tr>
       <tr>
         <th> {form_description field="accesshash"} </th>
-        <td> {form_element field="accesshash" rows="28" cols="32" value=$accessHash} </th>
-      <tr>
+        <td> {form_element field="accesshash" rows="28" cols="32" value=$accessHash} </td>
+      </tr>
       <tr class="footer">
         <td colspan="2">
-          {form_element field="save"}
           {form_element field="cancel"}
+          {form_element field="save"}
         </td>
-      <tr>
+      </tr>
     </table>
   {/form}
 </div>

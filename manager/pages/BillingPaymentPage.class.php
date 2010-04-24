@@ -64,7 +64,7 @@ class BillingPaymentPage extends SolidStatePage
     // Create a new payment DBO
     $payment_dbo = new PaymentDBO();
     $payment_dbo->setInvoiceID( $invoice->getID() );
-    $payment_dbo->setDate( $this->DB->format_datetime( $this->post['date'] ) );
+    $payment_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
     $payment_dbo->setAmount( $this->post['amount'] );
     $payment_dbo->setType( $this->post['type'] );
     $payment_dbo->setTransaction1( $this->post['transaction1'] );

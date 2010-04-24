@@ -168,8 +168,8 @@ function add_NoteDBO( &$dbo )
 
   // Build SQL
   $sql = $DB->build_insert_sql( "note",
-				array( "date" => $DB->format_datetime( time() ),
-				       "updated" => $DB->format_datetime( time() ),
+				array( "date" => DBConnection::format_datetime( time() ),
+				       "updated" => DBConnection::format_datetime( time() ),
 				       "accountid" => $dbo->getAccountID(),
 				       "username" => $dbo->getUsername(),
 				       "text" => $dbo->getText() ) );
@@ -211,7 +211,7 @@ function update_NoteDBO( &$dbo )
   // Build SQL
   $sql = $DB->build_update_sql( "note",
 				"id = " . intval( $dbo->getID() ),
-				array( "updated" => $DB->format_datetime( time() ),
+				array( "updated" => DBConnection::format_datetime( time() ),
 				       "username" => $dbo->getUsername(),
 				       "text" => $dbo->getText() ) );
 

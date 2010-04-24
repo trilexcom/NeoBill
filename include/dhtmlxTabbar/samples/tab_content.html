@@ -4,24 +4,23 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - Add content to TabBar</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css" />
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+        <style type="text/css">
+	body {font-size:12px; font-family:arial;}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+        </style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>Attach content to TabBar</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
     <a href='javascript:void(0)' onclick='doIt()'>Attach content to TabBar</a><br />
     <a href='javascript:void(0)' onclick='doIt2()'>Clear all  tabs</a><br />
 	<br><br>
@@ -30,14 +29,14 @@
 			<td>
 				<div id="a_tabbar" style="width:390px; height:390px;"/>
 			</td>
-            <td><div id='html_1'><img src="imgs/page_a.gif"></div></td>
-            <td><div id='html_2'><img src="imgs/page_b.gif"></div></td>
+            <td><div id='html_1'><img src="imgs/page_a.gif" alt=""></div></td>
+            <td><div id='html_2'><img src="imgs/page_b.gif" alt=""></div></td>
         </tr>
 	</table>
 <hr>
-<XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<xmp>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
             tabbar.setSkinColors("#FCFBFC","#F4F3EE");
@@ -50,8 +49,8 @@
             tabbar.setContent("a2","html_2");
             tabbar.setContentHTML("a3","<br/>The content can be set as <b>HTML</b> node or as <b>HTML</b> text.");
 </script>
-</XMP>
-	<script>
+</xmp>
+	<script type="text/javascript">
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
 
