@@ -18,17 +18,17 @@
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
- */
+*/
 ?>
-        <h2><?php echo _INSTALLERLICENSE; ?></h2>
-        <br />
-        <p><?php echo _INSTALLERLICENSEEXPLANATION; ?></p>
-        <form action="index.php" method="post">
-          <div id="iframe">
-            <?php echo _INSTALLERGNULICENSE ?>
-          </div>
-          <div class="submit">
-            <input type="hidden" name="install_step" value="2" />
-            <input type="submit" value="<?php echo _INSTALLERACCEPT; ?>" />
-          </div>
-        </form>
+<h2><?php echo _INSTALLERLICENSE; ?></h2>
+<br />
+<p><?php echo _INSTALLERLICENSEEXPLANATION; ?></p>
+<form action="index.php" method="post">
+    <div id="iframe">
+        <?php echo _INSTALLERGNULICENSE ?>
+    </div>
+    <div class="submit">
+        <input type="hidden" name="install_step" value="2" />
+        <input type="submit" value="<?php echo _INSTALLERACCEPT; ?>" />
+    </div>
+</form>

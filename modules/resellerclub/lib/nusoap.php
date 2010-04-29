@@ -1634,7 +1634,7 @@ class soap_transport_http extends nusoap_base {
 			$chunkend = strpos( $buffer, "\r\n", $chunkstart + $chunk_size);
 		  	
 			// Just in case we got a broken connection
-		  	if ($chunkend == FALSE) {
+		  	if ($chunkend === false) {
 		  	    $chunk = substr($buffer,$chunkstart);
 				// append chunk-data to entity-body
 		    	$new .= $chunk;
@@ -1652,7 +1652,7 @@ class soap_transport_http extends nusoap_base {
 		  	$chunkstart = $chunkend + 2;
 			
 		  	$chunkend = strpos($buffer,"\r\n",$chunkstart)+2;
-			if ($chunkend == FALSE) {
+			if ($chunkend === false) {
 				break; //Just in case we got a broken connection
 			}
 			$temp = substr($buffer,$chunkstart,$chunkend-$chunkstart);
@@ -4333,7 +4333,7 @@ class soapclientw extends nusoap_base  {
 			// http(s)
 			case preg_match('|^http|', $this->endpoint):
 				$this->debug('transporting via HTTP');
-				if ($this->persistentConnection == true && is_object($this->persistentConnection)) {
+				if ($this->persistentConnection && is_object($this->persistentConnection)) {
 					$http =& $this->persistentConnection;
 				} else {
 					$http = new soap_transport_http($this->endpoint);
@@ -4355,15 +4355,8 @@ class soapclientw extends nusoap_base  {
 				}
 				$this->debug('sending message, length: '.strlen($msg));
 				if (preg_match('|^http:|', $this->endpoint)) {
-				//if (strpos($this->endpoint,'http:')) {
 					$this->responseData = $http->send($msg, $timeout);
 				} elseif (preg_match('|^https|', $this->endpoint)) {
-				//} elseif (strpos($this->endpoint,'https:')) {
-					//if (phpversion() == '4.3.0-dev') {
-						//$response = $http->send($msg,$timeout);
-                   		//$this->request = $http->outgoing_payload;
-						//$this->response = $http->incoming_payload;
-					//} else
 					if (extension_loaded('curl')) {
 						$this->responseData = $http->sendHTTPS($msg, $timeout);
 					} else {

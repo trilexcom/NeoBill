@@ -21,24 +21,16 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class SolidStateAdminPage extends SolidStatePage
-{
-  /**
-   * Control Access
-   *
-   * Determine if the user has Administrator status.
-   *
-   * @return boolean True if access is granted, false otherwise
-   */
-  function control_access()
-  {
-    if( $_SESSION['client']['userdbo']->getType() != "Administrator" )
-      {
-	// Not an administrator
-	return false;
-      }
-
-    // Is an administrator
-    return true;
-  }
+class SolidStateAdminPage extends SolidStatePage {
+    /**
+     * Control Access
+     *
+     * Determine if the user has Administrator status.
+     *
+     * @return boolean True if access is granted, false otherwise
+     */
+    function control_access() {
+        // return true if user is "Administrator" type
+        return ( $_SESSION['client']['userdbo']->getType() == "Administrator" );
+    }
 }

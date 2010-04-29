@@ -97,7 +97,7 @@
           </ul>
           <div class="submit">
 <?php
-  if ($checkfailed == true) {
+  if ($checkfailed) {
     echo '            <input type="hidden" name="install_step" value="2" />', "\n";
     echo '            <input type="submit" value="', _INSTALLERRECHECK, '" />', "\n";
   } else {

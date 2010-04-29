@@ -18,42 +18,42 @@
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
- */
+*/
 
-  $languages = get_languages_installer();
+$languages = get_languages_installer();
 ?>
-        <script type="text/javascript" src="javascript/language.js"></script>
-        <h2><?php echo _INSTALLERWELCOME; ?></h2>
-        <br />
-        <form action="index.php" method="post">
-          <div>
-            <div>
-              <?php echo _INSTALLERCHOOSELANGUAGE; ?> : 
-              <select name="language" onchange="_language();" onkeyup="_language();">
-<?php
-  foreach($languages as $key=>$value) {
-    echo '                <option value="', $value, '"';
-    if (isset($_POST['language'])) {
-      if ($_POST['language'] == $value) {
-        echo ' selected="selected"';
-      }
-    } else if (isset($_COOKIE['language'])) {
-      if ($_COOKIE['language'] == $value) {
-        echo ' selected="selected"';
-      }
-    } else {
-      if ('english' == $value) {
-        echo ' selected="selected"';
-      }
-    }
-    echo '>', ucfirst($value), '</option>', "\n";
-  }
-?>
-              </select>
-            </div>
-            <div class="submit">
-              <input type="hidden" name="install_step" value="1" />
-              <input type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
-            </div>
-          </div>
-        </form>
+<script type="text/javascript" src="javascript/language.js"></script>
+<h2><?php echo _INSTALLERWELCOME; ?></h2>
+<br />
+<form action="index.php" method="post">
+    <div>
+        <div>
+            <?php echo _INSTALLERCHOOSELANGUAGE; ?> :
+            <select name="language" onchange="_language();" onkeyup="_language();">
+                <?php
+                foreach($languages as $key=>$value) {
+                    echo '                <option value="', $value, '"';
+                    if (isset($_POST['language'])) {
+                        if ($_POST['language'] == $value) {
+                            echo ' selected="selected"';
+                        }
+                    } else if (isset($_COOKIE['language'])) {
+                        if ($_COOKIE['language'] == $value) {
+                            echo ' selected="selected"';
+                        }
+                    } else {
+                        if ('english' == $value) {
+                            echo ' selected="selected"';
+                        }
+                    }
+                    echo '>', ucfirst($value), '</option>', "\n";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="submit">
+            <input type="hidden" name="install_step" value="1" />
+            <input type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
+        </div>
+    </div>
+</form>

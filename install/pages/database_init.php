@@ -18,40 +18,46 @@
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
- */
+*/
 
-  $message = init_db();
+$message = init_db();
 ?>
-        <h2><?php echo _INSTALLERDBINIT; ?></h2>
-        <br />
+<h2><?php echo _INSTALLERDBINIT; ?></h2>
+<br />
 <?php
-  if ($message != '') {
+if ($message != '') {
+    ?>
+<p class="error"><?php echo $message; ?></p>
+    <?php
+} else {
+    ?>
+<p class="success"><?php echo _INSTALLERDBINITOK; ?>.</p>
+    <?php
+}
 ?>
-        <p class="error"><?php echo $message; ?></p>
-<?php
-  } else {
+<form action="index.php" method="post">
+    <div class="submit">
+        <?php
+        if ($message != '') {
+            ?>
+        <input type="hidden" name="install_step" value="3" />
+        <input type="hidden" name="hostname" value="<?php if (isset($_POST['hostname'])) {
+        echo $_POST['hostname'];
+    } ?>" />
+        <input type="hidden" name="username" value="<?php if (isset($_POST['username'])) {
+                echo $_POST['username'];
+            } ?>" />
+        <input type="hidden" name="database" value="<?php if (isset($_POST['database'])) {
+        echo $_POST['database'];
+    } ?>" />
+        <input type="submit" value="<?php echo _INSTALLERDBSETUP; ?>" />
+            <?php
+        } else {
+    ?>
+        <input type="hidden" name="install_step" value="4" />
+        <input type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
+    <?php
+}
 ?>
-        <p class="success"><?php echo _INSTALLERDBINITOK; ?>.</p>
-<?php
-  }
-?>
-        <form action="index.php" method="post">
-          <div class="submit">
-<?php
-  if ($message != '') {
-?>
-            <input type="hidden" name="install_step" value="3" />
-            <input type="hidden" name="hostname" value="<?php if (isset($_POST['hostname'])) { echo $_POST['hostname']; } ?>" />
-            <input type="hidden" name="username" value="<?php if (isset($_POST['username'])) { echo $_POST['username']; } ?>" />
-            <input type="hidden" name="database" value="<?php if (isset($_POST['database'])) { echo $_POST['database']; } ?>" />
-            <input type="submit" value="<?php echo _INSTALLERDBSETUP; ?>" />
-<?php
-  } else {
-?>
-            <input type="hidden" name="install_step" value="4" />
-            <input type="submit" value="<?php echo _INSTALLERNEXT; ?>" />
-<?php
-  }
-?>
-          </div>
-        </form>
+    </div>
+</form>

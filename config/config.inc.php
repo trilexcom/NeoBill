@@ -57,6 +57,7 @@
   $db['password'] = '';
   $db['database'] = 'solidstate';
   $db['encoded']  = 1;
+  $db['schema_validation'] = 0;
 
   /*
    * System configuration

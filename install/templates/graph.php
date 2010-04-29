@@ -22,9 +22,8 @@
 ?>
 
         <div class="grapharea">
-          <div class="progressbarbox">
-            <div class="percentcomplete" style="width: <?php echo $percent; ?>">
+            <div class="progressbarbox">
+                <div class="percentcomplete" style="width: <?php echo $percent; ?>"></div>
             </div>
-          </div>
-          <p id="progressstatus"><?php echo str_replace('%0', $percent, _INSTALLERPERCENT); ?></p>
+            <p id="progressstatus"><?php echo str_replace('%0', $percent, _INSTALLERPERCENT); ?></p>
         </div>

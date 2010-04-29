@@ -18,33 +18,33 @@
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
- */
+*/
 
-  $pathinfo = pathinfo(__FILE__);
-  $filepath = preg_replace('|install/pages|', '', $pathinfo['dirname']);
-  
-  if (!check_installed()) {
+$pathinfo = pathinfo(__FILE__);
+$filepath = preg_replace('|install/pages|', '', $pathinfo['dirname']);
+
+if (!check_installed()) {
     modify_config_install();
-  }
+}
 ?>
-        <h2><?php echo _INSTALLCOMPLETE; ?></h2>
-        <br />
-        <p><?php echo _INSTALLERCONGRATULATIONS; ?>!</p>
-        <p style="color: red;">
-<?php
-  echo '          ', _INSTALLERSECURITY0, ':<br />', "\n";
-  $file = $filepath . 'config/config.inc.php';
-  echo '';
-  if (is_writable($file)) {
-    echo '          1. ', _INSTALLERSECURITY1, '.<br />', "\n";
-    echo '          2. ', _INSTALLERSECURITY2, '.<br />', "\n";
-  } else {
-    echo '          ', _INSTALLERSECURITY1, '.', "\n";
-  }
-?>
-        </p>
-        <form action="../manager/" method="post">
-          <div class="submit">
-            <input type="submit" value="<?php echo _MANAGERINTERFACE; ?>" />
-          </div>
-        </form>
+<h2><?php echo _INSTALLCOMPLETE; ?></h2>
+<br />
+<p><?php echo _INSTALLERCONGRATULATIONS; ?>!</p>
+<p style="color: red;">
+    <?php
+    echo '          ', _INSTALLERSECURITY0, ':<br />', "\n";
+    $file = $filepath . 'config/config.inc.php';
+    echo '';
+    if (is_writable($file)) {
+        echo '          1. ', _INSTALLERSECURITY1, '.<br />', "\n";
+        echo '          2. ', _INSTALLERSECURITY2, '.<br />', "\n";
+    } else {
+        echo '          ', _INSTALLERSECURITY1, '.', "\n";
+    }
+    ?>
+</p>
+<form action="../manager/" method="post">
+    <div class="submit">
+        <input type="submit" value="<?php echo _MANAGERINTERFACE; ?>" />
+    </div>
+</form>

@@ -18,39 +18,41 @@
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ProductPriceDBO extends PriceDBO
-{
-  /**
-   * @var integer The ID of the product this price belongs to
-   */
-  protected $productid = null;
+class ProductPriceDBO extends PriceDBO {
+    /**
+     * @var integer The ID of the product this price belongs to
+     */
+    protected $productid = null;
 
-  /**
-   * Get Concatenated ID
-   *
-   * @return string The concatenated ID of this price (tld-type-termlength)
-   */
-  public function getID()
-  {
-    return sprintf( "%d-%s-%d", 
-		    $this->getProductID(), 
-		    $this->getType(), 
-		    $this->getTermLength() );
-  }
+    /**
+     * Get Concatenated ID
+     *
+     * @return string The concatenated ID of this price (tld-type-termlength)
+     */
+    public function getID() {
+        return sprintf( "%d-%s-%d",
+                $this->getProductID(),
+                $this->getType(),
+                $this->getTermLength() );
+    }
 
-  /**
-   * Get Product ID
-   *
-   * @return integer Product ID
-   */
-  public function getProductID() { return $this->productid; }
+    /**
+     * Get Product ID
+     *
+     * @return integer Product ID
+     */
+    public function getProductID() {
+        return $this->productid;
+    }
 
-  /**
-   * Set Product ID
-   *
-   * @param integer The ID of the product that this price is for
-   */
-  public function setProductID( $id ) { $this->productid = $id; }
+    /**
+     * Set Product ID
+     *
+     * @param integer The ID of the product that this price is for
+     */
+    public function setProductID( $id ) {
+        $this->productid = $id;
+    }
 }
 
 /**
@@ -59,22 +61,20 @@ class ProductPriceDBO extends PriceDBO
  * @param ProductPriceDBO &$dbo ProductPriceDBO to add to database
  * @return boolean True on success
  */
-function add_ProductPriceDBO( ProductPriceDBO $dbo )
-{
-  $DB = DBConnection::getDBConnection();
+function add_ProductPriceDBO( ProductPriceDBO $dbo ) {
+    $DB = DBConnection::getDBConnection();
 
-  // Build SQL
-  $sql = $DB->build_insert_sql( "productprice",
-				array( "productid" => $dbo->getProductID(),
-				       "type" => $dbo->getType(),
-				       "termlength" => $dbo->getTermLength(),
-				       "price" => $dbo->getPrice(),
-				       "taxable" => $dbo->getTaxable() ) );
+    // Build SQL
+    $sql = $DB->build_insert_sql( "productprice",
+            array( "productid" => $dbo->getProductID(),
+            "type" => $dbo->getType(),
+            "termlength" => $dbo->getTermLength(),
+            "price" => $dbo->getPrice(),
+            "taxable" => $dbo->getTaxable() ) );
 
-  // Run query
-  if( !mysql_query( $sql, $DB->handle() ) )
-    {
-      throw new DBException();
+    // Run query
+    if( !mysql_query( $sql, $DB->handle() ) ) {
+        throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
 
@@ -84,23 +84,21 @@ function add_ProductPriceDBO( ProductPriceDBO $dbo )
  * @param ProductPriceDBO $dbo ProductPriceDBO to update
  * @return boolean True on success
  */
-function update_ProductPriceDBO( ProductPriceDBO $dbo )
-{
-  $DB = DBConnection::getDBConnection();
+function update_ProductPriceDBO( ProductPriceDBO $dbo ) {
+    $DB = DBConnection::getDBConnection();
 
-  // Build SQL
-  $sql = $DB->build_update_sql( "productprice",
-				sprintf( "productid=%d AND type='%s' AND termlength=%d",
-					 $dbo->getProductID(),
-					 $dbo->getType(),
-					 $dbo->getTermLength() ),
-				array( "price" => $dbo->getPrice(),
-				       "taxable" => $dbo->getTaxable() ) );
+    // Build SQL
+    $sql = $DB->build_update_sql( "productprice",
+            sprintf( "productid=%d AND type='%s' AND termlength=%d",
+            $dbo->getProductID(),
+            $dbo->getType(),
+            $dbo->getTermLength() ),
+            array( "price" => $dbo->getPrice(),
+            "taxable" => $dbo->getTaxable() ) );
 
-  // Run query
-  if( !mysql_query( $sql, $DB->handle() ) )
-    {
-      throw new DBException();
+    // Run query
+    if( !mysql_query( $sql, $DB->handle() ) ) {
+        throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
 
@@ -109,21 +107,19 @@ function update_ProductPriceDBO( ProductPriceDBO $dbo )
  *
  * @param ProductPriceDBO $dbo ProductPriceDBO to delete
  */
-function delete_ProductPriceDBO( ProductPriceDBO $dbo )
-{
-  $DB = DBConnection::getDBConnection();
+function delete_ProductPriceDBO( ProductPriceDBO $dbo ) {
+    $DB = DBConnection::getDBConnection();
 
-  // Build DELETE query
-  $sql = $DB->build_delete_sql( "productprice",
-				sprintf( "productid=%d AND type='%s' AND termlength=%d",
-					 $dbo->getProductID(),
-					 $dbo->getType(),
-					 $dbo->getTermLength() ) );
-  
-  // Run query
-  if( !mysql_query( $sql, $DB->handle() ) )
-    {
-      throw new DBException();
+    // Build DELETE query
+    $sql = $DB->build_delete_sql( "productprice",
+            sprintf( "productid=%d AND type='%s' AND termlength=%d",
+            $dbo->getProductID(),
+            $dbo->getType(),
+            $dbo->getTermLength() ) );
+
+    // Run query
+    if( !mysql_query( $sql, $DB->handle() ) ) {
+        throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
 
@@ -135,42 +131,39 @@ function delete_ProductPriceDBO( ProductPriceDBO $dbo )
  * @param integer Term length
  * @return ProductPriceDBO ProductPriceDBO, or null if not found
  */
-function load_ProductPriceDBO( $productid, $type, $termLength )
-{
-  $DB = DBConnection::getDBConnection();
+function load_ProductPriceDBO( $productid, $type, $termLength ) {
+    $DB = DBConnection::getDBConnection();
 
-  // Build query
-  $sql = $DB->build_select_sql( "productprice",
-				"*",
-				sprintf( "productid=%d AND type='%s' AND termlength=%d",
-					 $productid,
-					 $type,
-					 $termLength ),
-				null,
-				null,
-				null,
-				null );
+    // Build query
+    $sql = $DB->build_select_sql( "productprice",
+            "*",
+            sprintf( "productid=%d AND type='%s' AND termlength=%d",
+            $productid,
+            $type,
+            $termLength ),
+            null,
+            null,
+            null,
+            null );
 
-  // Run query
-  if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
-    {
-      // Query error
-      throw new DBException();
+    // Run query
+    if( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
+        // Query error
+        throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-  if( mysql_num_rows( $result ) == 0 )
-    {
-      // No rows found
-      throw new DBNoRowsFoundException();
+    if( mysql_num_rows( $result ) == 0 ) {
+        // No rows found
+        throw new DBNoRowsFoundException();
     }
 
-  // Load a new ProductPriceDBO
-  $dbo = new ProductPriceDBO();
-  $data = mysql_fetch_array( $result );
-  $dbo->load( $data );
-  
-  // Return the new UserDBO
-  return $dbo;
+    // Load a new ProductPriceDBO
+    $dbo = new ProductPriceDBO();
+    $data = mysql_fetch_array( $result );
+    $dbo->load( $data );
+
+    // Return the new UserDBO
+    return $dbo;
 }
 
 /**
@@ -184,47 +177,43 @@ function load_ProductPriceDBO( $productid, $type, $termLength )
  * @return array Array of ProductDBO's
  */
 function load_array_ProductPriceDBO( $filter = null,
-				     $sortby = null,
-				     $sortdir = null,
-				     $limit = null,
-				     $start = null )
-{
-  $DB = DBConnection::getDBConnection();
+        $sortby = null,
+        $sortdir = null,
+        $limit = null,
+        $start = null ) {
+    $DB = DBConnection::getDBConnection();
 
-  // Build query
-  $sql = $DB->build_select_sql( "productprice",
-				"*",
-				$filter,
-				$sortby,
-				$sortdir,
-				$limit,
-				$start );
+    // Build query
+    $sql = $DB->build_select_sql( "productprice",
+            "*",
+            $filter,
+            $sortby,
+            $sortdir,
+            $limit,
+            $start );
 
-  // Run query
-  if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
-    {
-      // Query error
-      throw new DBException();
+    // Run query
+    if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
+        // Query error
+        throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-  if( mysql_num_rows( $result ) == 0 )
-    {
-      // No services found
-      throw new DBNoRowsFoundException();
+    if( mysql_num_rows( $result ) == 0 ) {
+        // No services found
+        throw new DBNoRowsFoundException();
     }
 
-  // Build an array of ProductPriceDBOs from the result set
-  $price_dbo_array = array();
-  while( $data = mysql_fetch_array( $result ) )
-    {
-      // Create and initialize a new ProductDBO with the data from the DB
-      $dbo = new ProductPriceDBO();
-      $dbo->load( $data );
+    // Build an array of ProductPriceDBOs from the result set
+    $price_dbo_array = array();
+    while( $data = mysql_fetch_array( $result ) ) {
+        // Create and initialize a new ProductDBO with the data from the DB
+        $dbo = new ProductPriceDBO();
+        $dbo->load( $data );
 
-      // Add ProductDBO to array
-      $price_dbo_array[] = $dbo;
+        // Add ProductDBO to array
+        $price_dbo_array[] = $dbo;
     }
 
-  return $price_dbo_array;
+    return $price_dbo_array;
 }
 ?>

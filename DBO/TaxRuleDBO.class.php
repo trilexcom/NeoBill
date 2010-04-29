@@ -194,14 +194,14 @@ function add_TaxRuleDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      throw new DBException();
+      throw new DBException( mysql_error( $DB->handle() ) );
     }
 
   // Get auto-increment ID
   $id = mysql_insert_id( $DB->handle() );
 
   // Validate ID
-  if( $id == false )
+  if( $id === false )
     {
       // DB error
       throw new DBException( "Could not retrieve ID from previous INSERT!" );
@@ -237,7 +237,7 @@ function update_TaxRuleDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      throw new DBException();
+      throw new DBException( mysql_error( $DB->handle() ) );
     }
 
   return true;
@@ -260,7 +260,7 @@ function delete_TaxRuleDBO( &$dbo )
   // Run query
   if( !mysql_query( $sql, $DB->handle() ) )
     {
-      throw new DBException();
+      throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
 
@@ -287,7 +287,7 @@ function load_TaxRuleDBO( $id )
   if( !($result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      throw new DBException();
+      throw new DBException( mysql_error( $DB->handle() ) );
     }
 
   if( mysql_num_rows( $result ) == 0 )
@@ -336,7 +336,7 @@ function &load_array_TaxRuleDBO( $filter = null,
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // Query error
-      throw new DBException();
+      throw new DBException( mysql_error( $DB->handle() ) );
     }
 
   if( mysql_num_rows( $result ) == 0 )
@@ -390,14 +390,14 @@ function count_all_TaxRuleDBO( $filter = null )
   if( !( $result = @mysql_query( $sql, $DB->handle() ) ) )
     {
       // SQL error
-      throw new DBException();
+      throw new DBException( mysql_error( $DB->handle() ) );
     }
 
   // Make sure the number of rows returned is exactly 1
   if( mysql_num_rows( $result ) != 1 )
     {
       // This must return 1 row
-      throw new DBException();
+      throw new DBException( "Expected exactly one row from count query" );
     }
 
   $data = mysql_fetch_array( $result );

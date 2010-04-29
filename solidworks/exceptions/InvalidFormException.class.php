@@ -30,7 +30,7 @@ class InvalidFormException extends SWException
   /**
    * @var array An array of FieldExceptions
    */
-  private $fExceptions = array();
+  private $fieldExceptions = array();
 
   /**
    * @var array Form data
@@ -46,13 +46,13 @@ class InvalidFormException extends SWException
    */
   public function __construct( $fieldExceptions, $formData )
   {
-    $this->fExceptions = $fieldExceptions;
+    $this->fieldExceptions = $fieldExceptions;
     $this->formData = $formData;
 
     // Build error message
-    foreach( $this->fExceptions as $fException )
+    foreach( $this->fieldExceptions as $exception )
       {
-	$this->message .= "\n\t" . $fException->__toString();
+	$this->message .= "\n\t" . $exception->__toString();
       }
   }
 
@@ -61,7 +61,7 @@ class InvalidFormException extends SWException
    *
    * @return array Field Exceptions
    */
-  public function getFieldExceptions() { return $this->fExceptions; }
+  public function getFieldExceptions() { return $this->fieldExceptions; }
 
   /**
    * Get Form Data

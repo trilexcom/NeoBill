@@ -18,30 +18,30 @@
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
- */
+*/
 
-  require_once BASE_PATH . "include/menu_item.class.php";
+require_once BASE_PATH . "include/menu_item.class.php";
 
-  class Menu {
+class Menu {
     /*
      *
-     */
+    */
     function instance($instance = null) {
-      static $u;
-      if (!is_null($instance)) {
-        $u = $instance;
-      }
-      return $u;
+        static $u;
+        if (!is_null($instance)) {
+            $u = $instance;
+        }
+        return $u;
     }
-    
+
     /*
      *
-     */
+    */
     function test1() {
-      return Menu::instance();
+        return Menu::instance();
     }
     function test2() {
-      return Menu::instance('test2');
+        return Menu::instance('test2');
     }
     function test3() {
 //      return Menu::$instance;
@@ -50,17 +50,17 @@
 //      Menu::$instance = 'test4';
 //      return Menu::$instance;
     }
-    
-  /**
-   * @var SolidStateMenu The singleton instance
-   */
-  //static $instance = null;
 
-  /**
-   * Initialize SolidStateMenu Singleton
-   *
-   * @return SolidStateMenu The SolidStateMenu instance
-   */
+    /**
+     * @var SolidStateMenu The singleton instance
+     */
+    //static $instance = null;
+
+    /**
+     * Initialize SolidStateMenu Singleton
+     *
+     * @return SolidStateMenu The SolidStateMenu instance
+     */
     /*
   public static function getSolidStateMenu()
   {
@@ -237,34 +237,34 @@
 
   /**
    * @var integer The next item id
-   */
+    */
     /*
   protected $nextItemID = 1;
 
   /**
    *
    * @var SolidStateMenuItem Root menu item
-   */
+    */
     /*
   protected $rootItem = null;
 
   /**
    * Constructor
-   */
-   /*
+    */
+    /*
   protected function __construct()
   {
     $this->rootItem = new SolidStateMenuItem( "root", "root" );
   }
     */
 
-  /**
-   * Add Item
-   *
-   * @param SolidStateMenuItem Menu item to add
-   * @param string $parentName The name of the parent item or null
-   */
-  /*
+    /**
+     * Add Item
+     *
+     * @param SolidStateMenuItem Menu item to add
+     * @param string $parentName The name of the parent item or null
+     */
+    /*
   public function addItem( SolidStateMenuItem $item, $parentName = null )
   {
     if( null != ($result = $this->getItem( $item->getName() )) )
@@ -287,8 +287,8 @@
    *
    * @param string $name The name of the item to find
    * @return SolidStateMenuItem The item if found, null otherwise
-   */
-  /*
+    */
+    /*
   public function getItem( $name )
   {
     if( $name == "root" )
@@ -305,12 +305,12 @@
    * Flatten the menu into an array
    *
    * @return array A flattened array of menu item data
-   */
-  /*
+    */
+    /*
   public function getItemArray()
   {
     return $this->rootItem->toArray();
   }
-  */
+    */
 }
 ?>
