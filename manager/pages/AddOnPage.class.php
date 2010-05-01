@@ -21,18 +21,16 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AddOnPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   addon_action (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-  }
+class AddOnPage extends SolidStatePage {
+    /**
+     * Action
+     *
+     * Actions handled by this page:
+     *   addon_action (form)
+     *
+     * @param string $action_name Action
+     */
+    function action( $action_name ) {
+    }
 }
 ?>

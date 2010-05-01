@@ -15,8 +15,8 @@
         {$log.text}
       {/form_table_column}
 
-      {form_table_column columnid="user" header="[USER]"}
-        {$log.user}
+      {form_table_column columnid="username" header="[USER]"}
+        {$log.username}
       {/form_table_column}
 
       {form_table_column columnid="ip" header="[IP]"}

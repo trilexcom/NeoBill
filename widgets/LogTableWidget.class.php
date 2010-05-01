@@ -39,7 +39,7 @@ class LogTableWidget extends TableWidget
 	      array( "id" => $dbo->getID(),
 		     "type" => $dbo->getType(),
 		     "text" => $dbo->getText(),
-		     "user" => $dbo->getUsername(),
+		     "username" => $dbo->getUsername(),
 		     "ip" => $dbo->getRemoteIPString(),
 		     "date" => $dbo->getDate() );
 	  }

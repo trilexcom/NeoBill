@@ -21,115 +21,105 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AssignDomainPage extends SolidStatePage
-{
-  /**
-   * Actions
-   *
-   * Actions handled by this page:
-   *   assign_domain (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "assign_domain":
-	if( isset( $this->post['continue'] ) )
-	  {
-	    // Add service to account
-	    $this->assign_service();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    // Cancel
-	    $this->goback();
-	  }
-	elseif( isset( $this->post['tld'] ) )
-	  {
-	    $this->updatePrices( $this->post['tld'] );
-	  }
-	break;
+class AssignDomainPage extends SolidStatePage {
+    /**
+     * Actions
+     *
+     * Actions handled by this page:
+     *   assign_domain (form)
+     *
+     * @param string $action_name Action
+     */
+    function action( $action_name ) {
+        switch( $action_name ) {
+            case "assign_domain":
+                if( isset( $this->post['continue'] ) ) {
+                    // Add service to account
+                    $this->assign_service();
+                }
+                elseif( isset( $this->post['cancel'] ) ) {
+                    // Cancel
+                    $this->goback();
+                }
+                elseif( isset( $this->post['tld'] ) ) {
+                    $this->updatePrices( $this->post['tld'] );
+                }
+                break;
 
-      default:
-	// No matching action - refer to base class
-	parent::action( $action_name );
-      }
-  }
+            default:
+            // No matching action - refer to base class
+                parent::action( $action_name );
+        }
+    }
 
-  /**
-   * Assign Domain Service
-   *
-   * Create a DomainServicePurchaseDBO and add it to the database
-   */
-  public function assign_service()
-  {
-    // The domain name is required but not configured as such.  This is to allow the 
-    // page to update the price dynamically
-    if( !isset( $this->post['domainname'] ) )
-      {
-	throw new FieldMissingException( "domainname" );
-      }
+    /**
+     * Assign Domain Service
+     *
+     * Create a DomainServicePurchaseDBO and add it to the database
+     */
+    public function assign_service() {
+        // The domain name is required but not configured as such.  This is to allow the
+        // page to update the price dynamically
+        if( !isset( $this->post['domainname'] ) ) {
+            throw new FieldMissingException( "domainname" );
+        }
 
-    // Create new DomainServicePurchase DBO
-    $purchase_dbo = new DomainServicePurchaseDBO();
-    $purchase_dbo->setAccountID( $this->get['account']->getID() );
-    $purchase_dbo->setTLD( $this->post['tld']->getTLD() );
-    $purchase_dbo->setTerm( $this->post['term'] ?
-			    $this->post['term']->getTermLength() : null );
-    $purchase_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
-    $purchase_dbo->setDomainName( $this->post['domainname'] );
-    $purchase_dbo->setNote( $this->post['note'] );
+        // Create new DomainServicePurchase DBO
+        $purchase_dbo = new DomainServicePurchaseDBO();
+        $purchase_dbo->setAccountID( $this->get['account']->getID() );
+        $purchase_dbo->setTLD( $this->post['tld']->getTLD() );
+        $purchase_dbo->setTerm( $this->post['term'] ?
+                $this->post['term']->getTermLength() : null );
+        $purchase_dbo->setDate( DBConnection::format_datetime( $this->post['date'] ) );
+        $purchase_dbo->setDomainName( $this->post['domainname'] );
+        $purchase_dbo->setNote( $this->post['note'] );
 
-    // Save purchase
-    add_DomainServicePurchaseDBO( $purchase_dbo );
-    
-    // Success
-    $this->setMessage( array( "type" => "[DOMAIN_ASSIGNED]" ) );
-    $this->gotoPage( "accounts_view_account",
-		 null,
-		 "action=domains&account=" . $this->get['account']->getID() );
-  }
+        // Save purchase
+        add_DomainServicePurchaseDBO( $purchase_dbo );
 
-  /**
-   * Initialize Assign Domain Page
-   *
-   * If an Account ID is provided in the query string, load that AccountDBO
-   * and store it in the session.  Otherwise, continue using the DBO that is
-   * already there.
-   */
-  public function init()
-  {
-    parent::init();
+        // Success
+        $this->setMessage( array( "type" => "[DOMAIN_ASSIGNED]" ) );
+        $this->gotoPage( "accounts_view_account",
+                null,
+                "action=domains&account=" . $this->get['account']->getID() );
+    }
 
-    // Set URL Fields
-    $this->setURLField( "account", $this->get['account']->getID() );
+    /**
+     * Initialize Assign Domain Page
+     *
+     * If an Account ID is provided in the query string, load that AccountDBO
+     * and store it in the session.  Otherwise, continue using the DBO that is
+     * already there.
+     */
+    public function init() {
+        parent::init();
 
-    // Store account DBO in session
-    $this->session['account_dbo'] =& $this->get['account'];
+        // Set URL Fields
+        $this->setURLField( "account", $this->get['account']->getID() );
 
-    try { $services = load_array_DomainServiceDBO(); }
-    catch( DBNoRowsFoundException $e )
-      {
-	throw new SWUserException( "[THERE_ARE_NO_DOMAIN_SERVICES]" );
-      }
+        // Store account DBO in session
+        $this->session['account_dbo'] =& $this->get['account'];
 
-    if( !isset( $this->post['tld'] ) )
-      {
-	$this->updatePrices( array_shift( $services ) );
-      }
-  }
+        try {
+            $services = load_array_DomainServiceDBO();
+        }
+        catch( DBNoRowsFoundException $e ) {
+            throw new SWUserException( "[THERE_ARE_NO_DOMAIN_SERVICES]" );
+        }
 
-  /**
-   * Update Prices Box
-   *
-   * @param DomainServiceDBO The domain service to show prices for
-   */
-  protected function updatePrices( DomainServiceDBO $serviceDBO )
-  {
-    // Update the service terms box
-    $widget = $this->forms['assign_domain']->getField( "term" )->getWidget();
-    $widget->setPurchasable( $serviceDBO );
-  }
+        if( !isset( $this->post['tld'] ) ) {
+            $this->updatePrices( array_shift( $services ) );
+        }
+    }
+
+    /**
+     * Update Prices Box
+     *
+     * @param DomainServiceDBO The domain service to show prices for
+     */
+    protected function updatePrices( DomainServiceDBO $serviceDBO ) {
+        // Update the service terms box
+        $widget = $this->forms['assign_domain']->getField( "term" )->getWidget();
+        $widget->setPurchasable( $serviceDBO );
+    }
 }

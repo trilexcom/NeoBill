@@ -21,53 +21,46 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AccountsPage extends SolidStatePage
-{
+class AccountsPage extends SolidStatePage {
 
-  /**
-   * Initialize Accounts Page
-   *
-   * Gather account stats from the database and assign them to template variables.
-   */
-  function init()
-  {
-    parent::init();
+    /**
+     * Initialize Accounts Page
+     *
+     * Gather account stats from the database and assign them to template variables.
+     */
+    function init() {
+        parent::init();
 
-    // Account Summary
-    $active_accounts   = count_all_AccountDBO( "status='Active'" );
-    $inactive_accounts = count_all_AccountDBO( "status='Inactive'" );
-    $pending_accounts  = count_all_AccountDBO( "status='Pending'" );
-    $total_accounts    = $active_accounts + $inactive_accounts;
-    $this->smarty->assign( "active_accounts_count",   $active_accounts );
-    $this->smarty->assign( "inactive_accounts_count", $inactive_accounts );
-    $this->smarty->assign( "pending_accounts_count",  $pending_accounts );
-    $this->smarty->assign( "total_accounts",          $total_accounts );
+        // Account Summary
+        $active_accounts   = count_all_AccountDBO( "status='Active'" );
+        $inactive_accounts = count_all_AccountDBO( "status='Inactive'" );
+        $pending_accounts  = count_all_AccountDBO( "status='Pending'" );
+        $total_accounts    = $active_accounts + $inactive_accounts;
+        $this->smarty->assign( "active_accounts_count",   $active_accounts );
+        $this->smarty->assign( "inactive_accounts_count", $inactive_accounts );
+        $this->smarty->assign( "pending_accounts_count",  $pending_accounts );
+        $this->smarty->assign( "total_accounts",          $total_accounts );
+    }
 
-  }
+    /**
+     * Action
+     *
+     * Actions handled by this page:
+     *  none
+     *
+     * @param string $action_name Action
+     */
+    function action( $action_name ) {
+        switch ( $action_name ) {
+            case "search_all_accounts":
+                $this->searchTable( "active_accounts", "accounts", $this->post );
+                break;
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *  none
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      
-        case "search_all_accounts":
-	$this->searchTable( "active_accounts", "accounts", $this->post );
-	break;
-        default:
-
-	// No matching action, refer to base class
-	parent::action( $action_name );
-
-      }
-  }
+            default:
+                // No matching action, refer to base class
+                parent::action( $action_name );
+        }
+    }
 }
 
 ?>

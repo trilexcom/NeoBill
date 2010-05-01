@@ -21,36 +21,31 @@ require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ConfigureUsersPage extends SolidStateAdminPage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   users_action (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "users_action":
-	if( isset( $this->post['add'] ) )
-	  {
-	    // Goto new user page
-	    $this->gotoPage( "config_new_user" );
-	  }
-	break;
+class ConfigureUsersPage extends SolidStateAdminPage {
+    /**
+     * Action
+     *
+     * Actions handled by this page:
+     *   users_action (form)
+     *
+     * @param string $action_name Action
+     */
+    function action( $action_name ) {
+        switch( $action_name ) {
+            case "users_action":
+                if( isset( $this->post['add'] ) ) {
+                    $this->gotoPage( "config_new_user" );
+                }
+                break;
 
-      case "search_users":
-	$this->searchTable( "users", "users", $this->post );
-	break;
+            case "search_users":
+                $this->searchTable( "users", "users", $this->post );
+                break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+            default:
+            // No matching action, refer to base class
+                parent::action( $action_name );
+        }
+    }
 }
 ?>

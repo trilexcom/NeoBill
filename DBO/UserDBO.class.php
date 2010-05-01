@@ -159,7 +159,7 @@ class UserDBO extends DBO {
      * @param string $type User type (Administrator, Account Manager)
      */
     function setType( $type ) {
-        if( !($type == "Account Manager" || $type == "Administrator" || $type == "Client" ) ) {
+        if ( !($type == "Account Manager" || $type == "Administrator" || $type == "Client" ) ) {
             // Bad value
             throw new SWException( "Invalid User type: " . $type );
         }
@@ -214,12 +214,12 @@ function load_UserDBO( $username ) {
             null );
 
     // Run query
-    if( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
+    if ( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
         // Query error
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-    if( mysql_num_rows( $result ) == 0 ) {
+    if ( mysql_num_rows( $result ) == 0 ) {
         // User not found
         throw new DBNoRowsFoundException();
     }
@@ -249,13 +249,13 @@ function count_all_UserDBO( $filter = null ) {
     $sql = "SELECT COUNT(*) FROM user";
 
     // Run Query
-    if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
+    if ( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
         // Query error
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 
     // Make sure the number of rows returned is exactly 1
-    if( mysql_num_rows( $result ) != 1 ) {
+    if ( mysql_num_rows( $result ) != 1 ) {
         // This must return 1 row
         throw new DBException( "Count query should return only one row" );
     }
@@ -291,12 +291,12 @@ function load_array_UserDBO( $filter  = null,
             $start );
 
     // Run query
-    if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
+    if ( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
         // Query error
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-    if( mysql_num_rows( $result ) == 0 ) {
+    if ( mysql_num_rows( $result ) == 0 ) {
         // No Users found
         throw new DBNoRowsFoundException();
     }
@@ -336,7 +336,7 @@ function add_UserDBO( UserDBO $dbo ) {
             "theme" => $dbo->getTheme() ) );
 
     // Execute
-    if( !mysql_query( $sql, $DB->handle() ) ) {
+    if ( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
@@ -362,7 +362,7 @@ function update_UserDBO( UserDBO $dbo ) {
             "theme" => $dbo->getTheme() ) );
 
     // Run query
-    if( !mysql_query( $sql, $DB->handle() ) ) {
+    if ( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
@@ -382,7 +382,7 @@ function delete_UserDBO( &$dbo ) {
             $DB->quote_smart( $dbo->getUsername() ) );
 
     // Run query
-    if( !mysql_query( $sql, $DB->handle() ) ) {
+    if ( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 }

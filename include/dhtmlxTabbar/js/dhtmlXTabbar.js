@@ -184,9 +184,9 @@ dhtmlXTabBar.prototype._setSizes = function(){
  this._tabAll.width=this.width;
 
  if(this._tabZone.childNodes.length)
- var z=this._tabZone.lastChild.offsetTop-this._tabZone.firstChild.offsetTop+this._height;
+   var z=this._tabZone.lastChild.offsetTop-this._tabZone.firstChild.offsetTop+this._height;
  else
- var z=this._height+(_isIE?5:0);
+   var z=this._height+(_isIE?5:0);
 
  var a=z-2;
  this._tabZone.style.height=(a>0?a:0)+"px";

@@ -226,16 +226,16 @@ class Page {
 
         // Proccess POST data
         try {
-            if( !isset( $this->forms[$form_name] ) ) {
+            if ( !isset( $this->forms[$form_name] ) ) {
                 throw new SWException( "Invalid form name: " . $form_name );
             }
 
             $this->post =& $this->session[$form_name];
             $this->session[$form_name] = $this->forms[$form_name]->process( $_POST );
         }
-        catch( InvalidFormException $e ) {
+        catch ( InvalidFormException $e ) {
             // Create a page error for each invalid field
-            foreach( $e->getFieldExceptions() as $fieldException ) {
+            foreach ( $e->getFieldExceptions() as $fieldException ) {
                 $this->exception( $fieldException );
             }
 
@@ -338,7 +338,7 @@ class Page {
         $this->conf = $conf;
         $this->smarty = $smarty;
 
-        if( get_class( $this ) != "Page" ) {
+        if ( get_class( $this ) != "Page" ) {
             // This is a subclass - load the page data from the configuration data
             $page_data = $conf['pages'][$this->getClassName()];
             $this->setTitle( $page_data['title'] );
@@ -357,14 +357,14 @@ class Page {
             $this->urlForm = new Form( "url", $page_data );
 
             // Load any forms configured for this Page
-            foreach( $conf['forms'] as $form_name => $form_data ) {
-                if( $form_data['page'] == $this->getName() ) {
+            foreach ( $conf['forms'] as $form_name => $form_data ) {
+                if ( $form_data['page'] == $this->getName() ) {
                     // Add this form
                     $this->addForm( new Form( $form_name, $form_data ) );
                 }
             }
 
-            if( !isset( $_SESSION[$this->getName()] ) ) {
+            if ( !isset( $_SESSION[$this->getName()] ) ) {
                 // Create a place holder in the session for this Page's data
                 $_SESSION[$this->getName()] = array();
             }
@@ -425,14 +425,14 @@ class Page {
             $lastPage = array_pop( $_SESSION['navstack'] );
         }
 
-        if( isset( $lastPage ) ) {
+        if ( isset( $lastPage ) ) {
             // Jump back
             header( "Location: " . $lastPage['url'] );
             exit();
         }
 
         // Nav stack is empty
-        fatal_error( $this->getClassName(), "No page to jump back too!" );
+        fatal_error( $this->getClassName(), "No page to jump back to!" );
     }
 
     /**
@@ -462,9 +462,9 @@ class Page {
 
         // Find page
         foreach( $conf['pages'] as $page_key => $page_data ) {
-            if( $page_data['name'] == $page_name ) {
+            if ( $page_data['name'] == $page_name ) {
                 // Page found
-                if( isset( $messages ) ) {
+                if ( isset( $messages ) ) {
                     // Hand messages over to new page
                     $_SESSION[$page_data['name']]['messages'] = $messages;
                 }
@@ -475,13 +475,11 @@ class Page {
 
                 // Redirect client
                 $url = $page_data['url'];
-                if( isset( $url_tail ) ) {
+                if ( isset( $url_tail ) ) {
                     // Append URL
                     $url .= "&" . $url_tail;
                 }
                 header( "Location: " . $url );
-
-                // Do not continue
                 exit();
             }
         }
@@ -502,7 +500,7 @@ class Page {
      * @param string $hook The name of the hook
      */
     function hookGoto( $moduleName, $hook, $queryString = null ) {
-        if( !isset( $this->conf['hooks'][$moduleName][$hook] ) ) {
+        if ( !isset( $this->conf['hooks'][$moduleName][$hook] ) ) {
             fatal_error( "Page::hookGoto()",
                     "Invalid modules or hook: " . $hook . "(" . $moduleName . ")" );
         }
@@ -563,7 +561,7 @@ class Page {
 
         // Insert arguments into message
         $text = $error['type'];
-        if( isset( $error['args'] ) ) {
+        if ( isset( $error['args'] ) ) {
             foreach( $error['args'] as $i => $arg ) {
                 $text = str_replace( "{" . $i . "}", $arg, $text );
             }
@@ -609,7 +607,7 @@ class Page {
      * @param string $action_name Action name
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "swtablesort":
                 $this->session['tables']['sortform'] = $this->get['swtableform'];
                 $this->session['tables']['sorttable'] = $this->get['swtablename'];
@@ -623,9 +621,9 @@ class Page {
                 $widget = $this->forms[$this->get['swtableform']]->getField( $this->get['swtablename'] )->getWidget();
                 $widget->setStartIndex( $this->get['swtablestart'] );
                 break;
-
+            
             case "logout":
-            // Log the client out by redirecting to the default URL
+                // Log the client out by redirecting to the default URL
                 header( "Location: manager_content.php" );
                 break;
 
