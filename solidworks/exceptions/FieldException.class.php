@@ -20,6 +20,9 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
+
+require_once dirname(__FILE__).'/../SWException.class.php';
+
 class FieldException extends SWUserException
 {
   const MESSAGE = 'The %s field is invalid (contents: %s).';

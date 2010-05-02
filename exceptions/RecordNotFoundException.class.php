@@ -10,8 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require_once dirname(__FILE__).'/../solidworks/exceptions/FieldException.class.php';
+
 // Base class
-require_once BASE_PATH . "solidworks/exceptions/FieldException.class.php";
 
 /**
  * RecordNotFoundException

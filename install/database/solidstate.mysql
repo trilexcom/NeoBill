@@ -525,7 +525,7 @@ create table `user` (
   `username` varchar(32) not null default '',
   `password` varchar(32) not null default '',
   `type` enum('Account Manager','Administrator','Client') not null,
-  `name` varchar(255) not null,
+  `contactname` varchar(255) not null,
   `email` varchar(255) not null,
   `language` varchar(255) not null,
   `theme` varchar(255) not null default 'default',

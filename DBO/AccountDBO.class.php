@@ -21,6 +21,10 @@
  * @author John Diamond <jdiamond@solid-state.org>
  * @author Yves Kreis <yves@hosting-skills.org>
  */
+
+require_once dirname(__FILE__).'/../solidworks/DBO.class.php';
+require_once dirname(__FILE__).'/../DBO/UserDBO.class.php';
+
 class AccountDBO extends DBO {
     /**
      * @var integer Account ID

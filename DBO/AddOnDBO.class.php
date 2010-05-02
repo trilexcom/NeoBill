@@ -18,6 +18,9 @@
  * @pacakge DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
+
+require_once dirname(__FILE__).'/../DBO/PurchasableDBO.class.php';
+
 class AddOnDBO extends PurchasableDBO {
     /**
      * @var string Add-On description
