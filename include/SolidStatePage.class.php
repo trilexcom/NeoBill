@@ -10,6 +10,9 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require_once dirname(__FILE__).'/../config/config.inc.php';
+require_once dirname(__FILE__).'/../solidworks/Page.class.php';
+
 // SolidState DBO's
 require BASE_PATH . "DBO/ContactDBO.class.php";
 require BASE_PATH . "DBO/PriceDBO.class.php";

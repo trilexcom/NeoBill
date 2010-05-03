@@ -10,12 +10,13 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require BASE_PATH . "solidworks/FieldValidatorFactory.class.php";
-require BASE_PATH . "solidworks/WidgetFactory.class.php";
-require BASE_PATH . "solidworks/FormField.class.php";
+require_once dirname(__FILE__).'/../config/config.inc.php';
+require_once BASE_PATH . "solidworks/FieldValidatorFactory.class.php";
+require_once BASE_PATH . "solidworks/WidgetFactory.class.php";
+require_once BASE_PATH . "solidworks/FormField.class.php";
 
 // Exceptioncs
-require BASE_PATH . "solidworks/exceptions/FormCanceledException.class.php";
+require_once BASE_PATH . "solidworks/exceptions/FormCanceledException.class.php";
 
 /**
  * Form

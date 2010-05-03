@@ -39,11 +39,11 @@ if (isset($_POST['database'])) {
 <form action="index.php" method="post">
     <table border="0" cellpadding="5" summary="Database Setup"><tr>
             <td class="dbtitle"><?php echo _INSTALLERDBHOSTNAME; ?>:</td>
-            <td><input type="text" name="hostname" value="<? echo $hostname; ?>" /></td>
+            <td><input type="text" name="hostname" value="<?php echo $hostname; ?>" /></td>
             <td class="dbdescription"><?php echo _INSTALLERDBHOSTNAMEEXPLANATION; ?></td>
         </tr><tr>
             <td class="dbtitle"><?php echo _INSTALLERDBUSERNAME; ?>:</td>
-            <td><input type="text" name="username" value="<? echo $username; ?>"/></td>
+            <td><input type="text" name="username" value="<?php echo $username; ?>"/></td>
             <td class="dbdescription"><?php echo _INSTALLERDBUSERNAMEEXPLANATION; ?></td>
         </tr><tr>
             <td class="dbtitle"><?php echo _INSTALLERDBPASSWORD; ?>:</td>
@@ -51,7 +51,7 @@ if (isset($_POST['database'])) {
             <td class="dbdescription"><?php echo _INSTALLERDBPASSWORDEXPLANATION; ?></td>
         </tr><tr>
             <td class="dbtitle"><?php echo _INSTALLERDBDATABASE; ?>:</td>
-            <td><input type="text" name="database" value="<? echo $database; ?>"/></td>
+            <td><input type="text" name="database" value="<?php echo $database; ?>"/></td>
             <td class="dbdescription"><?php echo _INSTALLERDBDATABASEEXPLANATION; ?></td>
         </tr><tr>
             <td class="dbtitle"><?php echo _INSTALLERDBCREATE; ?>:</td>

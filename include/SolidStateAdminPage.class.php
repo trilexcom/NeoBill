@@ -10,7 +10,7 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once 'SolidStatePage.class.php';
 
 /**
  * AdminPage
@@ -22,15 +22,15 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @author John Diamond <jdiamond@solid-state.org>
  */
 class SolidStateAdminPage extends SolidStatePage {
-    /**
-     * Control Access
-     *
-     * Determine if the user has Administrator status.
-     *
-     * @return boolean True if access is granted, false otherwise
-     */
-    function control_access() {
-        // return true if user is "Administrator" type
-        return ( $_SESSION['client']['userdbo']->getType() == "Administrator" );
-    }
+	/**
+	 * Control Access
+	 *
+	 * Determine if the user has Administrator status.
+	 *
+	 * @return boolean True if access is granted, false otherwise
+	 */
+	function control_access() {
+		// return true if user is "Administrator" type
+		return ( $_SESSION['client']['userdbo']->getType() == "Administrator" );
+	}
 }

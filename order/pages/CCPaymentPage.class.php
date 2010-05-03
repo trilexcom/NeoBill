@@ -22,114 +22,106 @@ require_once BASE_PATH . "DBO/OrderDBO.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class CCPaymentPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "creditcard":
-	if( isset( $this->post['authorize'] ) )
-	  {
-	    $this->processCard();
-	  }
-	elseif( isset( $this->post['back'] ) )
-	  {
-	    $this->back();
-	  }
-	elseif( isset( $this->post['startover'] ) )
-	  {
-	    $this->newOrder();
-	  }
-	break;
+class CCPaymentPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch( $action_name ) {
+			case "creditcard":
+				if ( isset( $this->post['authorize'] ) ) {
+					$this->processCard();
+				}
+				elseif ( isset( $this->post['back'] ) ) {
+					$this->back();
+				}
+				elseif ( isset( $this->post['startover'] ) ) {
+					$this->newOrder();
+				}
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Go Back (to Review Page)
-   */
-  function back() { $this->gotoPage( "review" ); }
+	/**
+	 * Go Back (to Review Page)
+	 */
+	function back() {
+		$this->gotoPage( "review" );
+	}
 
-  /**
-   * Initialize Page
-   */
-  function init()
-  {
-    parent::init();
+	/**
+	 * Initialize Page
+	 */
+	function init() {
+		parent::init();
 
-    // Reference the order object from the local session so the template can see it
-    $this->session['order'] =& $_SESSION['order'];
+		// Reference the order object from the local session so the template can see it
+		$this->session['order'] =& $_SESSION['order'];
 
-    // Supress the login link
-    $this->smarty->assign( "supressWelcome", true );
-  }
+		// Supress the login link
+		$this->smarty->assign( "supressWelcome", true );
+	}
 
-  /**
-   * Start New Order
-   */
-  function newOrder()
-  {
-    // Start a new order
-    unset( $_SESSION['order'] );
-    $this->gotoPage( "cart" );
-  }
+	/**
+	 * Start New Order
+	 */
+	function newOrder() {
+		// Start a new order
+		unset( $_SESSION['order'] );
+		$this->gotoPage( "cart" );
+	}
 
-  /**
-   * Process Credit Card Payment
-   */
-  function processCard()
-  {
-    // Update contact information
-    $billingContact = new ContactDBO( $this->post['contactname'],
-				      null,
-				      null,
-				      $this->post['address1'],
-				      $this->post['address2'],
-				      $this->post['city'],
-				      $this->post['state'],
-				      $this->post['postalcode'],
-				      $this->post['country'],
-				      $this->post['phone'],
-				      null,
-				      null );
-    // Format the expire date
-    $expireDate = date( "my", $this->post['cardexpire'] );
+	/**
+	 * Process Credit Card Payment
+	 */
+	function processCard() {
+		// Update contact information
+		$billingContact = new ContactDBO( $this->post['contactname'],
+				null,
+				null,
+				$this->post['address1'],
+				$this->post['address2'],
+				$this->post['city'],
+				$this->post['state'],
+				$this->post['postalcode'],
+				$this->post['country'],
+				$this->post['phone'],
+				null,
+				null );
+		// Format the expire date
+		$expireDate = date( "my", $this->post['cardexpire'] );
 
-    // Create a new Payment DBO and process the payment
-    $paymentDBO = new PaymentDBO();
-    $paymentDBO->setType( "Module" );
-    $paymentDBO->setModule( $_SESSION['module']->getName() );
-    $paymentDBO->setOrderID( $this->session['order']->getID() );
-    $paymentDBO->setAmount( $this->session['order']->getTotal() );
-    if( !$paymentDBO->processCreditCard( $billingContact,
-					 $this->post['cardnumber'],
-					 $expireDate,
-					 $this->post['cardcode'],
-					 $this->conf['payment_gateway']['order_method'] ) )
-      {
-	$this->setError( array( "type" => "CC_PROCESSING_ERROR" ) );
-	$this->reload();
-      }
+		// Create a new Payment DBO and process the payment
+		$paymentDBO = new PaymentDBO();
+		$paymentDBO->setType( "Module" );
+		$paymentDBO->setModule( $_SESSION['module']->getName() );
+		$paymentDBO->setOrderID( $this->session['order']->getID() );
+		$paymentDBO->setAmount( $this->session['order']->getTotal() );
+		if( !$paymentDBO->processCreditCard( $billingContact,
+			$this->post['cardnumber'],
+			$expireDate,
+			$this->post['cardcode'],
+			$this->conf['payment_gateway']['order_method'] ) ) {
+			$this->setError( array( "type" => "CC_PROCESSING_ERROR" ) );
+			$this->reload();
+		}
 
-    // Card processed, save the payment DBO
-    add_PaymentDBO( $paymentDBO );
+		// Card processed, save the payment DBO
+		add_PaymentDBO( $paymentDBO );
 
-    // Complete the order
-    $_SESSION['order']->complete();
+		// Complete the order
+		$_SESSION['order']->complete();
 
-    // Show receipt
-    $this->gotoPage( "receipt" );
-  }
+		// Show receipt
+		$this->gotoPage( "receipt" );
+	}
 }
 ?>

@@ -11,7 +11,8 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once dirname(__FILE__).'/../../config/config.inc.php';
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * PurchaseHostingPage
@@ -19,228 +20,208 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PurchaseHostingPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  public function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "purchasehosting":
-	if( isset( $this->post['continue'] ) )
-	  {
-	    $this->process();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    $this->goback();
-	  }
-	break;
+class PurchaseHostingPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	public function action( $action_name ) {
+		switch ( $action_name ) {
+			case "purchasehosting":
+				if ( isset( $this->post['continue'] ) ) {
+					$this->process();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					$this->goback();
+				}
+				break;
 
-      default:
-	parent::action( $action_name );
-	break;
-      }
-  }
+			default:
+				parent::action( $action_name );
+				break;
+		}
+	}
 
-  /**
-   * Initialize the Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Initialize the Page
+	 */
+	public function init() {
+		parent::init();
 
-    try { $services = load_array_HostingServiceDBO(); }
-    catch( DBNoRowsFoundException $e )
-      {
-	$e->setMessage( "No hosting services have been setup" );
-	throw $e;
-      }
+		try {
+			$services = load_array_HostingServiceDBO();
+		}
+		catch ( DBNoRowsFoundException $e ) {
+			$e->setMessage( "No hosting services have been setup" );
+			throw $e;
+		}
 
-    // Start a new order (if necessary)
-    if( !isset( $_SESSION['order'] ) )
-      {
-	$_SESSION['order'] = new OrderDBO();
-      }
+		// Start a new order (if necessary)
+		if ( !isset( $_SESSION['order'] ) ) {
+			$_SESSION['order'] = new OrderDBO();
+		}
 
-    // Give the template access to the DBOs
-    $this->smarty->assign_by_ref( "orderDBO", $_SESSION['order'] );
+		// Give the template access to the DBOs
+		$this->smarty->assign_by_ref( "orderDBO", $_SESSION['order'] );
 
-    // Show prices for the selected hosting package
-    $HPTermWidget = $this->forms['purchasehosting']->getField( "hostingterm" )->getWidget();
-    $serviceField = $this->forms['purchasehosting']->getField( "hostingservice" );
-    $hservice = isset( $_POST['hostingservice'] ) ?
-      $serviceField->set( $_POST['hostingservice'] ) :
-      array_shift( load_array_HostingServiceDBO() );
-    $HPTermWidget->setPurchasable( $hservice );
+		// Show prices for the selected hosting package
+		$HPTermWidget = $this->forms['purchasehosting']->getField( "hostingterm" )->getWidget();
+		$serviceField = $this->forms['purchasehosting']->getField( "hostingservice" );
+		$hservice = isset( $_POST['hostingservice'] ) ?
+				$serviceField->set( $_POST['hostingservice'] ) :
+				array_shift( load_array_HostingServiceDBO() );
+		$HPTermWidget->setPurchasable( $hservice );
 
-    // Give the template access to the hosting service DBO
-    $this->smarty->assign_by_ref( "serviceDBO", $hservice );
+		// Give the template access to the hosting service DBO
+		$this->smarty->assign_by_ref( "serviceDBO", $hservice );
 
-    // Show prices for the selected domain package
-    $RDTermWidget = $this->forms['purchasehosting']->getField( "registerdomainterm" )->getWidget();
-    $tldField = $this->forms['purchasehosting']->getField( "registerdomaintld" );
-    $dservice = isset( $_POST['registerdomaintld'] ) ?
-      $tldField->set( $_POST['registerdomaintld'] ) :
-      array_shift( load_array_DomainServiceDBO() );
-    $RDTermWidget->setPurchasable( $dservice );
+		// Show prices for the selected domain package
+		$RDTermWidget = $this->forms['purchasehosting']->getField( "registerdomainterm" )->getWidget();
+		$tldField = $this->forms['purchasehosting']->getField( "registerdomaintld" );
+		$dservice = isset( $_POST['registerdomaintld'] ) ?
+				$tldField->set( $_POST['registerdomaintld'] ) :
+				array_shift( load_array_DomainServiceDBO() );
+		$RDTermWidget->setPurchasable( $dservice );
 
-    $TDTermWidget = $this->forms['purchasehosting']->getField( "transferdomainterm" )->getWidget();
-    $tldField = $this->forms['purchasehosting']->getField( "transferdomaintld" );
-    $dservice = isset( $_POST['transferdomaintld'] ) ?
-      $tldField->set( $_POST['transferdomaintld'] ) :
-      array_shift( load_array_DomainServiceDBO() );
-    $TDTermWidget->setPurchasable( $dservice );
+		$TDTermWidget = $this->forms['purchasehosting']->getField( "transferdomainterm" )->getWidget();
+		$tldField = $this->forms['purchasehosting']->getField( "transferdomaintld" );
+		$dservice = isset( $_POST['transferdomaintld'] ) ?
+				$tldField->set( $_POST['transferdomaintld'] ) :
+				array_shift( load_array_DomainServiceDBO() );
+		$TDTermWidget->setPurchasable( $dservice );
 
-    // Setup the in-cart domains drop-down
-    $widget = $this->forms['purchasehosting']->getField( "incartdomain" )->getWidget();
-    $widget->setOrder( $_SESSION['order'] );
+		// Setup the in-cart domains drop-down
+		$widget = $this->forms['purchasehosting']->getField( "incartdomain" )->getWidget();
+		$widget->setOrder( $_SESSION['order'] );
 
-    if( isset( $this->get['service'] ) )
-      {
-	// Select the hosting service and terms provided in the URL
-	$this->smarty->assign( "service", $this->get['service']->getID() );
-	$HPTermWidget->setPurchasable( $this->get['service'] );
-      }
+		if ( isset( $this->get['service'] ) ) {
+			// Select the hosting service and terms provided in the URL
+			$this->smarty->assign( "service", $this->get['service']->getID() );
+			$HPTermWidget->setPurchasable( $this->get['service'] );
+		}
 
-    if( isset( $this->get['domain'] ) && isset( $this->get['tld'] ) )
-      {
-	$this->smarty->assign( "domain", $this->get['domain'] );
-	$this->smarty->assign( "tld", $this->get['tld']->getTLD() );
-      }
-  }
+		if ( isset( $this->get['domain'] ) && isset( $this->get['tld'] ) ) {
+			$this->smarty->assign( "domain", $this->get['domain'] );
+			$this->smarty->assign( "tld", $this->get['tld']->getTLD() );
+		}
+	}
 
-  /**
-   * Process a new service purchase
-   */
-  protected function process()
-  {
-    // Build an order item for the hosting service
-    $hostingItem = new OrderHostingDBO();
-    $hostingItem->setPurchasable( $this->post['hostingservice'] );
-    $hostingItem->setTerm( $this->post['hostingterm']->getTermLength() );
+	/**
+	 * Process a new service purchase
+	 */
+	protected function process() {
+		// Build an order item for the hosting service
+		$hostingItem = new OrderHostingDBO();
+		$hostingItem->setPurchasable( $this->post['hostingservice'] );
+		$hostingItem->setTerm( $this->post['hostingterm']->getTermLength() );
 
-    switch( $this->post['domainoption'] )
-      {
-      case "New":
-	// Register a new domain for use with this hosting service
+		switch ( $this->post['domainoption'] ) {
+			case "New":
+			// Register a new domain for use with this hosting service
 
-	// Verify that the user entered a domain name and TLD
-	if( !isset( $this->post['registerdomainname'] ) )
-	  {
-	    throw new FieldMissingException( "registerdomainname" );
-	  }
-	if( !isset( $this->post['registerdomaintld'] ) )
-	  {
-	    throw new FieldMissingException( "registerdomaintld" );
-	  }
+			// Verify that the user entered a domain name and TLD
+				if ( !isset( $this->post['registerdomainname'] ) ) {
+					throw new FieldMissingException( "registerdomainname" );
+				}
+				if ( !isset( $this->post['registerdomaintld'] ) ) {
+					throw new FieldMissingException( "registerdomaintld" );
+				}
 
-	$fqdn = sprintf( "%s.%s", 
-			 $this->post['registerdomainname'], 
-			 $this->post['registerdomaintld']->getTLD() );
+				$fqdn = sprintf( "%s.%s",
+						$this->post['registerdomainname'],
+						$this->post['registerdomaintld']->getTLD() );
 
-	// Check the domain availability
-	$moduleName = $this->post['registerdomaintld']->getModuleName();
-	$registrar = ModuleRegistry::getModuleRegistry()->getModule( $moduleName );
-	if( !$registrar->checkAvailability( $fqdn ) )
-	  {
-	    throw new SWUserException( "[ERROR_DOMAIN_NOT_AVAILABLE]" );
-	  }
+				// Check the domain availability
+				$moduleName = $this->post['registerdomaintld']->getModuleName();
+				$registrar = ModuleRegistry::getModuleRegistry()->getModule( $moduleName );
+				if ( !$registrar->checkAvailability( $fqdn ) ) {
+					throw new SWUserException( "[ERROR_DOMAIN_NOT_AVAILABLE]" );
+				}
 
-	// Place the domain name in the hosting item
-	$hostingItem->setDomainName( $fqdn );
+				// Place the domain name in the hosting item
+				$hostingItem->setDomainName( $fqdn );
 
-	// Create another order item for the domain purchase
-	$domainItem = new OrderDomainDBO();
-	$domainItem->setType( "New" );
-	$domainItem->setDomainName( $this->post['registerdomainname'] );
-	$domainItem->setPurchasable( $this->post['registerdomaintld'] );
-	$domainItem->setTerm( $this->post['registerdomainterm']->getTermLength() );
-	break;
+				// Create another order item for the domain purchase
+				$domainItem = new OrderDomainDBO();
+				$domainItem->setType( "New" );
+				$domainItem->setDomainName( $this->post['registerdomainname'] );
+				$domainItem->setPurchasable( $this->post['registerdomaintld'] );
+				$domainItem->setTerm( $this->post['registerdomainterm']->getTermLength() );
+				break;
 
-      case "Transfer":
-	// Transfer a domain for use with this hosting service
+			case "Transfer":
+			// Transfer a domain for use with this hosting service
 
-	// Verify that the user entered a domain name and TLD
-	if( !isset( $this->post['transferdomainname'] ) )
-	  {
-	    throw new FieldMissingException( "transferdomainname" );
-	  }
-	if( !isset( $this->post['transferdomaintld'] ) )
-	  {
-	    throw new FieldMissingException( "transferdomaintld" );
-	  }
+			// Verify that the user entered a domain name and TLD
+				if ( !isset( $this->post['transferdomainname'] ) ) {
+					throw new FieldMissingException( "transferdomainname" );
+				}
+				if ( !isset( $this->post['transferdomaintld'] ) ) {
+					throw new FieldMissingException( "transferdomaintld" );
+				}
 
-	$fqdn = sprintf( "%s.%s", 
-			 $this->post['transferdomainname'], 
-			 $this->post['transferdomaintld']->getTLD() );
+				$fqdn = sprintf( "%s.%s",
+						$this->post['transferdomainname'],
+						$this->post['transferdomaintld']->getTLD() );
 
-	// Check the domain transfer-ability
-	$moduleName = $this->post['registerdomaintld']->getModuleName();
-	$registrar = ModuleRegistry::getModuleRegistry()->getModule( $moduleName );
-	if( !$registrar->isTransferable( $fqdn ) )
-	  {
-	    throw new SWUserException( "[ERROR_DOMAIN_TRANSFER_NO_DOMAIN]" );
-	  }
+				// Check the domain transfer-ability
+				$moduleName = $this->post['registerdomaintld']->getModuleName();
+				$registrar = ModuleRegistry::getModuleRegistry()->getModule( $moduleName );
+				if ( !$registrar->isTransferable( $fqdn ) ) {
+					throw new SWUserException( "[ERROR_DOMAIN_TRANSFER_NO_DOMAIN]" );
+				}
 
-	// Place the domain name in the hosting item
-	$hostingItem->setDomainName( $fqdn );
+				// Place the domain name in the hosting item
+				$hostingItem->setDomainName( $fqdn );
 
-	// Create another order item for the domain purchase
-	$domainItem = new OrderDomainDBO();
-	$domainItem->setType( "Transfer" );
-	$domainItem->setDomainName( $this->post['transferdomainname'] );
-	$domainItem->setPurchasable( $this->post['transferdomaintld'] );
-	$domainItem->setTerm( $this->post['transferdomainterm']->getTermLength() );
-	break;
+				// Create another order item for the domain purchase
+				$domainItem = new OrderDomainDBO();
+				$domainItem->setType( "Transfer" );
+				$domainItem->setDomainName( $this->post['transferdomainname'] );
+				$domainItem->setPurchasable( $this->post['transferdomaintld'] );
+				$domainItem->setTerm( $this->post['transferdomainterm']->getTermLength() );
+				break;
 
-      case "InCart":
-	// Use a domain that is in the customer's cart
+			case "InCart":
+			// Use a domain that is in the customer's cart
 
-	// Verify that the user selected a domain
-	if( !isset( $this->post['incartdomain'] ) )
-	  {
-	    throw new FieldMissingException( "incartdomain" );
-	  }
+			// Verify that the user selected a domain
+				if ( !isset( $this->post['incartdomain'] ) ) {
+					throw new FieldMissingException( "incartdomain" );
+				}
 
-	$hostingItem->setDomainName( $this->post['incartdomain'] );
-	break;
+				$hostingItem->setDomainName( $this->post['incartdomain'] );
+				break;
 
-      case "Existing":
-	// Use an existing domain for this hosting service
+			case "Existing":
+			// Use an existing domain for this hosting service
 
-	// Verify that the user entered a domain name
-	if( !isset( $this->post['existingdomainname'] ) )
-	  {
-	    throw new FieldMissingException( "existingdomainname" );
-	  }
+			// Verify that the user entered a domain name
+				if ( !isset( $this->post['existingdomainname'] ) ) {
+					throw new FieldMissingException( "existingdomainname" );
+				}
 
-	$hostingItem->setDomainName( $this->post['existingdomainname'] );
-	break;
+				$hostingItem->setDomainName( $this->post['existingdomainname'] );
+				break;
 
-      default:
-	if( $this->post['hostingservice']->isDomainRequired() )
-	  {
-	    throw new FieldMissingException( "domainoption" );
-	  }
-	break;
-      }
+			default:
+				if ( $this->post['hostingservice']->isDomainRequired() ) {
+					throw new FieldMissingException( "domainoption" );
+				}
+				break;
+		}
 
-    // Add the item(s) to the order
-    $_SESSION['order']->addItem( $hostingItem );
-    if( isset( $domainItem ) )
-      {
-	$_SESSION['order']->addItem( $domainItem );
-      }
+		// Add the item(s) to the order
+		$_SESSION['order']->addItem( $hostingItem );
+		if ( isset( $domainItem ) ) {
+			$_SESSION['order']->addItem( $domainItem );
+		}
 
-    // Proceed to the cart page
-    $this->gotoPage( "cart" );
-  }
+		// Proceed to the cart page
+		$this->gotoPage( "cart" );
+	}
 }
 ?>

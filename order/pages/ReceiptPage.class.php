@@ -11,7 +11,8 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once dirname(__FILE__).'/../../config/config.inc.php';
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * ReceiptPage
@@ -19,35 +20,32 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ReceiptPage extends SolidStatePage
-{
-  /**
-   * Initialize Review Page
-   */
-  function init()
-  {
-    if( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() )
-      {
-	$this->gotoPage( "cart" );
-      }
+class ReceiptPage extends SolidStatePage {
+	/**
+	 * Initialize Review Page
+	 */
+	function init() {
+		if ( !isset( $_SESSION['order'] ) || $_SESSION['order']->isEmpty() ) {
+			$this->gotoPage( "cart" );
+		}
 
-    // Give access to the template
-    $this->session['order'] =& $_SESSION['order'];
+		// Give access to the template
+		$this->session['order'] =& $_SESSION['order'];
 
-    // Supress the welcome message
-    $this->smarty->assign( "supressWelcome", true );
+		// Supress the welcome message
+		$this->smarty->assign( "supressWelcome", true );
 
-    $this->smarty->assign( "orderid", $this->session['order']->getID() );
-    $this->smarty->assign( "contactemail", 
-			   $this->session['order']->getContactEmail() );
+		$this->smarty->assign( "orderid", $this->session['order']->getID() );
+		$this->smarty->assign( "contactemail",
+				$this->session['order']->getContactEmail() );
 
-    // If the paybycheck flag is set, display the payment information
-    $this->smarty->assign( "paybycheck", $_GET['payByCheck'] == 1 );
+		// If the paybycheck flag is set, display the payment information
+		$this->smarty->assign( "paybycheck", $_GET['payByCheck'] == 1 );
 
-    // Destroy the order object
-    unset( $_SESSION['order'] );
+		// Destroy the order object
+		unset( $_SESSION['order'] );
 
-    // Logout the user
-    unset( $_SESSION['client']['userdbo'] );
-  }
+		// Logout the user
+		unset( $_SESSION['client']['userdbo'] );
+	}
 }

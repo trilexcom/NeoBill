@@ -22,201 +22,184 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RegisterDomainPage extends SolidStatePage
-{
-  /**
-   * @var AccountDBO Account this domain will be registered for
-   */
-  var $accountDBO = null;
+class RegisterDomainPage extends SolidStatePage {
+	/**
+	 * @var AccountDBO Account this domain will be registered for
+	 */
+	var $accountDBO = null;
 
-  /**
-   * @var DomainServicePurchaseDBO The domain service purchase being built for this registration
-   */
-  var $purchaseDBO = null;
+	/**
+	 * @var DomainServicePurchaseDBO The domain service purchase being built for this registration
+	 */
+	var $purchaseDBO = null;
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   register_domain (form)
-   *   register_domain_service (form)
-   *   register_domain_customer_select (form)
-   *   register_domain_customer_new (form)
-   *   register_domain_confirm (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "register_domain":
-	if( isset( $this->post['continue'] ) )
-	  {
-	    $this->checkAvailability();
-	  }
-	elseif( isset( $this->post['tld'] ) )
-	  {
-	    $this->updatePrices( $this->post['tld'] );
-	  }
-	break;
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   register_domain (form)
+	 *   register_domain_service (form)
+	 *   register_domain_customer_select (form)
+	 *   register_domain_customer_new (form)
+	 *   register_domain_confirm (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "register_domain":
+				if ( isset( $this->post['continue'] ) ) {
+					$this->checkAvailability();
+				}
+				elseif ( isset( $this->post['tld'] ) ) {
+					$this->updatePrices( $this->post['tld'] );
+				}
+				break;
 
-      case "register_domain_service":
-	if( isset( $this->post['continue'] ) )
-	  {
-	    // Proceed to confirm the domain registration
-	    $this->confirm();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    $this->cancel();
-	  }
-	break;
+			case "register_domain_service":
+				if ( isset( $this->post['continue'] ) ) {
+					// Proceed to confirm the domain registration
+					$this->confirm();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					$this->cancel();
+				}
+				break;
 
-      case "register_domain_confirm":
-	if( isset( $this->post['continue'] ) )
-	  {
-	    // Execute registration
-	    $this->executeRegistration();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    $this->cancel();
-	  }
-	break;
+			case "register_domain_confirm":
+				if ( isset( $this->post['continue'] ) ) {
+					// Execute registration
+					$this->executeRegistration();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					$this->cancel();
+				}
+				break;
 
-      default:
+			default:
+				// No matching action - refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-	// No matching action - refer to base class
-	parent::action( $action_name );
-      }
-  }
+	/**
+	 * Cancel the Domain Registration process
+	 *
+	 * Called whenever a user clicks a "cancel" button.  Returns the user to the
+	 * first template.
+	 */
+	function cancel() {
+		$this->gotoPage( "domains_register",
+				null,
+				null );
+	}
 
-  /**
-   * Cancel the Domain Registration process
-   *
-   * Called whenever a user clicks a "cancel" button.  Returns the user to the
-   * first template.
-   */
-  function cancel()
-  {
-    $this->gotoPage( "domains_register",
-		 null,
-		 null );
-  }
+	/**
+	 * Check Domain's Availability
+	 */
+	function checkAvailability() {
+		$registry = ModuleRegistry::getModuleRegistry();
+		$module = $registry->getModule( $this->post['servicetld']->getModuleName() );
 
-  /**
-   * Check Domain's Availability
-   */
-  function checkAvailability()
-  {
-    $registry = ModuleRegistry::getModuleRegistry();
-    $module = $registry->getModule( $this->post['servicetld']->getModuleName() );
+		$fqdn = sprintf( "%s.%s",
+				$this->post['domainname'],
+				$this->post['servicetld']->getTLD() );
+		if( !$module->checkAvailability( $fqdn ) ) {
+			// Domain is NOT available
+			throw new SWUserException( "[DOMAIN_NOT_AVAILABLE]" );
+		}
 
-    $fqdn = sprintf( "%s.%s", 
-		     $this->post['domainname'], 
-		     $this->post['servicetld']->getTLD() );
-    if( !$module->checkAvailability( $fqdn ) )
-      {
-	// Domain is NOT available
-	throw new SWUserException( "[DOMAIN_NOT_AVAILABLE]" );
-      }
+		// Domain is avaialble
+		$termField = $this->forms['register_domain_service']->getField( "term" );
+		$termField->getWidget()->setPurchasable( $this->post['servicetld'] );
 
-    // Domain is avaialble
-    $termField = $this->forms['register_domain_service']->getField( "term" );
-    $termField->getWidget()->setPurchasable( $this->post['servicetld'] );
+		$this->purchaseDBO = new DomainServicePurchaseDBO();
+		$this->purchaseDBO->setPurchasable( $this->post['servicetld'] );
+		$this->purchaseDBO->setDomainName( $this->post['domainname'] );
 
-    $this->purchaseDBO = new DomainServicePurchaseDBO();
-    $this->purchaseDBO->setPurchasable( $this->post['servicetld'] );
-    $this->purchaseDBO->setDomainName( $this->post['domainname'] );
+		$this->setMessage( array( "type" => "[DOMAIN_IS_AVAILABLE]",
+				"args" => array( $fqdn ) ) );
+		$this->setTemplate( "whois_results" );
+	}
 
-    $this->setMessage( array( "type" => "[DOMAIN_IS_AVAILABLE]",
-			      "args" => array( $fqdn ) ) );
-    $this->setTemplate( "whois_results" );
-  }
+	/**
+	 * Confirm Domain Registration
+	 */
+	function confirm() {
+		// Fill in the purchase DBO with the account id and purchase terms
+		$this->accountDBO = $this->post['account'];
+		$this->purchaseDBO->setAccountID( $this->accountDBO->getID() );
+		$this->purchaseDBO->setTerm( $this->post['term']->getTermLength() );
 
-  /**
-   * Confirm Domain Registration
-   */
-  function confirm()
-  {
-    // Fill in the purchase DBO with the account id and purchase terms
-    $this->accountDBO = $this->post['account'];
-    $this->purchaseDBO->setAccountID( $this->accountDBO->getID() );
-    $this->purchaseDBO->setTerm( $this->post['term']->getTermLength() );
+		// Provide the template with the name servers
+		$this->smarty->assign( "nameservers", $this->conf['dns']['nameservers'] );
 
-    // Provide the template with the name servers
-    $this->smarty->assign( "nameservers", $this->conf['dns']['nameservers'] );
+		// Display the confirmation template
+		$this->setTemplate( "confirm" );
+	}
 
-    // Display the confirmation template
-    $this->setTemplate( "confirm" );
-  }
+	/**
+	 * Execute Registration
+	 */
+	function executeRegistration() {
+		// Load the registrar module and verify that it is enabled
+		$this->serviceDBO = load_DomainServiceDBO( $this->purchaseDBO->getTLD() );
 
-  /**
-   * Execute Registration
-   */
-  function executeRegistration()
-  {
-    // Load the registrar module and verify that it is enabled
-    $this->serviceDBO = load_DomainServiceDBO( $this->purchaseDBO->getTLD() );
+		$registry = ModuleRegistry::getModuleRegistry();
+		$module = $registry->getModule( $this->purchaseDBO->getModuleName() );
 
-    $registry = ModuleRegistry::getModuleRegistry();
-    $module = $registry->getModule( $this->purchaseDBO->getModuleName() );
+		// Set the time of purchase
+		$this->purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
 
-    // Set the time of purchase
-    $this->purchaseDBO->setDate( DBConnection::format_datetime( time() ) );
+		// Prepare contact info
+		$contacts['admin'] = new ContactDBO( $this->accountDBO->getContactName(),
+				$this->accountDBO->getBusinessName(),
+				$this->accountDBO->getContactEmail(),
+				$this->accountDBO->getAddress1(),
+				$this->accountDBO->getAddress2(),
+				null,
+				$this->accountDBO->getCity(),
+				$this->accountDBO->getState(),
+				$this->accountDBO->getPostalCode(),
+				$this->accountDBO->getCountry(),
+				$this->accountDBO->getPhone(),
+				null,
+				$this->accountDBO->getFax() );
+		$contacts['tech'] = $contacts['admin'];
+		$contacts['billing'] = $contacts['admin'];
 
-    // Prepare contact info
-    $contacts['admin'] = new ContactDBO( $this->accountDBO->getContactName(),
-					 $this->accountDBO->getBusinessName(),
-					 $this->accountDBO->getContactEmail(),
-					 $this->accountDBO->getAddress1(),
-					 $this->accountDBO->getAddress2(),
-					 null,
-					 $this->accountDBO->getCity(),
-					 $this->accountDBO->getState(),
-					 $this->accountDBO->getPostalCode(),
-					 $this->accountDBO->getCountry(),
-					 $this->accountDBO->getPhone(),
-					 null,
-					 $this->accountDBO->getFax() );
-    $contacts['tech'] = $contacts['admin'];
-    $contacts['billing'] = $contacts['admin'];
-
-    // Execute the registration at the Registrar
-    $module->registerNewDomain( $this->purchaseDBO->getDomainName(),
+		// Execute the registration at the Registrar
+		$module->registerNewDomain( $this->purchaseDBO->getDomainName(),
 				$this->purchaseDBO->getTLD(),
 				intval( $this->purchaseDBO->getTerm() / 12 ),
 				$contacts,
 				$this->accountDBO );
 
-    // Store the purchase in database
-    add_DomainServicePurchaseDBO( $this->purchaseDBO );
+		// Store the purchase in database
+		add_DomainServicePurchaseDBO( $this->purchaseDBO );
 
-    // Registration complete
-    $this->setMessage( array( "type" => "[DOMAIN_REGISTERED]",
-			      "args" => array( $this->purchaseDBO->getFullDomainName() ) ) );
-    $this->gotoPage( "domains_browse", null, null );
-  }
+		// Registration complete
+		$this->setMessage( array( "type" => "[DOMAIN_REGISTERED]",
+				"args" => array( $this->purchaseDBO->getFullDomainName() ) ) );
+		$this->gotoPage( "domains_browse", null, null );
+	}
 
-  /**
-   * Initialize the Page
-   *
-   * If an account ID is provided via GET parameters, load the AccountDBO and place
-   * it in the session.
-   */
-  function init()
-  {
-    parent::init();
+	/**
+	 * Initialize the Page
+	 *
+	 * If an account ID is provided via GET parameters, load the AccountDBO and place
+	 * it in the session.
+	 */
+	function init() {
+		parent::init();
 
-    $this->purchaseDBO =& $this->session['dspdbo'];
-    $this->accountDBO =& $this->session['accountdbo'];
+		$this->purchaseDBO =& $this->session['dspdbo'];
+		$this->accountDBO =& $this->session['accountdbo'];
 
-    if( isset( $this->purchaseDBO ) )
-      {
-	$widget = $this->forms['register_domain_service']->getField( "term" )->getWidget();
-	$widget->setPurchasable( $this->purchaseDBO->getPurchasable() );
-      }
-  }
+		if ( isset( $this->purchaseDBO ) ) {
+			$widget = $this->forms['register_domain_service']->getField( "term" )->getWidget();
+			$widget->setPurchasable( $this->purchaseDBO->getPurchasable() );
+		}
+	}
 }
 ?>

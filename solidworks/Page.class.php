@@ -11,7 +11,7 @@
  */
 
 // Validation functions
-require "Form.class.php";
+require_once 'Form.class.php';
 
 /**
  * Page
