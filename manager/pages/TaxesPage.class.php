@@ -21,58 +21,51 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class TaxesPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   browse_taxes_action (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "taxes_action":
-	// Create a new tax rule
-	$this->gotoPage( "add_tax_rule" );
-	break;
+class TaxesPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   browse_taxes_action (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "taxes_action":
+				// Create a new tax rule
+				$this->gotoPage( "add_tax_rule" );
+				break;
 
-      case "tax_rules":
-	if( isset( $this->post['remove'] ) )
-	  {
-	    $this->remove();
-	  }
-	break;
+			case "tax_rules":
+				if( isset( $this->post['remove'] ) ) {
+					$this->remove();
+				}
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Remove Tax Rule
-   */
-  function remove()
-  {
-    if( $_SESSION['client']['userdbo']->getType() != "Administrator" )
-      {
-	throw new SWUserException( "[ACCESS_DENIED]" );
-      }
+	/**
+	 * Remove Tax Rule
+	 */
+	function remove() {
+		if( $_SESSION['client']['userdbo']->getType() != "Administrator" ) {
+			throw new SWUserException( "[ACCESS_DENIED]" );
+		}
 
-    // Remove the Tax Rule(s) from the database
-    foreach( $this->post['rules'] as $dbo )
-      {
-  //      print_r($dbo);
-	delete_TaxRuleDBO( $dbo );
-      }
-//die();
-    // Success
-    $this->setMessage( array( "type" => "[TAX_RULES_DELETED]" ) );
-    $this->reload();
-  }
+		// Remove the Tax Rule(s) from the database
+		foreach( $this->post['rules'] as $dbo ) {
+			// print_r($dbo);
+			delete_TaxRuleDBO( $dbo );
+		}
+		//die();
+		// Success
+		$this->setMessage( array( "type" => "[TAX_RULES_DELETED]" ) );
+		$this->reload();
+	}
 }
 ?>

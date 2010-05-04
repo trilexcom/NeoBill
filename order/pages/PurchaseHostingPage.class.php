@@ -120,9 +120,9 @@ class PurchaseHostingPage extends SolidStatePage {
 
 		switch ( $this->post['domainoption'] ) {
 			case "New":
-			// Register a new domain for use with this hosting service
+				// Register a new domain for use with this hosting service
 
-			// Verify that the user entered a domain name and TLD
+				// Verify that the user entered a domain name and TLD
 				if ( !isset( $this->post['registerdomainname'] ) ) {
 					throw new FieldMissingException( "registerdomainname" );
 				}
@@ -153,9 +153,9 @@ class PurchaseHostingPage extends SolidStatePage {
 				break;
 
 			case "Transfer":
-			// Transfer a domain for use with this hosting service
+				// Transfer a domain for use with this hosting service
 
-			// Verify that the user entered a domain name and TLD
+				// Verify that the user entered a domain name and TLD
 				if ( !isset( $this->post['transferdomainname'] ) ) {
 					throw new FieldMissingException( "transferdomainname" );
 				}
@@ -186,9 +186,9 @@ class PurchaseHostingPage extends SolidStatePage {
 				break;
 
 			case "InCart":
-			// Use a domain that is in the customer's cart
+				// Use a domain that is in the customer's cart
 
-			// Verify that the user selected a domain
+				// Verify that the user selected a domain
 				if ( !isset( $this->post['incartdomain'] ) ) {
 					throw new FieldMissingException( "incartdomain" );
 				}
@@ -197,9 +197,9 @@ class PurchaseHostingPage extends SolidStatePage {
 				break;
 
 			case "Existing":
-			// Use an existing domain for this hosting service
+				// Use an existing domain for this hosting service
 
-			// Verify that the user entered a domain name
+				// Verify that the user entered a domain name
 				if ( !isset( $this->post['existingdomainname'] ) ) {
 					throw new FieldMissingException( "existingdomainname" );
 				}

@@ -20,122 +20,109 @@ require_once BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PurchaseDomainPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  public function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "purchasedomain":
-	if( isset( $this->post['continue'] ) )
-	  {
-	    $this->process();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    $this->goback();
-	  }
-	break;
+class PurchaseDomainPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	public function action( $action_name ) {
+		switch ( $action_name ) {
+			case "purchasedomain":
+				if ( isset( $this->post['continue'] ) ) {
+					$this->process();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					$this->goback();
+				}
+				break;
 
-      default:
-	parent::action( $action_name );
-	break;
-      }
-  }
+			default:
+				parent::action( $action_name );
+				break;
+		}
+	}
 
-  /**
-   * Initialize the Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Initialize the Page
+	 */
+	public function init() {
+		parent::init();
 
-    // Start a new order (if necessary)
-    if( !isset( $_SESSION['order'] ) )
-      {
-	$_SESSION['order'] = new OrderDBO();
-      }
+		// Start a new order (if necessary)
+		if ( !isset( $_SESSION['order'] ) ) {
+			$_SESSION['order'] = new OrderDBO();
+		}
 
-    // Give the template access to the order object
-    $this->smarty->assign_by_ref( "orderDBO", $_SESSION['order'] );
+		// Give the template access to the order object
+		$this->smarty->assign_by_ref( "orderDBO", $_SESSION['order'] );
 
-    // Show prices for the selected domain package
-    $termWidget = $this->forms['purchasedomain']->getField( "domainterm" )->getWidget();
-    $tldField = $this->forms['purchasedomain']->getField( "domaintld" );
-    $dservice = isset( $_POST['domaintld'] ) ?
-      $tldField->set( $_POST['domaintld'] ) :
-      array_shift( load_array_DomainServiceDBO() );
-    $termWidget->setPurchasable( $dservice );
+		// Show prices for the selected domain package
+		$termWidget = $this->forms['purchasedomain']->getField( "domainterm" )->getWidget();
+		$tldField = $this->forms['purchasedomain']->getField( "domaintld" );
+		$dservice = isset( $_POST['domaintld'] ) ?
+				$tldField->set( $_POST['domaintld'] ) :
+				array_shift( load_array_DomainServiceDBO() );
+		$termWidget->setPurchasable( $dservice );
 
-    if( isset( $this->get['domain'] ) && isset( $this->get['tld'] ) )
-      {
-	$this->smarty->assign( "domain", $this->get['domain'] );
-	$this->smarty->assign( "tld", $this->get['tld']->getTLD() );
-      }
-  }
+		if ( isset( $this->get['domain'] ) && isset( $this->get['tld'] ) ) {
+			$this->smarty->assign( "domain", $this->get['domain'] );
+			$this->smarty->assign( "tld", $this->get['tld']->getTLD() );
+		}
+	}
 
-  /**
-   * Process a new service purchase
-   */
-  protected function process()
-  {
-    // Verify that the user entered a domain name and TLD
-    if( !isset( $this->post['domainname'] ) )
-      {
-	throw new FieldMissingException( "domainname" );
-      }
-    
-    // Build an order item for the domain purchase
-    $domainItem = new OrderDomainDBO();
-    $domainItem->setPurchasable( $this->post['domaintld'] );
-    $domainItem->setTerm( $this->post['domainterm']->getTermLength() );
-    $domainItem->setDomainName( $this->post['domainname'] );
+	/**
+	 * Process a new service purchase
+	 */
+	protected function process() {
+		// Verify that the user entered a domain name and TLD
+		if ( !isset( $this->post['domainname'] ) ) {
+			throw new FieldMissingException( "domainname" );
+		}
 
-    $fqdn = sprintf( "%s.%s", $this->post['domainname'], $this->post['domaintld']->getTLD() );
+		// Build an order item for the domain purchase
+		$domainItem = new OrderDomainDBO();
+		$domainItem->setPurchasable( $this->post['domaintld'] );
+		$domainItem->setTerm( $this->post['domainterm']->getTermLength() );
+		$domainItem->setDomainName( $this->post['domainname'] );
 
-    // Access the registrar module for the selected TLD
-    $moduleName = $this->post['domaintld']->getModuleName();
-    $registrar = ModuleRegistry::getModuleRegistry()->getModule( $moduleName );
-    
-    switch( $this->post['domainoption'] )
-      {
-      case "New":
-	// Register a new domain
+		$fqdn = sprintf( "%s.%s", $this->post['domainname'], $this->post['domaintld']->getTLD() );
 
-	// Check the domain availability
-	if( !$registrar->checkAvailability( $fqdn ) )
-	  {
-	    throw new SWUserException( "[ERROR_DOMAIN_NOT_AVAILABLE]" );
-	  }
+		// Access the registrar module for the selected TLD
+		$moduleName = $this->post['domaintld']->getModuleName();
+		$registrar = ModuleRegistry::getModuleRegistry()->getModule( $moduleName );
 
-	$domainItem->setType( "New" );
-	break;
+		switch ( $this->post['domainoption'] ) {
+			case "New":
+				// Register a new domain
 
-      case "Transfer":
-	// Transfer a domain
+				// Check the domain availability
+				if ( !$registrar->checkAvailability( $fqdn ) ) {
+					throw new SWUserException( "[ERROR_DOMAIN_NOT_AVAILABLE]" );
+				}
 
-	// Check the domain transfer-ability
-	if( !$registrar->isTransferable( $fqdn ) )
-	  {
-	    throw new SWUserException( "[ERROR_DOMAIN_TRANSFER_NO_DOMAIN]" );
-	  }
+				$domainItem->setType( "New" );
+				break;
 
-	$domainItem->setType( "Transfer" );
-	break;
-      }
+			case "Transfer":
+				// Transfer a domain
 
-    // Add the domain item to the order
-    $_SESSION['order']->addItem( $domainItem );
+				// Check the domain transfer-ability
+				if ( !$registrar->isTransferable( $fqdn ) ) {
+					throw new SWUserException( "[ERROR_DOMAIN_TRANSFER_NO_DOMAIN]" );
+				}
 
-    // Proceed to the cart page
-    $this->gotoPage( "cart" );
-  }
+				$domainItem->setType( "Transfer" );
+				break;
+		}
+
+		// Add the domain item to the order
+		$_SESSION['order']->addItem( $domainItem );
+
+		// Proceed to the cart page
+		$this->gotoPage( "cart" );
+	}
 }
 ?>

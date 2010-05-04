@@ -79,7 +79,7 @@ class CustomerPage extends SolidStatePage {
 		if ( isset( $_SESSION['client']['userdbo'] ) ) {
 			// Use the account information already on file
 			$userDBO = $_SESSION['client']['userdbo'];
-			$accountDBO = load_AccountDBO( $userDBO->getAccountID() );
+			$accountDBO = load_AccountDBO( $_SESSION['nav_vars']['account_id'] );
 
 			$this->session['order']->setAccountID( $accountDBO->getID() );
 			$this->session['order']->setBusinessName( $accountDBO->getBusinessName() );
