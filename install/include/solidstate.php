@@ -231,10 +231,11 @@ function create_company() {
 function get_languages_installer() {
     $languages = array();
 
-    if ($dh = @opendir('./languages/')) {
-        while (false != ($file = readdir($dh))) {
+	$dh = @opendir('./languages/');
+    if ($dh !== false) {
+        while (false !== ($file = readdir($dh))) {
             if ('.' != $file && '..' != $file && 'index.php' != $file && 4 < strlen($file)) {
-                $languages[count($languages)] = substr($file, 0, strlen($file) - 4);
+                $languages[] = substr($file, 0, strlen($file) - 4);
             }
         }
         closedir($dh);

@@ -121,13 +121,13 @@ class CustomerPage extends SolidStatePage {
 		if ( $this->session['order']->getAccountID() == null ) {
 			// Verify password
 			if ( $this->post['password'] != $this->post['repassword'] ) {
-				$this->setError( array( "type" => "PASSWORD_MISMATCH" ) );
+				$this->setError( array( "type" => "[PASSWORD_MISMATCH]" ) );
 				return;
 			}
 
 			// Verify e-mail
 			if ( $this->post['contactemail'] != $this->post['verifyemail'] ) {
-				$this->setError( array( "type" => "EMAIL_MISMATCH" ) );
+				 $this->setError( array( "type" => "[EMAIL_MISMATCH]" ) );
 				return;
 			}
 

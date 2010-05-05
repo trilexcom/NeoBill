@@ -80,7 +80,7 @@ class AAIMConfigPage extends SolidStateAdminPage
     $this->aaimModule->setURL( $this->post['transactionurl'] );
     $this->aaimModule->saveSettings();
 
-    $this->setMessage( array( "type" => "AAIM_CONFIGURATION_SAVED" ) );
+    $this->setMessage( array( "type" => "[AAIM_CONFIGURATION_SAVED]" ) );
   }
 }
 ?>

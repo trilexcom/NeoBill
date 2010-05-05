@@ -48,7 +48,7 @@ class DomainContactPage extends SolidStatePage {
 				break;
 
 			default:
-			// No matching action, refer to base class
+				// No matching action, refer to base class
 				parent::action( $action_name );
 		}
 	}

@@ -68,7 +68,7 @@ class CartPage extends SolidStatePage {
 			load_array_DomainServiceDBO();
 			$stuffToSell = true;
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 
 		}
 
@@ -76,11 +76,11 @@ class CartPage extends SolidStatePage {
 			load_array_HostingServiceDBO();
 			$stuffToSell = true;
 		}
-		catch( DBNoRowsFoundException $E ) {
+		catch ( DBNoRowsFoundException $E ) {
 
 		}
 
-		if( !$stuffToSell ) {
+		if ( !$stuffToSell ) {
 			throw new SWUserException( "No hosting or domain services have been configured.  The HSP must configure hosting and/or domain services before using the Order wizard" );
 		}
 

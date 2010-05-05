@@ -2,7 +2,7 @@
 /**
  * FieldValidatorFactory.class.php
  *
- * This file contains the definition of the FieldValidatorFactory class.  
+ * This file contains the definition of the FieldValidatorFactory class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -41,89 +41,82 @@ require BASE_PATH . "solidworks/validators/CCExpireValidator.class.php";
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class FieldValidatorFactory
-{
-  /**
-   * @var static FieldValidatorFactory Singleton instance
-   */
-  private static $instance = null;
+class FieldValidatorFactory {
+	/**
+	 * @var static FieldValidatorFactory Singleton instance
+	 */
+	private static $instance = null;
 
-  /**
-   * @var array Field Validators
-   */
-  private $validators = array();
+	/**
+	 * @var array Field Validators
+	 */
+	private $validators = array();
 
-  /**
-   * Get FieldValidatorFactory Instance
-   *
-   * The FieldValidatorFactory class is a singleton.  You may only construct one 
-   * FieldValidatorFactory and it must be done by calling this static method.
-   *
-   * @return FormProcessor FormProcessor instance
-   */
-  public static function getFieldValidatorFactory()
-  {
-    if( self::$instance == null )
-      {
-	self::$instance = new FieldValidatorFactory();
-	self::$instance->registerFieldValidator( "submit", "FieldValidator" );
-	self::$instance->registerFieldValidator( "text", "TextValidator" );
-	self::$instance->registerFieldValidator( "password", "PasswordValidator" );
-	self::$instance->registerFieldValidator( "email", "EmailValidator" );
-	self::$instance->registerFieldValidator( "int", "IntValidator" );
-	self::$instance->registerFieldValidator( "float", "NumberValidator" );
-	self::$instance->registerFieldValidator( "choice", "ChoiceValidator" );
-	self::$instance->registerFieldValidator( "country", "CountryValidator" );
-	self::$instance->registerFieldValidator( "telephone", "TelephoneValidator" );
-	self::$instance->registerFieldValidator( "date", "DateValidator" );
-	self::$instance->registerFieldValidator( "ipaddress", "IPAddressValidator" );
-	self::$instance->registerFieldValidator( "boolean", "BooleanValidator" );
-	self::$instance->registerFieldValidator( "ccnumber", "CCNumberValidator" );
-	self::$instance->registerFieldValidator( "ccexpire", "CCExpireValidator" );
-      }
+	/**
+	 * Get FieldValidatorFactory Instance
+	 *
+	 * The FieldValidatorFactory class is a singleton.  You may only construct one
+	 * FieldValidatorFactory and it must be done by calling this static method.
+	 *
+	 * @return FormProcessor FormProcessor instance
+	 */
+	public static function getFieldValidatorFactory() {
+		if ( self::$instance == null ) {
+			self::$instance = new FieldValidatorFactory();
+			self::$instance->registerFieldValidator( "submit", "FieldValidator" );
+			self::$instance->registerFieldValidator( "text", "TextValidator" );
+			self::$instance->registerFieldValidator( "password", "PasswordValidator" );
+			self::$instance->registerFieldValidator( "email", "EmailValidator" );
+			self::$instance->registerFieldValidator( "int", "IntValidator" );
+			self::$instance->registerFieldValidator( "float", "NumberValidator" );
+			self::$instance->registerFieldValidator( "choice", "ChoiceValidator" );
+			self::$instance->registerFieldValidator( "country", "CountryValidator" );
+			self::$instance->registerFieldValidator( "telephone", "TelephoneValidator" );
+			self::$instance->registerFieldValidator( "date", "DateValidator" );
+			self::$instance->registerFieldValidator( "ipaddress", "IPAddressValidator" );
+			self::$instance->registerFieldValidator( "boolean", "BooleanValidator" );
+			self::$instance->registerFieldValidator( "ccnumber", "CCNumberValidator" );
+			self::$instance->registerFieldValidator( "ccexpire", "CCExpireValidator" );
+		}
 
-    return self::$instance;
-  }
+		return self::$instance;
+	}
 
-  /**
-   * Get Feild Validator
-   *
-   * @param string $type The type of validator you want to retrieve
-   * @return FieldValidator A new validator
-   */
-  public function getFieldValidator( $type, $formName, $fieldName, $fieldConfig )
-  {
-    if( !isset( $this->validators[$type] ) )
-      {
-	// Validator does not exist
-	throw new SWException( sprintf( "Unable to get field validator.  The validator does not exist: %s\n\tForm: %s\n\tField: %s",
-					$type,
-					$formName,
-					$fieldName ) );
-      }
+	/**
+	 * Get Feild Validator
+	 *
+	 * @param string $type The type of validator you want to retrieve
+	 * @return FieldValidator A new validator
+	 */
+	public function getFieldValidator( $type, $formName, $fieldName, $fieldConfig ) {
+		if ( !isset( $this->validators[$type] ) ) {
+			// Validator does not exist
+			throw new SWException( sprintf( "Unable to get field validator.  The validator does not exist: %s\n\tForm: %s\n\tField: %s",
+			$type,
+			$formName,
+			$fieldName ) );
+		}
 
-    // If a filename was registered and has not been loaded yet, load it
-    if( $this->validators[$type]['file'] != null &&
-	!$this->validators[$type]['loaded'] )
-      {
-	require $this->validators[$type]['file'];
-	$this->validators[$type]['loaded'] = true;
-      }
+		// If a filename was registered and has not been loaded yet, load it
+		if ( $this->validators[$type]['file'] != null &&
+			 !$this->validators[$type]['loaded'] ) {
+			require $this->validators[$type]['file'];
+			$this->validators[$type]['loaded'] = true;
+		}
 
-    // Instantiate a field validator and return
-    return new $this->validators[$type]['class']( $formName, $fieldName, $fieldConfig );
-  }
+		// Instantiate a field validator and return
+		return new $this->validators[$type]['class']( $formName, $fieldName, $fieldConfig );
+	}
 
-  /**
-   * Register Field Validator
-   *
-   * @param string $typeName The name of the field type used by the config file
-   * @param FieldValidator $validator FieldValidator class for this field type
-   */
-  public function registerFieldValidator( $typeName, $validator, $fileName = null )
-  {
-    $this->validators[$typeName]['class'] = $validator;
-    $this->validators[$typeName]['file'] = $fileName;
-    $this->validators[$typeName]['loaded'] = false;
-  }
+	/**
+	 * Register Field Validator
+	 *
+	 * @param string $typeName The name of the field type used by the config file
+	 * @param FieldValidator $validator FieldValidator class for this field type
+	 */
+	public function registerFieldValidator( $typeName, $validator, $fileName = null ) {
+		$this->validators[$typeName]['class'] = $validator;
+		$this->validators[$typeName]['file'] = $fileName;
+		$this->validators[$typeName]['loaded'] = false;
+	}
 }

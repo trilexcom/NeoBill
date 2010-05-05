@@ -92,7 +92,7 @@ class RCMConfigPage extends SolidStateAdminPage
     $this->rcModule->setDefaultCustomerPassword( $this->post['defaultcustomerpassword'] );
     $this->rcModule->saveSettings();
 
-    $this->setMessage( array( "type" => "RC_CONFIGURATION_SAVED" ) );
+    $this->setMessage( array( "type" => "[RC_CONFIGURATION_SAVED]" ) );
     $this->reload();
   }
 }

@@ -81,7 +81,7 @@ class PSMConfigPage extends SolidStateAdminPage
     $this->ppModule->setCurrencyCode( $this->post['currency'] );
     $this->ppModule->saveSettings();
 
-    $this->setMessage( array( "type" => "PS_CONFIGURATION_SAVED" ) );
+    $this->setMessage( array( "type" => "[PS_CONFIGURATION_SAVED]" ) );
   }
 }
 ?>

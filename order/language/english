@@ -16,7 +16,7 @@
     <phrase id="BACK">Back</phrase>
     <phrase id="BILLING_CONTACT">Billing Contact</phrase>  
     <phrase id="BILLING_INFORMATION">Billing Information</phrase>
-    <phrase id="BILLING_INFO_NOTE">The contact information you submit with your order must match the billing information on-file with your credit card company.  If you need to make changes, please do so now.</phrase>
+    <phrase id="BILLING_INFO_NOTE">The contact information you submit with your order must match the billing information on file with your credit card company.  If you need to make changes, please do so now.</phrase>
     <phrase id="BILLING_PERIOD">Billing Period</phrase>
     <phrase id="BUSINESS_NAME">Business Name</phrase>
     <phrase id="CANCEL">Cancel</phrase>

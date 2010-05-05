@@ -21,20 +21,19 @@ require BASE_PATH . "DBO/LogDBO.class.php";
  * @param string $module Where (in the code) this message is coming from
  * @param string $message Log message
  */
-function log_message( $type, $module, $message )
-{
-  // Construct a LogDBO
-  $logdbo = new LogDBO();
-  $logdbo->setType( $type );
-  $logdbo->setModule( $module );
-  $logdbo->setText( $message );
-  $logdbo->setUsername( !empty( $_SESSION['client']['userdbo'] ) ? 
+function log_message( $type, $module, $message ) {
+	// Construct a LogDBO
+	$logdbo = new LogDBO();
+	$logdbo->setType( $type );
+	$logdbo->setModule( $module );
+	$logdbo->setText( $message );
+	$logdbo->setUsername( !empty( $_SESSION['client']['userdbo'] ) ?
 			$_SESSION['client']['userdbo']->getUsername() : null );
-  $logdbo->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
-  $logdbo->setDate( DBConnection::format_datetime( time() ) );
+	$logdbo->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
+	$logdbo->setDate( DBConnection::format_datetime( time() ) );
 
-  // Write the log message
-  add_LogDBO( $logdbo );
+	// Write the log message
+	add_LogDBO( $logdbo );
 }
 
 /**
@@ -45,9 +44,8 @@ function log_message( $type, $module, $message )
  * @param string $module Where (in the code) this message is coming from
  * @param string $message Log message
  */
-function log_notice( $module, $message )
-{
-  log_message( "notice", $module, $message );
+function log_notice( $module, $message ) {
+	log_message( "notice", $module, $message );
 }
 
 /**
@@ -58,9 +56,8 @@ function log_notice( $module, $message )
  * @param string $module Where (in the code) this message is coming from
  * @param string $message Log message
  */
-function log_warning( $module, $message )
-{
-  log_message( "warning", $module, $message );
+function log_warning( $module, $message ) {
+	log_message( "warning", $module, $message );
 }
 
 /**
@@ -71,9 +68,8 @@ function log_warning( $module, $message )
  * @param string $module Where (in the code) this message is coming from
  * @param string $message Log message
  */
-function log_error( $module, $message )
-{
-  log_message( "error", $module, $message );
+function log_error( $module, $message ) {
+	log_message( "error", $module, $message );
 }
 
 /**
@@ -84,9 +80,8 @@ function log_error( $module, $message )
  * @param string $module Where (in the code) this message is coming from
  * @param string $message Log message
  */
-function log_critical( $module, $message )
-{
-  log_message( "critical", $module, $message );
+function log_critical( $module, $message ) {
+	log_message( "critical", $module, $message );
 }
 
 /**
@@ -97,9 +92,8 @@ function log_critical( $module, $message )
  * @param string $module Where (in the code) this message is coming from
  * @param string $message Log message
  */
-function log_security( $module, $message )
-{
-  log_message( "security", $module, $message );
+function log_security( $module, $message ) {
+	log_message( "security", $module, $message );
 }
 
 /**
@@ -110,10 +104,9 @@ function log_security( $module, $message )
  * @param string $module Where (in the code) this message is coming from
  * @param string $message Log message
  */
-function fatal_error( $module, $message )
-{
-  echo $message;
-  log_critical( $module, $message );
-  exit();
+function fatal_error( $module, $message ) {
+	echo $message;
+	log_critical( $module, $message );
+	exit();
 }
 ?>

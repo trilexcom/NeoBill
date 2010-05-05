@@ -110,7 +110,7 @@ class CCPaymentPage extends SolidStatePage {
 			$expireDate,
 			$this->post['cardcode'],
 			$this->conf['payment_gateway']['order_method'] ) ) {
-			$this->setError( array( "type" => "CC_PROCESSING_ERROR" ) );
+			$this->setError( array( "type" => "[CC_PROCESSING_ERROR]" ) );
 			$this->reload();
 		}
 

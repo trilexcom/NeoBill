@@ -111,7 +111,7 @@ class DBConnection {
 	 * @return DBConnection DBConnection instance
 	 */
 	public static function getDBConnection() {
-		if( self::$instance == null ) {
+		if ( self::$instance == null ) {
 			self::$instance = new DBConnection();
 		}
 
@@ -141,7 +141,7 @@ class DBConnection {
 	 * @return object Database handle
 	 */
 	public function handle() {
-		if( $this->dbh == null ) {
+		if ( $this->dbh == null ) {
 			// Not connected.  Yet.
 			$this->connect();
 		}
@@ -159,13 +159,13 @@ class DBConnection {
 		$this->dbh = @mysql_connect( $db['hostname'],
 				$db['username'],
 				base64_decode( $db['password'] ) );
-		if( $this->dbh == null ) {
+		if ( $this->dbh == null ) {
 			// Connection failed
 			throw new DBException( "DB Connection failure: " . mysql_error() );
 		}
 
 		// Open the Solid-State database
-		if( !@mysql_select_db( $db['database'], $this->dbh ) ) {
+		if ( !@mysql_select_db( $db['database'], $this->dbh ) ) {
 			// Failed to open Solid-State database
 			throw new DBException( "DB Select Database failure: " . mysql_error() );
 		}
@@ -185,7 +185,7 @@ class DBConnection {
 		$cols = array_keys( $cols_vals );
 
 		// Validate table name
-		if( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
 			// Table name not provided or invalid
 			throw new DBException( "Invalid table: " . $table_name );
 		}
@@ -223,7 +223,7 @@ class DBConnection {
 	 */
 	public function build_delete_sql( $table_name, $where ) {
 		// Validate table name
-		if( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
 			// Table name not provided or invalid - return nothing
 			throw new DBException( "Invalid table: " . $table_name );
 		}
@@ -231,7 +231,7 @@ class DBConnection {
 		// Begin building SQL
 		$sql = sprintf( "DELETE FROM `%s`", $table_name );
 
-		if( isset( $where ) ) {
+		if ( isset( $where ) ) {
 			$sql .= " WHERE " . $where;
 		}
 
@@ -250,7 +250,7 @@ class DBConnection {
 	 */
 	public function build_update_sql( $table_name, $where, $cols_vals ) {
 		// Validate table name
-		if( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
 			// Table name not provided or invalid - return nothing
 			throw new DBException( "Invalid table: " . $table_name );
 		}
@@ -261,13 +261,13 @@ class DBConnection {
 		// Build & validate column & value pairs
 		foreach( $cols_vals as $column => $value ) {
 			// Validate this column
-			if( !$this->validate_column( $column, $table_name ) ) {
+			if ( !$this->validate_column( $column, $table_name ) ) {
 				throw new DBException( "Invalid table column: " . $column );
 			}
 
 			$sql .= $column . " = ";
 
-			if( is_numeric( $value ) ) {
+			if ( is_numeric( $value ) ) {
 				// Numeric - don't use quotes
 				$sql .= $value;
 			}
@@ -276,14 +276,14 @@ class DBConnection {
 				$sql .= $this->quote_smart( $value );
 			}
 
-			if( !($column == end( array_keys( $cols_vals ) ) ) ) {
+			if ( !($column == end( array_keys( $cols_vals ) ) ) ) {
 				// Add a comma after every value except the last
 				$sql .= ", ";
 			}
 		}
 
 		// Validate & build WHERE clause
-		if( !isset( $where ) ) {
+		if ( !isset( $where ) ) {
 			// No where class provided, return nothing
 			return null;
 		}
@@ -314,13 +314,13 @@ class DBConnection {
 			$limit = null,
 			$start = null ) {
 		// Validate table name
-		if( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
 			// Table name not provided or invalid - return nothing
 			throw new DBException( "Invalid table: " . $table_name );
 		}
 
 		// Validate columns
-		if( !isset( $columns ) ) {
+		if ( !isset( $columns ) ) {
 			// No columns provided - default to all
 			$columns = "*";
 		}
@@ -328,24 +328,24 @@ class DBConnection {
 		// Begin building SELECT statement
 		$sql = sprintf( "SELECT %s FROM `%s`", $columns, $table_name );
 
-		if( strlen( $filter ) > 0 ) {
+		if ( strlen( $filter ) > 0 ) {
 			// A filter is provided - add a WHERE clause to the SQL
 			$sql .= " WHERE " . $filter;
 		}
 
 		// Validate sortby
-		if( strlen( $sortby ) > 0 && $this->validate_column( $sortby, $table_name ) ) {
+		if ( strlen( $sortby ) > 0 && $this->validate_column( $sortby, $table_name ) ) {
 			// A field to sort on is provided - add an ORDER BY clause
 			$sql .= " ORDER BY " . $sortby;
-			if( strlen( $sortdir ) > 0 && ($sortdir == "ASC" || $sortdir == "DESC") ) {
+			if ( strlen( $sortdir ) > 0 && ($sortdir == "ASC" || $sortdir == "DESC") ) {
 				// While we're at it, add a direction to the ORDER BY clause
 				$sql .= " " . $sortdir;
 			}
 		}
 
-		if( strlen( $limit ) > 0 ) {
+		if ( strlen( $limit ) > 0 ) {
 			// Limit the amount of records returned
-			if( !(strlen( $start ) > 0) ) {
+			if ( !(strlen( $start ) > 0) ) {
 				// No starting position is supplied - default to 0
 				$start = 0;
 			}
@@ -365,18 +365,18 @@ class DBConnection {
 	 * @return boolean True if column exists
 	 */
 	public function validate_column( $column_name, $table_name ) {
-		if( !$db['schema_validation'] ) {
+		if ( !$db['schema_validation'] ) {
 			return true;
 		}
 
 		// Validate table name
-		if( !$this->validate_table( $table_name ) ) {
+		if ( !$this->validate_table( $table_name ) ) {
 			return false;
 		}
 
 		// Query DB for a list of columns in this table
 		$sql = sprintf( "SHOW COLUMNS FROM `%s`", $table_name );
-		if( !($result = @mysql_query( $sql, $this->handle() ) ) ) {
+		if ( !($result = @mysql_query( $sql, $this->handle() ) ) ) {
 			// Query error
 			throw new DBException( sprintf( "Attempt to query table columns failed.  Table = %s, column = %s",
 			$table_name,
@@ -385,7 +385,7 @@ class DBConnection {
 
 		// Search result set for the column name provided
 		while( $data = mysql_fetch_array( $result ) ) {
-			if( $data[0] == $column_name ) {
+			if ( $data[0] == $column_name ) {
 				// Match!
 				return true;
 			}
@@ -404,20 +404,20 @@ class DBConnection {
 	 * @return boolean True if table exists
 	 */
 	public function validate_table( $table_name ) {
-		if( !$db['schema_validation'] ) {
+		if ( !$db['schema_validation'] ) {
 			return true;
 		}
 
 		// Query DB for a list of tables
 		$sql = "SHOW TABLES";
-		if( !($result = @mysql_query( $sql, $this->handle() ) ) ) {
+		if ( !($result = @mysql_query( $sql, $this->handle() ) ) ) {
 			// Query error
 			throw new DBException( "Attempt to validate table failed" );
 		}
 
 		// Search result set for the table name provided
 		while( $data = mysql_fetch_array( $result ) ) {
-			if( $data[0] == $table_name ) {
+			if ( $data[0] == $table_name ) {
 				// Match!
 				return true;
 			}
@@ -438,12 +438,12 @@ class DBConnection {
 	 */
 	public function quote_smart( $value ) {
 		// Stripslashes
-		if( get_magic_quotes_gpc() ) {
+		if ( get_magic_quotes_gpc() ) {
 			$value = stripslashes( $value );
 		}
 
 		// Quote if not integer
-		if( !is_numeric( $value ) ) {
+		if ( !is_numeric( $value ) ) {
 			$value = "'" . mysql_real_escape_string( $value, $this->handle() ) . "'";
 		}
 

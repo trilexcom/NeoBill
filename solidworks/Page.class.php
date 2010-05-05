@@ -12,6 +12,7 @@
 
 // Validation functions
 require_once 'Form.class.php';
+require_once 'Translator.class.php';
 
 /**
  * Page

@@ -31,12 +31,12 @@ class CustomerLoginPage extends SolidStatePage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
-		switch( $action_name ) {
+		switch ( $action_name ) {
 			case "login":
-				if( isset( $this->post['login'] ) ) {
+				if ( isset( $this->post['login'] ) ) {
 					$this->login();
 				}
-				elseif( isset( $this->post['back'] ) ) {
+				elseif ( isset( $this->post['back'] ) ) {
 					$this->goback();
 				}
 				break;
@@ -62,7 +62,7 @@ class CustomerLoginPage extends SolidStatePage {
 		if ( $this->post['user']->getPassword() == $this->post['password'] ) {
 			// Only customers are allowed to login to the order form
 			if ( $this->post['user']->getType() != "Client" ) {
-				$this->setError( array( "type" => "ONLY_CUSTOMERS_CAN_LOGIN" ) );
+				$this->setError( array( "type" => "[ONLY_CUSTOMERS_CAN_LOGIN]" ) );
 				return;
 			}
 
@@ -75,7 +75,7 @@ class CustomerLoginPage extends SolidStatePage {
 
 		// Login failure
 		log_security( "CustomerLoginPage::login()", "Login failed." );
-		$this->setError( array( "type" => "LOGIN_FAILED" ) );
+		$this->setError( array( "type" => "[LOGIN_FAILED]" ) );
 	}
 }
 ?>
