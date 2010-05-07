@@ -17,34 +17,33 @@
  *
  * @return array Payment stats
  */
-function payments_stats()
-{
-  // Count payments for the current month
-  $payments_this_month = 0;
-  
-  // ... and total them
-  $total_payments_this_month = 0.00;
+function payments_stats() {
+	// Count payments for the current month
+	$payments_this_month = 0;
 
-  // Get all payments for this month
-  $now = getDate( time() );
-  $first_of_month = mktime( 0, 0, 1, $now['mon'], 1, $now['year']);
+	// ... and total them
+	$total_payments_this_month = 0.00;
 
-  try
-    {
-      // Iterate through the payments
-      $paymentdbo_array = load_array_PaymentDBO( "UNIX_TIMESTAMP(date) > " . 
-						 $first_of_month );
-      foreach( $paymentdbo_array as $payment )
-	{
-	  // Add payment to totals
-	  $payments_this_month++;
-	  $total_payments_this_month += $payment->getAmount();
+	// Get all payments for this month
+	$now = getDate( time() );
+	$first_of_month = mktime( 0, 0, 1, $now['mon'], 1, $now['year']);
+
+	try {
+		// Iterate through the payments
+		$paymentdbo_array = load_array_PaymentDBO( "UNIX_TIMESTAMP(date) > " .
+				$first_of_month );
+		foreach ( $paymentdbo_array as $payment ) {
+			// Add payment to totals
+			$payments_this_month++;
+			$total_payments_this_month += $payment->getAmount();
+		}
 	}
-    }
-  catch( DBNoRowsFoundException $e ) {}
+	catch ( DBNoRowsFoundException $e ) {
 
-  return array( "count" => $payments_this_month,
-		"total" => $total_payments_this_month );
+	}
+
+	return array( "count" => $payments_this_month,
+			"total" => $total_payments_this_month );
 }
 
 /**
@@ -54,63 +53,59 @@ function payments_stats()
  *
  * @return array Outstanding Invoices stats
  */
-function outstanding_invoices_stats()
-{
-  // Count the outstanding invoices
-  $count = 0;
+function outstanding_invoices_stats() {
+	// Count the outstanding invoices
+	$count = 0;
 
-  // Total the balance on all outstanding invoices
-  $total_balance = 0.00;
+	// Total the balance on all outstanding invoices
+	$total_balance = 0.00;
 
-  // Count the number of past-due invoices
-  $count_past_due = 0;
+	// Count the number of past-due invoices
+	$count_past_due = 0;
 
-  // ... and total
-  $total_balance_past_due = 0.00;
+	// ... and total
+	$total_balance_past_due = 0.00;
 
-  // Count the number of 30+ day past-due invoices
-  $count_past_due_30 = 0;
+	// Count the number of 30+ day past-due invoices
+	$count_past_due_30 = 0;
 
-  // ... and total
-  $total_balance_past_due_30 = 0.00;
+	// ... and total
+	$total_balance_past_due_30 = 0.00;
 
-  // Iterate through all the invoices
-  try
-    {
-      $invoicedbo_array = load_array_InvoiceDBO();
-      foreach( $invoicedbo_array as $invoice )
-	{
-	  if( ($invoice_balance = $invoice->getBalance()) >= 0.01 )
-	    {
-	      // Invoice has not been paid in full, 
-	      $count++;
-	      $total_balance += $invoice_balance;
-	      
-	      if( time() > $invoice->getDueDate() )
-		{
-		  // Invoice is past due
-		  $count_past_due++;
-		  $total_balance_past_due += $invoice_balance;
+	// Iterate through all the invoices
+	try {
+		$invoicedbo_array = load_array_InvoiceDBO();
+		foreach ( $invoicedbo_array as $invoice ) {
+			if ( ($invoice_balance = $invoice->getBalance()) >= 0.01 ) {
+				// Invoice has not been paid in full,
+				$count++;
+				$total_balance += $invoice_balance;
+
+				if ( time() > $invoice->getDueDate() ) {
+					// Invoice is past due
+					$count_past_due++;
+					$total_balance_past_due += $invoice_balance;
+				}
+
+				if ( time() > ($invoice->getDueDate() + (30*24*60*60)) ) {
+					// Invoice is more than 30 days past due
+					$count_past_due_30++;
+					$total_balance_past_due_30 += $invoice_balance;
+				}
+			}
 		}
-	      
-	      if( time() > ($invoice->getDueDate() + (30*24*60*60)) )
-		{
-		  // Invoice is more than 30 days past due
-		  $count_past_due_30++;
-		  $total_balance_past_due_30 += $invoice_balance;
-		}
-	    }
 	}
-    }
-  catch( DBNoRowsFoundException $e ) {}
+	catch( DBNoRowsFoundException $e ) {
 
-  // Stuff array with stats and return
-  return array( "count" => $count,
-		"total" => $total_balance,
-		"count_past_due" => $count_past_due,
-		"total_past_due" => $total_balance_past_due,
-		"count_past_due_30" => $count_past_due_30,
-		"total_past_due_30" => $total_balance_past_due_30 );
+	}
+
+	// Stuff array with stats and return
+	return array( "count" => $count,
+			"total" => $total_balance,
+			"count_past_due" => $count_past_due,
+			"total_past_due" => $total_balance_past_due,
+			"count_past_due_30" => $count_past_due_30,
+			"total_past_due_30" => $total_balance_past_due_30 );
 }
 
 ?>

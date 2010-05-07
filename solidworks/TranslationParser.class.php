@@ -59,19 +59,19 @@ class TranslationParser {
 	 * @return array Configuration data
 	 */
 	public static function load( $file ) {
-		if( self::$loaded[$file] != true ) {
+		if ( self::$loaded[$file] != true ) {
 			$xml_parser = xml_parser_create();
 			$translation_parser = new TranslationParser();
 			xml_set_object( $xml_parser, $translation_parser );
 			xml_set_element_handler( $xml_parser, "startElement", "endElement" );
 			xml_set_character_data_handler( $xml_parser, "characterData" );
 
-			if( !($fp = @fopen( $file, "r" )) ) {
+			if ( !($fp = @fopen( $file, "r" )) ) {
 				throw new SWException( "Could not load translation file: " . $file );
 			}
 
-			while( $data = fread( $fp, 4096 ) ) {
-				if( !xml_parse( $xml_parser, $data, feof( $fp ) ) ) {
+			while ( $data = fread( $fp, 4096 ) ) {
+				if ( !xml_parse( $xml_parser, $data, feof( $fp ) ) ) {
 					throw new SWException( sprintf( "<pre>There is an error in your translations file:\n %s at line %d</pre>",
 					xml_error_string( xml_get_error_code( $xml_parser ) ),
 					xml_get_current_line_number( $xml_parser ) ) );
@@ -107,7 +107,7 @@ class TranslationParser {
 	public function startElement( $parser, $tagName, $attrs ) {
 		$this->tag_stack[] = $tagName;
 		$this->tagStackSize++;
-		switch( $tagName ) {
+		switch ( $tagName ) {
 			case "TRANSLATION":
 				$this->translator->setActiveLanguage( $attrs['LANGUAGE'] );
 				break;
@@ -134,7 +134,7 @@ class TranslationParser {
 	function endElement( $parser, $tagName ) {
 		array_pop( $this->tag_stack );
 		$this->tagStackSize--;
-		switch( $tagName ) {
+		switch ( $tagName ) {
 			case "TRANSLATION":
 				unset( $this->language );
 				break;

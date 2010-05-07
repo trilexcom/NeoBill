@@ -230,16 +230,13 @@ function create_company() {
 
 function get_languages_installer() {
     $languages = array();
-
-	$dh = @opendir('./languages/');
-    if ($dh !== false) {
-        while (false !== ($file = readdir($dh))) {
-            if ('.' != $file && '..' != $file && 'index.php' != $file && 4 < strlen($file)) {
-                $languages[] = substr($file, 0, strlen($file) - 4);
-            }
-        }
-        closedir($dh);
-    }
+	
+	$inifile = dirname(__FILE__) . "/../languages/accepted.ini";
+	if ( file_exists( $inifile ))
+	{
+		$languages_ini = parse_ini_file( $inifile );
+		$languages = $languages_ini['languages'];
+	}
 
     return $languages;
 }

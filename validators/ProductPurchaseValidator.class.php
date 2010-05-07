@@ -2,7 +2,7 @@
 /**
  * ProductPurchaseValidator.class.php
  *
- * This file contains the definition of the ProductPurchaseValidator class.  
+ * This file contains the definition of the ProductPurchaseValidator class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,43 +16,46 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ProductPurchaseValidator extends FieldValidator
-{
-  /**
-   * @var integer Account ID
-   */
-  protected $accountID = null;
+class ProductPurchaseValidator extends FieldValidator {
+	/**
+	 * @var integer Account ID
+	 */
+	protected $accountID = null;
 
-  /**
-   * Set Account ID
-   *
-   * @param integer $id Account ID
-   */
-  public function setAccountID( $id ) { $this->accountID = $id; }
+	/**
+	 * Set Account ID
+	 *
+	 * @param integer $id Account ID
+	 */
+	public function setAccountID( $id ) {
+		$this->accountID = $id;
+	}
 
-  /**
-   * Validate a Product  Purchase ID
-   *
-   * Verifies that the server exists.
-   *
-   * @param string $data Field data
-   * @return ProductPurchaseDBO Purchase DBO for this ProductPurchase ID
-   * @throws RecordNotFoundException
-   */
-  public function validate( $data )
-  {
-    $data = parent::validate( $data );
+	/**
+	 * Validate a Product  Purchase ID
+	 *
+	 * Verifies that the server exists.
+	 *
+	 * @param string $data Field data
+	 * @return ProductPurchaseDBO Purchase DBO for this ProductPurchase ID
+	 * @throws RecordNotFoundException
+	 */
+	public function validate( $data ) {
+		$data = parent::validate( $data );
 
-    try { $purchaseDBO = load_ProductPurchaseDBO( intval( $data ) ); }
-    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "ProductPurchase" ); }
+		try {
+			$purchaseDBO = load_ProductPurchaseDBO( intval( $data ) );
+		}
+		catch ( DBNoRowsFoundException $e ) {
+			throw new RecordNotFoundException( "ProductPurchase" );
+		}
 
-    // Verify that this purchase is for a specific account
-    if( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID )
-      {
-	throw new FieldException( "Purchase/Account mismatch" );
-      }
+		// Verify that this purchase is for a specific account
+		if ( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID ) {
+			throw new FieldException( "Purchase/Account mismatch" );
+		}
 
-    return $purchaseDBO;
-  }
+		return $purchaseDBO;
+	}
 }
 ?>

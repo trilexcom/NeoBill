@@ -2,7 +2,7 @@
 /**
  * DomainServiceValidator.class.php
  *
- * This file contains the definition of the DomainServiceValidator class.  
+ * This file contains the definition of the DomainServiceValidator class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,30 +16,31 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DomainServiceValidator extends FieldValidator
-{
-  /**
-   * Validate a Domain Service TLD
-   *
-   * Verifies that the domain service exists.
-   *
-   * @param string $data Field data
-   * @return DomainServiceDBO Domain Service DBO for this TLD
-   * @throws RecordNotFoundException
-   */
-  public function validate( $data )
-  {
-    $data = parent::validate( $data );
+class DomainServiceValidator extends FieldValidator {
+	/**
+	 * Validate a Domain Service TLD
+	 *
+	 * Verifies that the domain service exists.
+	 *
+	 * @param string $data Field data
+	 * @return DomainServiceDBO Domain Service DBO for this TLD
+	 * @throws RecordNotFoundException
+	 */
+	public function validate( $data ) {
+		$data = parent::validate( $data );
 
-    try { $domainDBO = load_DomainServiceDBO( $data ); }
-    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "DomainService" ); }
+		try {
+			$domainDBO = load_DomainServiceDBO( $data );
+		}
+		catch( DBNoRowsFoundException $e ) {
+			throw new RecordNotFoundException( "DomainService" );
+		}
 
-    if( $this->fieldConfig['publicitemsonly'] && !$domainDBO->isPublic() )
-      {
-	throw new RecordNotFoundException( "DomainService" );
-      }
+		if( $this->fieldConfig['publicitemsonly'] && !$domainDBO->isPublic() ) {
+			throw new RecordNotFoundException( "DomainService" );
+		}
 
-    return $domainDBO;
-  }
+		return $domainDBO;
+	}
 }
 ?>

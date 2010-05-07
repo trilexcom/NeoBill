@@ -2,7 +2,7 @@
 /**
  * SolidStateException.class.php
  *
- * This file contains the definition of the SolidStateException class.  
+ * This file contains the definition of the SolidStateException class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -11,29 +11,28 @@
  */
 
 // Parent class
+require_once dirname(__FILE__).'/../config/config.inc.php';
 require_once BASE_PATH . "solidworks/SWException.class.php";
 
 /**
  * SolidStateException
  *
- * A SolidState Exception is the most primitive exception that should be thrown by 
+ * A SolidState Exception is the most primitive exception that should be thrown by
  * one of the SolidState interfaces.  All exceptions should descend from this class.
  *
  * @package util
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class SolidStateException extends SWException
-{
-  /**
-   * @var string Error Message
-   */
-  var $message = "SolidState has encountered an undefined exception.";
+class SolidStateException extends SWException {
+	/**
+	 * @var string Error Message
+	 */
+	var $message = "SolidState has encountered an undefined exception.";
 
-  /**
-   * SolidStateException Constructor
-   */
-  function __construct()
-  {
-  }
+	/**
+	 * SolidStateException Constructor
+	 */
+	function __construct() {
+	}
 }
 ?>

@@ -19,14 +19,13 @@
  *
  * @return array Domain stats
  */
-function domain_stats()
-{
-  $stats['domains_count'] = 
-    count_all_DomainServicePurchaseDBO( "UNIX_TIMESTAMP(expiredate) > UNIX_TIMESTAMP(NOW())" );
+function domain_stats() {
+	$stats['domains_count'] =
+			count_all_DomainServicePurchaseDBO( "UNIX_TIMESTAMP(expiredate) > UNIX_TIMESTAMP(NOW())" );
 
-  $stats['expired_domains_count'] = 
-    count_all_DomainServicePurchaseDBO( "UNIX_TIMESTAMP(expiredate) < UNIX_TIMESTAMP(NOW())" );
+	$stats['expired_domains_count'] =
+			count_all_DomainServicePurchaseDBO( "UNIX_TIMESTAMP(expiredate) < UNIX_TIMESTAMP(NOW())" );
 
-  return $stats;
+	return $stats;
 }
 ?>

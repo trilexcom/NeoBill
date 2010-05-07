@@ -2,7 +2,7 @@
 /**
  * LogValidator.class.php
  *
- * This file contains the definition of the LogValidator class.  
+ * This file contains the definition of the LogValidator class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,25 +16,27 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class LogValidator extends FieldValidator
-{
-  /**
-   * Validate an Log ID
-   *
-   * Verifies that the log exists.
-   *
-   * @param string $data Field data
-   * @return LogDBO Log DBO for this Log ID
-   * @throws RecordNotFoundException
-   */
-  public function validate( $data )
-  {
-    $data = parent::validate( $data );
+class LogValidator extends FieldValidator {
+	/**
+	 * Validate an Log ID
+	 *
+	 * Verifies that the log exists.
+	 *
+	 * @param string $data Field data
+	 * @return LogDBO Log DBO for this Log ID
+	 * @throws RecordNotFoundException
+	 */
+	public function validate( $data ) {
+		$data = parent::validate( $data );
 
-    try { $logDBO = load_LogDBO( intval( $data ) ); }
-    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Log" ); }
+		try {
+			$logDBO = load_LogDBO( intval( $data ) );
+		}
+		catch( DBNoRowsFoundException $e ) {
+			throw new RecordNotFoundException( "Log" );
+		}
 
-    return $logDBO;
-  }
+		return $logDBO;
+	}
 }
 ?>

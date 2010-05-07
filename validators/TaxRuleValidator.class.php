@@ -2,7 +2,7 @@
 /**
  * TaxRuleValidator.class.php
  *
- * This file contains the definition of the TaxRuleValidator class.  
+ * This file contains the definition of the TaxRuleValidator class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,25 +16,27 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class TaxRuleValidator extends FieldValidator
-{
-  /**
-   * Validate a TaxRule ID
-   *
-   * Verifies that the TaxRule exists.
-   *
-   * @param string $data Field data
-   * @return TaxRuleDBO TaxRule DBO for this TaxRule ID
-   * @throws RecordNotFoundException
-   */
-  public function validate( $data )
-  {
-    $data = parent::validate( $data );
+class TaxRuleValidator extends FieldValidator {
+	/**
+	 * Validate a TaxRule ID
+	 *
+	 * Verifies that the TaxRule exists.
+	 *
+	 * @param string $data Field data
+	 * @return TaxRuleDBO TaxRule DBO for this TaxRule ID
+	 * @throws RecordNotFoundException
+	 */
+	public function validate( $data ) {
+		$data = parent::validate( $data );
 
-    try { $taxRuleDBO = load_TaxRuleDBO( intval( $data ) ); }
-    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "TaxRule" ); }
+		try {
+			$taxRuleDBO = load_TaxRuleDBO( intval( $data ) );
+		}
+		catch( DBNoRowsFoundException $e ) {
+			throw new RecordNotFoundException( "TaxRule" );
+		}
 
-    return $taxRuleDBO;
-  }
+		return $taxRuleDBO;
+	}
 }
 ?>

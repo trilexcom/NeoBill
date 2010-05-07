@@ -2,7 +2,7 @@
 /**
  * LanguageValidator.class.php
  *
- * This file contains the definition of the LanguageValidator class.  
+ * This file contains the definition of the LanguageValidator class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,30 +16,26 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class LanguageValidator extends ChoiceValidator
-{
-  /**
-   * Get Valid Choices
-   *
-   * Returns all the valid languages
-   *
-   * @return array An array of valid language choices
-   */
-  function getValidChoices()
-  {
-    $languages = array();
-    
-    // Read all the languages in the "language/" directory
-    $langDir = opendir( "language/" );
-    while( false !== ($file = readdir( $langDir )) )
-      {
-	if( filetype( "language/" . $file ) == "file" )
-	  {
-	    $languages[$file] = $file;
-	  }
-      }
+class LanguageValidator extends ChoiceValidator {
+	/**
+	 * Get Valid Choices
+	 *
+	 * Returns all the valid languages
+	 *
+	 * @return array An array of valid language choices
+	 */
+	function getValidChoices() {
+		$languages = array();
 
-    return $languages;
-  }
+		// Read all the languages in the "language/" directory
+		$langDir = opendir( "language/" );
+		while( false !== ($file = readdir( $langDir )) ) {
+			if( filetype( "language/" . $file ) == "file" ) {
+				$languages[$file] = $file;
+			}
+		}
+
+		return $languages;
+	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
  * OrderValidator.class.php
  *
- * This file contains the definition of the OrderValidator class.  
+ * This file contains the definition of the OrderValidator class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,26 +16,28 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class OrderValidator extends FieldValidator
-{
-  /**
-   * Validate a Order ID
-   *
-   * Verifies that the order exists.
-   *
-   * @param array $config Field configuration
-   * @param string $data Field data
-   * @return OrderDBO Order DBO for this Order ID
-   * @throws RecordNotFoundException
-   */
-  public function validate( $data )
-  {
-    $data = parent::validate( $data );
+class OrderValidator extends FieldValidator {
+	/**
+	 * Validate a Order ID
+	 *
+	 * Verifies that the order exists.
+	 *
+	 * @param array $config Field configuration
+	 * @param string $data Field data
+	 * @return OrderDBO Order DBO for this Order ID
+	 * @throws RecordNotFoundException
+	 */
+	public function validate( $data ) {
+		$data = parent::validate( $data );
 
-    try { $orderDBO = load_OrderDBO( intval( $data ) ); }
-    catch( DBNoRowsFoundException $e ) { throw new RecordNotFoundException( "Order" ); }
+		try {
+			$orderDBO = load_OrderDBO( intval( $data ) );
+		}
+		catch ( DBNoRowsFoundException $e ) {
+			throw new RecordNotFoundException( "Order" );
+		}
 
-    return $orderDBO;
-  }
+		return $orderDBO;
+	}
 }
 ?>

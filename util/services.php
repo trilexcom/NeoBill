@@ -18,11 +18,10 @@
  *
  * @return array Stats
  */
-function services_stats()
-{
-  $stats['count'] = count_all_HostingServiceDBO();
+function services_stats() {
+	$stats['count'] = count_all_HostingServiceDBO();
 
-  return $stats;
+	return $stats;
 }
 
 /**
@@ -33,11 +32,10 @@ function services_stats()
  *
  * @return array Domain service stats
  */
-function domain_services_stats()
-{
-  $stats['count'] = count_all_DomainServiceDBO();
+function domain_services_stats() {
+	$stats['count'] = count_all_DomainServiceDBO();
 
-  return $stats;
+	return $stats;
 }
 
 /**
@@ -48,11 +46,10 @@ function domain_services_stats()
  *
  * @return array Product stats
  */
-function products_stats()
-{
-  $stats['count'] = count_all_ProductDBO();
+function products_stats() {
+	$stats['count'] = count_all_ProductDBO();
 
-  return $stats;
+	return $stats;
 }
 
 ?>

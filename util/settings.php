@@ -24,14 +24,14 @@ function load_settings( &$conf ) {
     $sql = $DB->build_select_sql( "settings", "*" );
 
     // Run Query
-    if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
+    if ( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-    while( $setting = mysql_fetch_array( $result ) ) {
+    while ( $setting = mysql_fetch_array( $result ) ) {
         $key = $setting['setting'];
         $val = $setting['value'];
-        switch( $key ) {
+        switch ( $key ) {
             case "company_name": $conf['company']['name'] = $val;
                 break;
             case "company_email": $conf['company']['email'] = $val;
@@ -167,11 +167,11 @@ function update_setting( $key, $value ) {
     $DB = DBConnection::getDBConnection();
 
     $sql = $DB->build_select_sql( "settings", null, "setting = '" . $key . "'" );
-    if( !($result = mysql_query( $sql, $DB->handle() )) ) {
+    if ( !($result = mysql_query( $sql, $DB->handle() )) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-    if( !mysql_fetch_row( $result ) ) {
+    if ( !mysql_fetch_row( $result ) ) {
         // Insert
         $sql = $DB->build_insert_sql( "settings",
                 array( "setting" => $key, "value" => $value ) );
@@ -185,7 +185,7 @@ function update_setting( $key, $value ) {
     }
 
     // Run query
-    if( !mysql_query( $sql, $DB->handle() ) ) {
+    if ( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
