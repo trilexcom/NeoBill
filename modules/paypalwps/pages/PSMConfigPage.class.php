@@ -21,67 +21,61 @@ require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PSMConfigPage extends SolidStateAdminPage
-{
-  /**
-   * @var Paypal Paypal Module object
-   */
-  var $ppModule;
+class PSMConfigPage extends SolidStateAdminPage {
+	/**
+	 * @var Paypal Paypal Module object
+	 */
+	var $ppModule;
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "psm_config":
-	if( isset( $this->post['save'] ) )
-	  {
-	    $this->save();
-	  }
-	break;
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch( $action_name ) {
+			case "psm_config":
+				if( isset( $this->post['save'] ) ) {
+					$this->save();
+				}
+				break;
 
-      default:
-	// No matching action - refer to base class
-	parent::action( $action_name );
+			default:
+			// No matching action - refer to base class
+				parent::action( $action_name );
 
-      }
-  }
+		}
+	}
 
-  /**
-   * Initialize the Page
-   */
-  function init()
-  {
-    parent::init();
+	/**
+	 * Initialize the Page
+	 */
+	function init() {
+		parent::init();
 
-    // Load the form values with Module settings
-    $registry = ModuleRegistry::getModuleRegistry();
-    $this->ppModule = $registry->getModule( 'paypalwps' );
-    $this->smarty->assign( "account", $this->ppModule->getAccount() );
-    $this->smarty->assign( "cartURL", $this->ppModule->getCartURL() );
-    $this->smarty->assign( "idToken", $this->ppModule->getIdToken() );
-    $this->smarty->assign( "currency", $this->ppModule->getCurrencyCode() );
-  }
+		// Load the form values with Module settings
+		$registry = ModuleRegistry::getModuleRegistry();
+		$this->ppModule = $registry->getModule( 'paypalwps' );
+		$this->smarty->assign( "account", $this->ppModule->getAccount() );
+		$this->smarty->assign( "cartURL", $this->ppModule->getCartURL() );
+		$this->smarty->assign( "idToken", $this->ppModule->getIdToken() );
+		$this->smarty->assign( "currency", $this->ppModule->getCurrencyCode() );
+	}
 
-  /**
-   * Save Settings
-   */
-  function save()
-  {
-    // Update settings in DB
-    $this->ppModule->setAccount( $this->post['account'] );
-    $this->ppModule->setCartURL( $this->post['carturl'] );
-    $this->ppModule->setIdToken( $this->post['idtoken'] );
-    $this->ppModule->setCurrencyCode( $this->post['currency'] );
-    $this->ppModule->saveSettings();
+	/**
+	 * Save Settings
+	 */
+	function save() {
+		// Update settings in DB
+		$this->ppModule->setAccount( $this->post['account'] );
+		$this->ppModule->setCartURL( $this->post['carturl'] );
+		$this->ppModule->setIdToken( $this->post['idtoken'] );
+		$this->ppModule->setCurrencyCode( $this->post['currency'] );
+		$this->ppModule->saveSettings();
 
-    $this->setMessage( array( "type" => "[PS_CONFIGURATION_SAVED]" ) );
-  }
+		$this->setMessage( array( "type" => "[PS_CONFIGURATION_SAVED]" ) );
+	}
 }
 ?>

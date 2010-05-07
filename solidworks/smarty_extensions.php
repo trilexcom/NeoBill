@@ -10,6 +10,8 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require_once dirname(__FILE__).'/Translator.class.php';
+
 // Keeps track of the {form} ... {/form} block(s) we are in
 $form_stack = array();
 
@@ -304,9 +306,10 @@ function smarty_page_messages( $params, &$smarty ) {
 	$html = "<p class=\"message\">\n";
 
 	// Write all the error messages currently in the session
+	$translator = Translator::getTranslator();
 	foreach( $messages as $message_data ) {
 		// Insert arguments into error message
-		$message = $message_data['type'];
+		$message = $translator->translateString($message_data['type']);
 		if ( isset( $message_data['args'] ) ) {
 			foreach( $message_data['args'] as $i => $arg ) {
 				$message = str_replace( "{" . $i . "}", $arg, $message );

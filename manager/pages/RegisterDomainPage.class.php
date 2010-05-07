@@ -106,7 +106,7 @@ class RegisterDomainPage extends SolidStatePage {
 				$this->post['servicetld']->getTLD() );
 		if( !$module->checkAvailability( $fqdn ) ) {
 			// Domain is NOT available
-			throw new SWUserException( "[DOMAIN_NOT_AVAILABLE]" );
+			throw new SWUserException( "[DOMAIN_NOT_AVAILABLE]", array ( $fqdn ) );
 		}
 
 		// Domain is avaialble

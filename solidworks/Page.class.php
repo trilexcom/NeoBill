@@ -127,7 +127,7 @@ class Page {
         global $conf;
 
         $templateFileName = $defaultDir . $fileName;
-        if( $conf['themes']['current'] == "default" ) {
+        if ( $conf['themes']['current'] == "default" ) {
             // Default theme just returns the template file from the templates/ dir
             return $templateFileName;
         }
@@ -350,7 +350,7 @@ class Page {
             $this->setTemplateDir( $page_data['templatedir'] );
 
             // This page is disabled according to the configuration file
-            if( $page_data['disabled'] ) {
+            if ( $page_data['disabled'] ) {
                 $this->disable();
             }
 
@@ -409,7 +409,7 @@ class Page {
      * @return Form A reference to the named form object
      */
     public function &getForm( $formName ) {
-        if( !isset( $this->forms[$formName] ) ) {
+        if ( !isset( $this->forms[$formName] ) ) {
             throw new SWException( "Form not found: " . $formName );
         }
 
@@ -485,7 +485,7 @@ class Page {
             }
         }
 
-        if( !isset( $url ) ) {
+        if ( !isset( $url ) ) {
             // Page not found
             fatal_error( $this->getClassName(),
                     "Attempted jump to an invalid page: " . $page_name );
@@ -541,13 +541,15 @@ class Page {
         $_SESSION['messages'][] = $message;
 
         // Insert arguments into message
-        $text = $message['type'];
-        if( isset( $message['args'] ) ) {
+		// TODO: This probably results in running translate twice - needed a quick fix
+		$text = Translator::getTranslator()->translateString($message['type']);
+        if ( isset( $message['args'] ) ) {
             foreach( $message['args'] as $i => $arg ) {
                 $text = str_replace( "{" . $i . "}", $arg, $text );
             }
         }
-        log_notice( $this->getClassName(), $text );
+
+		log_notice( $this->getClassName(), $text );
     }
 
     /**
@@ -561,7 +563,8 @@ class Page {
         $_SESSION['errors'][] = $error;
 
         // Insert arguments into message
-        $text = $error['type'];
+		// TODO: This probably results in running translate twice - needed a quick fix
+		$text = Translator::getTranslator()->translateString($error['type']);
         if ( isset( $error['args'] ) ) {
             foreach( $error['args'] as $i => $arg ) {
                 $text = str_replace( "{" . $i . "}", $arg, $text );
@@ -739,7 +742,7 @@ class Page {
         }
 
         // Replace Nav Vars with their values
-        if( $_SESSION['nav_vars'] != null ) {
+        if ( $_SESSION['nav_vars'] != null ) {
             foreach( $_SESSION['nav_vars'] as $name => $value ) {
                 $url = str_replace( "{" . $name . "}", $value, $url);
             }
@@ -802,7 +805,7 @@ class Page {
         // Read configuration for template_name
         $page_data = $this->conf['pages'][$this->getClassName()];
 
-        if( !isset( $page_data['templates'][$template_name] ) ) {
+        if ( !isset( $page_data['templates'][$template_name] ) ) {
             // Template name is invalid
             throw new SWException( "Invalid template name: " . $template_name );
         }

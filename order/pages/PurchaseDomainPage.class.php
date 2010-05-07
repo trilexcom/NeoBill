@@ -13,6 +13,7 @@
 // Include the parent class
 require_once dirname(__FILE__).'/../../config/config.inc.php';
 require_once BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "solidworks/Translator.class.php";
 
 /**
  * PurchaseDomainPage
@@ -100,7 +101,7 @@ class PurchaseDomainPage extends SolidStatePage {
 
 				// Check the domain availability
 				if ( !$registrar->checkAvailability( $fqdn ) ) {
-					throw new SWUserException( "[ERROR_DOMAIN_NOT_AVAILABLE]" );
+					throw new SWUserException( "[ERROR_DOMAIN_NOT_AVAILABLE]", array( $fqdn ) );
 				}
 
 				$domainItem->setType( "New" );

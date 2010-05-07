@@ -12,16 +12,16 @@
  */
 
 // Load Exceptions
-require "SWException.class.php";
+require_once "SWException.class.php";
 
-require BASE_PATH . "solidworks/DBO.class.php";
-require BASE_PATH . "DBO/UserDBO.class.php";
-require "log.php";
-require "ConfigParser.class.php";
-require "DBConnection.class.php";
-require "Translator.class.php";
-require "TranslationParser.class.php";
-require "ModuleRegistry.class.php";
+require_once BASE_PATH . "solidworks/DBO.class.php";
+require_once BASE_PATH . "DBO/UserDBO.class.php";
+require_once "log.php";
+require_once "ConfigParser.class.php";
+require_once "DBConnection.class.php";
+require_once "Translator.class.php";
+require_once "TranslationParser.class.php";
+require_once "ModuleRegistry.class.php";
 
 // Load Smarty
 require "smarty/Smarty.class.php";
