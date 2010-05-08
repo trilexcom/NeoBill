@@ -57,6 +57,36 @@ create table `account` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `addon`
+--
+
+CREATE TABLE IF NOT EXISTS `addon` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `description` text,
+  `public` enum('Yes','No') NOT NULL DEFAULT 'No',
+  PRIMARY KEY (`id`)
+) default charset=utf8 auto_increment=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addonprice`
+--
+
+CREATE TABLE IF NOT EXISTS `addonprice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `addonid` int(11) NOT NULL,
+  `type` varchar(32) NOT NULL,
+  `termlength` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `taxable` enum('Yes','No') NOT NULL DEFAULT 'Yes',
+  PRIMARY KEY (`id`)
+) default charset=utf8 auto_increment=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for table `authorizeaim`
 --
 

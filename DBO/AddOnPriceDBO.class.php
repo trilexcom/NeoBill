@@ -18,6 +18,10 @@
  * @package DBO
  * @author John Diamond <jdiamond@solid-state.org>
  */
+
+require_once dirname(__FILE__).'/../solidworks/DBConnection.class.php';
+require_once dirname(__FILE__).'/PriceDBO.class.php';
+
 class AddOnPriceDBO extends PriceDBO {
     /**
      * @var integer The ID of the addon this price belongs to

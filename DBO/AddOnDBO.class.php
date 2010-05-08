@@ -20,6 +20,7 @@
  */
 
 require_once dirname(__FILE__).'/../DBO/PurchasableDBO.class.php';
+require_once dirname(__FILE__).'/AddOnPriceDBO.class.php';
 
 class AddOnDBO extends PurchasableDBO {
     /**

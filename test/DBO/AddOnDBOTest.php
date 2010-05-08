@@ -28,9 +28,6 @@ class AddOnDBOTest extends PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 	}
 
-	/**
-	 * @todo Implement test__toString().
-	 */
 	public function test__toString() {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
@@ -38,74 +35,46 @@ class AddOnDBOTest extends PHPUnit_Framework_TestCase {
 		);
 	}
 
-	/**
-	 * @todo Implement testGetDescription().
-	 */
 	public function testGetDescription() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$this->object->setDescription('Our Description');
+		$this->assertEquals($this->object->getDescription(), 'Our Description');
 	}
 
-	/**
-	 * @todo Implement testGetID().
-	 */
 	public function testGetID() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$this->object->setID(346);
+		$this->assertEquals($this->object->getID(), 346);
 	}
 
-	/**
-	 * @todo Implement testGetName().
-	 */
 	public function testGetName() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$this->object->setName('Louis Bernard');
+		$this->assertEquals($this->object->getName(), 'Louis Bernard');
 	}
 
-	/**
-	 * @todo Implement testLoad().
-	 */
 	public function testLoad() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$data = array();
+		$this->object->setID(-1);
+		$this->object->load($data);
 	}
 
-	/**
-	 * @todo Implement testSetDescription().
-	 */
 	public function testSetDescription() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$this->object->setDescription('Our Description');
+		$this->assertEquals($this->object->getDescription(), 'Our Description');
+		$this->object->setDescription(null);
+		$this->assertNull($this->object->getDescription());
 	}
 
-	/**
-	 * @todo Implement testSetID().
-	 */
 	public function testSetID() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$this->object->setID(346);
+		$this->assertEquals($this->object->getID(), 346);
+		$this->object->setID(null);
+		$this->assertNull($this->object->getID());
 	}
 
-	/**
-	 * @todo Implement testSetName().
-	 */
 	public function testSetName() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
-		);
+		$this->object->setName('Louis Bernard');
+		$this->assertEquals($this->object->getName(), 'Louis Bernard');
+		$this->object->setName('Red Buttons');
+		$this->assertEquals($this->object->getName(), 'Red Buttons');
 	}
 }
 ?>
