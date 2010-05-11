@@ -4,10 +4,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - Align and Offset</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script language="javascript" type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script language="javascript" type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body {font-family:arial;font-size:12px;font-size:12px}
 	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
@@ -15,17 +16,15 @@
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>Align and Offset</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
 	<table>
 		<tr>
 			<td>
-				<div id="a_tabbar" style="width:612; height:150;"/>
+				<div id="a_tabbar" style="width:612px; height:150px;"/>
 			</td>
             <td valign="top">
                 <div> Align:&nbsp; <select style='width:100px;' id='z1'><option value='left'>Left</option><option value='right'>Right</option></select></div>
@@ -36,8 +35,8 @@
 	</table>
 <hr>
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script language="javascript" type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
             
@@ -57,7 +56,7 @@
     </row>
 </tabbar>
 </textarea>
-	<script>
+	<script language="javascript" type="text/javascript">
 
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");

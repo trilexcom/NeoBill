@@ -7,4 +7,4 @@ CREATE TABLE Tree (
   item_desc TEXT ,
   item_parent_id INT UNSIGNED DEFAULT '0',
   PRIMARY KEY ( item_id )
-  )
+  );

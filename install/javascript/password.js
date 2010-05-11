@@ -49,11 +49,11 @@ function _password(input) {
     }
     for (var block = 0; block <= 4; block++) {
       if (block <= level) {
-        class = 'pwdChkCon' + level;
+        theclass = 'pwdChkCon' + level;
       } else {
-        class = 'pwdChkCon';
+        theclass = 'pwdChkCon';
       }
-      document.getElementById('idSM' + block).className = class;
+      document.getElementById('idSM' + block).className = theclass;
       if (block == level) {
         document.getElementById('idSMT' + block).style.display = 'inline';
       } else {

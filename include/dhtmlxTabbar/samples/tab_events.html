@@ -4,10 +4,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - TabBar events</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script language="javascript" type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script language="javascript" type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style language="javascript" type="text/javascript">
+	body {font-family:arial;font-size:12px;font-size:12px}
 	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
@@ -15,30 +16,26 @@
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>TabBar events</h1>
 	<p>
 		You can set event handler for tab selection. If it returns <em>false</em> then tab selection will not be changed.
 	</p>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
 	<table>
 		<tr>
 			<td>
-				<div id="a_tabbar" style="width:412; height:100;"/>
+				<div id="a_tabbar" style="width:412px; height:100px;"/>
 			</td>
 	</table>
 <hr>
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
-            function my_func(idn,ido){
-                if (confirm("Tab "+idn+" to set active\nPlease Confirm?"))
-                    return true;
-                return false;
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script language="javascript" type="text/javascript">
+            function my_func(idn, ido) {
+                return (confirm("Tab "+idn+" to set active\nPlease Confirm?"));
             };
 
             tabbar=new dhtmlXTabBar("a_tabbar","top");
@@ -48,12 +45,10 @@
             tabbar.loadXML("tabs1.xml");
 </script>
 </XMP>
-	<script>
+	<script language="javascript" type="text/javascript">
 
-            function my_func(idn,ido){
-                if (confirm("Tab "+idn+" to set active\nPlease Confirm?"))
-                    return true;
-                return false;
+            function my_func(idn, ido) {
+                return (confirm("Tab "+idn+" to set active\nPlease Confirm?"));
             };
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");

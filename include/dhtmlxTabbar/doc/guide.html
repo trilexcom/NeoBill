@@ -4,12 +4,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar guide and samples</title>
-</head>
-
-<body>
-<style>
-	body {font-size:14px;line-height:18px;}
-	.{font-family:arial;}
+	<style type="text/css">
+	body {font-family:arial;font-size:14px;line-height:18px;}
 	h2 {cursor:pointer;font-size:20px;margin:30px 0px 40px 5px;line-height:10px}
 	h3 {cursor:pointer;font-weight:normal;color:black;text-decoration:underline;line-height:10px}
 	h4 {cursor:pointer;font-weight:normal;color:black;text-decoration:underline;line-height:10px}
@@ -21,7 +17,10 @@
 	div.block {margin-left:5px;}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	li {margin-top:2px;}
-</style>
+	</style>
+</head>
+
+<body>
 <h2><a href="http://www.scbr.com/docs/products/dhtmlxTabBar/index.shtml" target="_top" title="Visit javascript tabbar home page">dhtmlXTabBar</a> Guide and Samples</h2>
 <div class="block">
 <!---  --->
@@ -115,7 +114,7 @@ In this case the content of the tab should be placed inside tab DIV tags.
 ></a><div class="block">
 <XMP>
 <div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<script language="javascript" type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
 
@@ -311,8 +310,8 @@ To use necessary schema turn it on with <em>setStyle</em> method.
 <strong>TabBar colors:</strong><br>
 You can define background colors for tabs using <em>setSkinColors</em> method, where first argument sets background for active tab, second - for other tabs.
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script language="javascript" type="text/javascript">
 			tabbar=new dhtmlXTabBar("b_tabbar","top");
             tabbar.setImagePath("../imgs/");
 
@@ -347,7 +346,7 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 </div>
 
 
-<a name="tabmanag"><h4 >Manage each tab with script API</h4></a><div class="block">
+<a name="tabmanag"><h4>Manage each tab with script API</h4></a><div class="block">
 <li>Get/Set(change) label of tab</li>
 <XMP>
 <script>
@@ -398,7 +397,7 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 
 <li>Set/Get Active tab</li>
 <XMP>
-<script>
+<script language="javascript" type="text/javascript">
 	tabbar.getActiveTab();
 	//param 1 - tab ID
 	tabbar.setTabActive(tabId);

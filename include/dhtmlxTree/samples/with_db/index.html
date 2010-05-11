@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>dhtmlxTree sample</title>
-	<style>
+	<style type="text/css">
 		#details span{
 			font-size:10px;
 			font-family:arial;
@@ -37,10 +37,10 @@
 		}
 	</style>
 	<link rel="STYLESHEET" type="text/css" href="../../css/dhtmlXTree.css">
-	<script  src="../../js/dhtmlXCommon.js"></script>
-	<script  src="../../js/dhtmlXTree.js"></script>	
+	<script language="javascript" type="text/javascript" src="../../js/dhtmlXCommon.js"></script>
+	<script language="javascript" type="text/javascript" src="../../js/dhtmlXTree.js"></script>
 	
-	<script>
+	<script language="javascript" type="text/javascript">
 		//tree object
 		var tree;
 		//xml loader to load details from database
@@ -226,11 +226,7 @@
 		<tr>
 			<!--- tree area --->
 			<td width="250px">
-				<div id="treebox" 
-					style="	width:250px; 
-							height:250px;
-							background-color:#f5f5f5;
-							border :1px solid Silver;"/>
+				<div id="treebox" style="width:250px; height:250px; background-color:#f5f5f5; border :1px solid Silver;"/>
 			</td>
 			<!--- details area. visible if any node selected --->
 			<td id="details" 
@@ -243,7 +239,7 @@
 						<span>Label:</span>
 						<input name="item_nm" type="Text" maxlength="50" name="label" style="width:200px;"><br>
 						<span>Descripton:</span>
-						<textarea name="item_desc" id="textarea" style="height:100px;width:200px;"></textarea><br>	
+						<textarea name="item_desc" id="textarea" rows="10" cols="40" style="height:100px;width:200px;"></textarea><br>
 						<button type="button" onclick="saveItem()" style="width:200px;">Save</button>
 					</form>
 			</td>

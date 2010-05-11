@@ -1,7 +1,7 @@
-<div style="position:absolute;left:80%;background-color:white;right:20;width:150;">
+<div style="position:absolute;left:80%;background-color:white;right:20px;width:150px;">
 <a onclick="expandAll(true)" href="javascript:void(0)">expand</a>|<a onclick="expandAll(false)" href="javascript:void(0)">collaps</a>
 </div>
-<script>
+<script language="javascript" type="text/javascript">
 			
 			function openFull(el){
 				el.nextSibling.style.display=='none'?el.nextSibling.style.display='block':el.nextSibling.style.display='none'
@@ -20,8 +20,8 @@
 			}
 			
 		</script>
-<style>
-			.{font-family:arial;}
+		<style type="text/css">
+			body{font-family:arial;}
 			h2 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 			h3 {cursor:pointer;font-weight:normal;color:gray;text-decoration:underline;line-height:10px}
 			div.block {margin-left:30px;}
@@ -29,9 +29,9 @@
 		</style>
 <h2 onclick="openFull(this)">F.A.Q.</h2>
 <div onclick="openFull(this)" style="display:block" class="block">
-<a name="kb_faq_lic"></a><h3>Licensing</h3></a>
+<a name="kb_faq_lic"></a><h3>Licensing</h3>
 </div>
-<div style="display:;margin-left:5px;margin-top:2px;">
+<div style="margin-left:5px;margin-top:2px;">
 <div onclick="openFull(this)" style="margin-top:5px;color:blue;cursor:pointer;margin-top:10px;">
 <li>May I use dhtmlxTree Standard Edition in my commercial projects for free?</li>
 </div>
@@ -86,7 +86,7 @@
 <div onclick="openFull(this)" style="display:block" class="block">
 <a name="kb_faq_perf" id="kb_faq_perf"><h3>Performance. Dynamical Loading</h3></a>
 </div>
-<div style="display:;margin-left:5px;margin-top:2px;">
+<div style="margin-left:5px;margin-top:2px;">
 <div onclick="openFull(this)" style="margin-top:5px;color:blue;cursor:pointer;margin-top:10px;">
 <li>How can I load xml dynamically, so that the loading gets done more quickly?</li>
 </div>
@@ -132,7 +132,7 @@ As dynamical loading needs to process incoming url parameters and generate xml f
 <div onclick="openFull(this)" style="display:block" class="block">
 <a name="kb_faq_dnd" id="kb_faq_dnd"><h3>Drag-n-drop, Nodes ordering</h3></a>
 </div>
-<div style="display:;margin-left:5px;margin-top:2px;">
+<div style="margin-left:5px;margin-top:2px;">
 <div onclick="openFull(this)" style="margin-top:5px;color:blue;cursor:pointer;margin-top:10px;">
 <li>Is there any way to rearrange the nodes without reloading the tree?</li>
 </div>
@@ -148,26 +148,26 @@ As dynamical loading needs to process incoming url parameters and generate xml f
 <xmp>
 	<div id="treeboxbox_tree" style="width:200;height:200"></div>
 	<input type="text" width="120px" id="sInput">
-	<script>
+	<script language="javascript" type="text/javascript">
 		tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 		tree.setImagePath("../imgs/");
 		//user defined drag and drop control with event handlers inside
 		function s_control(){
 			//action occures on drag
-			this._drag=function(sourceHtmlObject,dhtmlObject,targetHtmlObject){
+			this._drag = function(sourceHtmlObject, dhtmlObject, targetHtmlObject) {
 				targetHtmlObject.style.backgroundColor="";
 				targetHtmlObject.value=sourceHtmlObject.parentObject.label;
 			}
 	
 			//action occures on drag moved in landing zone
-			this._dragIn=function(htmlObject,shtmlObject){
-				htmlObject.style.backgroundColor="#fffacd";
+			this._dragIn = function(htmlObject, shtmlObject){
+				htmlObject.style.backgroundColor = "#fffacd";
 				return htmlObject;
 			}
 	
 			//action occures on drag moved out landing zone
-			this._dragOut=function(htmlObject){ 
-				htmlObject.style.backgroundColor="";
+			this._dragOut = function(htmlObject){
+				htmlObject.style.backgroundColor = "";
 				return this;
 			}
 		}
@@ -180,7 +180,7 @@ As dynamical loading needs to process incoming url parameters and generate xml f
 <div onclick="openFull(this)" style="display:block" class="block">
 <a name="kb_faq_api" id="kb_faq_api"><h3>API, Initialization</h3></a>
 </div>
-<div style="display:;margin-left:5px;margin-top:2px;">
+<div style="margin-left:5px;margin-top:2px;">
 <div onclick="openFull(this)" style="margin-top:5px;color:blue;cursor:pointer;margin-top:10px;">
 <li>It seems that your tree does not make a distinction between "files" and "folders".  If I drag a "file" onto another "file", it becomes a "folder".</li>
 </div>
@@ -225,7 +225,7 @@ For more details about eventHandlers see "Set Event Handlers" chapter of Tree do
 <xmp>
 	function closeAllRoots(){
 		var rootsAr = tree.getSubItems(0).split(",")
-		for(var i=0;i<rootsAr.length;i++){
+		for(var i=0; i < rootsAr.length; i++){
 			tree.closeAllItems(rootsAr[i])
 		}
 	}
@@ -265,7 +265,7 @@ where "0" is ID of Super Root level.</div>
 <div onclick="openFull(this)" style="display:block" class="block">
 <a name="kb_faq_else" id="kb_faq_else"><h3>Other Questions</h3></a>
 </div>
-<div style="display:;margin-left:5px;margin-top:2px;">
+<div style="margin-left:5px;margin-top:2px;">
 <div onclick="openFull(this)" style="margin-top:5px;color:blue;cursor:pointer;margin-top:10px;">
 <li>Is there any support for cookies?</li>
 </div>
