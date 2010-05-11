@@ -175,7 +175,7 @@ function create_admin() {
     mysql_connect($db['hostname'], $db['username'], base64_decode($db['password'])) or die(_INSTALLERDBCONNECTFAILED . ': ' . mysql_error());
     mysql_query("set names 'utf8' collate 'utf8_general_ci';") or die(_INSTALLERDBNAMESFAILED . ': ' . mysql_error());
     mysql_select_db($db['database']) or die(_INSTALLERDBSELECTFAILED . ': ' . mysql_error());
-    mysql_query("INSERT INTO `user` (`username`, `password`, `type`, `name`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
+    mysql_query("INSERT INTO `user` (`username`, `password`, `type`, `contactname`, `email`, `language`) VALUES ('$username', '$password', 'Administrator', '$contactname', '$email', '{$_COOKIE['language']}');") or die(_INSTALLERDBQUERYFAILED . ': ' . mysql_error());
     mysql_close();
 }
 
