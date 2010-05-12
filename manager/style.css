@@ -9,15 +9,15 @@ body {
 	font-family: verdana, tahoma, helvetica, arial, sans-serif;
 	background-color: #ffffff;
 	border-style:none;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
 }
 
 body.menu {
 	font-family: verdana, tahoma, helvetica, arial, sans-serif;
 	border-style:none;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
 	background-color: #f0f0f0;
 }
 
@@ -28,9 +28,9 @@ body.menu {
 .mast_head {
 	height: 30px;
 	width: 200px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-left: 0px;
+	margin-top: 0;
+	margin-right: 0;
+	margin-left: 0;
 	padding: 5px 5px 5px 5px;
 	background-color:#ffffff;
 	font-size: 120%;
@@ -40,7 +40,7 @@ body.menu {
 .mast_head h1 {
 	text-align: center;
 	font-size: 120%;
-	margin: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
 }
 
 /******************************************************
@@ -52,7 +52,7 @@ body.menu {
 	float: left;
 	clear: left;
 	border-style:solid; border-width:1px; border-color:#ffffff;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-left: 5px;
 }
 
@@ -83,7 +83,7 @@ body.menu {
 
 .content {
 	background-color:#FFFFFF;
-	margin: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
 	border-style:none;
 	padding-bottom: 3em;
 }
@@ -95,15 +95,15 @@ body.menu {
 
 .content_mast {
 	height: 40px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-left: 0px;
+	margin-top: 0;
+	margin-right: 0;
+	margin-left: 0;
 	padding: 5px 5px 5px 5px;
 	background-color: #d6dff7;
 }
 
 .content h1 {
-	margin: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
 	font-size: 120%;
 }
 
@@ -164,7 +164,7 @@ body.menu {
 }
 
 .form table tfoot {
-	border-style: solid; border-width: 0px;
+	border-style: solid; border-width: 0;
 	background-color: #ffffff;
 }
 
@@ -195,8 +195,8 @@ body.menu {
 
 .form table.inner {
 	width: 100%;
-	margin: 0px 0px 0px 0px;
-	padding: 0px 0px 0px 0px;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
 	border-style: none;
 	border-collapse: collapse;
 }
@@ -205,13 +205,13 @@ body.menu {
 	text-align: center;
 	width: auto;
 	font-size: 100%;
-	padding: 0px 0px 0px 0px;
+	padding: 0 0 0 0;
 }
 
 .form table.inner td {
 	width: auto;
 	font-size: 100%;
-	padding: 0px 0px 0px 0px;
+	padding: 0 0 0 0;
 }
 
 .form b {
@@ -426,12 +426,12 @@ body.login {
 	color: #ffffff;
 	font-size: 100%;
 	text-align: center;
-	margin-top: 0px;
+	margin-top: 0;
 }
 
 .login p {
 	margin-left: 1em;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	font-size: 80%;
 }
 
@@ -441,12 +441,12 @@ body.login {
 }
 
 .login input {
-	margin-top: 0px;
+	margin-top: 0;
 	margin-left: 1em;
 }
 
 .login select {
-	margin-top: 0px;
+	margin-top: 0;
 	margin-left: 1em;
 }
 
@@ -492,6 +492,6 @@ body.login {
 }
 
 .action form {
-	padding: 0px 0px 0px 0px;
-	margin: 0px 0px 0px 0px;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
 }

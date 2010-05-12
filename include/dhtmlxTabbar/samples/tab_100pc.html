@@ -4,26 +4,26 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - Auto reSize</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px;font-size:12px }
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>Auto reSize</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
+
     <p>Try to resize window - tabbar will auto-adjust his width</p>
-	<table border="0" cellpadding="0" cellspacing="0" style='table-layout:fixed' width="100%" height="50%">
+	<table border="0" cellpadding="0" cellspacing="0" style='table-layout:fixed' width="100%" style="height:50%">
 	<tr>
 		<td>
 			<div id="a_tabbar" style="width:100%; height:100%; overflow:hidden;"/>
@@ -39,7 +39,7 @@
 		</td>
 	</tr>
 	</table>
-	<script>
+	<script type="text/javascript">
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
 
@@ -53,7 +53,7 @@
 	</script>
 </xmp>
 
-	<script>
+	<script type="text/javascript">
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
 

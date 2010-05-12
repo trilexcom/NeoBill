@@ -1,21 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - TabBar - per page iframes</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script language="javscript" type="text/javasceript" src="../js/dhtmlXCommon.js"></script>
+	<script language="javscript" type="text/javasceript" src="../js/dhtmlXTabBar.js"></script>
+	<style type="text/css">
+	body {font-family:arial;font-size:12px; font-size:12px}
 	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>TabBar - per page iframes</h1>
@@ -23,9 +24,6 @@
 		Set <em>hrefmode</em> attribute value to <em>iframes</em> and add href attributes to tab tags
 		to load tab content in iframe, which will be autoimaticaly created for each tab.
 	</p>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabBar.js"></script>
 	<table>
 		<tr>
 			<td>
@@ -36,10 +34,10 @@
 	</table>
 <hr>
 <div><a href="#" onclick="tabbar.removeTab('b2'); tabbar.addTab('b2',100); tabbar.setContentHref('b2','http://scbr.com'); tabbar.setTabActive('b2'); ">Recreate tab</a></div>
-<XMP>
-<div id="a_tabbar" style="width:400;height:300"></div>
-<script>
-            tabbar=new dhtmlXTabBar("a_tabbar","top");
+<pre>
+<div id="a_tabbar" style="width:400px;height:300px"></div>
+<script language="javscript" type="text/javasceript">
+            tabbar=new dhtmlXTabBar("a_tabbar", "top");
             tabbar.setImagePath("imgs/");
             tabbar.loadXML("tabs6.xml");
 </script>
@@ -51,8 +49,8 @@
         <tab id="b2" width='100px' selected="1" href="http://google.com">Google</tab>
     </row>
 </tabbar>
-</XMP>
-	<script>
+</pre>
+	<script language="javscript" type="text/javasceript">
 
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");

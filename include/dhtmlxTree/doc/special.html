@@ -28,9 +28,9 @@
 <xmp>
 <tree..>
 	<item ...>
-		<userdata name=“myurl“>http://www.google.com</userdata>
+		<userdata name=ï¿½myurlï¿½>http://www.google.com</userdata>
 		<item ...>
-			<userdata name=“myurl“>http://groups.google.com</userdata>
+			<userdata name=ï¿½myurlï¿½>http://groups.google.com</userdata>
 		</item>
 	</item>
 </xmp>
@@ -39,19 +39,19 @@ there is an event handler for click processing:
 <xmp>
 tree.setOnClickHandler(doOnClick);
 function doOnClick(nodeId){
-	var myUrl = tree.getUserData(nodeId,“myurl“);
-	window.open(myUrl);// or frames[“someframe“].location.href = myUrl
+	var myUrl = tree.getUserData(nodeId,ï¿½myurlï¿½);
+	window.open(myUrl);// or frames[ï¿½someframeï¿½].location.href = myUrl
 }
 </xmp>		
 	</div>
 <!--  -->	
-	<a name="spec_dnd_out"><h3 >Drag-n-drop outside tree</h3
+	<a name="spec_dnd_out"><h3>Drag-n-drop outside tree</h3
 	></a><div style="display:show" class="block">
-	Any page control can be set as “landing zone”. Here is an example:
+	Any page control can be set as ï¿½landing zoneï¿½. Here is an example:
 <xmp> 
-<div id="treeboxbox_tree" style="width:200;height:200"></div>
+<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
 <input type="text" width="120px" id="sInput">
-<script>
+<script type="text/javascript">
 tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 tree.setImagePath("../imgs/");
 
@@ -73,7 +73,7 @@ function s_control(){
 		return this;
 	}
 }
-//set input control as “landing zone”
+//set input control as ï¿½landing zoneï¿½
 tree.dragger.addDragLanding(document.getElementById('sInput'), new s_control); 
 </script>
 </xmp>

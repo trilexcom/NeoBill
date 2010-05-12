@@ -4,54 +4,53 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - Bottom TabBar, scrolling and align</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>Bottom TabBar, scrolling and align</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
 	<table>
 		<tr>
 			<td>
-				<div id="a_tabbar" style="width:420; height:100;"/>
+				<div id="a_tabbar" style="width:420px; height:100px;"/>
 			</td>
             </tr><tr>
 			<td>
-				<div id="b_tabbar" style="width:420; height:100;"/>
+				<div id="b_tabbar" style="width:420px; height:100px;"/>
 			</td>
             </tr><tr>
 			<td>
-				<div id="c_tabbar" style="width:420; height:100;"/>
+				<div id="c_tabbar" style="width:420px; height:100px;"/>
 			</td>
             </tr><tr>
 			<td>
-				<div id="d_tabbar" style="width:420; height:100;"/>
+				<div id="d_tabbar" style="width:420px; height:100px;"/>
 			</td>
          </tr>
 	</table>
 <hr>
-<XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<xmp>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","bottom");
             tabbar.setImagePath("imgs/");
             
             tabbar.loadXML("tabs3.xml");
 </script>
-</XMP>
-	<script>
+</xmp>
+	<script type="text/javascript">
 
 			tabbar2=new dhtmlXTabBar("a_tabbar","bottom");
             tabbar2.setImagePath("../imgs/");

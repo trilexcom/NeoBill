@@ -40,7 +40,7 @@
 	</div>
 
 	<a name="browsers"><h3 >Supported browsers</h3
-	></a><div style="display:show" class="block">
+	></a><div style="display:block" class="block">
 		<li>IE 5.x and above</li>
 		<li>Mozilla 1.4 and above</li>
 		<li>FireFox 0.9 and above</li>
@@ -55,7 +55,7 @@
 ></a><div class="block">
 <strong>With Javascript constructor:</strong><br>
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
 <script>
             tabbar=new dhtmlXTabBar("a_tabbar");
             tabbar.setImagePath("../imgs/");
@@ -79,7 +79,7 @@ the tabbar, and tabbar object will be initialized inside automatically.
 <script  src="../js/dhtmlXCommon.js"></script>
 <script  src="../js/dhtmlXTabbar.js"></script>
 <script  src="../js/dhtmlXTabBar_start.js"></script>
-<div id="a_tabbar" class="dhtmlxTabBar" imgpath="../imgs/" style="width:390; height:390;"  skinColors="#FCFBFC,#F4F3EE" >
+<div id="a_tabbar" class="dhtmlxTabBar" imgpath="../imgs/" style="width:390px; height:390px;"  skinColors="#FCFBFC,#F4F3EE" >
     <div id="a1" name="Tab 1">Content 1</div>
     <div id="a2" name="Tab 2">Content 2</div>
     <div id="a3" name="Tab 3">Content 3</div>
@@ -110,11 +110,11 @@ the tabbar, and tabbar object will be initialized inside automatically.
 In this case the content of the tab should be placed inside tab DIV tags.		
 </div>
 <!--- Initializing tabs from Javascript --->
-<a name="scriptinit"><h4 >Building tabbar with Javascript</h4
+<a name="scriptinit"><h4>Building tabbar with Javascript</h4
 ></a><div class="block">
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script language="javascript" type="text/javascript">
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
 
@@ -133,7 +133,7 @@ In this case the content of the tab should be placed inside tab DIV tags.
 <a name="xmlinit"><h4 >Building tabar from XML</h4
 ></a><div class="block">
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
 <script>
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
@@ -192,7 +192,7 @@ In <strong>PHP</strong> script use the following code for page header:<br>
 		></a><div class="block">
 <strong>With Javascript:</strong>
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
 <div id="html_1" >Some content</div>
 <script>
             tabbar=new dhtmlXTabBar("a_tabbar","top");
@@ -283,8 +283,8 @@ In this case Tabbar expects AJAX request to get XML of the following structure:
 <!--- Settings --->
 <a name="settings"><h4 >Settings: position, align, offset, marging</h4></a><div class="block">
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top"); //top,bottom,left,right
             tabbar.setImagePath("../imgs/");
 
@@ -311,7 +311,7 @@ To use necessary schema turn it on with <em>setStyle</em> method.
 You can define background colors for tabs using <em>setSkinColors</em> method, where first argument sets background for active tab, second - for other tabs.
 <XMP>
 <div id="a_tabbar" style="width:400px;height:100px"></div>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 			tabbar=new dhtmlXTabBar("b_tabbar","top");
             tabbar.setImagePath("../imgs/");
 
@@ -321,7 +321,7 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 </XMP>
 </div>
 
-<a name="sizes"><h4 >Manage tabbar and tab content area size</h4></a><div class="block">
+<a name="sizes"><h4>Manage tabbar and tab content area size</h4></a><div class="block">
 <li>Set tabs content area size depending on content size</li>
 <XMP>
 	//param 1 - adjust width automatically
@@ -349,7 +349,7 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 <a name="tabmanag"><h4>Manage each tab with script API</h4></a><div class="block">
 <li>Get/Set(change) label of tab</li>
 <XMP>
-<script>
+<script type="text/javascript">
 	//param - tab ID
 	tabbar.getLabel(tabId);
 	//param 1 - tab ID
@@ -360,7 +360,7 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 
 <li>Show/Hide existing tab</li>
 <XMP>
-<script>
+<script type="text/javascript">
 	//param 1 - tab ID
 	//param 2 - if true, then selection from hidden tab should be moved to nearest one
 	tabbar.hideTab(tab,true);
@@ -370,8 +370,8 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 </XMP>
 
 <li>Add/Remove tab</li>
-<XMP>
-<script>
+<xmp>
+<script type="text/javascript">
 	//param 1 - tab ID
 	//param 2 - new tab label
 	//param 3 - size in px
@@ -382,11 +382,11 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 	//param 2 - if true, then selection from deleted tab should be moved to nearest one
 	tabbar.removeTab(tabId,true);
 </script>
-</XMP>
+</xmp>
 
 <li>Disable/Enable tab</li>
-<XMP>
-<script>
+<xmp>
+<script type="text/javascript">
 	//param 1 - tab ID
 	//param 2 - if true, then selection from disabled tab should be moved to nearest one
 	tabbar.disableTab(tabId,true);
@@ -396,23 +396,14 @@ You can define background colors for tabs using <em>setSkinColors</em> method, w
 </XMP>
 
 <li>Set/Get Active tab</li>
-<XMP>
-<script language="javascript" type="text/javascript">
+<xmp>
+<script type="text/javascript">
 	tabbar.getActiveTab();
 	//param 1 - tab ID
 	tabbar.setTabActive(tabId);
 </script>
-</XMP>
+</xmp>
 </div>
-
-<!--- <a name="skins"><h4 >Skining: colors,predefined skins</h4></a><div class="block">
-
-<XMP>
-<script>
-			
-</script>
-</XMP>
-</div> --->
 
 </div>
 </body>

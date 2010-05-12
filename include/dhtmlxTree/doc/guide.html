@@ -54,11 +54,11 @@
 	<h3 >Working with dhtmlXTree</h3
 	><div style="display:show" class="block">
 <!--- Initialize object on page --->
-		<a name="init"><h4 >Initialize object on page</h4
+		<a name="init"><h4>Initialize object on page</h4
 		></a><div class="block">
 <XMP>
-<div id="treeBox" style="width:200;height:200"></div>
-<script language="javascript" type="text/javascript">
+<div id="treeBox" style="width:200px;height:200px"></div>
+<script type="text/javascript">
 	tree=new dhtmlXTreeObject(document.getElementById('treeBox'),"100%","100%",0);
 	tree.setImagePath("gfx/");
 	tree.enableCheckBoxes(false);
@@ -76,11 +76,11 @@
 			<li>enableDragAndDrop(mode) - enable/disable drag-n-drop in tree</li>
 		</div>
 <!--- Set Additional init parameters --->	
-		<a name="handlers"><h4 >Set Event Handlers</h4
+		<a name="handlers"><h4>Set Event Handlers</h4
 		></a><div class="block">
 <XMP>
-<div id="treeBox" style="width:200;height:200"></div>
-<script language="javascript" type="text/javascript">
+<div id="treeBox" style="width:200px;height:200px"></div>
+<script type="text/javascript">
 	tree=new dhtmlXTreeObject(document.getElementById('treeBox'),"100%","100%",0);
 	...
 	tree.setOnClickHandler(onNodeSelect);//set function object to call on node select
@@ -93,10 +93,10 @@
 		In most cases functions specified inside event handlers get some values with the arguments. For details about passed arguments please refer to <a href="alpha.html">API documentation</a>.<br>
 		</div>
 <!--- Adding nodes with Script --->
-		<a name="scriptadd"><h4 >Adding nodes with Script</h4
+		<a name="scriptadd"><h4>Adding nodes with Script</h4
 		></a><div class="block">
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	tree=new dhtmlXTreeObject('treeBox',"100%","100%",0);
 	...
 	tree.insertNewChild(0,1,"New Node 1",0,0,0,0,"SELECT,CALL,TOP,CHILD,CHECKED");
@@ -112,10 +112,10 @@
 			<li type="circle">CHECKED - checkbox is checked (if exists)</li>
 		</div>
 <!--- Using XML --->
-		<a name="xmlload"><h4 >Loading data with XML</h4
+		<a name="xmlload"><h4>Loading data with XML</h4
 		></a><div class="block">
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	tree=new dhtmlXTreeObject('treeBox',"100%","100%",0);
 	tree.setXMLAutoLoading("http://127.0.0.1/xml/tree.xml");
 	tree.loadXML("http://127.0.0.1/xml/tree.xml");//load root level from xml
@@ -179,14 +179,14 @@ To set <strong>userdata</strong> directly within XML use <strong>&lt;userdata&gt
 		and value to specify userdata value			
 		</div>
 <!--- Setting custom icons to nodes --->
-		<a name="iconscust"><h4 >Setting custom icons to nodes</h4
+		<a name="iconscust"><h4>Setting custom icons to nodes</h4
 		></a><div class="block">
 			There are two ways to set custom icons for the node. And it depends on the way you add items.<br>
 			<em>Important:</em> tree will get images for the nodes from the path specified in setImagePath(url) method.<br><br>
 			
 			Javascript way. Using arguments of insertNewChild(...) or insertNewNext(...) methods:
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	var im0 = "doc.gif";//icon to show if node contains no children
 	var im1 = "opened.gif";//if node contains children and opened
 	var im2 = "closed.gif";//if node contains children and closed
@@ -206,7 +206,7 @@ To set <strong>userdata</strong> directly within XML use <strong>&lt;userdata&gt
 			<li>im2 - image for closed node with children</li>
 		</div>
 <!--- Dynamical loading --->		
-		<a name="dyntree"><h4 >Building dynamic tree</h4
+		<a name="dyntree"><h4>Building dynamic tree</h4
 		></a><div class="block">
 		If your tree should contain large amount of nodes (or you simply do not want to waist time loading hidden nodes), it would be better to load them on demand, not at once. 
 		For this purpose we made the tree to load levels dynamically using XML.  <br>
@@ -216,11 +216,11 @@ To set <strong>userdata</strong> directly within XML use <strong>&lt;userdata&gt
 		
 		
 		
-		<a name="nodesman"><h4 >Manipulating nodes</h4
+		<a name="nodesman"><h4>Manipulating nodes</h4
 		></a><div class="block">
 		A few examples of manipulating node with tree object methods:
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	tree=new dhtmlXTreeObject('treeboxbox_tree',"100%","100%",0);
 	...
 	var sID = tree.getSelectedItemId();//get id of selected node
@@ -234,11 +234,11 @@ To set <strong>userdata</strong> directly within XML use <strong>&lt;userdata&gt
 </XMP>	
 		</div>
 		
-<a name="serialize"><h4 >Serializing Tree</h4></a><div class="block">
+<a name="serialize"><h4>Serializing Tree</h4></a><div class="block">
 Serialization methods allows getting tree in xml representation (xml string). Various levels of serializations define the number of tree parameters reflected in resulting XML:<br>
 
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	tree.setSerializationLevel(userDataFl,itemDetailsFl);
 	var myXmlStr = tree.serializeTree();
 
@@ -250,14 +250,14 @@ Serialization methods allows getting tree in xml representation (xml string). Va
 </div>
 	
 	
-<a name="tooltip"><h4 >Tooltips</h4></a><div class="block">
+<a name="tooltip"><h4>Tooltips</h4></a><div class="block">
 There are three ways to set tooltip for the node:<br>
 	<li>Use node label ("text" attribute of item node) as tooltip - enableAutoTooltips(mode) - <em>false</em> by default</li>
 	<li>Use "tooltip" attribute of item node for tooltip (it is used by default if this attribute was specified)</li>
 	<li>setItemText(itemId,newLabel,<strong>newTooltip</strong>)</li>
 </div>
 
-<a name="move"><h4 >Moving Nodes</h4></a><div class="block">
+<a name="move"><h4>Moving Nodes</h4></a><div class="block">
 To move Item programaticaly developer can use the following ways:	<br>
 <br>
 <strong>To move upp/down/left:</strong>
@@ -293,7 +293,7 @@ Another way is to use doCut(),doPaste(id) - but this works with selected item on
 To give users the possibility to move items use drag-n-drop functionlity.
 </div>
 
-<a name="counter"><h4 >Items Counter</h4></a><div class="block">
+<a name="counter"><h4>Items Counter</h4></a><div class="block">
 There is a possibility to display item children elements counter with the label of the node. To activate this feature use the following:	
 <XMP>
 <script>
@@ -314,21 +314,21 @@ Use <em>child</em> attribute in xml if you need to set counter value when using 
 
 </div>
 
-<a name="smartxml"><h4 >Smart XML Parsing</h4></a><div class="block">
+<a name="smartxml"><h4>Smart XML Parsing</h4></a><div class="block">
 The idea of Smart XML Parsing is simple - the entire tree structute loaded on client side, but only nodes which should be displayed are rendered. This helps to dramaticaly decrease loading time and general performance of large trees. Plus - in the contrary to Dynamical Loading - entrire tree structure is available for most of script methods (for example Search performed agains all nodes - not only rendered). To activate Smart XML Parsing use the following method:
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	tree.enableSmartXMLParsing(true);//false to disable
 </script>
 </XMP>	
 Smart XML Parsing do not work if tree loaded fully expanded.
 </div>
 	
-<a name="checkbox"><h4 >Checkboxes in tree</h4></a><div class="block">
+<a name="checkbox"><h4>Checkboxes in tree</h4></a><div class="block">
 dhtmlxTree support two or three state checkboxes. Three state checkboxes means: checked/unchecked/some-child-checked (not all).
 To enable three state checkboxes use the following method:	 	
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	tree.enableThreeStateCheckboxes(true)//false to disable
 </script>
 </XMP>	
@@ -344,7 +344,7 @@ Some node can hide checkboxes - <strong>showItemCheckbox(id,state)</strong> (<st
 
 </div>		
 
-<a name="dnd"><h4 >Drag-and-drop technics</h4></a><div class="block">
+<a name="dnd"><h4>Drag-and-drop technics</h4></a><div class="block">
 There are three modes of drag-n-drop (set with <strong>setDragBehavior(mode)</strong>):<br>
 <li>Drop as child - "child"</li><br>
 <li>Drop as sibling - "sibling"</li><br>
@@ -365,17 +365,17 @@ Both event handlers pass 5 parameters into the func object:<br>
 <li>tree object target</li>
 </div>	
 
-<a name="dndifr"><h4 >Drag-and-drop between iframes</h4></a><div class="block">
+<a name="dndifr"><h4>Drag-and-drop between iframes</h4></a><div class="block">
 Drag-n-drop between iframes enabled by default. All you need to do additionaly is to insert the following code into the page where no tree exists:<br>
 <xmp>
 <script src="js/dhtmlXCommon.js" type="text/javascript"></script>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	new dhtmlDragAndDropObject();
 </script>
 </xmp>
 </div>	
 
-<a name="guide_perf"><h4 >Increasing Performance</h4></a><div class="block">
+<a name="guide_perf"><h4>Increasing Performance</h4></a><div class="block">
 Taking into account the general low performance of DHTML we introducrd two ways of increasing performance of large trees:<br>
 1. <a href="#dyntree">Dynamical Loading</a><br>
 2. <a href="#smartxml">Smart XML Parsing</a><br>
@@ -383,13 +383,13 @@ Taking into account the general low performance of DHTML we introducrd two ways 
 Also be sure your tree was organized well - putting a lot of items on one level of the branch makes tree difficalt for visual perception and decrease performance, although <a href="#distparse">Distributed Parsing</a> can help here. 
 </div>	
 
-<a name="context_menu"><h4 >Context Menu</h4></a><div class="block">
+<a name="context_menu"><h4>Context Menu</h4></a><div class="block">
 There is built in context menu in dhtmlxTree. 
 The content of this menu can be set with XML or script. 
 For changing context menu content depending on tree item developer can implement function for hidding/showing items of the same menu or associate different menues with different items. 
 To enable context menu do the following: 
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 //init menu
 		aMenu=new dhtmlXContextMenuObject('120',0,"Demo menu");
 		aMenu.menu.setGfxPath("../imgs/");		
@@ -411,7 +411,7 @@ For HTTPS compatibility we added two more parameters to context menu constructor
 <li>Images URL</li>
 <li>Dummy page URL (url of the page to use for iframes src /now they are empty as iframes are used to make menu be positioned under selectboxes in IE/ in menu to make it compatible with https)		
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 //init menu compatible with sHTML
 	aMenu=new dhtmlXContextMenuObject('120',0,"Demo menu","imgs/","empty.html");
 	...
@@ -419,12 +419,12 @@ For HTTPS compatibility we added two more parameters to context menu constructor
 </XMP>
 </div>	
 
-<a name="refresh"><h4 >Refreshing nodes</h4></a><div class="block">
+<a name="refresh"><h4>Refreshing nodes</h4></a><div class="block">
 <li>refreshItems(itemIdList,source) to refresh only items from the itemIdList (not their children)</li>
 <li>refreshItem(itemId) - to refresh children of item with itemId. In this case auto loading should be activated.</li>
 </div>	
 
-<a name="sort"><h4 >Sorting nodes</h4></a><div class="block">
+<a name="sort"><h4>Sorting nodes</h4></a><div class="block">
 You can sort nodes in dhtmlxTree Pro (necessary file: dhtmlXTree_sb.js) using follwoing ways:<br>
 <strong>Sort by label text (if no custom comparator specified)</strong><br>
 <XMP>
@@ -452,7 +452,7 @@ If custome comparator was specified, then tree.sortTree(...) method uses it for 
 
 </div>	
 
-<a name="search"><h4 >Search functionlity</h4></a><div class="block">
+<a name="search"><h4>Search functionlity</h4></a><div class="block">
 Search functionality of dhtmlxTree allows moving focus on node with label fitting searchString mask.<br> 
 Has support for Smart XML Parsing.<br><br>
 Script syntax:
@@ -465,7 +465,7 @@ Example of usage is included in Professional Edition package � samples/treeExP
 </div>	
 
 
-<a name="multiline"><h4 >Multiline tree items</h4></a><div class="block">
+<a name="multiline"><h4>Multiline tree items</h4></a><div class="block">
 ...allows displaying tree items in multiline mode. For now it is recommended to turn tree lines off for better appearance. To enable multiline feature you need to do the following: 
 <XMP>
 	tree.enableTreeLines(false);
@@ -474,7 +474,7 @@ Example of usage is included in Professional Edition package � samples/treeExP
 Example of usage is included in professional edition package � samples/treeExPro6.html.
 </div>	
 
-<a name="g_icons"><h4 >Icons in Tree</h4></a><div class="block">
+<a name="g_icons"><h4>Icons in Tree</h4></a><div class="block">
 <h4>Set Icons</h4>
 There is a way to set icons for the node explicetly using script (<strong>setItemImage,setItemImage2</strong>) or xml (<strong>im0,im1,im2</strong> attributes of item node):<br>
 <li>im0 - item without children</li>
@@ -495,12 +495,12 @@ Script syntax:
 
 	</div>
 
-<a name="keyboard"><h4 >Keyboard Navigation</h4></a><div class="block">
+<a name="keyboard"><h4>Keyboard Navigation</h4></a><div class="block">
 By default dhtmlxTree doesn't have keyboard support, but you can add dhtmlxTree_kn.js file to you page
 and enable keyboard support with just one javascript command: 
 <XMP>
-<script language="javascript" type="text/javascript" src="../js/dhtmlXTree_kn.js"></script>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript" src="../js/dhtmlXTree_kn.js"></script>
+<script type="text/javascript">
 	tree.enableKeyboardNavigation(true);
 </script>
 </XMP>	
@@ -518,14 +518,14 @@ But you also can assign your own keys for these:<br>
 where "up"/"down"/"open"/"close"/"call" are available actions and numbers are key codes.
 </div>
 
-<a name="distparse"><h4 >Distrebuted Parsing</h4></a><div class="block">
+<a name="distparse"><h4>Distrebuted Parsing</h4></a><div class="block">
 Another way to increase big tree performance which has some levels with 
 more than 100-200 nodes per level was introdused in v.1.3 of dhtmlxTree Professional Edition. 
 This is  Distrebuted Parsing. The main advantage is that you get the level visible and 
 ready to utilization before it completely parsed.<br>
 To enable this functionlity use the following js command:
 <XMP>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	tree.enableDistributedParsing(mode,count,timeout);
 </script>
 </XMP>	
@@ -682,8 +682,8 @@ With Events Handlers,Checkboxes and Drag-n-drop:
 Since version 1.3 dhtmlxTree Professional got editable items. To make items text editable just 
 add <em>dhtmlXTree_ed.js</em> to the page and enable this functionlity using one script line:
 <XMP>
-<script language="javascript" type="text/javascript" src="../js/dhtmlXTree_ed.js"></script>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript" src="../js/dhtmlXTree_ed.js"></script>
+<script type="text/javascript">
 	tree.enableItemEditor(mode);
 </script>
 </XMP>	
@@ -702,7 +702,7 @@ after closed. The function specified as input parameter for this method will get
 
 </div>
 
-<a name="dataprocessor"><h4 >Simultanious Server Update</h4></a><div class="block">
+<a name="dataprocessor"><h4>Simultanious Server Update</h4></a><div class="block">
 Common tree manipulations - like drag-n-drop (including d-n-d between trees), delete item, insert item, update item label - 
 can be simultaniously reflected in server database now (since v.1.3) using dataProcessor module.<br><br>
 <strong>Main features of it are:</strong><br><br>
@@ -719,8 +719,8 @@ To enable this feature you need to do the following:<br>
 <li>include <em>dhtmlXDataProcessor.js</em> to the page</li>
 <li>create dataProcessor object for the tree:</li>
 <XMP>
-<script language="javascript" type="text/javascript" src="../js/dhtmlXDataProcessor.js"></script>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript" src="../js/dhtmlXDataProcessor.js"></script>
+<script type="text/javascript">
 	...
 	tree.init();
 	myDataProcessor = new dataProcessor(serverProcessorURL);

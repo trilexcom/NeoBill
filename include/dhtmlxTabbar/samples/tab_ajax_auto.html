@@ -4,18 +4,21 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - TabBar - loading by AJAX</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar_start.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>TabBar - loading by AJAX</h1>
@@ -23,14 +26,10 @@
 		You can load tab content from server and automaticaly place it on page using ajax.
 		For more details see corresponding documentation chapter.
 	</p>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
-	<script  src="../js/dhtmlXTabbar_start.js"></script>
 	<table>
 		<tr>
 			<td>
-                <div hrefmode="ajax" id="a_tabbar" class="dhtmlxTabBar" imgpath="../imgs/" style="width:390; height:390;"  skinColors="#FCFBFC,#F4F3EE" >
+                <div hrefmode="ajax" id="a_tabbar" class="dhtmlxTabBar" imgpath="../imgs/" style="width:390px; height:390px;"  skinColors="#FCFBFC,#F4F3EE" >
                     <div id="b1" width="100" name="Tab 1" href="slow_ajax.php?num=1"></div>
                     <div id="b2" width="100" name="Tab 2" href="slow_ajax.php?num=2"></div>
                     <div id="b3" width="100" name="Tab 3" href="slow_ajax.php?num=3"></div>
@@ -42,7 +41,7 @@
 	<a href="#" onclick="tabbar.setContentHref('b1','slow_ajax.php?num=1&step=2')">Change first tab href</a>
 <hr>
 <XMP>
-                <div hrefmode="ajax" id="a_tabbar" class="dhtmlxTabBar" imgpath="../imgs/" style="width:390; height:390;"  skinColors="#FCFBFC,#F4F3EE" >
+                <div hrefmode="ajax" id="a_tabbar" class="dhtmlxTabBar" imgpath="../imgs/" style="width:390px; height:390px;"  skinColors="#FCFBFC,#F4F3EE" >
                     <div id="b1" width="100" name="Tab 1" href="slow_ajax.php?num=1"></div>
                     <div id="b2" width="100" name="Tab 2" href="slow_ajax.php?num=2"></div>
                     <div id="b3" width="100" name="Tab 3" href="slow_ajax.php?num=3"></div>

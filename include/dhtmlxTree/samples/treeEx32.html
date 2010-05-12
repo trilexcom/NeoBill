@@ -4,30 +4,29 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML Tree samples. dhtmlXTree - Drag and Drop</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:14px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:14px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
-</style>
+	</style>
+</head>
 <body>
 	<h1>Drag and Drop</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTree.js"></script>		
 
 	<table>
 		<tr>
 			<td valign="top">
 
-				<div id="treeboxbox_tree" style="width:250; height:218;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div><br>
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div><br>
 				<br>
 				
 			</td>
-			<td rstyle="padding-left:25" valign="top">
+			<td rstyle="padding-left:25px" valign="top">
 			
-				<div id="treeboxbox_tree2" style="width:250; height:218;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div><br>
+				<div id="treeboxbox_tree2" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div><br>
 				<br>
 
 			</td>
@@ -37,8 +36,8 @@
 				Drag&ampDrop works in each tree and between trees too.
 	<hr>	
 <XMP>
-<div id="treeboxbox_tree" style="width:200;height:200"></div>
-<script>
+<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
+<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			
@@ -55,7 +54,7 @@
 </script>
 </XMP>	
  
-	<script>
+	<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			tree.enableDragAndDrop(1);

@@ -1,7 +1,7 @@
 <div style="position:absolute;left:80%;background-color:white;right:20px;width:150px;">
 <a onclick="expandAll(true)" href="javascript:void(0)">expand</a>|<a onclick="expandAll(false)" href="javascript:void(0)">collaps</a>
 </div>
-<script language="javascript" type="text/javascript">
+		<script type="text/javascript">
 			
 			function openFull(el){
 				el.nextSibling.style.display=='none'?el.nextSibling.style.display='block':el.nextSibling.style.display='none'
@@ -21,11 +21,11 @@
 			
 		</script>
 		<style type="text/css">
-			body{font-family:arial;}
-			h2 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
-			h3 {cursor:pointer;font-weight:normal;color:gray;text-decoration:underline;line-height:10px}
-			div.block {margin-left:30px;}
-			xmp{color:green;background-color:lightgrey;padding:3px;}
+			body { font-family:arial;}
+			h2 { cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+			h3 { cursor:pointer;font-weight:normal;color:gray;text-decoration:underline;line-height:10px}
+			div.block { margin-left:30px;}
+			xmp { color:green; background-color:silver; padding:3px;}
 		</style>
 <h2 onclick="openFull(this)">F.A.Q.</h2>
 <div onclick="openFull(this)" style="display:block" class="block">
@@ -146,9 +146,9 @@ As dynamical loading needs to process incoming url parameters and generate xml f
 </div>
 <div style="display:none;margin-left:20px;margin-top:2px;font-size:16px;">Yes, this is possible. Any page control can be set as "landing zone". Here is an example:
 <xmp>
-	<div id="treeboxbox_tree" style="width:200;height:200"></div>
+	<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
 	<input type="text" width="120px" id="sInput">
-	<script language="javascript" type="text/javascript">
+	<script type="text/javascript">
 		tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 		tree.setImagePath("../imgs/");
 		//user defined drag and drop control with event handlers inside

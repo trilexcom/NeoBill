@@ -4,18 +4,20 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - TabBar - loading by AJAX</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body {font-family:arial;font-size:12px;font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>TabBar - loading by AJAX</h1>
@@ -23,22 +25,19 @@
 		You can load tab content from server and automaticaly place it on page using ajax. 
 		For more details see corresponding documentation chapter.
 	</p>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
 	<table>
 		<tr>
 			<td>
-				<div id="a_tabbar" style="width:512; height:500;"/>
+				<div id="a_tabbar" style="width:512px; height:500px;"/>
 			</td>
         </tr>
 	</table>
 	<a href="#" onclick="tabbar.forceLoad('b2')">Force loading of second tab</a><br>
 	<a href="#" onclick="tabbar.setContentHref('b1','slow_ajax.php?num=1&step=2')">Change first tab href</a>
 <hr>
-<XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<xmp>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
             
@@ -46,22 +45,20 @@
 </script>
 
 <?xml version="1.0"?>
-<tabbar  hrefmode="ajax">
+<tabbar hrefmode="ajax">
     <row>
         <tab id="b1" width='100px' selected="1"  href="slow_ajax.php?num=1">SCBR 1</tab>
         <tab id="b2" width='100px' href="slow_ajax.php?num=2">SCBR 2</tab>
         <tab id="b3" width='100px' href="slow_ajax.php?num=3">SCBR 3</tab>
     </row>
 </tabbar>
-</XMP>
-	<script>
+</xmp>
+	<script type="text/javascript">
 
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
             
             tabbar.loadXML("tabs7.xml");
-
-
 	</script>
 <br><br>
   <div id="out_zone"></div>

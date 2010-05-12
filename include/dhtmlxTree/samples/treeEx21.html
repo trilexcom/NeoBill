@@ -4,19 +4,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML Tree samples. dhtmlXTree - Collapse/Expand</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
-</style>
-<body>
-	<h1>Collapse/Expand</h1>
 	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTree.js"></script>		
-	<script>
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
+	<script type="text/javascript">
 		function closeAllRoots(){
 			var rootsAr = tree.getSubItems(0).split(",")
 			for(var i=0;i<rootsAr.length;i++){
@@ -24,14 +15,20 @@
 			}
 		}
 	</script>
+	<style type="text/css">
+	body { font-family:arial; font-size:12px; font-size:12px; }
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
+	</style>
+</head>
+<body>
+	<h1>Collapse/Expand</h1>
 	<table>
 		<tr>
 			<td valign="top">
-
-
-				<div id="treeboxbox_tree" style="width:250; height:218;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div>
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border:1px solid Silver;; overflow:auto;"></div>
 			</td>
-			<td rowspan="2" style="padding-left:25" valign="top">
+			<td rowspan="2" style="padding-left:25px" valign="top">
 			
 			
 			<a href="javascript:void(0);" onclick="tree.openAllItems(0);">Expand all</a><br><br>
@@ -49,8 +46,8 @@
 	</table>
 	<hr>	
 <XMP>
-<div id="treeboxbox_tree" style="width:200;height:200"></div>
-<script>
+<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
+<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			tree.loadXML("tree.xml");
@@ -69,7 +66,7 @@
 </script>
 </XMP>	
 
-	<script>
+	<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			tree.loadXML("tree3.xml");

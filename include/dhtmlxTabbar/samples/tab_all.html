@@ -4,25 +4,24 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - Top/Bottom/Right/Left Tabbars</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;padding:2px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<script type="text/javascript" src="../js/console.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px }
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>Top/Bottom/Right/Left Tabbars</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
-	<script  src="../js/console.js"></script>
     <div id='m_zone' style='width:420px; height:420px; overflow:hidden; background-color:#F0F8FF; position:absolute; left:150px; top:150px; '>
 <xmp>
 
@@ -59,7 +58,7 @@ tabbar4.loadXML("tabs3a.xml");
 				<div id="d_tabbar" style=" width:420px; height:47px; position:absolute; left:150px; top:570px;"></div>
 <hr>
 
-	<script>
+	<script type="text/javascript">
 
 			tabbar=new dhtmlXTabBar("a_tabbar","left");
             tabbar.setImagePath("../imgs/");

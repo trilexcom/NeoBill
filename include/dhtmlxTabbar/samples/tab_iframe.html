@@ -4,18 +4,20 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - TabBar - links in single iframe</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>TabBar - links in single iframe</h1>
@@ -23,21 +25,19 @@
 		Set <em>hrefmode</em> attribute value to <em>iframe</em> and add href attributes to tab tags
 		to load tab content in single iframe (which will be autoimaticaly created)
 	</p>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
 	<table>
 		<tr>
 			<td>
-				<div id="a_tabbar" style="width:512; height:300;"/>
+				<div id="a_tabbar" style="width:512px; height:300px;"/>
 			</td>
         </tr>
 
 	</table>
 <hr>
-<XMP>
-<div id="a_tabbar" style="width:400;height:300"></div>
-<script>
+
+<xmp>
+<div id="a_tabbar" style="width:400px;height:300px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
             
@@ -51,8 +51,9 @@
         <tab id="b2" width='100px' selected="1" href="http://google.com">Google</tab>
     </row>
 </tabbar>
-</XMP>
-	<script>
+</xmp>
+
+	<script type="text/javascript">
 
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");

@@ -9,7 +9,7 @@
 
   <body class="menu">
     <div id="treeMenu" class="menubox"></div>
-    <script language="javascript" type="text/javascript">
+    <script type="text/javascript">
 
       function onMenuNodeSelect( nodeId )
       {ldelim}

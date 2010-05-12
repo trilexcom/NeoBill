@@ -1,30 +1,28 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<title>DHTML TabBar sample. dhtmlXTabBar - Nested TabBars</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css"/>
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>Nested TabBars</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
     <a href='javascript:void(0)' onclick='doIt()'>Attach content to TabBar</a>
-	<br><br>
+	<br/><br/>
 	<table>
 		<tr>
 			<td>
@@ -34,9 +32,9 @@
             <td><div id='html_02' style='padding:5px;'><div id='html_2' style="width:300px; height:340px;"></div></div></td>
         </tr>
 	</table>
-<hr>
-<XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
+<hr/>
+<xmp>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
 	<script>
 		tabbar=new dhtmlXTabBar("a_tabbar","top");
 		...
@@ -48,8 +46,8 @@
 		tabbar.setContent("a2","html_02");
 		tabbar.setContentHTML("a3","<br/>The content can be set as <b>HTML</b> node or as <b>HTML</b> text.");
 	</script>
-</XMP>
-	<script>
+</xmp>
+	<script type="text/javascript">
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
 
@@ -90,7 +88,7 @@
                 tabbar.setContentHTML("a3","<br/>The content can be set as <b>HTML</b> node or as <b>HTML</b> text.");
             }
 	</script>
-<br><br>
+<br/><br/>
   <div id="out_zone"></div>
   <p><a href="http://www.scbr.com/docs/products/dhtmlxTabbar/index.shtml" style="font-weight:bold;">Go to the dhtmlxTabbar main page</a> or <a href="javascript:self.close()">Close this page</a></p>
 </body>

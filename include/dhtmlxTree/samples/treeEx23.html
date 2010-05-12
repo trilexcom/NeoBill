@@ -4,25 +4,24 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML Tree samples. dhtmlXTree - Checkboxes</title>
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px }
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
+	</style>
 </head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
-</style>
 <body>
 	<h1>Checkboxes</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTree.js"></script>		
 	
 	<table>
 		<tr>
 			<td valign="top">
-				<div id="treeboxbox_tree" style="width:250; height:218;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div>
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div>
 			</td>
-			<td  style="padding-left:25" valign="top">
+			<td  style="padding-left:25px" valign="top">
 			
 			Two state checkboxes
 			<a href="javascript:void(0);" onclick="tree.setCheck(tree.getSelectedItemId(),true);">Check item</a><br><br>
@@ -36,9 +35,9 @@
 		</tr>
 		<tr>
 			<td valign="top">
-				<div id="treeboxbox_tree2" style="width:250; height:218;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div>
+				<div id="treeboxbox_tree2" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div>
 			</td>
-			<td  style="padding-left:25" valign="top">
+			<td  style="padding-left:25px" valign="top">
 			
 						Three state checkboxes<br>
 						<br>
@@ -53,8 +52,8 @@
 	</table>
 	<hr>	
 <XMP>
-<div id="treeboxbox_tree" style="width:200;height:200"></div>
-<script>
+<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
+<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			//enable checkboxes
@@ -76,7 +75,7 @@
 			var list=tree.getAllChecked();	
 </script>
 </XMP>
-	<script>
+	<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			tree.enableCheckBoxes(1);

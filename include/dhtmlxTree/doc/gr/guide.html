@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML Tree Grid Extension guide and samples</title>
-	<style language="javascript" type="text/javscript">
+	<style type="text/javscript">
 	body {font-family:arial; font-size:14px;line-height:18px;}
 	h2 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 	h3 {cursor:pointer;font-weight:normal;color:gray;text-decoration:underline;line-height:10px}
@@ -19,7 +19,7 @@
 <body>
 
 <div style="position:absolute;right:20px"><a href="javascript:void(0)" onclick="expandAll(true)">expand</a>&nbsp;<a href="javascript:void(0)" onclick="expandAll(false)">collaps</a></div>
-<script language="javascript" type="text/javscript">
+<script type="text/javscript">
 	function openFull(el){
 		el.nextSibling.style.display=='none'?el.nextSibling.style.display='block':el.nextSibling.style.display='none'
 	}
@@ -69,7 +69,7 @@
 		><div style="display:none" class="block">
 <XMP>
 <div id="treeBox" style="width:200px;height:200px"></div>
-<script language="javascript" type="text/javscript">
+<script type="text/javscript">
 	treegrid=new dhtmlXTreeGridObject(document.getElementById('treeBox'),"100%","100%",0);
 	tree.setImagePath("gfx/");
 	tree.enableCheckBoxes(false);
@@ -89,7 +89,7 @@
 		><div style="display:none" class="block">
 <XMP>
 <div id="treeBox" style="width:200px;height:200px"></div>
-<script language="javascript" type="text/javscript">
+<script type="text/javscript">
 	treegrid=new dhtmlXTreeGridObject(document.getElementById('treeBox'),"100%","100%",0);
 	...
 	treegrid.tree.setOnDragHandler(onDrop);//set function object to call on drop
@@ -107,7 +107,7 @@
 		<h4 onclick="openFull(this)">Adding nodes with Script</h4
 		><div style="display:none" class="block">
 <XMP>
-<script language="javascript" type="text/javscript">
+<script type="text/javscript">
 	tree=new dhtmlXTreeObject('treeBox',"100%","100%",0);
 	...
 	tree.insertNewChild(0,1,"New Node 1",0,0,0,0,"SELECT,CALL,TOP,CHILD,CHECKED"));
@@ -126,7 +126,7 @@
 		<h4 onclick="openFull(this)">Loading data with XML</h4
 		><div style="display:none" class="block">
 <XMP>
-<script language="javascript" type="text/javscript">
+<script type="text/javscript">
 	tree=new dhtmlXTreeObject('treeBox',"100%","100%",0);
 	tree.setXMLAutoLoading("http://127.0.0.1/xml/tree.xml");
 	tree.loadXML();//load root level from xml
@@ -176,7 +176,7 @@ XML Syntax:
 			
 			Javascript way. Using arguments of insertNewChild(...) or insertNewNext(...) methods:
 <XMP>
-<script language="javascript" type="text/javscript">
+<script type="text/javscript">
 	var im0 = "doc.gif";//icon to show if node contains no children
 	var im1 = "opened.gif";//if node contains children and opened
 	var im2 = "closed.gif";//if node contains children and closed
@@ -209,7 +209,7 @@ XML Syntax:
 		><div style="display:none" class="block">
 		A few examples of manipulating node with tree object methods:
 <XMP>
-<script language="javascript" type="text/javscript">
+<script type="text/javscript">
 	tree=new dhtmlXTreeObject('treeboxbox_tree',"100%","100%",0);
 	...
 	var sID = tree.getSelectedItemId();//get id of selected node

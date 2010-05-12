@@ -4,32 +4,31 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - TabBar - Init other component through AJAX call</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+
+	 <link rel="STYLESHEET" type="text/css" href="../../dhtmlxgrid/css/dhtmlXGrid.css">
+     <script type="text/javascript" src="../../dhtmlxgrid/js/dhtmlxCommon.js"></script>
+     <script type="text/javascript" src="../../dhtmlxgrid/js/dhtmlxgrid.js"></script>
+     <script type="text/javascript" src="../../dhtmlxgrid/js/dhtmlxgridcell.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>TabBar - Init other component through AJAX call</h1>
 	<p>
 		After selecting tab2, dhtmlxgrid will be initialized in it.
 	</p>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
-
-	 <link rel="STYLESHEET" type="text/css" href="../../dhtmlxgrid/css/dhtmlXGrid.css">
-     <script  src="../../dhtmlxgrid/js/dhtmlxCommon.js"></script>
-     <script  src="../../dhtmlxgrid/js/dhtmlxgrid.js"></script>
-     <script  src="../../dhtmlxgrid/js/dhtmlxgridcell.js"></script>
 	<table>
 		<tr>
 			<td>
@@ -39,9 +38,9 @@
 	</table>
 	<a href="#" onclick="goToNextTabA()">Next (cycle) </a><br>
 <hr>
-<XMP>
+<xmp>
 <div id="a_tabbar" style="width:400px;height:100px"></div>
-<script>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
             
@@ -49,15 +48,15 @@
 </script>
 
 <?xml version="1.0"?>
-<tabbar  hrefmode="ajax-html">
+<tabbar hrefmode="ajax-html">
     <row>
         <tab id="b1" width='100px' selected="1"  href="alfa2.html">SCBR 1</tab>
         <tab id="b2" width='100px' href="betta.txt">SCBR 2</tab>
         <tab id="b3" width='100px' href="gamma.htm">SCBR 3</tab>
     </row>
 </tabbar>
-</XMP>
-	<script>
+</xmp>
+	<script type="text/javascript">
 
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");

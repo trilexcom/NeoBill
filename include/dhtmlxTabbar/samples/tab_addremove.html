@@ -1,29 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<title>DHTML TabBar sample. dhtmlXTabBar - Add/Remove content to TabBar</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css"/>
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
 	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>Add/Remove content to TabBar</h1>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
-	<br><br>
+	<br/><br/>
 	<table>
 		<tr>
 			<td>
@@ -37,10 +34,10 @@
             </td>
         </tr>
 	</table>
-<hr>
+<hr/>
 <XMP>
-<div id="a_tabbar" style="width:400;height:100"></div>
-<script>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
             tabbar.setSkinColors("#FCFBFC","#F4F3EE");
@@ -49,13 +46,13 @@
             tabbar.removeTab(id);
 </script>
 </XMP>
-	<script>
+	<script type="text/javascript">
             var ind=0;
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");
             tabbar.setSkinColors("#FCFBFC","#F4F3EE","#FCFBFC");
 	</script>
-<br><br>
+<br/><br/>
   <div id="out_zone"></div>
   <p><a href="http://www.scbr.com/docs/products/dhtmlxTabbar/index.shtml" style="font-weight:bold;">Go to the dhtmlxTabbar main page</a> or <a href="javascript:self.close()">Close this page</a></p>
 </body>

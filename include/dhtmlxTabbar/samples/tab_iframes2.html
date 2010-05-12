@@ -4,18 +4,20 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML TabBar sample. dhtmlXTabBar - TabBar - per page iframes</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px }
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:px;font-family:courier;background-color:#e6e6fa;padding:2px}
 	div.hdr{
-		background-color:lightgrey;
+		background-color:silver;
 		margin-bottom:10px;
 		padding-left:10px;
 	}
-</style>
+	</style>
+</head>
 <body>
 	<div class="hdr">DHTML JavaScript Tabbar samples</div>
 	<h1>TabBar - per page iframes - On demand</h1>
@@ -24,13 +26,10 @@
 		to load tab content in iframe, which will be automatically created for each tab. <br>
 		The content of iframe will be loaded only after tab selected, or loading forced programmatically.
 	</p>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTabbar.js"></script>
 	<table>
 		<tr>
 			<td>
-				<div id="a_tabbar" style="width:512; height:300;"/>
+				<div id="a_tabbar" style="width:512px; height:300px;"/>
 			</td>
         </tr>
 	</table>
@@ -38,8 +37,8 @@
 	<a href="#" onclick="tabbar.setContentHref('b1','http://scbr.com')">Change first tab href</a>
 <hr>
 <XMP>
-<div id="a_tabbar" style="width:400;height:300"></div>
-<script>
+<div id="a_tabbar" style="width:400px;height:300px"></div>
+<script type="text/javascript">
             tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("imgs/");
             tabbar.loadXML("tabs6d.xml");
@@ -48,14 +47,14 @@
 </script>
 
 <?xml version="1.0"?>
-<tabbar  hrefmode="iframes-on-demand">
+<tabbar hrefmode="iframes-on-demand">
     <row>
         <tab id="b1" width='100px' href="http://groups.google.com">Google groups</tab>
         <tab id="b2" width='100px' selected="1" href="http://google.com">Google search</tab>
     </row>
 </tabbar>
 </XMP>
-	<script>
+	<script type="text/javascript">
 
 			tabbar=new dhtmlXTabBar("a_tabbar","top");
             tabbar.setImagePath("../imgs/");

@@ -4,57 +4,55 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML Tree samples. dhtmlXTree - Easy skinable design</title>
-</head>
-<style>
-	body {font-size:12px}
-	.{font-family:arial;font-size:12px}
-	h1 {cursor:hand;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
-</style>
-<body>
-	<h1>Easy skinable design</h1>
 	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
-	<script  src="../js/dhtmlXCommon.js"></script>
-	<script  src="../js/dhtmlXTree.js"></script>		
-	<script>
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
+	<script type="text/javascript">
 		function setDesign(n){
 			switch(n){
 			case 4:
 				tree.enableTreeLines(true);
 				tree.setImageArrays("plus","plus2.gif","plus3.gif","plus4.gif","plus.gif","plus5.gif");
 				tree.setImageArrays("minus","minus2.gif","minus3.gif","minus4.gif","minus.gif","minus5.gif");
-				tree.setStdImages("book.gif","books_open.gif","books_close.gif");					
+				tree.setStdImages("book.gif","books_open.gif","books_close.gif");
 				break;
-	
+
 			    break;
 			case 3:
 				tree.enableTreeLines(true);
 				tree.setImageArrays("plus","plus2.gif","plus3.gif","plus4.gif","plus.gif","plus5.gif");
 				tree.setImageArrays("minus","minus2.gif","minus3.gif","minus4.gif","minus.gif","minus5.gif");
-				tree.setStdImages("item2.gif","close2.gif","open2.gif");					
+				tree.setStdImages("item2.gif","close2.gif","open2.gif");
 				break;
 			case 2:
 				tree.enableTreeLines(true);
 				tree.setImageArrays("plus","open2.gif","open2.gif","open2.gif","open2.gif","open2.gif");
 				tree.setImageArrays("minus","close2.gif","close2.gif","close2.gif","close2.gif","close2.gif");
-				tree.setStdImages("book.gif","books_open.gif","books_close.gif");					
+				tree.setStdImages("book.gif","books_open.gif","books_close.gif");
 				break;
 			case 1:
 				tree.enableTreeLines(false);
 				tree.setImageArrays("plus","","","","plus_ar.gif","plus_ar.gif");
 				tree.setImageArrays("minus","","","","minus_ar.gif","minus_ar.gif");
-				tree.setStdImages("book.gif","books_open.gif","books_close.gif");					
+				tree.setStdImages("book.gif","books_open.gif","books_close.gif");
 				break;
 			}
 			tree.refreshItem(0);
 		}
 	</script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px;font-size:12px; }
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
+	</style>
+</head>
+<body>
+	<h1>Easy skinable design</h1>
 	<table>
 		<tr>
 			<td valign="top">
 
-
-				<div id="treeboxbox_tree" style="width:250; height:218;background-color:#f5f5f5;border :1px solid Silver;; overflow:auto;"></div><br>
+				<div id="treeboxbox_tree" style="width:250px;height:218px;background-color:#f5f5f5;border :1px solid Silver; overflow:auto;"></div><br>
 				<br>
 
 			</td>
@@ -74,8 +72,8 @@
 	</table>
 	<hr>	
 <XMP>
-<div id="treeboxbox_tree" style="width:200;height:200"></div>
-<script>
+<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
+<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			tree.loadXML("tree.xml");
@@ -92,7 +90,7 @@
 </script>
 </XMP>	
  
-	<script>
+	<script type="text/javascript">
 			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 			tree.setImagePath("../imgs/");
 			tree.enableDragAndDrop(0);
