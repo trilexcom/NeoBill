@@ -1,7 +1,7 @@
-<style>
+<style type="text/css">
 	td.ex{ font-family:Tahoma,Arial; color:green; font-size:12px;}
 </style>
-<script>
+<script type="text/javascript">
 	function onCheck(id){
 		alert("Check id "+id);
 	}

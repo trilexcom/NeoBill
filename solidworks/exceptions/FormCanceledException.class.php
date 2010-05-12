@@ -2,7 +2,7 @@
 /**
  * FormCanceledException.class.php
  *
- * This file contains the definition of the FormCanceledException class.  
+ * This file contains the definition of the FormCanceledException class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -18,11 +18,10 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class FormCanceledException extends SWException
-{
-  /**
-   * @var string The internal error message for this exception
-   */
-  protected $message = "Form canceled";
+class FormCanceledException extends SWException {
+	/**
+	 * @var string The internal error message for this exception
+	 */
+	protected $message = "Form canceled";
 }
 ?>

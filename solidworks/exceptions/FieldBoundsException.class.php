@@ -2,7 +2,7 @@
 /**
  * FieldBoundsException.class.php
  *
- * This file contains the definition of the FieldBoundsException class.  
+ * This file contains the definition of the FieldBoundsException class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,57 +16,52 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class FieldBoundsException extends FieldException
-{
-  const LARGE_MESSAGE = '[PLEASE_ENTER_A_VALUE_LESS_THAN] %d [FOR] %s.';
-  const SMALL_MESSAGE = '[PLEASE_ENTER_A_VALUE_GREATER_THAN] %d [FOR] %s.';
+class FieldBoundsException extends FieldException {
+	const LARGE_MESSAGE = '[PLEASE_ENTER_A_VALUE_LESS_THAN] %d [FOR] %s.';
+	const SMALL_MESSAGE = '[PLEASE_ENTER_A_VALUE_GREATER_THAN] %d [FOR] %s.';
 
-  /**
-   * @var float User's value
-   */
-  private $userValue = null;
+	/**
+	 * @var float User's value
+	 */
+	private $userValue = null;
 
-  /**
-   * @var float Maximum allowed value
-   */
-  private $max = null;
+	/**
+	 * @var float Maximum allowed value
+	 */
+	private $max = null;
 
-  /**
-   * @var float Minimum allowed value
-   */
-  private $min = null;
+	/**
+	 * @var float Minimum allowed value
+	 */
+	private $min = null;
 
-  /**
-   * FieldBoundsException Constructor
-   *
-   * @param float Value entered by the user
-   * @param float Minimum value
-   * @param float Maximum value
-   */
-  public function __construct( $userValue, $min, $max )
-  {
-    parent::__construct();
-    
-    $this->userValue = $userValue;
-    $this->min = $min;
-    $this->max = $max;
-  }
+	/**
+	 * FieldBoundsException Constructor
+	 *
+	 * @param float Value entered by the user
+	 * @param float Minimum value
+	 * @param float Maximum value
+	 */
+	public function __construct( $userValue, $min, $max ) {
+		parent::__construct();
 
-  /**
-   * Error Message String
-   *
-   * @return string An error message that can be displayed to the user
-   */
-  public function __toString()
-  {
-    if( $this->userValue < $this->min )
-      {
-	return sprintf( self::SMALL_MESSAGE, $this->min, $this->field );
-      }
-    else
-      {
-	return sprintf( self::LARGE_MESSAGE, $this->max, $this->field );
-      }
-  }
+		$this->userValue = $userValue;
+		$this->min = $min;
+		$this->max = $max;
+	}
+
+	/**
+	 * Error Message String
+	 *
+	 * @return string An error message that can be displayed to the user
+	 */
+	public function __toString() {
+		if ( $this->userValue < $this->min ) {
+			return sprintf( self::SMALL_MESSAGE, $this->min, $this->field );
+		}
+		else {
+			return sprintf( self::LARGE_MESSAGE, $this->max, $this->field );
+		}
+	}
 }
 ?>

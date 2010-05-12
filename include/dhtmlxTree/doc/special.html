@@ -4,26 +4,24 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>DHTML Tree Special Technics</title>
-</head>
-
-<body>
-<style>
-	body {font-size:14px;line-height:18px;}
-	.{font-family:arial;}
+	<style type="text/css">
+	body { font-family:arial;font-size:14px;line-height:18px;}
 	h2 {cursor:pointer;font-size:20px;margin:30px 0px 40px 5px;line-height:10px}
 	h3 {cursor:pointer;font-weight:normal;color:blue;text-decoration:underline;line-height:10px}
 	h4 {cursor:pointer;font-weight:normal;color:black;text-decoration:underline;line-height:10px}
 	.op {cursor:pointer;}
 	div.block {margin-left:5px;}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	li {margin-top:2px;}
-</style>
-<h2 >DHTML Tree Special Technics</h2>
+	</style>
+</head>
+
+<body>
+<h2>DHTML Tree Special Technics</h2>
 <div class="block">
 <!--- Link functionality --->
 	
-	<a name="spec_link"><h3 >Links in tree</h3
-	></a><div style="display:show" class="block">
+	<a name="spec_link"><h3>Links in tree</h3></a><div style="display:block" class="block">
 	Xml for the tree:<br>
 <xmp>
 <tree..>
@@ -44,13 +42,13 @@ function doOnClick(nodeId){
 }
 </xmp>		
 	</div>
-<!--  -->	
+
 	<a name="spec_dnd_out"><h3>Drag-n-drop outside tree</h3
 	></a><div style="display:show" class="block">
 	Any page control can be set as �landing zone�. Here is an example:
 <xmp> 
 <div id="treeboxbox_tree" style="width:200px;height:200px"></div>
-<input type="text" width="120px" id="sInput">
+<input type="text" style="width:120px" id="sInput">
 <script type="text/javascript">
 tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
 tree.setImagePath("../imgs/");
@@ -78,11 +76,6 @@ tree.dragger.addDragLanding(document.getElementById('sInput'), new s_control);
 </script>
 </xmp>
 	</div>
-
-
-
-
-
 
 </div>
 </body>

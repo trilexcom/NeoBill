@@ -14,7 +14,7 @@
 	}
 	.op {cursor:pointer;}
 	div.block {margin-left:5px;}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	li {margin-top:2px;}
 	</style>
 </head>
@@ -23,8 +23,8 @@
 <h2><a href="http://www.scbr.com/docs/products/dhtmlxTree/index.shtml" target="_top" title="Visit javascript tree home page">dhtmlXTree</a> Guide and Samples</h2>
 <div class="block">
 <!---  --->
-	<a name="mf"><h3 >Main features</h3
-	></a><div style="display:show" class="block">
+	<a name="mf"><h3>Main features</h3></a><div style="display:block" class="block">
+		<ul>
 		<li>Multibrowser/Multiplatform support </li>
 		<li>Full controll with JavaScript</li>
 		<li>Dynamic loading</li>
@@ -40,23 +40,24 @@
 		<li>Macromedia Cold Fusion support</li>
 		<li>JSP support</li>
 		<li>ASP.NET support</li>
+		</ul>
 	</div>
 	
-	<a name="browsers"><h3 >Supported browsers</h3
-	></a><div style="display:show" class="block">
+	<a name="browsers"><h3 >Supported browsers</h3></a><div style="display:block" class="block">
+		<ul>
 		<li>IE 5.x and above</li>
 		<li>Mac OS X Safari</li>
 		<li>Mozilla 1.4 and above</li>
 		<li>FireFox 0.9 and above</li>
 		<li>Opera (Xml loading depends on browser version)</li>
+		</ul>
 	</div>
 
 	<h3 >Working with dhtmlXTree</h3
 	><div style="display:show" class="block">
 <!--- Initialize object on page --->
-		<a name="init"><h4>Initialize object on page</h4
-		></a><div class="block">
-<XMP>
+		<a name="init"><h4>Initialize object on page</h4></a><div class="block">
+<xmp>
 <div id="treeBox" style="width:200px;height:200px"></div>
 <script type="text/javascript">
 	tree=new dhtmlXTreeObject(document.getElementById('treeBox'),"100%","100%",0);
@@ -64,8 +65,9 @@
 	tree.enableCheckBoxes(false);
 	tree.enableDragAndDrop(true);
 </script>
-</XMP>
+</xmp>
 		Parameters passed to the constructor are:
+		<ul>
 			<li>object to attach tree to (should be loaded before calling constructor)</li>
 			<li>width of the tree</li>
 			<li>height of the tree</li>
@@ -74,10 +76,10 @@
 			<li>setImagePath(url) - method specifies the path to the folder with tree icons</li>
 			<li>enableCheckBoxes(mode) - enable/disable checkboxes in tree (checkboxes appear by default)</li>
 			<li>enableDragAndDrop(mode) - enable/disable drag-n-drop in tree</li>
+		</ul>
 		</div>
 <!--- Set Additional init parameters --->	
-		<a name="handlers"><h4>Set Event Handlers</h4
-		></a><div class="block">
+		<a name="handlers"><h4>Set Event Handlers</h4></a><div class="block">
 <XMP>
 <div id="treeBox" style="width:200px;height:200px"></div>
 <script type="text/javascript">
@@ -102,14 +104,16 @@
 	tree.insertNewChild(0,1,"New Node 1",0,0,0,0,"SELECT,CALL,TOP,CHILD,CHECKED");
 	tree.insertNewNext(1,2,"New Node 2",0,0,0,0,"CHILD,CHECKED");
 </script>
-</XMP>	
-		<li>0s passed to the function for arguments 4-7 (function to call on select, images) mean use default values for them</li>
-		<li>Last argument is a comma delimited string of following possible value (upper case only):</li>
-			<li type="circle">SELECT - move selection to this node after inserting</li>
-			<li type="circle">CALL - call function on select</li>
-			<li type="circle">TOP - add node to the top position </li>
-			<li type="circle">CHILD - node has children</li>
-			<li type="circle">CHECKED - checkbox is checked (if exists)</li>
+</XMP>
+	<ul>
+	<li>0s passed to the function for arguments 4-7 (function to call on select, images) mean use default values for them</li>
+	<li>Last argument is a comma delimited string of following possible value (upper case only):</li>
+	<li type="circle">SELECT - move selection to this node after inserting</li>
+	<li type="circle">CALL - call function on select</li>
+	<li type="circle">TOP - add node to the top position </li>
+	<li type="circle">CHILD - node has children</li>
+	<li type="circle">CHECKED - checkbox is checked (if exists)</li>
+	</ul>
 		</div>
 <!--- Using XML --->
 		<a name="xmlload"><h4>Loading data with XML</h4
@@ -120,10 +124,12 @@
 	tree.setXMLAutoLoading("http://127.0.0.1/xml/tree.xml");
 	tree.loadXML("http://127.0.0.1/xml/tree.xml");//load root level from xml
 </script>
-</XMP>	
+</XMP>
+	<ul>
 		<li>ID of opened node (as id url parameter) will be added to URL specified in  initXMLAutoLoading(url) during the call</li>
 		<li>No additional ID is added to the url specified in loadXML(url) method during the call</li>
 		<li>Using loadXML() without parameters you load url specified in initXMLAutoLoading(url) method</li>
+	</ul>
 <XMP>
 XML Syntax:
 <?xml version='1.0' encoding='iso-8859-1'?>
@@ -153,6 +159,7 @@ In <strong>PHP</strong> script use the following code for page header:<br>
 		
 		<strong>&lt;item&gt;</strong> can contain subitems (in order to load more than one level at once) or not.<br>
 		Mandatory parameters for this tag are:<br>
+		<ul>
 			<li>text - label of the node</li>
 			<li>id - id of the node</li>
 		Optional parameters for this tag are:<br>
@@ -172,6 +179,7 @@ In <strong>PHP</strong> script use the following code for page header:<br>
 			<li>imheight - height of the icon</li>
 			<li>imwidth - width of the icon</li>
 			<li>topoffset - offset of the item from the node above</li>
+		</ul>
 <br><br>
 To set <strong>userdata</strong> directly within XML use <strong>&lt;userdata&gt;</strong><br>
 		It has just one parameter: <br>
@@ -179,8 +187,8 @@ To set <strong>userdata</strong> directly within XML use <strong>&lt;userdata&gt
 		and value to specify userdata value			
 		</div>
 <!--- Setting custom icons to nodes --->
-		<a name="iconscust"><h4>Setting custom icons to nodes</h4
-		></a><div class="block">
+		<a name="iconscust"><h4>Setting custom icons to nodes</h4></a>
+		<div class="block">
 			There are two ways to set custom icons for the node. And it depends on the way you add items.<br>
 			<em>Important:</em> tree will get images for the nodes from the path specified in setImagePath(url) method.<br><br>
 			
@@ -200,10 +208,12 @@ To set <strong>userdata</strong> directly within XML use <strong>&lt;userdata&gt
 <tree id="0">
 	<item text="My Computer" id="1" child="1" im0="doc.gif" im1="my_opened.gif" im2="my_closed.gif">
 </tree>
-</XMP>	
+</XMP>
+			<ul>
 			<li>im0 - image for node without children (tree will get images from the path specified in setImagePath(url) method)</li>
 			<li>im1 - image for opened node with children</li>
 			<li>im2 - image for closed node with children</li>
+			</ul>
 		</div>
 <!--- Dynamical loading --->		
 		<a name="dyntree"><h4>Building dynamic tree</h4
@@ -243,18 +253,22 @@ Serialization methods allows getting tree in xml representation (xml string). Va
 	var myXmlStr = tree.serializeTree();
 
 </script>
-</XMP>	
+</XMP>
+<ul>
 <li>no parameters - id,open,select,text,child</li>
 <li>userDataFl true - userdata</li>
 <li>itemDetailsFl true - im0,im1,im2,acolor,scolor,checked,open</li>
+</ul>
 </div>
 	
 	
 <a name="tooltip"><h4>Tooltips</h4></a><div class="block">
 There are three ways to set tooltip for the node:<br>
+<ul>
 	<li>Use node label ("text" attribute of item node) as tooltip - enableAutoTooltips(mode) - <em>false</em> by default</li>
 	<li>Use "tooltip" attribute of item node for tooltip (it is used by default if this attribute was specified)</li>
 	<li>setItemText(itemId,newLabel,<strong>newTooltip</strong>)</li>
+</ul>
 </div>
 
 <a name="move"><h4>Moving Nodes</h4></a><div class="block">
@@ -265,9 +279,11 @@ To move Item programaticaly developer can use the following ways:	<br>
 	tree.moveItem(nodeId,mode) 
 </XMP>
 <i>mode</i> possible values are:<br>
+<ul>
 <li>"down" - move node down in list of nodes (do not pay attention on hierarchy)</li>
 <li>"up" - move node up in list of nodes</li>
 <li>"left" - move node up in hierarchy</li>
+</ul>
 <br><br>
 
 <strong>To move directly into position (within tree)</strong>
@@ -275,8 +291,10 @@ To move Item programaticaly developer can use the following ways:	<br>
 	tree.moveItem(nodeId,mode,targetId) 
 </XMP>
 <i>mode</i> possible values are:<br>
+<ul>
 <li>"item_child" - place node as child of node specified in third argument</li>
-<li>"item_sibling" - place node as sibling of node specified in third argument</li><br>
+<li>"item_sibling" - place node as sibling of node specified in third argument</li>
+</ul><br>
 <i>targetId</i> - id of target node.
 <br><br>	
 
@@ -301,11 +319,13 @@ There is a possibility to display item children elements counter with the label 
 </script>
 </XMP>	
 Possible modes are:<br>
+<ul>
 	<li>"child"  - all childs on this level</li>
 	<li>"leafs"  -  all childs without subchilds on this level</li>
 	<li>"childrec" - all childs</li>
 	<li>"leafsrec" all childs without subchilds</li>
 	<li>"disabled" - nothing</li>
+</ul>
 <br>
 Other related methods:<br>
 <strong>_getChildCounterValue(itemId)</strong> - get current counter value<br>
@@ -346,23 +366,28 @@ Some node can hide checkboxes - <strong>showItemCheckbox(id,state)</strong> (<st
 
 <a name="dnd"><h4>Drag-and-drop technics</h4></a><div class="block">
 There are three modes of drag-n-drop (set with <strong>setDragBehavior(mode)</strong>):<br>
+<ul>
 <li>Drop as child - "child"</li><br>
 <li>Drop as sibling - "sibling"</li><br>
 <li>Complex mode (both previous are active) - "complex"</li> <br>
 Plus two modes of each of them:<br>
 <li>1. Common drag-n-drop</li><br>
 <li>2. Copy with drag-n-drop - <strong>tree.enableMercyDrag(1/0)</strong></li><br>
+</ul>
+
 All modes can be changed on the fly.<br>
 <br>
 <h5>Event handlers</h5>
 To process drag-n-drop before drop occured use onDrug event handler - <strong>setDragHandler(func)</strong>. If func doesn't return <em>true</em>, drop will be canceled.<br>
 After drop occured there is another event - onDrop - handle it using setDropHandler(func).<br>
 Both event handlers pass 5 parameters into the func object:<br>
+<ul>
 <li>id of node which was dragged</li>
 <li>id of target node</li>
 <li>id of target-before node (if drop as sibling)</li>
 <li>tree object source</li>
 <li>tree object target</li>
+</ul>
 </div>	
 
 <a name="dndifr"><h4>Drag-and-drop between iframes</h4></a><div class="block">
@@ -408,8 +433,10 @@ function onMenuClick(id){
 <strong>HTTPS compatibility</strong>
 <br><br>
 For HTTPS compatibility we added two more parameters to context menu constructor:<br>
+<ul>
 <li>Images URL</li>
-<li>Dummy page URL (url of the page to use for iframes src /now they are empty as iframes are used to make menu be positioned under selectboxes in IE/ in menu to make it compatible with https)		
+<li>Dummy page URL (url of the page to use for iframes src /now they are empty as iframes are used to make menu be positioned under selectboxes in IE/ in menu to make it compatible with https)
+</ul>
 <XMP>
 <script type="text/javascript">
 //init menu compatible with sHTML

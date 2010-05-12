@@ -10,7 +10,7 @@
 	function deleteNode($id){
 		deleteBranch($id);
 		deleteSingleNode($id);
-		print("<script>top.doDeleteTreeItem('$id');</script>");
+		print("<script type='text/javascript'>top.doDeleteTreeItem('$id');</script>");
 	}
 	function deleteSingleNode($id){
 		$d_sql = "Delete from tree where item_id=".$id;

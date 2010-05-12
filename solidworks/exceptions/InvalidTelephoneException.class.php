@@ -2,7 +2,7 @@
 /**
  * InvalidTelephoneException.class.php
  *
- * This file contains the definition of the InvalidTelephoneException class.  
+ * This file contains the definition of the InvalidTelephoneException class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,18 +16,16 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class InvalidTelephoneException extends FieldException
-{
-  const MESSAGE = '[PLEASE_ENTER_A_VALID_TELEPHONE_NUMER_FOR] %s.  [TELEPHONE_NUMBERS_MUST_BE]';
+class InvalidTelephoneException extends FieldException {
+	const MESSAGE = '[PLEASE_ENTER_A_VALID_TELEPHONE_NUMER_FOR] %s.  [TELEPHONE_NUMBERS_MUST_BE]';
 
-  /**
-   * Error Message String
-   *
-   * @return string An error message that can be displayed to the user
-   */
-  public function __toString()
-  {
-    return sprintf( self::MESSAGE, $this->getField() );
-  }
+	/**
+	 * Error Message String
+	 *
+	 * @return string An error message that can be displayed to the user
+	 */
+	public function __toString() {
+		return sprintf( self::MESSAGE, $this->getField() );
+	}
 }
 ?>

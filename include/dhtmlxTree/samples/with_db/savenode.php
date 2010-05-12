@@ -18,7 +18,7 @@
 		print($sql);
 		$res = mysql_query($sql);
 		$newId = mysql_insert_id();
-		print("<script>top.doUpdateItem('$newId','$name');</script>");
+		print("<script type='text/javascript'>top.doUpdateItem('$newId','$name');</script>");
 		
 	}
 	//insert item
@@ -26,7 +26,7 @@
 		$sql = 	"Update tree set item_nm = '".addslashes($name)."',item_parent_id = $parent_id,item_desc = '".addslashes($desc)."',item_order = $order where item_id=$id";
 		print($sql);
 		$res = mysql_query($sql);
-		print("<script>top.doUpdateItem('$id','".addslashes($name)."');</script>");
+		print("<script type='text/javascript'>top.doUpdateItem('$id','".addslashes($name)."');</script>");
 		
 	}
 ?>

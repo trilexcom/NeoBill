@@ -2,7 +2,7 @@
 /**
  * UndefinedFieldException.class.php
  *
- * This file contains the definition of the UndefinedFieldException class.  
+ * This file contains the definition of the UndefinedFieldException class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,11 +16,10 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class UndefinedFieldException extends FieldException
-{
-  /**
-   * @var string Error Message
-   */
-  protected $message = "The %s field is undefined and was ignored (contents: %s).";
+class UndefinedFieldException extends FieldException {
+	/**
+	 * @var string Error Message
+	 */
+	protected $message = "The %s field is undefined and was ignored (contents: %s).";
 }
 ?>

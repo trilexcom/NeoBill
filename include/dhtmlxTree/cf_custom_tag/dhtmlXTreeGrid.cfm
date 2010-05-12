@@ -27,12 +27,12 @@
 		<cfoutput>
 		<cfif not isDefined("request.dhtmlXTreeScriptsInserted")>
 			<link rel="STYLESHEET" type="text/css" href="#attributes.CSSPath#dhtmlXTree.css">
-			<script  src="#attributes.JSPath#dhtmlXCommon.js"></script>
-			<script  src="#attributes.JSPath#dhtmlXTree.js"></script>	
+			<script type="text/javascript" src="#attributes.JSPath#dhtmlXCommon.js"></script>
+			<script type="text/javascript" src="#attributes.JSPath#dhtmlXTree.js"></script>
 			<cfset request.dhtmlXTreeScriptsInserted=1>
 		</cfif>
 		<div id="treebox_#attributes.name#" style="width:#attributes.width#; height:#attributes.height#; overflow:auto; #attributes.style#"></div>
-		<script>
+		<script type="text/javascript">
 			function drawTree#attributes.name#(){
 			#attributes.name#=new dhtmlXTreeGridObject('treebox_#attributes.name#',"100%","100%",0);
 			#attributes.name#.tree.setImagePath("#attributes.iconspath#");

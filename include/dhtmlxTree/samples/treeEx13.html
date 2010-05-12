@@ -10,7 +10,7 @@
 	<style type="text/css">
 	body { font-family:arial;font-size:12px; font-size:12px }
 	h1 {cursor:pointer; font-size:16px; margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0px;font-family:courier;background-color:#e6e6fa;padding:2px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
 	</style>
 </head>
 <body>
@@ -42,11 +42,13 @@
 	tree.setOnCheckHandler(aFunc);//set function to call on open/close node
 	tree.setOnDblClickHandler(aFunc);//set function to call on dbl click
 </script>
-</XMP>	
-		<li>Selected node ID will be passed to function specified as argument for setDefaultAction(funcObj)</li>
-		<li>Dropped node ID and new parent node ID  will be passed to function specified as argument for setDragFunction(funcObj)</li>
-		<li>node ID will be passed to the function specified as argument for setOpenAction(aFunc)</li>
-		<li>node ID will be passed to the function specified as argument for setDblClickAction(aFunc)</li>
+</XMP>
+<ul>
+	<li>Selected node ID will be passed to function specified as argument for setDefaultAction(funcObj)</li>
+	<li>Dropped node ID and new parent node ID  will be passed to function specified as argument for setDragFunction(funcObj)</li>
+	<li>node ID will be passed to the function specified as argument for setOpenAction(aFunc)</li>
+	<li>node ID will be passed to the function specified as argument for setDblClickAction(aFunc)</li>
+</ul>
 	<script type="text/javascript">
 			function tonclick(id){
 				alert("Item "+tree.getItemText(id)+" was selected");
