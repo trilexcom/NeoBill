@@ -96,7 +96,7 @@ class TableWidget extends HTMLWidget {
         // Set the sort direction to the opposite of what we're sorting on already,
         // or just default to ascending
         $sortDir = "ASC";
-        if( $this->getSortCol() == $columnID ) {
+        if ( $this->getSortCol() == $columnID ) {
             $sortDir = $this->getSortDir() == "ASC" ? "DESC" : "ASC";
         }
         $sortURL = sprintf( "%s&action=swtablesort&swtablename=%s&swtableform=%s&swtablesortcol=%s&swtablesortdir=%s",
@@ -204,7 +204,7 @@ class TableWidget extends HTMLWidget {
     public function getTableHeaderHTML() {
         // Start the table
         $startIndex = $this->getStartIndex();
-        if( isset( $this->size ) ) {
+        if ( isset( $this->size ) ) {
             $endIndex = count( $this->data ) < ($startIndex + $this->size) ?
                     count( $this->data ) : $startIndex + $this->size;
         }
@@ -261,7 +261,7 @@ class TableWidget extends HTMLWidget {
         // Display begin, prev, next, and end links
         $html .= sprintf( "\t\t<td colspan=\"%d\">\n", $this->colCount + 1 );
         $html .= "\t\t\t" . $this->footerContent;
-        if( $startIndex > 0 ) {
+        if ( $startIndex > 0 ) {
             // "Begin" and "Prev" links
             $startVal = ($startIndex - $this->size) > 0 ? ($startIndex - $this->size) : 0;
             $html .= sprintf( "(<a href=\"%s&action=swtablescroll&swtableform=%s&swtablename=%s&swtablestart=%d\">[BEGIN]</a>) ",
@@ -276,9 +276,10 @@ class TableWidget extends HTMLWidget {
                     $startVal );
         }
         else {
-            $html .= "([BEGIN]) [PREV] | ";
+			// remove this placeholder, adds unncessary clutter to the table
+            // $html .= "([BEGIN]) [PREV] | ";
         }
-        if( $startIndex + $this->size < count( $this->data ) ) {
+        if ( $startIndex + $this->size < count( $this->data ) ) {
             // "Next" and "End" links
             $html .= sprintf( "<a href=\"%s&action=swtablescroll&swtableform=%s&swtablename=%s&swtablestart=%d\">[NEXT]</a> ",
                     $page->getURL(),
@@ -292,7 +293,8 @@ class TableWidget extends HTMLWidget {
                     count( $this->data ) - $this->size );
         }
         else {
-            $html .= sprintf( "[NEXT] ([END])" );
+			// remove this placeholder, adds unncessary clutter to the table
+            // $html .= sprintf( "[NEXT] ([END])" );
         }
         $html .= "\t\t</td>\n\t</tr>\n";
         $html .= "</table>\n\n";
@@ -333,9 +335,9 @@ class TableWidget extends HTMLWidget {
     public function next() {
         global $smarty;
 
-        if( $this->rowCount == 0 ) {
+        if ( $this->rowCount == 0 ) {
             // Start processing the table
-            if( empty( $this->data ) ) {
+            if ( empty( $this->data ) ) {
                 // Nothing to do
                 throw new TableEmptyException();
             }
@@ -350,7 +352,7 @@ class TableWidget extends HTMLWidget {
             $rowIndex = 0;
             $rowCount = 0;
             foreach( $this->data as $key => $rowData ) {
-                if( $rowIndex < $this->getStartIndex() ) {
+                if ( $rowIndex < $this->getStartIndex() ) {
                     // Skip this row
                     $rowIndex++;
                     continue;
@@ -360,7 +362,7 @@ class TableWidget extends HTMLWidget {
                 $this->tableRows[$key] = $rowData;
                 $rowIndex++;
                 $rowCount++;
-                if( isset( $this->size ) && $rowCount >= $this->size ) {
+                if ( isset( $this->size ) && $rowCount >= $this->size ) {
                     // Do not process anymore rows
                     break;
                 }
@@ -369,7 +371,7 @@ class TableWidget extends HTMLWidget {
 
         // Assign all the row data to a Smarty array
         $this->rowCount++;
-        if( null == ($this->currentRow = array_shift( $this->tableRows )) ) {
+        if ( null == ($this->currentRow = array_shift( $this->tableRows )) ) {
             throw new EndOfTableException();
         }
         return $this->currentRow;
@@ -384,16 +386,16 @@ class TableWidget extends HTMLWidget {
         foreach( $this->data as $row ) {
             foreach( $row as $columnid => $value ) {
                 // Should we filter this column?
-                if( isset( $criteria[$columnid] ) ) {
+                if ( isset( $criteria[$columnid] ) ) {
                     // Strings and numbers are handled differently
-                    if( is_numeric( $value ) ) {
-                        if( $value != $criteria[$columnid] ) {
+                    if ( is_numeric( $value ) ) {
+                        if ( $value != $criteria[$columnid] ) {
                             // Skip this row
                             continue( 2 );
                         }
                     }
                     else {
-                        if( stristr( $value, (string)$criteria[$columnid] ) === false ) {
+                        if ( stristr( $value, (string)$criteria[$columnid] ) === false ) {
                             // Skip this row
                             continue( 2 );
                         }
@@ -481,7 +483,7 @@ class TableWidget extends HTMLWidget {
      * Sort Table Data (if necessary)
      */
     protected function sort() {
-        if( !$this->isToBeSorted() ) {
+        if ( !$this->isToBeSorted() ) {
             // Do not sort
             return;
         }

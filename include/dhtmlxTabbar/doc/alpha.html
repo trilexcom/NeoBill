@@ -3,17 +3,18 @@
 		<script type="text/javascript"><!--
 		 	
 			function openFull(el){
-				el.nextSibling.style.display=='none'?el.nextSibling.style.display='block':el.nextSibling.style.display='none'
+				el.nextSibling.style.display == 'none' ? el.nextSibling.style.display = 'block' : el.nextSibling.style.display = 'none';
 			}
 			function expandAll(fl){
 				var elAr = document.getElementsByTagName("DIV");
-				for(var i=2;i<elAr.length;i++){
-					if(elAr[i].style.display=='none' || elAr[i].block_fl){
+				for (var i=2; i < elAr.length; i++) {
+					if (elAr[i].style.display == 'none' || elAr[i].block_fl) {
 						elAr[i].block_fl = true;
-						if(fl)
+						if (fl) {
 							elAr[i].style.display = "";
-						else
+						} else {
 							elAr[i].style.display = "none";
+						}
 					}
 				}
 			}

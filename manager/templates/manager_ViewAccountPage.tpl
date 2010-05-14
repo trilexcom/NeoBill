@@ -16,7 +16,7 @@
      imgpath="../include/dhtmlxTabbar/imgs/"
      skinColors="#FFFFFF,#F4F3EE">
 
-  <div id="info" name="[ACCOUNT_INFO]" width="80">
+  <div id="info" name="[ACCOUNT_INFO]" style="width:80px">
     {form name="view_account_action"}
       <h2> {echo phrase="ACCOUNT_INFORMATION"} </h2>
       <div class="properties">

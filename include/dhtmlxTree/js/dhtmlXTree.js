@@ -60,9 +60,8 @@ function dhtmlXTreeObject(htmlObject,width,height,rootId) {
 	this.cutImg= new Array(0,0,0);
 	this.cutImage="but_cut.gif";
  
-	this.dragger= new dhtmlDragAndDropObject();
- 
-	this.htmlNode=new dhtmlXTreeItemObject(this.rootId,"",0,this);
+	this.dragger = new dhtmlDragAndDropObject();
+	this.htmlNode = new dhtmlXTreeItemObject(this.rootId,"",0,this);
 	this.htmlNode.htmlNode.childNodes[0].childNodes[0].style.display="none";
 	this.htmlNode.htmlNode.childNodes[0].childNodes[0].childNodes[0].className="hiddenRow";
  
@@ -79,10 +78,6 @@ function dhtmlXTreeObject(htmlObject,width,height,rootId) {
 	this.selectionBar.style.display="none";
  
 	this.allTree.appendChild(this.selectionBar);
- 
- 
- 
-
 	return this;
 };
 

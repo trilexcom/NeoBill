@@ -26,16 +26,16 @@ $username  = 'admin';
 $email     = '';
 
 if (isset($_POST['firstname'])) {
-    $firstname = $_POST['firstname'];
+	$firstname = $_POST['firstname'];
 }
 if (isset($_POST['lastname'])) {
-    $lastname = $_POST['lastname'];
+	$lastname = $_POST['lastname'];
 }
 if (isset($_POST['username'])) {
-    $username = $_POST['username'];
+	$username = $_POST['username'];
 }
 if (isset($_POST['email'])) {
-    $email = $_POST['email'];
+	$email = $_POST['email'];
 }
 ?>
 <script type="text/javascript" src="javascript/password.js"></script>
@@ -43,9 +43,9 @@ if (isset($_POST['email'])) {
 <br />
 <?php
 if (isset($message) && $message != '') {
-    ?>
+	?>
 <p class="error"><?php echo $message; ?>!</p>
-    <?php
+	<?php
 }
 ?>
 <form method="post" action="index.php">

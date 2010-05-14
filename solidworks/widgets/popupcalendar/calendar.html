@@ -1,5 +1,6 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
-  <head>
+<head>
     <title>Date Selector</title>
     <script type="text/javascript">
 // {{{ y2k()
@@ -18,15 +19,15 @@ function _rgb2hex(red,green,blue)
     var html_green = green.toString(16).toUpperCase();
     var html_blue = blue.toString(16).toUpperCase();
     if (html_red.length == 1) {
-        html_red = "0" + html_red
+        html_red = "0" + html_red;
     }
 
     if (html_green.length == 1) {
-        html_green = "0" + html_green
+        html_green = "0" + html_green;
     }
 
     if (html_blue.length == 1) {
-        html_blue = "0" + html_blue
+        html_blue = "0" + html_blue;
     }
 
     return '#' + html_red + html_green + html_blue;
@@ -54,7 +55,7 @@ function getDarkColor(htmlcode)
     decimalcolor["red"] = Math.max(0,decimalcolor["red"]-40);
     decimalcolor["green"] = Math.max(0,decimalcolor["green"]-40);
     decimalcolor["blue"] = Math.max(0,decimalcolor["blue"]-40);
-    return _rgb2hex(decimalcolor["red"],decimalcolor["green"],decimalcolor["blue"]);
+    return _rgb2hex(decimalcolor["red"], decimalcolor["green"], decimalcolor["blue"]);
 }
 
 // }}}
@@ -148,8 +149,7 @@ var currentYear = year;
 var currentMonth = month;
     </script>
   </head>
-  <frameset frameborder="0" framespacing="0" ROWS="100%,*">
+  <frameset  frameborder="0" framespacing="0" ROWS="100%,*">
     <frame scrolling="no" frameborder="0" marginheight="0" marginwidth="0" name="cal" noresize src="calendar_body.html">
   </frameset>
 </html>
-
