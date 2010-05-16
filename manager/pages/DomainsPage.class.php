@@ -23,43 +23,36 @@ require BASE_PATH . "util/domains.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DomainsPage extends SolidStatePage
-{
-  /**
-   * Provides statistics to the template
-   */
-  function init()
-  {
-    parent::init();
+class DomainsPage extends SolidStatePage {
+	/**
+	 * Provides statistics to the template
+	 */
+	function init() {
+		parent::init();
 
-    // Get stats
-    $stats = domain_stats();
+		// Get stats
+		$stats = domain_stats();
 
-    // Put stats on the page
-    $this->smarty->assign( "domains_count",         $stats['domains_count'] );
-    $this->smarty->assign( "expired_domains_count", $stats['expired_domains_count'] );
-  }
+		// Put stats on the page
+		$this->smarty->assign( "domains_count",         $stats['domains_count'] );
+		$this->smarty->assign( "expired_domains_count", $stats['expired_domains_count'] );
+	}
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   none
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-
-      default:
-
-	// No matching action, refer to base class
-	parent::action( $action_name );
-
-      }
-  }
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   none
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 }
 
 ?>

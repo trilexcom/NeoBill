@@ -21,69 +21,62 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditProductPurchasePage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "edit_product_purchase":
-	if( isset( $this->post['save'] ) )
-	  {
-	    $this->save();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    $this->goback();
-	  }
-	break;
+class EditProductPurchasePage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "edit_product_purchase":
+				if ( isset( $this->post['save'] ) ) {
+					$this->save();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					$this->goback();
+				}
+				break;
 
-      default:
-	// No matching action - refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action - refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Initialize the Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Initialize the Page
+	 */
+	public function init() {
+		parent::init();
 
-    // Setup the pricing/term menu
-    $widget = $this->forms['edit_product_purchase']->getField( "term" )->getWidget();
-    $widget->setPurchasable( $this->get['ppurchase']->getPurchasable() );
+		// Setup the pricing/term menu
+		$widget = $this->forms['edit_product_purchase']->getField( "term" )->getWidget();
+		$widget->setPurchasable( $this->get['ppurchase']->getPurchasable() );
 
-    // Give the template access to the purchase DBO
-    $this->smarty->assign_by_ref( "purchaseDBO", $this->get['ppurchase'] );
+		// Give the template access to the purchase DBO
+		$this->smarty->assign_by_ref( "purchaseDBO", $this->get['ppurchase'] );
 
-    // Set URL Fields
-    $this->setURLField( "ppurchase", $this->get['ppurchase']->getID() );
-  }
+		// Set URL Fields
+		$this->setURLField( "ppurchase", $this->get['ppurchase']->getID() );
+	}
 
-  /**
-   * Save Product Purchase
-   */
-  public function save()
-  {
-    $nextBillingDate = DBConnection::format_date( $this->post['nextbillingdate'] );
-    $this->get['ppurchase']->setTerm( $this->post['term']->getTermLength() );
-    $this->get['ppurchase']->setNextBillingDate( $nextBillingDate );
-    $this->get['ppurchase']->setNote( $this->post['note'] );
+	/**
+	 * Save Product Purchase
+	 */
+	public function save() {
+		$nextBillingDate = DBConnection::format_date( $this->post['nextbillingdate'] );
+		$this->get['ppurchase']->setTerm( $this->post['term']->getTermLength() );
+		$this->get['ppurchase']->setNextBillingDate( $nextBillingDate );
+		$this->get['ppurchase']->setNote( $this->post['note'] );
 
-    update_ProductPurchaseDBO( $this->get['ppurchase'] );
+		update_ProductPurchaseDBO( $this->get['ppurchase'] );
 
-    // Success
-    $this->setMessage( array( "type" => "[CHANGES_SAVED]" ) );
-    $this->reload();
-  }
+		// Success
+		$this->setMessage( array( "type" => "[CHANGES_SAVED]" ) );
+		$this->reload();
+	}
 }
 ?>

@@ -20,7 +20,6 @@ require BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class LogPage extends SolidStateAdminPage
-{
+class LogPage extends SolidStateAdminPage {
 }
 ?>

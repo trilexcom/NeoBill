@@ -21,138 +21,122 @@ require BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditProductPage extends SolidStateAdminPage
-{
-  /**
-   * Initialize Edit Product Page
-   */
-  function init()
-  {
-    parent::init();
+class EditProductPage extends SolidStateAdminPage {
+	/**
+	 * Initialize Edit Product Page
+	 */
+	function init() {
+		parent::init();
 
-    // Set URL Fields
-    $this->setURLField( "product", $this->get['product']->getID() );
+		// Set URL Fields
+		$this->setURLField( "product", $this->get['product']->getID() );
 
-    // Store service DBO in session
-    $this->session['product_dbo'] =& $this->get['product'];
+		// Store service DBO in session
+		$this->session['product_dbo'] =& $this->get['product'];
 
-    // Setup the pricing table
-    $ptw = $this->forms['edit_product_pricing']->getField( "prices" )->getWidget();
-    $ptw->setPrices( $this->get['product']->getPricing() );
-  }
+		// Setup the pricing table
+		$ptw = $this->forms['edit_product_pricing']->getField( "prices" )->getWidget();
+		$ptw->setPrices( $this->get['product']->getPricing() );
+	}
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   edit_product (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "edit_product":
-	if( isset( $this->post['save'] ) )
-	  {
-	    // Save changes
-	    $this->update_product();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    // Cancel
-	    $this->goback();
-	  }
-	break;
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   edit_product (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "edit_product":
+				if ( isset( $this->post['save'] ) ) {
+					// Save changes
+					$this->update_product();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					// Cancel
+					$this->goback();
+				}
+				break;
 
-      case "edit_product_pricing":
-	if( isset( $this->post['delete'] ) )
-	  {
-	    $this->deletePrice();
-	  }
+			case "edit_product_pricing":
+				if ( isset( $this->post['delete'] ) ) {
+					$this->deletePrice();
+				}
 
-      case "edit_product_add_price":
-	if( isset( $this->post['add'] ) )
-	  {
-	    $this->addPrice();
-	  }
-	break;
+			case "edit_product_add_price":
+				if ( isset( $this->post['add'] ) ) {
+					$this->addPrice();
+				}
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Add Price
-   */
-  protected function addPrice()
-  {
-    if( $this->post['type'] == "Onetime" && $this->post['termlength'] != 0 )
-      {
-	throw new SWUserException( "[TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO]" );
-      }
-    if( $this->post['type'] == "Recurring" && $this->post['termlength'] == 0 )
-      {
-	throw new SWUserException( "[TERMLENGTH_FOR_RECURRING_MUST_NOT_BE_ZERO]" );
-      }
-    $priceDBO = new ProductPriceDBO();
-    $priceDBO->setProductID( $this->get['product']->getID() );
-    $priceDBO->setType( $this->post['type'] );
-    $priceDBO->setTermLength( $this->post['termlength'] );
-    $priceDBO->setPrice( $this->post['price'] );
-    $priceDBO->setTaxable( $this->post['taxable'] );
+	/**
+	 * Add Price
+	 */
+	protected function addPrice() {
+		if ( $this->post['type'] == "Onetime" && $this->post['termlength'] != 0 ) {
+			throw new SWUserException( "[TERMLENGTH_FOR_ONETIME_MUST_BE_ZERO]" );
+		}
+		if ( $this->post['type'] == "Recurring" && $this->post['termlength'] == 0 ) {
+			throw new SWUserException( "[TERMLENGTH_FOR_RECURRING_MUST_NOT_BE_ZERO]" );
+		}
+		$priceDBO = new ProductPriceDBO();
+		$priceDBO->setProductID( $this->get['product']->getID() );
+		$priceDBO->setType( $this->post['type'] );
+		$priceDBO->setTermLength( $this->post['termlength'] );
+		$priceDBO->setPrice( $this->post['price'] );
+		$priceDBO->setTaxable( $this->post['taxable'] );
 
-    try
-      {
-	$this->get['product']->addPrice( $priceDBO );
-	add_ProductPriceDBO( $priceDBO );
-	$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
-      }
-    catch( DuplicatePriceException $e )
-      {
-	update_ProductPriceDBO( $priceDBO );
-	$this->setMessage( array( "type" => "[PRICE_UPDATED]" ) );
-      }
+		try {
+			$this->get['product']->addPrice( $priceDBO );
+			add_ProductPriceDBO( $priceDBO );
+			$this->setMessage( array( "type" => "[PRICE_ADDED]" ) );
+		}
+		catch( DuplicatePriceException $e ) {
+			update_ProductPriceDBO( $priceDBO );
+			$this->setMessage( array( "type" => "[PRICE_UPDATED]" ) );
+		}
 
-    $this->reload( "&sstab=pricing" );
-  }
+		$this->reload( "&sstab=pricing" );
+	}
 
-  /**
-   * Delete Price
-   */
-  protected function deletePrice()
-  {
-    foreach( $this->post['prices'] as $price )
-      {
-	delete_ProductPriceDBO( $price );
-      }
+	/**
+	 * Delete Price
+	 */
+	protected function deletePrice() {
+		foreach ( $this->post['prices'] as $price ) {
+			delete_ProductPriceDBO( $price );
+		}
 
-    $this->setMessage( array( "type" => "[PRICES_DELETED]" ) );
-    $this->reload( "&sstab=pricing" );
-  }
+		$this->setMessage( array( "type" => "[PRICES_DELETED]" ) );
+		$this->reload( "&sstab=pricing" );
+	}
 
-  /**
-   * Update Product
-   *
-   * Place the changes from the form into the ProductDBO and update the database
-   */
-  function update_product()
-  {
-    // Access DBO
-    $product_dbo =& $this->session['product_dbo'];
+	/**
+	 * Update Product
+	 *
+	 * Place the changes from the form into the ProductDBO and update the database
+	 */
+	function update_product() {
+		// Access DBO
+		$product_dbo =& $this->session['product_dbo'];
 
-    // Update DBO
-    $product_dbo->setName( $this->post['name'] );
-    $product_dbo->setDescription( $this->post['description'] );
-    $product_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
-    update_ProductDBO( $product_dbo );
+		// Update DBO
+		$product_dbo->setName( $this->post['name'] );
+		$product_dbo->setDescription( $this->post['description'] );
+		$product_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
+		update_ProductDBO( $product_dbo );
 
-    // Sucess!
-    $this->setMessage( array( "type" => "[PRODUCT_UPDATED]" ) );
-    $this->goback();
-  }
+		// Sucess!
+		$this->setMessage( array( "type" => "[PRODUCT_UPDATED]" ) );
+		$this->goback();
+	}
 }
 ?>

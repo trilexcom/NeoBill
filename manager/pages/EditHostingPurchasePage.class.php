@@ -21,151 +21,136 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditHostingPurchasePage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   assign_hosting (form)
-   *
-   * @param string $action_name Action
-   */
-  public function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "edit_hosting_purchase_action":
-	if( isset( $this->post['createaccount'] ) )
-	  {
-	    $this->createAccount();
-	  }
-	elseif( isset( $this->post['suspendaccount'] ) )
-	  {
-	    $this->suspendAccount();
-	  }
-	elseif( isset( $this->post['unsuspendaccount'] ) )
-	  {
-	    $this->unsuspendAccount();
-	  }
-	elseif( isset( $this->post['killaccount'] ) )
-	  {
-	    $this->killAccount();
-	  }
-	break;
-	
-      case "edit_hosting_purchase":
-	if( isset( $this->post['save'] ) )
-	  {
-	    $this->save();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    $this->goback();
-	  }
-	break;
+class EditHostingPurchasePage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   assign_hosting (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	public function action( $action_name ) {
+		switch ( $action_name ) {
+			case "edit_hosting_purchase_action":
+				if ( isset( $this->post['createaccount'] ) ) {
+					$this->createAccount();
+				}
+				elseif ( isset( $this->post['suspendaccount'] ) ) {
+					$this->suspendAccount();
+				}
+				elseif ( isset( $this->post['unsuspendaccount'] ) ) {
+					$this->unsuspendAccount();
+				}
+				elseif ( isset( $this->post['killaccount'] ) ) {
+					$this->killAccount();
+				}
+				break;
 
-      default:
-	// No matching action - refer to base class
-	parent::action( $action_name );
-      }
-  }
+			case "edit_hosting_purchase":
+				if ( isset( $this->post['save'] ) ) {
+					$this->save();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					$this->goback();
+				}
+				break;
 
-  /**
-   * Create Account on Server
-   */
-  public function createAccount()
-  {
-    $serverDBO = $this->get['hspurchase']->getServerDBO();
-    $username = $this->get['hspurchase']->getAccountDBO()->getUsername();
-    $tempPassword = 
-      $serverDBO->createAccount( $this->get['hspurchase']->getPurchasable(),
-				 $this->get['hspurchase']->getDomainName(),
-				 $username );
-    
-    // Success
-    $this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_SUCCESSFULLY_CREATED]" ) );
-    $this->setMessage( array( "type" => "[USERNAME]: " . $username ) );
-    $this->setMessage( array( "type" => "[TEMPORARY_PASSWORD]: " . $tempPassword ) );
-  }
+			default:
+				// No matching action - refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Initialize the Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Create Account on Server
+	 */
+	public function createAccount() {
+		$serverDBO = $this->get['hspurchase']->getServerDBO();
+		$username = $this->get['hspurchase']->getAccountDBO()->getUsername();
+		$tempPassword =
+				$serverDBO->createAccount( $this->get['hspurchase']->getPurchasable(),
+				$this->get['hspurchase']->getDomainName(),
+				$username );
 
-    // Setup the pricing/term menu
-    $widget = $this->forms['edit_hosting_purchase']->getField( "term" )->getWidget();
-    $widget->setPurchasable( $this->get['hspurchase']->getPurchasable() );
+		// Success
+		$this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_SUCCESSFULLY_CREATED]" ) );
+		$this->setMessage( array( "type" => "[USERNAME]: " . $username ) );
+		$this->setMessage( array( "type" => "[TEMPORARY_PASSWORD]: " . $tempPassword ) );
+	}
 
-    // Provide the purchase and server objects to the template
-    $this->smarty->assign_by_ref( "purchaseDBO", $this->get['hspurchase'] );
-    $this->smarty->assign_by_ref( "serverDBO", $this->get['hspurchase']->getServerDBO() );
+	/**
+	 * Initialize the Page
+	 */
+	public function init() {
+		parent::init();
 
-    // Set URL Fields
-    $this->setURLField( "hspurchase", $this->get['hspurchase']->getID() );
-  }
+		// Setup the pricing/term menu
+		$widget = $this->forms['edit_hosting_purchase']->getField( "term" )->getWidget();
+		$widget->setPurchasable( $this->get['hspurchase']->getPurchasable() );
 
-  /**
-   * Kill Control Panel Account
-   */
-  public function killAccount()
-  {
-    $accountDBO = $this->get['hspurchase']->getAccountDBO();
-    $serverDBO = $this->get['hspurchase']->getServerDBO();
-    $serverDBO->killAccount( $accountDBO->getUserDBO()->getUsername() );
+		// Provide the purchase and server objects to the template
+		$this->smarty->assign_by_ref( "purchaseDBO", $this->get['hspurchase'] );
+		$this->smarty->assign_by_ref( "serverDBO", $this->get['hspurchase']->getServerDBO() );
 
-    // Success
-    $this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_TERMINATED]" ) );
-  }
+		// Set URL Fields
+		$this->setURLField( "hspurchase", $this->get['hspurchase']->getID() );
+	}
 
-  
+	/**
+	 * Kill Control Panel Account
+	 */
+	public function killAccount() {
+		$accountDBO = $this->get['hspurchase']->getAccountDBO();
+		$serverDBO = $this->get['hspurchase']->getServerDBO();
+		$serverDBO->killAccount( $accountDBO->getUserDBO()->getUsername() );
 
-  /**
-   * Save Hosting Service Purchase
-   */
-  public function save()
-  {
-    $nextBillingDate = DBConnection::format_date( $this->post['nextbillingdate'] );
-    $this->get['hspurchase']->setTerm( $this->post['term']->getTermLength() );
-    $this->get['hspurchase']->setNextBillingDate( $nextBillingDate );
-    $this->get['hspurchase']->setDomainName( $this->post['domain'] );
-    $this->get['hspurchase']->setServerID( $this->post['server']->getID() );
-    $this->get['hspurchase']->setNote( $this->post['note'] );
+		// Success
+		$this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_TERMINATED]" ) );
+	}
 
-    update_HostingServicePurchaseDBO( $this->get['hspurchase'] );
 
-    // Success
-    $this->setMessage( array( "type" => "[CHANGES_SAVED]" ) );
-    $this->reload();
-  }
 
-  /**
-   * Suspend Control Panel Account
-   */
-  public function suspendAccount()
-  {
-    $accountDBO = $this->get['hspurchase']->getAccountDBO();
-    $serverDBO = $this->get['hspurchase']->getServerDBO();
-    $serverDBO->suspendAccount( $accountDBO->getUserDBO()->getUsername() );
+	/**
+	 * Save Hosting Service Purchase
+	 */
+	public function save() {
+		$nextBillingDate = DBConnection::format_date( $this->post['nextbillingdate'] );
+		$this->get['hspurchase']->setTerm( $this->post['term']->getTermLength() );
+		$this->get['hspurchase']->setNextBillingDate( $nextBillingDate );
+		$this->get['hspurchase']->setDomainName( $this->post['domain'] );
+		$this->get['hspurchase']->setServerID( $this->post['server']->getID() );
+		$this->get['hspurchase']->setNote( $this->post['note'] );
 
-    // Success
-    $this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_SUSPENDED]" ) );
-  }
+		update_HostingServicePurchaseDBO( $this->get['hspurchase'] );
 
-  /**
-   * Un-suspend Control Panel Account
-   */
-  public function unsuspendAccount()
-  {
-    $accountDBO = $this->get['hspurchase']->getAccountDBO();
-    $serverDBO = $this->get['hspurchase']->getServerDBO();
-    $serverDBO->unsuspendAccount( $accountDBO->getUserDBO()->getUsername() );
+		// Success
+		$this->setMessage( array( "type" => "[CHANGES_SAVED]" ) );
+		$this->reload();
+	}
 
-    // Success
-    $this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_UNSUSPENDED]" ) );
-  }
+	/**
+	 * Suspend Control Panel Account
+	 */
+	public function suspendAccount() {
+		$accountDBO = $this->get['hspurchase']->getAccountDBO();
+		$serverDBO = $this->get['hspurchase']->getServerDBO();
+		$serverDBO->suspendAccount( $accountDBO->getUserDBO()->getUsername() );
+
+		// Success
+		$this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_SUSPENDED]" ) );
+	}
+
+	/**
+	 * Un-suspend Control Panel Account
+	 */
+	public function unsuspendAccount() {
+		$accountDBO = $this->get['hspurchase']->getAccountDBO();
+		$serverDBO = $this->get['hspurchase']->getServerDBO();
+		$serverDBO->unsuspendAccount( $accountDBO->getUserDBO()->getUsername() );
+
+		// Success
+		$this->setMessage( array( "type" => "[CONTROL_PANEL_ACCOUNT_UNSUSPENDED]" ) );
+	}
 }
 ?>

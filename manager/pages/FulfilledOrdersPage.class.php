@@ -21,36 +21,32 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class FulfilledOrdersPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   browse_accounts_action (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+class FulfilledOrdersPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   browse_accounts_action (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Initialize Fulfilled Orders Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Initialize Fulfilled Orders Page
+	 */
+	public function init() {
+		parent::init();
 
-    // Tell the orders table widget to only show "pending" orders
-    $widget = $this->forms['fulfilled_orders']->getField( "orders" )->getWidget();
-    $widget->setStatus( "Fulfilled" );
-  }
+		// Tell the orders table widget to only show "pending" orders
+		$widget = $this->forms['fulfilled_orders']->getField( "orders" )->getWidget();
+		$widget->setStatus( "Fulfilled" );
+	}
 }
 ?>

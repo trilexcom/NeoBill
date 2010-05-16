@@ -21,166 +21,146 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class EditPaymentPage extends SolidStatePage
-{
-  /**
-   * Initialize the Edit Payment Page
-   */
-  function init()
-  {
-    parent::init();
-    
-    // Set URL Fields
-    $this->setURLField( "payment", $this->get['payment']->getID() );
+class EditPaymentPage extends SolidStatePage {
+	/**
+	 * Initialize the Edit Payment Page
+	 */
+	function init() {
+		parent::init();
 
-    // Give the template access to the Payment DBO
-    $this->session['payment_dbo'] =& $this->get['payment'];
-  }
+		// Set URL Fields
+		$this->setURLField( "payment", $this->get['payment']->getID() );
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   edit_payment (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "edit_payment":
-	if( isset( $this->session['edit_payment']['save'] ) )
-	  {
-	    $this->save();
-	  }
-	elseif( isset( $this->session['edit_payment']['capture'] ) )
-	  {
-	    $this->capture();
-	  }
-	elseif( isset( $this->session['edit_payment']['void'] ) )
-	  {
-	    $this->void();
-	  }
-	elseif( isset( $this->session['edit_payment']['refund'] ) )
-	  {
-	    $this->refund();
-	  }
-	elseif( isset( $this->session['edit_payment']['cancel'] ) )
-	  {
-	    $this->cancel();
-	  }
-	break;
-	
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+		// Give the template access to the Payment DBO
+		$this->session['payment_dbo'] =& $this->get['payment'];
+	}
 
-  /**
-   * Cancel
-   */
-  function cancel()
-  {
-    $this->goback();
-  }
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   edit_payment (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "edit_payment":
+				if ( isset( $this->session['edit_payment']['save'] ) ) {
+					$this->save();
+				}
+				elseif ( isset( $this->session['edit_payment']['capture'] ) ) {
+					$this->capture();
+				}
+				elseif ( isset( $this->session['edit_payment']['void'] ) ) {
+					$this->void();
+				}
+				elseif ( isset( $this->session['edit_payment']['refund'] ) ) {
+					$this->refund();
+				}
+				elseif ( isset( $this->session['edit_payment']['cancel'] ) ) {
+					$this->cancel();
+				}
+				break;
 
-  /**
-   * Capture a Previously Authorized Payment
-   */
-  function capture()
-  {
-    // Capture payment
-    if( !$this->get['payment']->capture() )
-      {
-	// There was an error processing the transaction
-	throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
-      }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-    // Update the payment record
-    update_PaymentDBO( $this->get['payment'] );
+	/**
+	 * Cancel
+	 */
+	function cancel() {
+		$this->goback();
+	}
 
-    if( $this->get['payment']->getStatus() == "Declined" )
-      {
-	// Transaction was declined
-	throw new SWUserException( "[CC_CAPTURE_DECLINED]" );
-      }
+	/**
+	 * Capture a Previously Authorized Payment
+	 */
+	function capture() {
+		// Capture payment
+		if( !$this->get['payment']->capture() ) {
+			// There was an error processing the transaction
+			throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
+		}
 
-    // Success
-    $this->setMessage( array( "type" => "[CC_CAPTURED]" ) );
-    $this->reload();
-  }
+		// Update the payment record
+		update_PaymentDBO( $this->get['payment'] );
 
-  /**
-   * Refund Payment
-   */
-  function refund()
-  {
-    // Capture payment
-    if( !$this->get['payment']->refund() )
-      {
-	// There was an error processing the transaction
-	throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
-      }
+		if ( $this->get['payment']->getStatus() == "Declined" ) {
+			// Transaction was declined
+			throw new SWUserException( "[CC_CAPTURE_DECLINED]" );
+		}
 
-    if( $this->get['payment']->getStatus() == "Declined" )
-      {
-	// Transaction was declined
-	throw new SWUserException( "[CC_REFUND_DECLINED]" );
-      }
+		// Success
+		$this->setMessage( array( "type" => "[CC_CAPTURED]" ) );
+		$this->reload();
+	}
 
-    // Update the payment record
-    update_PaymentDBO( $this->get['payment'] );
+	/**
+	 * Refund Payment
+	 */
+	function refund() {
+		// Capture payment
+		if ( !$this->get['payment']->refund() ) {
+			// There was an error processing the transaction
+			throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
+		}
 
-    // Success
-    $this->setMessage( array( "type" => "[CC_REFUNDED]" ) );
-    $this-reload();
-  }
+		if ( $this->get['payment']->getStatus() == "Declined" ) {
+			// Transaction was declined
+			throw new SWUserException( "[CC_REFUND_DECLINED]" );
+		}
 
-  /**
-   * Save Changes
-   */
-  function save()
-  {
-    // Update Payment DBO
-    $this->get['payment']->setDate( DBConnection::format_datetime( $this->post['date'] ) );
-    $this->get['payment']->setAmount( $this->post['amount'] );
-    $this->get['payment']->setTransaction1( $this->post['transaction1'] );
-    $this->get['payment']->setTransaction2( $this->post['transaction2'] );
-    $this->get['payment']->setStatus( $this->post['status'] );
-    $this->get['payment']->setStatusMessage( $this->post['statusmessage'] );
-    update_PaymentDBO( $this->get['payment'] );
+		// Update the payment record
+		update_PaymentDBO( $this->get['payment'] );
 
-    // Success!
-    $this->setMessage( array( "type" => "[PAYMENT_UPDATED]" ) );
-    $this->reload();
-  }
+		// Success
+		$this->setMessage( array( "type" => "[CC_REFUNDED]" ) );
+		$this-reload();
+	}
 
-  /**
-   * Void a Previously Authorized Payment
-   */
-  function void()
-  {
-    if( !$this->get['payment']->void() )
-      {
-	// There was an error processing the transaction
-	throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
-      }
+	/**
+	 * Save Changes
+	 */
+	function save() {
+		// Update Payment DBO
+		$this->get['payment']->setDate( DBConnection::format_datetime( $this->post['date'] ) );
+		$this->get['payment']->setAmount( $this->post['amount'] );
+		$this->get['payment']->setTransaction1( $this->post['transaction1'] );
+		$this->get['payment']->setTransaction2( $this->post['transaction2'] );
+		$this->get['payment']->setStatus( $this->post['status'] );
+		$this->get['payment']->setStatusMessage( $this->post['statusmessage'] );
+		update_PaymentDBO( $this->get['payment'] );
 
-    if( $this->get['payment']->getStatus() == "Declined" )
-      {
-	// Transaction was declined
-	throw new SWUserException( "[CC_VOID_DECLINED]" );
-      }
+		// Success!
+		$this->setMessage( array( "type" => "[PAYMENT_UPDATED]" ) );
+		$this->reload();
+	}
 
-    // Update the payment record
-    update_PaymentDBO( $this->get['payment'] );
+	/**
+	 * Void a Previously Authorized Payment
+	 */
+	function void() {
+		if ( !$this->get['payment']->void() ) {
+			// There was an error processing the transaction
+			throw new SWUserException( "[CC_TRANSACTION_FAILED]" );
+		}
 
-    // Success
-    $this->setMessage( array( "type" => "[CC_VOIDED]" ) );
-    $this->reload();
-  }
+		if ( $this->get['payment']->getStatus() == "Declined" ) {
+			// Transaction was declined
+			throw new SWUserException( "[CC_VOID_DECLINED]" );
+		}
+
+		// Update the payment record
+		update_PaymentDBO( $this->get['payment'] );
+
+		// Success
+		$this->setMessage( array( "type" => "[CC_VOIDED]" ) );
+		$this->reload();
+	}
 }
 
 ?>
