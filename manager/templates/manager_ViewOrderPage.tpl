@@ -126,7 +126,7 @@
       <table style="width: 35em">
         <tr>
           <th> {echo phrase="ACCOUNT"}: </th>
-          <td> <a href="manager_content.php?page=accounts_view_account&id={dbo_echo dbo="accountdbo" field="id"}">{dbo_echo dbo="accountdbo" field="accountname"}</a>
+          <td> <a href="manager_content.php?page=accounts_view_account&account={dbo_echo dbo="accountdbo" field="id"}">{dbo_echo dbo="accountdbo" field="accountname"}</a>
         </tr>
         <tr>
           <th> {echo phrase="BALANCE"}: </th>

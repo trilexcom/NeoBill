@@ -21,33 +21,30 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class BrowseInvoicesPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   browse_invoices_action (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "browse_invoices_action":
-	// Create a new invoice
-	$this->gotoPage( "accounts_add_invoice" );
-	break;
+class BrowseInvoicesPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   browse_invoices_action (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch( $action_name ) {
+			case "browse_invoices_action":
+				// Create a new invoice
+				$this->gotoPage( "accounts_add_invoice" );
+				break;
 
-      case "search_invoices":
-	$this->searchTable( "browse_invoices", "invoices", $this->post );
-	break;
+			case "search_invoices":
+				$this->searchTable( "browse_invoices", "invoices", $this->post );
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 }
 ?>

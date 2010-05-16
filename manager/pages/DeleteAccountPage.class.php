@@ -21,71 +21,60 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DeleteAccountPage extends SolidStatePage
-{
-  /**
-   * Initialize Delete Account Page
-   */
-  function init()
-  {
-    parent::init();
+class DeleteAccountPage extends SolidStatePage {
+	/**
+	 * Initialize Delete Account Page
+	 */
+	function init() {
+		parent::init();
 
-    // Store account DBO in session
-    $this->session['account_dbo'] =& $this->get['account'];
+		// Store account DBO in session
+		$this->session['account_dbo'] =& $this->get['account'];
 
-    // Set URL Fields
-    $this->setURLField( "account", $this->get['account']->getID() );
-  }
+		// Set URL Fields
+		$this->setURLField( "account", $this->get['account']->getID() );
+	}
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   delete_account (form)
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   delete_account (form)
+	 */
+	function action( $action_name ) {
+		switch( $action_name ) {
+			case "delete_account":
+				if( isset( $this->session['delete_account']['delete'] ) ) {
+					// Delete
+					$this->delete_account();
+				}
+				elseif ( isset( $this->session['delete_account']['cancel'] ) ) {
+					// Cancel
+					$this->goback();
+				}
 
-      case "delete_account":
+				break;
 
-	if( isset( $this->session['delete_account']['delete'] ) )
-	  {
-	    // Delete
-	    $this->delete_account();
-	  }
-	elseif( isset( $this->session['delete_account']['cancel'] ) )
-	  {
-	    // Cancel
-	    $this->goback();
-	  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-	break;
+	/**
+	 * Delete Account
+	 *
+	 * Delete AccountDBO
+	 */
+	function delete_account() {
+		// Delete Account DBO
+		delete_AccountDBO( $this->session['account_dbo'] );
 
-      default:
-	
-	// No matching action, refer to base class
-	parent::action( $action_name );
-
-      }
-  }
-
-  /**
-   * Delete Account
-   *
-   * Delete AccountDBO
-   */
-  function delete_account()
-  {
-    // Delete Account DBO
-    delete_AccountDBO( $this->session['account_dbo'] );
-
-    // Success - go back to accounts page
-    $this->setMessage( array( "type" => "[ACCOUNT_DELETED]",
-			      "args" => array( $this->session['account_dbo']->getAccountName() ) ) );
-    $this->gotoPage( "accounts_browse" );
-  }
+		// Success - go back to accounts page
+		$this->setMessage( array( "type" => "[ACCOUNT_DELETED]",
+				"args" => array( $this->session['account_dbo']->getAccountName() ) ) );
+		$this->gotoPage( "accounts_browse" );
+	}
 }
 
 ?>

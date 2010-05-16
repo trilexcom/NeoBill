@@ -140,7 +140,7 @@ class TableWidget extends HTMLWidget {
         $checked = $this->determineValue( array( "option" => $value ) ) == $value ?
                 "checked" : null;
 
-        return sprintf( "<input type=\"checkbox\" name=\"%s[]\" value=\"%s\" %s/>",
+        return sprintf( '<input type="checkbox" name="%s[]" value="%s" %s/>',
                 $this->fieldName,
                 $value,
                 $checked );
@@ -167,7 +167,11 @@ class TableWidget extends HTMLWidget {
         global $page;
         $session = $page->getPageSession();
 
-        return $session['tables'][$this->formName][$this->fieldName]['col'];
+		$sortColumn = $_GET[ 'swtablesortcol' ];
+		if (!preg_match('/^[A-Za-z][A-Za-z0-9_]+$/', $sortColumn)) {
+			$sortColumn = '';
+		}
+        return $sortColumn;
     }
 
     /**
@@ -179,7 +183,10 @@ class TableWidget extends HTMLWidget {
         global $page;
         $session = $page->getPageSession();
 
-        return $session['tables'][$this->formName][$this->fieldName]['dir'];
+		if (!preg_match('/^(asc|desc)$/i', $sortColumn)) {
+			$sortColumn = '';
+		}
+		return $sortColumn;
     }
 
     /**
@@ -191,7 +198,7 @@ class TableWidget extends HTMLWidget {
         global $page;
         $session = $page->getPageSession();
 
-        return $session['tables'][$this->formName][$this->fieldName]['start'];
+		return intval($_GET[ 'swtablestart' ]);
     }
 
     /**
@@ -212,13 +219,13 @@ class TableWidget extends HTMLWidget {
             $endIndex = count( $this->data );
         }
 
-        $html = !empty( $this->data ) ?
-                sprintf("<p>%s (%d - %d [OF] %d)</p>\n",
-                $this->fieldConfig['description'],
-                $startIndex + 1,
-                $endIndex,
-                count( $this->data ) ) :
-                sprintf("<p>%s ([EMPTY])</p>\n", $this->fieldConfig['description'] );
+        $html = !empty( $this->data )
+                ? sprintf("<p>%s (%d - %d [OF] %d)</p>\n",
+					$this->fieldConfig['description'],
+					$startIndex + 1,
+					$endIndex,
+					count( $this->data ) )
+				: sprintf("<p>%s ([EMPTY])</p>\n", $this->fieldConfig['description'] );
         $html .= sprintf( "\n<table %s>\n\t<tr>\n",
                 $this->buildParams( $this->parameters, $myParams ) );
 

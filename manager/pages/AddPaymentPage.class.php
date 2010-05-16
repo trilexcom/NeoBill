@@ -67,13 +67,13 @@ class AddPaymentPage extends SolidStatePage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "new_payment":
-                if( isset( $this->post['cancel'] ) ) {
+                if ( isset( $this->post['cancel'] ) ) {
                     // Cancel
                     $this->goback();
                 }
-                elseif( isset( $this->post['continue'] ) ) {
+                elseif ( isset( $this->post['continue'] ) ) {
                     // Add Payment
                     $this->add_payment();
                 }

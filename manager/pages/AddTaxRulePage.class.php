@@ -31,9 +31,9 @@ class AddTaxRulePage extends SolidStateAdminPage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "new_tax_rule":
-                if( isset( $this->post['continue'] ) ) {
+                if ( isset( $this->post['continue'] ) ) {
                     $this->addTaxRule();
                     $this->cancel();
                 }
@@ -60,11 +60,11 @@ class AddTaxRulePage extends SolidStateAdminPage {
      * Add Tax Rule
      */
     function addTaxRule() {
-        if( $this->post['allstates'] == "true" ) {
+        if ( $this->post['allstates'] == "true" ) {
             $this->post['state'] = null;
         }
         else {
-            if( !isset( $this->post['state'] ) ) {
+            if ( !isset( $this->post['state'] ) ) {
                 // A specific state was not provided
                 throw new FieldMissingException( "state" );
             }

@@ -31,7 +31,7 @@ class AssignHostingPage extends SolidStatePage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "assign_hosting":
                 if( isset( $this->post['continue'] ) ) {
                     // Add service to account
@@ -47,7 +47,7 @@ class AssignHostingPage extends SolidStatePage {
                 break;
 
             default:
-            // No matching action - refer to base class
+				// No matching action - refer to base class
                 parent::action( $action_name );
         }
     }

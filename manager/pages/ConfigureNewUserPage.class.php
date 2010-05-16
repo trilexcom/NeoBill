@@ -33,12 +33,12 @@ class ConfigureNewUserPage extends SolidStateAdminPage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "new_user_action":
-                if( isset( $this->session['new_user_action']['add'] ) ) {
+                if ( isset( $this->session['new_user_action']['add'] ) ) {
                     $this->gotoPage( "config_new_user" );
                 }
-                elseif( isset( $this->session['new_user_action']['view'] ) ) {
+                elseif ( isset( $this->session['new_user_action']['view'] ) ) {
                     $this->gotoPage( "config_users" );
                 }
                 break;
@@ -49,7 +49,7 @@ class ConfigureNewUserPage extends SolidStateAdminPage {
                 break;
 
             case "new_user_confirm":
-                if( isset( $this->session['new_user_confirm']['continue'] ) ) {
+                if ( isset( $this->session['new_user_confirm']['continue'] ) ) {
                     // Go ahead
                     $this->add_user();
                 }
@@ -60,7 +60,7 @@ class ConfigureNewUserPage extends SolidStateAdminPage {
                 break;
 
             default:
-            // No matching action, refer to base class
+				// No matching action, refer to base class
                 parent::action( $action_name );
         }
     }
@@ -84,7 +84,7 @@ class ConfigureNewUserPage extends SolidStateAdminPage {
      * ask the client to confirm the new User.
      */
     function process_new_user() {
-        if( $this->post['password'] != $this->post['repassword'] ) {
+        if ( $this->post['password'] != $this->post['repassword'] ) {
             // Destroy the password values so they're not echoed to the form
             unset( $this->session['new_user']['password'] );
             unset( $this->session['new_user']['repassword'] );
@@ -125,7 +125,7 @@ class ConfigureNewUserPage extends SolidStateAdminPage {
         // Extract UserDBO from session
         $user_dbo = $this->session['new_user_dbo'];
 
-        if( !isset( $user_dbo ) ) {
+        if ( !isset( $user_dbo ) ) {
             // UserDBO is not in the session!
             fatal_error( "ConfigureNewUserPage::add_user()",
                     "UserDBO not found!" );

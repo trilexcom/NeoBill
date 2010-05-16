@@ -16,7 +16,7 @@
      imgpath="../include/dhtmlxTabbar/imgs/"
      skinColors="#FFFFFF,#F4F3EE">
 
-  <div id="info" name="[ACCOUNT_INFO]" style="width:80px">
+  <div id="info" name="[ACCOUNT_INFO]">
     {form name="view_account_action"}
       <h2> {echo phrase="ACCOUNT_INFORMATION"} </h2>
       <div class="properties">
@@ -155,7 +155,7 @@
     {/form}
   </div>
 
-  <div id="hosting" name="[WEB_HOSTING_SERVICES] ({$hosting_count})" width="160">
+  <div id="hosting" name="[WEB_HOSTING_SERVICES] ({$hosting_count})">
     <div class="action">
       <p class="header">{echo phrase="ACTIONS"}</p>
       {form name="view_account_hosting"}
@@ -209,7 +209,7 @@
     </div>
   </div>
 
-  <div id="domains" name="[DOMAINS] ({$domain_count})" width="80">
+  <div id="domains" name="[DOMAINS] ({$domain_count})">
     <div class="action">
       <p class="header">{echo phrase="ACTIONS"}</p>
       {form name="view_account_domains"}
@@ -255,7 +255,7 @@
     </div>
   </div>
 
-  <div id="products" name="[OTHER_PRODUCTS_SERVICES] ({$product_count})" width="180">
+  <div id="products" name="[OTHER_PRODUCTS_SERVICES] ({$product_count})">
     <div class="action">
       <p class="header">{echo phrase="ACTIONS"}</p>
       {form name="view_account_products"}
@@ -301,7 +301,7 @@
     </div>
   </div>
 
-  <div id="billing" name="[BILLING]" width="80">
+  <div id="billing" name="[BILLING]">
     <div class="action">
       <p class="header">{echo phrase="ACTIONS"}</p>
       {form name="view_account_billing_action"}

@@ -44,9 +44,9 @@ class AddIPAddressPage extends SolidStateAdminPage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "add_ip_address":
-                if( isset( $this->post['continue'] ) ) {
+                if ( isset( $this->post['continue'] ) ) {
                     // Confirm step
                     $this->confirm();
                 }
@@ -56,7 +56,7 @@ class AddIPAddressPage extends SolidStateAdminPage {
                 break;
 
             case "add_ip_confirm":
-                if( isset( $this->post['continue'] ) ) {
+                if ( isset( $this->post['continue'] ) ) {
                     // Add IP addresses
                     $this->add_ip_addresses();
                 }
@@ -66,7 +66,7 @@ class AddIPAddressPage extends SolidStateAdminPage {
                 break;
 
             default:
-            // No matching action, refer to base class
+				// No matching action, refer to base class
                 parent::action( $action_name );
         }
     }
@@ -81,14 +81,14 @@ class AddIPAddressPage extends SolidStateAdminPage {
         $begin_ip = ip2long( $this->post['begin_address'] );
         $end_ip = ip2long( $this->post['end_address'] );
 
-        if( $end_ip == 0 || $end_ip < $begin_ip ) {
+        if ( $end_ip == 0 || $end_ip < $begin_ip ) {
             // If the beginning IP is not less than the ending IP, then only the
             // beginning IP is going to be added to the database.
             $end_ip = $begin_ip;
         }
 
         // Verify that there will be no duplicates
-        for( $ip = $begin_ip; $ip <= $end_ip; $ip++ ) {
+        for ( $ip = $begin_ip; $ip <= $end_ip; $ip++ ) {
             try {
                 load_IPAddressDBO( $ip );
                 throw new SWUserException( "[DUPLICATE_IP]" );
@@ -99,7 +99,7 @@ class AddIPAddressPage extends SolidStateAdminPage {
         }
 
         // Store the IP's to be added to the database in the session
-        for( $ip = $begin_ip; $ip <= $end_ip; $ip++ ) {
+        for ( $ip = $begin_ip; $ip <= $end_ip; $ip++ ) {
             $ip_dbo = new IPAddressDBO();
             $ip_dbo->setIP( $ip );
             $ip_dbo->setServerID( $this->get['server']->getID() );
@@ -121,7 +121,7 @@ class AddIPAddressPage extends SolidStateAdminPage {
      */
     function add_ip_addresses() {
         // Add IP Addresses to database
-        foreach( $this->session['ip_dbo_array'] as $ip_dbo ) {
+        foreach ( $this->session['ip_dbo_array'] as $ip_dbo ) {
             add_IPAddressDBO( $ip_dbo );
         }
 

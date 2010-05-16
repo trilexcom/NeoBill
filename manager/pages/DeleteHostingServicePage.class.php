@@ -21,74 +21,66 @@ require BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class DeleteHostingServicePage extends SolidStateAdminPage
-{
-  /**
-   * Initialize Delete Hosting Service Page
-   */
-  function init()
-  {
-    parent::init();
+class DeleteHostingServicePage extends SolidStateAdminPage {
+	/**
+	 * Initialize Delete Hosting Service Page
+	 */
+	function init() {
+		parent::init();
 
-    // Set URL Fields
-    $this->setURLField( "hservice", $this->get['hservice']->getID() );
+		// Set URL Fields
+		$this->setURLField( "hservice", $this->get['hservice']->getID() );
 
-    // Store service DBO in session
-    $this->session['hosting_dbo'] =& $this->get['hservice'];
-  }
+		// Store service DBO in session
+		$this->session['hosting_dbo'] =& $this->get['hservice'];
+	}
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   delete_hosting (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "delete_hosting":
-	if( isset( $this->post['delete'] ) )
-	  {
-	    $this->delete_hosting();
-	  }
-	elseif( isset( $this->post['cancel'] ) )
-	  {
-	    $this->cancel();
-	  }
-	break;
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   delete_hosting (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch( $action_name ) {
+			case "delete_hosting":
+				if ( isset( $this->post['delete'] ) ) {
+					$this->delete_hosting();
+				}
+				elseif ( isset( $this->post['cancel'] ) ) {
+					$this->cancel();
+				}
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Cancel
-   */
-  function cancel()
-  {
-    $this->goback();
-  }
+	/**
+	 * Cancel
+	 */
+	function cancel() {
+		$this->goback();
+	}
 
-  /**
-   * Delete Hosting
-   *
-   * Delete HostingServiceDBO from database
-   */
-  function delete_hosting()
-  {
-    // Delete Hosting Service DBO
-    delete_HostingServiceDBO( $this->get['hservice'] );
+	/**
+	 * Delete Hosting
+	 *
+	 * Delete HostingServiceDBO from database
+	 */
+	function delete_hosting() {
+		// Delete Hosting Service DBO
+		delete_HostingServiceDBO( $this->get['hservice'] );
 
-    // Success - go back to web hosting services page
-    $this->setMessage( array( "type" => "[HOSTING_SERVICE_DELETED]",
-			      "args" => array( $this->session['hosting_dbo']->getTitle() ) ) );
-    $this->gotoPage( "services_web_hosting" );
-  }
+		// Success - go back to web hosting services page
+		$this->setMessage( array( "type" => "[HOSTING_SERVICE_DELETED]",
+				"args" => array( $this->session['hosting_dbo']->getTitle() ) ) );
+		$this->gotoPage( "services_web_hosting" );
+	}
 }
 
 ?>

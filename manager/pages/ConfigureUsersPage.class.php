@@ -31,9 +31,9 @@ class ConfigureUsersPage extends SolidStateAdminPage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "users_action":
-                if( isset( $this->post['add'] ) ) {
+                if ( isset( $this->post['add'] ) ) {
                     $this->gotoPage( "config_new_user" );
                 }
                 break;
@@ -43,7 +43,7 @@ class ConfigureUsersPage extends SolidStateAdminPage {
                 break;
 
             default:
-            // No matching action, refer to base class
+				// No matching action, refer to base class
                 parent::action( $action_name );
         }
     }

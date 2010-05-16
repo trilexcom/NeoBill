@@ -107,7 +107,7 @@
           {/form_table_column}
 
           {form_table_column columnid="accountname" header="[ACCOUNT]"}
-            <a href="manager_content.php?page=accounts_view_account&account={$services.accountid}">{$services.accountname}</a>
+            <a href="manager_content.php?page=accounts_view_account&account={$services.id}">{$services.accountname}</a>
           {/form_table_column}
 
           {form_table_column columnid="term" header="[TERM]"}

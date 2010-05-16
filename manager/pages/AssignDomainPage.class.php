@@ -31,23 +31,23 @@ class AssignDomainPage extends SolidStatePage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "assign_domain":
-                if( isset( $this->post['continue'] ) ) {
+                if ( isset( $this->post['continue'] ) ) {
                     // Add service to account
                     $this->assign_service();
                 }
-                elseif( isset( $this->post['cancel'] ) ) {
+                elseif ( isset( $this->post['cancel'] ) ) {
                     // Cancel
                     $this->goback();
                 }
-                elseif( isset( $this->post['tld'] ) ) {
+                elseif ( isset( $this->post['tld'] ) ) {
                     $this->updatePrices( $this->post['tld'] );
                 }
                 break;
 
             default:
-            // No matching action - refer to base class
+				// No matching action - refer to base class
                 parent::action( $action_name );
         }
     }
@@ -60,7 +60,7 @@ class AssignDomainPage extends SolidStatePage {
     public function assign_service() {
         // The domain name is required but not configured as such.  This is to allow the
         // page to update the price dynamically
-        if( !isset( $this->post['domainname'] ) ) {
+        if ( !isset( $this->post['domainname'] ) ) {
             throw new FieldMissingException( "domainname" );
         }
 
@@ -103,11 +103,11 @@ class AssignDomainPage extends SolidStatePage {
         try {
             $services = load_array_DomainServiceDBO();
         }
-        catch( DBNoRowsFoundException $e ) {
+        catch ( DBNoRowsFoundException $e ) {
             throw new SWUserException( "[THERE_ARE_NO_DOMAIN_SERVICES]" );
         }
 
-        if( !isset( $this->post['tld'] ) ) {
+        if ( !isset( $this->post['tld'] ) ) {
             $this->updatePrices( array_shift( $services ) );
         }
     }

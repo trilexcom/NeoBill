@@ -54,13 +54,13 @@ class AddInvoicePage extends SolidStatepage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "new_invoice":
-                if( isset( $this->post['cancel'] ) ) {
+                if ( isset( $this->post['cancel'] ) ) {
                     // Cancel
                     $this->cancel();
                 }
-                elseif( isset( $this->post['continue'] ) ) {
+                elseif  ( isset( $this->post['continue'] ) ) {
                     // Generate Invoice
                     $this->generate_invoice();
                 }

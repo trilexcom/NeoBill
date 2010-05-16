@@ -29,12 +29,12 @@ class AddServerPage extends SolidStateAdminPage {
      * @param string $action_name Action
      */
     function action( $action_name ) {
-        switch( $action_name ) {
+        switch ( $action_name ) {
             case "add_server":
-                if( isset( $this->post['continue'] ) ) {
+                if ( isset( $this->post['continue'] ) ) {
                     $this->add_server();
                 }
-                elseif( isset( $this->post['cancel'] ) ) {
+                elseif ( isset( $this->post['cancel'] ) ) {
                     $this->goback();
                 }
                 break;

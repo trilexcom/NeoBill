@@ -390,6 +390,7 @@
     <phrase id="THEMES">Themes</phrase>
     <phrase id="THERE_ARE_NO_GATEWAY_MODULES">There are no payment gateway modules enabled.</phrase>
     <phrase id="THERE_ARE_NO_HOSTING_SERVICES">There are no hosting services configured.</phrase>
+	<phrase id="THERE_ARE_NO_PRODUCTS">There are no products configured.</phrase>
     <phrase id="THERE_ARE_NO_REGISTERED_DOMAINS">There are no registered domains</phrase>
     <phrase id="THERE_IS_NO_CONTROL_PANEL_MODULE_CONFIGURED_FOR_THIS_SERVER">There is no control panel module configured for this server</phrase>
     <phrase id="THE_SERVER_YOU_SELECTED_DOES_NOT_SUPPORT_PROVISIONING">The server you have selected does not support provisioning.  Please select a server with a configured control panel module.</phrase>
