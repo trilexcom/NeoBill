@@ -23,19 +23,17 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @auther John Diamond <jdiamond@solid-state.org>
  */
-class PrintInvoicePage extends SolidStatePage
-{
-  /**
-   * Initializes the Page
-   *
-   * If an invoice ID appears in the URL, then init() attempts to load that Invoice,
-   * otherwise, it uses an invoice already in the session.
-   */
-  function init()
-  {
-    parent::init();
-    $this->smarty->assign( "body",  
-			   $this->get['invoice']->text( $this->conf['invoice_text'] ) );
-  }
+class PrintInvoicePage extends SolidStatePage {
+	/**
+	 * Initializes the Page
+	 *
+	 * If an invoice ID appears in the URL, then init() attempts to load that Invoice,
+	 * otherwise, it uses an invoice already in the session.
+	 */
+	function init() {
+		parent::init();
+		$this->smarty->assign( "body",
+				$this->get['invoice']->text( $this->conf['invoice_text'] ) );
+	}
 }
 ?>

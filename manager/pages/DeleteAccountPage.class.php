@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * DeleteAccountPage

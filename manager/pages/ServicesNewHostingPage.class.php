@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStateAdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * ServicesNewHosting
@@ -21,60 +21,55 @@ require BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServicesNewHosting extends SolidStateAdminPage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   new_hosting (form)
-   *   new_hosting_confirm (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "new_hosting":
-	if( isset( $this->session['new_hosting']['cancel'] ) )
-	  {
-	    // Canceled
-	    $this->goback();
-	  }
+class ServicesNewHosting extends SolidStateAdminPage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   new_hosting (form)
+	 *   new_hosting_confirm (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "new_hosting":
+				if ( isset( $this->session['new_hosting']['cancel'] ) ) {
+					// Canceled
+					$this->goback();
+				}
 
-	// Process new hosting service form
-	$this->add_hosting();
-	break;
+				// Process new hosting service form
+				$this->add_hosting();
+				break;
 
-      default:
-	// No matching action - refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action - refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Add Hosting
-   *
-   * Add the HostingServiceDBO to the database
-   */
-  function add_hosting()
-  {
-    // Prepare HostingServiceDBO for database
-    $service_dbo = new HostingServiceDBO();
-    $service_dbo->setTitle( $this->post['title'] );
-    $service_dbo->setDescription( $this->post['description'] );
-    $service_dbo->setUniqueIP( $this->post['uniqueip'] );
-    $service_dbo->setDomainRequirement( $this->post['domainrequirement'] );
-    $service_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
+	/**
+	 * Add Hosting
+	 *
+	 * Add the HostingServiceDBO to the database
+	 */
+	function add_hosting() {
+		// Prepare HostingServiceDBO for database
+		$service_dbo = new HostingServiceDBO();
+		$service_dbo->setTitle( $this->post['title'] );
+		$service_dbo->setDescription( $this->post['description'] );
+		$service_dbo->setUniqueIP( $this->post['uniqueip'] );
+		$service_dbo->setDomainRequirement( $this->post['domainrequirement'] );
+		$service_dbo->setPublic( isset( $this->post['public'] ) ? "Yes" : "No" );
 
-    // Insert HostingServiceDBO into database
-    add_HostingServiceDBO( $service_dbo );
+		// Insert HostingServiceDBO into database
+		add_HostingServiceDBO( $service_dbo );
 
-    // Done
-    $this->gotoPage( "services_edit_hosting",
-		 null,
-		 "hservice=" . $service_dbo->getID() );
-  }
+		// Done
+		$this->gotoPage( "services_edit_hosting",
+				null,
+				"hservice=" . $service_dbo->getID() );
+	}
 }
 ?>

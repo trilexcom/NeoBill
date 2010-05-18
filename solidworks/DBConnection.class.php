@@ -10,6 +10,10 @@
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require_once dirname(__FILE__).'/../config/config.inc.php';
+require_once BASE_PATH . "solidworks/DBO.class.php";
+require_once BASE_PATH . "solidworks/SWException.class.php";
+
 // Database Exceptions
 class DBException extends SWUserException {
 	public function __construct( $message = null ) {

@@ -21,56 +21,50 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewProductPage extends SolidStatePage
-{
-  /**
-   * Initialize View Product Page
-   */
-  function init()
-  {
-    parent::init();
+class ViewProductPage extends SolidStatePage {
+	/**
+	 * Initialize View Product Page
+	 */
+	function init() {
+		parent::init();
 
-    // Set URL Fields
-    $this->setURLField( "product", $this->get['product']->getID() );
+		// Set URL Fields
+		$this->setURLField( "product", $this->get['product']->getID() );
 
-    // Store service DBO in session
-    $this->session['product_dbo'] =& $this->get['product'];
-  }
+		// Store service DBO in session
+		$this->session['product_dbo'] =& $this->get['product'];
+	}
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   view_product_action (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "view_product_action":
-	if( isset( $this->post['edit'] ) )
-	  {
-	    // Edit this Domain Service
-	    $this->gotoPage( "services_edit_product",
-			 null,
-			 "product=" . $this->get['product']->getID() );
-	  }
-	elseif( isset( $this->post['delete'] ) )
-	  {
-	    // Delete this Product
-	    $this->gotoPage( "services_delete_product",
-			 null,
-			 "product=" . $this->get['product']->getID() );
-	  }
-	break;
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   view_product_action (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "view_product_action":
+				if ( isset( $this->post['edit'] ) ) {
+					// Edit this Domain Service
+					$this->gotoPage( "services_edit_product",
+							null,
+							"product=" . $this->get['product']->getID() );
+				}
+				elseif ( isset( $this->post['delete'] ) ) {
+					// Delete this Product
+					$this->gotoPage( "services_delete_product",
+							null,
+							"product=" . $this->get['product']->getID() );
+				}
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 }
 
 ?>

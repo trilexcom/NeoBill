@@ -11,7 +11,7 @@
  */
 
 // Module DBO
-require BASE_PATH . "DBO/ModuleDBO.class.php";
+require_once BASE_PATH . "DBO/ModuleDBO.class.php";
 
 // Exceptions
 class ModuleInstallFailedException extends SWModuleException

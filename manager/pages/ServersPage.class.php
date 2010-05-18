@@ -20,34 +20,30 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServersPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "servers_action":
-	if( isset( $this->post['add'] ) )
-	  {
-	    $this->gotoPage( "services_add_server" );
-	  }
-	break;
+class ServersPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "servers_action":
+				if ( isset( $this->post['add'] ) ) {
+					$this->gotoPage( "services_add_server" );
+				}
+				break;
 
-      case "search_servers":
-	$this->searchTable( "servers", "servers", $this->post );
-	break;
+			case "search_servers":
+				$this->searchTable( "servers", "servers", $this->post );
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 }
 ?>

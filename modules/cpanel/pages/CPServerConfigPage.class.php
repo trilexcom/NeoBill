@@ -11,7 +11,7 @@
  */
 
 // Base class
-require BASE_PATH . "include/SolidStateAdminPage.class.php";
+require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
 
 /**
  * CPServerConfigPage

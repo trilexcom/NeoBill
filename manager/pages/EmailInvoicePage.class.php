@@ -14,7 +14,7 @@
 require_once BASE_PATH . "solidworks/Email.class.php";
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * EmailInvoicePage

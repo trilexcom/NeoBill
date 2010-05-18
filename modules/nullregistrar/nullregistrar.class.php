@@ -11,7 +11,7 @@
  */
 
 // This module uses the phpwhois project (www.phpwhois.org) to perform lookups
-require BASE_PATH . "modules/nullregistrar/phpwhois/whois.main.php";
+require_once BASE_PATH . "modules/nullregistrar/phpwhois/whois.main.php";
 require_once BASE_PATH . "modules/RegistrarModule.class.php";
 /**
  * NullRegistrar

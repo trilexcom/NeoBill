@@ -14,7 +14,7 @@
 require_once BASE_PATH . "modules/ControlPanelModule.class.php";
 
 // cPanel Module DBO's
-require BASE_PATH . "modules/cpanel/CPanelServerDBO.class.php";
+require_once BASE_PATH . "modules/cpanel/CPanelServerDBO.class.php";
 
 /**
  * CpanelModule

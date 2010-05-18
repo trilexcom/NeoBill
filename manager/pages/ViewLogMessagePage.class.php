@@ -20,46 +20,41 @@ require BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ViewLogMessagePage extends SolidStateAdminPage
-{
-  /**
-   * Initialize ViewLogMessage Page
-   */
-  function init()
-  {
-    parent::init();
+class ViewLogMessagePage extends SolidStateAdminPage {
+	/**
+	 * Initialize ViewLogMessage Page
+	 */
+	function init() {
+		parent::init();
 
-    // Set URL Fields
-    $this->setURLField( "log", $this->get['log']->getID() );
+		// Set URL Fields
+		$this->setURLField( "log", $this->get['log']->getID() );
 
-    // Store Account DBO in session
-    $this->session['logdbo'] =& $this->get['log'];
-    
-    // Set this page's Nav Vars
-    $this->setNavVar( "id",   $this->get['log']->getID() );
-  }
+		// Store Account DBO in session
+		$this->session['logdbo'] =& $this->get['log'];
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "view_log_message":
-	if( isset( $this->session['view_log_message']['back'] ) )
-	  {
-	    $this->goback();
-	  }
+		// Set this page's Nav Vars
+		$this->setNavVar( "id",   $this->get['log']->getID() );
+	}
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "view_log_message":
+				if ( isset( $this->session['view_log_message']['back'] ) ) {
+					$this->goback();
+				}
+
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 }
 ?>

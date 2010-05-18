@@ -21,27 +21,22 @@ require BASE_PATH . "solidworks/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ServicesWebHosting extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   none
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
+class ServicesWebHosting extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   none
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch( $action_name ) {
+			default:
+				// No matching action - refer to base class
+				parent::action( $action_name );
 
-      default:
-
-	// No matching action - refer to base class
-	parent::action( $action_name );
-
-      }
-  }
+		}
+	}
 }
 ?>

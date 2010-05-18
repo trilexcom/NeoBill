@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * ViewAccountPage
@@ -118,31 +118,31 @@ class ViewAccountPage extends SolidStatePage {
 				break;
 
 			case "product_purchases":
-				if( isset( $this->post['remove'] ) ) {
+				if ( isset( $this->post['remove'] ) ) {
 					$this->deleteProduct();
 				}
 				break;
 
 			case "domain_purchases":
-				if( isset( $this->post['remove'] ) ) {
+				if ( isset( $this->post['remove'] ) ) {
 					$this->deleteDomain();
 				}
 				break;
 
 			case "hosting_purchases":
-				if( isset( $this->post['remove'] ) ) {
+				if ( isset( $this->post['remove'] ) ) {
 					$this->deleteHosting();
 				}
 				break;
 
 			case "view_account_action":
-				if( isset( $this->post['edit'] ) ) {
+				if ( isset( $this->post['edit'] ) ) {
 					// Edit this Account
 					$this->gotoPage( "accounts_edit_account",
 							null,
 							"account=" . $this->get['account']->getID() );
 				}
-				elseif( isset( $this->post['delete'] ) ) {
+				elseif ( isset( $this->post['delete'] ) ) {
 					// Delete this Account
 					$this->gotoPage( "accounts_delete_account",
 							null,
@@ -151,19 +151,19 @@ class ViewAccountPage extends SolidStatePage {
 				break;
 
 			case "view_account_add_note":
-				if( isset( $this->post['add'] ) ) {
+				if ( isset( $this->post['add'] ) ) {
 					$this->add_note();
 				}
 				break;
 
 			case "view_account_note":
-				if( isset( $this->post['remove'] ) ) {
+				if ( isset( $this->post['remove'] ) ) {
 					$this->delete_note();
 				}
 				break;
 
 			case "view_account_hosting":
-				if( isset( $this->post['add'] ) ) {
+				if ( isset( $this->post['add'] ) ) {
 					// Add a hosting service to this account
 					$this->gotoPage( "accounts_assign_hosting",
 							null,
@@ -172,7 +172,7 @@ class ViewAccountPage extends SolidStatePage {
 				break;
 
 			case "view_account_domains":
-				if( isset( $this->post['add'] ) ) {
+				if ( isset( $this->post['add'] ) ) {
 					// Add a domain to this account
 					$this->gotoPage( "accounts_assign_domain",
 							null,
@@ -181,7 +181,7 @@ class ViewAccountPage extends SolidStatePage {
 				break;
 
 			case "view_account_products":
-				if( isset( $this->post['add'] ) ) {
+				if ( isset( $this->post['add'] ) ) {
 					// Add a product to this account
 					$this->gotoPage( "accounts_assign_product",
 							null,
@@ -190,13 +190,13 @@ class ViewAccountPage extends SolidStatePage {
 				break;
 
 			case "view_account_billing_action":
-				if( isset( $this->post['add_invoice'] ) ) {
+				if ( isset( $this->post['add_invoice'] ) ) {
 					// Create a new invoice for this account
 					$this->gotoPage( "accounts_add_invoice",
 							null,
 							"account=" . $this->get['account']->getID() );
 				}
-				elseif( isset( $this->post['add_payment'] ) ) {
+				elseif ( isset( $this->post['add_payment'] ) ) {
 					// Enter a new payment for this account
 					$this->gotoPage( "accounts_add_payment",
 							null,
@@ -205,7 +205,7 @@ class ViewAccountPage extends SolidStatePage {
 				break;
 
 			default:
-				// No matching action, refer to base class
+			// No matching action, refer to base class
 				parent::action( $action_name );
 		}
 	}
@@ -272,7 +272,7 @@ class ViewAccountPage extends SolidStatePage {
 
 		// Delete the notes
 		foreach( $this->post['notes'] as $noteDBO ) {
-			if( $user_dbo->getType() != "Administrator" &&
+			if ( $user_dbo->getType() != "Administrator" &&
 					$user_dbo->getUsername() != $noteDBO->getUsername() ) {
 				// User does not have the authority to delete this note
 				throw new SWUserException( "[ACCESS_DENIED]" );

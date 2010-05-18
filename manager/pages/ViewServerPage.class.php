@@ -128,8 +128,8 @@ class ViewServerPage extends SolidStatePage {
 		if ( $_SESSION['client']['userdbo']->getType() != "Administrator" ) {
 			throw new SWUserException( "[ACCESS_DENIED]" );
 		}
-
-		foreach( $this->post['ips'] as $ipdbo ) {
+		
+		foreach ( $this->post['ips'] as $ipdbo ) {
 			// Remove the IP address from the database
 			delete_IPAddressDBO( $ipdbo );
 			$this->setMessage( array( "type" => "[IP_DELETED]",

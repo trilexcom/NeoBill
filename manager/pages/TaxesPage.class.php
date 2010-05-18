@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * TaxesPage
@@ -33,7 +33,7 @@ class TaxesPage extends SolidStatePage {
 	function action( $action_name ) {
 		switch ( $action_name ) {
 			case "taxes_action":
-				// Create a new tax rule
+					// Create a new tax rule
 				$this->gotoPage( "add_tax_rule" );
 				break;
 
@@ -53,12 +53,12 @@ class TaxesPage extends SolidStatePage {
 	 * Remove Tax Rule
 	 */
 	function remove() {
-		if( $_SESSION['client']['userdbo']->getType() != "Administrator" ) {
+		if ( $_SESSION['client']['userdbo']->getType() != "Administrator" ) {
 			throw new SWUserException( "[ACCESS_DENIED]" );
 		}
 
 		// Remove the Tax Rule(s) from the database
-		foreach( $this->post['rules'] as $dbo ) {
+		foreach ( $this->post['rules'] as $dbo ) {
 			// print_r($dbo);
 			delete_TaxRuleDBO( $dbo );
 		}

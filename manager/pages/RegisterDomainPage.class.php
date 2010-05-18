@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * RegisterDomainPage
@@ -77,7 +77,7 @@ class RegisterDomainPage extends SolidStatePage {
 				break;
 
 			default:
-				// No matching action - refer to base class
+			// No matching action - refer to base class
 				parent::action( $action_name );
 		}
 	}

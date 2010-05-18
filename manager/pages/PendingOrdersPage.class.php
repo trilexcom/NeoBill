@@ -21,36 +21,32 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PendingOrdersPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   browse_accounts_action (form)
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+class PendingOrdersPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   browse_accounts_action (form)
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Initialize Inactive Accounts Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Initialize Inactive Accounts Page
+	 */
+	public function init() {
+		parent::init();
 
-    // Tell the orders table widget to only show "pending" orders
-    $widget = $this->forms['pending_orders']->getField( "orders" )->getWidget();
-    $widget->setStatus( "Pending" );
-  }
+		// Tell the orders table widget to only show "pending" orders
+		$widget = $this->forms['pending_orders']->getField( "orders" )->getWidget();
+		$widget->setStatus( "Pending" );
+	}
 }
 ?>

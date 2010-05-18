@@ -11,7 +11,7 @@
  */
 
 // Include the parent class
-require BASE_PATH . "include/SolidStatePage.class.php";
+require_once BASE_PATH . "include/SolidStatePage.class.php";
 
 /**
  * OutstandingInvoicesPage
@@ -21,45 +21,41 @@ require BASE_PATH . "include/SolidStatePage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class OutstandingInvoicesPage extends SolidStatePage
-{
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *   none
-   *
-   * @param string $action_name Action
-   */
-  function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "outstanding_invoices_action":
-	// Create a new invoice
-	$this->gotoPage( "accounts_add_invoice" );
-	break;
+class OutstandingInvoicesPage extends SolidStatePage {
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *   none
+	 *
+	 * @param string $action_name Action
+	 */
+	function action( $action_name ) {
+		switch ( $action_name ) {
+			case "outstanding_invoices_action":
+			// Create a new invoice
+				$this->gotoPage( "accounts_add_invoice" );
+				break;
 
-      case "search_outstanding_invoices":
-	$this->searchTable( "outstanding_invoices", "invoices", $this->post );
-	break;
+			case "search_outstanding_invoices":
+				$this->searchTable( "outstanding_invoices", "invoices", $this->post );
+				break;
 
-      default:
-	// No matching action, refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action, refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Initialize Outstanding Invoices Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Initialize Outstanding Invoices Page
+	 */
+	public function init() {
+		parent::init();
 
-    // Tell the orders table widget to only show "pending" orders
-    $widget = $this->forms['outstanding_invoices']->getField( "invoices" )->getWidget();
-    $widget->setOutstanding( "Yes" );
-  }
+		// Tell the orders table widget to only show "pending" orders
+		$widget = $this->forms['outstanding_invoices']->getField( "invoices" )->getWidget();
+		$widget->setOutstanding( "Yes" );
+	}
 }
 ?>
