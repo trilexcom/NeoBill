@@ -174,7 +174,8 @@ class TransferDomainPage extends SolidStatePage {
 				$this->post['servicetld']->getTLD() );
 		if ( !$module->isTransferable( $fqdn ) ) {
 			// Domain is not eligible for transfer
-			throw new SWUserException( "[DOMAIN_NOT_TRANSFERABLE]" );
+			throw new SWUserException( "[DOMAIN_NOT_TRANSFERABLE]",
+					array ( $fqdn ) );
 		}
 
 		// Domain can be transfered

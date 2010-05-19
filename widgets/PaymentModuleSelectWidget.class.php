@@ -2,7 +2,7 @@
 /**
  * PaymentModuleSelectWidget.class.php
  *
- * This file contains the definition of the PaymentModuleSelectWidget class.  
+ * This file contains the definition of the PaymentModuleSelectWidget class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,28 +16,24 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class PaymentModuleSelectWidget extends SelectWidget
-{
-  /**
-   * Get Data
-   *
-   * @param array $config Field configuration
-   * @return array value => description
-   */
-  public function getData()
-  {
-    $registry = ModuleRegistry::getModuleRegistry();
-    $modules = $registry->getModulesByType( "payment_gateway" );
-    $paymentModules = array();
-    foreach( $modules as $modulename => $module )
-      {
-	if( $module->isEnabled() )
-	  {
-	    $paymentModules[$modulename] = $modulename;
-	  }
-      }
-
-    return $paymentModules;
-  }
+class PaymentModuleSelectWidget extends SelectWidget {
+	/**
+	 * Get Data
+	 *
+	 * @param array $config Field configuration
+	 * @return array value => description
+	 */
+	public function getData() {
+		$registry = ModuleRegistry::getModuleRegistry();
+		$modules = $registry->getModulesByType( "payment_gateway" );
+		$paymentModules = array();
+		foreach ( $modules as $modulename => $module ) {
+			if ( $module->isEnabled() ) {
+				$paymentModules[$modulename] = $modulename;
+			}
+		}
+		
+		return $paymentModules;
+	}
 }
 ?>

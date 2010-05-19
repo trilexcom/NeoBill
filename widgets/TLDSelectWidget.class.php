@@ -2,7 +2,7 @@
 /**
  * TLDSelectWidget.class.php
  *
- * This file contains the definition of the TLDSelectWidget class.  
+ * This file contains the definition of the TLDSelectWidget class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,31 +16,29 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class TLDSelectWidget extends SelectWidget
-{
-  /**
-   * Get Data
-   *
-   * @param array $config Field configuration
-   * @return array value => description
-   */
-  function getData()
-  {
-    // Query TLDServiceDBO's
-    $tlds = array();
-    try
-      {
-	// Convery to an array: TLD => TLD
-	$where = $this->fieldConfig['publicitemsonly'] ? "public='Yes'" : null;
-	$domainDBOs = load_array_DomainServiceDBO( $where );
-	foreach( $domainDBOs as $domainDBO )
-	  {
-	    $tlds[$domainDBO->getTLD()] = $domainDBO->getTLD();
-	  }
-      }
-    catch( DBNoRowsFoundException $e ) {}
+class TLDSelectWidget extends SelectWidget {
+	/**
+	 * Get Data
+	 *
+	 * @param array $config Field configuration
+	 * @return array value => description
+	 */
+	function getData() {
+		// Query TLDServiceDBO's
+		$tlds = array();
+		try {
+			// Convery to an array: TLD => TLD
+			$where = $this->fieldConfig['publicitemsonly'] ? "public='Yes'" : null;
+			$domainDBOs = load_array_DomainServiceDBO( $where );
+			foreach ( $domainDBOs as $domainDBO ) {
+				$tlds[$domainDBO->getTLD()] = $domainDBO->getTLD();
+			}
+		}
+		catch ( DBNoRowsFoundException $e ) {
 
-    return $tlds;
-  }
+		}
+
+		return $tlds;
+	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
  * AccountTableWidget.class.php
  *
- * This file contains the definition of the AccountTableWidget class.  
+ * This file contains the definition of the AccountTableWidget class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,57 +16,54 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class AccountTableWidget extends TableWidget
-{
-  /**
-   * @var string Account status filter
-   */
-  private $statusFilter = null;
+class AccountTableWidget extends TableWidget {
+	/**
+	 * @var string Account status filter
+	 */
+	private $statusFilter = null;
 
-  /**
-   * Initialize the Table
-   *
-   * @param array $params Parameters from the {form_table} tag
-   */
-  public function init( $params ) 
-  { 
-    parent::init( $params );
+	/**
+	 * Initialize the Table
+	 *
+	 * @param array $params Parameters from the {form_table} tag
+	 */
+	public function init( $params ) {
+		parent::init( $params );
 
-    // Build an account filter
-    $where = isset( $this->statusFilter ) ? 
-      sprintf( "status='%s'", $this->statusFilter ) : null;
+		// Build an account filter
+		$where = isset( $this->statusFilter ) ?
+				sprintf( "status='%s'", $this->statusFilter ) : null;
 
-    // Load the Account Table
-    try
-      {
-	$accounts = load_array_AccountDBO( $where );
-	// Build the table
-	foreach( $accounts as $dbo )
-	  {
-	    // Put the row into the table
-	    $this->data[] = 
-	      array( "id" => $dbo->getID(),
-		     "accountname" => $dbo->getAccountName(),
-		     "type" => $dbo->getType(),
-		     "status" => $dbo->getStatus(),
-		     "balance" => $dbo->getBalance(),
-		     "billingstatus" => $dbo->getBillingStatus(),
-		     "billingday" => $dbo->getBillingDay(),
-		     "businessname" => $dbo->getBusinessName(),
-		     "contactname" => $dbo->getContactName(),
-		     "contactemail" => $dbo->getContactEmail() );
-	  }
-      }
-    catch( DBNoRowsFoundException $e ) {}
-  }
+		// Load the Account Table
+		try {
+			$accounts = load_array_AccountDBO( $where );
+			// Build the table
+			foreach ( $accounts as $dbo ) {
+				// Put the row into the table
+				$this->data[] =
+						array( "id" => $dbo->getID(),
+						"accountname" => $dbo->getAccountName(),
+						"type" => $dbo->getType(),
+						"status" => $dbo->getStatus(),
+						"balance" => $dbo->getBalance(),
+						"billingstatus" => $dbo->getBillingStatus(),
+						"billingday" => $dbo->getBillingDay(),
+						"businessname" => $dbo->getBusinessName(),
+						"contactname" => $dbo->getContactName(),
+						"contactemail" => $dbo->getContactEmail() );
+			}
+		}
+		catch ( DBNoRowsFoundException $e ) {
 
-  /**
-   * Set Account Status Filter
-   *
-   * @param string $status Account status
-   */
-  public function setStatus( $status )
-  {
-    $this->statusFilter = $status;
-  }
+		}
+	}
+
+	/**
+	 * Set Account Status Filter
+	 *
+	 * @param string $status Account status
+	 */
+	public function setStatus( $status ) {
+		$this->statusFilter = $status;
+	}
 }

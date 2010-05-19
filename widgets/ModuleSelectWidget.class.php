@@ -2,7 +2,7 @@
 /**
  * ModuleSelectWidget.class.php
  *
- * This file contains the definition of the ModuleSelectWidget class.  
+ * This file contains the definition of the ModuleSelectWidget class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,44 +16,42 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class ModuleSelectWidget extends SelectWidget
-{
-  /**
-   * @var string Type filter
-   */
-  protected $type = null;
+class ModuleSelectWidget extends SelectWidget {
+	/**
+	 * @var string Type filter
+	 */
+	protected $type = null;
 
-  /**
-   * Get Data
-   *
-   * @param array $config Field configuration
-   * @return array value => description
-   */
-  public function getData()
-  {
-    $registry = ModuleRegistry::getModuleRegistry();
+	/**
+	 * Get Data
+	 *
+	 * @param array $config Field configuration
+	 * @return array value => description
+	 */
+	public function getData() {
+		$registry = ModuleRegistry::getModuleRegistry();
 
-    $modules = isset( $this->type ) ?
-      $registry->getModulesByType( $this->type ) :
-      $registry->getAllModules();
+		$modules = isset( $this->type ) ?
+				$registry->getModulesByType( $this->type ) :
+				$registry->getAllModules();
 
-    $results = array();
-    foreach( $modules as $modulename => $module )
-      {
-	if( $module->isEnabled() )
-	  {
-	    $results[$modulename] = $modulename;
-	  }
-      }
+		$results = array();
+		foreach ( $modules as $modulename => $module ) {
+			if ( $module->isEnabled() ) {
+				$results[$modulename] = $modulename;
+			}
+		}
 
-    return $results;
-  }
+		return $results;
+	}
 
-  /**
-   * Set Type Filter
-   *
-   * @param string $type Filter the list by this type of module
-   */
-  public function setType( $type ) { $this->type = $type; }
+	/**
+	 * Set Type Filter
+	 *
+	 * @param string $type Filter the list by this type of module
+	 */
+	public function setType( $type ) {
+		$this->type = $type;
+	}
 }
 ?>
