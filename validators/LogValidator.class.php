@@ -32,7 +32,7 @@ class LogValidator extends FieldValidator {
 		try {
 			$logDBO = load_LogDBO( intval( $data ) );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "Log" );
 		}
 

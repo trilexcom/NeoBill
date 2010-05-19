@@ -46,12 +46,12 @@ class InvoiceItemValidator extends FieldValidator {
 		try {
 			$itemDBO = load_InvoiceItemDBO( intval( $data ) );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "InvoiceItem" );
 		}
 
 		// Verify that this item belongs to the invocie specified
-		if( isset( $this->invoiceID ) && $itemDBO->getInvoiceID() != $this->invoiceID ) {
+		if ( isset( $this->invoiceID ) && $itemDBO->getInvoiceID() != $this->invoiceID ) {
 			throw new FieldException( "Invoice/Invoice Item mismatch" );
 		}
 

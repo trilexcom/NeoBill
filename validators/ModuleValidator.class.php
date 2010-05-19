@@ -38,11 +38,11 @@ class ModuleValidator extends FieldValidator {
 
 		try {
 			$module = ModuleRegistry::getModuleRegistry()->getModule( $data );
-			if( isset( $this->type ) && $module->getType() != $this->type ) {
+			if ( isset( $this->type ) && $module->getType() != $this->type ) {
 				throw new FieldException( "Invalid module type" );
 			}
 		}
-		catch( ModuleDoesNotExistException $e ) {
+		catch ( ModuleDoesNotExistException $e ) {
 			throw new RecordNotFoundException( "Module" );
 		}
 

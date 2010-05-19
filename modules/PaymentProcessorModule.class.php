@@ -20,30 +20,27 @@ require_once BASE_PATH . "modules/SolidStateModule.class.php";
  * @package modules
  * @author John Diamond <jdiamond@solid-state.org>
  */
-abstract class PaymentProcessorModule extends SolidStateModule
-{
-  /**
-   * @var string Module type is payment_processor
-   */
-  protected $type = "payment_processor";
+abstract class PaymentProcessorModule extends SolidStateModule {
+	/**
+	 * @var string Module type is payment_processor
+	 */
+	protected $type = "payment_processor";
 
-  /**
-   * @var string Order Checkout page
-   */
-  protected $orderCheckoutPage = null;
+	/**
+	 * @var string Order Checkout page
+	 */
+	protected $orderCheckoutPage = null;
 
-  /**
-   * Get the Order Checkout Page
-   */
-  function getOrderCheckoutPage()
-  {
-    if( null == $this->orderCheckoutPage )
-      {
-	fatal_error( "PaymentProcessorModule::getOrderCheckoutPage()",
-		     "An order checkout page was not provided for this module" );
-      }
+	/**
+	 * Get the Order Checkout Page
+	 */
+	function getOrderCheckoutPage() {
+		if ( null == $this->orderCheckoutPage ) {
+			fatal_error( "PaymentProcessorModule::getOrderCheckoutPage()",
+					"An order checkout page was not provided for this module" );
+		}
 
-    return $this->orderCheckoutPage;
-  }
+		return $this->orderCheckoutPage;
+	}
 }
 ?>

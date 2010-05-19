@@ -32,7 +32,7 @@ class TaxRuleValidator extends FieldValidator {
 		try {
 			$taxRuleDBO = load_TaxRuleDBO( intval( $data ) );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "TaxRule" );
 		}
 

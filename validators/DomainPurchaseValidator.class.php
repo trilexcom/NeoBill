@@ -46,12 +46,12 @@ class DomainPurchaseValidator extends FieldValidator {
 		try {
 			$purchaseDBO = load_DomainServicePurchaseDBO( intval( $data ) );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "DomainPurchase" );
 		}
 
 		// Verify that this purchase is for a specific account
-		if( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID ) {
+		if ( isset( $this->accountID ) && $purchaseDBO->getAccountID() != $this->accountID ) {
 			throw new FieldException( "Purchase/Account mismatch" );
 		}
 

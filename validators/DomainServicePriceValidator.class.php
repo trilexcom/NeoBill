@@ -35,7 +35,7 @@ class DomainServicePriceValidator extends FieldValidator {
 					$id[1],
 					intval( $id[2] ) );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "DomainServicePrice" );
 		}
 

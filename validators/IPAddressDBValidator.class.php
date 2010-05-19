@@ -32,7 +32,7 @@ class IPAddressDBValidator extends FieldValidator {
 		try {
 			$ipAddressDBO = load_IPAddressDBO( intval( $data ) );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "IPAddress" );
 		}
 

@@ -29,8 +29,8 @@ class LanguageValidator extends ChoiceValidator {
 
 		// Read all the languages in the "language/" directory
 		$langDir = opendir( "language/" );
-		while( false !== ($file = readdir( $langDir )) ) {
-			if( filetype( "language/" . $file ) == "file" ) {
+		while ( false !== ($file = readdir( $langDir )) ) {
+			if ( is_file( "language/" . $file ) ) {
 				$languages[$file] = $file;
 			}
 		}

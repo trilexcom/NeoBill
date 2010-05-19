@@ -32,11 +32,11 @@ class DomainServiceValidator extends FieldValidator {
 		try {
 			$domainDBO = load_DomainServiceDBO( $data );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "DomainService" );
 		}
 
-		if( $this->fieldConfig['publicitemsonly'] && !$domainDBO->isPublic() ) {
+		if ( $this->fieldConfig['publicitemsonly'] && !$domainDBO->isPublic() ) {
 			throw new RecordNotFoundException( "DomainService" );
 		}
 

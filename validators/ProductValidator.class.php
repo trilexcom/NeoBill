@@ -29,14 +29,14 @@ class ProductValidator extends FieldValidator {
 	 */
 	public function validate( $data ) {
 		$data = parent::validate( $data );
-
+		
 		try {
 			$productDBO = load_ProductDBO( intval( $data ) );
 		}
-		catch( DBNoRowsFoundException $e ) {
+		catch ( DBNoRowsFoundException $e ) {
 			throw new RecordNotFoundException( "Product" );
 		}
-		
+
 		return $productDBO;
 	}
 }
