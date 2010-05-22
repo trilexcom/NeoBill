@@ -2,7 +2,7 @@
 /**
  * CountrySelectWidget.class.php
  *
- * This file contains the definition of the CountrySelectWidget class.  
+ * This file contains the definition of the CountrySelectWidget class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -19,18 +19,16 @@ require BASE_PATH . "solidworks/cc.php";
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class CountrySelectWidget extends SelectWidget
-{
-  /**
-   * Get Data
-   *
-   * @param array $config Field configuration
-   * @return array value => description
-   */
-  function getData()
-  {
-    global $cc;
-    return $cc;
-  }
+class CountrySelectWidget extends SelectWidget {
+	/**
+	 * Get Data
+	 *
+	 * @param array $config Field configuration
+	 * @return array value => description
+	 */
+	function getData() {
+		global $cc;
+		return $cc;
+	}
 }
 ?>

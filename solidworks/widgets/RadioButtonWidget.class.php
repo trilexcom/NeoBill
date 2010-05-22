@@ -2,7 +2,7 @@
 /**
  * RadioButtonWidget.class.php
  *
- * This file contains the definition of the RadioButtonWidget class.  
+ * This file contains the definition of the RadioButtonWidget class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,35 +16,32 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class RadioButtonWidget extends HTMLWidget
-{
-  /**
-   * Get Widget HTML
-   *
-   * Returns HTML code for this widget
-   *
-   * @param array $params Parameters passed from the template
-   * @return string HTML code for this widget
-   */
-  function getHTML( $params ) 
-  {
-    // Get widget value if available
-    $value = $this->determineValue( $params );
+class RadioButtonWidget extends HTMLWidget {
+	/**
+	 * Get Widget HTML
+	 *
+	 * Returns HTML code for this widget
+	 *
+	 * @param array $params Parameters passed from the template
+	 * @return string HTML code for this widget
+	 */
+	function getHTML( $params ) {
+		// Get widget value if available
+		$value = $this->determineValue( $params );
 
-    // Determine if this radio button is "checked"
-    if( $params['option'] == $value )
-      {
-	// This option is checked
-	$myParams['checked'] = "checked";
-      }
+		// Determine if this radio button is "checked"
+		if ( $params['option'] == $value ) {
+			// This option is checked
+			$myParams['checked'] = "checked";
+		}
 
-    // Generate HTML for a text box control
-    $myParams['type'] = "radio";
-    $myParams['value'] = $params['option'];
-    return sprintf( "<input %s/> %s",
-		    $this->buildParams( $params, $myParams ),
-		    !isset( $params['hideoption'] ) ?
-		    $this->fieldConfig['enum'][$params['option']] : null );
-  }
+		// Generate HTML for a text box control
+		$myParams['type'] = "radio";
+		$myParams['value'] = $params['option'];
+		return sprintf( "<input %s/> %s",
+				$this->buildParams( $params, $myParams ),
+				!isset( $params['hideoption'] ) ?
+				$this->fieldConfig['enum'][$params['option']] : null );
+	}
 }
 ?>

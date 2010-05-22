@@ -35,15 +35,15 @@ class PSMConfigPage extends SolidStateAdminPage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
-		switch( $action_name ) {
+		switch ( $action_name ) {
 			case "psm_config":
-				if( isset( $this->post['save'] ) ) {
+				if ( isset( $this->post['save'] ) ) {
 					$this->save();
 				}
 				break;
 
 			default:
-			// No matching action - refer to base class
+				// No matching action - refer to base class
 				parent::action( $action_name );
 
 		}

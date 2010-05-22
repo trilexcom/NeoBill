@@ -62,7 +62,7 @@ class ReviewPage extends SolidStatePage {
 		}
 
 		// If required, make sure that the TOS box was checked
-		if( $this->conf['order']['tos_required'] && !isset( $this->post['accept_tos'] ) ) {
+		if ( $this->conf['order']['tos_required'] && !isset( $this->post['accept_tos'] ) ) {
 			throw new SWUserException( "[YOU_MUST_ACCEPT_THE_TERMS_OF_SERVICE]" );
 		}
 

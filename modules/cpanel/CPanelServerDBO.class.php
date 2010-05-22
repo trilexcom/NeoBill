@@ -132,7 +132,7 @@ function add_CPanelServerDBO( CPanelServerDBO $dbo ) {
             "accesshash" => $dbo->getAccessHash() ) );
 
     // Run query
-    if( !mysql_query( $sql, $DB->handle() ) ) {
+    if ( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
@@ -152,7 +152,7 @@ function update_CPanelServerDBO( CPanelServerDBO $dbo ) {
             "accesshash" => $dbo->getAccessHash() ) );
 
     // Run query
-    if( !mysql_query( $sql, $DB->handle() ) ) {
+    if ( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
@@ -171,7 +171,7 @@ function delete_CPanelServerDBO( CPanelServerDBO $dbo ) {
             "serverid = " . $dbo->getServerID() );
 
     // Run query
-    if( !mysql_query( $sql, $DB->handle() ) ) {
+    if ( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 }
@@ -195,12 +195,12 @@ function load_CPanelServerDBO( $serverID ) {
             null );
 
     // Run query
-    if( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
+    if ( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
         // Query error
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-    if( mysql_num_rows( $result ) == 0 ) {
+    if ( mysql_num_rows( $result ) == 0 ) {
         // No rows found
         throw new DBNoRowsFoundException();
     }
@@ -241,19 +241,19 @@ function &load_array_CPanelServerDBO( $filter = null,
             $start );
 
     // Run query
-    if( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
+    if ( !( $result = @mysql_query( $sql, $DB->handle() ) ) ) {
         // Query error
         throw new DBException( mysql_error( $DB->handle() ) );
     }
 
-    if( mysql_num_rows( $result ) == 0 ) {
+    if ( mysql_num_rows( $result ) == 0 ) {
         // No services found
         throw new DBNoRowsFoundException();
     }
 
     // Build an array of HostingServiceDBOs from the result set
     $server_dbo_array = array();
-    while( $data = mysql_fetch_array( $result ) ) {
+    while ( $data = mysql_fetch_array( $result ) ) {
         // Create and initialize a new ServerDBO with the data from the DB
         $dbo = new CPanelServerDBO();
         $dbo->load( $data );

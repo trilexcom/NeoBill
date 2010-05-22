@@ -105,7 +105,7 @@ class CCPaymentPage extends SolidStatePage {
 		$paymentDBO->setModule( $_SESSION['module']->getName() );
 		$paymentDBO->setOrderID( $this->session['order']->getID() );
 		$paymentDBO->setAmount( $this->session['order']->getTotal() );
-		if( !$paymentDBO->processCreditCard( $billingContact,
+		if ( !$paymentDBO->processCreditCard( $billingContact,
 			$this->post['cardnumber'],
 			$expireDate,
 			$this->post['cardcode'],

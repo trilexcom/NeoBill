@@ -52,7 +52,7 @@ abstract class SolidStateModule extends Module {
 	 * Cause a fatal error if the module is not enabled
 	 */
 	public function checkEnabled() {
-		if( !$this->isEnabled() ) {
+		if ( !$this->isEnabled() ) {
 			fatal_error( "ResellerClub::checkAvailability()",
 					"The ResellerClub module is disabled." );
 		}

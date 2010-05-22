@@ -21,59 +21,53 @@ require_once BASE_PATH . "include/SolidStateAdminPage.class.php";
  * @package Pages
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class CPConfigPage extends SolidStateAdminPage
-{
-  /**
-   * @var CPanel CPanel Module
-   */
-  protected $CPModule = null;
+class CPConfigPage extends SolidStateAdminPage {
+	/**
+	 * @var CPanel CPanel Module
+	 */
+	protected $CPModule = null;
 
-  /**
-   * Action
-   *
-   * Actions handled by this page:
-   *
-   * @param string $action_name Action
-   */
-  public function action( $action_name )
-  {
-    switch( $action_name )
-      {
-      case "cp_config":
-	if( isset( $this->post['save'] ) )
-	  {
-	    $this->saveSettings();
-	  }
-	break;
+	/**
+	 * Action
+	 *
+	 * Actions handled by this page:
+	 *
+	 * @param string $action_name Action
+	 */
+	public function action( $action_name ) {
+		switch ( $action_name ) {
+			case "cp_config":
+				if ( isset( $this->post['save'] ) ) {
+					$this->saveSettings();
+				}
+				break;
 
-      default:
-	// No matching action - refer to base class
-	parent::action( $action_name );
-      }
-  }
+			default:
+				// No matching action - refer to base class
+				parent::action( $action_name );
+		}
+	}
 
-  /**
-   * Initialize Page
-   */
-  public function init()
-  {
-    parent::init();
+	/**
+	 * Initialize Page
+	 */
+	public function init() {
+		parent::init();
 
-    // Supply the module to the template
-    $this->CPModule = ModuleRegistry::getModuleRegistry()->getModule( "cpanel" );
-    $this->smarty->assign_by_ref( "CPModule", $this->CPModule );
-  }
+		// Supply the module to the template
+		$this->CPModule = ModuleRegistry::getModuleRegistry()->getModule( "cpanel" );
+		$this->smarty->assign_by_ref( "CPModule", $this->CPModule );
+	}
 
-  /**
-   * Save Cpanel Module Settings
-   */
-  public function saveSettings()
-  {
-    $this->CPModule->setLibPath( $this->post['libpath'] );
-    $this->CPModule->saveSettings();
+	/**
+	 * Save Cpanel Module Settings
+	 */
+	public function saveSettings() {
+		$this->CPModule->setLibPath( $this->post['libpath'] );
+		$this->CPModule->saveSettings();
 
-    $this->setMessage( array( "type" => "[CPANEL_CONFIG_SAVED]" ) );
-    $this->goback();
-  }
+		$this->setMessage( array( "type" => "[CPANEL_CONFIG_SAVED]" ) );
+		$this->goback();
+	}
 }
 ?>

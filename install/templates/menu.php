@@ -22,11 +22,11 @@
 ?>
 
         <ul id="navlist">
-            <li><?php if(isset($_POST['install_step']) && $_POST['install_step'] > '0') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '&nbsp;&nbsp;&nbsp;';} ?> <?php echo _INSTALLERSTEP0; ?></li>
-            <li><?php if(isset($_POST['install_step']) && $_POST['install_step'] > '1') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '1.';} ?> <?php echo _INSTALLERSTEP1; ?></li>
-            <li><?php if(isset($_POST['install_step']) && $_POST['install_step'] > '2') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '2.';} ?> <?php echo _INSTALLERSTEP2; ?></li>
-            <li><?php if(isset($_POST['install_step']) && $_POST['install_step'] > '3') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '3.';} ?> <?php echo _INSTALLERSTEP3; ?></li>
-            <li><?php if(isset($_POST['install_step']) && $_POST['install_step'] > '4') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '4.';} ?> <?php echo _INSTALLERSTEP4; ?></li>
-            <li><?php if(isset($_POST['install_step']) && $_POST['install_step'] > '5') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '5.';} ?> <?php echo _INSTALLERSTEP5; ?></li>
-            <li><?php if(isset($_POST['install_step']) && $_POST['install_step'] > '6') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '6.';} ?> <?php echo _INSTALLERSTEP6; ?></li>
+            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '0') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '&nbsp;&nbsp;&nbsp;';} ?> <?php echo _INSTALLERSTEP0; ?></li>
+            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '1') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '1.';} ?> <?php echo _INSTALLERSTEP1; ?></li>
+            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '2') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '2.';} ?> <?php echo _INSTALLERSTEP2; ?></li>
+            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '3') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '3.';} ?> <?php echo _INSTALLERSTEP3; ?></li>
+            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '4') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '4.';} ?> <?php echo _INSTALLERSTEP4; ?></li>
+            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '5') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '5.';} ?> <?php echo _INSTALLERSTEP5; ?></li>
+            <li><?php if (isset($_POST['install_step']) && $_POST['install_step'] > '6') { echo '<span style="color: green; font-weight: 700;">&radic;</span>'; } else { echo '6.';} ?> <?php echo _INSTALLERSTEP6; ?></li>
         </ul>

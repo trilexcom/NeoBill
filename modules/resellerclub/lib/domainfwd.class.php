@@ -46,7 +46,7 @@
 		function debugfunction()
 		{
 			global $debugfunction;
-			if($debugfunction)
+			if ($debugfunction)
 			{
 				print "<b>XML Sent:</b><br><br>";
 				print "<xmp>" . $this->s->request . "</xmp>";

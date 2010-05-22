@@ -87,7 +87,7 @@ class PSIPNPage extends SolidStatePage {
 		log_notice( "PSIPNPage::init()", "Processing an IPN..." );
 
 		// Verify IPN
-		if( !$this->ppModule->processIPN( $_POST ) ) {
+		if ( !$this->ppModule->processIPN( $_POST ) ) {
 			fatal_error( "PSIPNPage::init()", "Failed to verify IPN" );
 		}
 		log_notice( "PSIPNPage::init()", "IPN verfied." );
@@ -99,7 +99,7 @@ class PSIPNPage extends SolidStatePage {
 				$_POST['txn_id'] );
 
 		// Take action
-		switch( $_POST['payment_status'] ) {
+		switch ( $_POST['payment_status'] ) {
 			case "Canceled_Reversal":
 				$this->paymentCanceledReversal();
 				break;
@@ -159,11 +159,11 @@ class PSIPNPage extends SolidStatePage {
 		$this->paymentDBO->setType( "Module" );
 		$this->paymentDBO->setModule( $this->ppModule->getName() );
 		$this->paymentDBO->setStatus( $status );
-		if( isset( $_POST['custom'] ) ) {
+		if ( isset( $_POST['custom'] ) ) {
 			// This IPN contains an order ID
 			$this->paymentDBO->setOrderID( intval( $_POST['custom'] ) );
 		}
-		if( isset( $_POST['invoice'] ) ) {
+		if ( isset( $_POST['invoice'] ) ) {
 			// This IPN contains an invoice ID
 			$this->paymentDBO->setInvoiceID( intval( $_POST['invoice'] ) );
 		}
@@ -186,7 +186,7 @@ class PSIPNPage extends SolidStatePage {
 	 * Process a Canceled Payment Reversal IPN
 	 */
 	function paymentCanceledReversal() {
-		if( $this->paymentDBO == null ) {
+		if ( $this->paymentDBO == null ) {
 			fatal_error( "PSIPNPage::paymentCanceledReversal()",
 					sprintf( "Received a Paypal Canceled Reversal IPN for a payment that does not exist! TXN=%s, Customer=%s, Amount=%s",
 					$_POST['txn_id'],
@@ -203,7 +203,7 @@ class PSIPNPage extends SolidStatePage {
 	 * Process a Completed Payment IPN
 	 */
 	function paymentCompleted() {
-		if( $this->paymentDBO == null ) {
+		if ( $this->paymentDBO == null ) {
 			// This is a new payment
 			$this->newPayment( "Completed" );
 		}
@@ -218,7 +218,7 @@ class PSIPNPage extends SolidStatePage {
 	 * Process a Pending Payment IPN
 	 */
 	function paymentPending() {
-		if( $this->paymentDBO == null ) {
+		if ( $this->paymentDBO == null ) {
 			// This is a new payment
 			$this->newPayment( "Pending" );
 		}
@@ -233,7 +233,7 @@ class PSIPNPage extends SolidStatePage {
 	 * Process a Refund Payment IPN
 	 */
 	function paymentRefunded() {
-		if( $this->paymentDBO == null ) {
+		if ( $this->paymentDBO == null ) {
 			fatal_error( "PSIPNPage::paymentRefund()",
 					sprintf( "Received a Paypal Refund IPN for a payment that does not exist! TXN=%s, Customer=%s, Amount=%s",
 					$_POST['txn_id'],
@@ -248,7 +248,7 @@ class PSIPNPage extends SolidStatePage {
 	 * Process a Refund Payment IPN
 	 */
 	function paymentReversed() {
-		if( $this->paymentDBO == null ) {
+		if ( $this->paymentDBO == null ) {
 			fatal_error( "PSIPNPage::paymentReversed()",
 					sprintf( "Received a Paypal Payment Reversed IPN for a payment that does not exist! TXN=%s, Customer=%s, Amount=%s, Reason=%s",
 					$_POST['txn_id'],
@@ -266,7 +266,7 @@ class PSIPNPage extends SolidStatePage {
 	 * Process a Voided Payment IPN
 	 */
 	function paymentVoided() {
-		if( $this->paymentDBO == null ) {
+		if ( $this->paymentDBO == null ) {
 			fatal_error( "PSIPNPage::paymentVoided()",
 					sprinf( "Received a Paypal Denied / Expired / Failed / Voided IPN for a payment that does not exist! TXN=%s, Customer=%s, Amount=%s, Status=%s",
 					$_POST['txn_id'],

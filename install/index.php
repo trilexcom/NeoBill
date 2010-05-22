@@ -28,7 +28,7 @@
   if (!isset($_COOKIE['language'])) {
     setcookie('language', 'english');
   }
-  if(isset($_POST['language'])) {
+  if (isset($_POST['language'])) {
     setcookie('language', $_POST['language']);
   }
   

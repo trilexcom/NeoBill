@@ -2,7 +2,7 @@
 /**
  * InvalidDateInputFormatException.class.php
  *
- * This file contains the definition of the InvalidDateInputFormatException class.  
+ * This file contains the definition of the InvalidDateInputFormatException class.
  *
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
@@ -16,17 +16,15 @@
  * @package SolidWorks
  * @author John Diamond <jdiamond@solid-state.org>
  */
-class InvalidDateInputFormatException extends SWException
-{
-  /**
-   * Invalid Date Input Format Exception Constructor
-   *
-   * @param string $format The invalid format
-   */
-  public function __construct( $format = "NULL" )
-  {
-    parent::__construct();
-    $this->message = sprintf( "Invalid date-input format: %s", $format );
-  }
+class InvalidDateInputFormatException extends SWException {
+	/**
+	 * Invalid Date Input Format Exception Constructor
+	 *
+	 * @param string $format The invalid format
+	 */
+	public function __construct( $format = "NULL" ) {
+		parent::__construct();
+		$this->message = sprintf( "Invalid date-input format: %s", $format );
+	}
 }
 ?>
