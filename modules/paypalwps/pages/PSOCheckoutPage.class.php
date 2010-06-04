@@ -64,19 +64,17 @@ class PSOCheckoutPage extends SolidStatePage {
 	function dumpCart() {
 		$cart = array();
 		foreach( $_SESSION['order']->getItems() as $orderItemDBO ) {
-			$cart[] = array( "name" => $orderItemDBO->getDescription(),
-					"quantity" => 1,
-					"amount" => $orderItemDBO->getPrice(),
-					"tax" => $orderItemDBO->getTaxAmount() );
-
-			if ( is_a( $orderItemDBO, "OrderHostingDBO" ) &&
-					$orderItemDBO->getSetupFee() > 0 ) {
-				// Charge a setup fee
-				$desc = sprintf( "%s: [SETUP_FEE]", $orderItemDBO->getDescription() );
-				$cart[] = array( "name" => $desc,
+			if ( $orderItemDBO->getOnetimePrice() != null ) {
+				$cart[] = array( "name" => $orderItemDBO->getDescription(),
 						"quantity" => 1,
-						"amount" => $orderItemDBO->getSetupFee(),
-						"tax" => 0 );
+						"amount" => $orderItemDBO->getOnetimePrice(),
+						"tax" => $orderItemDBO->getOnetimeTaxes() );
+			}
+			elseif ( $orderItemDBO->getRecurringPrice() != null ) {
+				$cart[] = array( "name" => $orderItemDBO->getDescription(),
+						"quantity" => 1,
+						"amount" => $orderItemDBO->getRecurringPrice(),
+						"tax" => $orderItemDBO->getRecurringTaxes() );
 			}
 		}
 		return $cart;
