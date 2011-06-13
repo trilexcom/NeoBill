@@ -1,5 +1,5 @@
 PLEASE NOTE:
 The development of NeoBill has been relaunched recently. The current commit 
-in the trunc is a beta development release of NeoBill v0.5.1 It uses a new 
+in the trunc is a beta development release of NeoBill v0.5.5 It uses a new 
 configuration file format and a new database scheme which both might change 
-until the release of v0.5.1 without update/upgrade support.
+until the release of v0.5.5 without update/upgrade support.
