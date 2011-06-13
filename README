@@ -1,6 +1,5 @@
 PLEASE NOTE:
-The development of SolidState has been relaunched recently. The current commit 
-in the trunc is a beta development release of SolidState v0.5. It uses a new 
+The development of NeoBill has been relaunched recently. The current commit 
+in the trunc is a beta development release of NeoBill v0.5.1 It uses a new 
 configuration file format and a new database scheme which both might change 
-until the release of v0.5 without update/upgrade support. An update/upgrade 
-will be provided for v0.4.z.r and maybe v0.5 alpha.
+until the release of v0.5.1 without update/upgrade support.
