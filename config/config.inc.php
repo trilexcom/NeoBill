@@ -53,9 +53,9 @@
   global $db;
 
   $db['hostname'] = 'localhost';
-  $db['username'] = 'solidstate';
-  $db['password'] = '';
-  $db['database'] = 'solidstate';
+  $db['username'] = 'zhao_admin';
+  $db['password'] = 'YWRtaW4=';
+  $db['database'] = 'zhao_neobill';
   $db['encoded']  = 1;
   $db['schema_validation'] = 0;
 
@@ -65,9 +65,9 @@
 
   global $config;
 
-  $config['installed'] = 0;
-  $config['cache']     = './solidworks/smarty/cache';
-  $config['compiled']  = './solidworks/smarty/templates_c';
+  $config['installed'] = 1;
+  $config['cache']     = '/home/zhao/public_html/neobill/solidworks/smarty/cache';
+  $config['compiled']  = '/home/zhao/public_html/neobill/solidworks/smarty/templates_c';
   $config['encoded']   = 1;
 
 ?>

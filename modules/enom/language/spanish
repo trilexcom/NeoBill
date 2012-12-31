@@ -1,0 +1,10 @@
+<translation language="spanish">
+    <phrase id="ENOM">Enom</phrase>
+    <phrase id="ENOM_API_URL">URL del API de Enom</phrase>
+    <phrase id="ENOM_CONFIG_SAVED">Configuración de Enom guardada</phrase>
+    <phrase id="ENOM_LIVE_URL">URL de Producción (reseller.enom.com)</phrase>
+    <phrase id="ENOM_PASSWORD">Clave enom</phrase>
+    <phrase id="ENOM_TEST_URL">URL de Prueba (resellertest.enom.com)</phrase>
+    <phrase id="ENOM_THE_FOLLOWING_ERRORS_WERE">Los siguientes errores fueron detectados al contactarse con Enom</phrase>
+    <phrase id="ENOM_USERNAME">Nombre de usuario Enom</phrase>
+</translation>

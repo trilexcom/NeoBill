@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
-<tabbar  hrefmode="iframes-on-demand">
-    <row>
-        <tab id="b1" width='100px' href="http://groups.google.com">Google groups</tab>
-        <tab id="b2" width='100px' selected="1" href="http://google.com">Google search</tab>
-    </row>
-</tabbar>
+<?xml version="1.0"?>
+<tabbar  hrefmode="iframes-on-demand">
+    <row>
+        <tab id="b1" width='100px' href="http://groups.google.com">Google groups</tab>
+        <tab id="b2" width='100px' selected="1" href="http://google.com">Google search</tab>
+    </row>
+</tabbar>

@@ -29,23 +29,30 @@ class ModulesPage extends SolidStateAdminPage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
+		
 		switch ( $action_name ) {
 			case "modules":
 				if ( isset( $this->post['update'] ) ) {
 					$this->updateModules();
 				}
 				break;
-
+			case "modules_action":
+				if ( isset( $this->post['add'] ) ) {
+				    $this->gotoPage( "config_new_module" );
+				}
+				break;
 			default:
 				// No matching action, refer to base class
 				parent::action( $action_name );
 		}
 	}
+	
 
 	/**
 	 * Update the Modules Enabled/Disabled flag
 	 */
 	function updateModules() {
+		
 		if ( !isset( $this->post['modules'] ) ) {
 			$this->post['modules'] = array();
 		}

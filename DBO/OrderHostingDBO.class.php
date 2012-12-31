@@ -81,6 +81,7 @@ class OrderHostingDBO extends OrderItemDBO {
      * @return string Description of this order item
      */
     public function getDescription() {
+	//print $this;
         return sprintf( "%s (%s)", $this->purchasable->getTitle(), $this->getDomainName() );
     }
 

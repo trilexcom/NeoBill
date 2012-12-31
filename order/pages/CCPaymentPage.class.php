@@ -105,15 +105,18 @@ class CCPaymentPage extends SolidStatePage {
 		$paymentDBO->setModule( $_SESSION['module']->getName() );
 		$paymentDBO->setOrderID( $this->session['order']->getID() );
 		$paymentDBO->setAmount( $this->session['order']->getTotal() );
+		$paymentDBO->setStatus( "Pending" );
+		
 		if ( !$paymentDBO->processCreditCard( $billingContact,
 			$this->post['cardnumber'],
 			$expireDate,
 			$this->post['cardcode'],
 			$this->conf['payment_gateway']['order_method'] ) ) {
+			print "card error";
 			$this->setError( array( "type" => "[CC_PROCESSING_ERROR]" ) );
 			$this->reload();
 		}
-
+		
 		// Card processed, save the payment DBO
 		add_PaymentDBO( $paymentDBO );
 

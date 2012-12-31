@@ -31,12 +31,11 @@
 
 						<div>
 						  {if $username == null && !$supressWelcome }
-							{echo phrase="IF_YOU_ARE_AN_EXISTING_CUSTOMER"}
-							<a href="index.php?page=customerlogin">{echo phrase="PLEASE_LOGIN"}</a>.
+							<a href="index.php?page=customerlogin">{echo phrase="SIGN IN"}</a>
 						  {elseif $username == " "}
 
 						  {elseif isset( $username ) && !$supressWelcome}
-							{echo phrase="WELCOME_BACK"}, {$username}!
+							{echo phrase="WELCOME_BACK"}, {$username}! | <a href="index.php?page=customerlogin&op=logout">logout</a>
 						  {/if}
 						</div><br/>
 
@@ -60,7 +59,7 @@
 			{* Include page footer *}
 			{include file="order_footer.tpl"}
 
-			<div class="footer">&copy; 2010 <a href="http://www.solid-state.org">solid-state.org</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer">XHTML</a>. Template design by <a href="http://templates.arcsin.se">Arcsin</a>
+			<div class="footer">&copy; 2011 <a href="http://www.neobill.net">NeoBill</a>. Valid <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> &amp; <a href="http://validator.w3.org/check?uri=referer">XHTML</a>. Template design by <a href="http://templates.arcsin.se">Arcsin</a>
 			</div>
 
 		</div>

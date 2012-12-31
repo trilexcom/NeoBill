@@ -6,12 +6,17 @@
  *
  * @package modules
  * @author John Diamond <jdiamond@solid-state.org>
- * @copyright John Diamond <jdiamond@solid-state.org>
+  * @copyright John Diamond <jdiamond@solid-state.org>
  * @license http://www.opensource.org/licenses/gpl-license.php GNU Public License
+ * @author #2 Xiao Zhao/Mat <john316rocks@gmail.com>
  */
 
 // Base class
 require_once BASE_PATH . "modules/PaymentGatewayModule.class.php";
+
+// New Authorize.net SDK code
+define("AUTHORIZENET_SANDBOX", TRUE); // TRUE for TEST, FALSE for real dough
+require_once BASE_PATH . "modules/authorizeaim/sdk/AuthorizeNet.php";
 
 // Positions in the AIM response record
 define( AIM_RESP_CODE, 0 );
@@ -202,7 +207,8 @@ class AuthorizeAIM extends PaymentGatewayModule {
 		$paymentDBO->setDate( DBConnection::format_datetime( time() ) );
 		$paymentDBO->setType( "Module" );
 		$paymentDBO->setModule( $this->getName() );
-
+		
+		/* old busted method
 		// Construct a list of parameters to be passed to Authorize.net
 		$message =
 				$this->buildPOSTFields( array( "x_login"  => $this->getLoginID(),
@@ -228,12 +234,48 @@ class AuthorizeAIM extends PaymentGatewayModule {
 				"x_country" => substr( $contactDBO->getCountry(), 0, 60 ),
 				"x_phone" => substr( $contactDBO->getPhone(), 0, 25 ),
 				"x_fax" => substr( $contactDBO->getFax(), 0, 25 ) ) );
-
+		
 		// Carry out the transaction
 		$resp = $this->executeTransaction( $message );
+		*/
+				
+		// New SDK method
+		//$transaction = new AuthorizeNetAIM($this->getLoginID(), $this->getTransactionKey());
+		
+		/*
+		$transaction->amount = $paymentDBO->getAmount();
+		$transaction->card_num = $cardNumber;
+		$transaction->exp_date = $expireDate;
+		 
+		$customerData = (object) array();
+		$customerData->first_name = substr( $contactDBO->getName(), 0, 50 );
+		$customerData->address = substr( sprintf( "%s %s",
+				$contactDBO->getAddress1(),
+				$contactDBO->getAddress2() ),
+				0,
+				60 );
+		$customerData->city = substr( $contactDBO->getCity(), 0, 40 );
+		$customerData->state = substr( $contactDBO->getState(), 0, 40 );
+		$customerData->zip = substr( $contactDBO->getPostalCode(), 0, 20 );
+ 
+		$transaction->setFields($customerData);
+		*/
 
+		$transaction = new AuthorizeNetAIM('95n98SqG5', '4gc88U7xV5g78TYU');
+		$transaction->amount = '9.99';
+		$transaction->card_num = '4007000000027';
+		$transaction->exp_date = '10/16';
+		
+		$response = $transaction->authorizeAndCapture();
+		
+		if ($response->approved) {
+			echo "<h1>Success! The test credit card has been charged!</h1>";
+			echo "Transaction ID: " . $response->transaction_id;
+		} else {
+			echo $response->error_message;
+		}
 		// Parse the transaction response
-		switch ( $resp[AIM_RESP_CODE] ) {
+		switch ( $response ) {
 			case AIM_APPROVED:
 				$paymentDBO->setStatus( $authOnly ? "Authorized" : "Completed" );
 				$paymentDBO->setTransaction1( $resp[AIM_RESP_TRANSACTION_ID] );
@@ -294,6 +336,7 @@ class AuthorizeAIM extends PaymentGatewayModule {
 	 * @return array Response record, broken into an associative array
 	 */
 	function executeTransaction( $postData ) {
+
 		$ch = curl_init( $this->getURL() );
 		curl_setopt( $ch, CURLOPT_HEADER, 0 );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );

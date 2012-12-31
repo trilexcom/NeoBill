@@ -1,59 +1,59 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<title>DHTML Tree samples. dhtmlXTree - Autoloading from XML</title>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
-	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
-	<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
-	<style type="text/css">
-	body { font-family:arial; font-size:12px; font-size:12px; }
-	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
-	</style>
-</head>
-<body>
-	<h1>Autoloading from XML</h1>
-
-	<table>
-		<tr>
-			<td valign="top">
-<!--- [ Scand: 				<div id="treeboxbox_tree2" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver; overflow:auto;"></div>
-				<br>
-				<br>   ] --->
-
-				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver; overflow:auto;"></div>
-			</td>
-			<td rowspan="2" style="padding-left:25px" valign="top">
-			Tree has unlimmited level count. Each new level loaded from asp script.	
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;</td>
-		</tr>
-	</table>
-			<hr>	
-<XMP>
-<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
-<script type="text/javascript">
-	tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
-			tree.setImagePath("../imgs/");
-			//link tree to asp script
-			tree.setXMLAutoLoading("xml.php"); 
-			
-			//load first level of tree
-			tree.loadXML("xml.asp?id=0"); 
-</script>
-</XMP>	
-	<script type="text/javascript">
-			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
-			tree.setImagePath("../imgs/");
-			tree.setXMLAutoLoading("xml.php");
-			tree.loadXML("xml.php?id=0");
-
-	</script>
-<br><br>
-
-</body>
-</html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>DHTML Tree samples. dhtmlXTree - Autoloading from XML</title>
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTree.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
+	<style type="text/css">
+	body { font-family:arial; font-size:12px; font-size:12px; }
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
+	</style>
+</head>
+<body>
+	<h1>Autoloading from XML</h1>
+
+	<table>
+		<tr>
+			<td valign="top">
+<!--- [ Scand: 				<div id="treeboxbox_tree2" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver; overflow:auto;"></div>
+				<br>
+				<br>   ] --->
+
+				<div id="treeboxbox_tree" style="width:250px; height:218px;background-color:#f5f5f5;border :1px solid Silver; overflow:auto;"></div>
+			</td>
+			<td rowspan="2" style="padding-left:25px" valign="top">
+			Tree has unlimmited level count. Each new level loaded from asp script.	
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+			<hr>	
+<XMP>
+<div id="treeboxbox_tree" style="width:200px;height:200px"></div>
+<script type="text/javascript">
+	tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+			tree.setImagePath("../imgs/");
+			//link tree to asp script
+			tree.setXMLAutoLoading("xml.php"); 
+			
+			//load first level of tree
+			tree.loadXML("xml.asp?id=0"); 
+</script>
+</XMP>	
+	<script type="text/javascript">
+			tree=new dhtmlXTreeObject("treeboxbox_tree","100%","100%",0);
+			tree.setImagePath("../imgs/");
+			tree.setXMLAutoLoading("xml.php");
+			tree.loadXML("xml.php?id=0");
+
+	</script>
+<br><br>
+
+</body>
+</html>

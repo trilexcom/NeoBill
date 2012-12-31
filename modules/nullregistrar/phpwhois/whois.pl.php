@@ -36,12 +36,12 @@ class pl_handler
 	function parse($data_str, $query)
 		{
 
-		$items = array(
+		$items = array(
                 	'owner' 	=> 'Subscribers Contact object:',
 					'domain'	=> 'Domain object:',
 					'tech'		=> 'Technical Contact:',
 					'x'			=> 'nservers:'
-					);
+					);
 
 		$fields = array (
 					'company:'			=> 'organization',

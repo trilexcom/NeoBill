@@ -25,7 +25,3 @@
     To customize this message, edit order/templates/order_ReceiptPage.tpl
   <p/>
 {/if}
-
-<p>
-  To customize this page, edit order/templates/order_ReceiptPage.tpl.
-</p>

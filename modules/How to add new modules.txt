@@ -1,0 +1,5 @@
+1. duplication the entire "mymodule" directory
+
+2. choose your name, say "myname"; rename the directory to "myname" and the file inside to "myname.class.php"
+
+3. Open myname.class.php and change the class name, $name and fill in the other information as you see fit.

@@ -122,7 +122,7 @@
   </div>
 
   {dbo_assign dbo="order" field="accounttype" var="accounttype"}
-  {if $accounttype == "New Account"}
+  {* {if $accounttype == "New Account"} *}
     <div class="cart_total">
       <table>
         <tr>
@@ -161,9 +161,9 @@
         {/if}
       </table>
     </div>
-  {else}
-    <p> <b>{echo phrase="YOUR_ACCOUNT_WILL_BE_BILLED"}</b> </p>
-  {/if}
+  {* {else}
+      <p> <b>{echo phrase="YOUR_ACCOUNT_WILL_BE_BILLED"}</b> </p>
+     {/if} *}
 
   <p/>
 

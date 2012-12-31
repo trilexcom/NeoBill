@@ -106,7 +106,7 @@ class ConfigureNewUserPage extends SolidStateAdminPage {
 
         // Prepare UserDBO for database insertion
         $user_dbo = new UserDBO();
-        $user_dbo->load( $this->post );
+        $user_dbo->load( $this->post ); // MAY CHANGE
         $user_dbo->setPassword( $this->post['password'] );
 
         // Place DBO in the session for the confirm & receipt page

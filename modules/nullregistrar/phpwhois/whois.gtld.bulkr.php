@@ -81,9 +81,9 @@ class bulkr_handler
 
 		unset($r['dummy']);
 		reset($data_str); 
-		
+		
 		while (list($key, $val) = each($data_str))
-			if (trim($val)=='') break;
+			if (trim($val)=='') break;
 
 		while (list($key, $val) = each($data_str))
 			if (trim($val)!='') break;

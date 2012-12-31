@@ -115,6 +115,7 @@ class DBConnection {
 	 * @return DBConnection DBConnection instance
 	 */
 	public static function getDBConnection() {
+
 		if ( self::$instance == null ) {
 			self::$instance = new DBConnection();
 		}
@@ -174,7 +175,7 @@ class DBConnection {
 			throw new DBException( "DB Select Database failure: " . mysql_error() );
 		}
 	}
-
+	
 	/**
 	 * Build INSERT SQL
 	 *
@@ -193,7 +194,8 @@ class DBConnection {
 			// Table name not provided or invalid
 			throw new DBException( "Invalid table: " . $table_name );
 		}
-
+		
+		//$stmt = mysqli_prepare($link, "SELECT District FROM City WHERE Name=?"
 		// Begin building SQL
 		$sql = "INSERT INTO `" . $table_name . "` (";
 
@@ -210,6 +212,39 @@ class DBConnection {
 		foreach( $cols_vals as $column_name => $value ) {
 			// Put this value in the list
 			$sql .= is_numeric( $value ) ? $value : $this->quote_smart( $value );
+			$sql .= $column_name == end( $cols ) ? ")" : ", ";
+		}
+
+		return $sql;
+	}
+	
+	public function build_insert_sql_secure( $table_name, $cols_vals ) {
+		// Extract the column names
+		$cols = array_keys( $cols_vals );
+
+		// Validate table name
+		if ( !isset( $table_name ) || !$this->validate_table( $table_name ) ) {
+			// Table name not provided or invalid
+			throw new DBException( "Invalid table: " . $table_name );
+		}
+		
+		
+		// Begin building SQL
+		$sql = "INSERT INTO `" . $table_name . "` (";
+
+		// Build column list
+		foreach( $cols as $column_name ) {
+			// Put this column name in the list
+			$sql .= $column_name;
+			$sql .= $column_name == end( $cols ) ? ") " : ", ";
+		}
+
+		$sql .= "VALUES (";
+
+		// Build values list
+		foreach( $cols_vals as $column_name => $value ) {
+			// Put this value in the list
+			$sql .= "?"; //is_numeric( $value ) ? $value : $this->quote_smart( $value );
 			$sql .= $column_name == end( $cols ) ? ")" : ", ";
 		}
 
@@ -452,6 +487,22 @@ class DBConnection {
 		}
 
 		return $value;
+	}
+	
+	public function mysqli_connect(){
+	
+		global $db;
+		$mysqli = mysqli_connect($db['hostname'],
+				$db['username'],
+				base64_decode( $db['password']),
+				$db['database']
+				);		
+		/* check connection */
+		if (mysqli_connect_errno()) {
+		    printf("Connect failed: %s\n", mysqli_connect_error());
+		    exit();
+		}
+		return $mysqli;
 	}
 }
 ?>

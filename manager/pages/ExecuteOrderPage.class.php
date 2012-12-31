@@ -80,6 +80,10 @@ class ExecuteOrderPage extends SolidStatePage {
 					throw new SWException( "Failed to execute Order.  ID=" .
 							$this->get['order']->getID() );
 				}
+
+				/* credit card transaction here */
+				$payments = $this->get['order']->getPayments();
+				
 				break;
 
 			default:

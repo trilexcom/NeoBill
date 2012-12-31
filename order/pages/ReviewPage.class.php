@@ -69,16 +69,63 @@ class ReviewPage extends SolidStatePage {
 		$this->session['order']->setRemoteIP( ip2long( $_SERVER['REMOTE_ADDR'] ) );
 		$this->session['order']->setDateCreated( DBConnection::format_datetime( time() ) );
 		$this->session['order']->setAcceptedTOS( $this->post['accept_tos'] == "true" ? "Yes" : "No" );
-
-		// If the order does not have an ID already, save it to the database
-		if ( $this->session['order']->getID() == null ) {
-			add_OrderDBO( $this->session['order'] );
-		}
-
+		
+		/*
 		if ( $this->session['order']->getAccountType() == "Existing Account" ) {
 			// Send existing accounts off to the receipt page
 			$this->session['order']->complete();
 			$this->gotoPage( "receipt" );
+		}
+		*/
+
+		// Register the new user
+		if ( $this->session['order']->getAccountType() == "New Account"){
+			$order = $this->session['order'];
+			$user_dbo = new UserDBO();
+
+			// User-defined data
+			$user_dbo->setUsername($order->getUsername());
+			$user_dbo->setPassword($order->getPassword());
+			$user_dbo->setContactName($order->getContactName());
+			$user_dbo->setEmail($order->getContactEmail());
+			
+			// Admin-defined data
+			$user_dbo->setType("Client");
+			$user_dbo->setLanguage("english"); // could change to user-defined
+			$user_dbo->setTheme("default");
+			
+			add_UserDBO( $user_dbo );
+
+			// Add account info to accountDBO
+
+			$account_dbo = new AccountDBO();
+			$account_dbo->setStatus("Active");
+			$account_dbo->setType("Individual Account");
+			$account_dbo->setBillingStatus("Bill");
+			$account_dbo->setBillingDay(1);
+			$account_dbo->setBusinessName($order->getBusinessName());
+			$account_dbo->setContactName($order->getContactName());
+			$account_dbo->setContactEmail($order->getContactEmail());
+			$account_dbo->setAddress1($order->getAddress1());
+			$account_dbo->setAddress2($order->getAddress2());
+			$account_dbo->setCity($order->getCity());
+			$account_dbo->setState($order->getState());
+			$account_dbo->setCountry($order->getCountry());
+			$account_dbo->setPostalCode($order->getPostalCode());
+			$account_dbo->setPhone($order->getPhone());
+			$account_dbo->setMobilePhone($order->getMobilePhone());
+			$account_dbo->setFax($order->getFax());
+			$account_dbo->setUsername($order->getUsername());
+
+			add_AccountDBO($account_dbo);
+			
+			$this->session['order']->setAccountID($account_dbo->getID());
+			
+		}
+		
+		// If the order does not have an ID already, save it to the database
+		if ( $this->session['order']->getID() == null ) {			
+			add_OrderDBO( $this->session['order'] );
 		}
 
 		if ( $this->session['review']['module'] == "Check" ) {
@@ -96,12 +143,13 @@ class ReviewPage extends SolidStatePage {
 			$this->gotoPage( "receipt", null, "payByCheck=1" );
 		}
 
+
 		// Collect Payment
 		$registry = ModuleRegistry::getModuleRegistry();
 		$paymentModule = $registry->getModule( $this->post['module'] );
 		$checkoutPage = $paymentModule->getType() == "payment_processor" ?
 				$paymentModule->getOrderCheckoutPage() : "ccpayment";
-
+		
 		// Redirect to the module's checkout page
 		$_SESSION['module'] = $paymentModule;
 		$this->gotoPage( $checkoutPage );

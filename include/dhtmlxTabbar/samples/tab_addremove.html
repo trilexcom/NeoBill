@@ -1,59 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-	<title>DHTML TabBar sample. dhtmlXTabBar - Add/Remove content to TabBar</title>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css"/>
-	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
-	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
-	<style type="text/css">
-	body { font-family:arial;font-size:12px; font-size:12px}
-	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
-	div.hdr{
-		background-color:silver;
-		margin-bottom:10px;
-		padding-left:10px;
-	}
-	</style>
-</head>
-<body>
-	<div class="hdr">DHTML JavaScript Tabbar samples</div>
-	<h1>Add/Remove content to TabBar</h1>
-	<br/><br/>
-	<table>
-		<tr>
-			<td>
-				<div id="a_tabbar" style="width:390px; height:390px;"/>
-			</td>
-        </tr>
-        <tr>
-            <td>
-                <div><a href="#" onclick="try { tabbar.addTab(ind,ind,'100px',document.getElementById('pos_1').value,0); ind++; } catch(e) { alert('Incorrect position value'); } ">Add tab</a>&nbsp;&nbsp;Position<input id='pos_1'/></div>
-                <div><a href="#" onclick="tabbar.removeTab(tabbar.getActiveTab(),true)" >Remove current tab</a></div>
-            </td>
-        </tr>
-	</table>
-<hr/>
-<XMP>
-<div id="a_tabbar" style="width:400px;height:100px"></div>
-<script type="text/javascript">
-            tabbar=new dhtmlXTabBar("a_tabbar","top");
-            tabbar.setImagePath("imgs/");
-            tabbar.setSkinColors("#FCFBFC","#F4F3EE");
-            ...
-            tabbar.addTab(id,text,size,pos);
-            tabbar.removeTab(id);
-</script>
-</XMP>
-	<script type="text/javascript">
-            var ind=0;
-			tabbar=new dhtmlXTabBar("a_tabbar","top");
-            tabbar.setImagePath("../imgs/");
-            tabbar.setSkinColors("#FCFBFC","#F4F3EE","#FCFBFC");
-	</script>
-<br/><br/>
-  <div id="out_zone"></div>
-  <p><a href="http://www.scbr.com/docs/products/dhtmlxTabbar/index.shtml" style="font-weight:bold;">Go to the dhtmlxTabbar main page</a> or <a href="javascript:self.close()">Close this page</a></p>
-</body>
-</html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<title>DHTML TabBar sample. dhtmlXTabBar - Add/Remove content to TabBar</title>
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabBar.css"/>
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body { font-family:arial;font-size:12px; font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
+	div.hdr{
+		background-color:silver;
+		margin-bottom:10px;
+		padding-left:10px;
+	}
+	</style>
+</head>
+<body>
+	<div class="hdr">DHTML JavaScript Tabbar samples</div>
+	<h1>Add/Remove content to TabBar</h1>
+	<br/><br/>
+	<table>
+		<tr>
+			<td>
+				<div id="a_tabbar" style="width:390px; height:390px;"/>
+			</td>
+        </tr>
+        <tr>
+            <td>
+                <div><a href="#" onclick="try { tabbar.addTab(ind,ind,'100px',document.getElementById('pos_1').value,0); ind++; } catch(e) { alert('Incorrect position value'); } ">Add tab</a>&nbsp;&nbsp;Position<input id='pos_1'/></div>
+                <div><a href="#" onclick="tabbar.removeTab(tabbar.getActiveTab(),true)" >Remove current tab</a></div>
+            </td>
+        </tr>
+	</table>
+<hr/>
+<XMP>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
+            tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("imgs/");
+            tabbar.setSkinColors("#FCFBFC","#F4F3EE");
+            ...
+            tabbar.addTab(id,text,size,pos);
+            tabbar.removeTab(id);
+</script>
+</XMP>
+	<script type="text/javascript">
+            var ind=0;
+			tabbar=new dhtmlXTabBar("a_tabbar","top");
+            tabbar.setImagePath("../imgs/");
+            tabbar.setSkinColors("#FCFBFC","#F4F3EE","#FCFBFC");
+	</script>
+<br/><br/>
+  <div id="out_zone"></div>
+  <p><a href="http://www.scbr.com/docs/products/dhtmlxTabbar/index.shtml" style="font-weight:bold;">Go to the dhtmlxTabbar main page</a> or <a href="javascript:self.close()">Close this page</a></p>
+</body>
+</html>

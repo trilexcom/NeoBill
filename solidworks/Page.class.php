@@ -205,6 +205,7 @@ class Page {
                 array( "min_value" => 0 ) ) );
 
         // Process the query string
+
         $this->get = $this->urlForm->process( $getData );
     }
 
@@ -219,7 +220,8 @@ class Page {
      * @return boolean True if form validated OK
      */
     function processForm( $form_name ) {
-        // Initialize errors
+
+	// Initialize errors
         $errors = array();
 
         // Clear form data from session
@@ -338,7 +340,7 @@ class Page {
     function load( $conf, $smarty ) {
         $this->conf = $conf;
         $this->smarty = $smarty;
-
+	
         if ( get_class( $this ) != "Page" ) {
             // This is a subclass - load the page data from the configuration data
             $page_data = $conf['pages'][$this->getClassName()];
@@ -372,6 +374,7 @@ class Page {
 
             // Point to the session data for this Page
             $this->session =& $_SESSION[$this->getName()];
+
         }
     }
 

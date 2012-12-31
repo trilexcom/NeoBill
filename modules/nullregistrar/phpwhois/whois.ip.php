@@ -266,7 +266,7 @@ class ip_handler extends WhoisClient
 					{
 					$result['regrinfo']['abuse']['email'] = $matches[0];
 					break;
-					}
+					}
 				}
 			}
 			

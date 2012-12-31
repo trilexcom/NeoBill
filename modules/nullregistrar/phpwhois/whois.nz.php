@@ -92,8 +92,8 @@ class nz_handler
 		else
 			$r['regrinfo']['registered']='unknown';
 			
-		if (!strncmp($data_str['rawdata'][0], 'WHOIS LIMIT EXCEEDED', 20))
-			$r['regrinfo']['registered'] = 'unknown';
+		if (!strncmp($data_str['rawdata'][0], 'WHOIS LIMIT EXCEEDED', 20))
+			$r['regrinfo']['registered'] = 'unknown';
 
 		$r['regyinfo']['referrer'] = 'http://www.dnc.org.nz';
 		$r['regyinfo']['registrar'] = 'New Zealand Domain Name Registry Limited';

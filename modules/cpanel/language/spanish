@@ -1,0 +1,17 @@
+<translation language="spanish">
+    <phrase id="CPANEL_ACCOUNT_DOES_NOT_EXIST">Error de Módulo de cPanel: La cuenta no existe</phrase>
+    <phrase id="CPANEL_ACCOUNT_HAS_ALREADY_BEEN_SUSPENDED">Esta cuenta ya se ha suspendido</phrase>
+    <phrase id="CPANEL_CONFIG_SAVED">Configuración de cPanel guardada</phrase>
+    <phrase id="CPANEL_CONFIGURATION">Configuración de cPanel</phrase>
+    <phrase id="CPANEL_FAILED_TO_ADD_OR_UPDATE">Error al agregar o actualizar la configuración del cPanel Server</phrase>
+    <phrase id="CPANEL_FAILED_TO_CREATE_ACCOUNT">Error de Módulo de cPanel: Error al crear un panel de cuenta</phrase>
+    <phrase id="CPANEL_FAILED_TO_SUSPEND_ACCOUNT">Error de Módulo de cPanel: Error al suspender la cuenta</phrase>
+    <phrase id="CPANEL_FAILED_TO_TERMINATE_ACCOUNT">Error de Módulo de cPanel: Error al terminar la cuenta</phrase>
+    <phrase id="CPANEL_FAILED_TO_UNSUSPEND_ACCOUNT">Error de Módulo de cPanel: Error al suspender la cuenta</phrase>
+    <phrase id="CPANEL_INVALID_SERVER_CONFIGURATION">Error de Módulo de cPanel: configuración del servidor inválida o inexistente</phrase>
+    <phrase id="CPANEL_LIBRARY_PATH">cPanel Library Path (a Accounting.php.inc)</phrase>
+    <phrase id="CPANEL_SERVER_CONFIG_SAVED">Configuración de cPanel Server guardada</phrase>
+    <phrase id="CPANEL_SERVER_CONFIGURATION">Configuracion de cPanel Server/phrase>
+    <phrase id="CPANEL_WHM_ACCESS_HASH">WHM Hash de Acceso</phrase>
+    <phrase id="CPANEL_WHM_USERNAME">WHM Nombre de Usuario</phrase>
+</translation>

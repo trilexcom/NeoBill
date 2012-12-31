@@ -1,0 +1,5 @@
+<translation language="spanish">
+    <phrase id="NULL_REGISTRAR">Null Registrar</phrase>
+    <phrase id="NULL_REGISTRAR_CONFIG_TEXT">No se necesita configurar Null Registrar. Este módulo no se comunica con ningún Registrar. Usar para TLD's que se registran mediante Registrars no soportados.</phrase>
+    <phrase id="NULL_REGISTRAR_MODULE">Módulo de Null Registrar</phrase>
+</translation>

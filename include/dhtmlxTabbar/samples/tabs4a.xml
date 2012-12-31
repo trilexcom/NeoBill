@@ -1,8 +1,8 @@
-<?xml version="1.0"?>
-<tabbar>
-	<row>   
-        <tab id="a3" width='110px'>3</tab>
-        <tab id="a4" width='110px'>4</tab>
-        <tab id="a5" width='110px'>5</tab>
-	</row>
-</tabbar>
+<?xml version="1.0"?>
+<tabbar>
+	<row>   
+        <tab id="a3" width='110px'>3</tab>
+        <tab id="a4" width='110px'>4</tab>
+        <tab id="a5" width='110px'>5</tab>
+	</row>
+</tabbar>

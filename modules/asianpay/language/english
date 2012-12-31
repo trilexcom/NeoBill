@@ -1,0 +1,7 @@
+<translation language="english">
+    <phrase id="asianpay_CONFIGURATION_SAVED">Configuration Saved</phrase>
+    <phrase id="asianpay_DELIMITER">AIM Delimiter</phrase>
+    <phrase id="asianpay_LOGINID">Authorize.net API Login ID</phrase>
+    <phrase id="asianpay_TRANSACTIONKEY">Authorize.net Transaction Key</phrase>
+    <phrase id="asianpay_URL">Authorize.net Transaction URL</phrase>    
+</translation>

@@ -130,15 +130,21 @@ class Form {
 
 		// Validate every field
 		$vExceptions = array();
+
+		//print_r($this->fields);
+
 		foreach( $form as $fieldName => $fieldValue ) {
+			
 			try {
 				// Verify that this field is configured
 				if ( !isset( $this->fields[$fieldName] ) ) {
+		
 					throw new UndefinedFieldException();
 				}
 
 				// Bail out if this is a cancel field
 				if ( $this->fields[$fieldName]->isCancel() ) {
+		
 					throw new FormCanceledException();
 				}
 
@@ -156,7 +162,7 @@ class Form {
 				return array( $fieldName => true );
 			}
 		}
-
+		
 		// Compile the form results into an array
 		$results = array();
 		foreach ( $this->fields as $fieldName => $field ) {
@@ -168,7 +174,7 @@ class Form {
 				$vExceptions[] = $e;
 			}
 		}
-
+		
 		// If there were any validation exceptions then the form is invalid
 		if ( !empty( $vExceptions ) ) {
 			// This form is invalid

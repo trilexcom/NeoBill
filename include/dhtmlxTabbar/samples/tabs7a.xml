@@ -1,8 +1,8 @@
-<?xml version="1.0"?>
-<tabbar  hrefmode="ajax-html">
-    <row>
-        <tab id="b1" width='100px' selected="1"  href="alfa.html">SCBR 1</tab>
-        <tab id="b2" width='100px' href="betta.txt">SCBR 2</tab>
-        <tab id="b3" width='100px' href="gamma.htm">SCBR 3</tab>
-    </row>
-</tabbar>
+<?xml version="1.0"?>
+<tabbar  hrefmode="ajax-html">
+    <row>
+        <tab id="b1" width='100px' selected="1"  href="alfa.html">SCBR 1</tab>
+        <tab id="b2" width='100px' href="betta.txt">SCBR 2</tab>
+        <tab id="b3" width='100px' href="gamma.htm">SCBR 3</tab>
+    </row>
+</tabbar>

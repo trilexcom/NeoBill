@@ -1,0 +1,143 @@
+/* - - - Custom Theme - - - */
+
+/* Logo */
+h1 a {
+	background-image:url('../images/wflogo.png'); 
+	min-height:0;
+	height:40px;
+}
+* html h1 a {/* IE6 png Support */
+	background-image: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../images/wflogo.png", sizingMethod="crop");
+}
+
+/* Backgrounds */
+body{
+	background-image:none;
+	background-color:#1c2742;
+}
+h1{
+	background-image:none;
+	background-color:#3c91c7;
+}
+#container, body.embed{
+	background-color:#e0eefb;
+}
+.wufoo input.text, .wufoo textarea.textarea{
+	background:#FFFFFF url(../images/fieldbg.gif) repeat-x top;
+}
+.wufoo .focused{
+	background-color:#95c5de;
+}
+.wufoo .instruct{
+	background-color:#5a9abe;
+}
+
+/* Borders */
+#container{
+	border:0 solid #cccccc;
+}
+.wufoo .info{
+	border-bottom:1px dotted #cccccc;
+}
+.wufoo .section{
+	border-top:1px dotted #cccccc;
+}
+.wufoo input.text, .wufoo textarea.textarea{
+	border:;
+}
+.wufoo .instruct{
+	border:0 solid #e6e6e6;
+}
+
+/* Typography */
+.wufoo .info h2{
+	font-size:160%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#1c2742;
+}
+.wufoo .info p{
+	font-size:95%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#444444;
+}
+.wufoo .section h3{
+	font-size:110%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#000000;
+}	
+.wufoo .section p{
+	font-size:85%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#444444;
+}	
+.wufoo label.desc{
+	font-size:95%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#333333;
+}
+.wufoo li div, .wufoo li span, .wufoo li div label, .wufoo li span label{
+	font-family:inherit;
+	color:#333333;
+}
+.wufoo label.choice{
+	font-size:100%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#333333;
+}
+.wufoo input.text, .wufoo textarea.textarea, .wufoo select.select{
+	font-size:100%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#333333;
+}
+.wufoo .instruct{
+	font-size:80%;
+	font-family:inherit;
+	font-weight:;
+	font-style:;
+	color:#ffffff;
+}
+.wufoo li.altInstruct .instruct, .wufoo li.leftHalf .instruct, .wufoo li.rightHalf .instruct{
+	color:#333333;
+}
+.wufoo input.btTxt{
+	font-size:;
+	font-family:;
+	font-weight:;
+	font-style:;
+	color:;
+}
+
+.wufoo li.focused label.desc{
+	font-size:;
+	font-family:;
+	font-weight:;
+	font-style:;
+	color:;
+}
+.wufoo li.focused label.desc{
+	color:;
+}
+.wufoo li.focused div, .wufoo li.focused span, .wufoo li.focused div label, .wufoo li.focused span label{
+	font-family:;
+	color:;
+}
+
+/* Drop Shadows */
+#top, #bottom{
+	visibility:visible;
+}

@@ -38,6 +38,7 @@
   define('_INSTALLERSTEP6', 'Complete');
   define('_INSTALLERNEEDHELP', 'Need Help');
   define('_INSTALLERPUBLICFORUMS', 'Public Forums');
+  define('_INSTALLERPUBLICSITE', 'NeoBill Site');
   define('_INSTALLERPERCENT', 'Install %0 complete');
   
   define('_INSTALLERREQUIREDFIELDSKO', 'Please fill in all required fields');
@@ -55,14 +56,14 @@
   /*
    * Welcome
    */
-  define('_INSTALLERWELCOME', 'Welcome to the SolidState install wizard');
+  define('_INSTALLERWELCOME', 'Welcome to the NeoBill install wizard');
   define('_INSTALLERCHOOSELANGUAGE', 'Choose language');
   
   /*
    * License
    */
   define('_INSTALLERLICENSE', 'License');
-  define('_INSTALLERLICENSEEXPLANATION', 'Please read through the GNU General Public License. SolidState is developed as free software, but there are certain requirements for distributing and editing.');
+  define('_INSTALLERLICENSEEXPLANATION', 'Please read through the GNU General Public License. NeoBill is developed as free software, but there are certain requirements for distributing and editing.');
   
   /*
    * Requirements
@@ -91,11 +92,11 @@
   define('_INSTALLERDBHOSTNAME', 'Hostname');
   define('_INSTALLERDBHOSTNAMEEXPLANATION', 'This is the hostname that your MySQL database server runs on');
   define('_INSTALLERDBUSERNAME', 'Username');
-  define('_INSTALLERDBUSERNAMEEXPLANATION', 'Database user with access to the SolidState database');
+  define('_INSTALLERDBUSERNAMEEXPLANATION', 'Database user with access to the NeoBill database');
   define('_INSTALLERDBPASSWORD', 'Password');
   define('_INSTALLERDBPASSWORDEXPLANATION', 'Password for the database user');
   define('_INSTALLERDBDATABASE', 'Database');
-  define('_INSTALLERDBDATABASEEXPLANATION', 'The name of the database that SolidState will be using');
+  define('_INSTALLERDBDATABASEEXPLANATION', 'The name of the database that NeoBill will be using');
   define('_INSTALLERDBCREATE', 'Create Database');
   define('_INSTALLERDBCREATEEXPLANATION', 'Attempt to create database');
   
@@ -133,7 +134,7 @@
    * Complete
    */
   define('_INSTALLCOMPLETE', 'Installation Complete');
-  define('_INSTALLERCONGRATULATIONS', 'Congratulations, you have successfully installed SolidState');
+  define('_INSTALLERCONGRATULATIONS', 'Congratulations, you have successfully installed NeoBill');
   define('_INSTALLERSECURITY0', 'For security purposes');
   define('_INSTALLERSECURITY1', 'Please remove the "install" directory');
   define('_INSTALLERSECURITY2', 'Please change the permissions of the file "config/config.inc.php" to read-only');

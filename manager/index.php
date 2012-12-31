@@ -40,8 +40,10 @@ if( $language != null )
     Translator::getTranslator()->setActiveLanguage( $language );
   }
   
+  include "manager_content.php";
+  
 // Change the charset to UTF-8
-header( "Content-type: text/html; charset=utf-8" );
+// header( "Content-type: text/html; charset=utf-8" );
 
 // Build the core menu
 $menu = SolidStateMenu::getSolidStateMenu();
@@ -56,8 +58,10 @@ $menu->addItem( new SolidStateMenuItem( "myinfo",
 $menuItems = $menu->getItemArray();
 $smarty->assign( "menuItems", $menuItems );
 
+
+
 // Display frames
-$smarty->assign( "company_name", $conf['company']['name'] );
-$smarty->display( Page::selectTemplateFile( "manager_frames.tpl" ) );
+ $smarty->assign( "company_name", $conf['company']['name'] );
+// $smarty->display( Page::selectTemplateFile( "manager_frames.tpl" ) );
 
 ?>

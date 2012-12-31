@@ -17,9 +17,10 @@
 // apd_set_pprof_trace();
 
 // Load config file
+
 require_once dirname(__FILE__)."/../config/config.inc.php";
 
-require_once dirname(__FILE__)."/../include/SolidStateMenu.class.php";
+// require_once dirname(__FILE__)."/../include/SolidStateMenu.class.php";
 
 // Load SolidWorks
 require_once dirname(__FILE__)."/../solidworks/solidworks.php";
@@ -34,17 +35,17 @@ $theme = isset( $_SESSION['client']['userdbo'] ) ?
 $conf['themes']['current'] = $theme;
 
 // Build the core menu
-$menu = SolidStateMenu::getSolidStateMenu();
-$username = isset( $_SESSION['client']['userdbo'] ) ?
-  $_SESSION['client']['userdbo']->getUsername() : null;
-$menu->addItem( new SolidStateMenuItem( "myinfo", 
-					"[MY_INFO]", 
-					"vcard_edit.png", 
-					"manager_content.php?page=config_edit_user&user=" . $username ),
-		"administration" );
+//$menu = SolidStateMenu::getSolidStateMenu();
+//$username = isset( $_SESSION['client']['userdbo'] ) ?
+//  $_SESSION['client']['userdbo']->getUsername() : null;
+//$menu->addItem( new SolidStateMenuItem( "myinfo", 
+	//				"[MY_INFO]", 
+		//			"vcard_edit.png", 
+			//		"manager_content.php?page=config_edit_user&user=" . $username ),
+		// "administration" );
 
-$menuItems = $menu->getItemArray();
-$smarty->assign( "menuItems", $menuItems );
+// $menuItems = $menu->getItemArray();
+// $smarty->assign( "menuItems", $menuItems );
 
 // Remove any uninstalled modules from the database
 require_once BASE_PATH . "modules/SolidStateModule.class.php";
@@ -52,4 +53,8 @@ removeMissingModules();
 
 // Hand off to SolidWorks
 solidworks( $conf, $smarty );
+
+ini_set('display_errors',1); 
+error_reporting(E_ALL);
+
 ?>

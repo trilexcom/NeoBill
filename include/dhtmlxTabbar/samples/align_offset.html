@@ -1,76 +1,76 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<title>DHTML TabBar sample. dhtmlXTabBar - Align and Offset</title>
-	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
-	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
-	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
-	<style type="text/css">
-	body {font-family:arial;font-size:12px;font-size:12px}
-	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
-	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
-	div.hdr{
-		background-color:silver;
-		margin-bottom:10px;
-		padding-left:10px;
-	}
-	</style>
-</head>
-<body>
-	<div class="hdr">DHTML JavaScript Tabbar samples</div>
-	<h1>Align and Offset</h1>
-	<table>
-		<tr>
-			<td>
-				<div id="a_tabbar" style="width:612px; height:150px;"/>
-			</td>
-            <td valign="top">
-                <div> Align:&nbsp; <select style='width:100px;' id='z1'><option value='left'>Left</option><option value='right'>Right</option></select></div>
-                <div> Offset: <input style='width:100px;' id='z2' type='text' value='5'></div>
-                <div> Margin: <input style='width:100px;' id='z3' type='text' value='0'></div>
-                <div><a href='#' onclick='init2();'>Reset TabBar with new settings</a></div>
-            </td>
-	</table>
-<hr>
-<XMP>
-<div id="a_tabbar" style="width:400px;height:100px"></div>
-<script type="text/javascript">
-	tabbar=new dhtmlXTabBar("a_tabbar","top");
-	tabbar.setImagePath("../imgs/");
-
-	tabbar.setAlign("left");    //align - can be left or right
-	tabbar.setOffset("5");      //offset - any numeric value
-	tabbar.loadXML("tabs1.xml");
-</script>
-</XMP>
-<textarea id='z4' style="display:none;">
-<?xml version="1.0"?>
-<tabbar>
-    <row>
-        <tab id="b1" width='100px'>Tab 2-1</tab>
-        <tab id="b2" width='100px' selected="1">Tab 2-2</tab>
-        <tab id="b3" width='100px'>Tab 2-3</tab>
-        <tab id="b4" width='100px'>Tab 2-4</tab>
-    </row>
-</tabbar>
-</textarea>
-	<script type="text/javascript">
-		tabbar=new dhtmlXTabBar("a_tabbar","top");
-		tabbar.setImagePath("../imgs/");
-
-		tabbar.loadXML("tabs1.xml");
-
-		function init2(){
-			tabbar.clearAll();
-			tabbar.setAlign(document.getElementById('z1').value);
-			tabbar.setOffset(document.getElementById('z2').value);
-			tabbar.setMargin(document.getElementById('z3').value);
-			tabbar.loadXMLString(document.getElementById('z4').value);
-            }
-	</script>
-<br><br>
-  <div id="out_zone"></div>
-</body>
-</html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>DHTML TabBar sample. dhtmlXTabBar - Align and Offset</title>
+	<link rel="STYLESHEET" type="text/css" href="../css/dhtmlXTabbar.css">
+	<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+	<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+	<style type="text/css">
+	body {font-family:arial;font-size:12px;font-size:12px}
+	h1 {cursor:pointer;font-size:16px;margin-left:10px;line-height:10px}
+	xmp {color:green;font-size:12px;margin:0;font-family:courier;background-color:#e6e6fa;padding:2px}
+	div.hdr{
+		background-color:silver;
+		margin-bottom:10px;
+		padding-left:10px;
+	}
+	</style>
+</head>
+<body>
+	<div class="hdr">DHTML JavaScript Tabbar samples</div>
+	<h1>Align and Offset</h1>
+	<table>
+		<tr>
+			<td>
+				<div id="a_tabbar" style="width:612px; height:150px;"/>
+			</td>
+            <td valign="top">
+                <div> Align:&nbsp; <select style='width:100px;' id='z1'><option value='left'>Left</option><option value='right'>Right</option></select></div>
+                <div> Offset: <input style='width:100px;' id='z2' type='text' value='5'></div>
+                <div> Margin: <input style='width:100px;' id='z3' type='text' value='0'></div>
+                <div><a href='#' onclick='init2();'>Reset TabBar with new settings</a></div>
+            </td>
+	</table>
+<hr>
+<XMP>
+<div id="a_tabbar" style="width:400px;height:100px"></div>
+<script type="text/javascript">
+	tabbar=new dhtmlXTabBar("a_tabbar","top");
+	tabbar.setImagePath("../imgs/");
+
+	tabbar.setAlign("left");    //align - can be left or right
+	tabbar.setOffset("5");      //offset - any numeric value
+	tabbar.loadXML("tabs1.xml");
+</script>
+</XMP>
+<textarea id='z4' style="display:none;">
+<?xml version="1.0"?>
+<tabbar>
+    <row>
+        <tab id="b1" width='100px'>Tab 2-1</tab>
+        <tab id="b2" width='100px' selected="1">Tab 2-2</tab>
+        <tab id="b3" width='100px'>Tab 2-3</tab>
+        <tab id="b4" width='100px'>Tab 2-4</tab>
+    </row>
+</tabbar>
+</textarea>
+	<script type="text/javascript">
+		tabbar=new dhtmlXTabBar("a_tabbar","top");
+		tabbar.setImagePath("../imgs/");
+
+		tabbar.loadXML("tabs1.xml");
+
+		function init2(){
+			tabbar.clearAll();
+			tabbar.setAlign(document.getElementById('z1').value);
+			tabbar.setOffset(document.getElementById('z2').value);
+			tabbar.setMargin(document.getElementById('z3').value);
+			tabbar.loadXMLString(document.getElementById('z4').value);
+            }
+	</script>
+<br><br>
+  <div id="out_zone"></div>
+</body>
+</html>

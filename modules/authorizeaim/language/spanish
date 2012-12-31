@@ -1,0 +1,8 @@
+<translation language="spanish">
+    <phrase id="AAIM_CONFIGURATION_SAVED">Configuración guardada</phrase>
+    <phrase id="AAIM_DELIMITER">Delimitador de AIM</phrase>
+    <phrase id="AAIM_LOGINID">ID de Ingreso a API de Authorize.net</phrase>
+    <phrase id="AAIM_TRANSACTIONKEY">Clave de Transacción de Authorize.net</phrase>
+    <phrase id="AAIM_URL">URL de Transacción de Authorize.net </phrase>
+    <phrase id="AUTHORIZENET_AIM_MODULE">Módulo de Método de Integracion Avanzada (AIM) de Authorize.net</phrase>
+</translation>

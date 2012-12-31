@@ -1,0 +1,10 @@
+<translation language="spanish">
+    <phrase id="PAYPAL_ACCOUNT">Cuenta Paypal</phrase>
+    <phrase id="PAYPAL_CART_UPLOAD_URL">URL de Paypal Cart Upload</phrase>
+    <phrase id="PAYPAL_CURRENCY">Moneda de Paypal</phrase>
+    <phrase id="PAYPAL_WPS_MODULE">Módulo WPS de Paypal</phrase>
+    <phrase id="PAY_WITH_PAYPAL">Pagar con Paypal</phrase>
+    <phrase id="PAY_WITH_PAYPAL_TEXT">Ha seleccionado pagar con Paypal. Cuando haga click en "Paagar con Paypal", será redirigido al sitio seguro de Paypal para completar el proceso de compra. Una vez que su pago se haya completado, usted regresará a nuestro sitio y dispondrá de un comprobante y más información sobre su compra. Si por algún motivo no pudiese completar el proceso de pago con Paypal, por favor póngase en contacto con nosotros y le ayudaremos.</phrase>
+    <phrase id="PDT_ID_TOKEN">Token de Identidad PDT</phrase>
+    <phrase id="PS_CONFIGURATION_SAVED">Configuración WPS de Paypal guardada</phrase>
+</translation>

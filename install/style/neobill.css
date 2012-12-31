@@ -1,0 +1,265 @@
+/*
+ * @(#)install/style/solidstate.css
+ *
+ *    Version: 0.50.20090326
+ * Written by: John Diamond <mailto:jdiamond@solid-state.org>
+ * Written by: Yves Kreis <mailto:yves.kreis@hosting-skills.org>
+ *
+ * Copyright (C) 2006-2008 by John Diamond
+ * Copyright (C) 2009 by Yves Kreis
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 
+ * as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program; if not, write to the 
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+*/
+
+ul.systemrequirements {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+ul.systemrequirements li {
+    height: 22px;
+    padding-left: 20px;
+}
+ul.systemrequirements li.passed {
+    color: green;
+}
+ul.systemrequirements li.failed {
+    color: red;
+}
+ul.systemrequirements li.description {
+    font-weight: 700;
+}
+
+.submit {
+    background: #eee;
+    border: thin solid #ddd;
+    margin-top: 20px;
+    padding: 5px;
+    width: 100%;
+}
+
+#navcontainer {
+    padding: 5px;
+}
+
+#navlist {
+    margin-left: 0;
+    padding-left: 0;
+    text-align: left;
+    width: 100%;
+}
+#navlist li {
+    border-top: 1px solid gray;
+    list-style: none;
+    margin: 0;
+    padding: 0.25em;
+}
+#navlist li a {
+    text-decoration: none;
+}
+
+html {
+    margin: 0;
+}
+
+body {
+    background-color: #4b4d4d;
+    color: #5f5f5f;
+    font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+    font-size: 62.5%;
+}
+
+#content1 {
+    margin: 20px auto;
+    overflow: hidden;
+    width: 760px;
+}
+#content2 {
+    background-color: #FFF;
+    padding: 0;
+}
+
+.header {
+    height: 65px;
+    width: 100%;
+}
+
+#logo {
+    float: right;
+    padding: 10px 10px 10px 10px;
+}
+
+.leftnav {
+    background: #efefde;
+    float: left;
+    height: 100%;
+    margin-bottom: -999px;
+    padding-bottom: 999px;
+    width: 150px;
+}
+
+.grapharea {
+    padding: 5px 0 5px 0;
+    margin: 0;
+}
+
+.progressbarbox {
+    background: #eee;
+    border: thin solid #ddd;
+    height: 20px;
+}
+
+.percentcomplete {
+    background: #fd6704;
+    height: 20px;
+}
+
+#progressstatus {
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+#maincolumn {
+    margin-left: 150px;
+    padding: 0 10px 10px 10px;
+}
+
+.helpbox {
+    background: #fbfbfb;
+    border: 1px solid #eee;
+    margin: 5px;
+    padding: 3px;
+    width: 130px;
+}
+.helpbox ul li {
+    font-size: 11px;
+    margin: 0;
+}
+
+h1 {
+    font-size: 110%;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 130%;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+a {
+    color: #0C8DD8;
+}
+
+#iframe {
+    border: 1px solid #ccc;
+    height: 400px;
+    overflow: auto;
+    width: 100%;
+}
+
+.dbtitle {
+    font-family: verdana,arial,sans-serif;
+    font-size: 10px;
+    text-align: left;
+}
+
+.dbdescription {
+    font-family: verdana,arial,sans-serif;
+    font-size: 10px;
+    text-align: left;
+}
+
+.pwdChkTbl {
+    background-color: #FFF;
+    border: 0;
+    height: 20px;
+    width: 420px;
+}
+.pwdChkTbl span {
+    font-size: 70%;
+}
+
+.pwdChkTd {
+    vertical-align: top;
+    width: 420px;
+}
+
+.pwdChkCon {
+    background-color: #EBEBEB;
+    border-bottom: solid 1px #BEBEBE;
+    border-right: solid 1px #BEBEBE;
+    text-align: center;
+}
+
+.pwdChkCon0 {
+    background-color: #FF4545;
+    border-bottom: solid 1px #BB2B2B;
+    border-right: solid 1px #BB2B2B;
+    text-align: center;
+}
+
+.pwdChkCon1 {
+    background-color: #FF4545;
+    border-bottom: solid 1px #BB2B2B;
+    border-right: solid 1px #BB2B2B;
+    text-align: center;
+}
+
+.pwdChkCon2 {
+    background-color: #FFD35E;
+    border-bottom: solid 1px #E9AE10;
+    border-right: solid 1px #E9AE10;
+    text-align: center;
+}
+
+.pwdChkCon3 {
+    background-color: #3ABB1C;
+    border-bottom: solid 1px #267A12;
+    border-right: solid 1px #267A12;
+    text-align: center;
+}
+
+.pwdChkCon4 {
+    background-color: #3ABB1C;
+    border-bottom: solid 1px #267A12;
+    border-right: solid 1px #267A12;
+    text-align: center;
+}
+
+#idSM0,
+#idSM1,
+#idSM2,
+#idSM3,
+#idSM4 {
+    width: 20%;
+}
+
+p.error {
+    background-color: #EEEEEE;
+    border-style: solid; border-width: 1px; border-color: #669999;
+    color: #FF0000;
+    font-size: 100%;
+    margin-left: 1em; margin-right: 1em;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+p.success {
+    color: green;
+}

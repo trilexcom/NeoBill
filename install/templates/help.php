@@ -23,5 +23,8 @@
 
         <h1 class="help_title"><?php echo _INSTALLERNEEDHELP; ?>?</h1>
         <ul>
-            <li><a href="https://sourceforge.net/forum/forum.php?forum_id=550853"><?php echo _INSTALLERPUBLICFORUMS; ?></a></li>
+            <li><a href="http://forums.neobill.net"><?php echo _INSTALLERPUBLICFORUMS; ?></a></li>
+        </ul>
+		<ul>
+            <li><a href="http://www.neobill.net"><?php echo _INSTALLERPUBLICSITE; ?></a></li>
         </ul>

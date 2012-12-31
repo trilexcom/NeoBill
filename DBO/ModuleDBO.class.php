@@ -42,7 +42,12 @@ class ModuleDBO extends DBO {
     /**
      * @var string Description
      */
-    var $description;
+    var $description;    
+    
+    var $p1;    
+    var $p2;    
+    var $p3;    
+    
 
     /**
      * Convert to a String
@@ -177,6 +182,9 @@ class ModuleDBO extends DBO {
         $this->setType( $data['type'] );
         $this->setShortDescription( $data['shortdescription'] );
         $this->setDescription( $data['description'] );
+        /*$this->p1 = $data['property 1'];
+        $this->p2 = $data['property 2'];
+        $this->p3 = $data['property 3'];        */
     }
 
     /**
@@ -243,19 +251,30 @@ class ModuleDBO extends DBO {
  */
 function add_ModuleDBO( &$dbo ) {
     $DB = DBConnection::getDBConnection();
-
+    
+    $link = $DB->mysqli_connect();
+    
     // Build SQL
-    $sql = $DB->build_insert_sql( "module",
+    $sql = $DB->build_insert_sql_secure( "module",
             array( "name" => $dbo->getName(),
-            "enabled" => $dbo->getEnabled(),
-            "type" => $dbo->getType(),
+                    "type" => $dbo->getType(),
+                    "enabled" => $dbo->getEnabled(),
             "shortdescription" => $dbo->getShortDescription(),
             "description" => $dbo->getDescription() ) );
-
-    // Run query
+  
+    if(!$stmt = mysqli_prepare($link, $sql)){
+        printf("Errormessage: %s\n", mysqli_error($link));    
+    }
+ 
+    mysqli_stmt_bind_param($stmt, 'sssss', $dbo->getName(), $dbo->getType(), $dbo->getEnabled(), $dbo->getShortDescription(), $dbo->getDescription());
+    
+    mysqli_stmt_execute($stmt);
+    
+    /*   
     if( !mysql_query( $sql, $DB->handle() ) ) {
         throw new DBException( mysql_error( $DB->handle() ) );
     }
+    */
 }
 
 /**

@@ -1,0 +1,63 @@
+html {
+	background: #333333
+}
+body {
+	
+	border: medium double #99CCFF;
+	background: #fff;
+	color: #000;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-top: 5%;
+	padding: .2em 2em;
+}
+h1 {
+	color: #000000;
+	font-size: 36px;
+	text-align:center;
+	font-weight: lighter;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+}
+h2 {
+	font-size: 16px;
+}
+p, li, dt {
+	line-height: 140%;
+	padding-bottom: 2px;
+}
+ul, ol {
+	padding: 5px 5px 5px 20px;
+}
+.step a, .step input {
+	font-size: 14px;
+}
+td input {
+	font-size: 14px;
+}
+.step, th {
+	text-align: right;
+}
+#fsubmit {
+	width: 67px;
+	height: 23px;
+	border: none;
+	text-indent: -900em;
+	line-height: 0px;
+	background-image: url(../images/button-submit.png);
+	background-repeat: no-repeat;
+}
+#fback {
+	background: url(../images/button-back.png) no-repeat;
+	width: 53px;
+	height: 23px;
+	border: none;
+	text-indent: -900em;
+	line-height: 0px;
+}
+#footer {
+	text-align: center;
+	border-top: 1px solid #ccc;
+	padding-top: 1em;
+	font-style: italic;
+}

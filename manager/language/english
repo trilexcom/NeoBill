@@ -1,7 +1,7 @@
 <translation language="english">
     <phrase id="30_DAYS_PAST_DUE">30+ days past-due invoices</phrase>
     <phrase id="ABOUT">About</phrase>
-    <phrase id="WEBSITE">Solid State Website</phrase>
+    <phrase id="WEBSITE">NeoBill Website</phrase>
     <phrase id="ACCEPT">Accept</phrase>
     <phrase id="ACCEPTED_TOS">Accepted Terms of Service</phrase>
     <phrase id="ACCESS_DENIED">Access Denied: You must be an Administrator to access this page.</phrase>
@@ -340,7 +340,7 @@
     <phrase id="REMOTE_IP_ADDRESS">Remote IP Address</phrase>
     <phrase id="REMOVE">Remove</phrase>
     <phrase id="REMOVE_USER">Remove User</phrase>
-    <phrase id="REMOVE_USER_NOTICE">You are about to remove the following user from Solid-State</phrase>
+    <phrase id="REMOVE_USER_NOTICE">You are about to remove the following user from NeoBill</phrase>
     <phrase id="RENEW">Renew</phrase>
     <phrase id="RENEW_DOMAIN">Renew Domain</phrase>
     <phrase id="RENEW_FOR">Renew for</phrase>
@@ -365,7 +365,7 @@
     <phrase id="SETTINGS">Settings</phrase>
     <phrase id="SETUP_FEE">Setup Fee</phrase>
     <phrase id="SETUP_PRICE">Setup Price</phrase>
-    <phrase id="SOLIDSTATE_LOG">Solid-State Log</phrase>
+    <phrase id="SOLIDSTATE_LOG">NeoBill Log</phrase>
     <phrase id="SPECIFIC_STATE">or specify a specific State</phrase>
     <phrase id="STATE">State</phrase>
     <phrase id="STATE_PROVINCE">State / Province</phrase>

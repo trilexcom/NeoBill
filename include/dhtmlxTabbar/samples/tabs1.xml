@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
-<tabbar>
-    <row>
-        <tab id="b1" width='100px'>Tab 2-1</tab>
-        <tab id="b2" width='100px' selected="1">Tab 2-2</tab>
-        <tab id="b3" width='100px'>Tab 2-3</tab>
-        <tab id="b4" width='100px'>Tab 2-4</tab>
-    </row>
-</tabbar>
+<?xml version="1.0"?>
+<tabbar>
+    <row>
+        <tab id="b1" width='100px'>Tab 2-1</tab>
+        <tab id="b2" width='100px' selected="1">Tab 2-2</tab>
+        <tab id="b3" width='100px'>Tab 2-3</tab>
+        <tab id="b4" width='100px'>Tab 2-4</tab>
+    </row>
+</tabbar>

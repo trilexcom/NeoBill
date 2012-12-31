@@ -742,23 +742,22 @@ function delete_AccountDBO( &$dbo ) {
 }
 
 /**
- * Load an AccountDBO from the database
+ * Load an AccountDBO given account id
  *
- * @param integer $id ID of Account DBO to retrieve
  * @return AccountDBO Account DBO
  */
-function load_AccountDBO( $id ) {
-	$DB = DBConnection::getDBConnection();
+function load_AccountDBO( $id ) { 
 
-	// Build query
+	$DB = DBConnection::getDBConnection();
+	
 	$sql = $DB->build_select_sql( "account",
 			"*",
-			"id = " . intval( $id ),
+			"id=" . $id,
 			null,
 			null,
 			null,
 			null );
-
+	
 	// Run query
 	if ( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
 		// Query error
@@ -767,7 +766,45 @@ function load_AccountDBO( $id ) {
 
 	if ( mysql_num_rows( $result ) == 0 ) {
 		// No rows found
-		throw new DBNoRowsFoundException( "Unable to find account with ID = " . $id );
+		throw new DBNoRowsFoundException( "Unable to find account with id = " . $id );
+	}
+
+	// Load a new AccountDBO
+	$dbo = new AccountDBO();
+	$data = mysql_fetch_array( $result );
+	$dbo->load( $data );
+
+	// Return the new AccountDBO
+	return $dbo;
+}
+
+
+/**
+ * Load an AccountDBO given username
+ *
+ * @return AccountDBO Account DBO
+ */
+function load_AccountDBO_username( $username ) {
+
+	$DB = DBConnection::getDBConnection();
+	
+	$sql = $DB->build_select_sql( "account",
+			"*",
+			"username=" . $DB->quote_smart( $username ),
+			null,
+			null,
+			null,
+			null );
+	
+	// Run query
+	if ( !($result = @mysql_query( $sql, $DB->handle() ) ) ) {
+		// Query error
+		throw new DBException( mysql_error( $DB->handle() ) );
+	}
+
+	if ( mysql_num_rows( $result ) == 0 ) {
+		// No rows found
+		throw new DBNoRowsFoundException( "Unable to find account with username = " . $username );
 	}
 
 	// Load a new AccountDBO

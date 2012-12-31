@@ -140,9 +140,38 @@ abstract class OrderItemDBO extends SaleDBO {
      * @return array An array of tax rules that apply to this item
      */
     public function getTaxRules() {
-        return $this->taxRules;
+	return $this->taxRules;
     }
 
+    /**
+     * Get Price
+     * 
+     * @return price as float
+     */
+    public function getPrice() {
+    	return $this->getRecurringPrice();
+    }
+
+    /**
+     * Get Tax Amount
+     *
+     * @return tax amount as float
+     */
+    public function getTaxAmount() {
+	$total += ($this->getOnetimeTaxes() + $this->getRecurringTaxes());
+	return $total;
+    }
+
+    /**
+     * Get Setup Fee
+     *
+     * @return setup fee as float (what is setup fee?)
+     */
+
+    public function getSetupFee() {
+    	return $this->getOnetimePrice();
+    }
+		
     /**
      * Execute Order Item
      *

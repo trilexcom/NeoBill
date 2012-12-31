@@ -31,20 +31,24 @@ class CustomerLoginPage extends SolidStatePage {
 	 * @param string $action_name Action
 	 */
 	function action( $action_name ) {
-		switch ( $action_name ) {
-			case "login":
-				if ( isset( $this->post['login'] ) ) {
-					$this->login();
-				}
-				elseif ( isset( $this->post['back'] ) ) {
-					$this->goback();
-				}
-				break;
-
-			default:
-				// No matching action, refer to base class
-				parent::action( $action_name );
-		}
+	
+			
+			switch ( $action_name ) {
+			
+				case "login":
+					if ( isset( $this->post['login'] ) ) {
+						$this->login();
+					}
+					elseif ( isset( $this->post['back'] ) ) {
+						$this->goback();
+					}
+					break;
+	
+				default:
+					// No matching action, refer to base class
+					parent::action( $action_name );
+			}
+		
 	}
 
 	/**
@@ -53,6 +57,13 @@ class CustomerLoginPage extends SolidStatePage {
 	function init() {
 		// Suppress the login link
 		$this->smarty->assign( "username", " " );
+		
+		if ($_GET["op"] == 'logout'){
+			//print "logout";
+			if ($_SESSION['client']['userdbo']){
+				$_SESSION['client']['userdbo'] = null;
+			}
+		}
 	}
 
 	/**
@@ -60,6 +71,7 @@ class CustomerLoginPage extends SolidStatePage {
 	 */
 	function login() {
 		if ( $this->post['user']->getPassword() == $this->post['password'] ) {
+		
 			// Only customers are allowed to login to the order form
 			if ( $this->post['user']->getType() != "Client" ) {
 				$this->setError( array( "type" => "[ONLY_CUSTOMERS_CAN_LOGIN]" ) );
@@ -71,11 +83,14 @@ class CustomerLoginPage extends SolidStatePage {
 			log_notice( "CustomerLoginPage::login()",
 					"User: " . $this->post['user']->getUsername() . " logged in." );
 			$this->gotoPage( "cart" );
-		}
+		
+		} else {
 
-		// Login failure
-		log_security( "CustomerLoginPage::login()", "Login failed." );
-		$this->setError( array( "type" => "[LOGIN_FAILED]" ) );
+			// Login failure
+			log_security( "CustomerLoginPage::login()", "Password Incorrect." );
+			$this->setError( array( "type" => "[LOGIN_FAILED]" ) );
+			
+		}
 	}
 }
 ?>

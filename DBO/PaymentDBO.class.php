@@ -370,6 +370,8 @@ class PaymentDBO extends DBO {
         // Invalid method
         log_error( "PaymentDBO::processCreditCard()",
                 "Invalid transaction method: " . $method );
+                
+        print "finish credit card transaction!!!!";
         return false;
     }
 

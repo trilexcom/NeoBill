@@ -23,7 +23,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo _ISOLANGUAGECODE; ?>">
     <head>
-        <link rel="stylesheet" href="style/solidstate.css" type="text/css" />
+        <link rel="stylesheet" href="style/neobill.css" type="text/css" />
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta name="description" content="Open Source Customer Management and Billing Software for Web Hosts" />
         <meta name="robots" content="index, follow" />
@@ -36,7 +36,7 @@
         <meta name="revisit-after" content="1 days" />
         <meta name="distribution" content="global" />
         <meta name="rating" content="general" />
-        <title>SolidState :: Open Source Customer Management and Billing Software for Web Hosts</title>
+        <title>NeoBill :: Open Source Customer Management and Billing Software for Web Hosts</title>
     </head>
     <body>
         <div id="content1">
@@ -51,7 +51,7 @@
                 <div id="maincolumn">
                     <div class="header">
                         <div id="logo">
-                            <img src="images/solidstate.gif" alt="SolidState" />
+                            <img src="images/logo.gif" alt="NEOBILL" />
                         </div>
                         <div style="clear: both;">
                         </div>

@@ -21,8 +21,8 @@
 */
 
 $hostname = 'localhost';
-$username = 'solidstate';
-$database = 'solidstate';
+$username = 'neobill';
+$database = 'neobill';
 
 if (isset($_POST['hostname'])) {
     $hostname = $_POST['hostname'];

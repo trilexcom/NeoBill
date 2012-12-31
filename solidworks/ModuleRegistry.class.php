@@ -12,6 +12,7 @@
 
 // The Module class
 require BASE_PATH . "solidworks/Module.class.php";
+require BASE_PATH . "DBO/ModuleDBO.class.php";
 
 // Exceptions
 class ModuleNameConflictException extends SWModuleException {
@@ -155,39 +156,46 @@ class ModuleRegistry {
 			$moduleActTransFile = sprintf( "%s/language/%s",
 					$moduleDir,
 					Translator::getTranslator()->getActiveLanguage() );
-
+			
 			if ( is_dir( $moduleDir ) &&
-				(isset( $file ) && $file != "." && $file != ".." ) &&
-				file_exists( $moduleConfFile ) &&
+				(isset( $file ) && $file != "." && $file != ".." ) 
+				 &&
 				file_exists( $moduleClassFile ) ) {
+				
 				// Load the module's config file
-				$modConf = load_config_file( $moduleConfFile );
-				$conf['pages'] = array_merge( $conf['pages'], $modConf['pages'] );
-				$conf['forms'] = array_merge( $conf['forms'], $modConf['forms'] );
-				$conf['hooks'] = array_merge( $conf['hooks'], $modConf['hooks'] );
-
-				// Load the module's default translation file
-				if ( file_exists( $moduleDefTransFile ) ) {
-					TranslationParser::load( $moduleDefTransFile );
+				if (file_exists( $moduleConfFile )){
+					$modConf = load_config_file( $moduleConfFile );
+					$conf['pages'] = array_merge( $conf['pages'], $modConf['pages'] );
+					$conf['forms'] = array_merge( $conf['forms'], $modConf['forms'] );
+					$conf['hooks'] = array_merge( $conf['hooks'], $modConf['hooks'] );
+	
+					// Load the module's default translation file
+					if ( file_exists( $moduleDefTransFile ) ) {
+						TranslationParser::load( $moduleDefTransFile );
+					}
+					
+					// Load the module's active translation file
+					if ( $moduleDefTransFile != $moduleActTransFile &&
+							file_exists( $moduleActTransFile ) ) {
+						TranslationParser::load( $moduleActTransFile );
+					}
 				}
-
-				// Load the module's active translation file
-				if ( $moduleDefTransFile != $moduleActTransFile &&
-						file_exists( $moduleActTransFile ) ) {
-					TranslationParser::load( $moduleActTransFile );
-				}
-
+			
 				// Load the module's class file
 				require $moduleClassFile;
-
+				
 				// Initialize module
 				$module = new $moduleName;
+
 				$module->init();
+				
 				$this->registerModule( $module );
+				
 			}
-		}
+		}		
 
 		closedir( $dh );
+						
 	}
 
 	/**
@@ -196,6 +204,7 @@ class ModuleRegistry {
 	 * @param Module The module to register
 	 */
 	public function registerModule( Module $module ) {
+		
 		$name = $module->getName();
 
 		if ( isset( $this->modules[$name] ) ) {
@@ -204,6 +213,8 @@ class ModuleRegistry {
 
 		// Add module to the registry
 		$this->modules[$name] = $module;
+			
+				
 	}
 }
 ?>

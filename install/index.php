@@ -38,9 +38,9 @@
     require_once 'languages/' . $_COOKIE['language'] . '.php';
   } else {
     require_once 'languages/english.php';
+	require_once 'languages/deutsch.php';
   }
-  
-  require_once 'include/solidstate.php';
+  require_once 'include/setting.php';
   
   include 'templates/header.php';
   include 'pages/' . $page . '.php';

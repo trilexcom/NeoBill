@@ -188,7 +188,7 @@ class SolidStateMenu {
             $menu->addItem( new SolidStateMenuItem( "about",
                     "[WEBSITE]",
                     "bell.png",
-                    "http://www.solid-state.org/" ),
+                    "http://www.neobill.net/" ),
                     "home" );
             $menu->addItem( new SolidStateMenuItem( "logout",
                     "[LOGOUT]",

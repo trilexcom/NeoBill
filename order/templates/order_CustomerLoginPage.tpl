@@ -27,8 +27,8 @@
     <table>
       <tr>
         <td class="right">
-          {form_element field="back"}
           {form_element field="login"}
+	  {form_element field="back"}
         </td>
       </tr>
     </table>

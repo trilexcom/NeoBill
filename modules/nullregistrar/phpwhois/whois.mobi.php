@@ -83,8 +83,8 @@ class mobi_handler
 
 		$r['regrinfo'] = generic_parser_b($data_str['rawdata'], $items);
 		
-		if (!strncmp($data_str['rawdata'][0], 'WHOIS LIMIT EXCEEDED', 20))
-			$r['regrinfo']['registered'] = 'unknown';
+		if (!strncmp($data_str['rawdata'][0], 'WHOIS LIMIT EXCEEDED', 20))
+			$r['regrinfo']['registered'] = 'unknown';
 
 		$r['regyinfo']['referrer'] = 'http://www.mtld.mobi/';
 		$r['regyinfo']['registrar'] = 'Dot Mobi Registry';

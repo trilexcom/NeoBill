@@ -28,25 +28,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // Read domain list to test
 
-$lines = file('./test.txt');
-$domains = array();
-
-foreach ($lines as $key => $line)
-	{ 
-	$pos = strpos($line,'/');
-	
-	if ($pos !== false) $line = substr($line,0,$pos);
-	
-	$line = trim($line);
-	
-	if ($line=='') continue;
-	
-	$parts = explode(' ',str_replace("\t",' ',$line));
-	
-	for ($i=1;$i<count($parts);$i++)	
-		if ($parts[$i]!='')
-			$domains[] = $parts[$i];
-	}
+$lines = file('./test.txt');
+$domains = array();
+
+foreach ($lines as $key => $line)
+	{ 
+	$pos = strpos($line,'/');
+	
+	if ($pos !== false) $line = substr($line,0,$pos);
+	
+	$line = trim($line);
+	
+	if ($line=='') continue;
+	
+	$parts = explode(' ',str_replace("\t",' ',$line));
+	
+	for ($i=1;$i<count($parts);$i++)	
+		if ($parts[$i]!='')
+			$domains[] = $parts[$i];
+	}
 
 // Load previous results
 
@@ -66,11 +66,11 @@ include('whois.main.php');
 
 $whois = new Whois();
 
-set_file_buffer(STDIN, 0);
-
-foreach ($domains as $key => $domain)
-	{
-	echo "\nTesting $domain ---------------------------------\n";
+set_file_buffer(STDIN, 0);
+
+foreach ($domains as $key => $domain)
+	{
+	echo "\nTesting $domain ---------------------------------\n";
 	$result = $whois->Lookup($domain);
 	
 	unset($result['rawdata']);
@@ -135,33 +135,33 @@ while (true)
 
 //--------------------------------------------------------------------------
 
-function array_diff_assoc_recursive($array1, $array2)
-{
-foreach($array1 as $key => $value)
+function array_diff_assoc_recursive($array1, $array2)
+{
+foreach($array1 as $key => $value)
 	{
-	if (is_array($value))
-		{
-		if (!is_array($array2[$key]))
-			{
-			$difference[$key] = array( 'previous' => $array2[$key], 'actual' => $value);
-			}
-		else 
-			{
+	if (is_array($value))
+		{
+		if (!is_array($array2[$key]))
+			{
+			$difference[$key] = array( 'previous' => $array2[$key], 'actual' => $value);
+			}
+		else 
+			{
 			$new_diff = array_diff_assoc_recursive($value, $array2[$key]);
-			
-			if ($new_diff != false)
-				{
-				$difference[$key] = $new_diff;
-				} 
-			}
-		}
-		elseif(!isset($array2[$key]) || $array2[$key] != $value)
-			{
-			$difference[$key] = array( 'previous' => $array2[$key], 'actual' => $value);
-			}
+			
+			if ($new_diff != false)
+				{
+				$difference[$key] = $new_diff;
+				} 
+			}
+		}
+		elseif(!isset($array2[$key]) || $array2[$key] != $value)
+			{
+			$difference[$key] = array( 'previous' => $array2[$key], 'actual' => $value);
+			}
 	}
-	
-return !isset($difference) ? false : $difference;
-}
+	
+return !isset($difference) ? false : $difference;
+}
 
 ?>

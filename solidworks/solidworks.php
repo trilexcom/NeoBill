@@ -69,14 +69,15 @@ function solidworks( &$conf, $smarty ) {
 		$page->setError( array( "type" => "ACCESS_DENIED" ) );
 		$page->goback( 1 );
 	}
-
+	
 	// Process any forms
 	if ( $_SERVER['REQUEST_METHOD'] == "POST" ) {
 		handle_post_request();
 	}
-
+	
 	// Execute any action if present in the URL
 	if ( isset( $_GET['action'] ) ) {
+
 		$page->action( $_GET['action'] );
 	}
 
@@ -149,7 +150,7 @@ function handle_post_request() {
 	if ( !isset( $form_name ) ) {
 		throw new SWException( "POST received with no form name supplied." );
 	}
-
+	
 	// Validate the form
 	if ( $page->processForm( $form_name ) ) {
 		// No errors in form - go ahead and process
@@ -179,7 +180,7 @@ function &get_page_object( $conf, $smarty ) {
 		// No page parameter is provided, set to home page
 		$_GET['page'] = $conf['home_page'];
 	}
-
+	
 	// Find the requested Page object
 	$requested_page_name = $_GET['page'];
 	$page_class = get_page_class( $requested_page_name );
@@ -195,6 +196,7 @@ function &get_page_object( $conf, $smarty ) {
 
 	// Set the class name - workaround for PHP 5 get_class behavior.
 	$page_obj->class_name = $page_class;
+
 	$page_obj->load( $conf, $smarty );
 
 	if ( $page_obj->isDisabled() ) {

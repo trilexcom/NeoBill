@@ -1,16 +1,16 @@
-<?xml version="1.0"?>
-<tabbar>
-    <row>
-        <tab id="a1" width='200px' selected="1">Tab 1-1
-            <content>
-                <![CDATA[<img src='imgs/page_a.gif'>]]>
-            </content>
-        </tab>
-        <tab id="a2" width='200px'>Tab 1-2
-            <content>
-                <![CDATA[<img src='imgs/page_b.gif'>]]>
-            </content>
-        </tab>
-    </row>
-</tabbar>
-
+<?xml version="1.0"?>
+<tabbar>
+    <row>
+        <tab id="a1" width='200px' selected="1">Tab 1-1
+            <content>
+                <![CDATA[<img src='imgs/page_a.gif'>]]>
+            </content>
+        </tab>
+        <tab id="a2" width='200px'>Tab 1-2
+            <content>
+                <![CDATA[<img src='imgs/page_b.gif'>]]>
+            </content>
+        </tab>
+    </row>
+</tabbar>
+

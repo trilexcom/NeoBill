@@ -948,6 +948,14 @@ class OrderDBO extends DBO {
         $this->setDateFulfilled( DBConnection::format_datetime( time() ) );
         $this->setStatus( "Fulfilled" );
         update_OrderDBO( $this );
+        
+        /*
+        // Process Payments using credit card
+        $payments = $this->getPayments();
+        foreach( $payments as $payment ) {
+            processCreditCard()
+        }*/
+        
 
         // Success
         return true;
