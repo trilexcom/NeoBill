@@ -28,11 +28,11 @@
   /*
    * General
    */
-  define('_INSTALLERSTEPS', 'Install Steps');
-  define('_INSTALLERSTEP0', 'Welcome');
-  define('_INSTALLERSTEP1', 'License');
+  define('_INSTALLERSTEPS', 'Installations Schritte');
+  define('_INSTALLERSTEP0', 'Willkommen');
+  define('_INSTALLERSTEP1', 'Lizenz');
   define('_INSTALLERSTEP2', 'Requirements');
-  define('_INSTALLERSTEP3', 'Database');
+  define('_INSTALLERSTEP3', 'Datenbank');
   define('_INSTALLERSTEP4', 'Create Admin');
   define('_INSTALLERSTEP5', 'Create Company');
   define('_INSTALLERSTEP6', 'Complete');
